@@ -5,17 +5,35 @@
   
   <title>Zabbix-Agent安装脚本 | geosmart</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description">
+  <meta name="description" content="//[TOC]目录无效
+准备内容
+zabbix安装包（官网版本：zabbix-2.2.9.tar.gz）
+zabbix安装脚本 
+
+安装步骤
+修改zabbix_agentd程序的磁盘路径添加下面两句到#!/bin/bash之后，解决service myservicedoes not support chkconfig问题1# chkconfig: 2345 10 90 &amp;#10;# descrip">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Zabbix-Agent安装脚本">
 <meta property="og:url" content="http://geosmart.github.io/2015/06/28/zabbix-agent安装脚本/index.html">
 <meta property="og:site_name" content="geosmart">
-<meta property="og:description">
-<meta property="og:image" content="http://i1-news.softpedia-static.com/images/news2/Zabbix-2-2-Release-with-Better-System-Performance-399458-2.png">
-<meta property="og:updated_time" content="2015-06-28T06:31:54.266Z">
+<meta property="og:description" content="//[TOC]目录无效
+准备内容
+zabbix安装包（官网版本：zabbix-2.2.9.tar.gz）
+zabbix安装脚本 
+
+安装步骤
+修改zabbix_agentd程序的磁盘路径添加下面两句到#!/bin/bash之后，解决service myservicedoes not support chkconfig问题1# chkconfig: 2345 10 90 &amp;#10;# descrip">
+<meta property="og:image" content="http://geosmart.github.io/zabbix.png">
+<meta property="og:updated_time" content="2015-06-28T12:18:01.757Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Zabbix-Agent安装脚本">
-<meta name="twitter:description">
+<meta name="twitter:description" content="//[TOC]目录无效
+准备内容
+zabbix安装包（官网版本：zabbix-2.2.9.tar.gz）
+zabbix安装脚本 
+
+安装步骤
+修改zabbix_agentd程序的磁盘路径添加下面两句到#!/bin/bash之后，解决service myservicedoes not support chkconfig问题1# chkconfig: 2345 10 90 &amp;#10;# descrip">
   
   
     <link rel="icon" href="/favicon.png">
@@ -113,11 +131,40 @@
 </a>
       </p>
       <div class="article-entry" itemprop="articleBody">
-        <p><img src="http://i1-news.softpedia-static.com/images/news2/Zabbix-2-2-Release-with-Better-System-Performance-399458-2.png" alt="zabbix" title="zabbix logo"> </p>
+        <p><img src="zabbix.png" alt="zabbix"><br>//[TOC]目录无效</p>
+<h1 id="准备内容">准备内容</h1><ol>
+<li><a href="http://sourceforge.net/projects/zabbix/files/ZABBIX%20Latest%20Stable/2.2.9/zabbix-2.2.9.tar.gz/download" target="_blank" rel="external">zabbix安装包（官网版本：zabbix-2.2.9.tar.gz）</a></li>
+<li><a href="install-zabbix_agent.sh">zabbix安装脚本</a> </li>
+</ol>
+<h1 id="安装步骤">安装步骤</h1><ol>
+<li>修改zabbix_agentd程序的磁盘路径<br>添加下面两句到<code>#!/bin/bash</code>之后，解决<code>service myservicedoes not support chkconfig</code>问题<figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"># chkconfig: 2345 10 90 &#10;# description:zabbix....</span><br></pre></td></tr></table></figure>
+</li>
+</ol>
+<p>修改zabbix_agentd主程序路径<br><figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"># vim /usr/local/zabbix/misc/init.d/tru64/zabbix_agentd &#10;DAEMON=/usr/local/zabbix/sbin/zabbix_agentd</span><br></pre></td></tr></table></figure></p>
+<ol>
+<li>编辑zabbix_agentd配置文件 <pre><code class="Shell">$ vim /usr/local/zabbix/etc/zabbix_agentd.conf  &#10;LogFile=/tmp/zabbix_agentd.log &#10;#&#26381;&#21153;&#31471;IP  &#10;Server=192.168.1.80&#10;#&#26381;&#21153;&#31471;IP   &#10;ServerActive= 192.168.1.80&#10;#&#23458;&#25143;&#31471;IP&#19982;zabbix-web&#37197;&#32622;&#19978;&#30340;hostName&#19968;&#33268;   &#10;Hostname=192.168.1.81&#10;UnsafeUserParameters=1
+</code></pre>
+</li>
+<li><p>执行安装脚本</p>
+<pre><code class="Shell">cd usr/local/zabbix/sbin/install-zabbix_agentd.sh&#10;chmod +x install-zabbix_agentd.sh &#10;sudo ./install-zabbix_agentd.sh
+</code></pre>
+<h1 id="相关操作">相关操作</h1><p>1、若zabbix的host无法访问，考虑防火墙是否需要关闭/加入信任端口</p>
+<pre><code class="Shell">#&#26597;&#30475;&#38450;&#28779;&#22681;&#29366;&#24577;&#10;service iptables status &#10;#&#20851;&#38381;&#38450;&#28779;&#22681; &#10;service iptables stop
+</code></pre>
+</li>
+<li><p>查看Zabbix Agent是否已启动</p>
+<pre><code class="Shell">netstat -utlnp | grep zabbix
+</code></pre>
+</li>
+<li><p>配置文件更新后，需重启客户端服务</p>
+<pre><code class="Shell">service zabbix_agentd restart
+</code></pre>
+</li>
+</ol>
 
       </div>
       <footer class="article-footer">
-        <a data-url="http://geosmart.github.io/2015/06/28/zabbix-agent安装脚本/" data-id="cibg45qtg000akwpadlc2g0an" class="article-share-link">分享到</a>
+        <a data-url="http://geosmart.github.io/2015/06/28/zabbix-agent安装脚本/" data-id="cibggurs7000a5gpab7qad7ya" class="article-share-link">分享到</a>
         
         
   <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/CentOS/">CentOS</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/监控/">监控</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/运维/">运维</a></li></ul>
@@ -135,15 +182,11 @@
     <p>关注我 :</p>
     <ul class="social-links">
       
-        <li><a class="social-tooltip" title="twitter" href="/" target="_blank"><i id="icon-twitter" class="icon"></i></a></li>
-      
-        <li><a class="social-tooltip" title="facebook" href="/" target="_blank"><i id="icon-facebook" class="icon"></i></a></li>
-      
-        <li><a class="social-tooltip" title="google_plus" href="/" target="_blank"><i id="icon-google_plus" class="icon"></i></a></li>
-      
         <li><a class="social-tooltip" title="github" href="https://github.com/geosmart" target="_blank"><i id="icon-github" class="icon"></i></a></li>
       
         <li><a class="social-tooltip" title="weibo" href="/" target="_blank"><i id="icon-weibo" class="icon"></i></a></li>
+      
+        <li><a class="social-tooltip" title="google_plus" href="/" target="_blank"><i id="icon-google_plus" class="icon"></i></a></li>
       
         <li><a class="social-tooltip" title="rss" href="/" target="_blank"><i id="icon-rss" class="icon"></i></a></li>
       
@@ -164,9 +207,9 @@
     </a>
   
   
-    <a href="/2015/06/28/jetty安装脚本/" id="article-nav-older" class="article-nav-link-wrap">
+    <a href="/2015/06/28/jetty手动安装脚本/" id="article-nav-older" class="article-nav-link-wrap">
       <strong class="article-nav-caption">上一篇</strong>
-      <p class="article-nav-title">Jetty安装脚本</p>
+      <p class="article-nav-title">Jetty手动安装脚本</p>
       <i class="icon" id="icon-chevron-left"></i>
     </a>
   
@@ -185,9 +228,29 @@
             
             <div class="item-thumbnail">
               
+<a href="/2015/06/28/mongodb安装脚本/" class="thumbnail">
+  
+    <span style="background-image:url(/2015/06/28/mongodb安装脚本/nosql.png
+)" alt="Mongodb安装脚本" class="thumbnail-image"></span>
+  
+</a>
+
+            </div>
+            
+            <div class="item-inner">
+              <p class="item-category"><a class="article-category-link" href="/categories/技术点滴/">技术点滴</a></p>
+              <p class="item-title"><a href="/2015/06/28/mongodb安装脚本/" class="title">Mongodb安装脚本</a></p>
+              <p class="item-date"><time datetime="2015-06-28T12:26:00.000Z" itemprop="datePublished">2015-06-28</time></p>
+            </div>
+          </li>
+        
+          <li>
+            
+            <div class="item-thumbnail">
+              
 <a href="/2015/06/28/zabbix-server安装脚本/" class="thumbnail">
   
-    <span style="background-image:url(http://i1-news.softpedia-static.com/images/news2/Zabbix-2-2-Release-with-Better-System-Performance-399458-2.png
+    <span style="background-image:url(/2015/06/28/zabbix-server安装脚本/zabbix.png
 )" alt="Zabbix-Server安装脚本" class="thumbnail-image"></span>
   
 </a>
@@ -207,7 +270,7 @@
               
 <a href="/2015/06/28/zabbix-agent安装脚本/" class="thumbnail">
   
-    <span style="background-image:url(http://i1-news.softpedia-static.com/images/news2/Zabbix-2-2-Release-with-Better-System-Performance-399458-2.png
+    <span style="background-image:url(/2015/06/28/zabbix-agent安装脚本/zabbix.png
 )" alt="Zabbix-Agent安装脚本" class="thumbnail-image"></span>
   
 </a>
@@ -225,27 +288,7 @@
             
             <div class="item-thumbnail">
               
-<a href="/2015/06/28/jetty安装脚本/" class="thumbnail">
-  
-    <span style="background-image:url(http://www.eclipse.org/jetty/images/jetty-logo-80x22.png
-)" alt="Jetty安装脚本" class="thumbnail-image"></span>
-  
-</a>
-
-            </div>
-            
-            <div class="item-inner">
-              <p class="item-category"><a class="article-category-link" href="/categories/技术点滴/">技术点滴</a></p>
-              <p class="item-title"><a href="/2015/06/28/jetty安装脚本/" class="title">Jetty安装脚本</a></p>
-              <p class="item-date"><time datetime="2015-06-28T05:39:05.000Z" itemprop="datePublished">2015-06-28</time></p>
-            </div>
-          </li>
-        
-          <li>
-            
-            <div class="item-thumbnail">
-              
-<a href="/2015/06/28/hello-world/" class="thumbnail">
+<a href="/2015/06/28/jetty手动安装脚本/" class="thumbnail">
   
     <span class="thumbnail-image thumbnail-none"></span>
   
@@ -254,9 +297,28 @@
             </div>
             
             <div class="item-inner">
-              <p class="item-category"></p>
-              <p class="item-title"><a href="/2015/06/28/hello-world/" class="title">Hello World</a></p>
-              <p class="item-date"><time datetime="2015-06-28T05:26:17.958Z" itemprop="datePublished">2015-06-28</time></p>
+              <p class="item-category"><a class="article-category-link" href="/categories/技术点滴/">技术点滴</a></p>
+              <p class="item-title"><a href="/2015/06/28/jetty手动安装脚本/" class="title">Jetty手动安装脚本</a></p>
+              <p class="item-date"><time datetime="2015-06-28T05:39:05.000Z" itemprop="datePublished">2015-06-28</time></p>
+            </div>
+          </li>
+        
+          <li>
+            
+            <div class="item-thumbnail">
+              
+<a href="/2015/06/28/jetty一键安装脚本/" class="thumbnail">
+  
+    <span class="thumbnail-image thumbnail-none"></span>
+  
+</a>
+
+            </div>
+            
+            <div class="item-inner">
+              <p class="item-category"><a class="article-category-link" href="/categories/技术点滴/">技术点滴</a></p>
+              <p class="item-title"><a href="/2015/06/28/jetty一键安装脚本/" class="title">Jetty一键安装脚本</a></p>
+              <p class="item-date"><time datetime="2015-06-28T05:39:05.000Z" itemprop="datePublished">2015-06-28</time></p>
             </div>
           </li>
         
@@ -269,7 +331,7 @@
   <div class="widget-wrap widget-list">
     <h3 class="widget-title">分类</h3>
     <div class="widget">
-      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/技术点滴/">技术点滴</a><span class="category-list-count">3</span></li></ul>
+      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/技术点滴/">技术点滴</a><span class="category-list-count">5</span></li></ul>
     </div>
   </div>
 
@@ -279,7 +341,7 @@
   <div class="widget-wrap widget-list">
     <h3 class="widget-title">归档</h3>
     <div class="widget">
-      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/06/">六月 2015</a><span class="archive-list-count">4</span></li></ul>
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/06/">六月 2015</a><span class="archive-list-count">6</span></li></ul>
     </div>
   </div>
 
@@ -289,7 +351,7 @@
   <div class="widget-wrap widget-list">
     <h3 class="widget-title">标签</h3>
     <div class="widget">
-      <ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="/tags/CentOS/">CentOS</a><span class="tag-list-count">3</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Web服务器/">Web服务器</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/监控/">监控</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/运维/">运维</a><span class="tag-list-count">2</span></li></ul>
+      <ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="/tags/CentOS/">CentOS</a><span class="tag-list-count">5</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Web服务器/">Web服务器</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/数据库/">数据库</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/监控/">监控</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/运维/">运维</a><span class="tag-list-count">2</span></li></ul>
     </div>
   </div>
 
@@ -299,7 +361,7 @@
   <div class="widget-wrap widget-float">
     <h3 class="widget-title">标签云</h3>
     <div class="widget tagcloud">
-      <a href="/tags/CentOS/" style="font-size: 20px;">CentOS</a> <a href="/tags/Web服务器/" style="font-size: 10px;">Web服务器</a> <a href="/tags/监控/" style="font-size: 15px;">监控</a> <a href="/tags/运维/" style="font-size: 15px;">运维</a>
+      <a href="/tags/CentOS/" style="font-size: 20px;">CentOS</a> <a href="/tags/Web服务器/" style="font-size: 15px;">Web服务器</a> <a href="/tags/数据库/" style="font-size: 10px;">数据库</a> <a href="/tags/监控/" style="font-size: 15px;">监控</a> <a href="/tags/运维/" style="font-size: 15px;">运维</a>
     </div>
   </div>
 

@@ -3,17 +3,27 @@
 <head>
   <meta charset="utf-8">
   
-  <title>Archives: 2015 | geosmart</title>
+  <title>Jetty手动安装脚本 | geosmart</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description">
-<meta property="og:type" content="website">
-<meta property="og:title" content="geosmart">
-<meta property="og:url" content="http://geosmart.github.io/archives/2015/index.html">
+  <meta name="description" content="安装步骤将文件复制到CentOS后进行安装
+
+下载解压Jetty
+1cd /tmp&amp;#10;wget http://eclipse.org/downloads/download.php?file=/jetty/stable-9/dist/jetty-distribution-9.3.0.v20150612.tar.gz&amp;#38;r=1 &amp;#10;tar -xzvf  jetty-distribut">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Jetty手动安装脚本">
+<meta property="og:url" content="http://geosmart.github.io/2015/06/28/jetty手动安装脚本/index.html">
 <meta property="og:site_name" content="geosmart">
-<meta property="og:description">
+<meta property="og:description" content="安装步骤将文件复制到CentOS后进行安装
+
+下载解压Jetty
+1cd /tmp&amp;#10;wget http://eclipse.org/downloads/download.php?file=/jetty/stable-9/dist/jetty-distribution-9.3.0.v20150612.tar.gz&amp;#38;r=1 &amp;#10;tar -xzvf  jetty-distribut">
+<meta property="og:updated_time" content="2015-06-28T12:34:36.029Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="geosmart">
-<meta name="twitter:description">
+<meta name="twitter:title" content="Jetty手动安装脚本">
+<meta name="twitter:description" content="安装步骤将文件复制到CentOS后进行安装
+
+下载解压Jetty
+1cd /tmp&amp;#10;wget http://eclipse.org/downloads/download.php?file=/jetty/stable-9/dist/jetty-distribution-9.3.0.v20150612.tar.gz&amp;#38;r=1 &amp;#10;tar -xzvf  jetty-distribut">
   
   
     <link rel="icon" href="/favicon.png">
@@ -87,244 +97,65 @@
           <section id="main">
             <div class="main-body-header">
 
-              <h1 class="header"><i class="icon" id="icon-archive"></i>归档: 2015</h1>
+              <h1 class="header"><a class="page-title-link" href="/categories/技术点滴/">技术点滴</a></h1>
             </div>
             <div class="main-body-content">
               
-  
-  
-    
-    
+  <article id="post-jetty手动安装脚本" class="article article-single article-type-post" itemscope itemprop="blogPost">
+    <div class="article-inner">
+      <!--  -->
       
-      
-      <section class="archives-wrap">
-        <div class="archive-year-wrap">
-          <a href="/archives/2015" class="archive-year"><i class="icon" id="icon-calendar-o"></i>2015</a>
-        </div>
-        <div class="archives">
-    
-    
-    
-      <div class="article-row">
-    
-        
-  <article class="article article-summary">
-    <div class="article-summary-inner">
-      
-<a href="/2015/06/28/mongodb安装脚本/" class="thumbnail">
+        <header class="article-header">
+          
   
-    <span style="background-image:url(/2015/06/28/mongodb安装脚本/nosql.png
-)" alt="Mongodb安装脚本" class="thumbnail-image"></span>
+    <h1 class="article-title" itemprop="name">
+      Jetty手动安装脚本
+    </h1>
   
-</a>
 
-      <div class="article-meta">
-        <p class="category"><a class="article-category-link" href="/categories/技术点滴/">技术点滴</a></p>
-        <p class="date"><time datetime="2015-06-28T12:26:00.000Z" itemprop="datePublished">2015-06-28</time></p>
-      </div>
-      <h2 class="article-title">
-        <a href="/2015/06/28/mongodb安装脚本/" class="title">Mongodb安装脚本</a>
-      </h2>
-      <p class="article-excerpt">
-        
-         
-[TOC] 
-安装包准备下载安装包文件（二进制编译版）1mkdir -p /usr/local/mongodb&amp;#10;cd /usr/local/mongodb&amp;#10;wget http://fastdl.mongodb.org/linux/mongodb-linux-x86_64-2.6.3.tgz&amp;#10;tar -zvxf mongodb-linux-x86_64-2.6.3.tgz
+        </header>
+      
+      <p class="article-byline">
+        <a href="/2015/06/28/jetty手动安装脚本/" class="article-date">
+  <time datetime="2015-06-28T05:39:05.000Z" itemprop="datePublished">2015-06-28</time>
+</a>
       </p>
+      <div class="article-entry" itemprop="articleBody">
+        <p><img src="" alt="jetty"> </p>
+<h1 id="安装步骤">安装步骤</h1><p>将文件复制到CentOS后进行安装</p>
+<ol>
+<li><p>下载解压Jetty</p>
+<figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">cd /tmp&#10;wget http://eclipse.org/downloads/download.php?file=/jetty/stable-9/dist/jetty-distribution-9.3.0.v20150612.tar.gz&#38;r=1 &#10;tar -xzvf  jetty-distribution-9.3.0.v20150612.tar.gz &#10;mv jetty-distribution-9.1.1.v20140108 /usr/local/jetty</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>新建用户&gt;配置jetty所属权限</p>
+<figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">useradd -m jetty &#10;chown -R jetty:jetty /usr/local/jetty/</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>安装到系统服务</p>
+<figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ln -s /usr/local/jetty/bin/jetty.sh /etc/init.d/jetty&#10;chkconfig --add jetty &#10;chkconfig --level 345 jetty on</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>编辑启动脚本 </p>
+<figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">vim /etc/default/jetty &#10;&#10;JETTY_HOME=/usr/local/jetty &#10;JETTY_USER=jetty &#10;JETTY_PORT=8080&#10;JETTY_LOGS=/usr/local/jetty/logs/</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>启动服务-测试</p>
+<pre><code class="Shell">service jetty start&#10;curl localhost:8080
+</code></pre>
+</li>
+</ol>
+<p>6.常用操作指令</p>
+<pre><code class="Shell">jetty [-d] {start|stop|run|restart|check|supervise} [ CONFIGS ... ]
+</code></pre>
+
+      </div>
+      <footer class="article-footer">
+        <a data-url="http://geosmart.github.io/2015/06/28/jetty手动安装脚本/" data-id="cibggurus000k5gpa6gft3992" class="article-share-link">分享到</a>
+        
+        
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/CentOS/">CentOS</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Web服务器/">Web服务器</a></li></ul>
+
+      </footer>
     </div>
   </article>
-
-    
   
-    
-    
-    
-    
-        
-  <article class="article article-summary">
-    <div class="article-summary-inner">
-      
-<a href="/2015/06/28/zabbix-server安装脚本/" class="thumbnail">
-  
-    <span style="background-image:url(/2015/06/28/zabbix-server安装脚本/zabbix.png
-)" alt="Zabbix-Server安装脚本" class="thumbnail-image"></span>
-  
-</a>
-
-      <div class="article-meta">
-        <p class="category"><a class="article-category-link" href="/categories/技术点滴/">技术点滴</a></p>
-        <p class="date"><time datetime="2015-06-28T06:17:15.000Z" itemprop="datePublished">2015-06-28</time></p>
-      </div>
-      <h2 class="article-title">
-        <a href="/2015/06/28/zabbix-server安装脚本/" class="title">Zabbix-Server安装脚本</a>
-      </h2>
-      <p class="article-excerpt">
-        
-         
-
-      </p>
-    </div>
-  </article>
-
-    
-      </div>
-    
-  
-    
-    
-    
-    
-      <div class="article-row">
-    
-        
-  <article class="article article-summary">
-    <div class="article-summary-inner">
-      
-<a href="/2015/06/28/zabbix-agent安装脚本/" class="thumbnail">
-  
-    <span style="background-image:url(/2015/06/28/zabbix-agent安装脚本/zabbix.png
-)" alt="Zabbix-Agent安装脚本" class="thumbnail-image"></span>
-  
-</a>
-
-      <div class="article-meta">
-        <p class="category"><a class="article-category-link" href="/categories/技术点滴/">技术点滴</a></p>
-        <p class="date"><time datetime="2015-06-28T06:17:15.000Z" itemprop="datePublished">2015-06-28</time></p>
-      </div>
-      <h2 class="article-title">
-        <a href="/2015/06/28/zabbix-agent安装脚本/" class="title">Zabbix-Agent安装脚本</a>
-      </h2>
-      <p class="article-excerpt">
-        
-        //[TOC]目录无效
-准备内容
-zabbix安装包（官网版本：zabbix-2.2.9.tar.gz）
-zabbix安装脚本 
-
-安装步骤
-修改zabbix_agentd程序的磁盘路径添加下面两句到#!/bin/bash之后，解决service myservicedoes not support chkconfig问题1# chkconfig: 2345 10 90 &amp;#10;# descrip
-      </p>
-    </div>
-  </article>
-
-    
-  
-    
-    
-    
-    
-        
-  <article class="article article-summary">
-    <div class="article-summary-inner">
-      
-<a href="/2015/06/28/jetty手动安装脚本/" class="thumbnail">
-  
-    <span class="thumbnail-image thumbnail-none"></span>
-  
-</a>
-
-      <div class="article-meta">
-        <p class="category"><a class="article-category-link" href="/categories/技术点滴/">技术点滴</a></p>
-        <p class="date"><time datetime="2015-06-28T05:39:05.000Z" itemprop="datePublished">2015-06-28</time></p>
-      </div>
-      <h2 class="article-title">
-        <a href="/2015/06/28/jetty手动安装脚本/" class="title">Jetty手动安装脚本</a>
-      </h2>
-      <p class="article-excerpt">
-        
-         
-安装步骤将文件复制到CentOS后进行安装
-
-下载解压Jetty
-1cd /tmp&amp;#10;wget http://eclipse.org/downloads/download.php?file=/jetty/stable-9/dist/jetty-distribution-9.3.0.v20150612.tar.gz&amp;#38;r=1 &amp;#10;tar -xzvf  jetty-distrib
-      </p>
-    </div>
-  </article>
-
-    
-      </div>
-    
-  
-    
-    
-    
-    
-      <div class="article-row">
-    
-        
-  <article class="article article-summary">
-    <div class="article-summary-inner">
-      
-<a href="/2015/06/28/jetty一键安装脚本/" class="thumbnail">
-  
-    <span class="thumbnail-image thumbnail-none"></span>
-  
-</a>
-
-      <div class="article-meta">
-        <p class="category"><a class="article-category-link" href="/categories/技术点滴/">技术点滴</a></p>
-        <p class="date"><time datetime="2015-06-28T05:39:05.000Z" itemprop="datePublished">2015-06-28</time></p>
-      </div>
-      <h2 class="article-title">
-        <a href="/2015/06/28/jetty一键安装脚本/" class="title">Jetty一键安装脚本</a>
-      </h2>
-      <p class="article-excerpt">
-        
-         
-准备内容
-jetty安装包（官网版本：jetty-distribution-9.2.11.v20150529.tar）下载后并重命名为jetty.tar.gz
-jetty安装脚本
-已安装JDK1.7
-
-安装步骤将文件复制到CentOS后进行安装
-
-CentOS路径：/tmp 
-执行
-1cd /tmp&amp;#10;chmod +x install-jetty.sh &amp;#10;sudo ./insta
-      </p>
-    </div>
-  </article>
-
-    
-  
-    
-    
-    
-    
-        
-  <article class="article article-summary">
-    <div class="article-summary-inner">
-      
-<a href="/2015/06/28/hello-world/" class="thumbnail">
-  
-    <span class="thumbnail-image thumbnail-none"></span>
-  
-</a>
-
-      <div class="article-meta">
-        <p class="category"></p>
-        <p class="date"><time datetime="2015-06-28T05:26:17.958Z" itemprop="datePublished">2015-06-28</time></p>
-      </div>
-      <h2 class="article-title">
-        <a href="/2015/06/28/hello-world/" class="title">Hello World</a>
-      </h2>
-      <p class="article-excerpt">
-        
-        Welcome to Hexo! This is your very first post. Check documentation for more info. If you get any problems when using Hexo, you can find the answer in troubleshooting or you can ask me on GitHub.
-Quick
-      </p>
-    </div>
-  </article>
-
-    
-      </div>
-    
-  
-  
-    </div></section>
-  
-  
-
 
             </div>
           </section>
@@ -344,6 +175,29 @@ Quick
       
     </ul>
   </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/2015/06/28/zabbix-agent安装脚本/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">下一篇</strong>
+      <p class="article-nav-title">
+        
+          Zabbix-Agent安装脚本
+        
+      </p>
+      <i class="icon" id="icon-chevron-right"></i>
+    </a>
+  
+  
+    <a href="/2015/06/28/jetty一键安装脚本/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">上一篇</strong>
+      <p class="article-nav-title">Jetty一键安装脚本</p>
+      <i class="icon" id="icon-chevron-left"></i>
+    </a>
+  
+</nav>
+
   
   <div class="widgets-container">
     
