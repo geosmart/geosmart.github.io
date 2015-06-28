@@ -1,0 +1,390 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>Jetty安装脚本 | geosmart</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="准备内容jetty安装包jetty版本：jetty-distribution-9.2.11.v20150529.tar，下载并重命名为jetty.tar.gz[jetty安装脚本]-见附件
+安装步骤将文件复制到CentOS后进行安装
+
+CentOS路径：/tmp 
+执行
+1cd /tmp&amp;#10;chmod +x install-jetty.sh &amp;#10;sudo ./install-jetty">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Jetty安装脚本">
+<meta property="og:url" content="http://geosmart.github.io/2015/06/28/jetty安装脚本/index.html">
+<meta property="og:site_name" content="geosmart">
+<meta property="og:description" content="准备内容jetty安装包jetty版本：jetty-distribution-9.2.11.v20150529.tar，下载并重命名为jetty.tar.gz[jetty安装脚本]-见附件
+安装步骤将文件复制到CentOS后进行安装
+
+CentOS路径：/tmp 
+执行
+1cd /tmp&amp;#10;chmod +x install-jetty.sh &amp;#10;sudo ./install-jetty">
+<meta property="og:image" content="http://www.eclipse.org/jetty/images/jetty-logo-80x22.png">
+<meta property="og:updated_time" content="2015-06-28T06:39:06.610Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Jetty安装脚本">
+<meta name="twitter:description" content="准备内容jetty安装包jetty版本：jetty-distribution-9.2.11.v20150529.tar，下载并重命名为jetty.tar.gz[jetty安装脚本]-见附件
+安装步骤将文件复制到CentOS后进行安装
+
+CentOS路径：/tmp 
+执行
+1cd /tmp&amp;#10;chmod +x install-jetty.sh &amp;#10;sudo ./install-jetty">
+  
+  
+    <link rel="icon" href="/favicon.png">
+  
+
+  <link rel="stylesheet" href="/css/style.css" type="text/css">
+  
+    <link rel="stylesheet" href="/fancybox/jquery.fancybox.css" type="text/css">
+  
+  
+    <link rel="stylesheet" href="/scrollLoading/style.css" type="text/css">
+  
+  
+
+
+  
+    <style type="text/css">
+      .logo { background-image:url(http://geosmart.github.io/css/images/logo.png); }
+    </style>
+  
+
+  
+    <link href='//fonts.useso.com/css?family=Titillium+Web:300,400,600' rel='stylesheet' type='text/css'>
+    <link href="//fonts.useso.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">
+  
+
+</head>
+
+<body>
+  <div id="wrap">
+    <header id="header">
+  <div id="header-outer" class="outer">
+    <div class="container">
+      <div class="container-inner">
+        <div id="header-title">
+          <h1 class="logo-wrap">
+            <a href="/" class="logo"></a>
+          </h1>
+          
+            <h2 class="subtitle-wrap">
+              <p class="subtitle">生命不止 奋斗不息</p>
+            </h2>
+          
+        </div>
+        <div id="header-inner" class="nav-container">
+          <a id="main-nav-toggle" class="nav-icon"></a>
+          <div class="nav-container-inner">
+            <ul id="main-nav">
+              
+                <li class="main-nav-list-item" ><a class="main-nav-list-link" href="/">Home</a></li>
+              
+                    <ul class="main-nav-list"><li class="main-nav-list-item"><a class="main-nav-list-link" href="/categories/技术点滴/">技术点滴</a></li></ul>
+                  
+                <li class="main-nav-list-item" ><a class="main-nav-list-link" href="/about/index.html">About</a></li>
+              
+            </ul>
+            <nav id="sub-nav">
+              <div id="search-form-wrap">
+                <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" results="0" class="search-form-input" placeholder="搜索"><input type="hidden" name="sitesearch" value="http://geosmart.github.io"></form>
+              </div>
+            </nav>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</header>
+    <div class="container">
+      <div class="main-body container-inner">
+        <div class="main-body-inner">
+          <section id="main">
+            <div class="main-body-header">
+
+              <h1 class="header"><a class="page-title-link" href="/categories/技术点滴/">技术点滴</a></h1>
+            </div>
+            <div class="main-body-content">
+              
+  <article id="post-jetty安装脚本" class="article article-single article-type-post" itemscope itemprop="blogPost">
+    <div class="article-inner">
+      <!--  -->
+      
+        <header class="article-header">
+          
+  
+    <h1 class="article-title" itemprop="name">
+      Jetty安装脚本
+    </h1>
+  
+
+        </header>
+      
+      <p class="article-byline">
+        <a href="/2015/06/28/jetty安装脚本/" class="article-date">
+  <time datetime="2015-06-28T05:39:05.000Z" itemprop="datePublished">2015-06-28</time>
+</a>
+      </p>
+      <div class="article-entry" itemprop="articleBody">
+        <p><img src="http://www.eclipse.org/jetty/images/jetty-logo-80x22.png" alt="jetty" title="jetty logo"> </p>
+<h1 id="准备内容">准备内容</h1><p><a href="http://download.eclipse.org/jetty/9.2.11.v20150529/dist/jetty-distribution-9.2.11.v20150529.tar.gz" target="_blank" rel="external">jetty安装包</a><br>jetty版本：jetty-distribution-9.2.11.v20150529.tar，下载并重命名为jetty.tar.gz<br>[jetty安装脚本]-见附件</p>
+<h1 id="安装步骤">安装步骤</h1><p>将文件复制到CentOS后进行安装</p>
+<ol>
+<li>CentOS路径：/tmp </li>
+<li><p>执行</p>
+<figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">cd /tmp&#10;chmod +x install-jetty.sh &#10;sudo ./install-jetty.sh</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>一路回车即可</p>
+</li>
+</ol>
+<h1 id="附件_install-jetty-sh">附件 install-jetty.sh</h1><figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">#!/bin/sh &#10;&#10;BASEDIR=$(cd `dirname $0`; pwd)&#10;&#10;# must sudo&#10;if [ &#34;$(id -u)&#34; -ne 0 ] ; then&#10;    echo -e &#34;\033[31m You must run this script as sudo. Sorry! \033[0m&#34;&#10;    exit 1&#10;fi&#10;&#10;# check env&#10;. /etc/profile&#10;. ~/.bash_profile&#10;&#10;if [ &#34;$JAVA_HOME&#34; = &#34;&#34; ]; then&#10;    echo -e &#34;\033[31m Your java environment isn&#39;t right. \033[0m&#34;&#10;    exit 1&#10;fi&#10;&#10;read  -p &#34;Please select jetty tar package full path[/tmp/jetty.tar.gz]: &#34; INSTALL_FILE &#10;if [ &#34;$INSTALL_FILE&#34; = &#34;&#34; ]; then &#10;&#9;INSTALL_FILE=&#34;/tmp/jetty.tar.gz&#34;&#10;fi&#10;&#10;&#10;echo &#34;Start to install...&#34;&#10;read  -p &#34;Please select jetty install path path[/usr/local/jetty]: &#34; INSTALL_PATH&#10;if [ &#34;$INSTALL_PATH&#34; = &#34;&#34; ]; then&#10;&#9;INSTALL_PATH=&#34;/usr/local/jetty&#34;&#10;fi&#10;&#10;# Set up jetty user&#10;read  -p &#34;Please set jetty run user[jetty]: &#34; JETTY_USER&#10;if [ &#34;$JETTY_USER&#34; = &#34;&#34; ]; then&#10;&#9;JETTY_USER=jetty&#10;fi&#10;&#10;# Set up jetty logs dir&#10;read  -p &#34;Please set jetty logs user[/var/log/jetty]: &#34; JETTY_LOGS&#10;if [ &#34;$JETTY_LOGS&#34; = &#34;&#34; ]; then&#10;&#9;JETTY_LOGS=/var/log/jetty&#10;fi&#10;&#10;# Set up jetty service name&#10;read  -p &#34;Please set jetty service name[jetty]: &#34; JETTY_SERVICE&#10;if [ &#34;$JETTY_SERVICE&#34; = &#34;&#34; ]; then&#10;&#9;JETTY_SERVICE=jetty&#10;fi&#10;while true&#10;do&#10;    if [ ! &#34;$(chkconfig --list | grep -o $JETTY_SERVICE)&#34; = &#34;&#34; ];then&#10;        read  -p &#34;service $JETTY_SERVICE exsited, please select again: &#34; JETTY_SERVICE&#10;    else&#10;        break&#10;    fi&#10;done&#10;&#10;# logs dir&#10;read  -p &#34;Please set jetty port[8080]: &#34; JETTY_PORT&#10;if [ &#34;$JETTY_PORT&#34; = &#34;&#34; ]; then&#10;&#9;JETTY_PORT=8080&#10;fi&#10;&#10;# Set up jetty pid&#10;read  -p &#34;Please set jetty pid path[/var/run/$JETTY_SERVICE.pid]: &#34; JETTY_PID&#10;if [ &#34;$JETTY_PID&#34; = &#34;&#34; ]; then&#10;&#9;JETTY_PID=/var/run/$JETTY_SERVICE.pid&#10;fi&#10;&#10;######### Confirm?&#10;echo &#34;Selected config:&#34;&#10;&#10;echo &#34;Port           : $JETTY_PORT&#34;&#10;echo &#34;User           : $JETTY_USER&#34;&#10;echo &#34;Log            : $JETTY_LOGS&#34;&#10;echo &#34;Pid            : $JETTY_PID&#34;&#10;echo &#34;Service        : $JETTY_SERVICE&#34;&#10;&#10;read -p &#34;Is this ok? Then press ENTER to go on or Ctrl-C to abort.&#34; _UNUSED_&#10;&#10;# add user&#10;if [ &#34;$(groups | grep $JETTY_USER)&#34; = &#34;&#34; ]; then&#10;    groupadd $JETTY_USER&#10;fi&#10;if [ &#34;$(users | grep $JETTY_USER)&#34; = &#34;&#34; ]; then&#10;    useradd -g $JETTY_USER $JETTY_USER&#10;fi&#10;&#10;# mkdir install path&#10;if [ ! -d $INSTALL_PATH ]; then&#10;    echo &#34;mkdir $INSTALL_PATH&#34;&#10;    mkdir -p $INSTALL_PATH&#10;fi&#10;&#10;# mkdir log path&#10;if [ ! -d &#34;$JETTY_LOGS&#34; ]; then&#10;    mkdir -p $JETTY_LOGS&#10;    chown -R $JETTY_USER:$JETTY_USER $JETTY_LOGS&#10;fi&#10;&#10;# Uncompress&#10;echo &#34;Uncompress tar to $INSTALL_PATH...&#34;&#10;tar -zxf $INSTALL_FILE -C $INSTALL_PATH --strip-components=1&#10;jetty_temp=~/.jetty_temp&#10;if [ -f &#34;$jetty_temp&#34; ]; then&#10;    touch $jetty_temp&#10;fi&#10;&#10;# env setting&#10;jetty_sh=$INSTALL_PATH/bin/jetty.sh&#10;echo &#34;Setting jetty conf...&#34;&#10;echo &#34;JAVA_HOME=$JAVA_HOME&#34; &#62; $jetty_temp &#38;&#38; cat $jetty_sh &#62;&#62; $jetty_temp &#38;&#38; mv -f $jetty_temp $jetty_sh&#10;echo &#34;JAVA=$JAVA_HOME/bin/java&#34; &#62; $jetty_temp &#38;&#38; cat $jetty_sh &#62;&#62; $jetty_temp &#38;&#38;  mv -f $jetty_temp $jetty_sh&#10;echo &#34;JETTY_LOGS=$JETTY_LOGS&#34; &#62; $jetty_temp &#38;&#38; cat $jetty_sh &#62;&#62; $jetty_temp &#38;&#38;  mv -f $jetty_temp $jetty_sh&#10;echo &#34;JETTY_USER=$JETTY_USER&#34; &#62; $jetty_temp &#38;&#38; cat $jetty_sh &#62;&#62; $jetty_temp &#38;&#38;  mv -f $jetty_temp $jetty_sh&#10;echo &#34;JETTY_PORT=$JETTY_PORT&#34; &#62; $jetty_temp &#38;&#38; cat $jetty_sh &#62;&#62; $jetty_temp &#38;&#38;  mv -f $jetty_temp $jetty_sh&#10;echo &#34;JETTY_PID=$JETTY_PID&#34; &#62; $jetty_temp &#38;&#38; cat $jetty_sh &#62;&#62; $jetty_temp &#38;&#38;  mv -f $jetty_temp $jetty_sh&#10;echo &#34;JETTY_HOME=$INSTALL_PATH&#34; &#62; $jetty_temp &#38;&#38; cat $jetty_sh &#62;&#62; $jetty_temp &#38;&#38;  mv -f $jetty_temp $jetty_sh&#10;chmod +x $jetty_sh&#10;#&#10;chown -R $JETTY_USER:$JETTY_USER $INSTALL_PATH&#10;&#10;# jetty service&#10;echo &#34;Install jetty service...&#34;&#10;ln -s $INSTALL_PATH/bin/jetty.sh /etc/init.d/$JETTY_SERVICE&#10;if [ ! &#34;$?&#34; = &#34;0&#34; ]; then&#10;    echo -e &#34;\033[31m link jetty script failed. \033[0m&#34;&#10;    exit 1&#10;fi&#10;chkconfig --add $JETTY_SERVICE&#10;chkconfig --level 345 $JETTY_SERVICE on&#10;if [ &#34;$?&#34; = &#34;0&#34; ]; then&#10;    echo -e &#34;\033[32m Installed, please sudo service $JETTY_SERVICE start. \033[0m&#34;&#10;else&#10;    echo -e &#34;\033[31m Service $JETTY_SERVICE install failed. \033[0m&#34;&#10;fi&#10;&#10;unset BASEDIR&#10;unset INSTALL_PATH&#10;unset JETTY_USER&#10;unset JETTY_PORT&#10;unset JETTY_LOGS&#10;unset JETTY_SERVICE&#10;unset jetty_temp&#10;unset jetty_sh&#10;&#10;exit 0</span><br></pre></td></tr></table></figure>
+
+      </div>
+      <footer class="article-footer">
+        <a data-url="http://geosmart.github.io/2015/06/28/jetty安装脚本/" data-id="cibg45qtr000fkwpa0m7z7q5m" class="article-share-link">分享到</a>
+        
+        
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/CentOS/">CentOS</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Web服务器/">Web服务器</a></li></ul>
+
+      </footer>
+    </div>
+  </article>
+  
+
+            </div>
+          </section>
+          <aside id="sidebar">
+  <a class="sidebar-toggle" title="Expand Sidebar"><i class="toggle icon"></i></a>
+  <div class="sidebar-top">
+    <p>关注我 :</p>
+    <ul class="social-links">
+      
+        <li><a class="social-tooltip" title="twitter" href="/" target="_blank"><i id="icon-twitter" class="icon"></i></a></li>
+      
+        <li><a class="social-tooltip" title="facebook" href="/" target="_blank"><i id="icon-facebook" class="icon"></i></a></li>
+      
+        <li><a class="social-tooltip" title="google_plus" href="/" target="_blank"><i id="icon-google_plus" class="icon"></i></a></li>
+      
+        <li><a class="social-tooltip" title="github" href="https://github.com/geosmart" target="_blank"><i id="icon-github" class="icon"></i></a></li>
+      
+        <li><a class="social-tooltip" title="weibo" href="/" target="_blank"><i id="icon-weibo" class="icon"></i></a></li>
+      
+        <li><a class="social-tooltip" title="rss" href="/" target="_blank"><i id="icon-rss" class="icon"></i></a></li>
+      
+    </ul>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/2015/06/28/zabbix-agent安装脚本/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">下一篇</strong>
+      <p class="article-nav-title">
+        
+          Zabbix-Agent安装脚本
+        
+      </p>
+      <i class="icon" id="icon-chevron-right"></i>
+    </a>
+  
+  
+    <a href="/2015/06/28/hello-world/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">上一篇</strong>
+      <p class="article-nav-title">Hello World</p>
+      <i class="icon" id="icon-chevron-left"></i>
+    </a>
+  
+</nav>
+
+  
+  <div class="widgets-container">
+    
+      
+  <div class="widget-wrap">
+    <h3 class="widget-title">最新文章</h3>
+    <div class="widget">
+      <ul id="recent-post" class="">
+        
+          <li>
+            
+            <div class="item-thumbnail">
+              
+<a href="/2015/06/28/zabbix-server安装脚本/" class="thumbnail">
+  
+    <span style="background-image:url(http://i1-news.softpedia-static.com/images/news2/Zabbix-2-2-Release-with-Better-System-Performance-399458-2.png
+)" alt="Zabbix-Server安装脚本" class="thumbnail-image"></span>
+  
+</a>
+
+            </div>
+            
+            <div class="item-inner">
+              <p class="item-category"><a class="article-category-link" href="/categories/技术点滴/">技术点滴</a></p>
+              <p class="item-title"><a href="/2015/06/28/zabbix-server安装脚本/" class="title">Zabbix-Server安装脚本</a></p>
+              <p class="item-date"><time datetime="2015-06-28T06:17:15.000Z" itemprop="datePublished">2015-06-28</time></p>
+            </div>
+          </li>
+        
+          <li>
+            
+            <div class="item-thumbnail">
+              
+<a href="/2015/06/28/zabbix-agent安装脚本/" class="thumbnail">
+  
+    <span style="background-image:url(http://i1-news.softpedia-static.com/images/news2/Zabbix-2-2-Release-with-Better-System-Performance-399458-2.png
+)" alt="Zabbix-Agent安装脚本" class="thumbnail-image"></span>
+  
+</a>
+
+            </div>
+            
+            <div class="item-inner">
+              <p class="item-category"><a class="article-category-link" href="/categories/技术点滴/">技术点滴</a></p>
+              <p class="item-title"><a href="/2015/06/28/zabbix-agent安装脚本/" class="title">Zabbix-Agent安装脚本</a></p>
+              <p class="item-date"><time datetime="2015-06-28T06:17:15.000Z" itemprop="datePublished">2015-06-28</time></p>
+            </div>
+          </li>
+        
+          <li>
+            
+            <div class="item-thumbnail">
+              
+<a href="/2015/06/28/jetty安装脚本/" class="thumbnail">
+  
+    <span style="background-image:url(http://www.eclipse.org/jetty/images/jetty-logo-80x22.png
+)" alt="Jetty安装脚本" class="thumbnail-image"></span>
+  
+</a>
+
+            </div>
+            
+            <div class="item-inner">
+              <p class="item-category"><a class="article-category-link" href="/categories/技术点滴/">技术点滴</a></p>
+              <p class="item-title"><a href="/2015/06/28/jetty安装脚本/" class="title">Jetty安装脚本</a></p>
+              <p class="item-date"><time datetime="2015-06-28T05:39:05.000Z" itemprop="datePublished">2015-06-28</time></p>
+            </div>
+          </li>
+        
+          <li>
+            
+            <div class="item-thumbnail">
+              
+<a href="/2015/06/28/hello-world/" class="thumbnail">
+  
+    <span class="thumbnail-image thumbnail-none"></span>
+  
+</a>
+
+            </div>
+            
+            <div class="item-inner">
+              <p class="item-category"></p>
+              <p class="item-title"><a href="/2015/06/28/hello-world/" class="title">Hello World</a></p>
+              <p class="item-date"><time datetime="2015-06-28T05:26:17.958Z" itemprop="datePublished">2015-06-28</time></p>
+            </div>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+    
+      
+  <div class="widget-wrap widget-list">
+    <h3 class="widget-title">分类</h3>
+    <div class="widget">
+      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/技术点滴/">技术点滴</a><span class="category-list-count">3</span></li></ul>
+    </div>
+  </div>
+
+
+    
+      
+  <div class="widget-wrap widget-list">
+    <h3 class="widget-title">归档</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/06/">六月 2015</a><span class="archive-list-count">4</span></li></ul>
+    </div>
+  </div>
+
+
+    
+      
+  <div class="widget-wrap widget-list">
+    <h3 class="widget-title">标签</h3>
+    <div class="widget">
+      <ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="/tags/CentOS/">CentOS</a><span class="tag-list-count">3</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Web服务器/">Web服务器</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/监控/">监控</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/运维/">运维</a><span class="tag-list-count">2</span></li></ul>
+    </div>
+  </div>
+
+
+    
+      
+  <div class="widget-wrap widget-float">
+    <h3 class="widget-title">标签云</h3>
+    <div class="widget tagcloud">
+      <a href="/tags/CentOS/" style="font-size: 20px;">CentOS</a> <a href="/tags/Web服务器/" style="font-size: 10px;">Web服务器</a> <a href="/tags/监控/" style="font-size: 15px;">监控</a> <a href="/tags/运维/" style="font-size: 15px;">运维</a>
+    </div>
+  </div>
+
+
+    
+      
+  <div class="widget-wrap widget-list">
+    <h3 class="widget-title">链接</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="http://hexo.io">Hexo</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+
+    
+  </div>
+</aside>
+        </div>
+      </div>
+    </div>
+    <footer id="footer">
+  
+  <div class="container">
+    <div class="container-inner">
+      <a id="back-to-top" href="javascript:;"><i class="icon" id="icon-angle-up"></i></a>
+      <div class="credit">
+        <h1 class="logo-wrap">
+          <a href="/" class="logo"></a>
+        </h1>
+        <p>&copy; 2015 geosmart</p>
+        <p>Powered by <a href="//hexo.io/" target="_blank">Hexo</a>. Theme by <a href="//github.com/ppoffice" target="_blank">PPOffice</a></p>
+      </div>
+    </div>
+  </div>
+</footer>
+    
+
+
+  <script src="http://code.jquery.com/jquery-2.1.3.min.js"></script>
+
+
+
+  <script src="/fancybox/jquery.fancybox.pack.js" type="text/javascript"></script>
+
+
+
+  <script src="/scrollLoading/jquery.scrollLoading.js" type="text/javascript"></script>
+  <script src="/scrollLoading/main.js" type="text/javascript"></script>
+
+
+<script src="/js/html-patch.js" type="text/javascript"></script>
+<script src="/js/script.js" type="text/javascript"></script>
+
+  </div>
+</body>
+</html>
