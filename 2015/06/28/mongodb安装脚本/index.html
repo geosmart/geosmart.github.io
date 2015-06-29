@@ -16,7 +16,7 @@
 安装包准备下载安装包文件（二进制编译版）1mkdir -p /usr/local/mongodb&amp;#10;cd /usr/local/mongodb&amp;#10;wget http://fastdl.mongodb.org/linux/mongodb-linux-x86_64-2.6.3.tgz&amp;#10;tar -zvxf mongodb-linux-x86_64-2.6.3.tgz
 重">
 <meta property="og:image" content="http://geosmart.github.io/nosql.png">
-<meta property="og:updated_time" content="2015-06-28T12:29:48.861Z">
+<meta property="og:updated_time" content="2015-06-29T01:24:57.915Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Mongodb安装脚本">
 <meta name="twitter:description" content="[TOC] 
@@ -130,16 +130,18 @@
 <h3 id="命令行形式">命令行形式</h3><figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">/usr/local/mongodb/bin/mongod --dbpath /usr/local/mongodb/data --logpath /usr/local/mongodb/log/mongodb.log  --fork --smallfiles &#10;//&#21487;&#36873;&#65306;--auth</span><br></pre></td></tr></table></figure>
 <h2 id="用户权限设置（root可跳过）">用户权限设置（root可跳过）</h2><h3 id="增加用户">增加用户</h3><figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">useradd mongodb -M -s /sbin/nologin</span><br></pre></td></tr></table></figure>
 <h3 id="设置目录权限">设置目录权限</h3><figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">chown -R mongodb.mongodb  /usr/local/mongodb</span><br></pre></td></tr></table></figure>
-<h2 id="开机自启动服务">开机自启动服务</h2><h3 id="编写启动服务配置文件">编写启动服务配置文件</h3><figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">//&#20808;&#21024;&#38500;&#10;rm /etc/init.d/mongod&#10;vim /etc/init.d/mongod&#10;#!/bin/sh&#10;#&#10;# mongodb      init file for starting up the MongoDB server&#10;#&#10;# chkconfig:   - 20 80&#10;# description: Starts and stops the MongDB daemon that handles all \&#10;#              database requests.&#10;# Source function library.&#10;&#10;. /etc/rc.d/init.d/functions&#10;exec=&#34;/usr/local/mongodb/bin/mongod&#34;&#10;prog=&#34;mongod&#34;&#10;logfile=&#34;/usr/local/mongodb/log/mongodb.log&#34;&#10;options=&#34; -f  /usr/local/mongodb/mongodb.conf&#34;&#10;[ -e /etc/sysconfig/$prog ] &#38;&#38; . /etc/sysconfig/$prog&#10;lockfile=&#34;/var/lock/subsys/mongod&#34;&#10;&#10;start() &#123;&#10;    [ -x $exec ] || exit 5&#10;    echo -n $&#34;Starting $prog: &#34;&#10;    daemon --user mongodb &#34;$exec --quiet $options run &#62;&#62; $logfile 2&#62;&#38;1 &#38;&#34;&#10;    retval=$?&#10;    echo&#10;    [ $retval -eq 0 ] &#38;&#38; touch $lockfile&#10;    return $retval&#10;&#125;&#10;stop() &#123;&#10;    echo -n $&#34;Stopping $prog: &#34;&#10;    killproc $prog&#10;    retval=$?&#10;    echo&#10;    [ $retval -eq 0 ] &#38;&#38; rm -f $lockfile&#10;    return $retval&#10;&#125;&#10;restart() &#123;&#10;    stop&#10;    start&#10;&#125;&#10;reload() &#123;&#10;    restart&#10;&#125;&#10;force_reload() &#123;&#10;    restart&#10;&#125;&#10;rh_status() &#123;&#10;    # run checks to determine if the service is running or use generic status&#10;    status $prog&#10;&#125;&#10;rh_status_q() &#123;&#10;    rh_status &#62;/dev/null 2&#62;&#38;1&#10;&#125;&#10;case &#34;$1&#34; in&#10;    start)&#10;        rh_status_q &#38;&#38; exit 0&#10;        $1&#10;        ;;&#10;    stop)&#10;        rh_status_q || exit 0&#10;        $1&#10;        ;;&#10;    restart)&#10;        $1&#10;        ;;&#10;    reload)&#10;        rh_status_q || exit 7&#10;        $1&#10;        ;;&#10;    force-reload)&#10;        force_reload&#10;        ;;&#10;    status)&#10;        rh_status&#10;        ;;&#10;    condrestart|try-restart)&#10;        rh_status_q || exit 0&#10;        restart&#10;        ;;&#10;    *)&#10;        echo $&#34;Usage: $0 &#123;start|stop|status|restart|condrestart|try-restart|reload|force-reload&#125;&#34;&#10;        exit 2&#10;esac&#10;exit $?</span><br></pre></td></tr></table></figure>
+<h2 id="开机自启动服务">开机自启动服务</h2><h3 id="编写启动服务配置文件">编写启动服务配置文件</h3><p><code>rm /etc/init.d/mongod</code><br><code>vim /etc/init.d/mongod</code><br><figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">#!/bin/sh&#10;#&#10;# mongodb      init file for starting up the MongoDB server&#10;#&#10;# chkconfig:   - 20 80&#10;# description: Starts and stops the MongDB daemon that handles all \&#10;#              database requests.&#10;# Source function library.&#10;&#10;. /etc/rc.d/init.d/functions&#10;exec=&#34;/usr/local/mongodb/bin/mongod&#34;&#10;prog=&#34;mongod&#34;&#10;logfile=&#34;/usr/local/mongodb/log/mongodb.log&#34;&#10;options=&#34; -f  /usr/local/mongodb/mongodb.conf&#34;&#10;[ -e /etc/sysconfig/$prog ] &#38;&#38; . /etc/sysconfig/$prog&#10;lockfile=&#34;/var/lock/subsys/mongod&#34;&#10;&#10;start() &#123;&#10;    [ -x $exec ] || exit 5&#10;    echo -n $&#34;Starting $prog: &#34;&#10;    daemon --user mongodb &#34;$exec --quiet $options run &#62;&#62; $logfile 2&#62;&#38;1 &#38;&#34;&#10;    retval=$?&#10;    echo&#10;    [ $retval -eq 0 ] &#38;&#38; touch $lockfile&#10;    return $retval&#10;&#125;&#10;stop() &#123;&#10;    echo -n $&#34;Stopping $prog: &#34;&#10;    killproc $prog&#10;    retval=$?&#10;    echo&#10;    [ $retval -eq 0 ] &#38;&#38; rm -f $lockfile&#10;    return $retval&#10;&#125;&#10;restart() &#123;&#10;    stop&#10;    start&#10;&#125;&#10;reload() &#123;&#10;    restart&#10;&#125;&#10;force_reload() &#123;&#10;    restart&#10;&#125;&#10;rh_status() &#123;&#10;    # run checks to determine if the service is running or use generic status&#10;    status $prog&#10;&#125;&#10;rh_status_q() &#123;&#10;    rh_status &#62;/dev/null 2&#62;&#38;1&#10;&#125;&#10;case &#34;$1&#34; in&#10;    start)&#10;        rh_status_q &#38;&#38; exit 0&#10;        $1&#10;        ;;&#10;    stop)&#10;        rh_status_q || exit 0&#10;        $1&#10;        ;;&#10;    restart)&#10;        $1&#10;        ;;&#10;    reload)&#10;        rh_status_q || exit 7&#10;        $1&#10;        ;;&#10;    force-reload)&#10;        force_reload&#10;        ;;&#10;    status)&#10;        rh_status&#10;        ;;&#10;    condrestart|try-restart)&#10;        rh_status_q || exit 0&#10;        restart&#10;        ;;&#10;    *)&#10;        echo $&#34;Usage: $0 &#123;start|stop|status|restart|condrestart|try-restart|reload|force-reload&#125;&#34;&#10;        exit 2&#10;esac&#10;exit $?</span><br></pre></td></tr></table></figure></p>
 <p>输入mongod文件中的内容，并且保存退出</p>
-<h3 id="设置为开机启动服务">设置为开机启动服务</h3><figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">chkconfig --add mongod&#10;chkconfig --level 345 mongod on&#10;chmod 777    /etc/init.d/mongod&#10;chmod  777   /usr/local/mongodb/log/mongodb.log&#10;&#10;&#10;----------</span><br></pre></td></tr></table></figure>
+<h3 id="设置为开机启动服务">设置为开机启动服务</h3><figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">chkconfig --add mongod&#10;chkconfig --level 345 mongod on&#10;chmod 777    /etc/init.d/mongod&#10;chmod  777   /usr/local/mongodb/log/mongodb.log</span><br></pre></td></tr></table></figure>
 <h3 id="启动服务/测试服务状态">启动服务/测试服务状态</h3><figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">service mongod start&#10;service mongod status&#10;shutdown -r now&#10;service mongod status&#10;mongo admin&#10;show dbs&#65307;&#10;db.test.find();&#10;exit</span><br></pre></td></tr></table></figure>
-<h2 id="启动mongod服务">启动mongod服务</h2><figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"> mongod -f   /usr/local/mongodb/mongodb.conf&#10;``` &#10;&#10;&#10;---------&#10;&#10;## &#37096;&#32626;&#38382;&#39064;&#35760;&#24405;&#10;### MongoVUE&#19981;&#33021;&#36830;&#25509;&#10;&#23558;27017&#31471;&#21475;&#21152;&#20837;&#20449;&#20219;&#21015;&#34920;&#65307;&#23616;&#22495;&#32593;&#27979;&#35797;&#30452;&#25509;&#20851;&#38381;&#38450;&#28779;&#22681;&#10;``` Shell&#10;//&#24320;&#21551;&#10;chkconfig iptables on&#10;//&#20851;&#38381;&#10;chkconfig iptables off &#10;//&#26597;&#35810;TCP&#36830;&#25509;&#24773;&#20917;&#10; netstat -n | awk &#39;/^tcp/ &#123;++S[$NF]&#125; END &#123;for(a in S) print a, S[a]&#125;&#39;&#10;//&#26597;&#35810;&#31471;&#21475;&#21344;&#29992;&#24773;&#20917;&#65306;&#10; netstat   -anp   &#25110;   grep  portno&#10;//&#65288;&#20363;&#22914;&#65306;netstat &#8211;apn | grep 80&#65289;</span><br></pre></td></tr></table></figure>
+<h2 id="启动mongod服务">启动mongod服务</h2><figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">mongod -f   /usr/local/mongodb/mongodb.conf&#10;``` &#10;&#10;## &#37096;&#32626;&#38382;&#39064;&#35760;&#24405;&#10;### MongoVUE&#19981;&#33021;&#36830;&#25509;&#10;&#23558;27017&#31471;&#21475;&#21152;&#20837;&#20449;&#20219;&#21015;&#34920;&#65307;&#23616;&#22495;&#32593;&#27979;&#35797;&#30452;&#25509;&#20851;&#38381;&#38450;&#28779;&#22681;&#10;``` Shell&#10;//&#24320;&#21551;&#10;chkconfig iptables on&#10;//&#20851;&#38381;&#10;chkconfig iptables off &#10;//&#26597;&#35810;TCP&#36830;&#25509;&#24773;&#20917;&#10; netstat -n | awk &#39;/^tcp/ &#123;++S[$NF]&#125; END &#123;for(a in S) print a, S[a]&#125;&#39;&#10;//&#26597;&#35810;&#31471;&#21475;&#21344;&#29992;&#24773;&#20917;&#65306;&#10; netstat   -anp   &#25110;   grep  portno&#10;//&#65288;&#20363;&#22914;&#65306;netstat &#8211;apn | grep 80&#65289;</span><br></pre></td></tr></table></figure>
 <h3 id="mongod_dead_but_subsys_locked">mongod dead but subsys locked</h3><p>执行语句解决问题：<code>mongod -f /usr/local/mongodb/mongodb.conf</code></p>
 
       </div>
       <footer class="article-footer">
         <a data-url="http://geosmart.github.io/2015/06/28/mongodb安装脚本/" data-id="cibggurtt000f5gpatbo294dy" class="article-share-link">分享到</a>
+        
+          <a href="http://geosmart.github.io/2015/06/28/mongodb安装脚本/#comments" class="article-comment-link">评论</a>
         
         
   <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/CentOS/">CentOS</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/数据库/">数据库</a></li></ul>
@@ -147,7 +149,30 @@
       </footer>
     </div>
   </article>
-  
+
+
+<section id="comments">
+    <!-- ��˵���ۿ� start -->
+    <div class="ds-thread" data-thread-key="post-mongodb安装脚本" data-title="Mongodb安装脚本"
+         data-url="http://geosmart.github.io/2015/06/28/mongodb安装脚本/"></div>
+    <!-- ��˵���ۿ� end -->
+    <!-- ��˵����JS���� start (һ����ҳֻ������һ��) -->
+    <script type="text/javascript">
+        var duoshuoQuery = {short_name: 'geosmart'};
+        (function () {
+            var ds = document.createElement('script');
+            ds.type = 'text/javascript';
+            ds.async = true;
+            ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+            ds.charset = 'UTF-8';
+            (document.getElementsByTagName('head')[0]
+            || document.getElementsByTagName('body')[0]).appendChild(ds);
+        })();
+    </script>
+    <!-- ��˵����JS���� end -->
+</section>
+
+
 
             </div>
           </section>
