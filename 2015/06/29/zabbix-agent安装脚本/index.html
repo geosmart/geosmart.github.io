@@ -5,35 +5,35 @@
   
   <title>Zabbix-Agent安装脚本 | geosmart</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="//[TOC]目录无效
-准备内容
-zabbix安装包（官网版本：zabbix-2.2.9.tar.gz）
-zabbix安装脚本 
+  <meta name="description" content="&amp;lt;!-- toc --&amp;gt;
+&amp;lt;!-- tocstop --&amp;gt;
 
-安装步骤
-修改zabbix_agentd程序的磁盘路径添加下面两句到#!/bin/bash之后，解决service myservicedoes not support chkconfig问题1# chkconfig: 2345 10 90 &amp;#10;# descrip">
+#&amp;#x51C6;&amp;#x5907;&amp;#x5185;&amp;#x5BB9;
+
+zabbix&amp;#x5B89;&amp;#x88C5;&amp;#x5305;&amp;#xFF08;&amp;#x5B98;&amp;#x7F51;&amp;#x7248;&amp;#x672C;&amp;#xFF1A;zabbix-2.2.9.tar.gz&amp;#xFF09;
+zabbix&amp;#x5B89;&amp;#x88C5;&amp;#x811">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Zabbix-Agent安装脚本">
-<meta property="og:url" content="http://geosmart.github.io/2015/06/28/zabbix-agent安装脚本/index.html">
+<meta property="og:url" content="http://geosmart.github.io/2015/06/29/zabbix-agent安装脚本/index.html">
 <meta property="og:site_name" content="geosmart">
-<meta property="og:description" content="//[TOC]目录无效
-准备内容
-zabbix安装包（官网版本：zabbix-2.2.9.tar.gz）
-zabbix安装脚本 
+<meta property="og:description" content="&amp;lt;!-- toc --&amp;gt;
+&amp;lt;!-- tocstop --&amp;gt;
 
-安装步骤
-修改zabbix_agentd程序的磁盘路径添加下面两句到#!/bin/bash之后，解决service myservicedoes not support chkconfig问题1# chkconfig: 2345 10 90 &amp;#10;# descrip">
+#&amp;#x51C6;&amp;#x5907;&amp;#x5185;&amp;#x5BB9;
+
+zabbix&amp;#x5B89;&amp;#x88C5;&amp;#x5305;&amp;#xFF08;&amp;#x5B98;&amp;#x7F51;&amp;#x7248;&amp;#x672C;&amp;#xFF1A;zabbix-2.2.9.tar.gz&amp;#xFF09;
+zabbix&amp;#x5B89;&amp;#x88C5;&amp;#x811">
 <meta property="og:image" content="http://geosmart.github.io/zabbix.png">
-<meta property="og:updated_time" content="2015-06-28T12:18:01.757Z">
+<meta property="og:updated_time" content="2015-06-29T07:34:29.013Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Zabbix-Agent安装脚本">
-<meta name="twitter:description" content="//[TOC]目录无效
-准备内容
-zabbix安装包（官网版本：zabbix-2.2.9.tar.gz）
-zabbix安装脚本 
+<meta name="twitter:description" content="&amp;lt;!-- toc --&amp;gt;
+&amp;lt;!-- tocstop --&amp;gt;
 
-安装步骤
-修改zabbix_agentd程序的磁盘路径添加下面两句到#!/bin/bash之后，解决service myservicedoes not support chkconfig问题1# chkconfig: 2345 10 90 &amp;#10;# descrip">
+#&amp;#x51C6;&amp;#x5907;&amp;#x5185;&amp;#x5BB9;
+
+zabbix&amp;#x5B89;&amp;#x88C5;&amp;#x5305;&amp;#xFF08;&amp;#x5B98;&amp;#x7F51;&amp;#x7248;&amp;#x672C;&amp;#xFF1A;zabbix-2.2.9.tar.gz&amp;#xFF09;
+zabbix&amp;#x5B89;&amp;#x88C5;&amp;#x811">
   
   
     <link rel="icon" href="/favicon.png">
@@ -126,50 +126,73 @@ zabbix安装脚本
         </header>
       
       <p class="article-byline">
-        <a href="/2015/06/28/zabbix-agent安装脚本/" class="article-date">
-  <time datetime="2015-06-28T06:17:15.000Z" itemprop="datePublished">2015-06-28</time>
+        <a href="/2015/06/29/zabbix-agent安装脚本/" class="article-date">
+  <time datetime="2015-06-29T07:33:38.000Z" itemprop="datePublished">2015-06-29</time>
 </a>
       </p>
       <div class="article-entry" itemprop="articleBody">
-        <p><img src="zabbix.png" alt="zabbix"><br>//[TOC]目录无效</p>
-<h1 id="准备内容">准备内容</h1><ol>
-<li><a href="http://sourceforge.net/projects/zabbix/files/ZABBIX%20Latest%20Stable/2.2.9/zabbix-2.2.9.tar.gz/download" target="_blank" rel="external">zabbix安装包（官网版本：zabbix-2.2.9.tar.gz）</a></li>
-<li><a href="install-zabbix_agent.sh">zabbix安装脚本</a> </li>
-</ol>
-<h1 id="安装步骤">安装步骤</h1><ol>
-<li>修改zabbix_agentd程序的磁盘路径<br>添加下面两句到<code>#!/bin/bash</code>之后，解决<code>service myservicedoes not support chkconfig</code>问题<figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"># chkconfig: 2345 10 90 &#10;# description:zabbix....</span><br></pre></td></tr></table></figure>
-</li>
-</ol>
-<p>修改zabbix_agentd主程序路径<br><figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"># vim /usr/local/zabbix/misc/init.d/tru64/zabbix_agentd &#10;DAEMON=/usr/local/zabbix/sbin/zabbix_agentd</span><br></pre></td></tr></table></figure></p>
+        <!-- toc -->
+<!-- tocstop -->
+<p><img src="zabbix.png" alt="zabbix">
+#&#x51C6;&#x5907;&#x5185;&#x5BB9;</p>
 <ol>
-<li>编辑zabbix_agentd配置文件 <pre><code class="Shell">$ vim /usr/local/zabbix/etc/zabbix_agentd.conf  &#10;LogFile=/tmp/zabbix_agentd.log &#10;#&#26381;&#21153;&#31471;IP  &#10;Server=192.168.1.80&#10;#&#26381;&#21153;&#31471;IP   &#10;ServerActive= 192.168.1.80&#10;#&#23458;&#25143;&#31471;IP&#19982;zabbix-web&#37197;&#32622;&#19978;&#30340;hostName&#19968;&#33268;   &#10;Hostname=192.168.1.81&#10;UnsafeUserParameters=1
-</code></pre>
-</li>
-<li><p>执行安装脚本</p>
-<pre><code class="Shell">cd usr/local/zabbix/sbin/install-zabbix_agentd.sh&#10;chmod +x install-zabbix_agentd.sh &#10;sudo ./install-zabbix_agentd.sh
-</code></pre>
-<h1 id="相关操作">相关操作</h1><p>1、若zabbix的host无法访问，考虑防火墙是否需要关闭/加入信任端口</p>
-<pre><code class="Shell">#&#26597;&#30475;&#38450;&#28779;&#22681;&#29366;&#24577;&#10;service iptables status &#10;#&#20851;&#38381;&#38450;&#28779;&#22681; &#10;service iptables stop
-</code></pre>
-</li>
-<li><p>查看Zabbix Agent是否已启动</p>
-<pre><code class="Shell">netstat -utlnp | grep zabbix
-</code></pre>
-</li>
-<li><p>配置文件更新后，需重启客户端服务</p>
-<pre><code class="Shell">service zabbix_agentd restart
-</code></pre>
-</li>
+<li><a href="http://sourceforge.net/projects/zabbix/files/ZABBIX%20Latest%20Stable/2.2.9/zabbix-2.2.9.tar.gz/download" target="_blank" rel="external">zabbix&#x5B89;&#x88C5;&#x5305;&#xFF08;&#x5B98;&#x7F51;&#x7248;&#x672C;&#xFF1A;zabbix-2.2.9.tar.gz&#xFF09;</a></li>
+<li><a href="install-zabbix_agent.sh">zabbix&#x5B89;&#x88C5;&#x811A;&#x672C;</a></li>
 </ol>
+<p>#&#x5B89;&#x88C5;&#x6B65;&#x9AA4;</p>
+<ol>
+<li>&#x4FEE;&#x6539;zabbix_agentd&#x7A0B;&#x5E8F;&#x7684;&#x78C1;&#x76D8;&#x8DEF;&#x5F84;<br>
+&#x6DFB;&#x52A0;&#x4E0B;&#x9762;&#x4E24;&#x53E5;&#x5230;<code>#!/bin/bash</code>&#x4E4B;&#x540E;&#xFF0C;&#x89E3;&#x51B3;<code>service myservicedoes not support chkconfig</code>&#x95EE;&#x9898;</li>
+</ol>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># chkconfig: 2345 10 90 </span></span><br><span class="line"><span class="comment"># description:zabbix....</span></span><br></pre></td></tr></table></figure>
+<p>&#x4FEE;&#x6539;zabbix_agentd&#x4E3B;&#x7A0B;&#x5E8F;&#x8DEF;&#x5F84;</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># vim /usr/local/zabbix/misc/init.d/tru64/zabbix_agentd </span></span><br><span class="line">DAEMON=/usr/<span class="built_in">local</span>/zabbix/sbin/zabbix_agentd</span><br></pre></td></tr></table></figure>
+<ol start="2">
+<li>&#x7F16;&#x8F91;zabbix_agentd&#x914D;&#x7F6E;&#x6587;&#x4EF6;
+<code>vim /usr/local/zabbix/etc/zabbix_agentd.conf</code></li>
+</ol>
+<pre><code class="language-bash">LogFile=/tmp/zabbix_agentd.log 
+#&#x670D;&#x52A1;&#x7AEF;IP  
+Server=192.168.1.80
+#&#x670D;&#x52A1;&#x7AEF;IP   
+ServerActive= 192.168.1.80
+#&#x5BA2;&#x6237;&#x7AEF;IP&#x4E0E;zabbix-web&#x914D;&#x7F6E;&#x4E0A;&#x7684;hostName&#x4E00;&#x81F4;   
+Hostname=192.168.1.81
+UnsafeUserParameters=1  
+</code></pre>
+<ol start="3">
+<li>&#x6267;&#x884C;&#x5B89;&#x88C5;&#x811A;&#x672C;</li>
+</ol>
+<pre><code class="language-bash">cd usr/local/zabbix/sbin/install-zabbix_agentd.sh
+chmod +x install-zabbix_agentd.sh 
+sudo ./install-zabbix_agentd.sh
+</code></pre>
+<p>#&#x76F8;&#x5173;&#x64CD;&#x4F5C;
+1&#x3001;&#x82E5;zabbix&#x7684;host&#x65E0;&#x6CD5;&#x8BBF;&#x95EE;&#xFF0C;&#x8003;&#x8651;&#x9632;&#x706B;&#x5899;&#x662F;&#x5426;&#x9700;&#x8981;&#x5173;&#x95ED;/&#x52A0;&#x5165;&#x4FE1;&#x4EFB;&#x7AEF;&#x53E3;</p>
+<pre><code class="language-bash">#&#x67E5;&#x770B;&#x9632;&#x706B;&#x5899;&#x72B6;&#x6001;
+service iptables status 
+#&#x5173;&#x95ED;&#x9632;&#x706B;&#x5899; 
+service iptables stop  
+</code></pre>
+<ol start="2">
+<li>&#x67E5;&#x770B;Zabbix Agent&#x662F;&#x5426;&#x5DF2;&#x542F;&#x52A8;</li>
+</ol>
+<pre><code class="language-bash">netstat -utlnp | grep zabbix 
+</code></pre>
+<ol start="3">
+<li>&#x914D;&#x7F6E;&#x6587;&#x4EF6;&#x66F4;&#x65B0;&#x540E;&#xFF0C;&#x9700;&#x91CD;&#x542F;&#x5BA2;&#x6237;&#x7AEF;&#x670D;&#x52A1;</li>
+</ol>
+<pre><code class="language-bash">service zabbix_agentd restart
+</code></pre>
 
       </div>
       <footer class="article-footer">
-        <a data-url="http://geosmart.github.io/2015/06/28/zabbix-agent安装脚本/" data-id="cibggurs7000a5gpab7qad7ya" class="article-share-link">分享到</a>
+        <a data-url="http://geosmart.github.io/2015/06/29/zabbix-agent安装脚本/" data-id="cibhliw40000a1sparaw08baa" class="article-share-link">分享到</a>
         
-          <a href="http://geosmart.github.io/2015/06/28/zabbix-agent安装脚本/#comments" class="article-comment-link">评论</a>
+          <a href="http://geosmart.github.io/2015/06/29/zabbix-agent安装脚本/#comments" class="article-comment-link">评论</a>
         
         
-  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/CentOS/">CentOS</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/监控/">监控</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/运维/">运维</a></li></ul>
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/CentOS/">CentOS</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/数据库/">数据库</a></li></ul>
 
       </footer>
     </div>
@@ -179,7 +202,7 @@ zabbix安装脚本
 <section id="comments">
     <!-- ��˵���ۿ� start -->
     <div class="ds-thread" data-thread-key="post-zabbix-agent安装脚本" data-title="Zabbix-Agent安装脚本"
-         data-url="http://geosmart.github.io/2015/06/28/zabbix-agent安装脚本/"></div>
+         data-url="http://geosmart.github.io/2015/06/29/zabbix-agent安装脚本/"></div>
     <!-- ��˵���ۿ� end -->
     <!-- ��˵����JS���� start (һ����ҳֻ������һ��) -->
     <script type="text/javascript">
@@ -221,20 +244,10 @@ zabbix安装脚本
     
 <nav id="article-nav">
   
-    <a href="/2015/06/28/zabbix-server安装脚本/" id="article-nav-newer" class="article-nav-link-wrap">
-      <strong class="article-nav-caption">下一篇</strong>
-      <p class="article-nav-title">
-        
-          Zabbix-Server安装脚本
-        
-      </p>
-      <i class="icon" id="icon-chevron-right"></i>
-    </a>
   
-  
-    <a href="/2015/06/28/jetty手动安装脚本/" id="article-nav-older" class="article-nav-link-wrap">
+    <a href="/2015/06/28/mongodb安装脚本/" id="article-nav-older" class="article-nav-link-wrap">
       <strong class="article-nav-caption">上一篇</strong>
-      <p class="article-nav-title">Jetty手动安装脚本</p>
+      <p class="article-nav-title">Mongodb安装脚本</p>
       <i class="icon" id="icon-chevron-left"></i>
     </a>
   
@@ -248,6 +261,26 @@ zabbix安装脚本
     <h3 class="widget-title">最新文章</h3>
     <div class="widget">
       <ul id="recent-post" class="">
+        
+          <li>
+            
+            <div class="item-thumbnail">
+              
+<a href="/2015/06/29/zabbix-agent安装脚本/" class="thumbnail">
+  
+    <span style="background-image:url(/2015/06/29/zabbix-agent安装脚本/zabbix.png
+)" alt="Zabbix-Agent安装脚本" class="thumbnail-image"></span>
+  
+</a>
+
+            </div>
+            
+            <div class="item-inner">
+              <p class="item-category"><a class="article-category-link" href="/categories/技术点滴/">技术点滴</a></p>
+              <p class="item-title"><a href="/2015/06/29/zabbix-agent安装脚本/" class="title">Zabbix-Agent安装脚本</a></p>
+              <p class="item-date"><time datetime="2015-06-29T07:33:38.000Z" itemprop="datePublished">2015-06-29</time></p>
+            </div>
+          </li>
         
           <li>
             
@@ -285,26 +318,6 @@ zabbix安装脚本
             <div class="item-inner">
               <p class="item-category"><a class="article-category-link" href="/categories/技术点滴/">技术点滴</a></p>
               <p class="item-title"><a href="/2015/06/28/zabbix-server安装脚本/" class="title">Zabbix-Server安装脚本</a></p>
-              <p class="item-date"><time datetime="2015-06-28T06:17:15.000Z" itemprop="datePublished">2015-06-28</time></p>
-            </div>
-          </li>
-        
-          <li>
-            
-            <div class="item-thumbnail">
-              
-<a href="/2015/06/28/zabbix-agent安装脚本/" class="thumbnail">
-  
-    <span style="background-image:url(/2015/06/28/zabbix-agent安装脚本/zabbix.png
-)" alt="Zabbix-Agent安装脚本" class="thumbnail-image"></span>
-  
-</a>
-
-            </div>
-            
-            <div class="item-inner">
-              <p class="item-category"><a class="article-category-link" href="/categories/技术点滴/">技术点滴</a></p>
-              <p class="item-title"><a href="/2015/06/28/zabbix-agent安装脚本/" class="title">Zabbix-Agent安装脚本</a></p>
               <p class="item-date"><time datetime="2015-06-28T06:17:15.000Z" itemprop="datePublished">2015-06-28</time></p>
             </div>
           </li>
@@ -376,7 +389,7 @@ zabbix安装脚本
   <div class="widget-wrap widget-list">
     <h3 class="widget-title">标签</h3>
     <div class="widget">
-      <ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="/tags/CentOS/">CentOS</a><span class="tag-list-count">5</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Web服务器/">Web服务器</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/数据库/">数据库</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/监控/">监控</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/运维/">运维</a><span class="tag-list-count">2</span></li></ul>
+      <ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="/tags/CentOS/">CentOS</a><span class="tag-list-count">5</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Web服务器/">Web服务器</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/数据库/">数据库</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/监控/">监控</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/运维/">运维</a><span class="tag-list-count">1</span></li></ul>
     </div>
   </div>
 
@@ -386,7 +399,7 @@ zabbix安装脚本
   <div class="widget-wrap widget-float">
     <h3 class="widget-title">标签云</h3>
     <div class="widget tagcloud">
-      <a href="/tags/CentOS/" style="font-size: 20px;">CentOS</a> <a href="/tags/Web服务器/" style="font-size: 15px;">Web服务器</a> <a href="/tags/数据库/" style="font-size: 10px;">数据库</a> <a href="/tags/监控/" style="font-size: 15px;">监控</a> <a href="/tags/运维/" style="font-size: 15px;">运维</a>
+      <a href="/tags/CentOS/" style="font-size: 20px;">CentOS</a> <a href="/tags/Web服务器/" style="font-size: 15px;">Web服务器</a> <a href="/tags/数据库/" style="font-size: 15px;">数据库</a> <a href="/tags/监控/" style="font-size: 10px;">监控</a> <a href="/tags/运维/" style="font-size: 10px;">运维</a>
     </div>
   </div>
 

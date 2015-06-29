@@ -1526,11 +1526,13 @@ a.article-title:hover {
 .article-entry pre,
 .article-entry .highlight {
   background: #2d2d2d;
-  margin: 0px;
+  margin: auto;
   padding: 15px 20px;
   border-style: solid;
   border-color: #ddd;
-  border-width: 1px 0;
+  border-width: 0px 0;
+  -webkit-border-radius: 5px;
+  border-radius: 5px;
   overflow: auto;
   color: #ccc;
   line-height: 22.400000000000002px;
@@ -1546,9 +1548,14 @@ a.article-title:hover {
   font-family: "Source Code Pro", Consolas, Monaco, Menlo, Consolas, monospace;
 }
 .article-entry code {
-  background: #eaeaea;
+  color: #666;
+  -webkit-border-radius: 3px;
+  border-radius: 3px;
+  border-width: 1px;
+  border-color: #fff;
   text-shadow: 0 1px #fff;
-  padding: 0 0.3em;
+  padding: 0.1em 0.3em;
+  background: #e3e3e3;
 }
 .article-entry pre code {
   background: none;
@@ -1563,6 +1570,8 @@ a.article-title:hover {
 .article-entry .highlight table {
   margin: 0;
   width: auto;
+  font-size: 14px;
+  letter-spacing: 1px;
 }
 .article-entry .highlight td {
   border: none;

@@ -5,25 +5,37 @@
   
   <title>Jetty手动安装脚本 | geosmart</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="安装步骤将文件复制到CentOS后进行安装
+  <meta name="description" content="&amp;lt;!-- toc --&amp;gt;
+&amp;lt;!-- tocstop --&amp;gt;
+#&amp;#x5B89;&amp;#x88C5;&amp;#x6B65;&amp;#x9AA4;
+&amp;#x5C06;&amp;#x6587;&amp;#x4EF6;&amp;#x590D;&amp;#x5236;&amp;#x5230;CentOS&amp;#x540E;&amp;#x8FDB;&amp;#x884C;&amp;#x5B89;&amp;#x88C5;
 
-下载解压Jetty
-1cd /tmp&amp;#10;wget http://eclipse.org/downloads/download.php?file=/jetty/stable-9/dist/jetty-distribution-9.3.0.v20150612.tar.gz&amp;#38;r=1 &amp;#10;tar -xzvf  jetty-distribut">
+&amp;#x4E0B;&amp;#x8F7D;&amp;#x89E3;&amp;#x538B;Jetty
+
+1">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Jetty手动安装脚本">
 <meta property="og:url" content="http://geosmart.github.io/2015/06/28/jetty手动安装脚本/index.html">
 <meta property="og:site_name" content="geosmart">
-<meta property="og:description" content="安装步骤将文件复制到CentOS后进行安装
+<meta property="og:description" content="&amp;lt;!-- toc --&amp;gt;
+&amp;lt;!-- tocstop --&amp;gt;
+#&amp;#x5B89;&amp;#x88C5;&amp;#x6B65;&amp;#x9AA4;
+&amp;#x5C06;&amp;#x6587;&amp;#x4EF6;&amp;#x590D;&amp;#x5236;&amp;#x5230;CentOS&amp;#x540E;&amp;#x8FDB;&amp;#x884C;&amp;#x5B89;&amp;#x88C5;
 
-下载解压Jetty
-1cd /tmp&amp;#10;wget http://eclipse.org/downloads/download.php?file=/jetty/stable-9/dist/jetty-distribution-9.3.0.v20150612.tar.gz&amp;#38;r=1 &amp;#10;tar -xzvf  jetty-distribut">
-<meta property="og:updated_time" content="2015-06-28T12:34:36.029Z">
+&amp;#x4E0B;&amp;#x8F7D;&amp;#x89E3;&amp;#x538B;Jetty
+
+1">
+<meta property="og:updated_time" content="2015-06-29T07:35:42.549Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Jetty手动安装脚本">
-<meta name="twitter:description" content="安装步骤将文件复制到CentOS后进行安装
+<meta name="twitter:description" content="&amp;lt;!-- toc --&amp;gt;
+&amp;lt;!-- tocstop --&amp;gt;
+#&amp;#x5B89;&amp;#x88C5;&amp;#x6B65;&amp;#x9AA4;
+&amp;#x5C06;&amp;#x6587;&amp;#x4EF6;&amp;#x590D;&amp;#x5236;&amp;#x5230;CentOS&amp;#x540E;&amp;#x8FDB;&amp;#x884C;&amp;#x5B89;&amp;#x88C5;
 
-下载解压Jetty
-1cd /tmp&amp;#10;wget http://eclipse.org/downloads/download.php?file=/jetty/stable-9/dist/jetty-distribution-9.3.0.v20150612.tar.gz&amp;#38;r=1 &amp;#10;tar -xzvf  jetty-distribut">
+&amp;#x4E0B;&amp;#x8F7D;&amp;#x89E3;&amp;#x538B;Jetty
+
+1">
   
   
     <link rel="icon" href="/favicon.png">
@@ -121,33 +133,39 @@
 </a>
       </p>
       <div class="article-entry" itemprop="articleBody">
-        <p><img src="" alt="jetty"> </p>
-<h1 id="安装步骤">安装步骤</h1><p>将文件复制到CentOS后进行安装</p>
+        <!-- toc -->
+<!-- tocstop -->
+<p>#&#x5B89;&#x88C5;&#x6B65;&#x9AA4;
+&#x5C06;&#x6587;&#x4EF6;&#x590D;&#x5236;&#x5230;CentOS&#x540E;&#x8FDB;&#x884C;&#x5B89;&#x88C5;</p>
 <ol>
-<li><p>下载解压Jetty</p>
-<figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">cd /tmp&#10;wget http://eclipse.org/downloads/download.php?file=/jetty/stable-9/dist/jetty-distribution-9.3.0.v20150612.tar.gz&#38;r=1 &#10;tar -xzvf  jetty-distribution-9.3.0.v20150612.tar.gz &#10;mv jetty-distribution-9.1.1.v20140108 /usr/local/jetty</span><br></pre></td></tr></table></figure>
-</li>
-<li><p>新建用户&gt;配置jetty所属权限</p>
-<figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">useradd -m jetty &#10;chown -R jetty:jetty /usr/local/jetty/</span><br></pre></td></tr></table></figure>
-</li>
-<li><p>安装到系统服务</p>
-<figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ln -s /usr/local/jetty/bin/jetty.sh /etc/init.d/jetty&#10;chkconfig --add jetty &#10;chkconfig --level 345 jetty on</span><br></pre></td></tr></table></figure>
-</li>
-<li><p>编辑启动脚本 </p>
-<figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">vim /etc/default/jetty &#10;&#10;JETTY_HOME=/usr/local/jetty &#10;JETTY_USER=jetty &#10;JETTY_PORT=8080&#10;JETTY_LOGS=/usr/local/jetty/logs/</span><br></pre></td></tr></table></figure>
-</li>
-<li><p>启动服务-测试</p>
-<pre><code class="Shell">service jetty start&#10;curl localhost:8080
-</code></pre>
-</li>
+<li>&#x4E0B;&#x8F7D;&#x89E3;&#x538B;Jetty</li>
 </ol>
-<p>6.常用操作指令</p>
-<pre><code class="Shell">jetty [-d] {start|stop|run|restart|check|supervise} [ CONFIGS ... ]
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">cd</span> /tmp</span><br><span class="line">wget http://eclipse.org/downloads/download.php?file=/jetty/stable-<span class="number">9</span>/dist/jetty-distribution-<span class="number">9.3</span>.<span class="number">0</span>.v20150612.tar.gz&amp;r=<span class="number">1</span> </span><br><span class="line">tar -xzvf  jetty-distribution-<span class="number">9.3</span>.<span class="number">0</span>.v20150612.tar.gz </span><br><span class="line">mv jetty-distribution-<span class="number">9.1</span>.<span class="number">1</span>.v20140108 /usr/<span class="built_in">local</span>/jetty</span><br></pre></td></tr></table></figure>
+<ol start="2">
+<li>&#x65B0;&#x5EFA;&#x7528;&#x6237;&gt;&#x914D;&#x7F6E;jetty&#x6240;&#x5C5E;&#x6743;&#x9650;</li>
+</ol>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">useradd -m jetty </span><br><span class="line">chown -R jetty:jetty /usr/<span class="built_in">local</span>/jetty/</span><br></pre></td></tr></table></figure>
+<ol start="3">
+<li>&#x5B89;&#x88C5;&#x5230;&#x7CFB;&#x7EDF;&#x670D;&#x52A1;</li>
+</ol>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">ln <span class="operator">-s</span> /usr/<span class="built_in">local</span>/jetty/bin/jetty.sh /etc/init.d/jetty</span><br><span class="line">chkconfig --add jetty </span><br><span class="line">chkconfig --level <span class="number">345</span> jetty on</span><br></pre></td></tr></table></figure>
+<ol start="4">
+<li>&#x7F16;&#x8F91;&#x542F;&#x52A8;&#x811A;&#x672C;</li>
+</ol>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">vim /etc/default/jetty </span><br><span class="line"></span><br><span class="line">JETTY_HOME=/usr/<span class="built_in">local</span>/jetty </span><br><span class="line">JETTY_USER=jetty </span><br><span class="line">JETTY_PORT=<span class="number">8080</span></span><br><span class="line">JETTY_LOGS=/usr/<span class="built_in">local</span>/jetty/logs/</span><br></pre></td></tr></table></figure>
+<ol start="5">
+<li>&#x542F;&#x52A8;&#x670D;&#x52A1;-&#x6D4B;&#x8BD5;</li>
+</ol>
+<pre><code class="language-bash">service jetty start
+curl localhost:8080
+</code></pre>
+<p>6.&#x5E38;&#x7528;&#x64CD;&#x4F5C;&#x6307;&#x4EE4;</p>
+<pre><code class="language-bash">jetty [-d] {start|stop|run|restart|check|supervise} [ CONFIGS ... ]
 </code></pre>
 
       </div>
       <footer class="article-footer">
-        <a data-url="http://geosmart.github.io/2015/06/28/jetty手动安装脚本/" data-id="cibggurus000k5gpa6gft3992" class="article-share-link">分享到</a>
+        <a data-url="http://geosmart.github.io/2015/06/28/jetty手动安装脚本/" data-id="cibhliw59000j1spa8e6royq7" class="article-share-link">分享到</a>
         
           <a href="http://geosmart.github.io/2015/06/28/jetty手动安装脚本/#comments" class="article-comment-link">评论</a>
         
@@ -204,11 +222,11 @@
     
 <nav id="article-nav">
   
-    <a href="/2015/06/28/zabbix-agent安装脚本/" id="article-nav-newer" class="article-nav-link-wrap">
+    <a href="/2015/06/28/zabbix-server安装脚本/" id="article-nav-newer" class="article-nav-link-wrap">
       <strong class="article-nav-caption">下一篇</strong>
       <p class="article-nav-title">
         
-          Zabbix-Agent安装脚本
+          Zabbix-Server安装脚本
         
       </p>
       <i class="icon" id="icon-chevron-right"></i>
@@ -231,6 +249,26 @@
     <h3 class="widget-title">最新文章</h3>
     <div class="widget">
       <ul id="recent-post" class="">
+        
+          <li>
+            
+            <div class="item-thumbnail">
+              
+<a href="/2015/06/29/zabbix-agent安装脚本/" class="thumbnail">
+  
+    <span style="background-image:url(/2015/06/29/zabbix-agent安装脚本/zabbix.png
+)" alt="Zabbix-Agent安装脚本" class="thumbnail-image"></span>
+  
+</a>
+
+            </div>
+            
+            <div class="item-inner">
+              <p class="item-category"><a class="article-category-link" href="/categories/技术点滴/">技术点滴</a></p>
+              <p class="item-title"><a href="/2015/06/29/zabbix-agent安装脚本/" class="title">Zabbix-Agent安装脚本</a></p>
+              <p class="item-date"><time datetime="2015-06-29T07:33:38.000Z" itemprop="datePublished">2015-06-29</time></p>
+            </div>
+          </li>
         
           <li>
             
@@ -268,26 +306,6 @@
             <div class="item-inner">
               <p class="item-category"><a class="article-category-link" href="/categories/技术点滴/">技术点滴</a></p>
               <p class="item-title"><a href="/2015/06/28/zabbix-server安装脚本/" class="title">Zabbix-Server安装脚本</a></p>
-              <p class="item-date"><time datetime="2015-06-28T06:17:15.000Z" itemprop="datePublished">2015-06-28</time></p>
-            </div>
-          </li>
-        
-          <li>
-            
-            <div class="item-thumbnail">
-              
-<a href="/2015/06/28/zabbix-agent安装脚本/" class="thumbnail">
-  
-    <span style="background-image:url(/2015/06/28/zabbix-agent安装脚本/zabbix.png
-)" alt="Zabbix-Agent安装脚本" class="thumbnail-image"></span>
-  
-</a>
-
-            </div>
-            
-            <div class="item-inner">
-              <p class="item-category"><a class="article-category-link" href="/categories/技术点滴/">技术点滴</a></p>
-              <p class="item-title"><a href="/2015/06/28/zabbix-agent安装脚本/" class="title">Zabbix-Agent安装脚本</a></p>
               <p class="item-date"><time datetime="2015-06-28T06:17:15.000Z" itemprop="datePublished">2015-06-28</time></p>
             </div>
           </li>
@@ -359,7 +377,7 @@
   <div class="widget-wrap widget-list">
     <h3 class="widget-title">标签</h3>
     <div class="widget">
-      <ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="/tags/CentOS/">CentOS</a><span class="tag-list-count">5</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Web服务器/">Web服务器</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/数据库/">数据库</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/监控/">监控</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/运维/">运维</a><span class="tag-list-count">2</span></li></ul>
+      <ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="/tags/CentOS/">CentOS</a><span class="tag-list-count">5</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Web服务器/">Web服务器</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/数据库/">数据库</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/监控/">监控</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/运维/">运维</a><span class="tag-list-count">1</span></li></ul>
     </div>
   </div>
 
@@ -369,7 +387,7 @@
   <div class="widget-wrap widget-float">
     <h3 class="widget-title">标签云</h3>
     <div class="widget tagcloud">
-      <a href="/tags/CentOS/" style="font-size: 20px;">CentOS</a> <a href="/tags/Web服务器/" style="font-size: 15px;">Web服务器</a> <a href="/tags/数据库/" style="font-size: 10px;">数据库</a> <a href="/tags/监控/" style="font-size: 15px;">监控</a> <a href="/tags/运维/" style="font-size: 15px;">运维</a>
+      <a href="/tags/CentOS/" style="font-size: 20px;">CentOS</a> <a href="/tags/Web服务器/" style="font-size: 15px;">Web服务器</a> <a href="/tags/数据库/" style="font-size: 15px;">数据库</a> <a href="/tags/监控/" style="font-size: 10px;">监控</a> <a href="/tags/运维/" style="font-size: 10px;">运维</a>
     </div>
   </div>
 

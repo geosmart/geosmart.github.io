@@ -1,0 +1,330 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+  
+  <title><![CDATA[geosmart]]></title>
+  <subtitle><![CDATA[生命不止 奋斗不息]]></subtitle>
+  <link href="/atom.xml" rel="self"/>
+  <link href="http://geosmart.github.io//"/>
+  <updated>2015-06-29T07:34:29.013Z</updated>
+  <id>http://geosmart.github.io//</id>
+  
+  <author>
+    <name><![CDATA[geosmart]]></name>
+    
+  </author>
+  
+  <generator uri="http://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title><![CDATA[Zabbix-Agent安装脚本]]></title>
+    <link href="http://geosmart.github.io/2015/06/29/zabbix-agent%E5%AE%89%E8%A3%85%E8%84%9A%E6%9C%AC/"/>
+    <id>http://geosmart.github.io/2015/06/29/zabbix-agent安装脚本/</id>
+    <published>2015-06-29T07:33:38.000Z</published>
+    <updated>2015-06-29T07:34:29.013Z</updated>
+    <content type="html"><![CDATA[<!-- toc -->
+<!-- tocstop -->
+<p><img src="zabbix.png" alt="zabbix">
+#&#x51C6;&#x5907;&#x5185;&#x5BB9;</p>
+<ol>
+<li><a href="http://sourceforge.net/projects/zabbix/files/ZABBIX%20Latest%20Stable/2.2.9/zabbix-2.2.9.tar.gz/download" target="_blank" rel="external">zabbix&#x5B89;&#x88C5;&#x5305;&#xFF08;&#x5B98;&#x7F51;&#x7248;&#x672C;&#xFF1A;zabbix-2.2.9.tar.gz&#xFF09;</a></li>
+<li><a href="install-zabbix_agent.sh">zabbix&#x5B89;&#x88C5;&#x811A;&#x672C;</a></li>
+</ol>
+<p>#&#x5B89;&#x88C5;&#x6B65;&#x9AA4;</p>
+<ol>
+<li>&#x4FEE;&#x6539;zabbix_agentd&#x7A0B;&#x5E8F;&#x7684;&#x78C1;&#x76D8;&#x8DEF;&#x5F84;<br>
+&#x6DFB;&#x52A0;&#x4E0B;&#x9762;&#x4E24;&#x53E5;&#x5230;<code>#!/bin/bash</code>&#x4E4B;&#x540E;&#xFF0C;&#x89E3;&#x51B3;<code>service myservicedoes not support chkconfig</code>&#x95EE;&#x9898;</li>
+</ol>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># chkconfig: 2345 10 90 </span></span><br><span class="line"><span class="comment"># description:zabbix....</span></span><br></pre></td></tr></table></figure>
+<p>&#x4FEE;&#x6539;zabbix_agentd&#x4E3B;&#x7A0B;&#x5E8F;&#x8DEF;&#x5F84;</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># vim /usr/local/zabbix/misc/init.d/tru64/zabbix_agentd </span></span><br><span class="line">DAEMON=/usr/<span class="built_in">local</span>/zabbix/sbin/zabbix_agentd</span><br></pre></td></tr></table></figure>
+<ol start="2">
+<li>&#x7F16;&#x8F91;zabbix_agentd&#x914D;&#x7F6E;&#x6587;&#x4EF6;
+<code>vim /usr/local/zabbix/etc/zabbix_agentd.conf</code></li>
+</ol>
+<pre><code class="language-bash">LogFile=/tmp/zabbix_agentd.log 
+#&#x670D;&#x52A1;&#x7AEF;IP  
+Server=192.168.1.80
+#&#x670D;&#x52A1;&#x7AEF;IP   
+ServerActive= 192.168.1.80
+#&#x5BA2;&#x6237;&#x7AEF;IP&#x4E0E;zabbix-web&#x914D;&#x7F6E;&#x4E0A;&#x7684;hostName&#x4E00;&#x81F4;   
+Hostname=192.168.1.81
+UnsafeUserParameters=1  
+</code></pre>
+<ol start="3">
+<li>&#x6267;&#x884C;&#x5B89;&#x88C5;&#x811A;&#x672C;</li>
+</ol>
+<pre><code class="language-bash">cd usr/local/zabbix/sbin/install-zabbix_agentd.sh
+chmod +x install-zabbix_agentd.sh 
+sudo ./install-zabbix_agentd.sh
+</code></pre>
+<p>#&#x76F8;&#x5173;&#x64CD;&#x4F5C;
+1&#x3001;&#x82E5;zabbix&#x7684;host&#x65E0;&#x6CD5;&#x8BBF;&#x95EE;&#xFF0C;&#x8003;&#x8651;&#x9632;&#x706B;&#x5899;&#x662F;&#x5426;&#x9700;&#x8981;&#x5173;&#x95ED;/&#x52A0;&#x5165;&#x4FE1;&#x4EFB;&#x7AEF;&#x53E3;</p>
+<pre><code class="language-bash">#&#x67E5;&#x770B;&#x9632;&#x706B;&#x5899;&#x72B6;&#x6001;
+service iptables status 
+#&#x5173;&#x95ED;&#x9632;&#x706B;&#x5899; 
+service iptables stop  
+</code></pre>
+<ol start="2">
+<li>&#x67E5;&#x770B;Zabbix Agent&#x662F;&#x5426;&#x5DF2;&#x542F;&#x52A8;</li>
+</ol>
+<pre><code class="language-bash">netstat -utlnp | grep zabbix 
+</code></pre>
+<ol start="3">
+<li>&#x914D;&#x7F6E;&#x6587;&#x4EF6;&#x66F4;&#x65B0;&#x540E;&#xFF0C;&#x9700;&#x91CD;&#x542F;&#x5BA2;&#x6237;&#x7AEF;&#x670D;&#x52A1;</li>
+</ol>
+<pre><code class="language-bash">service zabbix_agentd restart
+</code></pre>
+]]></content>
+    <summary type="html">
+    <![CDATA[<!-- toc -->
+<!-- tocstop -->
+<p><img src="zabbix.png" alt="zabbix">
+#&#x51C6;&#x5907;&#x5185;&#x5BB9;</p>
+<ol>
+<li><a href="http://sourcefo]]>
+    </summary>
+    
+      <category term="CentOS" scheme="http://geosmart.github.io/tags/CentOS/"/>
+    
+      <category term="数据库" scheme="http://geosmart.github.io/tags/%E6%95%B0%E6%8D%AE%E5%BA%93/"/>
+    
+      <category term="技术点滴" scheme="http://geosmart.github.io/categories/%E6%8A%80%E6%9C%AF%E7%82%B9%E6%BB%B4/"/>
+    
+  </entry>
+  
+  <entry>
+    <title><![CDATA[Mongodb安装脚本]]></title>
+    <link href="http://geosmart.github.io/2015/06/28/mongodb%E5%AE%89%E8%A3%85%E8%84%9A%E6%9C%AC/"/>
+    <id>http://geosmart.github.io/2015/06/28/mongodb安装脚本/</id>
+    <published>2015-06-28T12:26:00.000Z</published>
+    <updated>2015-06-29T07:35:34.093Z</updated>
+    <content type="html"><![CDATA[<!-- toc -->
+<ul>
+<li><a href="#%E5%AE%89%E8%A3%85%E5%8C%85%E5%87%86%E5%A4%87">&#x5B89;&#x88C5;&#x5305;&#x51C6;&#x5907;</a>
+<ul>
+<li><a href="#%E4%B8%8B%E8%BD%BD%E5%AE%89%E8%A3%85%E5%8C%85%E6%96%87%E4%BB%B6%E4%BA%8C%E8%BF%9B%E5%88%B6%E7%BC%96%E8%AF%91%E7%89%88">&#x4E0B;&#x8F7D;&#x5B89;&#x88C5;&#x5305;&#x6587;&#x4EF6;&#xFF08;&#x4E8C;&#x8FDB;&#x5236;&#x7F16;&#x8BD1;&#x7248;&#xFF09;</a></li>
+<li><a href="#%E9%87%8D%E5%91%BD%E5%90%8D%E6%96%B0%E5%BB%BA%E6%95%B0%E6%8D%AE%E6%97%A5%E5%BF%97%E7%9B%AE%E5%BD%95">&#x91CD;&#x547D;&#x540D;&gt;&#x65B0;&#x5EFA;&#x6570;&#x636E;/&#x65E5;&#x5FD7;&#x76EE;&#x5F55;</a></li>
+</ul>
+</li>
+<li><a href="#%E9%85%8D%E7%BD%AE%E7%8E%AF%E5%A2%83%E5%8F%98%E9%87%8F">&#x914D;&#x7F6E;&#x73AF;&#x5883;&#x53D8;&#x91CF;</a>
+<ul>
+<li><a href="#%E9%85%8D%E7%BD%AEpath">&#x914D;&#x7F6E;PATH</a></li>
+<li><a href="#%E6%9F%A5%E7%9C%8B%E5%BD%93%E5%89%8Dpath">&#x67E5;&#x770B;&#x5F53;&#x524D;PATH</a></li>
+<li><a href="#%E8%AE%A9%E7%8E%AF%E5%A2%83%E5%8F%98%E9%87%8F%E7%94%9F%E6%95%88">&#x8BA9;&#x73AF;&#x5883;&#x53D8;&#x91CF;&#x751F;&#x6548;</a></li>
+</ul>
+</li>
+<li><a href="#%E7%94%A8%E6%88%B7%E6%9D%83%E9%99%90%E8%AE%BE%E7%BD%AEroot%E5%8F%AF%E8%B7%B3%E8%BF%87">&#x7528;&#x6237;&#x6743;&#x9650;&#x8BBE;&#x7F6E;&#xFF08;root&#x53EF;&#x8DF3;&#x8FC7;&#xFF09;</a>
+<ul>
+<li><a href="#%E5%A2%9E%E5%8A%A0%E7%94%A8%E6%88%B7">&#x589E;&#x52A0;&#x7528;&#x6237;</a></li>
+<li><a href="#%E8%AE%BE%E7%BD%AE%E7%9B%AE%E5%BD%95%E6%9D%83%E9%99%90">&#x8BBE;&#x7F6E;&#x76EE;&#x5F55;&#x6743;&#x9650;</a></li>
+</ul>
+</li>
+<li><a href="#%E5%BC%80%E6%9C%BA%E8%87%AA%E5%90%AF%E5%8A%A8%E6%9C%8D%E5%8A%A1">&#x5F00;&#x673A;&#x81EA;&#x542F;&#x52A8;&#x670D;&#x52A1;</a>
+<ul>
+<li><a href="#%E7%BC%96%E5%86%99%E5%90%AF%E5%8A%A8%E6%9C%8D%E5%8A%A1%E9%85%8D%E7%BD%AE%E6%96%87%E4%BB%B6">&#x7F16;&#x5199;&#x542F;&#x52A8;&#x670D;&#x52A1;&#x914D;&#x7F6E;&#x6587;&#x4EF6;</a></li>
+<li><a href="#%E8%AE%BE%E7%BD%AE%E4%B8%BA%E5%BC%80%E6%9C%BA%E5%90%AF%E5%8A%A8%E6%9C%8D%E5%8A%A1">&#x8BBE;&#x7F6E;&#x4E3A;&#x5F00;&#x673A;&#x542F;&#x52A8;&#x670D;&#x52A1;</a></li>
+<li><a href="#%E5%90%AF%E5%8A%A8%E6%9C%8D%E5%8A%A1%E6%B5%8B%E8%AF%95%E6%9C%8D%E5%8A%A1%E7%8A%B6%E6%80%81">&#x542F;&#x52A8;&#x670D;&#x52A1;/&#x6D4B;&#x8BD5;&#x670D;&#x52A1;&#x72B6;&#x6001;</a></li>
+</ul>
+</li>
+<li><a href="#%E5%90%AF%E5%8A%A8mongod%E6%9C%8D%E5%8A%A1">&#x542F;&#x52A8;mongod&#x670D;&#x52A1;</a>
+<ul>
+<li><a href="#mongod-dead-but-subsys-locked">mongod dead but subsys locked</a></li>
+</ul>
+</li>
+</ul>
+<!-- tocstop -->
+<p><img src="nosql.png" alt="nosql"></p>
+<h2 id="&#x5B89;&#x88C5;&#x5305;&#x51C6;&#x5907;"><a class="header-anchor" href="#&#x5B89;&#x88C5;&#x5305;&#x51C6;&#x5907;">&#xB6;</a>&#x5B89;&#x88C5;&#x5305;&#x51C6;&#x5907;</h2>
+<h3 id="&#x4E0B;&#x8F7D;&#x5B89;&#x88C5;&#x5305;&#x6587;&#x4EF6;&#x4E8C;&#x8FDB;&#x5236;&#x7F16;&#x8BD1;&#x7248;"><a class="header-anchor" href="#&#x4E0B;&#x8F7D;&#x5B89;&#x88C5;&#x5305;&#x6587;&#x4EF6;-&#x4E8C;&#x8FDB;&#x5236;&#x7F16;&#x8BD1;&#x7248;">&#xB6;</a>&#x4E0B;&#x8F7D;&#x5B89;&#x88C5;&#x5305;&#x6587;&#x4EF6;&#xFF08;&#x4E8C;&#x8FDB;&#x5236;&#x7F16;&#x8BD1;&#x7248;&#xFF09;</h3>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">mkdir -p /usr/<span class="built_in">local</span>/mongodb</span><br><span class="line"><span class="built_in">cd</span> /usr/<span class="built_in">local</span>/mongodb</span><br><span class="line">wget http://fastdl.mongodb.org/linux/mongodb-linux-x86_64-<span class="number">2.6</span>.<span class="number">3</span>.tgz</span><br><span class="line">tar -zvxf mongodb-linux-x86_64-<span class="number">2.6</span>.<span class="number">3</span>.tgz</span><br></pre></td></tr></table></figure>
+<h3 id="&#x91CD;&#x547D;&#x540D;&#x65B0;&#x5EFA;&#x6570;&#x636E;&#x65E5;&#x5FD7;&#x76EE;&#x5F55;"><a class="header-anchor" href="#&#x91CD;&#x547D;&#x540D;-&#x65B0;&#x5EFA;&#x6570;&#x636E;-&#x65E5;&#x5FD7;&#x76EE;&#x5F55;">&#xB6;</a>&#x91CD;&#x547D;&#x540D;&gt;&#x65B0;&#x5EFA;&#x6570;&#x636E;/&#x65E5;&#x5FD7;&#x76EE;&#x5F55;</h3>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">mv mongodb-linux-x86_64-<span class="number">2.6</span>.<span class="number">3</span> mongodb</span><br><span class="line">mkdir data</span><br><span class="line">mkdir <span class="built_in">log</span></span><br></pre></td></tr></table></figure>
+<h2 id="&#x914D;&#x7F6E;&#x73AF;&#x5883;&#x53D8;&#x91CF;"><a class="header-anchor" href="#&#x914D;&#x7F6E;&#x73AF;&#x5883;&#x53D8;&#x91CF;">&#xB6;</a>&#x914D;&#x7F6E;&#x73AF;&#x5883;&#x53D8;&#x91CF;</h2>
+<p>CentOs&#x4E2D;&#x914D;&#x7F6E;path&#x73AF;&#x5883;&#x53D8;&#x91CF;,&#x786E;&#x4FDD;mongodb&#x7684;bin&#x76EE;&#x5F55;&#x5305;&#x542B;&#x5728;path&#x73AF;&#x5883;&#x53D8;&#x91CF;&#x4E2D;&#x3002;</p>
+<h3 id="&#x914D;&#x7F6E;path"><a class="header-anchor" href="#&#x914D;&#x7F6E;path">&#xB6;</a>&#x914D;&#x7F6E;PATH</h3>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">vim /etc/profile </span><br><span class="line">&#x3000;&#x3000;<span class="comment">#set for mongodb </span></span><br><span class="line">&#x3000;&#x3000;<span class="built_in">export</span> MONGODB_HOME=/usr/<span class="built_in">local</span>/mongodb </span><br><span class="line">&#x3000;&#x3000;<span class="built_in">export</span> PATH=<span class="variable">$MONGODB_HOME</span>/bin:<span class="variable">$PATH</span></span><br></pre></td></tr></table></figure>
+<h3 id="&#x67E5;&#x770B;&#x5F53;&#x524D;path"><a class="header-anchor" href="#&#x67E5;&#x770B;&#x5F53;&#x524D;path">&#xB6;</a>&#x67E5;&#x770B;&#x5F53;&#x524D;PATH</h3>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">echo</span> <span class="variable">$PATH</span></span><br></pre></td></tr></table></figure>
+<h3 id="&#x8BA9;&#x73AF;&#x5883;&#x53D8;&#x91CF;&#x751F;&#x6548;"><a class="header-anchor" href="#&#x8BA9;&#x73AF;&#x5883;&#x53D8;&#x91CF;&#x751F;&#x6548;">&#xB6;</a>&#x8BA9;&#x73AF;&#x5883;&#x53D8;&#x91CF;&#x751F;&#x6548;</h3>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">source</span> /etc/profile</span><br><span class="line">//&#x9A8C;&#x8BC1;&#x73AF;&#x5883;&#x53D8;&#x91CF;&#x662F;&#x5426;&#x751F;&#x6548;</span><br><span class="line">mongod -version</span><br><span class="line"><span class="built_in">echo</span> <span class="variable">$PATH</span></span><br><span class="line">``` </span><br><span class="line"></span><br><span class="line"><span class="comment">## &#x542F;&#x52A8;MongoDB</span></span><br><span class="line"><span class="comment">### &#x914D;&#x7F6E;&#x6587;&#x4EF6; </span></span><br><span class="line">``` bash</span><br><span class="line">vim  /usr/<span class="built_in">local</span>/mongodb/mongodb.conf</span><br><span class="line">//&#x8F93;&#x5165;&#x4EE5;&#x4E0B;&#x5185;&#x5BB9;&#xFF0C;&#x4FDD;&#x5B58;&#x5E76;&#x9000;</span><br><span class="line">//V2.<span class="number">4</span>&#x7248;&#x672C;&#xFF08;<span class="number">2.6</span>&#x4E5F;&#x9002;&#x7528;&#xFF09; </span><br><span class="line">dbpath=/usr/<span class="built_in">local</span>/mongodb/data</span><br><span class="line">logpath=/usr/<span class="built_in">local</span>/mongodb/<span class="built_in">log</span>/mongodb.log</span><br><span class="line">logappend=<span class="literal">true</span></span><br><span class="line">port=<span class="number">27017</span></span><br><span class="line">fork=<span class="literal">true</span></span><br><span class="line">noauth=<span class="literal">true</span></span><br><span class="line">journal=<span class="literal">true</span></span><br><span class="line">smallfiles=<span class="literal">true</span> </span><br><span class="line">//V2.<span class="number">6</span>&#x7248;&#x672C;&#xFF08;YAML&#xFF09;</span><br><span class="line">systemLog:</span><br><span class="line">   destination: file</span><br><span class="line">   path: <span class="string">&quot;/usr/local/mongodb/log/mongodb.log&quot;</span></span><br><span class="line">   <span class="built_in">log</span>Append: <span class="literal">true</span></span><br><span class="line">storage:</span><br><span class="line">     dbPath:<span class="string">&quot;/usr/local/mongodb/data&quot;</span></span><br><span class="line">     journal: enabled: <span class="literal">true</span></span><br><span class="line">processManagement:</span><br><span class="line">   fork: <span class="literal">true</span></span><br><span class="line">net:</span><br><span class="line">   <span class="built_in">bind</span>Ip:<span class="number">192.168</span>.<span class="number">1.121</span></span><br><span class="line">   port: <span class="number">27017</span></span><br><span class="line">security:</span><br><span class="line">     authorization:enabled </span><br><span class="line">```  </span><br><span class="line"><span class="comment">### &#x547D;&#x4EE4;&#x884C;&#x5F62;&#x5F0F;</span></span><br><span class="line">``` Bash</span><br><span class="line">/usr/<span class="built_in">local</span>/mongodb/bin/mongod --dbpath /usr/<span class="built_in">local</span>/mongodb/data --logpath /usr/<span class="built_in">local</span>/mongodb/<span class="built_in">log</span>/mongodb.log  --fork --smallfiles </span><br><span class="line">//&#x53EF;&#x9009;&#xFF1A;--auth</span><br></pre></td></tr></table></figure>
+<h2 id="&#x7528;&#x6237;&#x6743;&#x9650;&#x8BBE;&#x7F6E;root&#x53EF;&#x8DF3;&#x8FC7;"><a class="header-anchor" href="#&#x7528;&#x6237;&#x6743;&#x9650;&#x8BBE;&#x7F6E;-root&#x53EF;&#x8DF3;&#x8FC7;">&#xB6;</a>&#x7528;&#x6237;&#x6743;&#x9650;&#x8BBE;&#x7F6E;&#xFF08;root&#x53EF;&#x8DF3;&#x8FC7;&#xFF09;</h2>
+<h3 id="&#x589E;&#x52A0;&#x7528;&#x6237;"><a class="header-anchor" href="#&#x589E;&#x52A0;&#x7528;&#x6237;">&#xB6;</a>&#x589E;&#x52A0;&#x7528;&#x6237;</h3>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">useradd mongodb -M <span class="operator">-s</span> /sbin/nologin</span><br></pre></td></tr></table></figure>
+<h3 id="&#x8BBE;&#x7F6E;&#x76EE;&#x5F55;&#x6743;&#x9650;"><a class="header-anchor" href="#&#x8BBE;&#x7F6E;&#x76EE;&#x5F55;&#x6743;&#x9650;">&#xB6;</a>&#x8BBE;&#x7F6E;&#x76EE;&#x5F55;&#x6743;&#x9650;</h3>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">chown -R mongodb.mongodb  /usr/<span class="built_in">local</span>/mongodb</span><br></pre></td></tr></table></figure>
+<h2 id="&#x5F00;&#x673A;&#x81EA;&#x542F;&#x52A8;&#x670D;&#x52A1;"><a class="header-anchor" href="#&#x5F00;&#x673A;&#x81EA;&#x542F;&#x52A8;&#x670D;&#x52A1;">&#xB6;</a>&#x5F00;&#x673A;&#x81EA;&#x542F;&#x52A8;&#x670D;&#x52A1;</h2>
+<h3 id="&#x7F16;&#x5199;&#x542F;&#x52A8;&#x670D;&#x52A1;&#x914D;&#x7F6E;&#x6587;&#x4EF6;"><a class="header-anchor" href="#&#x7F16;&#x5199;&#x542F;&#x52A8;&#x670D;&#x52A1;&#x914D;&#x7F6E;&#x6587;&#x4EF6;">&#xB6;</a>&#x7F16;&#x5199;&#x542F;&#x52A8;&#x670D;&#x52A1;&#x914D;&#x7F6E;&#x6587;&#x4EF6;</h3>
+<p><code>rm /etc/init.d/mongod</code>
+<code>vim /etc/init.d/mongod</code></p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br></pre></td><td class="code"><pre><span class="line"><span class="shebang">#!/bin/sh</span></span><br><span class="line"><span class="comment">#</span></span><br><span class="line"><span class="comment"># mongodb      init file for starting up the MongoDB server</span></span><br><span class="line"><span class="comment">#</span></span><br><span class="line"><span class="comment"># chkconfig:   - 20 80</span></span><br><span class="line"><span class="comment"># description: Starts and stops the MongDB daemon that handles all \</span></span><br><span class="line"><span class="comment">#              database requests.</span></span><br><span class="line"><span class="comment"># Source function library.</span></span><br><span class="line"></span><br><span class="line">. /etc/rc.d/init.d/<span class="built_in">functions</span></span><br><span class="line"><span class="built_in">exec</span>=<span class="string">&quot;/usr/local/mongodb/bin/mongod&quot;</span></span><br><span class="line">prog=<span class="string">&quot;mongod&quot;</span></span><br><span class="line">logfile=<span class="string">&quot;/usr/local/mongodb/log/mongodb.log&quot;</span></span><br><span class="line">options=<span class="string">&quot; -f  /usr/local/mongodb/mongodb.conf&quot;</span></span><br><span class="line">[ <span class="operator">-e</span> /etc/sysconfig/<span class="variable">$prog</span> ] &amp;&amp; . /etc/sysconfig/<span class="variable">$prog</span></span><br><span class="line">lockfile=<span class="string">&quot;/var/lock/subsys/mongod&quot;</span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="title">start</span></span>() {</span><br><span class="line">    [ -x <span class="variable">$exec</span> ] || <span class="built_in">exit</span> <span class="number">5</span></span><br><span class="line">    <span class="built_in">echo</span> -n $<span class="string">&quot;Starting <span class="variable">$prog</span>: &quot;</span></span><br><span class="line">    daemon --user mongodb <span class="string">&quot;<span class="variable">$exec</span> --quiet <span class="variable">$options</span> run &gt;&gt; <span class="variable">$logfile</span> 2&gt;&amp;1 &amp;&quot;</span></span><br><span class="line">    retval=$?</span><br><span class="line">    <span class="built_in">echo</span></span><br><span class="line">    [ <span class="variable">$retval</span> <span class="operator">-eq</span> <span class="number">0</span> ] &amp;&amp; touch <span class="variable">$lockfile</span></span><br><span class="line">    <span class="built_in">return</span> <span class="variable">$retval</span></span><br><span class="line">}</span><br><span class="line"><span class="function"><span class="title">stop</span></span>() {</span><br><span class="line">    <span class="built_in">echo</span> -n $<span class="string">&quot;Stopping <span class="variable">$prog</span>: &quot;</span></span><br><span class="line">    killproc <span class="variable">$prog</span></span><br><span class="line">    retval=$?</span><br><span class="line">    <span class="built_in">echo</span></span><br><span class="line">    [ <span class="variable">$retval</span> <span class="operator">-eq</span> <span class="number">0</span> ] &amp;&amp; rm <span class="operator">-f</span> <span class="variable">$lockfile</span></span><br><span class="line">    <span class="built_in">return</span> <span class="variable">$retval</span></span><br><span class="line">}</span><br><span class="line"><span class="function"><span class="title">restart</span></span>() {</span><br><span class="line">    stop</span><br><span class="line">    start</span><br><span class="line">}</span><br><span class="line"><span class="function"><span class="title">reload</span></span>() {</span><br><span class="line">    restart</span><br><span class="line">}</span><br><span class="line"><span class="function"><span class="title">force_reload</span></span>() {</span><br><span class="line">    restart</span><br><span class="line">}</span><br><span class="line"><span class="function"><span class="title">rh_status</span></span>() {</span><br><span class="line">    <span class="comment"># run checks to determine if the service is running or use generic status</span></span><br><span class="line">    status <span class="variable">$prog</span></span><br><span class="line">}</span><br><span class="line"><span class="function"><span class="title">rh_status_q</span></span>() {</span><br><span class="line">    rh_status &gt;/dev/null <span class="number">2</span>&gt;&amp;<span class="number">1</span></span><br><span class="line">}</span><br><span class="line"><span class="keyword">case</span> <span class="string">&quot;<span class="variable">$1</span>&quot;</span> <span class="keyword">in</span></span><br><span class="line">    start)</span><br><span class="line">        rh_status_q &amp;&amp; <span class="built_in">exit</span> <span class="number">0</span></span><br><span class="line">        <span class="variable">$1</span></span><br><span class="line">        ;;</span><br><span class="line">    stop)</span><br><span class="line">        rh_status_q || <span class="built_in">exit</span> <span class="number">0</span></span><br><span class="line">        <span class="variable">$1</span></span><br><span class="line">        ;;</span><br><span class="line">    restart)</span><br><span class="line">        <span class="variable">$1</span></span><br><span class="line">        ;;</span><br><span class="line">    reload)</span><br><span class="line">        rh_status_q || <span class="built_in">exit</span> <span class="number">7</span></span><br><span class="line">        <span class="variable">$1</span></span><br><span class="line">        ;;</span><br><span class="line">    force-reload)</span><br><span class="line">        force_reload</span><br><span class="line">        ;;</span><br><span class="line">    status)</span><br><span class="line">        rh_status</span><br><span class="line">        ;;</span><br><span class="line">    condrestart|try-restart)</span><br><span class="line">        rh_status_q || <span class="built_in">exit</span> <span class="number">0</span></span><br><span class="line">        restart</span><br><span class="line">        ;;</span><br><span class="line">    *)</span><br><span class="line">        <span class="built_in">echo</span> $<span class="string">&quot;Usage: <span class="variable">$0</span> {start|stop|status|restart|condrestart|try-restart|reload|force-reload}&quot;</span></span><br><span class="line">        <span class="built_in">exit</span> <span class="number">2</span></span><br><span class="line"><span class="keyword">esac</span></span><br><span class="line"><span class="built_in">exit</span> $?</span><br></pre></td></tr></table></figure>
+<p>&#x8F93;&#x5165;mongod&#x6587;&#x4EF6;&#x4E2D;&#x7684;&#x5185;&#x5BB9;&#xFF0C;&#x5E76;&#x4E14;&#x4FDD;&#x5B58;&#x9000;&#x51FA;</p>
+<h3 id="&#x8BBE;&#x7F6E;&#x4E3A;&#x5F00;&#x673A;&#x542F;&#x52A8;&#x670D;&#x52A1;"><a class="header-anchor" href="#&#x8BBE;&#x7F6E;&#x4E3A;&#x5F00;&#x673A;&#x542F;&#x52A8;&#x670D;&#x52A1;">&#xB6;</a>&#x8BBE;&#x7F6E;&#x4E3A;&#x5F00;&#x673A;&#x542F;&#x52A8;&#x670D;&#x52A1;</h3>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">chkconfig --add mongod</span><br><span class="line">chkconfig --level <span class="number">345</span> mongod on</span><br><span class="line">chmod <span class="number">777</span>    /etc/init.d/mongod</span><br><span class="line">chmod  <span class="number">777</span>   /usr/<span class="built_in">local</span>/mongodb/<span class="built_in">log</span>/mongodb.log</span><br></pre></td></tr></table></figure>
+<h3 id="&#x542F;&#x52A8;&#x670D;&#x52A1;&#x6D4B;&#x8BD5;&#x670D;&#x52A1;&#x72B6;&#x6001;"><a class="header-anchor" href="#&#x542F;&#x52A8;&#x670D;&#x52A1;-&#x6D4B;&#x8BD5;&#x670D;&#x52A1;&#x72B6;&#x6001;">&#xB6;</a>&#x542F;&#x52A8;&#x670D;&#x52A1;/&#x6D4B;&#x8BD5;&#x670D;&#x52A1;&#x72B6;&#x6001;</h3>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">service mongod start</span><br><span class="line">service mongod status</span><br><span class="line">shutdown -r now</span><br><span class="line">service mongod status</span><br><span class="line">mongo admin</span><br><span class="line">show dbs&#xFF1B;</span><br><span class="line">db.test.find();</span><br><span class="line"><span class="built_in">exit</span></span><br></pre></td></tr></table></figure>
+<h2 id="&#x542F;&#x52A8;mongod&#x670D;&#x52A1;"><a class="header-anchor" href="#&#x542F;&#x52A8;mongod&#x670D;&#x52A1;">&#xB6;</a>&#x542F;&#x52A8;mongod&#x670D;&#x52A1;</h2>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">mongod <span class="operator">-f</span>   /usr/<span class="built_in">local</span>/mongodb/mongodb.conf</span><br><span class="line">``` </span><br><span class="line"></span><br><span class="line"><span class="comment">## &#x90E8;&#x7F72;&#x95EE;&#x9898;&#x8BB0;&#x5F55;</span></span><br><span class="line"><span class="comment">### MongoVUE&#x4E0D;&#x80FD;&#x8FDE;&#x63A5;</span></span><br><span class="line">&#x5C06;<span class="number">27017</span>&#x7AEF;&#x53E3;&#x52A0;&#x5165;&#x4FE1;&#x4EFB;&#x5217;&#x8868;&#xFF1B;&#x5C40;&#x57DF;&#x7F51;&#x6D4B;&#x8BD5;&#x76F4;&#x63A5;&#x5173;&#x95ED;&#x9632;&#x706B;&#x5899;</span><br><span class="line">``` bash</span><br><span class="line">//&#x5F00;&#x542F;</span><br><span class="line">chkconfig iptables on</span><br><span class="line">//&#x5173;&#x95ED;</span><br><span class="line">chkconfig iptables off </span><br><span class="line">//&#x67E5;&#x8BE2;TCP&#x8FDE;&#x63A5;&#x60C5;&#x51B5;</span><br><span class="line"> netstat -n | awk <span class="string">&apos;/^tcp/ {++S[$NF]} END {for(a in S) print a, S[a]}&apos;</span></span><br><span class="line">//&#x67E5;&#x8BE2;&#x7AEF;&#x53E3;&#x5360;&#x7528;&#x60C5;&#x51B5;&#xFF1A;</span><br><span class="line"> netstat   -anp   &#x6216;   grep  portno</span><br><span class="line">//&#xFF08;&#x4F8B;&#x5982;&#xFF1A;netstat &#x2013;apn | grep <span class="number">80</span>&#xFF09;</span><br></pre></td></tr></table></figure>
+<h3 id="mongod-dead-but-subsys-locked"><a class="header-anchor" href="#mongod-dead-but-subsys-locked">&#xB6;</a>mongod dead but subsys locked</h3>
+<p>&#x6267;&#x884C;&#x8BED;&#x53E5;&#x89E3;&#x51B3;&#x95EE;&#x9898;&#xFF1A;<code>mongod -f /usr/local/mongodb/mongodb.conf</code></p>
+]]></content>
+    <summary type="html">
+    <![CDATA[<!-- toc -->
+<ul>
+<li><a href="#%E5%AE%89%E8%A3%85%E5%8C%85%E5%87%86%E5%A4%87">&#x5B89;&#x88C5;&#x5305;&#x51C6;&#x5907;</a>
+<ul>
+<li><a href]]>
+    </summary>
+    
+      <category term="CentOS" scheme="http://geosmart.github.io/tags/CentOS/"/>
+    
+      <category term="数据库" scheme="http://geosmart.github.io/tags/%E6%95%B0%E6%8D%AE%E5%BA%93/"/>
+    
+      <category term="技术点滴" scheme="http://geosmart.github.io/categories/%E6%8A%80%E6%9C%AF%E7%82%B9%E6%BB%B4/"/>
+    
+  </entry>
+  
+  <entry>
+    <title><![CDATA[Zabbix-Server安装脚本]]></title>
+    <link href="http://geosmart.github.io/2015/06/28/zabbix-server%E5%AE%89%E8%A3%85%E8%84%9A%E6%9C%AC/"/>
+    <id>http://geosmart.github.io/2015/06/28/zabbix-server安装脚本/</id>
+    <published>2015-06-28T06:17:15.000Z</published>
+    <updated>2015-06-29T07:35:44.644Z</updated>
+    <content type="html"><![CDATA[<p><img src="zabbix.png" alt="zabbix"></p>
+]]></content>
+    <summary type="html">
+    <![CDATA[<p><img src="zabbix.png" alt="zabbix"></p>
+]]>
+    </summary>
+    
+      <category term="CentOS" scheme="http://geosmart.github.io/tags/CentOS/"/>
+    
+      <category term="监控" scheme="http://geosmart.github.io/tags/%E7%9B%91%E6%8E%A7/"/>
+    
+      <category term="运维" scheme="http://geosmart.github.io/tags/%E8%BF%90%E7%BB%B4/"/>
+    
+      <category term="技术点滴" scheme="http://geosmart.github.io/categories/%E6%8A%80%E6%9C%AF%E7%82%B9%E6%BB%B4/"/>
+    
+  </entry>
+  
+  <entry>
+    <title><![CDATA[Jetty手动安装脚本]]></title>
+    <link href="http://geosmart.github.io/2015/06/28/jetty%E6%89%8B%E5%8A%A8%E5%AE%89%E8%A3%85%E8%84%9A%E6%9C%AC/"/>
+    <id>http://geosmart.github.io/2015/06/28/jetty手动安装脚本/</id>
+    <published>2015-06-28T05:39:05.000Z</published>
+    <updated>2015-06-29T07:35:42.549Z</updated>
+    <content type="html"><![CDATA[<!-- toc -->
+<!-- tocstop -->
+<p>#&#x5B89;&#x88C5;&#x6B65;&#x9AA4;
+&#x5C06;&#x6587;&#x4EF6;&#x590D;&#x5236;&#x5230;CentOS&#x540E;&#x8FDB;&#x884C;&#x5B89;&#x88C5;</p>
+<ol>
+<li>&#x4E0B;&#x8F7D;&#x89E3;&#x538B;Jetty</li>
+</ol>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">cd</span> /tmp</span><br><span class="line">wget http://eclipse.org/downloads/download.php?file=/jetty/stable-<span class="number">9</span>/dist/jetty-distribution-<span class="number">9.3</span>.<span class="number">0</span>.v20150612.tar.gz&amp;r=<span class="number">1</span> </span><br><span class="line">tar -xzvf  jetty-distribution-<span class="number">9.3</span>.<span class="number">0</span>.v20150612.tar.gz </span><br><span class="line">mv jetty-distribution-<span class="number">9.1</span>.<span class="number">1</span>.v20140108 /usr/<span class="built_in">local</span>/jetty</span><br></pre></td></tr></table></figure>
+<ol start="2">
+<li>&#x65B0;&#x5EFA;&#x7528;&#x6237;&gt;&#x914D;&#x7F6E;jetty&#x6240;&#x5C5E;&#x6743;&#x9650;</li>
+</ol>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">useradd -m jetty </span><br><span class="line">chown -R jetty:jetty /usr/<span class="built_in">local</span>/jetty/</span><br></pre></td></tr></table></figure>
+<ol start="3">
+<li>&#x5B89;&#x88C5;&#x5230;&#x7CFB;&#x7EDF;&#x670D;&#x52A1;</li>
+</ol>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">ln <span class="operator">-s</span> /usr/<span class="built_in">local</span>/jetty/bin/jetty.sh /etc/init.d/jetty</span><br><span class="line">chkconfig --add jetty </span><br><span class="line">chkconfig --level <span class="number">345</span> jetty on</span><br></pre></td></tr></table></figure>
+<ol start="4">
+<li>&#x7F16;&#x8F91;&#x542F;&#x52A8;&#x811A;&#x672C;</li>
+</ol>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">vim /etc/default/jetty </span><br><span class="line"></span><br><span class="line">JETTY_HOME=/usr/<span class="built_in">local</span>/jetty </span><br><span class="line">JETTY_USER=jetty </span><br><span class="line">JETTY_PORT=<span class="number">8080</span></span><br><span class="line">JETTY_LOGS=/usr/<span class="built_in">local</span>/jetty/logs/</span><br></pre></td></tr></table></figure>
+<ol start="5">
+<li>&#x542F;&#x52A8;&#x670D;&#x52A1;-&#x6D4B;&#x8BD5;</li>
+</ol>
+<pre><code class="language-bash">service jetty start
+curl localhost:8080
+</code></pre>
+<p>6.&#x5E38;&#x7528;&#x64CD;&#x4F5C;&#x6307;&#x4EE4;</p>
+<pre><code class="language-bash">jetty [-d] {start|stop|run|restart|check|supervise} [ CONFIGS ... ]
+</code></pre>
+]]></content>
+    <summary type="html">
+    <![CDATA[<!-- toc -->
+<!-- tocstop -->
+<p>#&#x5B89;&#x88C5;&#x6B65;&#x9AA4;
+&#x5C06;&#x6587;&#x4EF6;&#x590D;&#x5236;&#x5230;CentOS&#x540E;&#x8FDB;&#x]]>
+    </summary>
+    
+      <category term="CentOS" scheme="http://geosmart.github.io/tags/CentOS/"/>
+    
+      <category term="Web服务器" scheme="http://geosmart.github.io/tags/Web%E6%9C%8D%E5%8A%A1%E5%99%A8/"/>
+    
+      <category term="技术点滴" scheme="http://geosmart.github.io/categories/%E6%8A%80%E6%9C%AF%E7%82%B9%E6%BB%B4/"/>
+    
+  </entry>
+  
+  <entry>
+    <title><![CDATA[Jetty一键安装脚本]]></title>
+    <link href="http://geosmart.github.io/2015/06/28/jetty%E4%B8%80%E9%94%AE%E5%AE%89%E8%A3%85%E8%84%9A%E6%9C%AC/"/>
+    <id>http://geosmart.github.io/2015/06/28/jetty一键安装脚本/</id>
+    <published>2015-06-28T05:39:05.000Z</published>
+    <updated>2015-06-29T07:35:42.559Z</updated>
+    <content type="html"><![CDATA[<!-- toc -->
+<!-- tocstop -->
+<p>#&#x51C6;&#x5907;&#x5185;&#x5BB9;</p>
+<ol>
+<li><a href="http://download.eclipse.org/jetty/9.2.11.v20150529/dist/jetty-distribution-9.2.11.v20150529.tar.gz" target="_blank" rel="external">jetty&#x5B89;&#x88C5;&#x5305;&#xFF08;&#x5B98;&#x7F51;&#x7248;&#x672C;&#xFF1A;jetty-distribution-9.2.11.v20150529.tar&#xFF09;</a>
+&#x4E0B;&#x8F7D;&#x540E;&#x5E76;&#x91CD;&#x547D;&#x540D;&#x4E3A;jetty.tar.gz</li>
+<li><a href="install-jetty.sh">jetty&#x5B89;&#x88C5;&#x811A;&#x672C;</a></li>
+<li>&#x5DF2;&#x5B89;&#x88C5;JDK1.7</li>
+</ol>
+<p>#&#x5B89;&#x88C5;&#x6B65;&#x9AA4;
+&#x5C06;&#x6587;&#x4EF6;&#x590D;&#x5236;&#x5230;CentOS&#x540E;&#x8FDB;&#x884C;&#x5B89;&#x88C5;</p>
+<ol>
+<li>CentOS&#x8DEF;&#x5F84;&#xFF1A;/tmp</li>
+<li>&#x6267;&#x884C;</li>
+</ol>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">cd</span> /tmp</span><br><span class="line">chmod +x install-jetty.sh </span><br><span class="line">sudo ./install-jetty.sh</span><br></pre></td></tr></table></figure>
+<ol start="3">
+<li>&#x4E00;&#x8DEF;&#x56DE;&#x8F66;&#x5373;&#x53EF;</li>
+</ol>
+<p>#&#x9644;&#x4EF6; <a href="http://install-jetty.sh" target="_blank" rel="external">install-jetty.sh</a></p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br><span class="line">122</span><br><span class="line">123</span><br><span class="line">124</span><br><span class="line">125</span><br><span class="line">126</span><br><span class="line">127</span><br><span class="line">128</span><br><span class="line">129</span><br><span class="line">130</span><br><span class="line">131</span><br><span class="line">132</span><br><span class="line">133</span><br><span class="line">134</span><br><span class="line">135</span><br><span class="line">136</span><br><span class="line">137</span><br><span class="line">138</span><br><span class="line">139</span><br><span class="line">140</span><br><span class="line">141</span><br><span class="line">142</span><br><span class="line">143</span><br><span class="line">144</span><br><span class="line">145</span><br><span class="line">146</span><br><span class="line">147</span><br></pre></td><td class="code"><pre><span class="line"><span class="shebang">#!/bin/sh </span><br><span class="line"></span></span><br><span class="line">BASEDIR=$(<span class="built_in">cd</span> `dirname <span class="variable">$0</span>`; <span class="built_in">pwd</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment"># must sudo</span></span><br><span class="line"><span class="keyword">if</span> [ <span class="string">&quot;<span class="variable">$(id -u)</span>&quot;</span> <span class="operator">-ne</span> <span class="number">0</span> ] ; <span class="keyword">then</span></span><br><span class="line">    <span class="built_in">echo</span> <span class="operator">-e</span> <span class="string">&quot;\033[31m You must run this script as sudo. Sorry! \033[0m&quot;</span></span><br><span class="line">    <span class="built_in">exit</span> <span class="number">1</span></span><br><span class="line"><span class="keyword">fi</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># check env</span></span><br><span class="line">. /etc/profile</span><br><span class="line">. ~/.bash_profile</span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span> [ <span class="string">&quot;<span class="variable">$JAVA_HOME</span>&quot;</span> = <span class="string">&quot;&quot;</span> ]; <span class="keyword">then</span></span><br><span class="line">    <span class="built_in">echo</span> <span class="operator">-e</span> <span class="string">&quot;\033[31m Your java environment isn&apos;t right. \033[0m&quot;</span></span><br><span class="line">    <span class="built_in">exit</span> <span class="number">1</span></span><br><span class="line"><span class="keyword">fi</span></span><br><span class="line"></span><br><span class="line"><span class="built_in">read</span>  -p <span class="string">&quot;Please select jetty tar package full path[/tmp/jetty.tar.gz]: &quot;</span> INSTALL_FILE </span><br><span class="line"><span class="keyword">if</span> [ <span class="string">&quot;<span class="variable">$INSTALL_FILE</span>&quot;</span> = <span class="string">&quot;&quot;</span> ]; <span class="keyword">then</span> </span><br><span class="line">	INSTALL_FILE=<span class="string">&quot;/tmp/jetty.tar.gz&quot;</span></span><br><span class="line"><span class="keyword">fi</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="built_in">echo</span> <span class="string">&quot;Start to install...&quot;</span></span><br><span class="line"><span class="built_in">read</span>  -p <span class="string">&quot;Please select jetty install path path[/usr/local/jetty]: &quot;</span> INSTALL_PATH</span><br><span class="line"><span class="keyword">if</span> [ <span class="string">&quot;<span class="variable">$INSTALL_PATH</span>&quot;</span> = <span class="string">&quot;&quot;</span> ]; <span class="keyword">then</span></span><br><span class="line">	INSTALL_PATH=<span class="string">&quot;/usr/local/jetty&quot;</span></span><br><span class="line"><span class="keyword">fi</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># Set up jetty user</span></span><br><span class="line"><span class="built_in">read</span>  -p <span class="string">&quot;Please set jetty run user[jetty]: &quot;</span> JETTY_USER</span><br><span class="line"><span class="keyword">if</span> [ <span class="string">&quot;<span class="variable">$JETTY_USER</span>&quot;</span> = <span class="string">&quot;&quot;</span> ]; <span class="keyword">then</span></span><br><span class="line">	JETTY_USER=jetty</span><br><span class="line"><span class="keyword">fi</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># Set up jetty logs dir</span></span><br><span class="line"><span class="built_in">read</span>  -p <span class="string">&quot;Please set jetty logs user[/var/log/jetty]: &quot;</span> JETTY_LOGS</span><br><span class="line"><span class="keyword">if</span> [ <span class="string">&quot;<span class="variable">$JETTY_LOGS</span>&quot;</span> = <span class="string">&quot;&quot;</span> ]; <span class="keyword">then</span></span><br><span class="line">	JETTY_LOGS=/var/<span class="built_in">log</span>/jetty</span><br><span class="line"><span class="keyword">fi</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># Set up jetty service name</span></span><br><span class="line"><span class="built_in">read</span>  -p <span class="string">&quot;Please set jetty service name[jetty]: &quot;</span> JETTY_SERVICE</span><br><span class="line"><span class="keyword">if</span> [ <span class="string">&quot;<span class="variable">$JETTY_SERVICE</span>&quot;</span> = <span class="string">&quot;&quot;</span> ]; <span class="keyword">then</span></span><br><span class="line">	JETTY_SERVICE=jetty</span><br><span class="line"><span class="keyword">fi</span></span><br><span class="line"><span class="keyword">while</span> <span class="literal">true</span></span><br><span class="line"><span class="keyword">do</span></span><br><span class="line">    <span class="keyword">if</span> [ ! <span class="string">&quot;<span class="variable">$(chkconfig --list | grep -o $JETTY_SERVICE)</span>&quot;</span> = <span class="string">&quot;&quot;</span> ];<span class="keyword">then</span></span><br><span class="line">        <span class="built_in">read</span>  -p <span class="string">&quot;service <span class="variable">$JETTY_SERVICE</span> exsited, please select again: &quot;</span> JETTY_SERVICE</span><br><span class="line">    <span class="keyword">else</span></span><br><span class="line">        <span class="built_in">break</span></span><br><span class="line">    <span class="keyword">fi</span></span><br><span class="line"><span class="keyword">done</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># logs dir</span></span><br><span class="line"><span class="built_in">read</span>  -p <span class="string">&quot;Please set jetty port[8080]: &quot;</span> JETTY_PORT</span><br><span class="line"><span class="keyword">if</span> [ <span class="string">&quot;<span class="variable">$JETTY_PORT</span>&quot;</span> = <span class="string">&quot;&quot;</span> ]; <span class="keyword">then</span></span><br><span class="line">	JETTY_PORT=<span class="number">8080</span></span><br><span class="line"><span class="keyword">fi</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># Set up jetty pid</span></span><br><span class="line"><span class="built_in">read</span>  -p <span class="string">&quot;Please set jetty pid path[/var/run/<span class="variable">$JETTY_SERVICE</span>.pid]: &quot;</span> JETTY_PID</span><br><span class="line"><span class="keyword">if</span> [ <span class="string">&quot;<span class="variable">$JETTY_PID</span>&quot;</span> = <span class="string">&quot;&quot;</span> ]; <span class="keyword">then</span></span><br><span class="line">	JETTY_PID=/var/run/<span class="variable">$JETTY_SERVICE</span>.pid</span><br><span class="line"><span class="keyword">fi</span></span><br><span class="line"></span><br><span class="line"><span class="comment">######### Confirm?</span></span><br><span class="line"><span class="built_in">echo</span> <span class="string">&quot;Selected config:&quot;</span></span><br><span class="line"></span><br><span class="line"><span class="built_in">echo</span> <span class="string">&quot;Port           : <span class="variable">$JETTY_PORT</span>&quot;</span></span><br><span class="line"><span class="built_in">echo</span> <span class="string">&quot;User           : <span class="variable">$JETTY_USER</span>&quot;</span></span><br><span class="line"><span class="built_in">echo</span> <span class="string">&quot;Log            : <span class="variable">$JETTY_LOGS</span>&quot;</span></span><br><span class="line"><span class="built_in">echo</span> <span class="string">&quot;Pid            : <span class="variable">$JETTY_PID</span>&quot;</span></span><br><span class="line"><span class="built_in">echo</span> <span class="string">&quot;Service        : <span class="variable">$JETTY_SERVICE</span>&quot;</span></span><br><span class="line"></span><br><span class="line"><span class="built_in">read</span> -p <span class="string">&quot;Is this ok? Then press ENTER to go on or Ctrl-C to abort.&quot;</span> _UNUSED_</span><br><span class="line"></span><br><span class="line"><span class="comment"># add user</span></span><br><span class="line"><span class="keyword">if</span> [ <span class="string">&quot;<span class="variable">$(groups | grep $JETTY_USER)</span>&quot;</span> = <span class="string">&quot;&quot;</span> ]; <span class="keyword">then</span></span><br><span class="line">    groupadd <span class="variable">$JETTY_USER</span></span><br><span class="line"><span class="keyword">fi</span></span><br><span class="line"><span class="keyword">if</span> [ <span class="string">&quot;<span class="variable">$(users | grep $JETTY_USER)</span>&quot;</span> = <span class="string">&quot;&quot;</span> ]; <span class="keyword">then</span></span><br><span class="line">    useradd -g <span class="variable">$JETTY_USER</span> <span class="variable">$JETTY_USER</span></span><br><span class="line"><span class="keyword">fi</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># mkdir install path</span></span><br><span class="line"><span class="keyword">if</span> [ ! <span class="operator">-d</span> <span class="variable">$INSTALL_PATH</span> ]; <span class="keyword">then</span></span><br><span class="line">    <span class="built_in">echo</span> <span class="string">&quot;mkdir <span class="variable">$INSTALL_PATH</span>&quot;</span></span><br><span class="line">    mkdir -p <span class="variable">$INSTALL_PATH</span></span><br><span class="line"><span class="keyword">fi</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># mkdir log path</span></span><br><span class="line"><span class="keyword">if</span> [ ! <span class="operator">-d</span> <span class="string">&quot;<span class="variable">$JETTY_LOGS</span>&quot;</span> ]; <span class="keyword">then</span></span><br><span class="line">    mkdir -p <span class="variable">$JETTY_LOGS</span></span><br><span class="line">    chown -R <span class="variable">$JETTY_USER</span>:<span class="variable">$JETTY_USER</span> <span class="variable">$JETTY_LOGS</span></span><br><span class="line"><span class="keyword">fi</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># Uncompress</span></span><br><span class="line"><span class="built_in">echo</span> <span class="string">&quot;Uncompress tar to <span class="variable">$INSTALL_PATH</span>...&quot;</span></span><br><span class="line">tar -zxf <span class="variable">$INSTALL_FILE</span> -C <span class="variable">$INSTALL_PATH</span> --strip-components=<span class="number">1</span></span><br><span class="line">jetty_temp=~/.jetty_temp</span><br><span class="line"><span class="keyword">if</span> [ <span class="operator">-f</span> <span class="string">&quot;<span class="variable">$jetty_temp</span>&quot;</span> ]; <span class="keyword">then</span></span><br><span class="line">    touch <span class="variable">$jetty_temp</span></span><br><span class="line"><span class="keyword">fi</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># env setting</span></span><br><span class="line">jetty_sh=<span class="variable">$INSTALL_PATH</span>/bin/jetty.sh</span><br><span class="line"><span class="built_in">echo</span> <span class="string">&quot;Setting jetty conf...&quot;</span></span><br><span class="line"><span class="built_in">echo</span> <span class="string">&quot;JAVA_HOME=<span class="variable">$JAVA_HOME</span>&quot;</span> &gt; <span class="variable">$jetty_temp</span> &amp;&amp; cat <span class="variable">$jetty_sh</span> &gt;&gt; <span class="variable">$jetty_temp</span> &amp;&amp; mv <span class="operator">-f</span> <span class="variable">$jetty_temp</span> <span class="variable">$jetty_sh</span></span><br><span class="line"><span class="built_in">echo</span> <span class="string">&quot;JAVA=<span class="variable">$JAVA_HOME</span>/bin/java&quot;</span> &gt; <span class="variable">$jetty_temp</span> &amp;&amp; cat <span class="variable">$jetty_sh</span> &gt;&gt; <span class="variable">$jetty_temp</span> &amp;&amp;  mv <span class="operator">-f</span> <span class="variable">$jetty_temp</span> <span class="variable">$jetty_sh</span></span><br><span class="line"><span class="built_in">echo</span> <span class="string">&quot;JETTY_LOGS=<span class="variable">$JETTY_LOGS</span>&quot;</span> &gt; <span class="variable">$jetty_temp</span> &amp;&amp; cat <span class="variable">$jetty_sh</span> &gt;&gt; <span class="variable">$jetty_temp</span> &amp;&amp;  mv <span class="operator">-f</span> <span class="variable">$jetty_temp</span> <span class="variable">$jetty_sh</span></span><br><span class="line"><span class="built_in">echo</span> <span class="string">&quot;JETTY_USER=<span class="variable">$JETTY_USER</span>&quot;</span> &gt; <span class="variable">$jetty_temp</span> &amp;&amp; cat <span class="variable">$jetty_sh</span> &gt;&gt; <span class="variable">$jetty_temp</span> &amp;&amp;  mv <span class="operator">-f</span> <span class="variable">$jetty_temp</span> <span class="variable">$jetty_sh</span></span><br><span class="line"><span class="built_in">echo</span> <span class="string">&quot;JETTY_PORT=<span class="variable">$JETTY_PORT</span>&quot;</span> &gt; <span class="variable">$jetty_temp</span> &amp;&amp; cat <span class="variable">$jetty_sh</span> &gt;&gt; <span class="variable">$jetty_temp</span> &amp;&amp;  mv <span class="operator">-f</span> <span class="variable">$jetty_temp</span> <span class="variable">$jetty_sh</span></span><br><span class="line"><span class="built_in">echo</span> <span class="string">&quot;JETTY_PID=<span class="variable">$JETTY_PID</span>&quot;</span> &gt; <span class="variable">$jetty_temp</span> &amp;&amp; cat <span class="variable">$jetty_sh</span> &gt;&gt; <span class="variable">$jetty_temp</span> &amp;&amp;  mv <span class="operator">-f</span> <span class="variable">$jetty_temp</span> <span class="variable">$jetty_sh</span></span><br><span class="line"><span class="built_in">echo</span> <span class="string">&quot;JETTY_HOME=<span class="variable">$INSTALL_PATH</span>&quot;</span> &gt; <span class="variable">$jetty_temp</span> &amp;&amp; cat <span class="variable">$jetty_sh</span> &gt;&gt; <span class="variable">$jetty_temp</span> &amp;&amp;  mv <span class="operator">-f</span> <span class="variable">$jetty_temp</span> <span class="variable">$jetty_sh</span></span><br><span class="line">chmod +x <span class="variable">$jetty_sh</span></span><br><span class="line"><span class="comment">#</span></span><br><span class="line">chown -R <span class="variable">$JETTY_USER</span>:<span class="variable">$JETTY_USER</span> <span class="variable">$INSTALL_PATH</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># jetty service</span></span><br><span class="line"><span class="built_in">echo</span> <span class="string">&quot;Install jetty service...&quot;</span></span><br><span class="line">ln <span class="operator">-s</span> <span class="variable">$INSTALL_PATH</span>/bin/jetty.sh /etc/init.d/<span class="variable">$JETTY_SERVICE</span></span><br><span class="line"><span class="keyword">if</span> [ ! <span class="string">&quot;$?&quot;</span> = <span class="string">&quot;0&quot;</span> ]; <span class="keyword">then</span></span><br><span class="line">    <span class="built_in">echo</span> <span class="operator">-e</span> <span class="string">&quot;\033[31m link jetty script failed. \033[0m&quot;</span></span><br><span class="line">    <span class="built_in">exit</span> <span class="number">1</span></span><br><span class="line"><span class="keyword">fi</span></span><br><span class="line">chkconfig --add <span class="variable">$JETTY_SERVICE</span></span><br><span class="line">chkconfig --level <span class="number">345</span> <span class="variable">$JETTY_SERVICE</span> on</span><br><span class="line"><span class="keyword">if</span> [ <span class="string">&quot;$?&quot;</span> = <span class="string">&quot;0&quot;</span> ]; <span class="keyword">then</span></span><br><span class="line">    <span class="built_in">echo</span> <span class="operator">-e</span> <span class="string">&quot;\033[32m Installed, please sudo service <span class="variable">$JETTY_SERVICE</span> start. \033[0m&quot;</span></span><br><span class="line"><span class="keyword">else</span></span><br><span class="line">    <span class="built_in">echo</span> <span class="operator">-e</span> <span class="string">&quot;\033[31m Service <span class="variable">$JETTY_SERVICE</span> install failed. \033[0m&quot;</span></span><br><span class="line"><span class="keyword">fi</span></span><br><span class="line"></span><br><span class="line"><span class="built_in">unset</span> BASEDIR</span><br><span class="line"><span class="built_in">unset</span> INSTALL_PATH</span><br><span class="line"><span class="built_in">unset</span> JETTY_USER</span><br><span class="line"><span class="built_in">unset</span> JETTY_PORT</span><br><span class="line"><span class="built_in">unset</span> JETTY_LOGS</span><br><span class="line"><span class="built_in">unset</span> JETTY_SERVICE</span><br><span class="line"><span class="built_in">unset</span> jetty_temp</span><br><span class="line"><span class="built_in">unset</span> jetty_sh</span><br><span class="line"></span><br><span class="line"><span class="built_in">exit</span> <span class="number">0</span></span><br></pre></td></tr></table></figure>]]></content>
+    <summary type="html">
+    <![CDATA[<!-- toc -->
+<!-- tocstop -->
+<p>#&#x51C6;&#x5907;&#x5185;&#x5BB9;</p>
+<ol>
+<li><a href="http://download.eclipse.org/jetty/9.2.11.v20150529/]]>
+    </summary>
+    
+      <category term="CentOS" scheme="http://geosmart.github.io/tags/CentOS/"/>
+    
+      <category term="Web服务器" scheme="http://geosmart.github.io/tags/Web%E6%9C%8D%E5%8A%A1%E5%99%A8/"/>
+    
+      <category term="技术点滴" scheme="http://geosmart.github.io/categories/%E6%8A%80%E6%9C%AF%E7%82%B9%E6%BB%B4/"/>
+    
+  </entry>
+  
+  <entry>
+    <title><![CDATA[Hello World]]></title>
+    <link href="http://geosmart.github.io/2015/06/28/hello-world/"/>
+    <id>http://geosmart.github.io/2015/06/28/hello-world/</id>
+    <published>2015-06-28T05:26:17.958Z</published>
+    <updated>2015-06-28T05:26:17.958Z</updated>
+    <content type="html"><![CDATA[<p>Welcome to <a href="http://hexo.io/" target="_blank" rel="external">Hexo</a>! This is your very first post. Check <a href="http://hexo.io/docs/" target="_blank" rel="external">documentation</a> for more info. If you get any problems when using Hexo, you can find the answer in <a href="http://hexo.io/docs/troubleshooting.html" target="_blank" rel="external">troubleshooting</a> or you can ask me on <a href="https://github.com/hexojs/hexo/issues" target="_blank" rel="external">GitHub</a>.</p>
+<h2 id="quick-start"><a class="header-anchor" href="#quick-start">&#xB6;</a>Quick Start</h2>
+<h3 id="create-a-new-post"><a class="header-anchor" href="#create-a-new-post">&#xB6;</a>Create a new post</h3>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo new <span class="string">&quot;My New Post&quot;</span></span><br></pre></td></tr></table></figure>
+<p>More info: <a href="http://hexo.io/docs/writing.html" target="_blank" rel="external">Writing</a></p>
+<h3 id="run-server"><a class="header-anchor" href="#run-server">&#xB6;</a>Run server</h3>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo server</span><br></pre></td></tr></table></figure>
+<p>More info: <a href="http://hexo.io/docs/server.html" target="_blank" rel="external">Server</a></p>
+<h3 id="generate-static-files"><a class="header-anchor" href="#generate-static-files">&#xB6;</a>Generate static files</h3>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo generate</span><br></pre></td></tr></table></figure>
+<p>More info: <a href="http://hexo.io/docs/generating.html" target="_blank" rel="external">Generating</a></p>
+<h3 id="deploy-to-remote-sites"><a class="header-anchor" href="#deploy-to-remote-sites">&#xB6;</a>Deploy to remote sites</h3>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo deploy</span><br></pre></td></tr></table></figure>
+<p>More info: <a href="http://hexo.io/docs/deployment.html" target="_blank" rel="external">Deployment</a></p>
+]]></content>
+    <summary type="html">
+    <![CDATA[<p>Welcome to <a href="http://hexo.io/" target="_blank" rel="external">Hexo</a>! This is your very first post. Check <a href="http://hexo.io]]>
+    </summary>
+    
+  </entry>
+  
+</feed>
