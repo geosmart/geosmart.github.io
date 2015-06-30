@@ -30,7 +30,7 @@ zabbix&amp;#x5B89;&amp;#x88C5;&amp;#x5305;&amp;#xF">
 &amp;#x51C6;&amp;#x5907;&amp;#x5185;&amp;#x5BB9;
 zabbix&amp;#x5B89;&amp;#x88C5;&amp;#x5305;&amp;#xF">
 <meta property="og:image" content="http://geosmart.github.io/zabbix.png">
-<meta property="og:updated_time" content="2015-06-30T03:14:44.510Z">
+<meta property="og:updated_time" content="2015-06-30T03:35:33.440Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="zabbix-agent安装脚本">
 <meta name="twitter:description" content="&amp;lt;!-- toc --&amp;gt;
@@ -151,7 +151,8 @@ zabbix&amp;#x5B89;&amp;#x88C5;&amp;#x5305;&amp;#xF">
 </ol>
 <p>&#x4FEE;&#x6539;zabbix_agentd&#x4E3B;&#x7A0B;&#x5E8F;&#x8DEF;&#x5F84;<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># vim /usr/local/zabbix/misc/init.d/tru64/zabbix_agentd </span></span><br><span class="line">DAEMON=/usr/<span class="built_in">local</span>/zabbix/sbin/zabbix_agentd</span><br></pre></td></tr></table></figure></p>
 <ol>
-<li>&#x7F16;&#x8F91;zabbix_agentd&#x914D;&#x7F6E;&#x6587;&#x4EF6;<br><code>vim /usr/local/zabbix/etc/zabbix_agentd.conf</code> <pre><code class="bash">LogFile=/tmp/zabbix_agentd.log 
+<li><p>&#x7F16;&#x8F91;zabbix_agentd&#x914D;&#x7F6E;&#x6587;&#x4EF6;<br><code>vim /usr/local/zabbix/etc/zabbix_agentd.conf</code> </p>
+<pre><code class="bash">LogFile=/tmp/zabbix_agentd.log 
 <span class="comment">#&#x670D;&#x52A1;&#x7AEF;IP  </span>
 Server=<span class="number">192.168</span>.<span class="number">1.80</span>
 <span class="comment">#&#x670D;&#x52A1;&#x7AEF;IP   </span>
@@ -166,13 +167,15 @@ UnsafeUserParameters=<span class="number">1</span>
 chmod +x install-zabbix_agentd.sh 
 sudo ./install-zabbix_agentd.sh
 </code></pre>
+</li>
+</ol>
 <h2 id="&#x76F8;&#x5173;&#x64CD;&#x4F5C;">&#x76F8;&#x5173;&#x64CD;&#x4F5C;</h2><p>1&#x3001;&#x82E5;zabbix&#x7684;host&#x65E0;&#x6CD5;&#x8BBF;&#x95EE;&#xFF0C;&#x8003;&#x8651;&#x9632;&#x706B;&#x5899;&#x662F;&#x5426;&#x9700;&#x8981;&#x5173;&#x95ED;/&#x52A0;&#x5165;&#x4FE1;&#x4EFB;&#x7AEF;&#x53E3;</p>
 <pre><code class="bash"><span class="comment">#&#x67E5;&#x770B;&#x9632;&#x706B;&#x5899;&#x72B6;&#x6001;</span>
 service iptables status 
 <span class="comment">#&#x5173;&#x95ED;&#x9632;&#x706B;&#x5899; </span>
 service iptables stop
 </code></pre>
-</li>
+<ol>
 <li><p>&#x67E5;&#x770B;zabbix&#x670D;&#x52A1;&#x662F;&#x5426;&#x5DF2;&#x542F;&#x52A8;</p>
 <pre><code class="bash">netstat -utlnp | grep zabbix
 </code></pre>

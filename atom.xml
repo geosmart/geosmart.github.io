@@ -58,11 +58,12 @@
     <link href="http://geosmart.github.io/2015/06/30/zabbix-server%E5%AE%89%E8%A3%85%E8%84%9A%E6%9C%AC/"/>
     <id>http://geosmart.github.io/2015/06/30/zabbix-server安装脚本/</id>
     <published>2015-06-30T02:47:59.000Z</published>
-    <updated>2015-06-30T03:32:41.190Z</updated>
+    <updated>2015-06-30T03:36:49.434Z</updated>
     <content type="html"><![CDATA[<!-- toc -->
 <ul>
 <li><a href="#&#x51C6;&#x5907;&#x5185;&#x5BB9;">&#x51C6;&#x5907;&#x5185;&#x5BB9;</a></li>
 <li><a href="#&#x5B89;&#x88C5;&#x6B65;&#x9AA4;">&#x5B89;&#x88C5;&#x6B65;&#x9AA4;</a></li>
+<li><a href="#&#x76F8;&#x5173;&#x64CD;&#x4F5C;">&#x76F8;&#x5173;&#x64CD;&#x4F5C;</a></li>
 </ul>
 <!-- tocstop -->
 <p><img src="zabbix.png" alt="zabbix"> </p>
@@ -78,8 +79,63 @@
 </ol>
 <p>&#x4FEE;&#x6539;zabbix_server&#x4E3B;&#x7A0B;&#x5E8F;&#x8DEF;&#x5F84;<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># vim /usr/local/zabbix/misc/init.d/tru64/zabbix_server</span></span><br><span class="line">DAEMON=/usr/<span class="built_in">local</span>/zabbix/sbin/zabbix_server</span><br></pre></td></tr></table></figure></p>
 <ol>
-<li><p>&#x7F16;&#x8F91;zabbix_server&#x914D;&#x7F6E;&#x6587;&#x4EF6;<br><code>vim /usr/local/zabbix/etc/zabbix_server.conf</code> </p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br></pre></td><td class="code"><pre><span class="line">DBHost=localhost</span><br><span class="line">DBName = zabbix </span><br><span class="line">DBPassword =zabbix  </span><br><span class="line">DBUser = zabbix  </span><br><span class="line">LogFile=/tmp/zabbix_server.log  </span><br><span class="line">```  </span><br><span class="line"></span><br><span class="line"><span class="number">4</span>.??&#x914D;&#x7F6E;</span><br><span class="line">TODO &#x662F;&#x5426;&#x5FC5;&#x987B;&#xFF0C;&#x6682;&#x9700;&#x6D4B;&#x8BD5;</span><br><span class="line">``` bash</span><br><span class="line"></span><br><span class="line">mkdir /etc/zabbix</span><br><span class="line">touch /etc/zabbix/zabbix_server.conf</span><br><span class="line">chown -R zabbix:zabbix /etc/zabbix</span><br><span class="line">touch /var/<span class="built_in">log</span>/zabbix.log</span><br><span class="line">chown zabbix:zabbix /var/<span class="built_in">log</span>/zabbix.log</span><br><span class="line"></span><br><span class="line">cat &gt;&gt;/etc/zabbix/zabbix_server.conf &lt;&lt;EOF</span><br><span class="line">DBHost=localhost</span><br><span class="line">DBName = zabbix </span><br><span class="line">DBPassword =zabbix  </span><br><span class="line">DBUser = zabbix  </span><br><span class="line">LogFile=/tmp/zabbix_server.log </span><br><span class="line">EOF  </span><br><span class="line"></span><br><span class="line">``` </span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="number">3</span>. &#x6267;&#x884C;&#x5B89;&#x88C5;&#x811A;&#x672C;</span><br><span class="line">``` bash</span><br><span class="line"><span class="built_in">cd</span> usr/<span class="built_in">local</span>/zabbix/sbin/install-zabbix_server.sh</span><br><span class="line">chmod +x install-zabbix_server.sh </span><br><span class="line">sudo ./install-zabbix_server.sh</span><br><span class="line">```  </span><br><span class="line"></span><br><span class="line"><span class="comment">## &#x76F8;&#x5173;&#x64CD;&#x4F5C;</span></span><br><span class="line"><span class="number">1</span>. zabbix&#x7F51;&#x7AD9;&#x4E2D;&#x7684;&#x542F;&#x7528;&#x4E2D;&#x6587;&#x540E;&#x4E71;&#x7801;&#x95EE;&#x9898;</span><br><span class="line">* &#x5728;zabbix&#x7F51;&#x7AD9;&#x76EE;&#x5F55;&#x4E0B;&#x7684;include/locales.inc.php&#x6587;&#x4EF6;&#x4E2D;&#x542F;&#x7528;&#x4E2D;&#x6587;&#xFF08;<span class="string">&apos;display&apos;</span>=<span class="literal">true</span>&#xFF09;</span><br><span class="line">* &#x5728;windows&#x4E0B;&#x63A7;&#x5236;&#x9762;&#x677F;-&gt;&#x5B57;&#x4F53;-&gt;&#x9009;&#x62E9;&#x4E00;&#x79CD;&#x4E2D;&#x6587;&#x5B57;&#x5E93;&#x4F8B;&#x5982;&#x201C;&#x6977;&#x4F53;&#x201D;&#xFF0C;&#x628A;&#x5B83;&#x62F7;&#x8D1D;&#x5230;zabbix&#x7684;web&#x7AEF;&#x7684;fonts&#x76EE;&#x5F55;&#x4E0B;&#x4F8B;&#x5982;&#xFF1A;/var/www/html/zabbix/fonts&#xFF0C;&#x5E76;&#x4E14;&#x628A;TTF&#x540E;&#x7F00;&#x6539;&#x4E3A;ttf</span><br><span class="line">* &#x4FEE;&#x6539;zabbix&#x7684;web&#x7AEF;/include/defines.inc.php&#xFF0C;&#x5982;&#x4E0B;</span><br><span class="line">``` php</span><br><span class="line">//define(<span class="string">&apos;ZBX_GRAPH_FONT_NAME&apos;</span>, <span class="string">&apos;DejaVuSans&apos;</span>); // origin name</span><br><span class="line">define(<span class="string">&apos;ZBX_GRAPH_FONT_NAME&apos;</span>, <span class="string">&apos;simkai&apos;</span>); // custom font name</span><br><span class="line">```  </span><br><span class="line"></span><br><span class="line"><span class="number">2</span>. &#x82E5;zabbix&#x7684;host&#x65E0;&#x6CD5;&#x8BBF;&#x95EE;&#xFF0C;&#x8003;&#x8651;&#x9632;&#x706B;&#x5899;&#x662F;&#x5426;&#x9700;&#x8981;&#x5173;&#x95ED;/&#x52A0;&#x5165;&#x4FE1;&#x4EFB;&#x7AEF;&#x53E3;</span><br><span class="line">``` bash</span><br><span class="line"><span class="comment">#&#x67E5;&#x770B;&#x9632;&#x706B;&#x5899;&#x72B6;&#x6001;</span></span><br><span class="line">service iptables status </span><br><span class="line"><span class="comment">#&#x5173;&#x95ED;&#x9632;&#x706B;&#x5899; </span></span><br><span class="line">service iptables stop  </span><br><span class="line">```  </span><br><span class="line"></span><br><span class="line"><span class="number">3</span>. &#x67E5;&#x770B;zabbix&#x670D;&#x52A1;&#x662F;&#x5426;&#x5DF2;&#x542F;&#x52A8;</span><br><span class="line">``` bash</span><br><span class="line">netstat -utlnp | grep zabbix </span><br><span class="line">```    </span><br><span class="line"></span><br><span class="line"><span class="number">4</span>. &#x914D;&#x7F6E;&#x6587;&#x4EF6;&#x66F4;&#x65B0;&#x540E;&#xFF0C;&#x9700;&#x91CD;&#x542F;&#x5BA2;&#x6237;&#x7AEF;&#x670D;&#x52A1;</span><br><span class="line">``` bash</span><br><span class="line">service zabbix_server restart</span><br></pre></td></tr></table></figure>
+<li>&#x7F16;&#x8F91;zabbix_server&#x914D;&#x7F6E;&#x6587;&#x4EF6;<br><code>vim /usr/local/zabbix/etc/zabbix_server.conf</code> <pre><code class="bash">DBHost=localhost
+DBName = zabbix 
+DBPassword =zabbix  
+DBUser = zabbix  
+LogFile=/tmp/zabbix_server.log
+</code></pre>
+</li>
+</ol>
+<p>4.??&#x914D;&#x7F6E;<br>TODO &#x662F;&#x5426;&#x5FC5;&#x987B;&#xFF0C;&#x6682;&#x9700;&#x6D4B;&#x8BD5;</p>
+<pre><code class="bash">
+mkdir /etc/zabbix
+touch /etc/zabbix/zabbix_server.conf
+chown -R zabbix:zabbix /etc/zabbix
+touch /var/<span class="built_in">log</span>/zabbix.log
+chown zabbix:zabbix /var/<span class="built_in">log</span>/zabbix.log
+
+cat &gt;&gt;/etc/zabbix/zabbix_server.conf &lt;&lt;EOF
+DBHost=localhost
+DBName = zabbix 
+DBPassword =zabbix  
+DBUser = zabbix  
+LogFile=/tmp/zabbix_server.log 
+EOF
+</code></pre>
+<ol>
+<li>&#x6267;&#x884C;&#x5B89;&#x88C5;&#x811A;&#x672C;<pre><code class="bash"><span class="built_in">cd</span> usr/<span class="built_in">local</span>/zabbix/sbin/install-zabbix_server.sh
+chmod +x install-zabbix_server.sh 
+sudo ./install-zabbix_server.sh
+</code></pre>
+</li>
+</ol>
+<h2 id="&#x76F8;&#x5173;&#x64CD;&#x4F5C;">&#x76F8;&#x5173;&#x64CD;&#x4F5C;</h2><ol>
+<li>zabbix&#x7F51;&#x7AD9;&#x4E2D;&#x7684;&#x542F;&#x7528;&#x4E2D;&#x6587;&#x540E;&#x4E71;&#x7801;&#x95EE;&#x9898;</li>
+</ol>
+<ul>
+<li>&#x5728;zabbix&#x7F51;&#x7AD9;&#x76EE;&#x5F55;&#x4E0B;&#x7684;include/locales.inc.php&#x6587;&#x4EF6;&#x4E2D;&#x542F;&#x7528;&#x4E2D;&#x6587;&#xFF08;&#x2019;display&#x2019;=true&#xFF09;</li>
+<li>&#x5728;windows&#x4E0B;&#x63A7;&#x5236;&#x9762;&#x677F;-&gt;&#x5B57;&#x4F53;-&gt;&#x9009;&#x62E9;&#x4E00;&#x79CD;&#x4E2D;&#x6587;&#x5B57;&#x5E93;&#x4F8B;&#x5982;&#x201C;&#x6977;&#x4F53;&#x201D;&#xFF0C;&#x628A;&#x5B83;&#x62F7;&#x8D1D;&#x5230;zabbix&#x7684;web&#x7AEF;&#x7684;fonts&#x76EE;&#x5F55;&#x4E0B;&#x4F8B;&#x5982;&#xFF1A;/var/www/html/zabbix/fonts&#xFF0C;&#x5E76;&#x4E14;&#x628A;TTF&#x540E;&#x7F00;&#x6539;&#x4E3A;ttf</li>
+<li>&#x4FEE;&#x6539;zabbix&#x7684;web&#x7AEF;/include/defines.inc.php&#xFF0C;&#x5982;&#x4E0B;<pre><code class="php"><span class="comment">//define(&apos;ZBX_GRAPH_FONT_NAME&apos;, &apos;DejaVuSans&apos;); // origin name</span>
+define(<span class="string">&apos;ZBX_GRAPH_FONT_NAME&apos;</span>, <span class="string">&apos;simkai&apos;</span>); <span class="comment">// custom  font name</span>
+</code></pre>
+</li>
+</ul>
+<ol>
+<li><p>&#x82E5;zabbix&#x7684;host&#x65E0;&#x6CD5;&#x8BBF;&#x95EE;&#xFF0C;&#x8003;&#x8651;&#x9632;&#x706B;&#x5899;&#x662F;&#x5426;&#x9700;&#x8981;&#x5173;&#x95ED;/&#x52A0;&#x5165;&#x4FE1;&#x4EFB;&#x7AEF;&#x53E3;</p>
+<pre><code class="bash"><span class="comment">#&#x67E5;&#x770B;&#x9632;&#x706B;&#x5899;&#x72B6;&#x6001;</span>
+service iptables status 
+<span class="comment">#&#x5173;&#x95ED;&#x9632;&#x706B;&#x5899; </span>
+service iptables stop
+</code></pre>
+</li>
+<li><p>&#x67E5;&#x770B;zabbix&#x670D;&#x52A1;&#x662F;&#x5426;&#x5DF2;&#x542F;&#x52A8;</p>
+<pre><code class="bash">netstat -utlnp | grep zabbix
+</code></pre>
+</li>
+<li><p>&#x914D;&#x7F6E;&#x6587;&#x4EF6;&#x66F4;&#x65B0;&#x540E;&#xFF0C;&#x9700;&#x91CD;&#x542F;&#x5BA2;&#x6237;&#x7AEF;&#x670D;&#x52A1;</p>
+<pre><code class="bash">service zabbix_server restart
+</code></pre>
 </li>
 <li><p>zabbix web&#x914D;&#x7F6E;&#x7B80;&#x7565;&#xFF0C;&#x8D34;&#x51E0;&#x5F20;&#x6548;&#x679C;&#x56FE;<br><img src="filter.png" alt="zabbix&#x76D1;&#x63A7;"><br><img src="cpu.png" alt="zabbix&#x76D1;&#x63A7;CPU"><br><img src="network.png" alt="zabbix&#x76D1;&#x63A7;&#x7F51;&#x7EDC;"></p>
 </li>
@@ -152,7 +208,7 @@
     <link href="http://geosmart.github.io/2015/06/29/zabbix-agent%E5%AE%89%E8%A3%85%E8%84%9A%E6%9C%AC/"/>
     <id>http://geosmart.github.io/2015/06/29/zabbix-agent安装脚本/</id>
     <published>2015-06-29T07:33:38.000Z</published>
-    <updated>2015-06-30T03:14:44.510Z</updated>
+    <updated>2015-06-30T03:35:33.440Z</updated>
     <content type="html"><![CDATA[<!-- toc -->
 <ul>
 <li><a href="#&#x51C6;&#x5907;&#x5185;&#x5BB9;">&#x51C6;&#x5907;&#x5185;&#x5BB9;</a></li>
@@ -171,7 +227,8 @@
 </ol>
 <p>&#x4FEE;&#x6539;zabbix_agentd&#x4E3B;&#x7A0B;&#x5E8F;&#x8DEF;&#x5F84;<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># vim /usr/local/zabbix/misc/init.d/tru64/zabbix_agentd </span></span><br><span class="line">DAEMON=/usr/<span class="built_in">local</span>/zabbix/sbin/zabbix_agentd</span><br></pre></td></tr></table></figure></p>
 <ol>
-<li>&#x7F16;&#x8F91;zabbix_agentd&#x914D;&#x7F6E;&#x6587;&#x4EF6;<br><code>vim /usr/local/zabbix/etc/zabbix_agentd.conf</code> <pre><code class="bash">LogFile=/tmp/zabbix_agentd.log 
+<li><p>&#x7F16;&#x8F91;zabbix_agentd&#x914D;&#x7F6E;&#x6587;&#x4EF6;<br><code>vim /usr/local/zabbix/etc/zabbix_agentd.conf</code> </p>
+<pre><code class="bash">LogFile=/tmp/zabbix_agentd.log 
 <span class="comment">#&#x670D;&#x52A1;&#x7AEF;IP  </span>
 Server=<span class="number">192.168</span>.<span class="number">1.80</span>
 <span class="comment">#&#x670D;&#x52A1;&#x7AEF;IP   </span>
@@ -186,13 +243,15 @@ UnsafeUserParameters=<span class="number">1</span>
 chmod +x install-zabbix_agentd.sh 
 sudo ./install-zabbix_agentd.sh
 </code></pre>
+</li>
+</ol>
 <h2 id="&#x76F8;&#x5173;&#x64CD;&#x4F5C;">&#x76F8;&#x5173;&#x64CD;&#x4F5C;</h2><p>1&#x3001;&#x82E5;zabbix&#x7684;host&#x65E0;&#x6CD5;&#x8BBF;&#x95EE;&#xFF0C;&#x8003;&#x8651;&#x9632;&#x706B;&#x5899;&#x662F;&#x5426;&#x9700;&#x8981;&#x5173;&#x95ED;/&#x52A0;&#x5165;&#x4FE1;&#x4EFB;&#x7AEF;&#x53E3;</p>
 <pre><code class="bash"><span class="comment">#&#x67E5;&#x770B;&#x9632;&#x706B;&#x5899;&#x72B6;&#x6001;</span>
 service iptables status 
 <span class="comment">#&#x5173;&#x95ED;&#x9632;&#x706B;&#x5899; </span>
 service iptables stop
 </code></pre>
-</li>
+<ol>
 <li><p>&#x67E5;&#x770B;zabbix&#x670D;&#x52A1;&#x662F;&#x5426;&#x5DF2;&#x542F;&#x52A8;</p>
 <pre><code class="bash">netstat -utlnp | grep zabbix
 </code></pre>
