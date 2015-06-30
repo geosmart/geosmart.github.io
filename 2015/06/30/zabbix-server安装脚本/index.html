@@ -3,46 +3,46 @@
 <head>
   <meta charset="utf-8">
   
-  <title>zabbix-agent安装脚本 | geosmart</title>
+  <title>zabbix-server安装脚本 | geosmart</title>
   <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1">
   <meta name="description" content="&amp;lt;!-- toc --&amp;gt;
 
 &amp;#x51C6;&amp;#x5907;&amp;#x5185;&amp;#x5BB9;
 &amp;#x5B89;&amp;#x88C5;&amp;#x6B65;&amp;#x9AA4;
-&amp;#x76F8;&amp;#x5173;&amp;#x64CD;&amp;#x4F5C;
 
 &amp;lt;!-- tocstop --&amp;gt;
  
 &amp;#x51C6;&amp;#x5907;&amp;#x5185;&amp;#x5BB9;
-zabbix&amp;#x5B89;&amp;#x88C5;&amp;#x5305;&amp;#xF">
+zabbix&amp;#x5B89;&amp;#x88C5;&amp;#x5305;&amp;#xFF08;&amp;#x5B98;&amp;#x7F51;&amp;#x7248;&amp;#x67">
 <meta property="og:type" content="article">
-<meta property="og:title" content="zabbix-agent安装脚本">
-<meta property="og:url" content="http://geosmart.github.io/2015/06/29/zabbix-agent安装脚本/index.html">
+<meta property="og:title" content="zabbix-server安装脚本">
+<meta property="og:url" content="http://geosmart.github.io/2015/06/30/zabbix-server安装脚本/index.html">
 <meta property="og:site_name" content="geosmart">
 <meta property="og:description" content="&amp;lt;!-- toc --&amp;gt;
 
 &amp;#x51C6;&amp;#x5907;&amp;#x5185;&amp;#x5BB9;
 &amp;#x5B89;&amp;#x88C5;&amp;#x6B65;&amp;#x9AA4;
-&amp;#x76F8;&amp;#x5173;&amp;#x64CD;&amp;#x4F5C;
 
 &amp;lt;!-- tocstop --&amp;gt;
  
 &amp;#x51C6;&amp;#x5907;&amp;#x5185;&amp;#x5BB9;
-zabbix&amp;#x5B89;&amp;#x88C5;&amp;#x5305;&amp;#xF">
+zabbix&amp;#x5B89;&amp;#x88C5;&amp;#x5305;&amp;#xFF08;&amp;#x5B98;&amp;#x7F51;&amp;#x7248;&amp;#x67">
 <meta property="og:image" content="http://geosmart.github.io/zabbix.png">
-<meta property="og:updated_time" content="2015-06-30T03:14:44.510Z">
+<meta property="og:image" content="http://geosmart.github.io/filter.png">
+<meta property="og:image" content="http://geosmart.github.io/cpu.png">
+<meta property="og:image" content="http://geosmart.github.io/network.png">
+<meta property="og:updated_time" content="2015-06-30T03:32:41.190Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="zabbix-agent安装脚本">
+<meta name="twitter:title" content="zabbix-server安装脚本">
 <meta name="twitter:description" content="&amp;lt;!-- toc --&amp;gt;
 
 &amp;#x51C6;&amp;#x5907;&amp;#x5185;&amp;#x5BB9;
 &amp;#x5B89;&amp;#x88C5;&amp;#x6B65;&amp;#x9AA4;
-&amp;#x76F8;&amp;#x5173;&amp;#x64CD;&amp;#x4F5C;
 
 &amp;lt;!-- tocstop --&amp;gt;
  
 &amp;#x51C6;&amp;#x5907;&amp;#x5185;&amp;#x5BB9;
-zabbix&amp;#x5B89;&amp;#x88C5;&amp;#x5305;&amp;#xF">
+zabbix&amp;#x5B89;&amp;#x88C5;&amp;#x5305;&amp;#xFF08;&amp;#x5B98;&amp;#x7F51;&amp;#x7248;&amp;#x67">
   
   
     <link rel="icon" href="/favicon.png">
@@ -117,19 +117,19 @@ zabbix&amp;#x5B89;&amp;#x88C5;&amp;#x5305;&amp;#xF">
               <h1 class="header"><a class="page-title-link" href="/categories/技术点滴/">技术点滴</a></h1>
             </div>
             <div class="main-body-content">
-              <article id="post-zabbix-agent安装脚本" class="article article-single article-type-post" itemscope itemprop="blogPost">
+              <article id="post-zabbix-server安装脚本" class="article article-single article-type-post" itemscope itemprop="blogPost">
     <div class="article-inner">
       <!--  -->
       
         <header class="article-header">
           <h1 class="article-title" itemprop="name">
-      zabbix-agent安装脚本
+      zabbix-server安装脚本
     </h1>
         </header>
       
       <p class="article-byline">
-        <a href="/2015/06/29/zabbix-agent安装脚本/" class="article-date">
-  <time datetime="2015-06-29T07:33:38.000Z" itemprop="datePublished">29   六月   2015</time>
+        <a href="/2015/06/30/zabbix-server安装脚本/" class="article-date">
+  <time datetime="2015-06-30T02:47:59.000Z" itemprop="datePublished">30   六月   2015</time>
 </a>
       </p>
       <div class="article-entry" itemprop="articleBody">
@@ -137,56 +137,32 @@ zabbix&amp;#x5B89;&amp;#x88C5;&amp;#x5305;&amp;#xF">
 <ul>
 <li><a href="#&#x51C6;&#x5907;&#x5185;&#x5BB9;">&#x51C6;&#x5907;&#x5185;&#x5BB9;</a></li>
 <li><a href="#&#x5B89;&#x88C5;&#x6B65;&#x9AA4;">&#x5B89;&#x88C5;&#x6B65;&#x9AA4;</a></li>
-<li><a href="#&#x76F8;&#x5173;&#x64CD;&#x4F5C;">&#x76F8;&#x5173;&#x64CD;&#x4F5C;</a></li>
 </ul>
 <!-- tocstop -->
 <p><img src="zabbix.png" alt="zabbix"> </p>
 <h2 id="&#x51C6;&#x5907;&#x5185;&#x5BB9;">&#x51C6;&#x5907;&#x5185;&#x5BB9;</h2><ol>
 <li><a href="http://sourceforge.net/projects/zabbix/files/ZABBIX%20Latest%20Stable/2.2.9/zabbix-2.2.9.tar.gz/download" target="_blank" rel="external">zabbix&#x5B89;&#x88C5;&#x5305;&#xFF08;&#x5B98;&#x7F51;&#x7248;&#x672C;&#xFF1A;zabbix-2.2.9.tar.gz&#xFF09;</a></li>
-<li><a href="install-zabbix_agent.sh">zabbix&#x5B89;&#x88C5;&#x811A;&#x672C;</a> </li>
+<li><a href="install-zabbix_server.sh">zabbix&#x5B89;&#x88C5;&#x811A;&#x672C;</a> </li>
+<li>LNMP/LNAP&#x73AF;&#x5883;&#x5B89;&#x88C5;</li>
 </ol>
-<h2 id="&#x5B89;&#x88C5;&#x6B65;&#x9AA4;">&#x5B89;&#x88C5;&#x6B65;&#x9AA4;</h2><ol>
-<li>&#x4FEE;&#x6539;zabbix_agentd&#x7A0B;&#x5E8F;&#x7684;&#x78C1;&#x76D8;&#x8DEF;&#x5F84;<br>&#x6DFB;&#x52A0;&#x4E0B;&#x9762;&#x4E24;&#x53E5;&#x5230;<code>#!/bin/bash</code>&#x4E4B;&#x540E;&#xFF0C;&#x89E3;&#x51B3;<code>service myservicedoes not support chkconfig</code>&#x95EE;&#x9898;<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># chkconfig: 2345 10 90 </span></span><br><span class="line"><span class="comment"># description:zabbix....</span></span><br></pre></td></tr></table></figure>
-</li>
-</ol>
-<p>&#x4FEE;&#x6539;zabbix_agentd&#x4E3B;&#x7A0B;&#x5E8F;&#x8DEF;&#x5F84;<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># vim /usr/local/zabbix/misc/init.d/tru64/zabbix_agentd </span></span><br><span class="line">DAEMON=/usr/<span class="built_in">local</span>/zabbix/sbin/zabbix_agentd</span><br></pre></td></tr></table></figure></p>
+<h2 id="&#x5B89;&#x88C5;&#x6B65;&#x9AA4;">&#x5B89;&#x88C5;&#x6B65;&#x9AA4;</h2><p>1&#x3001;PHP&#x53C2;&#x6570;&#x914D;&#x7F6E;<br>&#x4E3A;&#x5B89;&#x88C5;zabbix&#x76D1;&#x63A7;WebUI&#xFF0C;&#x9700;&#x8981;&#x9884;&#x5148;&#x914D;&#x7F6E;php<br><code>vim /usr/local/php/etc/php.ini</code>&#x67E5;&#x627E;&#x914D;&#x7F6E;&#x4E0B;&#x5217;&#x53C2;&#x6570;&#xFF1A;<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">memory_<span class="built_in">limit</span> = <span class="number">128</span>M</span><br><span class="line">post_max_size = <span class="number">50</span>M</span><br><span class="line">upload_max_filesize =<span class="number">50</span>M</span><br><span class="line">max_execution_time = <span class="number">600</span></span><br><span class="line">max_input_time = <span class="number">600</span></span><br><span class="line">date.timezone = Asia/Shanghai</span><br></pre></td></tr></table></figure></p>
 <ol>
-<li>&#x7F16;&#x8F91;zabbix_agentd&#x914D;&#x7F6E;&#x6587;&#x4EF6;<br><code>vim /usr/local/zabbix/etc/zabbix_agentd.conf</code> <pre><code class="bash">LogFile=/tmp/zabbix_agentd.log 
-<span class="comment">#&#x670D;&#x52A1;&#x7AEF;IP  </span>
-Server=<span class="number">192.168</span>.<span class="number">1.80</span>
-<span class="comment">#&#x670D;&#x52A1;&#x7AEF;IP   </span>
-ServerActive= <span class="number">192.168</span>.<span class="number">1.80</span>
-<span class="comment">#&#x5BA2;&#x6237;&#x7AEF;IP&#x4E0E;zabbix-web&#x914D;&#x7F6E;&#x4E0A;&#x7684;hostName&#x4E00;&#x81F4;   </span>
-Hostname=<span class="number">192.168</span>.<span class="number">1.81</span>
-UnsafeUserParameters=<span class="number">1</span>
-</code></pre>
+<li>&#x4FEE;&#x6539;zabbix_server&#x7A0B;&#x5E8F;&#x7684;&#x78C1;&#x76D8;&#x8DEF;&#x5F84;<br>&#x6DFB;&#x52A0;&#x4E0B;&#x9762;&#x4E24;&#x53E5;&#x5230;<code>#!/bin/bash</code>&#x4E4B;&#x540E;&#xFF0C;&#x89E3;&#x51B3;<code>service myservicedoes not support chkconfig</code>&#x95EE;&#x9898;<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># chkconfig: 2345 10 90 </span></span><br><span class="line"><span class="comment"># description:zabbix....</span></span><br></pre></td></tr></table></figure>
 </li>
-<li><p>&#x6267;&#x884C;&#x5B89;&#x88C5;&#x811A;&#x672C;</p>
-<pre><code class="bash"><span class="built_in">cd</span> usr/<span class="built_in">local</span>/zabbix/sbin/install-zabbix_agentd.sh
-chmod +x install-zabbix_agentd.sh 
-sudo ./install-zabbix_agentd.sh
-</code></pre>
-<h2 id="&#x76F8;&#x5173;&#x64CD;&#x4F5C;">&#x76F8;&#x5173;&#x64CD;&#x4F5C;</h2><p>1&#x3001;&#x82E5;zabbix&#x7684;host&#x65E0;&#x6CD5;&#x8BBF;&#x95EE;&#xFF0C;&#x8003;&#x8651;&#x9632;&#x706B;&#x5899;&#x662F;&#x5426;&#x9700;&#x8981;&#x5173;&#x95ED;/&#x52A0;&#x5165;&#x4FE1;&#x4EFB;&#x7AEF;&#x53E3;</p>
-<pre><code class="bash"><span class="comment">#&#x67E5;&#x770B;&#x9632;&#x706B;&#x5899;&#x72B6;&#x6001;</span>
-service iptables status 
-<span class="comment">#&#x5173;&#x95ED;&#x9632;&#x706B;&#x5899; </span>
-service iptables stop
-</code></pre>
+</ol>
+<p>&#x4FEE;&#x6539;zabbix_server&#x4E3B;&#x7A0B;&#x5E8F;&#x8DEF;&#x5F84;<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># vim /usr/local/zabbix/misc/init.d/tru64/zabbix_server</span></span><br><span class="line">DAEMON=/usr/<span class="built_in">local</span>/zabbix/sbin/zabbix_server</span><br></pre></td></tr></table></figure></p>
+<ol>
+<li><p>&#x7F16;&#x8F91;zabbix_server&#x914D;&#x7F6E;&#x6587;&#x4EF6;<br><code>vim /usr/local/zabbix/etc/zabbix_server.conf</code> </p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br></pre></td><td class="code"><pre><span class="line">DBHost=localhost</span><br><span class="line">DBName = zabbix </span><br><span class="line">DBPassword =zabbix  </span><br><span class="line">DBUser = zabbix  </span><br><span class="line">LogFile=/tmp/zabbix_server.log  </span><br><span class="line">```  </span><br><span class="line"></span><br><span class="line"><span class="number">4</span>.??&#x914D;&#x7F6E;</span><br><span class="line">TODO &#x662F;&#x5426;&#x5FC5;&#x987B;&#xFF0C;&#x6682;&#x9700;&#x6D4B;&#x8BD5;</span><br><span class="line">``` bash</span><br><span class="line"></span><br><span class="line">mkdir /etc/zabbix</span><br><span class="line">touch /etc/zabbix/zabbix_server.conf</span><br><span class="line">chown -R zabbix:zabbix /etc/zabbix</span><br><span class="line">touch /var/<span class="built_in">log</span>/zabbix.log</span><br><span class="line">chown zabbix:zabbix /var/<span class="built_in">log</span>/zabbix.log</span><br><span class="line"></span><br><span class="line">cat &gt;&gt;/etc/zabbix/zabbix_server.conf &lt;&lt;EOF</span><br><span class="line">DBHost=localhost</span><br><span class="line">DBName = zabbix </span><br><span class="line">DBPassword =zabbix  </span><br><span class="line">DBUser = zabbix  </span><br><span class="line">LogFile=/tmp/zabbix_server.log </span><br><span class="line">EOF  </span><br><span class="line"></span><br><span class="line">``` </span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="number">3</span>. &#x6267;&#x884C;&#x5B89;&#x88C5;&#x811A;&#x672C;</span><br><span class="line">``` bash</span><br><span class="line"><span class="built_in">cd</span> usr/<span class="built_in">local</span>/zabbix/sbin/install-zabbix_server.sh</span><br><span class="line">chmod +x install-zabbix_server.sh </span><br><span class="line">sudo ./install-zabbix_server.sh</span><br><span class="line">```  </span><br><span class="line"></span><br><span class="line"><span class="comment">## &#x76F8;&#x5173;&#x64CD;&#x4F5C;</span></span><br><span class="line"><span class="number">1</span>. zabbix&#x7F51;&#x7AD9;&#x4E2D;&#x7684;&#x542F;&#x7528;&#x4E2D;&#x6587;&#x540E;&#x4E71;&#x7801;&#x95EE;&#x9898;</span><br><span class="line">* &#x5728;zabbix&#x7F51;&#x7AD9;&#x76EE;&#x5F55;&#x4E0B;&#x7684;include/locales.inc.php&#x6587;&#x4EF6;&#x4E2D;&#x542F;&#x7528;&#x4E2D;&#x6587;&#xFF08;<span class="string">&apos;display&apos;</span>=<span class="literal">true</span>&#xFF09;</span><br><span class="line">* &#x5728;windows&#x4E0B;&#x63A7;&#x5236;&#x9762;&#x677F;-&gt;&#x5B57;&#x4F53;-&gt;&#x9009;&#x62E9;&#x4E00;&#x79CD;&#x4E2D;&#x6587;&#x5B57;&#x5E93;&#x4F8B;&#x5982;&#x201C;&#x6977;&#x4F53;&#x201D;&#xFF0C;&#x628A;&#x5B83;&#x62F7;&#x8D1D;&#x5230;zabbix&#x7684;web&#x7AEF;&#x7684;fonts&#x76EE;&#x5F55;&#x4E0B;&#x4F8B;&#x5982;&#xFF1A;/var/www/html/zabbix/fonts&#xFF0C;&#x5E76;&#x4E14;&#x628A;TTF&#x540E;&#x7F00;&#x6539;&#x4E3A;ttf</span><br><span class="line">* &#x4FEE;&#x6539;zabbix&#x7684;web&#x7AEF;/include/defines.inc.php&#xFF0C;&#x5982;&#x4E0B;</span><br><span class="line">``` php</span><br><span class="line">//define(<span class="string">&apos;ZBX_GRAPH_FONT_NAME&apos;</span>, <span class="string">&apos;DejaVuSans&apos;</span>); // origin name</span><br><span class="line">define(<span class="string">&apos;ZBX_GRAPH_FONT_NAME&apos;</span>, <span class="string">&apos;simkai&apos;</span>); // custom font name</span><br><span class="line">```  </span><br><span class="line"></span><br><span class="line"><span class="number">2</span>. &#x82E5;zabbix&#x7684;host&#x65E0;&#x6CD5;&#x8BBF;&#x95EE;&#xFF0C;&#x8003;&#x8651;&#x9632;&#x706B;&#x5899;&#x662F;&#x5426;&#x9700;&#x8981;&#x5173;&#x95ED;/&#x52A0;&#x5165;&#x4FE1;&#x4EFB;&#x7AEF;&#x53E3;</span><br><span class="line">``` bash</span><br><span class="line"><span class="comment">#&#x67E5;&#x770B;&#x9632;&#x706B;&#x5899;&#x72B6;&#x6001;</span></span><br><span class="line">service iptables status </span><br><span class="line"><span class="comment">#&#x5173;&#x95ED;&#x9632;&#x706B;&#x5899; </span></span><br><span class="line">service iptables stop  </span><br><span class="line">```  </span><br><span class="line"></span><br><span class="line"><span class="number">3</span>. &#x67E5;&#x770B;zabbix&#x670D;&#x52A1;&#x662F;&#x5426;&#x5DF2;&#x542F;&#x52A8;</span><br><span class="line">``` bash</span><br><span class="line">netstat -utlnp | grep zabbix </span><br><span class="line">```    </span><br><span class="line"></span><br><span class="line"><span class="number">4</span>. &#x914D;&#x7F6E;&#x6587;&#x4EF6;&#x66F4;&#x65B0;&#x540E;&#xFF0C;&#x9700;&#x91CD;&#x542F;&#x5BA2;&#x6237;&#x7AEF;&#x670D;&#x52A1;</span><br><span class="line">``` bash</span><br><span class="line">service zabbix_server restart</span><br></pre></td></tr></table></figure>
 </li>
-<li><p>&#x67E5;&#x770B;zabbix&#x670D;&#x52A1;&#x662F;&#x5426;&#x5DF2;&#x542F;&#x52A8;</p>
-<pre><code class="bash">netstat -utlnp | grep zabbix
-</code></pre>
-</li>
-<li><p>&#x914D;&#x7F6E;&#x6587;&#x4EF6;&#x66F4;&#x65B0;&#x540E;&#xFF0C;&#x9700;&#x91CD;&#x542F;&#x5BA2;&#x6237;&#x7AEF;&#x670D;&#x52A1;</p>
-<pre><code class="bash">service zabbix_agentd restart
-</code></pre>
+<li><p>zabbix web&#x914D;&#x7F6E;&#x7B80;&#x7565;&#xFF0C;&#x8D34;&#x51E0;&#x5F20;&#x6548;&#x679C;&#x56FE;<br><img src="filter.png" alt="zabbix&#x76D1;&#x63A7;"><br><img src="cpu.png" alt="zabbix&#x76D1;&#x63A7;CPU"><br><img src="network.png" alt="zabbix&#x76D1;&#x63A7;&#x7F51;&#x7EDC;"></p>
 </li>
 </ol>
       </div>
       <footer class="article-footer">
-        <a data-url="http://geosmart.github.io/2015/06/29/zabbix-agent安装脚本/" data-id="cibiqk0050007qkpa8pcv4set" class="article-share-link">分享到</a>
+        <a data-url="http://geosmart.github.io/2015/06/30/zabbix-server安装脚本/" data-id="cibiqjzzp0006qkpasy9zltx3" class="article-share-link">分享到</a>
         
-          <a href="http://geosmart.github.io/2015/06/29/zabbix-agent安装脚本/#comments" class="article-comment-link">评论</a>
+          <a href="http://geosmart.github.io/2015/06/30/zabbix-server安装脚本/#comments" class="article-comment-link">评论</a>
         
         <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/centos/">CentOS</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/监控/">监控</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/运维/">运维</a></li></ul>
       </footer>
@@ -196,7 +172,7 @@ service iptables stop
 
 <section id="comments">
     <!-- ��˵���ۿ� start -->
-    <div class="ds-thread" data-thread-key="post-zabbix-agent安装脚本" data-title="zabbix-agent安装脚本" data-url="http://geosmart.github.io/2015/06/29/zabbix-agent安装脚本/"></div>
+    <div class="ds-thread" data-thread-key="post-zabbix-server安装脚本" data-title="zabbix-server安装脚本" data-url="http://geosmart.github.io/2015/06/30/zabbix-server安装脚本/"></div>
     <!-- ��˵���ۿ� end -->
     <!-- ��˵����JS���� start (һ����ҳֻ������һ��) -->
     <script type="text/javascript">
@@ -234,20 +210,20 @@ service iptables stop
   
     <nav id="article-nav">
   
-    <a href="/2015/06/29/about/index/" id="article-nav-newer" class="article-nav-link-wrap">
+    <a href="/2015/06/30/中文测试post/" id="article-nav-newer" class="article-nav-link-wrap">
       <strong class="article-nav-caption">下一篇</strong>
       <p class="article-nav-title">
         
-          about me
+          中文测试POST
         
       </p>
       <i class="icon" id="icon-chevron-right"></i>
     </a>
   
   
-    <a href="/2015/06/28/mongodb安装脚本/" id="article-nav-older" class="article-nav-link-wrap">
+    <a href="/2015/06/29/jdk安装脚本/" id="article-nav-older" class="article-nav-link-wrap">
       <strong class="article-nav-caption">上一篇</strong>
-      <p class="article-nav-title">mongodb安装脚本</p>
+      <p class="article-nav-title">jdk安装脚本</p>
       <i class="icon" id="icon-chevron-left"></i>
     </a>
   
