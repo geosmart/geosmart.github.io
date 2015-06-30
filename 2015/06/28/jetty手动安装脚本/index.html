@@ -5,31 +5,19 @@
   
   <title>jetty手动安装脚本 | geosmart</title>
   <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1">
-  <meta name="description" content="&amp;lt;!-- toc --&amp;gt;
-
-&amp;#x4E0B;&amp;#x8F7D;&amp;#x89E3;&amp;#x538B;Jetty
-&amp;#x65B0;&amp;#x5EFA;&amp;#x7528;&amp;#x6237;&amp;gt;&amp;#x914D;&amp;#x7F6E;jetty&amp;#x6240;&amp;#x5C5E;&amp;#x6743;&amp;#x9650;
-&amp;#x5B89;&amp;#x88C5;&amp;#x5230;&amp;#x7CFB;&amp;#x7EDF;&amp;#x670D;&amp;#x52A1;
-&amp;">
+  <meta name="description" content="&amp;#x5B89;&amp;#x88C5;&amp;#x6B65;&amp;#x9AA4;&amp;#x5C06;&amp;#x6587;&amp;#x4EF6;&amp;#x590D;&amp;#x5236;&amp;#x5230;CentOS&amp;#x540E;&amp;#x8FDB;&amp;#x884C;&amp;#x5B89;&amp;#x88C5;
+&amp;#x4E0B;&amp;#x8F7D;&amp;#x89E3;&amp;#x538B;Jetty1234cd /tmpwget http://eclipse.org/d">
 <meta property="og:type" content="article">
 <meta property="og:title" content="jetty手动安装脚本">
 <meta property="og:url" content="http://geosmart.github.io/2015/06/28/jetty手动安装脚本/index.html">
 <meta property="og:site_name" content="geosmart">
-<meta property="og:description" content="&amp;lt;!-- toc --&amp;gt;
-
-&amp;#x4E0B;&amp;#x8F7D;&amp;#x89E3;&amp;#x538B;Jetty
-&amp;#x65B0;&amp;#x5EFA;&amp;#x7528;&amp;#x6237;&amp;gt;&amp;#x914D;&amp;#x7F6E;jetty&amp;#x6240;&amp;#x5C5E;&amp;#x6743;&amp;#x9650;
-&amp;#x5B89;&amp;#x88C5;&amp;#x5230;&amp;#x7CFB;&amp;#x7EDF;&amp;#x670D;&amp;#x52A1;
-&amp;">
-<meta property="og:updated_time" content="2015-06-30T05:03:26.716Z">
+<meta property="og:description" content="&amp;#x5B89;&amp;#x88C5;&amp;#x6B65;&amp;#x9AA4;&amp;#x5C06;&amp;#x6587;&amp;#x4EF6;&amp;#x590D;&amp;#x5236;&amp;#x5230;CentOS&amp;#x540E;&amp;#x8FDB;&amp;#x884C;&amp;#x5B89;&amp;#x88C5;
+&amp;#x4E0B;&amp;#x8F7D;&amp;#x89E3;&amp;#x538B;Jetty1234cd /tmpwget http://eclipse.org/d">
+<meta property="og:updated_time" content="2015-06-30T15:07:21.325Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="jetty手动安装脚本">
-<meta name="twitter:description" content="&amp;lt;!-- toc --&amp;gt;
-
-&amp;#x4E0B;&amp;#x8F7D;&amp;#x89E3;&amp;#x538B;Jetty
-&amp;#x65B0;&amp;#x5EFA;&amp;#x7528;&amp;#x6237;&amp;gt;&amp;#x914D;&amp;#x7F6E;jetty&amp;#x6240;&amp;#x5C5E;&amp;#x6743;&amp;#x9650;
-&amp;#x5B89;&amp;#x88C5;&amp;#x5230;&amp;#x7CFB;&amp;#x7EDF;&amp;#x670D;&amp;#x52A1;
-&amp;">
+<meta name="twitter:description" content="&amp;#x5B89;&amp;#x88C5;&amp;#x6B65;&amp;#x9AA4;&amp;#x5C06;&amp;#x6587;&amp;#x4EF6;&amp;#x590D;&amp;#x5236;&amp;#x5230;CentOS&amp;#x540E;&amp;#x8FDB;&amp;#x884C;&amp;#x5B89;&amp;#x88C5;
+&amp;#x4E0B;&amp;#x8F7D;&amp;#x89E3;&amp;#x538B;Jetty1234cd /tmpwget http://eclipse.org/d">
   
   
     <link rel="icon" href="/favicon.png">
@@ -113,24 +101,21 @@
       jetty手动安装脚本
     </h1>
         </header>
-      
+        
       <p class="article-byline">
         <a href="/2015/06/28/jetty手动安装脚本/" class="article-date">
-  <time datetime="2015-06-28T05:39:05.000Z" itemprop="datePublished">28   六月   2015</time>
+  <time datetime="2015-06-28T05:39:00.000Z" itemprop="datePublished">28   六月   2015</time>
 </a>
-      </p>
-      <div class="article-entry" itemprop="articleBody">
-        <!-- toc -->
-<ul>
-<li><a href="#&#x4E0B;&#x8F7D;&#x89E3;&#x538B;jetty">&#x4E0B;&#x8F7D;&#x89E3;&#x538B;Jetty</a></li>
-<li><a href="#&#x65B0;&#x5EFA;&#x7528;&#x6237;&#x914D;&#x7F6E;jetty&#x6240;&#x5C5E;&#x6743;&#x9650;">&#x65B0;&#x5EFA;&#x7528;&#x6237;&gt;&#x914D;&#x7F6E;jetty&#x6240;&#x5C5E;&#x6743;&#x9650;</a></li>
-<li><a href="#&#x5B89;&#x88C5;&#x5230;&#x7CFB;&#x7EDF;&#x670D;&#x52A1;">&#x5B89;&#x88C5;&#x5230;&#x7CFB;&#x7EDF;&#x670D;&#x52A1;</a></li>
-<li><a href="#&#x7F16;&#x8F91;&#x542F;&#x52A8;&#x811A;&#x672C;">&#x7F16;&#x8F91;&#x542F;&#x52A8;&#x811A;&#x672C;</a></li>
-<li><a href="#&#x542F;&#x52A8;&#x670D;&#x52A1;&#x6D4B;&#x8BD5;">&#x542F;&#x52A8;&#x670D;&#x52A1;&gt;&#x6D4B;&#x8BD5;</a></li>
-<li><a href="#&#x5E38;&#x7528;&#x64CD;&#x4F5C;&#x6307;&#x4EE4;">&#x5E38;&#x7528;&#x64CD;&#x4F5C;&#x6307;&#x4EE4;</a></li>
-</ul>
-<!-- tocstop -->
-<h2 id="&#x5B89;&#x88C5;&#x6B65;&#x9AA4;">&#x5B89;&#x88C5;&#x6B65;&#x9AA4;</h2><p>&#x5C06;&#x6587;&#x4EF6;&#x590D;&#x5236;&#x5230;CentOS&#x540E;&#x8FDB;&#x884C;&#x5B89;&#x88C5;</p>
+      </p> 
+
+      <!--geosmart 待优化toc样式-->
+      <article class="article article-summary">
+           <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#安装步骤"><span class="toc-number">1.</span> <span class="toc-text">安装步骤</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#下载解压jetty"><span class="toc-number">1.1.</span> <span class="toc-text">下载解压Jetty</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#新建用户配置jetty所属权限"><span class="toc-number">1.2.</span> <span class="toc-text">新建用户>配置jetty所属权限</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#安装到系统服务"><span class="toc-number">1.3.</span> <span class="toc-text">安装到系统服务</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#编辑启动脚本"><span class="toc-number">1.4.</span> <span class="toc-text">编辑启动脚本</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#启动服务测试"><span class="toc-number">1.5.</span> <span class="toc-text">启动服务>测试</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#常用操作指令"><span class="toc-number">1.6.</span> <span class="toc-text">常用操作指令</span></a></li></ol></li></ol> 
+      </article>
+      <!--geosmart 待优化toc样式-->
+
+      <div class="article-entry" itemprop="articleBody"> 
+        <h2 id="&#x5B89;&#x88C5;&#x6B65;&#x9AA4;">&#x5B89;&#x88C5;&#x6B65;&#x9AA4;</h2><p>&#x5C06;&#x6587;&#x4EF6;&#x590D;&#x5236;&#x5230;CentOS&#x540E;&#x8FDB;&#x884C;&#x5B89;&#x88C5;</p>
 <h3 id="&#x4E0B;&#x8F7D;&#x89E3;&#x538B;jetty">&#x4E0B;&#x8F7D;&#x89E3;&#x538B;Jetty</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">cd</span> /tmp</span><br><span class="line">wget http://eclipse.org/downloads/download.php?file=/jetty/stable-<span class="number">9</span>/dist/jetty-distribution-<span class="number">9.3</span>.<span class="number">0</span>.v20150612.tar.gz&amp;r=<span class="number">1</span> </span><br><span class="line">tar -xzvf  jetty-distribution-<span class="number">9.3</span>.<span class="number">0</span>.v20150612.tar.gz </span><br><span class="line">mv jetty-distribution-<span class="number">9.1</span>.<span class="number">1</span>.v20140108 /usr/<span class="built_in">local</span>/jetty</span><br></pre></td></tr></table></figure>
 <h3 id="&#x65B0;&#x5EFA;&#x7528;&#x6237;&#x914D;&#x7F6E;jetty&#x6240;&#x5C5E;&#x6743;&#x9650;">&#x65B0;&#x5EFA;&#x7528;&#x6237;&gt;&#x914D;&#x7F6E;jetty&#x6240;&#x5C5E;&#x6743;&#x9650;</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">useradd -m jetty </span><br><span class="line">chown -R jetty:jetty /usr/<span class="built_in">local</span>/jetty/</span><br></pre></td></tr></table></figure>
 <h3 id="&#x5B89;&#x88C5;&#x5230;&#x7CFB;&#x7EDF;&#x670D;&#x52A1;">&#x5B89;&#x88C5;&#x5230;&#x7CFB;&#x7EDF;&#x670D;&#x52A1;</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">ln <span class="operator">-s</span> /usr/<span class="built_in">local</span>/jetty/bin/jetty.sh /etc/init.d/jetty</span><br><span class="line">chkconfig --add jetty </span><br><span class="line">chkconfig --level <span class="number">345</span> jetty on</span><br></pre></td></tr></table></figure>
@@ -142,7 +127,7 @@ curl localhost:<span class="number">8080</span>
 </code></pre>
       </div>
       <footer class="article-footer">
-        <a data-url="http://geosmart.github.io/2015/06/28/jetty手动安装脚本/" data-id="cibiw9xuw000wjgpauy03rcbd" class="article-share-link">分享到</a>
+        <a data-url="http://geosmart.github.io/2015/06/28/jetty手动安装脚本/" data-id="cibjgzyn30010m8paae5931fa" class="article-share-link">分享到</a>
         
           <a href="http://geosmart.github.io/2015/06/28/jetty手动安装脚本/#comments" class="article-comment-link">评论</a>
         
@@ -153,10 +138,10 @@ curl localhost:<span class="number">8080</span>
 
 
 <section id="comments">
-    <!-- ��˵���ۿ� start -->
+    <!-- ¶àËµÆÀÂÛ¿ò start -->
     <div class="ds-thread" data-thread-key="post-jetty手动安装脚本" data-title="jetty手动安装脚本" data-url="http://geosmart.github.io/2015/06/28/jetty手动安装脚本/"></div>
-    <!-- ��˵���ۿ� end -->
-    <!-- ��˵����JS���� start (һ����ҳֻ������һ��) -->
+    <!-- ¶àËµÆÀÂÛ¿ò end -->
+    <!-- ¶àËµ¹«¹²JS´úÂë start (Ò»¸öÍøÒ³Ö»Ðè²åÈëÒ»´Î) -->
     <script type="text/javascript">
         var duoshuoQuery = {short_name: 'geosmart'};
         (function () {
@@ -169,7 +154,7 @@ curl localhost:<span class="number">8080</span>
             || document.getElementsByTagName('body')[0]).appendChild(ds);
         })();
     </script>
-    <!-- ��˵����JS���� end -->
+    <!-- ¶àËµ¹«¹²JS´úÂë end -->
 </section>
             </div>
           </section>
@@ -222,6 +207,15 @@ curl localhost:<span class="number">8080</span>
             
             <div class="item-inner">
               <p class="item-category"><a class="article-category-link" href="/categories/技术点滴/">技术点滴</a></p>
+              <p class="item-title"><a href="/2015/06/30/日志分析工具/" class="title">日志分析工具</a></p>
+              <p class="item-date"><time datetime="2015-06-30T06:47:50.000Z" itemprop="datePublished">30   六月   2015</time></p>
+            </div>
+          </li>
+        
+          <li>
+            
+            <div class="item-inner">
+              <p class="item-category"><a class="article-category-link" href="/categories/技术点滴/">技术点滴</a></p>
               <p class="item-title"><a href="/2015/06/30/常用git命令/" class="title">常用git命令</a></p>
               <p class="item-date"><time datetime="2015-06-30T05:18:03.000Z" itemprop="datePublished">30   六月   2015</time></p>
             </div>
@@ -254,15 +248,6 @@ curl localhost:<span class="number">8080</span>
             </div>
           </li>
         
-          <li>
-            
-            <div class="item-inner">
-              <p class="item-category"><a class="article-category-link" href="/categories/技术点滴/">技术点滴</a></p>
-              <p class="item-title"><a href="/2015/06/30/zabbix-server安装脚本/" class="title">zabbix-server安装脚本</a></p>
-              <p class="item-date"><time datetime="2015-06-30T02:47:59.000Z" itemprop="datePublished">30   六月   2015</time></p>
-            </div>
-          </li>
-        
       </ul>
     </div>
   </div>
@@ -270,28 +255,21 @@ curl localhost:<span class="number">8080</span>
       <div class="widget-wrap widget-list">
     <h3 class="widget-title">分类</h3>
     <div class="widget">
-      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/技术点滴/">技术点滴</a><span class="category-list-count">9</span></li></ul>
+      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/技术点滴/">技术点滴</a><span class="category-list-count">10</span></li></ul>
     </div>
   </div>
     
       <div class="widget-wrap widget-list">
     <h3 class="widget-title">归档</h3>
     <div class="widget">
-      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/06/">六月 2015</a><span class="archive-list-count">12</span></li></ul>
-    </div>
-  </div>
-    
-      <div class="widget-wrap widget-list">
-    <h3 class="widget-title">标签</h3>
-    <div class="widget">
-      <ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="/tags/centos/">CentOS</a><span class="tag-list-count">7</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/test/">TEST</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/web服务器/">Web服务器</a><span class="tag-list-count">3</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/工具/">工具</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/数据库/">数据库</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/监控/">监控</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/运维/">运维</a><span class="tag-list-count">3</span></li></ul>
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/06/">六月 2015</a><span class="archive-list-count">13</span></li></ul>
     </div>
   </div>
     
       <div class="widget-wrap widget-float">
     <h3 class="widget-title">标签云</h3>
     <div class="widget tagcloud">
-      <a href="/tags/centos/" style="font-size: 20px">CentOS</a> <a href="/tags/test/" style="font-size: 13.33px">TEST</a> <a href="/tags/web服务器/" style="font-size: 16.67px">Web服务器</a> <a href="/tags/工具/" style="font-size: 13.33px">工具</a> <a href="/tags/数据库/" style="font-size: 10px">数据库</a> <a href="/tags/监控/" style="font-size: 13.33px">监控</a> <a href="/tags/运维/" style="font-size: 16.67px">运维</a>
+      <a href="/tags/centos/" style="font-size: 20px">CentOS</a> <a href="/tags/test/" style="font-size: 12.5px">TEST</a> <a href="/tags/web服务器/" style="font-size: 15px">Web服务器</a> <a href="/tags/工具/" style="font-size: 15px">工具</a> <a href="/tags/数据库/" style="font-size: 10px">数据库</a> <a href="/tags/监控/" style="font-size: 12.5px">监控</a> <a href="/tags/运维/" style="font-size: 17.5px">运维</a>
     </div>
   </div>
     
@@ -302,6 +280,10 @@ curl localhost:<span class="number">8080</span>
         
           <li>
             <a href="http://hexo.io">Hexo</a>
+          </li>
+        
+          <li>
+            <a href="http://ltsoft.github.io">ltsoft</a>
           </li>
         
       </ul>

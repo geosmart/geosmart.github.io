@@ -5,47 +5,29 @@
   
   <title>zabbix-server安装脚本 | geosmart</title>
   <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1">
-  <meta name="description" content="&amp;lt;!-- toc --&amp;gt;
-
-&amp;#x51C6;&amp;#x5907;&amp;#x5185;&amp;#x5BB9;
-&amp;#x5B89;&amp;#x88C5;&amp;#x6B65;&amp;#x9AA4;
-&amp;#x76F8;&amp;#x5173;&amp;#x64CD;&amp;#x4F5C;
-
-&amp;lt;!-- tocstop --&amp;gt;
- 
-&amp;#x51C6;&amp;#x5907;&amp;#x5185;&amp;#x5BB9;
-zabbix&amp;#x5B89;&amp;#x88C5;&amp;#x5305;&amp;#xF">
+  <meta name="description" content="&amp;#x51C6;&amp;#x5907;&amp;#x5185;&amp;#x5BB9;
+zabbix&amp;#x5B89;&amp;#x88C5;&amp;#x5305;&amp;#xFF08;&amp;#x5B98;&amp;#x7F51;&amp;#x7248;&amp;#x672C;&amp;#xFF1A;zabbix-2.2.9.tar.gz&amp;#xFF09;
+zabbix&amp;#x5B89;&amp;#x88C5;&amp;#x811A;&amp;#x672C; 
+LNMP/LNAP&amp;#x73AF;&amp;#x5">
 <meta property="og:type" content="article">
 <meta property="og:title" content="zabbix-server安装脚本">
 <meta property="og:url" content="http://geosmart.github.io/2015/06/30/zabbix-server安装脚本/index.html">
 <meta property="og:site_name" content="geosmart">
-<meta property="og:description" content="&amp;lt;!-- toc --&amp;gt;
-
-&amp;#x51C6;&amp;#x5907;&amp;#x5185;&amp;#x5BB9;
-&amp;#x5B89;&amp;#x88C5;&amp;#x6B65;&amp;#x9AA4;
-&amp;#x76F8;&amp;#x5173;&amp;#x64CD;&amp;#x4F5C;
-
-&amp;lt;!-- tocstop --&amp;gt;
- 
-&amp;#x51C6;&amp;#x5907;&amp;#x5185;&amp;#x5BB9;
-zabbix&amp;#x5B89;&amp;#x88C5;&amp;#x5305;&amp;#xF">
+<meta property="og:description" content="&amp;#x51C6;&amp;#x5907;&amp;#x5185;&amp;#x5BB9;
+zabbix&amp;#x5B89;&amp;#x88C5;&amp;#x5305;&amp;#xFF08;&amp;#x5B98;&amp;#x7F51;&amp;#x7248;&amp;#x672C;&amp;#xFF1A;zabbix-2.2.9.tar.gz&amp;#xFF09;
+zabbix&amp;#x5B89;&amp;#x88C5;&amp;#x811A;&amp;#x672C; 
+LNMP/LNAP&amp;#x73AF;&amp;#x5">
 <meta property="og:image" content="http://geosmart.github.io/zabbix.png">
 <meta property="og:image" content="http://geosmart.github.io/filter.png">
 <meta property="og:image" content="http://geosmart.github.io/cpu.png">
 <meta property="og:image" content="http://geosmart.github.io/network.png">
-<meta property="og:updated_time" content="2015-06-30T03:36:49.434Z">
+<meta property="og:updated_time" content="2015-06-30T15:02:45.947Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="zabbix-server安装脚本">
-<meta name="twitter:description" content="&amp;lt;!-- toc --&amp;gt;
-
-&amp;#x51C6;&amp;#x5907;&amp;#x5185;&amp;#x5BB9;
-&amp;#x5B89;&amp;#x88C5;&amp;#x6B65;&amp;#x9AA4;
-&amp;#x76F8;&amp;#x5173;&amp;#x64CD;&amp;#x4F5C;
-
-&amp;lt;!-- tocstop --&amp;gt;
- 
-&amp;#x51C6;&amp;#x5907;&amp;#x5185;&amp;#x5BB9;
-zabbix&amp;#x5B89;&amp;#x88C5;&amp;#x5305;&amp;#xF">
+<meta name="twitter:description" content="&amp;#x51C6;&amp;#x5907;&amp;#x5185;&amp;#x5BB9;
+zabbix&amp;#x5B89;&amp;#x88C5;&amp;#x5305;&amp;#xFF08;&amp;#x5B98;&amp;#x7F51;&amp;#x7248;&amp;#x672C;&amp;#xFF1A;zabbix-2.2.9.tar.gz&amp;#xFF09;
+zabbix&amp;#x5B89;&amp;#x88C5;&amp;#x811A;&amp;#x672C; 
+LNMP/LNAP&amp;#x73AF;&amp;#x5">
   
   
     <link rel="icon" href="/favicon.png">
@@ -129,21 +111,21 @@ zabbix&amp;#x5B89;&amp;#x88C5;&amp;#x5305;&amp;#xF">
       zabbix-server安装脚本
     </h1>
         </header>
-      
+        
       <p class="article-byline">
         <a href="/2015/06/30/zabbix-server安装脚本/" class="article-date">
   <time datetime="2015-06-30T02:47:59.000Z" itemprop="datePublished">30   六月   2015</time>
 </a>
-      </p>
-      <div class="article-entry" itemprop="articleBody">
-        <!-- toc -->
-<ul>
-<li><a href="#&#x51C6;&#x5907;&#x5185;&#x5BB9;">&#x51C6;&#x5907;&#x5185;&#x5BB9;</a></li>
-<li><a href="#&#x5B89;&#x88C5;&#x6B65;&#x9AA4;">&#x5B89;&#x88C5;&#x6B65;&#x9AA4;</a></li>
-<li><a href="#&#x76F8;&#x5173;&#x64CD;&#x4F5C;">&#x76F8;&#x5173;&#x64CD;&#x4F5C;</a></li>
-</ul>
-<!-- tocstop -->
-<p><img src="zabbix.png" alt="zabbix"> </p>
+      </p> 
+
+      <!--geosmart 待优化toc样式-->
+      <article class="article article-summary">
+           <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#准备内容"><span class="toc-number">1.</span> <span class="toc-text">准备内容</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#安装步骤"><span class="toc-number">2.</span> <span class="toc-text">安装步骤</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#相关操作"><span class="toc-number">3.</span> <span class="toc-text">相关操作</span></a></li></ol> 
+      </article>
+      <!--geosmart 待优化toc样式-->
+
+      <div class="article-entry" itemprop="articleBody"> 
+        <p><img src="zabbix.png" alt="zabbix"> </p>
 <h2 id="&#x51C6;&#x5907;&#x5185;&#x5BB9;">&#x51C6;&#x5907;&#x5185;&#x5BB9;</h2><ol>
 <li><a href="http://sourceforge.net/projects/zabbix/files/ZABBIX%20Latest%20Stable/2.2.9/zabbix-2.2.9.tar.gz/download" target="_blank" rel="external">zabbix&#x5B89;&#x88C5;&#x5305;&#xFF08;&#x5B98;&#x7F51;&#x7248;&#x672C;&#xFF1A;zabbix-2.2.9.tar.gz&#xFF09;</a></li>
 <li><a href="install-zabbix_server.sh">zabbix&#x5B89;&#x88C5;&#x811A;&#x672C;</a> </li>
@@ -219,7 +201,7 @@ service iptables stop
 </ol>
       </div>
       <footer class="article-footer">
-        <a data-url="http://geosmart.github.io/2015/06/30/zabbix-server安装脚本/" data-id="cibiw9xs30009jgpasr8sj2l1" class="article-share-link">分享到</a>
+        <a data-url="http://geosmart.github.io/2015/06/30/zabbix-server安装脚本/" data-id="cibjgzyiw000em8paadvngqzk" class="article-share-link">分享到</a>
         
           <a href="http://geosmart.github.io/2015/06/30/zabbix-server安装脚本/#comments" class="article-comment-link">评论</a>
         
@@ -230,10 +212,10 @@ service iptables stop
 
 
 <section id="comments">
-    <!-- ��˵���ۿ� start -->
+    <!-- ¶àËµÆÀÂÛ¿ò start -->
     <div class="ds-thread" data-thread-key="post-zabbix-server安装脚本" data-title="zabbix-server安装脚本" data-url="http://geosmart.github.io/2015/06/30/zabbix-server安装脚本/"></div>
-    <!-- ��˵���ۿ� end -->
-    <!-- ��˵����JS���� start (һ����ҳֻ������һ��) -->
+    <!-- ¶àËµÆÀÂÛ¿ò end -->
+    <!-- ¶àËµ¹«¹²JS´úÂë start (Ò»¸öÍøÒ³Ö»Ðè²åÈëÒ»´Î) -->
     <script type="text/javascript">
         var duoshuoQuery = {short_name: 'geosmart'};
         (function () {
@@ -246,7 +228,7 @@ service iptables stop
             || document.getElementsByTagName('body')[0]).appendChild(ds);
         })();
     </script>
-    <!-- ��˵����JS���� end -->
+    <!-- ¶àËµ¹«¹²JS´úÂë end -->
 </section>
             </div>
           </section>
@@ -280,9 +262,9 @@ service iptables stop
     </a>
   
   
-    <a href="/2015/06/29/jdk安装脚本/" id="article-nav-older" class="article-nav-link-wrap">
+    <a href="/2015/06/29/about/index/" id="article-nav-older" class="article-nav-link-wrap">
       <strong class="article-nav-caption">上一篇</strong>
-      <p class="article-nav-title">jdk安装脚本</p>
+      <p class="article-nav-title">about me</p>
       <i class="icon" id="icon-chevron-left"></i>
     </a>
   
@@ -294,6 +276,15 @@ service iptables stop
     <h3 class="widget-title">最新文章</h3>
     <div class="widget">
       <ul id="recent-post" class="no-thumbnail">
+        
+          <li>
+            
+            <div class="item-inner">
+              <p class="item-category"><a class="article-category-link" href="/categories/技术点滴/">技术点滴</a></p>
+              <p class="item-title"><a href="/2015/06/30/日志分析工具/" class="title">日志分析工具</a></p>
+              <p class="item-date"><time datetime="2015-06-30T06:47:50.000Z" itemprop="datePublished">30   六月   2015</time></p>
+            </div>
+          </li>
         
           <li>
             
@@ -331,15 +322,6 @@ service iptables stop
             </div>
           </li>
         
-          <li>
-            
-            <div class="item-inner">
-              <p class="item-category"><a class="article-category-link" href="/categories/技术点滴/">技术点滴</a></p>
-              <p class="item-title"><a href="/2015/06/30/zabbix-server安装脚本/" class="title">zabbix-server安装脚本</a></p>
-              <p class="item-date"><time datetime="2015-06-30T02:47:59.000Z" itemprop="datePublished">30   六月   2015</time></p>
-            </div>
-          </li>
-        
       </ul>
     </div>
   </div>
@@ -347,28 +329,21 @@ service iptables stop
       <div class="widget-wrap widget-list">
     <h3 class="widget-title">分类</h3>
     <div class="widget">
-      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/技术点滴/">技术点滴</a><span class="category-list-count">9</span></li></ul>
+      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/技术点滴/">技术点滴</a><span class="category-list-count">10</span></li></ul>
     </div>
   </div>
     
       <div class="widget-wrap widget-list">
     <h3 class="widget-title">归档</h3>
     <div class="widget">
-      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/06/">六月 2015</a><span class="archive-list-count">12</span></li></ul>
-    </div>
-  </div>
-    
-      <div class="widget-wrap widget-list">
-    <h3 class="widget-title">标签</h3>
-    <div class="widget">
-      <ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="/tags/centos/">CentOS</a><span class="tag-list-count">7</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/test/">TEST</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/web服务器/">Web服务器</a><span class="tag-list-count">3</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/工具/">工具</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/数据库/">数据库</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/监控/">监控</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/运维/">运维</a><span class="tag-list-count">3</span></li></ul>
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/06/">六月 2015</a><span class="archive-list-count">13</span></li></ul>
     </div>
   </div>
     
       <div class="widget-wrap widget-float">
     <h3 class="widget-title">标签云</h3>
     <div class="widget tagcloud">
-      <a href="/tags/centos/" style="font-size: 20px">CentOS</a> <a href="/tags/test/" style="font-size: 13.33px">TEST</a> <a href="/tags/web服务器/" style="font-size: 16.67px">Web服务器</a> <a href="/tags/工具/" style="font-size: 13.33px">工具</a> <a href="/tags/数据库/" style="font-size: 10px">数据库</a> <a href="/tags/监控/" style="font-size: 13.33px">监控</a> <a href="/tags/运维/" style="font-size: 16.67px">运维</a>
+      <a href="/tags/centos/" style="font-size: 20px">CentOS</a> <a href="/tags/test/" style="font-size: 12.5px">TEST</a> <a href="/tags/web服务器/" style="font-size: 15px">Web服务器</a> <a href="/tags/工具/" style="font-size: 15px">工具</a> <a href="/tags/数据库/" style="font-size: 10px">数据库</a> <a href="/tags/监控/" style="font-size: 12.5px">监控</a> <a href="/tags/运维/" style="font-size: 17.5px">运维</a>
     </div>
   </div>
     
@@ -379,6 +354,10 @@ service iptables stop
         
           <li>
             <a href="http://hexo.io">Hexo</a>
+          </li>
+        
+          <li>
+            <a href="http://ltsoft.github.io">ltsoft</a>
           </li>
         
       </ul>
