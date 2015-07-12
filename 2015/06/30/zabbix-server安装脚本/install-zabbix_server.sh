@@ -79,13 +79,7 @@ if [ ! -d "$ZABBIX_LOGS" ]; then
     chown -R $ZABBIX_USER:$ZABBIX_USER $ZABBIX_LOGS
 fi 
 
-
-echo "配置mysql..."
-mysql -uroot -proot
-create database zabbix;
-grant all privileges on zabbix.* to zabbix@localhost identified by 'zabbix';
-quit
-
+echo "配置mysql..." 
 mysql -D zabbix -uzabbix -pzabbix < $INSTALL_PATH/database/mysql/schema.sql;
 mysql -D zabbix -uzabbix -pzabbix < $INSTALL_PATH/database/mysql/data.sql;
 mysql -D zabbix -uzabbix -pzabbix < $INSTALL_PATH/database/mysql/images.sql;
@@ -96,15 +90,7 @@ cd  $INSTALL_PATH
 ./configure --prefix=$INSTALL_PATH --enable-server --enable-agent --enable-proxy --with-mysql=/usr/local/mysql/bin/mysql_config --enable-net-snmp --with-libcurl --with-libxml2
 make install
 make installcheck
-
-
-echo "添加zabbix服务Service端口" 
-cat >>/etc/services<<EOF
-zabbix-agent 10050/tcp Zabbix Agent
-zabbix-agent 10050/udp Zabbix Agent
-zabbix-trapper 10051/tcp Zabbix Trapper
-zabbix-trapper 10051/udp Zabbix Trapper
-EOF     
+    
 
 echo "新建开机启动配置文件..."
 cd /etc

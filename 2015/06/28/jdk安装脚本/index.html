@@ -14,7 +14,7 @@ jdk7 X64&amp;#x5B89;&amp;#x88C5;&amp;#x5305;&amp;#xFF08;&amp;#x5B98;&amp;#x7F51;
 <meta property="og:site_name" content="geosmart">
 <meta property="og:description" content="&amp;#x51C6;&amp;#x5907;&amp;#x5185;&amp;#x5BB9;
 jdk7 X64&amp;#x5B89;&amp;#x88C5;&amp;#x5305;&amp;#xFF08;&amp;#x5B98;&amp;#x7F51;&amp;#x7248;&amp;#x672C;&amp;#xFF1A;jdk-7u80-linux-x64.tar.gz&amp;#xFF09;&amp;#x4E0B;&amp;#x8F7D;&amp;#x540E;&amp;#x5E76;&amp;#x91CD;&amp;#x547D;&amp;#x540">
-<meta property="og:updated_time" content="2015-06-30T15:06:23.444Z">
+<meta property="og:updated_time" content="2015-07-06T05:19:17.979Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="jdk安装脚本">
 <meta name="twitter:description" content="&amp;#x51C6;&amp;#x5907;&amp;#x5185;&amp;#x5BB9;
@@ -131,26 +131,26 @@ jdk7 X64&amp;#x5B89;&amp;#x88C5;&amp;#x5305;&amp;#xFF08;&amp;#x5B98;&amp;#x7F51;
 
       <div class="article-entry" itemprop="articleBody"> 
         <h2 id="&#x51C6;&#x5907;&#x5185;&#x5BB9;">&#x51C6;&#x5907;&#x5185;&#x5BB9;</h2><ol>
-<li><a href="http://download.oracle.com/otn-pub/java/jdk/7u80-b15/jdk-7u80-linux-x64.tar.gz" target="_blank" rel="external">jdk7 X64&#x5B89;&#x88C5;&#x5305;&#xFF08;&#x5B98;&#x7F51;&#x7248;&#x672C;&#xFF1A;jdk-7u80-linux-x64.tar.gz&#xFF09;</a><br>&#x4E0B;&#x8F7D;&#x540E;&#x5E76;&#x91CD;&#x547D;&#x540D;&#x4E3A;jetty.tar.gz</li>
+<li><a href="http://download.oracle.com/otn-pub/java/jdk/7u80-b15/jdk-7u80-linux-x64.tar.gz">jdk7 X64&#x5B89;&#x88C5;&#x5305;&#xFF08;&#x5B98;&#x7F51;&#x7248;&#x672C;&#xFF1A;jdk-7u80-linux-x64.tar.gz&#xFF09;</a><br>&#x4E0B;&#x8F7D;&#x540E;&#x5E76;&#x91CD;&#x547D;&#x540D;&#x4E3A;jetty.tar.gz</li>
 <li><a href="install-jdk.sh">jdk&#x5B89;&#x88C5;&#x811A;&#x672C;</a> </li>
 </ol>
 <h2 id="&#x5B89;&#x88C5;&#x6B65;&#x9AA4;">&#x5B89;&#x88C5;&#x6B65;&#x9AA4;</h2><p>&#x5C06;&#x6587;&#x4EF6;&#x590D;&#x5236;&#x5230;CentOS&#x540E;&#x8FDB;&#x884C;&#x5B89;&#x88C5;</p>
 <ol>
-<li>CentOS&#x8DEF;&#x5F84;&#xFF1A;/tmp </li>
+<li>CentOS&#x8DEF;&#x5F84;&#xFF1A;/tmp/jdk</li>
 <li>&#x6267;&#x884C;</li>
 </ol>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"><span class="built_in">cd</span> /tmp</span><br><span class="line">chmod +x install-jdk.sh </span><br><span class="line">sudo ./install-jdk.sh</span><br></pre></td></tr></table></figure>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"><span class="built_in">cd</span> /tmp/jdk</span><br><span class="line">chmod +x install-jdk.sh </span><br><span class="line">sudo ./install-jdk.sh</span><br></pre></td></tr></table></figure>
 <ol>
 <li>&#x4E00;&#x8DEF;&#x56DE;&#x8F66;&#x5373;&#x53EF;</li>
 </ol>
-<h1 id="&#x9644;&#x4EF6;-install-jdksh">&#x9644;&#x4EF6; install-jdk.sh</h1><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"><span class="shebang">#!/bin/sh</span></span><br><span class="line">BASEDIR=$(<span class="built_in">cd</span> `dirname <span class="variable">$0</span>`; <span class="built_in">pwd</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment">#jdk-7u80-linux-x64</span></span><br><span class="line"><span class="built_in">read</span>  -p <span class="string">&quot;Please select java tar package full path path[/tmp/jdk.tar.gz] &quot;</span> INSTALL_FILE</span><br><span class="line"><span class="keyword">if</span> [ ! <span class="operator">-f</span> <span class="string">&quot;<span class="variable">$INSTALL_FILE</span>&quot;</span> ]; <span class="keyword">then</span></span><br><span class="line">trueINSTALL_FILE=<span class="string">&quot;/tmp/jdk.tar.gz&quot;</span></span><br><span class="line"><span class="keyword">fi</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># Set install path</span></span><br><span class="line"><span class="built_in">read</span>  -p <span class="string">&quot;Please select java install path path[/usr/local/java]: &quot;</span> INSTALL_PATH</span><br><span class="line"><span class="keyword">if</span> [ <span class="string">&quot;<span class="variable">$INSTALL_PATH</span>&quot;</span> = <span class="string">&quot;&quot;</span> ]; <span class="keyword">then</span></span><br><span class="line">trueINSTALL_PATH=<span class="string">&quot;/usr/local/java&quot;</span></span><br><span class="line"><span class="keyword">fi</span></span><br><span class="line"><span class="keyword">if</span> [ ! <span class="operator">-d</span> <span class="variable">$INSTALL_PATH</span> ]; <span class="keyword">then</span></span><br><span class="line">    <span class="built_in">echo</span> <span class="string">&quot;mkdir <span class="variable">$INSTALL_PATH</span>&quot;</span></span><br><span class="line">    mkdir -p <span class="variable">$INSTALL_PATH</span></span><br><span class="line"><span class="keyword">fi</span></span><br><span class="line"></span><br><span class="line"><span class="built_in">echo</span> <span class="string">&quot;uncompress <span class="variable">$INSTALL_FILE</span> to <span class="variable">$INSTALL_PATH</span>&quot;</span></span><br><span class="line"><span class="keyword">if</span> [ -w <span class="variable">$INSTALL_PATH</span> ]; <span class="keyword">then</span></span><br><span class="line">  tar -zxvf <span class="variable">$INSTALL_FILE</span> -C <span class="variable">$INSTALL_PATH</span> --strip-components=<span class="number">1</span></span><br><span class="line"><span class="keyword">else</span></span><br><span class="line">  sudo tar -zxvf <span class="variable">$INSTALL_FILE</span> -C <span class="variable">$INSTALL_PATH</span> --strip-components=<span class="number">1</span></span><br><span class="line"><span class="keyword">fi</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="built_in">echo</span> <span class="string">&quot;Setting java environment...&quot;</span></span><br><span class="line"><span class="built_in">echo</span> <span class="string">&quot;export JAVA_HOME=<span class="variable">$INSTALL_PATH</span>&quot;</span> | sudo tee <span class="operator">-a</span> /etc/profile</span><br><span class="line"></span><br><span class="line">JAVA_HOME=<span class="variable">$INSTALL_PATH</span></span><br><span class="line"><span class="comment">#<span class="doctag"><span class="keyword">FIXME</span></span></span></span><br><span class="line"><span class="built_in">echo</span> <span class="string">&quot;export CLASSPATH=.:<span class="variable">$JAVA_HOME</span>/lib/tools.jar:<span class="variable">$JAVA_HOME</span>/lib/dt.jar&quot;</span> | sudo tee <span class="operator">-a</span> /etc/profile</span><br><span class="line"><span class="built_in">echo</span> <span class="string">&apos;export PATH=$JAVA_HOME/bin:$PATH&apos;</span> | sudo tee <span class="operator">-a</span> /etc/profile</span><br><span class="line"></span><br><span class="line"><span class="built_in">echo</span> <span class="string">&quot;refresh java environment...&quot;</span></span><br><span class="line"><span class="comment">#<span class="doctag"><span class="keyword">TODO</span></span> what does &quot;.&quot;  do? the same as &quot;source&quot; command?</span></span><br><span class="line">. /etc/profile </span><br><span class="line"><span class="built_in">source</span> /etc/profile</span><br><span class="line"></span><br><span class="line">java -version</span><br><span class="line"><span class="keyword">if</span> [ <span class="string">&quot;$?&quot;</span> = <span class="string">&quot;0&quot;</span> ]; <span class="keyword">then</span></span><br><span class="line"><span class="built_in">echo</span> <span class="operator">-e</span> <span class="string">&quot;\033[32m Installed, please source /etc/profile or relogin. \033[0m&quot;</span></span><br><span class="line"><span class="keyword">else</span></span><br><span class="line"><span class="built_in">echo</span> <span class="operator">-e</span> <span class="string">&quot;\033[31m Install failed. \033[0m&quot;</span></span><br><span class="line"><span class="keyword">fi</span></span><br><span class="line"></span><br><span class="line"><span class="built_in">unset</span> BASEDIR</span><br><span class="line"><span class="built_in">unset</span> INSTALL_PATH</span><br><span class="line"><span class="built_in">unset</span> INSTALL_FILE</span><br><span class="line"></span><br><span class="line"><span class="built_in">exit</span> <span class="number">0</span></span><br></pre></td></tr></table></figure>
+<h1 id="&#x9644;&#x4EF6;-install-jdksh">&#x9644;&#x4EF6; install-jdk.sh</h1><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"><span class="shebang">#!/bin/sh</span></span><br><span class="line">BASEDIR=$(<span class="built_in">cd</span> `dirname <span class="variable">$0</span>`; <span class="built_in">pwd</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment">#jdk-7u80-linux-x64</span></span><br><span class="line"><span class="built_in">read</span>  -p <span class="string">&quot;Please select java tar package full path path[/tmp/jdk.tar.gz] &quot;</span> INSTALL_FILE</span><br><span class="line"><span class="keyword">if</span> [ ! <span class="operator">-f</span> <span class="string">&quot;<span class="variable">$INSTALL_FILE</span>&quot;</span> ]; <span class="keyword">then</span></span><br><span class="line">trueINSTALL_FILE=<span class="string">&quot;/tmp/jdk.tar.gz&quot;</span></span><br><span class="line"><span class="keyword">fi</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># Set install path</span></span><br><span class="line"><span class="built_in">read</span>  -p <span class="string">&quot;Please select java install path path[/usr/local/java]: &quot;</span> INSTALL_PATH</span><br><span class="line"><span class="keyword">if</span> [ <span class="string">&quot;<span class="variable">$INSTALL_PATH</span>&quot;</span> = <span class="string">&quot;&quot;</span> ]; <span class="keyword">then</span></span><br><span class="line">trueINSTALL_PATH=<span class="string">&quot;/usr/local/java&quot;</span></span><br><span class="line"><span class="keyword">fi</span></span><br><span class="line"><span class="keyword">if</span> [ ! <span class="operator">-d</span> <span class="variable">$INSTALL_PATH</span> ]; <span class="keyword">then</span></span><br><span class="line">    <span class="built_in">echo</span> <span class="string">&quot;mkdir <span class="variable">$INSTALL_PATH</span>&quot;</span></span><br><span class="line">    mkdir -p <span class="variable">$INSTALL_PATH</span></span><br><span class="line"><span class="keyword">fi</span></span><br><span class="line"></span><br><span class="line"><span class="built_in">echo</span> <span class="string">&quot;uncompress <span class="variable">$INSTALL_FILE</span> to <span class="variable">$INSTALL_PATH</span>&quot;</span></span><br><span class="line"><span class="keyword">if</span> [ -w <span class="variable">$INSTALL_PATH</span> ]; <span class="keyword">then</span></span><br><span class="line">  tar -zxvf <span class="variable">$INSTALL_FILE</span> -C <span class="variable">$INSTALL_PATH</span> --strip-components=<span class="number">1</span></span><br><span class="line"><span class="keyword">else</span></span><br><span class="line">  sudo tar -zxvf <span class="variable">$INSTALL_FILE</span> -C <span class="variable">$INSTALL_PATH</span> --strip-components=<span class="number">1</span></span><br><span class="line"><span class="keyword">fi</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="built_in">echo</span> <span class="string">&quot;Setting java environment...&quot;</span></span><br><span class="line"><span class="built_in">echo</span> <span class="string">&quot;export JAVA_HOME=<span class="variable">$INSTALL_PATH</span>&quot;</span> | sudo tee <span class="operator">-a</span> /etc/profile</span><br><span class="line"></span><br><span class="line">JAVA_HOME=<span class="variable">$INSTALL_PATH</span></span><br><span class="line"><span class="comment">#<span class="doctag">FIXME</span></span></span><br><span class="line"><span class="built_in">echo</span> <span class="string">&quot;export CLASSPATH=.:<span class="variable">$JAVA_HOME</span>/lib/tools.jar:<span class="variable">$JAVA_HOME</span>/lib/dt.jar&quot;</span> | sudo tee <span class="operator">-a</span> /etc/profile</span><br><span class="line"><span class="built_in">echo</span> <span class="string">&apos;export PATH=$JAVA_HOME/bin:$PATH&apos;</span> | sudo tee <span class="operator">-a</span> /etc/profile</span><br><span class="line"></span><br><span class="line"><span class="built_in">echo</span> <span class="string">&quot;refresh java environment...&quot;</span></span><br><span class="line"><span class="comment">#<span class="doctag">TODO</span> what does &quot;.&quot;  do? the same as &quot;source&quot; command?</span></span><br><span class="line">. /etc/profile </span><br><span class="line"><span class="built_in">source</span> /etc/profile</span><br><span class="line"></span><br><span class="line">java -version</span><br><span class="line"><span class="keyword">if</span> [ <span class="string">&quot;$?&quot;</span> = <span class="string">&quot;0&quot;</span> ]; <span class="keyword">then</span></span><br><span class="line"><span class="built_in">echo</span> <span class="operator">-e</span> <span class="string">&quot;\033[32m Installed, please source /etc/profile or relogin. \033[0m&quot;</span></span><br><span class="line"><span class="keyword">else</span></span><br><span class="line"><span class="built_in">echo</span> <span class="operator">-e</span> <span class="string">&quot;\033[31m Install failed. \033[0m&quot;</span></span><br><span class="line"><span class="keyword">fi</span></span><br><span class="line"></span><br><span class="line"><span class="built_in">unset</span> BASEDIR</span><br><span class="line"><span class="built_in">unset</span> INSTALL_PATH</span><br><span class="line"><span class="built_in">unset</span> INSTALL_FILE</span><br><span class="line"></span><br><span class="line"><span class="built_in">exit</span> <span class="number">0</span></span><br></pre></td></tr></table></figure>
       </div>
       <footer class="article-footer">
-        <a data-url="http://geosmart.github.io/2015/06/28/jdk安装脚本/" data-id="cibk2vraa001a8kpa4xlxakxk" class="article-share-link">分享到</a>
+        <a data-url="http://geosmart.github.io/2015/06/28/jdk安装脚本/" data-id="cic0k83n6001rukpatmw3px6x" class="article-share-link">分享到</a>
         
           <a href="http://geosmart.github.io/2015/06/28/jdk安装脚本/#comments" class="article-comment-link">评论</a>
         
-        <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/centos/">CentOS</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/运维/">运维</a></li></ul>
+        <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/CentOS/">CentOS</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/运维/">运维</a></li></ul>
       </footer>
     </div>
   </article>
@@ -226,44 +226,44 @@ jdk7 X64&amp;#x5B89;&amp;#x88C5;&amp;#x5305;&amp;#xFF08;&amp;#x5B98;&amp;#x7F51;
             
             <div class="item-inner">
               <p class="item-category"><a class="article-category-link" href="/categories/技术点滴/">技术点滴</a></p>
+              <p class="item-title"><a href="/2015/07/12/虚拟机开放格式转换之OVF-OVA/" class="title">虚拟机开放格式转换之OVF/OVA</a></p>
+              <p class="item-date"><time datetime="2015-07-12T14:05:44.000Z" itemprop="datePublished">12   七月   2015</time></p>
+            </div>
+          </li>
+        
+          <li>
+            
+            <div class="item-inner">
+              <p class="item-category"><a class="article-category-link" href="/categories/技术点滴/">技术点滴</a></p>
+              <p class="item-title"><a href="/2015/07/12/DELL塔式服务器磁盘阵列配置/" class="title">DELL塔式服务器磁盘阵列配置</a></p>
+              <p class="item-date"><time datetime="2015-07-12T14:04:48.000Z" itemprop="datePublished">12   七月   2015</time></p>
+            </div>
+          </li>
+        
+          <li>
+            
+            <div class="item-inner">
+              <p class="item-category"><a class="article-category-link" href="/categories/技术点滴/">技术点滴</a></p>
+              <p class="item-title"><a href="/2015/07/12/nginx负载均衡参数配置/" class="title">nginx负载均衡参数配置</a></p>
+              <p class="item-date"><time datetime="2015-07-12T13:30:47.000Z" itemprop="datePublished">12   七月   2015</time></p>
+            </div>
+          </li>
+        
+          <li>
+            
+            <div class="item-inner">
+              <p class="item-category"><a class="article-category-link" href="/categories/技术点滴/">技术点滴</a></p>
+              <p class="item-title"><a href="/2015/07/06/centos常用脚本/" class="title">CentOS常用脚本</a></p>
+              <p class="item-date"><time datetime="2015-07-06T08:41:15.000Z" itemprop="datePublished">6   七月   2015</time></p>
+            </div>
+          </li>
+        
+          <li>
+            
+            <div class="item-inner">
+              <p class="item-category"><a class="article-category-link" href="/categories/技术点滴/">技术点滴</a></p>
               <p class="item-title"><a href="/2015/07/01/mongodb一键安装脚本/" class="title">mongodb一键安装脚本</a></p>
               <p class="item-date"><time datetime="2015-07-01T12:26:00.000Z" itemprop="datePublished">1   七月   2015</time></p>
-            </div>
-          </li>
-        
-          <li>
-            
-            <div class="item-inner">
-              <p class="item-category"><a class="article-category-link" href="/categories/技术点滴/">技术点滴</a></p>
-              <p class="item-title"><a href="/2015/06/30/日志分析工具/" class="title">日志分析工具</a></p>
-              <p class="item-date"><time datetime="2015-06-30T06:47:50.000Z" itemprop="datePublished">30   六月   2015</time></p>
-            </div>
-          </li>
-        
-          <li>
-            
-            <div class="item-inner">
-              <p class="item-category"><a class="article-category-link" href="/categories/技术点滴/">技术点滴</a></p>
-              <p class="item-title"><a href="/2015/06/30/常用git命令/" class="title">常用git命令</a></p>
-              <p class="item-date"><time datetime="2015-06-30T05:18:03.000Z" itemprop="datePublished">30   六月   2015</time></p>
-            </div>
-          </li>
-        
-          <li>
-            
-            <div class="item-inner">
-              <p class="item-category"><a class="article-category-link" href="/categories/技术点滴/">技术点滴</a></p>
-              <p class="item-title"><a href="/2015/06/30/lnmp安装/" class="title">LNMP安装</a></p>
-              <p class="item-date"><time datetime="2015-06-30T05:11:58.000Z" itemprop="datePublished">30   六月   2015</time></p>
-            </div>
-          </li>
-        
-          <li>
-            
-            <div class="item-inner">
-              <p class="item-category"><a class="article-category-link" href="/categories/技术点滴/">技术点滴</a></p>
-              <p class="item-title"><a href="/2015/06/30/hexo安装/" class="title">Hexo安装</a></p>
-              <p class="item-date"><time datetime="2015-06-30T04:58:32.000Z" itemprop="datePublished">30   六月   2015</time></p>
             </div>
           </li>
         
@@ -274,21 +274,21 @@ jdk7 X64&amp;#x5B89;&amp;#x88C5;&amp;#x5305;&amp;#xFF08;&amp;#x5B98;&amp;#x7F51;
       <div class="widget-wrap widget-list">
     <h3 class="widget-title">分类</h3>
     <div class="widget">
-      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/技术点滴/">技术点滴</a><span class="category-list-count">11</span></li></ul>
+      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/技术点滴/">技术点滴</a><span class="category-list-count">15</span></li></ul>
     </div>
   </div>
     
       <div class="widget-wrap widget-list">
     <h3 class="widget-title">归档</h3>
     <div class="widget">
-      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/07/">七月 2015</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/06/">六月 2015</a><span class="archive-list-count">12</span></li></ul>
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/07/">七月 2015</a><span class="archive-list-count">5</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/06/">六月 2015</a><span class="archive-list-count">12</span></li></ul>
     </div>
   </div>
     
       <div class="widget-wrap widget-float">
     <h3 class="widget-title">标签云</h3>
     <div class="widget tagcloud">
-      <a href="/tags/centos/" style="font-size: 20px">CentOS</a> <a href="/tags/test/" style="font-size: 10px">TEST</a> <a href="/tags/web服务器/" style="font-size: 13.33px">Web服务器</a> <a href="/tags/工具/" style="font-size: 13.33px">工具</a> <a href="/tags/数据库/" style="font-size: 10px">数据库</a> <a href="/tags/监控/" style="font-size: 10px">监控</a> <a href="/tags/运维/" style="font-size: 16.67px">运维</a>
+      <a href="/tags/CentOS/" style="font-size: 20px">CentOS</a> <a href="/tags/TEST/" style="font-size: 10px">TEST</a> <a href="/tags/Web服务器/" style="font-size: 15px">Web服务器</a> <a href="/tags/工具/" style="font-size: 12.5px">工具</a> <a href="/tags/数据库/" style="font-size: 10px">数据库</a> <a href="/tags/监控/" style="font-size: 10px">监控</a> <a href="/tags/运维/" style="font-size: 17.5px">运维</a>
     </div>
   </div>
     

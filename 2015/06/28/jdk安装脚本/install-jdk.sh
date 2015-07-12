@@ -2,9 +2,9 @@
 BASEDIR=$(cd `dirname $0`; pwd)
 
 #jdk-7u80-linux-x64
-read  -p "Please select java tar package full path path[/tmp/jdk.tar.gz] " INSTALL_FILE
+read  -p "Please select java tar package full path path[/tmp/jdk/jdk.tar.gz] " INSTALL_FILE
 if [ ! -f "$INSTALL_FILE" ]; then
-	INSTALL_FILE="/tmp/jdk.tar.gz"
+	INSTALL_FILE="/tmp/jdk/jdk.tar.gz"
 fi
 
 # Set install path

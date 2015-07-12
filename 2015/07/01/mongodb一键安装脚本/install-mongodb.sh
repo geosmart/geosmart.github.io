@@ -2,9 +2,9 @@
 BASEDIR=$(cd `dirname $0`; pwd)
 
 #mongodb-7u80-linux-x64
-read  -p "Please select mongodb tar package full path path[/tmp/mongodb.tar.gz] " INSTALL_FILE
+read  -p "Please select mongodb tar package full path path[/tmp/mongodb/mongodb.tar.gz] " INSTALL_FILE
 if [ ! -f "$INSTALL_FILE" ]; then
-	INSTALL_FILE="/tmp/mongodb.tar.gz"
+	INSTALL_FILE="/tmp/mongodb/mongodb.tar.gz"
 fi
 
 # Set up mongodb user
@@ -156,19 +156,6 @@ case "$1" in
         exit 2
 esac
 exit $?
-
-
-if [ "$?" = "0" ]; then
-echo -e "\033[32m Installed, please source /etc/profile or relogin. \033[0m"
-else
-echo -e "\033[31m Install failed. \033[0m"
-fi
-
-unset BASEDIR
-unset INSTALL_PATH
-unset INSTALL_FILE
-
-exit 0 
 EOF 
 
 chkconfig --add mongod

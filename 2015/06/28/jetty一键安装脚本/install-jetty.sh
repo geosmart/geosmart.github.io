@@ -17,9 +17,9 @@ if [ "$JAVA_HOME" = "" ]; then
     exit 1
 fi
 
-read  -p "Please select jetty tar package full path[/tmp/jetty.tar.gz]: " INSTALL_FILE 
+read  -p "Please select jetty tar package full path[/tmp/jetty/jetty.tar.gz]: " INSTALL_FILE 
 if [ "$INSTALL_FILE" = "" ]; then 
-	INSTALL_FILE="/tmp/jetty.tar.gz"
+	INSTALL_FILE="/tmp/jetty/jetty.tar.gz"
 fi
 
 
