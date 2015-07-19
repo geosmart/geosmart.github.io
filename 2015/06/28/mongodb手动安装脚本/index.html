@@ -13,7 +13,7 @@
 <meta property="og:site_name" content="geosmart">
 <meta property="og:description" content="&amp;#x51C6;&amp;#x5907;&amp;#x4E8B;&amp;#x9879;&amp;#x4E0B;&amp;#x8F7D;&amp;#x5B89;&amp;#x88C5;&amp;#x5305;&amp;#x6587;&amp;#x4EF6;&amp;#xFF08;&amp;#x4E8C;&amp;#x8FDB;&amp;#x5236;&amp;#x7F16;&amp;#x8BD1;&amp;#x7248;&amp;#xFF09;1234mkdir -p /usr/local/mongodbcd /usr/local/mon">
 <meta property="og:image" content="http://geosmart.github.io/nosql.png">
-<meta property="og:updated_time" content="2015-07-08T01:54:11.499Z">
+<meta property="og:updated_time" content="2015-07-15T07:17:15.345Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="mongodb手动安装脚本">
 <meta name="twitter:description" content="&amp;#x51C6;&amp;#x5907;&amp;#x4E8B;&amp;#x9879;&amp;#x4E0B;&amp;#x8F7D;&amp;#x5B89;&amp;#x88C5;&amp;#x5305;&amp;#x6587;&amp;#x4EF6;&amp;#xFF08;&amp;#x4E8C;&amp;#x8FDB;&amp;#x5236;&amp;#x7F16;&amp;#x8BD1;&amp;#x7248;&amp;#xFF09;1234mkdir -p /usr/local/mongodbcd /usr/local/mon">
@@ -135,7 +135,7 @@
 <h2 id="&#x914D;&#x7F6E;path">&#x914D;&#x7F6E;PATH</h2><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">vim /etc/profile </span><br><span class="line">&#x3000;&#x3000;<span class="comment">#set for mongodb </span></span><br><span class="line">&#x3000;&#x3000;<span class="built_in">export</span> MONGODB_HOME=/usr/<span class="built_in">local</span>/mongodb </span><br><span class="line">&#x3000;&#x3000;<span class="built_in">export</span> PATH=<span class="variable">$MONGODB_HOME</span>/bin:<span class="variable">$PATH</span></span><br></pre></td></tr></table></figure>
 <h2 id="&#x67E5;&#x770B;&#x5F53;&#x524D;path">&#x67E5;&#x770B;&#x5F53;&#x524D;PATH</h2><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">echo</span> <span class="variable">$PATH</span></span><br></pre></td></tr></table></figure>
 <h2 id="&#x8BA9;&#x73AF;&#x5883;&#x53D8;&#x91CF;&#x751F;&#x6548;">&#x8BA9;&#x73AF;&#x5883;&#x53D8;&#x91CF;&#x751F;&#x6548;</h2><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">source</span> /etc/profile</span><br><span class="line">//&#x9A8C;&#x8BC1;&#x73AF;&#x5883;&#x53D8;&#x91CF;&#x662F;&#x5426;&#x751F;&#x6548;</span><br><span class="line">mongod -version</span><br><span class="line"><span class="built_in">echo</span> <span class="variable">$PATH</span></span><br><span class="line">```  </span><br><span class="line"></span><br><span class="line"><span class="comment">## &#x6DFB;&#x52A0;CentOS&#x5F00;&#x673A;&#x542F;&#x52A8;&#x9879;</span></span><br></pre></td></tr></table></figure>
-<p>vim  /etc/rc.d/rc.local<br>//&#x5C06;mongodb&#x542F;&#x52A8;&#x547D;&#x4EE4;&#x624B;&#x52A8;&#x8FFD;&#x52A0;&#x5230;&#x672C;&#x6587;&#x4EF6;&#x4E2D;&#xFF1A;<br>/usr/local/mongodb/bin/mongod &#x2014;dbpath=/var/mongodb/data &#x2014;logpath /var/mongodb/logs/log.log -fork<br><figure class="highlight groovy"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"># &#x542F;&#x52A8;MongoDB</span><br><span class="line">## &#x914D;&#x7F6E;&#x6587;&#x4EF6;&#x5F62;&#x5F0F; </span><br><span class="line">``` bash</span><br><span class="line">vim  <span class="regexp">/usr/</span>local<span class="regexp">/mongodb/</span>mongodb.conf</span><br><span class="line">dbpath=<span class="regexp">/usr/</span>local<span class="regexp">/mongodb/</span>data</span><br><span class="line">logpath=<span class="regexp">/usr/</span>local<span class="regexp">/mongodb/</span>log/mongodb.log</span><br><span class="line">logappend=<span class="literal">true</span></span><br><span class="line">port=<span class="number">27017</span></span><br><span class="line">fork=<span class="literal">true</span></span><br><span class="line">noauth=<span class="literal">true</span></span><br><span class="line">journal=<span class="literal">true</span></span><br><span class="line">smallfiles=<span class="literal">true</span> </span><br><span class="line">```  </span><br><span class="line"></span><br><span class="line">## &#x547D;&#x4EE4;&#x884C;&#x5F62;&#x5F0F;</span><br><span class="line">``` Bash</span><br><span class="line"><span class="regexp">/usr/</span>local<span class="regexp">/mongodb/</span>bin<span class="regexp">/mongod --dbpath /</span>usr<span class="regexp">/local/</span>mongodb<span class="regexp">/data --logpath /</span>usr<span class="regexp">/local/</span>mongodb<span class="regexp">/log/</span>mongodb.log  --fork --smallfiles</span><br><span class="line"><span class="comment">//&#x53EF;&#x9009;&#xFF1A;--auth</span></span><br></pre></td></tr></table></figure></p>
+<p>vim  /etc/rc.d/rc.local<br>//&#x5C06;mongodb&#x542F;&#x52A8;&#x547D;&#x4EE4;&#x624B;&#x52A8;&#x8FFD;&#x52A0;&#x5230;&#x672C;&#x6587;&#x4EF6;&#x4E2D;&#xFF1A;<br>/usr/local/mongodb/bin/mongod &#x2014;dbpath /usr/local/mongodb/data &#x2014;logpath /usr/local/mongodb/log/mongodb.log  &#x2014;fork &#x2014;smallfiles<br><figure class="highlight groovy"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"># &#x542F;&#x52A8;MongoDB</span><br><span class="line">## &#x914D;&#x7F6E;&#x6587;&#x4EF6;&#x5F62;&#x5F0F; </span><br><span class="line">``` bash</span><br><span class="line">vim  <span class="regexp">/usr/</span>local<span class="regexp">/mongodb/</span>mongodb.conf</span><br><span class="line">dbpath=<span class="regexp">/usr/</span>local<span class="regexp">/mongodb/</span>data</span><br><span class="line">logpath=<span class="regexp">/usr/</span>local<span class="regexp">/mongodb/</span>log/mongodb.log</span><br><span class="line">logappend=<span class="literal">true</span></span><br><span class="line">port=<span class="number">27017</span></span><br><span class="line">fork=<span class="literal">true</span></span><br><span class="line">noauth=<span class="literal">true</span></span><br><span class="line">journal=<span class="literal">true</span></span><br><span class="line">smallfiles=<span class="literal">true</span> </span><br><span class="line">```  </span><br><span class="line"></span><br><span class="line">## &#x547D;&#x4EE4;&#x884C;&#x5F62;&#x5F0F;</span><br><span class="line">``` Bash</span><br><span class="line"><span class="regexp">/usr/</span>local<span class="regexp">/mongodb/</span>bin<span class="regexp">/mongod --dbpath /</span>usr<span class="regexp">/local/</span>mongodb<span class="regexp">/data --logpath /</span>usr<span class="regexp">/local/</span>mongodb<span class="regexp">/log/</span>mongodb.log  --fork --smallfiles</span><br><span class="line"><span class="comment">//&#x53EF;&#x9009;&#xFF1A;--auth</span></span><br></pre></td></tr></table></figure></p>
 <h1 id="&#x589E;&#x52A0;&#x7528;&#x6237;">&#x589E;&#x52A0;&#x7528;&#x6237;</h1><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">useradd mongodb -M <span class="operator">-s</span> /sbin/nologin</span><br></pre></td></tr></table></figure>
 <h1 id="&#x542F;&#x52A8;&#x670D;&#x52A1;&#x6D4B;&#x8BD5;&#x670D;&#x52A1;&#x72B6;&#x6001;">&#x542F;&#x52A8;&#x670D;&#x52A1;/&#x6D4B;&#x8BD5;&#x670D;&#x52A1;&#x72B6;&#x6001;</h1><pre><code class="bash">service mongod start
 service mongod status
@@ -161,7 +161,7 @@ chkconfig iptables off
 </code></pre>
       </div>
       <footer class="article-footer">
-        <a data-url="http://geosmart.github.io/2015/06/28/mongodb手动安装脚本/" data-id="cic0k83l8001bukpagko1srdz" class="article-share-link">分享到</a>
+        <a data-url="http://geosmart.github.io/2015/06/28/mongodb手动安装脚本/" data-id="cic9wj66k001hgkpaelzpc438" class="article-share-link">分享到</a>
         
           <a href="http://geosmart.github.io/2015/06/28/mongodb手动安装脚本/#comments" class="article-comment-link">评论</a>
         
@@ -241,7 +241,16 @@ chkconfig iptables off
             
             <div class="item-inner">
               <p class="item-category"><a class="article-category-link" href="/categories/技术点滴/">技术点滴</a></p>
-              <p class="item-title"><a href="/2015/07/12/虚拟机开放格式转换之OVF-OVA/" class="title">虚拟机开放格式转换之OVF/OVA</a></p>
+              <p class="item-title"><a href="/2015/07/15/xmanager实现CentOS远程控制/" class="title">xmanager实现CentOS远程控制</a></p>
+              <p class="item-date"><time datetime="2015-07-15T01:34:10.000Z" itemprop="datePublished">15   七月   2015</time></p>
+            </div>
+          </li>
+        
+          <li>
+            
+            <div class="item-inner">
+              <p class="item-category"><a class="article-category-link" href="/categories/技术点滴/">技术点滴</a></p>
+              <p class="item-title"><a href="/2015/07/12/开放虚拟化格式之OVF-OVA/" class="title">开放虚拟化格式之OVF-OVA</a></p>
               <p class="item-date"><time datetime="2015-07-12T14:05:44.000Z" itemprop="datePublished">12   七月   2015</time></p>
             </div>
           </li>
@@ -250,7 +259,7 @@ chkconfig iptables off
             
             <div class="item-inner">
               <p class="item-category"><a class="article-category-link" href="/categories/技术点滴/">技术点滴</a></p>
-              <p class="item-title"><a href="/2015/07/12/DELL塔式服务器磁盘阵列配置/" class="title">DELL塔式服务器磁盘阵列配置</a></p>
+              <p class="item-title"><a href="/2015/07/12/磁盘阵列配置/" class="title">磁盘阵列配置</a></p>
               <p class="item-date"><time datetime="2015-07-12T14:04:48.000Z" itemprop="datePublished">12   七月   2015</time></p>
             </div>
           </li>
@@ -273,15 +282,6 @@ chkconfig iptables off
             </div>
           </li>
         
-          <li>
-            
-            <div class="item-inner">
-              <p class="item-category"><a class="article-category-link" href="/categories/技术点滴/">技术点滴</a></p>
-              <p class="item-title"><a href="/2015/07/01/mongodb一键安装脚本/" class="title">mongodb一键安装脚本</a></p>
-              <p class="item-date"><time datetime="2015-07-01T12:26:00.000Z" itemprop="datePublished">1   七月   2015</time></p>
-            </div>
-          </li>
-        
       </ul>
     </div>
   </div>
@@ -289,21 +289,21 @@ chkconfig iptables off
       <div class="widget-wrap widget-list">
     <h3 class="widget-title">分类</h3>
     <div class="widget">
-      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/技术点滴/">技术点滴</a><span class="category-list-count">15</span></li></ul>
+      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/技术点滴/">技术点滴</a><span class="category-list-count">16</span></li></ul>
     </div>
   </div>
     
       <div class="widget-wrap widget-list">
     <h3 class="widget-title">归档</h3>
     <div class="widget">
-      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/07/">七月 2015</a><span class="archive-list-count">5</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/06/">六月 2015</a><span class="archive-list-count">12</span></li></ul>
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/07/">七月 2015</a><span class="archive-list-count">6</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/06/">六月 2015</a><span class="archive-list-count">12</span></li></ul>
     </div>
   </div>
     
       <div class="widget-wrap widget-float">
     <h3 class="widget-title">标签云</h3>
     <div class="widget tagcloud">
-      <a href="/tags/CentOS/" style="font-size: 20px">CentOS</a> <a href="/tags/TEST/" style="font-size: 10px">TEST</a> <a href="/tags/Web服务器/" style="font-size: 15px">Web服务器</a> <a href="/tags/工具/" style="font-size: 12.5px">工具</a> <a href="/tags/数据库/" style="font-size: 10px">数据库</a> <a href="/tags/监控/" style="font-size: 10px">监控</a> <a href="/tags/运维/" style="font-size: 17.5px">运维</a>
+      <a href="/tags/CentOS/" style="font-size: 20px">CentOS</a> <a href="/tags/TEST/" style="font-size: 12px">TEST</a> <a href="/tags/Web服务器/" style="font-size: 16px">Web服务器</a> <a href="/tags/工具/" style="font-size: 14px">工具</a> <a href="/tags/数据库/" style="font-size: 12px">数据库</a> <a href="/tags/监控/" style="font-size: 12px">监控</a> <a href="/tags/硬件/" style="font-size: 10px">硬件</a> <a href="/tags/运维/" style="font-size: 18px">运维</a>
     </div>
   </div>
     
