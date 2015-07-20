@@ -7,25 +7,28 @@
   <title>zabbix-agent安装脚本 | geosmart</title>
   <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1">
   <meta name="description" content="&amp;#x51C6;&amp;#x5907;&amp;#x5185;&amp;#x5BB9;
+
 zabbix&amp;#x5B89;&amp;#x88C5;&amp;#x5305;&amp;#xFF08;&amp;#x5B98;&amp;#x7F51;&amp;#x7248;&amp;#x672C;&amp;#xFF1A;zabbix-2.2.9.tar.gz&amp;#xFF09;
-yum groupinstall &amp;#x201C;Development tools&amp;#x201D;
-zabbix&amp;#x5">
+yum groupinstall &amp;quot;Development tools&amp;quot;
+zabbix&amp;#x5B89">
 <meta property="og:type" content="article">
 <meta property="og:title" content="zabbix-agent安装脚本">
 <meta property="og:url" content="http://geosmart.github.io/2015/06/29/zabbix-agent安装脚本/index.html">
 <meta property="og:site_name" content="geosmart">
 <meta property="og:description" content="&amp;#x51C6;&amp;#x5907;&amp;#x5185;&amp;#x5BB9;
+
 zabbix&amp;#x5B89;&amp;#x88C5;&amp;#x5305;&amp;#xFF08;&amp;#x5B98;&amp;#x7F51;&amp;#x7248;&amp;#x672C;&amp;#xFF1A;zabbix-2.2.9.tar.gz&amp;#xFF09;
-yum groupinstall &amp;#x201C;Development tools&amp;#x201D;
-zabbix&amp;#x5">
+yum groupinstall &amp;quot;Development tools&amp;quot;
+zabbix&amp;#x5B89">
 <meta property="og:image" content="http://geosmart.github.io/zabbix.png">
 <meta property="og:updated_time" content="2015-07-08T01:54:11.503Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="zabbix-agent安装脚本">
 <meta name="twitter:description" content="&amp;#x51C6;&amp;#x5907;&amp;#x5185;&amp;#x5BB9;
+
 zabbix&amp;#x5B89;&amp;#x88C5;&amp;#x5305;&amp;#xFF08;&amp;#x5B98;&amp;#x7F51;&amp;#x7248;&amp;#x672C;&amp;#xFF1A;zabbix-2.2.9.tar.gz&amp;#xFF09;
-yum groupinstall &amp;#x201C;Development tools&amp;#x201D;
-zabbix&amp;#x5">
+yum groupinstall &amp;quot;Development tools&amp;quot;
+zabbix&amp;#x5B89">
   
   
     <link rel="icon" href="/favicon.png">
@@ -137,48 +140,57 @@ zabbix&amp;#x5">
       <!--geosmart 待优化toc样式-->
 
       <div class="article-entry" itemprop="articleBody"> 
-        <p><img src="zabbix.png" alt="zabbix"> </p>
-<h1 id="&#x51C6;&#x5907;&#x5185;&#x5BB9;">&#x51C6;&#x5907;&#x5185;&#x5BB9;</h1><ol>
-<li><a href="http://sourceforge.net/projects/zabbix/files/ZABBIX%20Latest%20Stable/2.2.9/zabbix-2.2.9.tar.gz/download">zabbix&#x5B89;&#x88C5;&#x5305;&#xFF08;&#x5B98;&#x7F51;&#x7248;&#x672C;&#xFF1A;zabbix-2.2.9.tar.gz&#xFF09;</a></li>
-<li>yum groupinstall &#x201C;Development tools&#x201D;</li>
-<li><a href="install-zabbix_agent.sh">zabbix&#x5B89;&#x88C5;&#x811A;&#x672C;</a> </li>
-</ol>
-<p> cd /tmp &amp;&amp; tar -zxf  zabbix.gz</p>
-<h1 id="&#x5B89;&#x88C5;&#x6B65;&#x9AA4;">&#x5B89;&#x88C5;&#x6B65;&#x9AA4;</h1><ol>
-<li>&#x4FEE;&#x6539;zabbix_server&#x7A0B;&#x5E8F;&#x7684;&#x78C1;&#x76D8;&#x8DEF;&#x5F84;<br>&#x4FEE;&#x6539;zabbix_server&#x4E3B;&#x7A0B;&#x5E8F;&#x8DEF;&#x5F84;<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># vim /usr/local/zabbix/misc/init.d/tru64/zabbix_server</span></span><br><span class="line">DAEMON=/usr/<span class="built_in">local</span>/zabbix/sbin/zabbix_server</span><br></pre></td></tr></table></figure>
-</li>
-</ol>
-<p>&#x6DFB;&#x52A0;&#x4E0B;&#x9762;&#x4E24;&#x53E5;&#x5230;<code>#!/bin/bash</code>&#x4E4B;&#x540E;&#xFF0C;&#x89E3;&#x51B3;<code>service myservicedoes not support chkconfig</code>&#x95EE;&#x9898;<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># chkconfig: 2345 10 90 </span></span><br><span class="line"><span class="comment"># description:zabbix....</span></span><br></pre></td></tr></table></figure></p>
+        <p><img src="zabbix.png" alt="zabbix"></p>
+<h1 id="&#x51C6;&#x5907;&#x5185;&#x5BB9;">&#x51C6;&#x5907;&#x5185;&#x5BB9;</h1>
 <ol>
-<li><p>&#x7F16;&#x8F91;zabbix_agentd&#x914D;&#x7F6E;&#x6587;&#x4EF6;<br><code>vim /usr/local/zabbix/etc/zabbix_agentd.conf</code> </p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">LogFile=/tmp/zabbix_agentd.log </span><br><span class="line"><span class="comment">#&#x670D;&#x52A1;&#x7AEF;IP  </span></span><br><span class="line">Server=<span class="number">192.168</span>.<span class="number">1.80</span></span><br><span class="line"><span class="comment">#&#x670D;&#x52A1;&#x7AEF;IP   </span></span><br><span class="line">ServerActive= <span class="number">192.168</span>.<span class="number">1.80</span></span><br><span class="line"><span class="comment">#&#x5BA2;&#x6237;&#x7AEF;IP&#x4E0E;zabbix-web&#x914D;&#x7F6E;&#x4E0A;&#x7684;hostName&#x4E00;&#x81F4;   </span></span><br><span class="line">Hostname=localhost</span><br><span class="line">UnsafeUserParameters=<span class="number">1</span></span><br></pre></td></tr></table></figure>
+<li><a href="http://sourceforge.net/projects/zabbix/files/ZABBIX%20Latest%20Stable/2.2.9/zabbix-2.2.9.tar.gz/download">zabbix&#x5B89;&#x88C5;&#x5305;&#xFF08;&#x5B98;&#x7F51;&#x7248;&#x672C;&#xFF1A;zabbix-2.2.9.tar.gz&#xFF09;</a></li>
+<li>yum groupinstall &quot;Development tools&quot;</li>
+<li><a href="install-zabbix_agent.sh">zabbix&#x5B89;&#x88C5;&#x811A;&#x672C;</a></li>
+</ol>
+<p>cd /tmp &amp;&amp; tar -zxf  zabbix.gz</p>
+<h1 id="&#x5B89;&#x88C5;&#x6B65;&#x9AA4;">&#x5B89;&#x88C5;&#x6B65;&#x9AA4;</h1>
+<ol>
+<li>&#x4FEE;&#x6539;zabbix_server&#x7A0B;&#x5E8F;&#x7684;&#x78C1;&#x76D8;&#x8DEF;&#x5F84;<br>
+&#x4FEE;&#x6539;zabbix_server&#x4E3B;&#x7A0B;&#x5E8F;&#x8DEF;&#x5F84;
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># vim /usr/local/zabbix/misc/init.d/tru64/zabbix_server</span></span><br><span class="line">DAEMON=/usr/<span class="built_in">local</span>/zabbix/sbin/zabbix_server</span><br></pre></td></tr></table></figure></li>
+</ol>
+<p>&#x6DFB;&#x52A0;&#x4E0B;&#x9762;&#x4E24;&#x53E5;&#x5230;<code>#!/bin/bash</code>&#x4E4B;&#x540E;&#xFF0C;&#x89E3;&#x51B3;<code>service myservicedoes not support chkconfig</code>&#x95EE;&#x9898;
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># chkconfig: 2345 10 90 </span></span><br><span class="line"><span class="comment"># description:zabbix....</span></span><br></pre></td></tr></table></figure></p>
+<ol start="2">
+<li>
+<p>&#x7F16;&#x8F91;zabbix_agentd&#x914D;&#x7F6E;&#x6587;&#x4EF6;
+<code>vim /usr/local/zabbix/etc/zabbix_agentd.conf</code>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">LogFile=/tmp/zabbix_agentd.log </span><br><span class="line"><span class="comment">#&#x670D;&#x52A1;&#x7AEF;IP  </span></span><br><span class="line">Server=<span class="number">192.168</span>.<span class="number">1.80</span></span><br><span class="line"><span class="comment">#&#x670D;&#x52A1;&#x7AEF;IP   </span></span><br><span class="line">ServerActive= <span class="number">192.168</span>.<span class="number">1.80</span></span><br><span class="line"><span class="comment">#&#x5BA2;&#x6237;&#x7AEF;IP&#x4E0E;zabbix-web&#x914D;&#x7F6E;&#x4E0A;&#x7684;hostName&#x4E00;&#x81F4;   </span></span><br><span class="line">Hostname=localhost</span><br><span class="line">UnsafeUserParameters=<span class="number">1</span></span><br></pre></td></tr></table></figure></p>
 </li>
-<li><p>&#x6267;&#x884C;&#x5B89;&#x88C5;&#x811A;&#x672C;</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">cd</span> /usr/<span class="built_in">local</span>/zabbix/script/install-zabbix_agentd.sh</span><br><span class="line">chmod +x install-zabbix_agentd.sh </span><br><span class="line">sudo ./install-zabbix_agentd.sh</span><br></pre></td></tr></table></figure>
+<li>
+<p>&#x6267;&#x884C;&#x5B89;&#x88C5;&#x811A;&#x672C;
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">cd</span> /usr/<span class="built_in">local</span>/zabbix/script/install-zabbix_agentd.sh</span><br><span class="line">chmod +x install-zabbix_agentd.sh </span><br><span class="line">sudo ./install-zabbix_agentd.sh</span><br></pre></td></tr></table></figure></p>
 </li>
 </ol>
-<h1 id="&#x76F8;&#x5173;&#x64CD;&#x4F5C;">&#x76F8;&#x5173;&#x64CD;&#x4F5C;</h1><ol>
-<li><p>&#x82E5;zabbix&#x7684;host&#x65E0;&#x6CD5;&#x8BBF;&#x95EE;&#xFF0C;&#x8003;&#x8651;&#x9632;&#x706B;&#x5899;&#x662F;&#x5426;&#x9700;&#x8981;&#x5173;&#x95ED;/&#x52A0;&#x5165;&#x4FE1;&#x4EFB;&#x7AEF;&#x53E3;</p>
-<pre><code class="bash"><span class="comment">#&#x67E5;&#x770B;&#x9632;&#x706B;&#x5899;&#x72B6;&#x6001;</span>
+<h1 id="&#x76F8;&#x5173;&#x64CD;&#x4F5C;">&#x76F8;&#x5173;&#x64CD;&#x4F5C;</h1>
+<ol>
+<li>&#x82E5;zabbix&#x7684;host&#x65E0;&#x6CD5;&#x8BBF;&#x95EE;&#xFF0C;&#x8003;&#x8651;&#x9632;&#x706B;&#x5899;&#x662F;&#x5426;&#x9700;&#x8981;&#x5173;&#x95ED;/&#x52A0;&#x5165;&#x4FE1;&#x4EFB;&#x7AEF;&#x53E3;</li>
+</ol>
+<pre><code class="language-bash">#&#x67E5;&#x770B;&#x9632;&#x706B;&#x5899;&#x72B6;&#x6001;
 service iptables status 
-<span class="comment">#&#x5173;&#x95ED;&#x9632;&#x706B;&#x5899; </span>
+#&#x5173;&#x95ED;&#x9632;&#x706B;&#x5899; 
 service iptables stop  
-<span class="comment">#&#x6C38;&#x4E45;&#x5173;&#x95ED;&#x9632;&#x706B;&#x5899; </span>
-chkconfig   iptables off
+#&#x6C38;&#x4E45;&#x5173;&#x95ED;&#x9632;&#x706B;&#x5899; 
+chkconfig   iptables off 
 </code></pre>
-</li>
-<li><p>&#x67E5;&#x770B;zabbix&#x670D;&#x52A1;&#x662F;&#x5426;&#x5DF2;&#x542F;&#x52A8;</p>
-<pre><code class="bash">netstat -utlnp | grep zabbix
-</code></pre>
-</li>
-<li><p>&#x914D;&#x7F6E;&#x6587;&#x4EF6;&#x66F4;&#x65B0;&#x540E;&#xFF0C;&#x9700;&#x91CD;&#x542F;&#x5BA2;&#x6237;&#x7AEF;&#x670D;&#x52A1;</p>
-<pre><code class="bash">service zabbix_agentd restart
-</code></pre>
-</li>
+<ol start="2">
+<li>&#x67E5;&#x770B;zabbix&#x670D;&#x52A1;&#x662F;&#x5426;&#x5DF2;&#x542F;&#x52A8;</li>
 </ol>
+<pre><code class="language-bash">netstat -utlnp | grep zabbix 
+</code></pre>
+<ol start="3">
+<li>&#x914D;&#x7F6E;&#x6587;&#x4EF6;&#x66F4;&#x65B0;&#x540E;&#xFF0C;&#x9700;&#x91CD;&#x542F;&#x5BA2;&#x6237;&#x7AEF;&#x670D;&#x52A1;</li>
+</ol>
+<pre><code class="language-bash">service zabbix_agentd restart
+</code></pre>
       </div>
       <footer class="article-footer">
-        <a data-url="http://geosmart.github.io/2015/06/29/zabbix-agent安装脚本/" data-id="cic9wj666001cgkpam593wca9" class="article-share-link">分享到</a>
+        <a data-url="http://geosmart.github.io/2015/06/29/zabbix-agent安装脚本/" data-id="cic9ymft3001cgkpa1846wkiv" class="article-share-link">分享到</a>
         
           <a href="http://geosmart.github.io/2015/06/29/zabbix-agent安装脚本/#comments" class="article-comment-link">评论</a>
         
