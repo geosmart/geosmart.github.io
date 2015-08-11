@@ -24,7 +24,7 @@ zabbix&amp;#x5B89;&amp;#x8">
 <meta property="og:image" content="http://geosmart.github.io/filter.png">
 <meta property="og:image" content="http://geosmart.github.io/cpu.png">
 <meta property="og:image" content="http://geosmart.github.io/network.png">
-<meta property="og:updated_time" content="2015-07-12T14:00:56.083Z">
+<meta property="og:updated_time" content="2015-08-10T08:43:14.200Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="zabbix-server安装脚本">
 <meta name="twitter:description" content="&amp;#x51C6;&amp;#x5907;&amp;#x5185;&amp;#x5BB9;
@@ -95,7 +95,7 @@ zabbix&amp;#x5B89;&amp;#x8">
               
                 <li class="main-nav-list-item"><a class="main-nav-list-link" href="/">Home</a></li>
               
-                    <ul class="main-nav-list"><li class="main-nav-list-item"><a class="main-nav-list-link" href="/categories/技术点滴/">技术点滴</a></li></ul>
+                    <ul class="main-nav-list"><li class="main-nav-list-item"><a class="main-nav-list-link" href="/categories/前端/">前端</a></li><li class="main-nav-list-item"><a class="main-nav-list-link" href="/categories/后端/">后端</a></li><li class="main-nav-list-item"><a class="main-nav-list-link" href="/categories/大数据/">大数据</a></li><li class="main-nav-list-item"><a class="main-nav-list-link" href="/categories/技术点滴/">技术点滴</a></li><li class="main-nav-list-item"><a class="main-nav-list-link" href="/categories/运维/">运维</a></li></ul>
                   
                 <li class="main-nav-list-item"><a class="main-nav-list-link" href="/about/index.html">About</a></li>
               
@@ -178,7 +178,7 @@ zabbix&amp;#x5B89;&amp;#x8">
 <ol start="5">
 <li>
 <p>Mysql&#x4E2D;&#x65B0;&#x5EFA;Zabbix&#x6570;&#x636E;&#x5E93;
-<figure class="highlight coffeescript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br></pre></td><td class="code"><pre><span class="line">mysql -uroot -proot</span><br><span class="line">create database zabbix;</span><br><span class="line">grant all privileges <span class="literal">on</span> zabbix.* to zabbix<span class="property">@localhost</span> identified <span class="keyword">by</span> <span class="string">&apos;zabbix&apos;</span>;</span><br><span class="line">quit</span><br><span class="line">`<span class="javascript"></span>``<span class="javascript"> </span><br><span class="line"></span><br><span class="line"><span class="number">6.</span> &#x6267;&#x884C;&#x5B89;&#x88C5;&#x811A;&#x672C;</span><br><span class="line"></span>``<span class="javascript"></span>` bash </span><br><span class="line">cd /usr/local/zabbix</span><br><span class="line">chmod +x configure</span><br><span class="line">cd /usr/local/zabbix/script</span><br><span class="line">chmod +x install-zabbix_server.sh </span><br><span class="line">sudo ./install-zabbix_server.sh</span><br><span class="line">`<span class="javascript"></span>``<span class="javascript">  </span><br><span class="line"></span><br><span class="line"># &#x76F8;&#x5173;&#x64CD;&#x4F5C;</span><br><span class="line"><span class="number">1.</span> zabbix&#x7F51;&#x7AD9;&#x4E2D;&#x7684;&#x542F;&#x7528;&#x4E2D;&#x6587;&#x540E;&#x4E71;&#x7801;&#x95EE;&#x9898;</span><br><span class="line">* &#x5728;zabbix&#x7F51;&#x7AD9;&#x76EE;&#x5F55;&#x4E0B;&#x7684;include/locales.inc.php&#x6587;&#x4EF6;&#x4E2D;&#x542F;&#x7528;&#x4E2D;&#x6587;&#xFF08;<span class="string">&apos;display&apos;</span>=<span class="literal">true</span>&#xFF09;</span><br><span class="line">* &#x5728;windows&#x4E0B;&#x63A7;&#x5236;&#x9762;&#x677F;-&gt;&#x5B57;&#x4F53;-&gt;&#x9009;&#x62E9;&#x4E00;&#x79CD;&#x4E2D;&#x6587;&#x5B57;&#x5E93;&#x4F8B;&#x5982;&#x201C;&#x6977;&#x4F53;&#x201D;&#xFF0C;&#x628A;&#x5B83;&#x62F7;&#x8D1D;&#x5230;zabbix&#x7684;web&#x7AEF;&#x7684;fonts&#x76EE;&#x5F55;&#x4E0B;&#x4F8B;&#x5982;&#xFF1A;/<span class="keyword">var</span>/www/html/zabbix/fonts&#xFF0C;&#x5E76;&#x4E14;&#x628A;TTF&#x540E;&#x7F00;&#x6539;&#x4E3A;ttf</span><br><span class="line">* &#x4FEE;&#x6539;zabbix&#x7684;web&#x7AEF;/include/defines.inc.php&#xFF0C;&#x5982;&#x4E0B;</span><br><span class="line"></span>``<span class="javascript"></span>` php</span><br><span class="line"><span class="regexp">//</span>define(<span class="string">&apos;ZBX_GRAPH_FONT_NAME&apos;</span>, <span class="string">&apos;DejaVuSans&apos;</span>); <span class="regexp">//</span> origin name</span><br><span class="line">define(<span class="string">&apos;ZBX_GRAPH_FONT_NAME&apos;</span>, <span class="string">&apos;simkai&apos;</span>); <span class="regexp">//</span> custom  font name</span><br><span class="line">`<span class="javascript"></span>``<span class="javascript"> </span><br><span class="line"><span class="number">2.</span> &#x82E5;zabbix&#x7684;host&#x65E0;&#x6CD5;&#x8BBF;&#x95EE;&#xFF0C;&#x8003;&#x8651;&#x9632;&#x706B;&#x5899;&#x662F;&#x5426;&#x9700;&#x8981;&#x5173;&#x95ED;/&#x52A0;&#x5165;&#x4FE1;&#x4EFB;&#x7AEF;&#x53E3;</span><br><span class="line"></span>``<span class="javascript"></span>` bash</span><br><span class="line"><span class="comment">#&#x67E5;&#x770B;&#x9632;&#x706B;&#x5899;&#x72B6;&#x6001;</span></span><br><span class="line">service iptables status </span><br><span class="line"><span class="comment">#&#x5173;&#x95ED;&#x9632;&#x706B;&#x5899; </span></span><br><span class="line">service iptables stop </span><br><span class="line"><span class="comment">#&#x6C38;&#x4E45;&#x5173;&#x95ED;&#x9632;&#x706B;&#x5899; </span></span><br><span class="line">chkconfig   iptables <span class="literal">off</span></span><br></pre></td></tr></table></figure></p>
+<figure class="highlight coffeescript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br></pre></td><td class="code"><pre><span class="line">mysql -uroot -proot</span><br><span class="line">create database zabbix;</span><br><span class="line">grant all privileges <span class="literal">on</span> zabbix.* to zabbix<span class="property">@localhost</span> identified <span class="keyword">by</span> <span class="string">&apos;zabbix&apos;</span>;</span><br><span class="line">quit</span><br><span class="line">`<span class="javascript"></span>``<span class="javascript"> </span><br><span class="line"></span><br><span class="line"><span class="number">6.</span> &#x6267;&#x884C;&#x5B89;&#x88C5;&#x811A;&#x672C;</span><br><span class="line"></span>``<span class="javascript"></span>` bash </span><br><span class="line">cd /usr/local/zabbix</span><br><span class="line">chmod +x configure</span><br><span class="line">cd /usr/local/zabbix/script</span><br><span class="line">chmod +x install-zabbix_server.sh </span><br><span class="line">sudo ./install-zabbix_server.sh</span><br><span class="line">`<span class="javascript"></span>``<span class="javascript">  </span><br><span class="line"></span><br><span class="line"># &#x76F8;&#x5173;&#x64CD;&#x4F5C;</span><br><span class="line"><span class="number">1.</span> zabbix&#x7F51;&#x7AD9;&#x4E2D;&#x7684;&#x542F;&#x7528;&#x4E2D;&#x6587;&#x540E;&#x4E71;&#x7801;&#x95EE;&#x9898;</span><br><span class="line">* &#x5728;zabbix&#x7F51;&#x7AD9;&#x76EE;&#x5F55;&#x4E0B;&#x7684;include/locales.inc.php&#x6587;&#x4EF6;&#x4E2D;&#x542F;&#x7528;&#x4E2D;&#x6587;&#xFF08;<span class="string">&apos;display&apos;</span>=<span class="literal">true</span>&#xFF09;</span><br><span class="line">* &#x5728;windows&#x4E0B;&#x63A7;&#x5236;&#x9762;&#x677F;-&gt;&#x5B57;&#x4F53;-&gt;&#x9009;&#x62E9;&#x4E00;&#x79CD;&#x4E2D;&#x6587;&#x5B57;&#x5E93;&#x4F8B;&#x5982;&#x201C;&#x6977;&#x4F53;&#x201D;&#xFF0C;&#x628A;&#x5B83;&#x62F7;&#x8D1D;&#x5230;zabbix&#x7684;web&#x7AEF;&#x7684;fonts&#x76EE;&#x5F55;&#x4E0B;&#x4F8B;&#x5982;&#xFF1A;/<span class="keyword">var</span>/www/html/zabbix/fonts&#xFF0C;&#x5E76;&#x4E14;&#x628A;TTF&#x540E;&#x7F00;&#x6539;&#x4E3A;ttf</span><br><span class="line">* &#x4FEE;&#x6539;zabbix&#x7684;web&#x7AEF;/include/defines.inc.php&#xFF0C;&#x5982;&#x4E0B;</span><br><span class="line"></span>``<span class="javascript"></span>` php</span><br><span class="line"><span class="regexp">//</span>define(<span class="string">&apos;ZBX_GRAPH_FONT_NAME&apos;</span>, <span class="string">&apos;DejaVuSans&apos;</span>); <span class="regexp">//</span> origin name</span><br><span class="line">define(<span class="string">&apos;ZBX_GRAPH_FONT_NAME&apos;</span>, <span class="string">&apos;simkai&apos;</span>); <span class="regexp">//</span> custom  font name</span><br><span class="line">`<span class="javascript"></span>``<span class="javascript"> </span><br><span class="line"><span class="number">2.</span> &#x82E5;zabbix&#x7684;host&#x65E0;&#x6CD5;&#x8BBF;&#x95EE;&#xFF0C;&#x8003;&#x8651;&#x9632;&#x706B;&#x5899;&#x662F;&#x5426;&#x9700;&#x8981;&#x5173;&#x95ED;/&#x52A0;&#x5165;&#x4FE1;&#x4EFB;&#x7AEF;&#x53E3;</span><br><span class="line"></span><br><span class="line"></span>``<span class="javascript"></span>` bash</span><br><span class="line"><span class="comment">#&#x67E5;&#x770B;&#x9632;&#x706B;&#x5899;&#x72B6;&#x6001;</span></span><br><span class="line">service iptables status </span><br><span class="line"><span class="comment">#&#x5173;&#x95ED;&#x9632;&#x706B;&#x5899; </span></span><br><span class="line">service iptables stop </span><br><span class="line"><span class="comment">#&#x6C38;&#x4E45;&#x5173;&#x95ED;&#x9632;&#x706B;&#x5899; </span></span><br><span class="line">chkconfig   iptables <span class="literal">off</span></span><br></pre></td></tr></table></figure></p>
 </li>
 <li>
 <p>&#x7F16;&#x8BD1;&#x95EE;&#x9898;
@@ -199,7 +199,7 @@ zabbix&amp;#x5B89;&amp;#x8">
 </ol>
       </div>
       <footer class="article-footer">
-        <a data-url="http://geosmart.github.io/2015/06/30/zabbix-server安装脚本/" data-id="ciczjfdj5001ov0pa6qxgbgan" class="article-share-link">分享到</a>
+        <a data-url="http://geosmart.github.io/2015/06/30/zabbix-server安装脚本/" data-id="cid7e468n002pbgpag1mna0kz" class="article-share-link">分享到</a>
         
           <a href="http://geosmart.github.io/2015/06/30/zabbix-server安装脚本/#comments" class="article-comment-link">评论</a>
         
@@ -278,9 +278,9 @@ zabbix&amp;#x5B89;&amp;#x8">
           <li>
             
             <div class="item-inner">
-              <p class="item-category"><a class="article-category-link" href="/categories/技术点滴/">技术点滴</a></p>
-              <p class="item-title"><a href="/2015/08/05/Python安装升级教程/" class="title">Python安装升级教程</a></p>
-              <p class="item-date"><time datetime="2015-08-05T12:32:44.000Z" itemprop="datePublished">5   八月   2015</time></p>
+              <p class="item-category"><a class="article-category-link" href="/categories/大数据/">大数据</a></p>
+              <p class="item-title"><a href="/2015/08/11/Hadoop生态圈/" class="title">Hadoop生态圈</a></p>
+              <p class="item-date"><time datetime="2015-08-11T08:29:41.000Z" itemprop="datePublished">11   八月   2015</time></p>
             </div>
           </li>
         
@@ -288,35 +288,35 @@ zabbix&amp;#x5B89;&amp;#x8">
             
             <div class="item-inner">
               <p class="item-category"><a class="article-category-link" href="/categories/技术点滴/">技术点滴</a></p>
-              <p class="item-title"><a href="/2015/08/03/IIS与Tomcat共享80端口/" class="title">IIS与Tomcat共享80端口</a></p>
-              <p class="item-date"><time datetime="2015-08-03T08:27:21.000Z" itemprop="datePublished">3   八月   2015</time></p>
+              <p class="item-title"><a href="/2015/08/09/软件架构实践/" class="title">软件架构实践</a></p>
+              <p class="item-date"><time datetime="2015-08-09T04:18:06.000Z" itemprop="datePublished">9   八月   2015</time></p>
             </div>
           </li>
         
           <li>
             
             <div class="item-inner">
-              <p class="item-category"><a class="article-category-link" href="/categories/技术点滴/">技术点滴</a></p>
-              <p class="item-title"><a href="/2015/07/28/backbone-marionette学习要点/" class="title">backbone.marionette学习要点</a></p>
-              <p class="item-date"><time datetime="2015-07-28T05:35:07.000Z" itemprop="datePublished">28   七月   2015</time></p>
+              <p class="item-category"><a class="article-category-link" href="/categories/后端/">后端</a></p>
+              <p class="item-title"><a href="/2015/08/09/后端生产工具/" class="title">后端生产工具</a></p>
+              <p class="item-date"><time datetime="2015-08-09T04:13:06.000Z" itemprop="datePublished">9   八月   2015</time></p>
             </div>
           </li>
         
           <li>
             
             <div class="item-inner">
-              <p class="item-category"><a class="article-category-link" href="/categories/技术点滴/">技术点滴</a></p>
-              <p class="item-title"><a href="/2015/07/15/xmanager实现CentOS远程控制/" class="title">xmanager实现CentOS远程控制</a></p>
-              <p class="item-date"><time datetime="2015-07-15T01:34:10.000Z" itemprop="datePublished">15   七月   2015</time></p>
+              <p class="item-category"><a class="article-category-link" href="/categories/前端/">前端</a></p>
+              <p class="item-title"><a href="/2015/08/09/前端生产工具/" class="title">前端生产工具</a></p>
+              <p class="item-date"><time datetime="2015-08-09T04:12:42.000Z" itemprop="datePublished">9   八月   2015</time></p>
             </div>
           </li>
         
           <li>
             
             <div class="item-inner">
-              <p class="item-category"><a class="article-category-link" href="/categories/技术点滴/">技术点滴</a></p>
-              <p class="item-title"><a href="/2015/07/12/开放虚拟化格式之OVF-OVA/" class="title">开放虚拟化格式之OVF-OVA</a></p>
-              <p class="item-date"><time datetime="2015-07-12T14:05:44.000Z" itemprop="datePublished">12   七月   2015</time></p>
+              <p class="item-category"><a class="article-category-link" href="/categories/大数据/">大数据</a></p>
+              <p class="item-title"><a href="/2015/08/08/Hadoop集群部署/" class="title">Hadoop集群部署</a></p>
+              <p class="item-date"><time datetime="2015-08-08T03:38:22.000Z" itemprop="datePublished">8   八月   2015</time></p>
             </div>
           </li>
         
@@ -327,21 +327,21 @@ zabbix&amp;#x5B89;&amp;#x8">
       <div class="widget-wrap widget-list">
     <h3 class="widget-title">分类</h3>
     <div class="widget">
-      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/技术点滴/">技术点滴</a><span class="category-list-count">19</span></li></ul>
+      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/前端/">前端</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/后端/">后端</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/大数据/">大数据</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/技术点滴/">技术点滴</a><span class="category-list-count">18</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/运维/">运维</a><span class="category-list-count">2</span></li></ul>
     </div>
   </div>
     
       <div class="widget-wrap widget-list">
     <h3 class="widget-title">归档</h3>
     <div class="widget">
-      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/08/">八月 2015</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/07/">七月 2015</a><span class="archive-list-count">7</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/06/">六月 2015</a><span class="archive-list-count">12</span></li></ul>
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/08/">八月 2015</a><span class="archive-list-count">7</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/07/">七月 2015</a><span class="archive-list-count">7</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/06/">六月 2015</a><span class="archive-list-count">12</span></li></ul>
     </div>
   </div>
     
       <div class="widget-wrap widget-float">
     <h3 class="widget-title">标签云</h3>
     <div class="widget tagcloud">
-      <a href="/tags/CentOS/" style="font-size: 20px">CentOS</a> <a href="/tags/J2EE/" style="font-size: 10px">J2EE</a> <a href="/tags/Python/" style="font-size: 10px">Python</a> <a href="/tags/TEST/" style="font-size: 12px">TEST</a> <a href="/tags/Web服务器/" style="font-size: 16px">Web服务器</a> <a href="/tags/backbone/" style="font-size: 10px">backbone</a> <a href="/tags/前端/" style="font-size: 10px">前端</a> <a href="/tags/工具/" style="font-size: 14px">工具</a> <a href="/tags/数据库/" style="font-size: 12px">数据库</a> <a href="/tags/监控/" style="font-size: 12px">监控</a> <a href="/tags/硬件/" style="font-size: 10px">硬件</a> <a href="/tags/运维/" style="font-size: 18px">运维</a>
+      <a href="/tags/CDH/" style="font-size: 12px">CDH</a> <a href="/tags/CentOS/" style="font-size: 20px">CentOS</a> <a href="/tags/Hadoop/" style="font-size: 12px">Hadoop</a> <a href="/tags/J2EE/" style="font-size: 10px">J2EE</a> <a href="/tags/Python/" style="font-size: 10px">Python</a> <a href="/tags/Shell/" style="font-size: 10px">Shell</a> <a href="/tags/TEST/" style="font-size: 12px">TEST</a> <a href="/tags/Web服务器/" style="font-size: 16px">Web服务器</a> <a href="/tags/backbone/" style="font-size: 10px">backbone</a> <a href="/tags/分布式/" style="font-size: 12px">分布式</a> <a href="/tags/前端/" style="font-size: 12px">前端</a> <a href="/tags/后端/" style="font-size: 10px">后端</a> <a href="/tags/大数据/" style="font-size: 12px">大数据</a> <a href="/tags/工具/" style="font-size: 14px">工具</a> <a href="/tags/数据库/" style="font-size: 12px">数据库</a> <a href="/tags/架构/" style="font-size: 10px">架构</a> <a href="/tags/生产工具/" style="font-size: 12px">生产工具</a> <a href="/tags/监控/" style="font-size: 12px">监控</a> <a href="/tags/硬件/" style="font-size: 10px">硬件</a> <a href="/tags/运维/" style="font-size: 18px">运维</a>
     </div>
   </div>
     

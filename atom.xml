@@ -5,7 +5,7 @@
   <subtitle><![CDATA[生命不止 奋斗不息]]></subtitle>
   <link href="/atom.xml" rel="self"/>
   <link href="http://geosmart.github.io//"/>
-  <updated>2015-08-06T01:30:40.893Z</updated>
+  <updated>2015-08-11T12:44:13.390Z</updated>
   <id>http://geosmart.github.io//</id>
   
   <author>
@@ -16,11 +16,338 @@
   <generator uri="http://hexo.io/">Hexo</generator>
   
   <entry>
+    <title><![CDATA[Hadoop生态圈]]></title>
+    <link href="http://geosmart.github.io/2015/08/11/Hadoop%E7%94%9F%E6%80%81%E5%9C%88/"/>
+    <id>http://geosmart.github.io/2015/08/11/Hadoop生态圈/</id>
+    <published>2015-08-11T08:29:41.000Z</published>
+    <updated>2015-08-11T12:44:13.390Z</updated>
+    <content type="html"><![CDATA[<p>&#x5F00;&#x59CB;&#x6B63;&#x5F0F;&#x63A5;&#x89E6;Hadoop&#xFF0C;&#x4ECE;CDH&#x81EA;&#x52A8;&#x5316;&#x5206;&#x5E03;&#x5F0F;&#x73AF;&#x5883;&#x90E8;&#x7F72;&#x5EF6;&#x4F38;&#x7684;Hadoop&#x751F;&#x6001;&#x5708;&#x7684;&#x672F;&#x8BED;&#xFF0C;&#x5217;&#x4E3E;&#x5982;&#x4E0B;&#xFF1A;<br>
+<a href="http://www.cloudera.com/content/cloudera/zh-CN/documentation/core/v5-3-x/topics/glossary.html#topic_1_unique_3__title_27_unique_21">&#x67E5;&#x770B;&#x6240;&#x6709;&#x672F;&#x8BED;</a></p>
+<h1 id="apache-accumulo">Apache Accumulo</h1>
+<p>&#x57FA;&#x4E8E;&#x8C37;&#x6B4C; BigTable &#x8BBE;&#x8BA1;&#x7684;&#x5206;&#x7C7B;&#x3001;&#x5206;&#x5E03;&#x952E;&#x503C;&#x5B58;&#x50A8;&#x3002;Accumulo &#x4E3A;&#x5728; HDFS &#x4E0A;&#x8FD0;&#x884C;&#x7684; NoSQL DBMS&#xFF0C;&#x652F;&#x6301;&#x9AD8;&#x6548;&#x5B58;&#x50A8;&#x548C;&#x7ED3;&#x6784;&#x5316;&#x6570;&#x636E;&#x68C0;&#x7D22;&#xFF0C;&#x5305;&#x62EC;&#x67E5;&#x8BE2;&#x8303;&#x56F4;&#x3002;Accumulo &#x8868;&#x53EF;&#x7528;&#x4F5C; MapReduce &#x4F5C;&#x4E1A;&#x7684;&#x8F93;&#x5165;&#x548C;&#x8F93;&#x51FA;&#x3002;Accumulo &#x529F;&#x80FD;&#x5305;&#x62EC;&#x81EA;&#x52A8;&#x8D1F;&#x8F7D;&#x5E73;&#x8861;&#x548C;&#x5206;&#x533A;&#x3001;&#x6570;&#x636E;&#x538B;&#x7F29;&#x548C;&#x7EC6;&#x7C92;&#x5EA6;&#x5B89;&#x5168;&#x6807;&#x7B7E;&#x3002;</p>
+<h1 id="apache-avro">Apache Avro</h1>
+<p>&#x5728;&#x7F51;&#x4E0A;&#x5B58;&#x50A8;&#x548C;&#x4F20;&#x8F93;&#x6570;&#x636E;&#x7684;&#x5E8F;&#x5217;&#x5316;&#x7CFB;&#x7EDF;&#x3002;Avro &#x4E3A; Avro &#x6570;&#x636E;&#x5E8F;&#x5217;&#xFF08;&#x901A;&#x5E38;&#x79F0;&#x4E3A;&#x201C;Avro &#x6570;&#x636E;&#x6587;&#x4EF6;&#x201D;&#xFF09;&#x63D0;&#x4F9B;&#x4E30;&#x5BCC;&#x7684;&#x6570;&#x636E;&#x7ED3;&#x6784;&#x3001;&#x7D27;&#x51D1;&#x7684;&#x4E8C;&#x7EA7;&#x5236;&#x7F16;&#x7801;&#x548C;&#x5BB9;&#x5668;&#x6587;&#x4EF6;&#x7684;&#x652F;&#x6301;&#x3002;Avro &#x72EC;&#x7ACB;&#x4E8E;&#x8BED;&#x8A00;&#xFF0C;&#x53EF;&#x4F7F;&#x7528;&#x591A;&#x4E2A;&#x8BED;&#x8A00;&#x7ED1;&#x5B9A;&#xFF0C;&#x5305;&#x62EC; Java&#x3001;C&#x3001;C++&#x3001;Python &#x548C; Ruby&#x3002;&#x751F;&#x6210;&#x6216;&#x4F7F;&#x7528;&#x6587;&#x4EF6;&#x7684; CDH &#x4E2D;&#x7684;&#x6240;&#x6709;&#x7EC4;&#x4EF6;&#x652F;&#x6301; Avro &#x6570;&#x636E;&#x6587;&#x4EF6;&#x4F5C;&#x4E3A;&#x6587;&#x4EF6;&#x683C;&#x5F0F;&#x3002;
+Avro &#x63D0;&#x4F9B;&#x4E0E;&#x7CFB;&#x7EDF;&#xFF08;&#x5982; Apache Thrift&#xFF09;&#x548C;&#x534F;&#x8BAE;&#x7F13;&#x51B2;&#x7C7B;&#x4F3C;&#x7684;&#x529F;&#x80FD;&#x3002;</p>
+<h1 id="apache-bigtop">Apache Bigtop</h1>
+<p>&#x5F00;&#x53D1;&#x5C01;&#x88C5;&#x548C; Apache Hadoop &#x751F;&#x6001;&#x7CFB;&#x7EDF;&#x9879;&#x76EE;&#x7684;&#x4E92;&#x64CD;&#x4F5C;&#x6027;&#x6D4B;&#x8BD5;&#x7684;&#x9879;&#x76EE;&#x3002;</p>
+<h1 id="apache-crunch">Apache Crunch</h1>
+<p>&#x7528;&#x4E8E;&#x7F16;&#x5199;&#x3001;&#x6D4B;&#x8BD5;&#x548C;&#x8FD0;&#x884C; MapReduce &#x7BA1;&#x9053;&#x7684; Java &#x5E93;&#x3002;&#x8BF7;&#x53C2;&#x89C1; Apache Crunch&#x3002;</p>
+<h1 id="apache-flume">Apache Flume</h1>
+<p>&#x4E00;&#x4E2A;&#x5206;&#x5E03;&#x5F0F;&#x3001;&#x53EF;&#x9760;&#x53EF;&#x7528;&#x7684;&#x7CFB;&#x7EDF;&#xFF0C;&#x7528;&#x4E8E;&#x9AD8;&#x6548;&#x6536;&#x96C6;&#x3001;&#x805A;&#x5408;&#x548C;&#x79FB;&#x52A8;&#x5927;&#x91CF;&#x6587;&#x672C;&#x6216;&#x4ECE;&#x591A;&#x4E2A;&#x4E0D;&#x540C;&#x6E90;&#x81F3;&#x96C6;&#x4E2D;&#x5F0F;&#x6570;&#x636E;&#x5B58;&#x50A8;&#x7684;&#x6D41;&#x6570;&#x636E;&#x3002;</p>
+<h1 id="apache-giraph">Apache Giraph</h1>
+<p>&#x4E00;&#x4E2A;&#x5728; Apache Hadoop &#x4E0A;&#x8FD0;&#x884C;&#x7684;&#x5927;&#x578B;&#x3001;&#x5BB9;&#x9519;&#x7684;&#x56FE;&#x50CF;&#x5904;&#x7406;&#x6846;&#x67B6;&#x3002;</p>
+<h1 id="apache-hadoop">Apache Hadoop</h1>
+<p>&#x4E00;&#x4E2A;&#x514D;&#x8D39;&#x7684;&#x5F00;&#x6E90;&#x8F6F;&#x4EF6;&#x6846;&#x67B6;&#xFF0C;&#x652F;&#x6301;&#x6570;&#x636E;&#x5BC6;&#x96C6;&#x578B;&#x5206;&#x5E03;&#x5E94;&#x7528;&#x7A0B;&#x5E8F;&#x3002;Apache Hadoop&#x7684;&#x6838;&#x5FC3;&#x7EC4;&#x4EF6;&#x4E3A; HDFS &#x548C; MapReduce &#x548C; YARN &#x5904;&#x7406;&#x6846;&#x67B6;&#x3002;&#x8BE5;&#x672F;&#x8BED;&#x4E5F;&#x7528;&#x4E8E;&#x4E0E; Hadoop &#x76F8;&#x5173;&#x7684;&#x751F;&#x6001;&#x7CFB;&#x7EDF;&#x9879;&#x76EE;&#xFF0C;&#x4F4D;&#x4E8E;&#x5206;&#x5E03;&#x5F0F;&#x8BA1;&#x7B97;&#x548C;&#x5927;&#x89C4;&#x6A21;&#x6570;&#x636E;&#x5904;&#x7406;&#x7684;&#x57FA;&#x7840;&#x67B6;&#x6784;&#x4E4B;&#x4E0B;&#x3002;</p>
+<h1 id="mapreduce">MapReduce</h1>
+<p>&#x5904;&#x7406;&#x548C;&#x751F;&#x6210;&#x5927;&#x6570;&#x636E;&#x96C6;&#x7684;&#x5206;&#x5E03;&#x5F0F;&#x5904;&#x7406;&#x6846;&#x67B6;&#x4EE5;&#x53CA;&#x5728;&#x884C;&#x4E1A;&#x6807;&#x51C6;&#x53CA;&#x5176;&#x7684;&#x5927;&#x7FA4;&#x96C6;&#x4E0A;&#x8FD0;&#x884C;&#x7684;&#x5B9E;&#x65BD;&#x3002;</p>
+<p>&#x5904;&#x7406;&#x6A21;&#x578B;&#x5B9A;&#x4E49;&#x4E24;&#x79CD;&#x7C7B;&#x578B;&#x7684;&#x51FD;&#x6570;&#xFF1A;&#x5904;&#x7406;&#x952E;&#x503C;&#x5BF9;&#x7684;&#x6620;&#x5C04;&#x529F;&#x80FD;&#x4EE5;&#x751F;&#x6210;&#x4E00;&#x7EC4;&#x4E2D;&#x95F4;&#x952E;&#x503C;&#x5BF9;&#x7684;&#x51FD;&#x6570;&#xFF0C;&#x4EE5;&#x53CA;&#x5408;&#x5E76;&#x6240;&#x6709;&#x4E0E;&#x540C;&#x4E00;&#x4E2D;&#x95F4;&#x952E;&#x5173;&#x8054;&#x7684;&#x4E2D;&#x95F4;&#x503C;&#x7684;&#x7B80;&#x5316;&#x51FD;&#x6570;&#x3002;</p>
+<p>MapReduce &#x4F5C;&#x4E1A;&#x533A;&#x5206;&#x8F93;&#x5165;&#x6570;&#x636E;&#x96C6;&#x81F3;&#x72EC;&#x7ACB;&#x6570;&#x636E;&#x5757;&#xFF0C;&#x8BE5;&#x6570;&#x636E;&#x5757;&#x7531;&#x6620;&#x5C04;&#x51FD;&#x6570;&#x4EE5;&#x5E76;&#x884C;&#x65B9;&#x5F0F;&#x5904;&#x7406;&#x3002;&#x6846;&#x67B6;&#x5BF9;&#x6620;&#x5C04;&#x7684;&#x8F93;&#x51FA;&#x8FDB;&#x884C;&#x6392;&#x5E8F;&#xFF0C;&#x7136;&#x540E;&#x8F93;&#x5165;&#x5230;&#x7B80;&#x5316;&#x51FD;&#x6570;&#x3002;&#x901A;&#x5E38;&#x4F5C;&#x4E1A;&#x7684;&#x8F93;&#x5165;&#x548C;&#x8F93;&#x51FA;&#x5B58;&#x50A8;&#x5728;&#x5206;&#x5E03;&#x5F0F;&#x6587;&#x4EF6;&#x7CFB;&#x7EDF;&#x4E2D;&#x3002;</p>
+<p>&#x5B9E;&#x65BD;&#x4E3A;&#x914D;&#x7F6E;&#x548C;&#x63D0;&#x4EA4;&#x4F5C;&#x4E1A;&#x3001;&#x4F5C;&#x4E1A;&#x8C03;&#x5EA6;&#x548C;&#x7BA1;&#x7406;&#x3001;&#x641C;&#x7D22;&#x5E93;&#x3001;&#x6392;&#x5E8F;&#x3001;&#x7D22;&#x5F15;&#x3001;&#x8F6C;&#x6362;&#x7D22;&#x5F15;&#x3001;&#x8BCD;&#x8BED;&#x5171;&#x73B0;&#x7B97;&#x6CD5;&#x548C;&#x8FD0;&#x884C;&#x65F6;&#x95F4;&#x63D0;&#x4F9B; API&#x3002;&#x8FD0;&#x884C;&#x65F6;&#x7CFB;&#x7EDF;&#x8D1F;&#x8D23;&#x5904;&#x7406;&#x533A;&#x5206;&#x8F93;&#x5165;&#x6570;&#x636E;&#x3001;&#x8DE8;&#x673A;&#x5668;&#x7EC4;&#x8C03;&#x5EA6;&#x7A0B;&#x5E8F;&#x6267;&#x884C;&#x3001;&#x5904;&#x7406;&#x673A;&#x5668;&#x6545;&#x969C;&#x548C;&#x7BA1;&#x7406;&#x9700;&#x8981;&#x7684;&#x673A;&#x5668;&#x95F4;&#x901A;&#x4FE1;&#x7684;&#x7EC6;&#x8282;&#x3002;</p>
+<p>MapReduce v1 (MRv1)
+MapReduce &#x4F5C;&#x4E1A;&#x6267;&#x884C;&#x7684;&#x8FD0;&#x884C;&#x65F6;&#x95F4;&#x6846;&#x67B6;&#x3002;&#x5B83;&#x5B9A;&#x4E49;&#x4E24;&#x4E2A;&#x5B88;&#x62A4;&#x7A0B;&#x5E8F;&#xFF1A;</p>
+<p>JobTracker - &#x534F;&#x8C03;&#x8FD0;&#x884C; MapReduce&#x4F5C;&#x4E1A;&#xFF0C;&#x5E76;&#x63D0;&#x4F9B;&#x8D44;&#x6E90;&#x7BA1;&#x7406;&#x548C;&#x4F5C;&#x4E1A;&#x751F;&#x547D;&#x5468;&#x671F;&#x7BA1;&#x7406;&#x3002;&#x5728; YARN &#x4E2D;&#xFF0C;&#x8FD9;&#x4E9B;&#x529F;&#x80FD;&#x7531;&#x4E24;&#x4E2A;&#x5355;&#x72EC;&#x7EC4;&#x4EF6;&#x6267;&#x884C;&#x3002;
+TaskTracker - &#x8FD0;&#x884C; MapReduce &#x4F5C;&#x4E1A;&#x5DF2;&#x62C6;&#x5206;&#x7684;&#x4EFB;&#x52A1;&#x3002;</p>
+<h1 id="yarn">YARN</h1>
+<p>&#x8FD0;&#x884C;&#x5206;&#x5E03;&#x5F0F;&#x5E94;&#x7528;&#x7A0B;&#x5E8F;&#x7684;&#x901A;&#x7528;&#x4F53;&#x7CFB;&#x7ED3;&#x6784;&#x3002;YARN &#x6307;&#x5B9A;&#x4EE5;&#x4E0B;&#x7EC4;&#x4EF6;&#xFF1A;</p>
+<p>ResourceManager - &#x7BA1;&#x7406;&#x8BA1;&#x7B97;&#x8D44;&#x6E90;&#x7684;&#x5168;&#x5C40;&#x5206;&#x914D;&#x81F3;&#x5E94;&#x7528;&#x7A0B;&#x5E8F;&#x3002;
+ApplicationMaster - &#x7BA1;&#x7406;&#x5E94;&#x7528;&#x7A0B;&#x5E8F;&#x7684;&#x751F;&#x547D;&#x5468;&#x671F;
+NodeManager - &#x542F;&#x52A8;&#x548C;&#x76D1;&#x89C6;&#x7FA4;&#x96C6;&#x4E2D;&#x673A;&#x5668;&#x4E0A;&#x7684;&#x8BA1;&#x7B97;&#x5BB9;&#x5668;
+JobHistory Server - &#x8DDF;&#x8E2A;&#x5DF2;&#x5B8C;&#x6210;&#x7684;&#x5E94;&#x7528;&#x7A0B;&#x5E8F;
+&#x4E3B;&#x5E94;&#x7528;&#x7A0B;&#x5E8F;&#x4E3A;&#x7FA4;&#x96C6;&#x8D44;&#x6E90;&#x4E0E;&#x8D44;&#x6E90;&#x7BA1;&#x7406;&#x5668;&#x534F;&#x5546; - &#x6309;&#x7167;&#x591A;&#x4E2A;&#x5BB9;&#x5668;&#x7684;&#x63CF;&#x8FF0;&#xFF0C;&#x6BCF;&#x4E2A;&#x5E94;&#x7528;&#x7A0B;&#x5E8F;&#x62E5;&#x6709;&#x7279;&#x5B9A;&#x7684;&#x5185;&#x5B58;&#x9650;&#x5236; - &#x7136;&#x540E;&#x5728;&#x8FD9;&#x4E9B;&#x5BB9;&#x5668;&#x4E2D;&#x8FD0;&#x884C;&#x5E94;&#x7528;&#x7A0B;&#x5E8F;&#x7279;&#x5B9A;&#x7684;&#x8FDB;&#x7A0B;&#x3002;&#x5728;&#x7FA4;&#x96C6;&#x8282;&#x70B9;&#x4E0A;&#x8FD0;&#x884C;&#x7684;&#x8282;&#x70B9;&#x7BA1;&#x7406;&#x5668;&#x76D1;&#x7763;&#x5BB9;&#x5668;&#xFF0C;&#x786E;&#x4FDD;&#x5E94;&#x7528;&#x7A0B;&#x5E8F;&#x672A;&#x4F7F;&#x7528;&#x8D85;&#x51FA;&#x5176;&#x5DF2;&#x5206;&#x914D;&#x8D44;&#x6E90;&#x7684;&#x8D44;&#x6E90;&#x3002;</p>
+<p>MapReduce v2 (MRv2) &#x4F5C;&#x4E3A; YARN &#x5E94;&#x7528;&#x7A0B;&#x5E8F;&#x5B9E;&#x65BD;&#x3002;</p>
+<h1 id="apache-hbase">Apache HBase</h1>
+<p>&#x9762;&#x5411;&#x5217;&#x7684;&#x53EF;&#x4F38;&#x7F29;&#x5206;&#x5E03;&#x5F0F;&#x6570;&#x636E;&#x5B58;&#x50A8;&#x3002;&#x5B83;&#x63D0;&#x4F9B;&#x5B9E;&#x65F6;&#x8BFB;/&#x5199;&#x968F;&#x673A;&#x8BBF;&#x95EE; HDFS &#x6258;&#x7BA1;&#x7684;&#x5927;&#x89C4;&#x6A21;&#x6570;&#x636E;&#x96C6;&#x7684;&#x6743;&#x9650;&#x3002;</p>
+<h2 id="hbasemaster">HBaseMaster</h2>
+<p>HMaster &#x8D1F;&#x8D23;&#x7ED9;HRegionServer&#x5206;&#x914D;&#x533A;&#x57DF;,&#x5E76;&#x4E14;&#x8D1F;&#x8D23;&#x5BF9;&#x96C6;&#x7FA4;&#x73AF;&#x5883;&#x4E2D;&#x7684;HReginServer&#x8FDB;&#x884C;&#x8D1F;&#x8F7D;&#x5747;&#x8861;&#xFF0C;HMaster&#x8FD8;&#x8D1F;&#x8D23;&#x76D1;&#x63A7;&#x96C6;&#x7FA4;&#x73AF;&#x5883;&#x4E2D;&#x7684;HReginServer&#x7684;&#x8FD0;&#x884C;&#x72B6;&#x51B5;&#xFF0C;&#x5982;&#x679C;&#x67D0;&#x4E00;&#x53F0;HReginServer down&#x673A;&#xFF0C;HBaseMaster&#x5C06;&#x4F1A;&#x628A;&#x4E0D;&#x53EF;&#x7528;&#x7684;HReginServer&#x6765;&#x63D0;&#x4F9B;&#x670D;&#x52A1;&#x7684;HLog&#x548C;&#x8868;&#x8FDB;&#x884C;&#x91CD;&#x65B0;&#x5206;&#x914D;&#x8F6C;&#x4EA4;&#x7ED9;&#x5176;&#x4ED6;HReginServer&#x6765;&#x63D0;&#x4F9B;&#xFF0C;HBaseMaster&#x8FD8;&#x8D1F;&#x8D23;&#x5BF9;&#x6570;&#x636E;&#x548C;&#x8868;&#x8FDB;&#x884C;&#x7BA1;&#x7406;&#xFF0C;&#x5904;&#x7406;&#x8868;&#x7ED3;&#x6784;&#x548C;&#x8868;&#x4E2D;&#x6570;&#x636E;&#x7684;&#x53D8;&#x66F4;&#xFF0C;&#x56E0;&#x4E3A;&#x5728; META &#x7CFB;&#x7EDF;&#x8868;&#x4E2D;&#x5B58;&#x50A8;&#x4E86;&#x6240;&#x6709;&#x7684;&#x76F8;&#x5173;&#x8868;&#x4FE1;&#x606F;&#x3002;&#x5E76;&#x4E14;HMaster&#x5B9E;&#x73B0;&#x4E86;ZooKeeper&#x7684;Watcher&#x63A5;&#x53E3;&#x53EF;&#x4EE5;&#x548C;zookeeper&#x96C6;&#x7FA4;&#x4EA4;&#x4E92;&#x3002;</p>
+<h2 id="hregionserver">HRegionServer</h2>
+<p>HReginServer&#x8D1F;&#x8D23;&#x5904;&#x7406;&#x7528;&#x6237;&#x7684;&#x8BFB;&#x548C;&#x5199;&#x7684;&#x64CD;&#x4F5C;&#x3002;HReginServer&#x901A;&#x8FC7;&#x4E0E;HBaseMaster&#x901A;&#x4FE1;&#x83B7;&#x53D6;&#x81EA;&#x5DF1;&#x9700;&#x8981;&#x670D;&#x52A1;&#x7684;&#x6570;&#x636E;&#x8868;&#xFF0C;&#x5E76;&#x5411;HMaster&#x53CD;&#x9988;&#x81EA;&#x5DF1;&#x7684;&#x8FD0;&#x884C;&#x72B6;&#x51B5;&#x3002;&#x5F53;&#x4E00;&#x4E2A;&#x5199;&#x7684;&#x8BF7;&#x6C42;&#x5230;&#x6765;&#x7684;&#x65F6;&#x5019;&#xFF0C;&#x5B83;&#x9996;&#x5148;&#x4F1A;&#x5199;&#x5230;&#x4E00;&#x4E2A;&#x53EB;&#x505A;HLog&#x7684;write-ahead log&#x4E2D;&#x3002;HLog&#x88AB;&#x7F13;&#x5B58;&#x5728;&#x5185;&#x5B58;&#x4E2D;&#xFF0C;&#x79F0;&#x4E3A;Memcache&#xFF0C;&#x6BCF;&#x4E00;&#x4E2A;HStore&#x53EA;&#x80FD;&#x6709;&#x4E00;&#x4E2A;Memcache&#x3002;&#x5F53;Memcache&#x5230;&#x8FBE;&#x914D;&#x7F6E;&#x7684;&#x5927;&#x5C0F;&#x4EE5;&#x540E;&#xFF0C;&#x5C06;&#x4F1A;&#x521B;&#x5EFA;&#x4E00;&#x4E2A;MapFile&#xFF0C;&#x5C06;&#x5176;&#x5199;&#x5230;&#x78C1;&#x76D8;&#x4E2D;&#x53BB;&#x3002;&#x8FD9;&#x5C06;&#x51CF;&#x5C11;HReginServer&#x7684;&#x5185;&#x5B58;&#x538B;&#x529B;&#x3002;&#x5F53;&#x4E00;&#x8D77;&#x8BFB;&#x53D6;&#x7684;&#x8BF7;&#x6C42;&#x5230;&#x6765;&#x7684;&#x65F6;&#x5019;&#xFF0C;HReginServer&#x4F1A;&#x5148;&#x5728;Memcache&#x4E2D;&#x5BFB;&#x627E;&#x8BE5;&#x6570;&#x636E;&#xFF0C;&#x5F53;&#x627E;&#x4E0D;&#x5230;&#x7684;&#x65F6;&#x5019;&#xFF0C;&#x624D;&#x4F1A;&#x53BB;&#x5728;MapFiles &#x4E2D;&#x5BFB;&#x627E;&#x3002;</p>
+<h2 id="hbase-client">HBase Client</h2>
+<p>HBase Client&#x8D1F;&#x8D23;&#x5BFB;&#x627E;&#x63D0;&#x4F9B;&#x9700;&#x6C42;&#x6570;&#x636E;&#x7684;HReginServer&#x3002;&#x5728;&#x8FD9;&#x4E2A;&#x8FC7;&#x7A0B;&#x4E2D;&#xFF0C;HBase Client&#x5C06;&#x9996;&#x5148;&#x4E0E;HMaster&#x901A;&#x4FE1;&#xFF0C;&#x627E;&#x5230;ROOT&#x533A;&#x57DF;&#x3002;&#x8FD9;&#x4E2A;&#x64CD;&#x4F5C;&#x662F;Client&#x548C;Master&#x4E4B;&#x95F4;&#x4EC5;&#x6709;&#x7684;&#x901A;&#x4FE1;&#x64CD;&#x4F5C;&#x3002;&#x4E00;&#x65E6;ROOT&#x533A;&#x57DF;&#x88AB;&#x627E;&#x5230;&#x4EE5;&#x540E;&#xFF0C;Client&#x5C31;&#x53EF;&#x4EE5;&#x901A;&#x8FC7;&#x626B;&#x63CF;ROOT&#x533A;&#x57DF;&#x627E;&#x5230;&#x76F8;&#x5E94;&#x7684;META&#x533A;&#x57DF;&#x53BB;&#x5B9A;&#x4F4D;&#x5B9E;&#x9645;&#x63D0;&#x4F9B;&#x6570;&#x636E;&#x7684;HReginServer&#x3002;&#x5F53;&#x5B9A;&#x4F4D;&#x5230;&#x63D0;&#x4F9B;&#x6570;&#x636E;&#x7684;HReginServer&#x4EE5;&#x540E;&#xFF0C;Client&#x5C31;&#x53EF;&#x4EE5;&#x901A;&#x8FC7;&#x8FD9;&#x4E2A;HReginServer&#x627E;&#x5230;&#x9700;&#x8981;&#x7684;&#x6570;&#x636E;&#x4E86;&#x3002;&#x8FD9;&#x4E9B;&#x4FE1;&#x606F;&#x5C06;&#x4F1A;&#x88AB;Client&#x7F13;&#x5B58;&#x8D77;&#x6765;&#xFF0C;&#x5F53;&#x4E0B;&#x6B21;&#x8BF7;&#x6C42;&#x7684;&#x65F6;&#x5019;&#xFF0C;&#x5C31;&#x4E0D;&#x9700;&#x8981;&#x8D70;&#x4E0A;&#x9762;&#x7684;&#x8FD9;&#x4E2A;&#x6D41;&#x7A0B;&#x4E86;&#x3002;</p>
+<h2 id="hbase-service">HBase Service</h2>
+<p>HBase Thrift Server&#x548C;HBase REST Server&#x662F;&#x901A;&#x8FC7;&#x975E;Java&#x7A0B;&#x5E8F;&#x5BF9;HBase&#x8FDB;&#x884C;&#x8BBF;&#x95EE;&#x7684;&#x4E00;&#x79CD;&#x9014;&#x5F84;&#x3002;</p>
+<h1 id="apache-hive">Apache Hive</h1>
+<p>Hadoop &#x7684;&#x6570;&#x636E;&#x4ED3;&#x5E93;&#x7CFB;&#x7EDF;&#xFF0C;&#x4F7F;&#x7528;&#x8BF8;&#x5982; SQL &#x7684;&#x8BED;&#x8A00;&#xFF08;&#x79F0;&#x4E3A; HiveQL&#xFF09;&#xFF0C;&#x6709;&#x52A9;&#x4E8E;&#x5B9E;&#x73B0;&#x6C47;&#x603B;&#x548C; HDFS &#x4E2D;&#x5B58;&#x50A8;&#x7684;&#x5927;&#x6570;&#x636E;&#x96C6;&#x7684;&#x5206;&#x6790;&#x3002;</p>
+<h1 id="hiveserver">HiveServer</h1>
+<p>&#x652F;&#x6301;&#x901A;&#x8FC7; Apache Thrift &#x8FDE;&#x63A5;&#x5C06;&#x5BA2;&#x6237;&#x7AEF;&#x8FDE;&#x63A5;&#x81F3; Hive &#x7684;&#x670D;&#x52A1;&#x5668;&#x8FDB;&#x7A0B;&#x3002;</p>
+<h1 id="hiveserver2">HiveServer2</h1>
+<p>&#x652F;&#x6301;&#x901A;&#x8FC7;&#x7F51;&#x7EDC;&#x8FDE;&#x63A5;&#x5C06;&#x5BA2;&#x6237;&#x7AEF;&#x8FDE;&#x63A5;&#x81F3; Hive &#x7684;&#x670D;&#x52A1;&#x5668;&#x8FDB;&#x7A0B;&#x3002;&#x8FD9;&#x4E9B;&#x5BA2;&#x6237;&#x7AEF;&#x53EF;&#x4EE5;&#x662F;&#x672C;&#x673A;&#x547D;&#x4EE4;&#x884C;&#x7F16;&#x8F91;&#x5668;&#x6216;&#x4F7F;&#x7528; ODBC &#x6216; JDBC &#x9A71;&#x52A8;&#x7A0B;&#x5E8F;&#x7684;&#x5E94;&#x7528;&#x7A0B;&#x5E8F;&#x548C;&#x5DE5;&#x5177;&#x3002;</p>
+<h1 id="hiveql">HiveQL</h1>
+<p>Hadoop &#x7684;&#x4E00;&#x79CD;&#x67E5;&#x8BE2;&#x8BED;&#x8A00;&#xFF0C;&#x4F7F;&#x7528;&#x7C7B;&#x4F3C;&#x4E8E;&#x6807;&#x51C6; SQL &#x7684;&#x8BED;&#x6CD5;&#xFF0C;&#x4EE5;&#x5728; HDFS &#x4E0A;&#x6267;&#x884C; MapReduce &#x4F5C;&#x4E1A;&#x3002;HiveQL &#x4E0D;&#x652F;&#x6301;&#x6240;&#x6709;&#x7684; SQL &#x529F;&#x80FD;&#x3002;&#x4E0D;&#x652F;&#x6301;&#x4E8B;&#x52A1;&#x548C;&#x7269;&#x5316;&#x89C6;&#x56FE;&#xFF0C;&#x5BF9;&#x7D22;&#x5F15;&#x548C;&#x67E5;&#x8BE2;&#x7684;&#x652F;&#x6301;&#x6709;&#x9650;&#x3002;&#x5B83;&#x652F;&#x6301;&#x4E0D;&#x5C5E;&#x4E8E;&#x6807;&#x51C6; SQL &#x7684;&#x529F;&#x80FD;&#xFF0C;&#x5982;&#x591A;&#x8868;&#x683C;&#xFF0C;&#x5305;&#x62EC;&#x591A;&#x8868;&#x683C;&#x63D2;&#x5165;&#x548C;&#x521B;&#x5EFA;&#x9009;&#x62E9;&#x7684;&#x8868;&#x683C;&#x3002;</p>
+<p>&#x5728;&#x5185;&#x90E8;&#xFF0C;&#x7F16;&#x8BD1;&#x5668;&#x5C06; HiveQL &#x8BED;&#x53E5;&#x8F6C;&#x6362;&#x4E3A; MapReduce &#x4F5C;&#x4E1A;&#x7684;&#x6709;&#x5411;&#x65E0;&#x73AF;&#x56FE;&#xFF0C;&#x63D0;&#x4EA4;&#x81F3; Hadoop&#xFF0C;&#x4EE5;&#x6267;&#x884C;&#x3002;Beeswax &#x5305;&#x542B;&#x5728; Hue&#x5185;&#xFF0C;&#x4E3A; HiveQL &#x67E5;&#x8BE2;&#x63D0;&#x4F9B;&#x56FE;&#x5F62;&#x5316;&#x524D;&#x7AEF;&#x3002;</p>
+<h1 id="apache-mahout">Apache Mahout</h1>
+<p>Hadoop &#x7684;&#x673A;&#x5668;&#x5B66;&#x4E60;&#x5E93;&#x3002;&#x5B83;&#x662F;&#x60A8;&#x80FD;&#x591F;&#x6784;&#x5EFA;&#x514B;&#x6269;&#x5C55;&#x81F3;&#x5927;&#x578B;&#x6570;&#x636E;&#x96C6;&#x7684;&#x673A;&#x5668;&#x5B66;&#x4E60;&#x5E93;&#xFF0C;&#x4ECE;&#x800C;&#x7B80;&#x5316;&#x4E86;&#x6784;&#x5EFA;&#x667A;&#x80FD;&#x5E94;&#x7528;&#x7A0B;&#x5E8F;&#x7684;&#x4EFB;&#x52A1;&#x3002;Mahout &#x652F;&#x6301;&#x7684;&#x4E3B;&#x8981;&#x4F7F;&#x7528;&#x60C5;&#x5F62;&#x5305;&#x62EC;&#xFF1A;</p>
+<ul>
+<li>&#x5EFA;&#x8BAE;&#x6316;&#x6398; -&#x57FA;&#x4E8E;&#x8FC7;&#x53BB;&#x504F;&#x597D;&#x6807;&#x8BC6;&#x7528;&#x6237;&#x559C;&#x597D;&#xFF0C;&#x5982;&#x5728;&#x7EBF;&#x8D2D;&#x7269;&#x5EFA;&#x8BAE;&#x3002;</li>
+<li>&#x7FA4;&#x96C6; - &#x7C7B;&#x4F3C;&#x9879;&#x76EE;&#x7684;&#x7EC4;&#xFF1B;&#x5982;&#x89E3;&#x51B3;&#x7C7B;&#x4F3C;&#x4E3B;&#x9898;&#x7684;&#x6587;&#x6863;</li>
+<li>&#x5206;&#x7C7B; - &#x5B66;&#x4E60;&#x73B0;&#x6709;&#x7C7B;&#x522B;&#x4E2D;&#x6210;&#x5458;&#x7684;&#x5171;&#x540C;&#x4E4B;&#x5904;&#xFF0C;&#x7136;&#x540E;&#x4F7F;&#x7528;&#x8BE5;&#x4FE1;&#x606F;&#x5206;&#x7C7B;&#x65B0;&#x9879;&#x76EE;&#x3002;</li>
+<li>&#x9891;&#x7E41;&#x7684;&#x9879;&#x76EE;&#x96C6;&#x6316;&#x6398; - &#x91C7;&#x7528;&#x4E00;&#x7EC4;&#x9879;&#x76EE;&#x7EC4;&#xFF08;&#x5982;&#x67E5;&#x8BE2;&#x4F1A;&#x8BDD;&#x6216;&#x8D2D;&#x7269;&#x8F66;&#x4E2D;&#x7684;&#x6761;&#x76EE;&#xFF09;&#xFF0C;&#x8BC6;&#x522B;&#x901A;&#x5E38;&#x4E00;&#x8D77;&#x51FA;&#x73B0;&#x7684;&#x9879;&#x76EE;&#x3002;</li>
+</ul>
+<h1 id="apache-oozie">Apache Oozie</h1>
+<p>&#x534F;&#x8C03;&#x6570;&#x636E;&#x63A5;&#x6536;&#x3001;&#x5B58;&#x50A8;&#x3001;&#x8F6C;&#x6362;&#x548C;&#x5206;&#x6790;&#x64CD;&#x4F5C;&#x7684;&#x5DE5;&#x4F5C;&#x6D41;&#x7A0B;&#x548C;&#x534F;&#x8C03;&#x670D;&#x52A1;&#x3002;</p>
+<h1 id="apache-pig">Apache Pig</h1>
+<p>&#x6570;&#x636E;&#x6D41;&#x8BED;&#x8A00;&#x548C;&#x5728; MapReduce &#x9876;&#x90E8;&#x6784;&#x5EFA;&#x7684;&#x5E76;&#x884C;&#x6267;&#x884C;&#x6846;&#x67B6;&#x3002;&#x5728;&#x5185;&#x90E8;&#xFF0C;&#x7F16;&#x8BD1;&#x5668;&#x5C06; Pig &#x8BED;&#x53E5;&#x8F6C;&#x6362;&#x4E3A; MapReduce &#x4F5C;&#x4E1A;&#x7684;&#x6709;&#x5411;&#x65E0;&#x73AF;&#x56FE;&#xFF0C;&#x63D0;&#x4EA4;&#x81F3; Hadoop&#xFF0C;&#x4EE5;&#x6267;&#x884C;&#x3002;</p>
+<h1 id="apache-sentry">Apache Sentry</h1>
+<p>&#x4F01;&#x4E1A;&#x7EA7;&#x5927;&#x6570;&#x636E;&#x5B89;&#x5168;&#x7684;&#x4E0B;&#x4E00;&#x6B65;&#x9AA4;&#xFF0C;&#x4E3A;&#x5B58;&#x50A8;&#x5728; Apache Hadoop &#x4E2D;&#x7684;&#x6570;&#x636E;&#x63D0;&#x4F9B;&#x7EC6;&#x7C92;&#x5EA6;&#x6388;&#x6743;&#x3002;&#x72EC;&#x7ACB;&#x7684;&#x5B89;&#x5168;&#x6A21;&#x5757;&#xFF0C;&#x96C6;&#x6210;&#x5F00;&#x6E90; SQL &#x67E5;&#x8BE2;&#x5F15;&#x64CE; Apache Hive &#x548C; Cloudera Impala&#xFF0C;Sentry &#x63D0;&#x4F9B;&#x9AD8;&#x7EA7;&#x8EAB;&#x4EFD;&#x9A8C;&#x8BC1;&#x63A7;&#x5236;&#x4EE5;&#x4E3A;&#x4F01;&#x4E1A;&#x6570;&#x636E;&#x96C6;&#x542F;&#x7528;&#x591A;&#x7528;&#x6237;&#x5E94;&#x7528;&#x7A0B;&#x5E8F;&#x548C;&#x8DE8;&#x804C;&#x80FD;&#x6D41;&#x7A0B;&#x3002;</p>
+<h1 id="apache-spark">Apache Spark</h1>
+<p>&#x5206;&#x5E03;&#x5F0F;&#x8BA1;&#x7B97;&#x7684;&#x4E00;&#x822C;&#x6846;&#x67B6;&#xFF0C;&#x4E3A;&#x8FED;&#x4EE3;&#x548C;&#x4EA4;&#x4E92;&#x5F0F;&#x5904;&#x7406;&#x63D0;&#x4F9B;&#x51FA;&#x8272;&#x6027;&#x80FD;&#x3002;Spark &#x4E3A; Java&#x3001;Scala &#x548C; Python &#x5C55;&#x793A;&#x7528;&#x6237;&#x53CB;&#x597D;&#x7684; API&#x3002;</p>
+<h1 id="apache-sqoop">Apache Sqoop</h1>
+<p>&#x5728; Hadoop &#x548C;&#x5916;&#x90E8;&#x7ED3;&#x6784;&#x5316;&#x6570;&#x636E;&#x5B58;&#x50A8;&#xFF08;&#x5982;&#x5173;&#x7CFB;&#x6570;&#x636E;&#x5E93;&#xFF09;&#x4E4B;&#x95F4;&#x9AD8;&#x6548;&#x6279;&#x91CF;&#x4F20;&#x8F93;&#x6570;&#x636E;&#x7684;&#x5DE5;&#x5177;&#x3002;Sqoop &#x5BFC;&#x5165;&#x8868;&#x683C;&#x5185;&#x5BB9;&#x81F3; HDFS&#x3001;Apache Hive &#x548C; Apache HBase&#xFF0C;&#x5E76;&#x751F;&#x6210;&#x5141;&#x8BB8;&#x7528;&#x6237;&#x89E3;&#x8BD1;&#x8868;&#x67B6;&#x6784;&#x7684; Java &#x7C7B;&#x3002;Sqoop &#x4E5F;&#x53EF;&#x4EE5;&#x4ECE; Hadoop &#x5B58;&#x50A8;&#x4E2D;&#x63D0;&#x53D6;&#x6570;&#x636E;&#xFF0C;&#x5E76;&#x5C06;&#x8BB0;&#x5F55;&#x4ECE; HDFS &#x5BFC;&#x51FA;&#x81F3;&#x5916;&#x90E8;&#x7ED3;&#x6784;&#x5316;&#x6570;&#x636E;&#x5B58;&#x50A8;&#xFF0C;&#x5982;&#x5173;&#x7CFB;&#x6570;&#x636E;&#x5E93;&#x548C;&#x4F01;&#x4E1A;&#x6570;&#x636E;&#x4ED3;&#x5E93;&#x3002;</p>
+<p>Sqoop &#x6709;&#x4E24;&#x4E2A;&#x7248;&#x672C;&#xFF1A;Sqoop &#x548C; Sqoop 2&#x3002;Sqoop &#x8981;&#x6C42;&#x5BA2;&#x6237;&#x7AEF;&#x5B89;&#x88C5;&#x548C;&#x914D;&#x7F6E;&#x3002;Sqoop 2 &#x662F;&#x57FA;&#x4E8E;&#x7F51;&#x7EDC;&#x7684;&#x670D;&#x52A1;&#xFF0C;&#x5177;&#x6709;&#x5BA2;&#x6237;&#x547D;&#x4EE4;&#x884C;&#x754C;&#x9762;&#x3002;&#x62E5;&#x6709; Sqoop 2 &#x8FDE;&#x63A5;&#x5668;&#xFF0C;&#x5728;&#x670D;&#x52A1;&#x5668;&#x4E0A;&#x914D;&#x7F6E;&#x6570;&#x636E;&#x5E93;&#x9A71;&#x52A8;&#x3002;</p>
+<h1 id="apache-zookeeper">Apache ZooKeeper</h1>
+<p>&#x7EF4;&#x62A4;&#x914D;&#x7F6E;&#x4FE1;&#x606F;&#x3001;&#x547D;&#x540D;&#x5E76;&#x63D0;&#x4F9B;&#x5206;&#x5E03;&#x5F0F;&#x540C;&#x6B65;&#x548C;&#x7EC4;&#x670D;&#x52A1;&#x7684;&#x96C6;&#x4E2D;&#x5F0F;&#x670D;&#x52A1;&#x3002;</p>
+<h1 id="cdh">CDH</h1>
+<p>Cloudera Apache Hadoop &#x5206;&#x5E03;&#x5305;&#x542B;&#x6838;&#x5FC3; Hadoop&#xFF08;HDFS&#x3001;MapReduce&#x3001;YARN&#xFF09;&#x4EE5;&#x53CA;&#x4EE5;&#x4E0B;&#x76F8;&#x5173;&#x9879;&#x76EE;&#xFF1A;Apache Avro&#x3001;Apache Flume&#x3001;Fuse-DFS&#x3001;Apache HBase&#x3001;Apache Hive&#x3001;Hue&#x3001;Cloudera Impala&#x3001;Apache Mahout&#x3001;Apache Oozie&#x3001;Apache Pig&#x3001;Cloudera Search&#x3001;Apache Sentry&#x3001;Apache Spark&#x3001;Apache Sqoop&#x3001;Apache Whirr&#x3001;Apache ZooKeeper&#x3001;DataFu &#x548C; Kite&#x3002;</p>
+<p>CDH &#x4E3A;&#x514D;&#x8D39; 100% &#x5F00;&#x6E90;&#xFF0C;&#x5E76;&#x5728; Apache 2.0 &#x8BB8;&#x53EF;&#x8BC1;&#x4E0B;&#x8BB8;&#x53EF;&#x3002;CDH &#x652F;&#x6301;&#x591A;&#x4E2A; Linux &#x5206;&#x914D;&#x3002;</p>
+<h1 id="cloudera-manager">Cloudera Manager</h1>
+<p>CDH&#x3001;Cloudera Impala &#x548C; Cloudera Search &#x7684;&#x7AEF;&#x5230;&#x745E;&#x7BA1;&#x7406;&#x5E94;&#x7528;&#x7A0B;&#x5E8F;&#x3002;Cloudera Manager &#x5141;&#x8BB8;&#x7BA1;&#x7406;&#x5458;&#x8F7B;&#x677E;&#x6709;&#x6548;&#x5730;&#x534F;&#x8C03;&#x3001;&#x76D1;&#x63A7;&#x548C;&#x7BA1;&#x7406; Hadoop &#x7FA4;&#x96C6;&#x548C; CDH &#x5B89;&#x88C5;&#x3002;Cloudera Manager &#x6709;&#x4E24;&#x4E2A;&#x53EF;&#x7528;&#x7248;&#x672C;&#xFF1A;Cloudera Express &#x548C; Cloudera Enterprise&#x3002;</p>
+<h1 id="cloudera-express">Cloudera Express</h1>
+<p>&#x514D;&#x8D39;&#x4E0B;&#x8F7D;&#xFF0C;&#x5305;&#x542B; CDH&#xFF0C;&#x6DB5;&#x76D6;&#x4F01;&#x4E1A;&#x7EA7; Apache Hadoop&#x3001;Apache HBase&#x3001;Cloudera Impala&#x3001;Cloudera Search&#x3001;Apache Spark &#x548C; Cloudera Manager &#x5206;&#x5E03;&#xFF0C;&#x63D0;&#x4F9B;&#x5F3A;&#x5927;&#x7684;&#x96C6;&#x7FA4;&#x7BA1;&#x7406;&#x529F;&#x80FD;&#xFF0C;&#x5982;&#x81EA;&#x52A8;&#x90E8;&#x7F72;&#x3001;&#x96C6;&#x4E2D;&#x7BA1;&#x7406;&#x3001;&#x76D1;&#x63A7;&#x548C;&#x8BCA;&#x65AD;&#x5DE5;&#x5177;&#x3002;Cloudera Express &#x4F7F;&#x6570;&#x636E;&#x9A71;&#x52A8;&#x7684;&#x4F01;&#x4E1A;&#x53EF;&#x8BC4;&#x4F30; Apache Hadoop&#x3002;</p>
+<h1 id="cloudera-impala">Cloudera Impala</h1>
+<p>&#x53EF;&#x5B9E;&#x65F6;&#x67E5;&#x8BE2;&#x5B58;&#x50A8;&#x5728; HDFS &#x6216; Apache HBase &#x4E2D;&#x6570;&#x636E;&#x7684;&#x670D;&#x52A1;&#x3002;&#x5B83;&#x652F;&#x6301;&#x76F8;&#x540C;&#x7684;&#x5143;&#x6570;&#x636E;&#x548C; ODBC &#x548C; JDBC &#x9A71;&#x52A8;&#x7A0B;&#x5E8F;&#x4F5C;&#x4E3A; Apache Hive &#x548C;&#x57FA;&#x4E8E; Hive &#x6807;&#x51C6;&#x67E5;&#x8BE2;&#x8BED;&#x8A00; (HiveQL) &#x7684;&#x67E5;&#x8BE2;&#x8BED;&#x8A00;&#x3002;&#x8981;&#x907F;&#x514D;&#x5EF6;&#x8FDF;&#xFF0C;Impala &#x89C4;&#x907F; MapReduce &#x901A;&#x8FC7;&#x7279;&#x6B8A;&#x5206;&#x5E03;&#x5F0F;&#x67E5;&#x8BE2;&#x5F15;&#x64CE;&#xFF08;&#x4E0E;&#x5546;&#x4E1A;&#x5E76;&#x884C; RDBMS &#x4E2D;&#x7684;&#x5F15;&#x64CE;&#x76F8;&#x4F3C;&#xFF09;&#x76F4;&#x63A5;&#x8BBF;&#x95EE;&#x6570;&#x636E;&#x3002;</p>
+<h1 id="hue">Hue</h1>
+<p>&#x4E3A; CDH &#x670D;&#x52A1;&#x6784;&#x5EFA;&#x81EA;&#x5B9A;&#x4E49; GUI &#x5E94;&#x7528;&#x7A0B;&#x5E8F;&#x7684;&#x670D;&#x52A1;&#x548C;&#x5305;&#x542B;&#x4EE5;&#x4E0B;&#x5185;&#x7F6E;&#x5E94;&#x7528;&#x7A0B;&#x5E8F;&#x7684;&#x5DE5;&#x5177;&#xFF1A;Apache Pig&#x3001;Apache HBase &#x548C; Sqoop 2 shell&#xFF0C;Apache Pig &#x7F16;&#x8F91;&#x5668;&#x3001;Beeswax Hive UI&#xFF0C;Cloudera Impala &#x67E5;&#x8BE2;&#x7F16;&#x8F91;&#x5668;&#xFF0C;Solr &#x641C;&#x7D22;&#x5E94;&#x7528;&#x7A0B;&#x5E8F;Hive &#x5143;&#x5B58;&#x50A8;&#x7BA1;&#x7406;&#x5668;&#xFF0C;Oozie &#x5E94;&#x7528;&#x7A0B;&#x5E8F;&#x7F16;&#x8F91;&#x5668;&#x3001;&#x8C03;&#x5EA6;&#x7A0B;&#x5E8F;&#x548C;&#x63D0;&#x4EA4;&#x8005;&#xFF0C;Apache HBase &#x6D4F;&#x89C8;&#x5668;&#xFF0C;Sqoop 2 &#x5E94;&#x7528;&#x7A0B;&#x5E8F;&#xFF0C;HDFS &#x6587;&#x4EF6;&#x7BA1;&#x7406;&#x5668;&#x548C; MapReduce &#x548C; YARN &#x4F5C;&#x4E1A;&#x6D4F;&#x89C8;&#x5668;&#x3002;</p>]]></content>
+    <summary type="html">
+    <![CDATA[<p>&#x5F00;&#x59CB;&#x6B63;&#x5F0F;&#x63A5;&#x89E6;Hadoop&#xFF0C;&#x4ECE;CDH&#x81EA;&#x52A8;&#x5316;&#x5206;&#x5E03;&#x5F0F;&#x73AF;&#x5883;]]>
+    </summary>
+    
+      <category term="CDH" scheme="http://geosmart.github.io/tags/CDH/"/>
+    
+      <category term="Hadoop" scheme="http://geosmart.github.io/tags/Hadoop/"/>
+    
+      <category term="分布式" scheme="http://geosmart.github.io/tags/%E5%88%86%E5%B8%83%E5%BC%8F/"/>
+    
+      <category term="大数据" scheme="http://geosmart.github.io/tags/%E5%A4%A7%E6%95%B0%E6%8D%AE/"/>
+    
+      <category term="大数据" scheme="http://geosmart.github.io/categories/%E5%A4%A7%E6%95%B0%E6%8D%AE/"/>
+    
+  </entry>
+  
+  <entry>
+    <title><![CDATA[软件架构实践]]></title>
+    <link href="http://geosmart.github.io/2015/08/09/%E8%BD%AF%E4%BB%B6%E6%9E%B6%E6%9E%84%E5%AE%9E%E8%B7%B5/"/>
+    <id>http://geosmart.github.io/2015/08/09/软件架构实践/</id>
+    <published>2015-08-09T04:18:06.000Z</published>
+    <updated>2015-08-09T04:22:04.486Z</updated>
+    <content type="html"></content>
+    <summary type="html">
+    
+    </summary>
+    
+      <category term="架构" scheme="http://geosmart.github.io/tags/%E6%9E%B6%E6%9E%84/"/>
+    
+      <category term="技术点滴" scheme="http://geosmart.github.io/categories/%E6%8A%80%E6%9C%AF%E7%82%B9%E6%BB%B4/"/>
+    
+  </entry>
+  
+  <entry>
+    <title><![CDATA[后端生产工具]]></title>
+    <link href="http://geosmart.github.io/2015/08/09/%E5%90%8E%E7%AB%AF%E7%94%9F%E4%BA%A7%E5%B7%A5%E5%85%B7/"/>
+    <id>http://geosmart.github.io/2015/08/09/后端生产工具/</id>
+    <published>2015-08-09T04:13:06.000Z</published>
+    <updated>2015-08-11T12:03:51.509Z</updated>
+    <content type="html"><![CDATA[<p>&#x559C;&#x6B22;&#x4E00;&#x53E5;&#x8BDD;&#xFF0C;&#x6B66;&#x4FA0;&#x5C0F;&#x8BF4;&#x4E2D;&#x5927;&#x4FA0;&#x4E0B;&#x5C71;&#x524D;&#x4E00;&#x822C;&#x4F1A;&#x6253;&#x9020;&#x4E00;&#x628A;&#x8D81;&#x624B;&#x7684;&#x6B66;&#x5668;&#xFF0C;&#x8F6F;&#x4EF6;&#x5F00;&#x53D1;&#x501F;&#x9274;&#x7684;&#x8BDD;&#xFF0C;&#x5C31;&#x662F;&#x914D;&#x7F6E;&#x4E00;&#x53F0;&#x9AD8;&#x6027;&#x80FD;&#x7684;&#x7B14;&#x8BB0;&#x672C;&#xFF0C;&#x7136;&#x540E;&#x642D;&#x5EFA;&#x5E76;&#x4E0D;&#x65AD;&#x4EE5;&#x65B0;&#x7684;&#x6280;&#x672F;&#x6765;&#x642D;&#x5EFA;&#x4E00;&#x4E2A;&#x9AD8;&#x6548;&#x7684;&#x5DE5;&#x4F5C;&#x73AF;&#x5883;&#x3002;
+&#x5728;&#x6B64;&#x8BB0;&#x5F55;&#x4E00;&#x8DEF;&#x76F8;&#x968F;&#x7684;&#x5175;&#x5668;</p>
+<h1 id="myeclipse">MyEclipse</h1>
+<h1 id="intelli-idea">Intelli Idea</h1>
+<h1 id="visual-studio">Visual Studio</h1>
+<h1 id="&#x6570;&#x636E;&#x5E93;&#x65B9;&#x9762;">&#x6570;&#x636E;&#x5E93;&#x65B9;&#x9762;</h1>
+<h2 id="dbvisualize">DbVisualize</h2>]]></content>
+    <summary type="html">
+    <![CDATA[<p>&#x559C;&#x6B22;&#x4E00;&#x53E5;&#x8BDD;&#xFF0C;&#x6B66;&#x4FA0;&#x5C0F;&#x8BF4;&#x4E2D;&#x5927;&#x4FA0;&#x4E0B;&#x5C71;&#x524D;&#x4E00;&]]>
+    </summary>
+    
+      <category term="后端" scheme="http://geosmart.github.io/tags/%E5%90%8E%E7%AB%AF/"/>
+    
+      <category term="生产工具" scheme="http://geosmart.github.io/tags/%E7%94%9F%E4%BA%A7%E5%B7%A5%E5%85%B7/"/>
+    
+      <category term="后端" scheme="http://geosmart.github.io/categories/%E5%90%8E%E7%AB%AF/"/>
+    
+  </entry>
+  
+  <entry>
+    <title><![CDATA[前端生产工具]]></title>
+    <link href="http://geosmart.github.io/2015/08/09/%E5%89%8D%E7%AB%AF%E7%94%9F%E4%BA%A7%E5%B7%A5%E5%85%B7/"/>
+    <id>http://geosmart.github.io/2015/08/09/前端生产工具/</id>
+    <published>2015-08-09T04:12:42.000Z</published>
+    <updated>2015-08-11T12:03:54.834Z</updated>
+    <content type="html"><![CDATA[<h1 id="visual-studio">Visual Studio</h1>
+<h1 id="sublimetext">SublimeText</h1>
+<h1 id="editplus">Editplus</h1>]]></content>
+    <summary type="html">
+    <![CDATA[<h1 id="visual-studio">Visual Studio</h1>
+<h1 id="sublimetext">SublimeText</h1>
+<h1 id="editplus">Editplus</h1>]]>
+    </summary>
+    
+      <category term="前端" scheme="http://geosmart.github.io/tags/%E5%89%8D%E7%AB%AF/"/>
+    
+      <category term="生产工具" scheme="http://geosmart.github.io/tags/%E7%94%9F%E4%BA%A7%E5%B7%A5%E5%85%B7/"/>
+    
+      <category term="前端" scheme="http://geosmart.github.io/categories/%E5%89%8D%E7%AB%AF/"/>
+    
+  </entry>
+  
+  <entry>
+    <title><![CDATA[Hadoop集群部署]]></title>
+    <link href="http://geosmart.github.io/2015/08/08/Hadoop%E9%9B%86%E7%BE%A4%E9%83%A8%E7%BD%B2/"/>
+    <id>http://geosmart.github.io/2015/08/08/Hadoop集群部署/</id>
+    <published>2015-08-08T03:38:22.000Z</published>
+    <updated>2015-08-11T13:32:16.683Z</updated>
+    <content type="html"><![CDATA[<h1 id="hadoop&#x7248;&#x672C;&#x533A;&#x522B;">Hadoop&#x7248;&#x672C;&#x533A;&#x522B;</h1>
+<p>&#x76EE;&#x524D;&#x4E0D;&#x6536;&#x8D39;&#x7684;Hadoop&#x7248;&#x672C;&#x4E3B;&#x8981;&#x6709;&#x4E09;&#x4E2A;&#xFF0C;&#x5206;&#x522B;&#x662F;&#xFF1A;</p>
+<ol>
+<li><em>Apache</em>&#xFF08;&#x6700;&#x539F;&#x59CB;&#x7684;&#x7248;&#x672C;&#xFF0C;&#x6240;&#x6709;&#x53D1;&#x884C;&#x7248;&#x5747;&#x57FA;&#x4E8E;&#x8FD9;&#x4E2A;&#x7248;&#x672C;&#x8FDB;&#x884C;&#x6539;&#x8FDB;&#xFF09;</li>
+<li><em>Cloudera</em>&#x7248;&#x672C;&#xFF08;Cloudera&#x2019;s Distribution Including Apache Hadoop&#xFF0C;&#x7B80;&#x79F0;CDH&#xFF09;</li>
+<li><em>Hortonworks</em>&#x7248;&#x672C;(Hortonworks Data Platform&#xFF0C;&#x7B80;&#x79F0;&#x201C;HDP&#x201D;&#xFF09;&#xFF0C;&#x5BF9;&#x4E8E;&#x56FD;&#x5185;&#x800C;&#x8A00;&#xFF0C;&#x7EDD;&#x5927;&#x591A;&#x6570;&#x9009;&#x62E9;CDH&#x7248;&#x672C;&#xFF0C;</li>
+</ol>
+<p>CDH&#x548C;Apache&#x7248;&#x672C;&#x4E3B;&#x8981;&#x533A;&#x522B;&#xFF1A;</p>
+<ul>
+<li>CDH&#x5BF9;Hadoop&#x7248;&#x672C;&#x7684;&#x5212;&#x5206;&#x975E;&#x5E38;&#x6E05;&#x6670;&#xFF0C;&#x76EE;&#x524D;&#x7EF4;&#x62A4;&#x7684;&#x6709;&#x4E24;&#x4E2A;&#x7CFB;&#x5217;&#x7684;&#x7248;&#x672C;&#xFF0C;&#x5206;&#x522B;&#x662F;cdh4&#x548C;cdh5</li>
+<li>&#x7531;&#x4E8E;Cloudera&#x505A;Hadoop&#x5F00;&#x53D1;&#x7684;&#xFF0C;&#x5176;&#x4ED6;&#x5382;&#x5546;&#x4EC5;&#x662F;&#x505A;Hadoop&#x96C6;&#x6210;&#x6216;CDH&#x96C6;&#x6210;&#xFF0C;&#x548C;Hadoop trunk&#x80FD;&#x6700;&#x5FEB;&#x7684;&#x540C;&#x6B65;&#xFF0C;&#x4FDD;&#x8BC1;&#x4E1A;&#x52A1;&#x7684;&#x524D;&#x5411;&#x517C;&#x5BB9;&#x6027;&#xFF1B;</li>
+<li>&#x5B89;&#x5168; CDH&#x652F;&#x6301;Kerberos&#x5B89;&#x5168;&#x8BA4;&#x8BC1;&#xFF0C;apache hadoop&#x5219;&#x4F7F;&#x7528;&#x7B80;&#x964B;&#x7684;&#x7528;&#x6237;&#x540D;&#x5339;&#x914D;&#x8BA4;&#x8BC1;</li>
+<li>CDH&#x6587;&#x6863;&#x6E05;&#x6670;&#xFF08;&#x5305;&#x62EC;&#x4E2D;&#x6587;&#x6587;&#x6863;&#xFF09;&#xFF0C;&#x5F88;&#x591A;&#x91C7;&#x7528;Apache&#x7248;&#x672C;&#x7684;&#x7528;&#x6237;&#x90FD;&#x4F1A;&#x9605;&#x8BFB;CDH&#x63D0;&#x4F9B;&#x7684;&#x6587;&#x6863;&#xFF0C;&#x5305;&#x62EC;&#x5B89;&#x88C5;&#x6587;&#x6863;&#x3001;&#x5347;&#x7EA7;&#x6587;&#x6863;&#x7B49;&#x3002;</li>
+<li>CDH&#x652F;&#x6301;Yum/Apt&#x5305;&#xFF0C;Tar&#x5305;&#xFF0C;RPM&#x5305;&#xFF0C;CM&#x5B89;&#x88C5;&#xFF0C;Cloudera Manager&#x4E09;&#x79CD;&#x65B9;&#x5F0F;&#x5B89;&#x88C5;,Apache hadoop&#x53EA;&#x652F;&#x6301;Tar&#x5305;&#x5B89;&#x88C5;&#x3002;</li>
+</ul>
+<h1 id="&#x5173;&#x4E8E;cdh">&#x5173;&#x4E8E;CDH</h1>
+<p><a href="http://www.cloudera.com/content/cloudera/zh-CN/documentation/core/v5-3-x/topics/introduction.html">&#x5B98;&#x65B9;&#x4ECB;&#x7ECD;</a><br>
+Cloudera &#x63D0;&#x4F9B;&#x4E00;&#x4E2A;&#x53EF;&#x6269;&#x5C55;&#x3001;&#x7075;&#x6D3B;&#x3001;&#x96C6;&#x6210;&#x7684;&#x5E73;&#x53F0;&#xFF0C;&#x53EF;&#x7528;&#x6765;&#x65B9;&#x4FBF;&#x5730;&#x7BA1;&#x7406;&#x60A8;&#x7684;&#x4F01;&#x4E1A;&#x4E2D;&#x5FEB;&#x901F;&#x589E;&#x957F;&#x7684;&#x591A;&#x79CD;&#x591A;&#x6837;&#x7684;&#x6570;&#x636E;&#x3002;&#x4E1A;&#x754C;&#x9886;&#x5148;&#x7684; Cloudera &#x4EA7;&#x54C1;&#x548C;&#x89E3;&#x51B3;&#x65B9;&#x6848;&#x4F7F;&#x60A8;&#x80FD;&#x591F;&#x90E8;&#x7F72;&#x5E76;&#x7BA1;&#x7406; Apache Hadoop &#x548C;&#x76F8;&#x5173;&#x9879;&#x76EE;&#x3001;&#x64CD;&#x4F5C;&#x548C;&#x5206;&#x6790;&#x60A8;&#x7684;&#x6570;&#x636E;&#x4EE5;&#x53CA;&#x4FDD;&#x62A4;&#x6570;&#x636E;&#x7684;&#x5B89;&#x5168;&#x3002;</p>
+<p>Cloudera &#x63D0;&#x4F9B;&#x4E0B;&#x5217;&#x4EA7;&#x54C1;&#x548C;&#x5DE5;&#x5177;&#xFF1A;</p>
+<ul>
+<li>CDH &#x2014; Cloudera &#x5206;&#x53D1;&#x7684; Apache Hadoop &#x548C;&#x5176;&#x4ED6;&#x76F8;&#x5173;&#x5F00;&#x653E;&#x6E90;&#x4EE3;&#x7801;&#x9879;&#x76EE;&#xFF0C;&#x5305;&#x62EC; Impala &#x548C; Cloudera Search&#x3002;CDH &#x8FD8;&#x63D0;&#x4F9B;&#x5B89;&#x5168;&#x4FDD;&#x62A4;&#x4EE5;&#x53CA;&#x4E0E;&#x8BB8;&#x591A;&#x786C;&#x4EF6;&#x548C;&#x8F6F;&#x4EF6;&#x89E3;&#x51B3;&#x65B9;&#x6848;&#x7684;&#x96C6;&#x6210;&#x3002;</li>
+<li>Cloudera Manager &#x2014; &#x4E00;&#x4E2A;&#x590D;&#x6742;&#x7684;&#x5E94;&#x7528;&#x7A0B;&#x5E8F;&#xFF0C;&#x7528;&#x4E8E;&#x90E8;&#x7F72;&#x3001;&#x7BA1;&#x7406;&#x3001;&#x76D1;&#x63A7;&#x60A8;&#x7684; CDH &#x90E8;&#x7F72;&#x5E76;&#x8BCA;&#x65AD;&#x95EE;&#x9898;&#x3002;Cloudera Manager &#x63D0;&#x4F9B; Admin Console&#xFF0C;&#x8FD9;&#x662F;&#x4E00;&#x79CD;&#x57FA;&#x4E8E; Web &#x7684;&#x7528;&#x6237;&#x754C;&#x9762;&#xFF0C;&#x4F7F;&#x60A8;&#x7684;&#x4F01;&#x4E1A;&#x6570;&#x636E;&#x7BA1;&#x7406;&#x7B80;&#x5355;&#x800C;&#x76F4;&#x63A5;&#x3002;&#x5B83;&#x8FD8;&#x5305;&#x62EC; Cloudera Manager API&#xFF0C;&#x53EF;&#x7528;&#x6765;&#x83B7;&#x53D6;&#x7FA4;&#x96C6;&#x8FD0;&#x884C;&#x72B6;&#x51B5;&#x4FE1;&#x606F;&#x548C;&#x5EA6;&#x91CF;&#x4EE5;&#x53CA;&#x914D;&#x7F6E; Cloudera Manager&#x3002;</li>
+<li>Cloudera Navigator &#x2014; CDH &#x5E73;&#x53F0;&#x7684;&#x7AEF;&#x5230;&#x7AEF;&#x6570;&#x636E;&#x7BA1;&#x7406;&#x5DE5;&#x5177;&#x3002;Cloudera Navigator &#x4F7F;&#x7BA1;&#x7406;&#x5458;&#x3001;&#x6570;&#x636E;&#x7ECF;&#x7406;&#x548C;&#x5206;&#x6790;&#x5E08;&#x80FD;&#x591F;&#x4E86;&#x89E3; Hadoop &#x4E2D;&#x7684;&#x5927;&#x91CF;&#x6570;&#x636E;&#x3002;Cloudera Navigator &#x4E2D;&#x5F3A;&#x5927;&#x7684;&#x5BA1;&#x6838;&#x3001;&#x6570;&#x636E;&#x7BA1;&#x7406;&#x3001;&#x6CBF;&#x88AD;&#x7BA1;&#x7406;&#x548C;&#x751F;&#x547D;&#x5468;&#x671F;&#x7BA1;&#x7406;&#x4F7F;&#x4F01;&#x4E1A;&#x80FD;&#x591F;&#x9075;&#x5B88;&#x4E25;&#x683C;&#x7684;&#x6CD5;&#x89C4;&#x9075;&#x4ECE;&#x6027;&#x548C;&#x6CD5;&#x89C4;&#x8981;&#x6C42;&#x3002;</li>
+<li>Cloudera Impala &#x2014; &#x4E00;&#x79CD;&#x5927;&#x89C4;&#x6A21;&#x5E76;&#x884C;&#x5904;&#x7406; SQL &#x5F15;&#x64CE;&#xFF0C;&#x7528;&#x4E8E;&#x4EA4;&#x4E92;&#x5F0F;&#x5206;&#x6790;&#x548C;&#x5546;&#x4E1A;&#x667A;&#x80FD;&#x3002;&#x5176;&#x9AD8;&#x5EA6;&#x4F18;&#x5316;&#x7684;&#x4F53;&#x7CFB;&#x7ED3;&#x6784;&#x4F7F;&#x5B83;&#x975E;&#x5E38;&#x9002;&#x5408;&#x7528;&#x4E8E;&#x5177;&#x6709;&#x8054;&#x63A5;&#x3001;&#x805A;&#x5408;&#x548C;&#x5B50;&#x67E5;&#x8BE2;&#x7684;&#x4F20;&#x7EDF; BI &#x6837;&#x5F0F;&#x7684;&#x67E5;&#x8BE2;&#x3002;&#x5B83;&#x53EF;&#x4EE5;&#x67E5;&#x8BE2;&#x6765;&#x81EA;&#x5404;&#x79CD;&#x6E90;&#x7684; Hadoop &#x6570;&#x636E;&#x6587;&#x4EF6;&#xFF0C;&#x5305;&#x62EC;&#x7531; MapReduce &#x4F5C;&#x4E1A;&#x751F;&#x6210;&#x7684;&#x6570;&#x636E;&#x6587;&#x4EF6;&#x6216;&#x52A0;&#x8F7D;&#x5230; Hive &#x8868;&#x4E2D;&#x7684;&#x6570;&#x636E;&#x6587;&#x4EF6;&#x3002;YARN &#x548C; Llama &#x8D44;&#x6E90;&#x7BA1;&#x7406;&#x7EC4;&#x4EF6;&#x8BA9; Impala &#x80FD;&#x591F;&#x5171;&#x5B58;&#x4E8E;&#x4F7F;&#x7528; Impala SQL &#x67E5;&#x8BE2;&#x5E76;&#x53D1;&#x8FD0;&#x884C;&#x6279;&#x5904;&#x7406;&#x5DE5;&#x4F5C;&#x8D1F;&#x8F7D;&#x7684;&#x7FA4;&#x96C6;&#x4E0A;&#x3002;&#x60A8;&#x53EF;&#x4EE5;&#x901A;&#x8FC7; Cloudera Manager &#x7528;&#x6237;&#x754C;&#x9762;&#x7BA1;&#x7406; Impala &#x53CA;&#x5176;&#x4ED6; Hadoop &#x7EC4;&#x4EF6;&#xFF0C;&#x5E76;&#x901A;&#x8FC7; Sentry &#x6388;&#x6743;&#x6846;&#x67B6;&#x4FDD;&#x62A4;&#x5176;&#x6570;&#x636E;&#x3002;</li>
+</ul>
+<h1 id="cloudera-quickstart-vm">Cloudera QuickStart VM</h1>
+<p><a href="http://www.cloudera.com/content/cloudera/en/downloads/quickstart_vms/cdh-5-4-x.html">&#x4E0B;&#x8F7D;&#x5730;&#x5740;</a>
+&#x4E3A;&#x65B9;&#x4FBF;&#x5F00;&#x59CB;&#x4F7F;&#x7528;CDH&#x3001;Cloudera Manager&#x3001;Cloudera Impala &#x548C; Cloudera Search&#xFF0C;&#x8FD9;&#x4E9B;&#x865A;&#x62DF;&#x673A;&#x5668;&#x5305;&#x542B;&#x60A8;&#x6240;&#x9700;&#x7684;&#x4E00;&#x5207;&#x3002;</p>
+<hr>
+<h1 id="cdh&#x5B89;&#x88C5;&#x6B65;&#x9AA4;">CDH&#x5B89;&#x88C5;&#x6B65;&#x9AA4;</h1>
+<h2 id="cdh&#x5B89;&#x88C5;&#x53C2;&#x8003;&#x8D44;&#x6599;">CDH&#x5B89;&#x88C5;&#x53C2;&#x8003;&#x8D44;&#x6599;</h2>
+<ul>
+<li><a href="http://zh-cn.cloudera.com/content/cloudera/en/products-and-services/cloudera-enterprise.html">cloudera&#x7B80;&#x4ECB;</a></li>
+<li><a href="http://www.cloudera.com/content/cloudera/zh-CN/documentation/core/v5-3-x/topics/introduction.html">cdh5&#x5B98;&#x65B9;&#x6587;&#x6863;</a></li>
+<li><a href="http://www.cloudera.com/content/cloudera/en/documentation/core/latest/topics/cdh_ig_req_supported_versions.html">CDH5&#x5B89;&#x88C5;&#x73AF;&#x5883;&#x8981;&#x6C42;</a></li>
+<li><a href="http://www.cloudera.com/content/cloudera/en/documentation/core/latest/topics/installation_installation.html">CDH5&#x7684;3&#x79CD;&#x5B89;&#x88C5;&#x65B9;&#x5F0F;</a></li>
+<li><a href="http://www.cloudera.com/content/cloudera/en/documentation/core/latest/topics/cm_ig_install_path_a.html#concept_vk4_psb_zm_unique_4">&#x5728;&#x7EBF;Yum/Wget&#x5B89;&#x88C5;&#x6559;&#x7A0B;</a></li>
+<li><a href="http://www.aboutyun.com/thread-9219-1-1.html">&#x5728;&#x7EBF;Yum/Wget&#x5B89;&#x88C5;&#x6559;&#x7A0B;-&#x4E2D;&#x6587;</a></li>
+</ul>
+<h2 id="&#x5728;&#x7EBF;&#x5B89;&#x88C5;&#x4F18;&#x52BF;">&#x5728;&#x7EBF;&#x5B89;&#x88C5;&#x4F18;&#x52BF;</h2>
+<ol>
+<li>&#x8054;&#x7F51;&#x5B89;&#x88C5;&#x3001;&#x5347;&#x7EA7;&#xFF0C;&#x975E;&#x5E38;&#x65B9;&#x4FBF;</li>
+<li>&#x81EA;&#x52A8;&#x4E0B;&#x8F7D;&#x4F9D;&#x8D56;&#x8F6F;&#x4EF6;&#x5305;</li>
+<li>Hadoop&#x751F;&#x6001;&#x7CFB;&#x7EDF;&#x5305;&#x81EA;&#x52A8;&#x5339;&#x914D;&#xFF0C;&#x4E0D;&#x9700;&#x8981;&#x4F60;&#x5BFB;&#x627E;&#x4E0E;&#x5F53;&#x524D;Hadoop&#x5339;&#x914D;&#x7684;Hbase&#xFF0C;Flume&#xFF0C;Hive&#x7B49;&#x8F6F;&#x4EF6;&#xFF0C;Yum/Apt&#x4F1A;&#x6839;&#x636E;&#x5F53;&#x524D;&#x5B89;&#x88C5;Hadoop&#x7248;&#x672C;&#x81EA;&#x52A8;&#x5BFB;&#x627E;&#x5339;&#x914D;&#x7248;&#x672C;&#x7684;&#x8F6F;&#x4EF6;&#x5305;&#xFF0C;&#x5E76;&#x4FDD;&#x8BC1;&#x517C;&#x5BB9;&#x6027;&#x3002;</li>
+<li>&#x81EA;&#x52A8;&#x521B;&#x5EFA;&#x76F8;&#x5173;&#x76EE;&#x5F55;&#x5E76;&#x8F6F;&#x94FE;&#x5230;&#x5408;&#x9002;&#x7684;&#x5730;&#x65B9;&#xFF08;&#x5982;conf&#x548C;logs&#x7B49;&#x76EE;&#x5F55;&#xFF09;&#xFF1B;&#x81EA;&#x52A8;&#x521B;&#x5EFA;hdfs, mapred&#x7528;&#x6237;&#xFF0C;hdfs&#x7528;&#x6237;&#x662F;HDFS&#x7684;&#x6700;&#x9AD8;&#x6743;&#x9650;&#x7528;&#x6237;&#xFF0C;mapred&#x7528;&#x6237;&#x5219;&#x8D1F;&#x8D23;mapreduce&#x6267;&#x884C;&#x8FC7;&#x7A0B;&#x4E2D;&#x76F8;&#x5173;&#x76EE;&#x5F55;&#x7684;&#x6743;&#x9650;&#x3002;</li>
+</ol>
+<h2 id="&#x5728;&#x7EBF;&#x5B89;&#x88C5;&#x6B65;&#x9AA4;">&#x5728;&#x7EBF;&#x5B89;&#x88C5;&#x6B65;&#x9AA4;</h2>
+<ol>
+<li>
+<p>&#x9759;&#x6001;IP&#x914D;&#x7F6E;<br>
+<code>cd /mnt/scripts/batch-update-ip &amp;&amp; chmod +x static-ip.sh &amp;&amp; ./static-ip.sh localhost eth1 192.168.1 81 1</code>
+<a href="">&#x811A;&#x672C;&#x5730;&#x5740;</a></p>
+</li>
+<li>
+<p>HostName&#x914D;&#x7F6E;/FQDN&#x914D;&#x7F6E;<br>
+FQDN&#x662F;Fully Qualified Domain Name&#x7684;&#x7F29;&#x5199;, &#x542B;&#x4E49;&#x662F;&#x5B8C;&#x6574;&#x7684;&#x57DF;&#x540D;. &#x4F8B;&#x5982;, &#x4E00;&#x53F0;&#x673A;&#x5668;&#x4E3B;&#x673A;&#x540D;(hostname)&#x662F;www, &#x57DF;&#x540E;&#x7F00;(domain)&#x662F;example.com, &#x90A3;&#x4E48;&#x8BE5;&#x4E3B;&#x673A;&#x7684;FQDN&#x5E94;&#x8BE5;&#x662F;www.example.com.</p>
+</li>
+<li>
+<p>SSH&#x65E0;&#x5BC6;&#x7801;&#x767B;&#x9646;&#x914D;&#x7F6E;<br>
+<code>cd /mnt/scripts/batch-ssh &amp;&amp; chmod +x keygen_master.sh &amp;&amp; ./keygen_master.sh</code></p>
+</li>
+<li>
+<p>iptables&#x9632;&#x706B;&#x5899;&#x914D;&#x7F6E;</p>
+</li>
+</ol>
+<p><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#&#x67E5;&#x770B;&#x9632;&#x706B;&#x5899;&#x72B6;&#x6001;</span></span><br><span class="line">service iptables status </span><br><span class="line"><span class="comment">#&#x5173;&#x95ED;&#x9632;&#x706B;&#x5899; </span></span><br><span class="line">service iptables stop </span><br><span class="line"><span class="comment">#&#x6C38;&#x4E45;&#x5173;&#x95ED;&#x9632;&#x706B;&#x5899; </span></span><br><span class="line">chkconfig iptables off</span><br></pre></td></tr></table></figure></p>
+<ol start="5">
+<li>selinux&#x5F3A;&#x5236;&#x8BBF;&#x95EE;&#x63A7;&#x5236;&#x5B89;&#x5168;&#x914D;&#x7F6E;</li>
+</ol>
+<p><figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">#&#x67E5;&#x770B;SELinux&#x72B6;&#x6001;
+/usr/sbin/sestatus -v 
+#&#x6216;&#x547D;&#x4EE4;
+getenforce 
+#&#x5173;&#x95ED;SELinux
+#1. &#x4E34;&#x65F6;&#x5173;&#x95ED;&#xFF08;&#x4E0D;&#x7528;&#x91CD;&#x542F;&#x673A;&#x5668;&#xFF09;&#xFF1A;
+setenforce 0                  ##&#x8BBE;&#x7F6E;SELinux &#x6210;&#x4E3A;permissive&#x6A21;&#x5F0F;
+                              ##setenforce 1 &#x8BBE;&#x7F6E;SELinux &#x6210;&#x4E3A;enforcing&#x6A21;&#x5F0F;
+#2. &#x4FEE;&#x6539;&#x914D;&#x7F6E;&#x6587;&#x4EF6;
+vim /etc/selinux/config
+#&#x5C06;SELINUX=enforcing&#x6539;&#x4E3A;SELINUX=disabled
+#3. reboot</span><br></pre></td></tr></table></figure></p>
+<ol start="6">
+<li>cloudera-manager-installer.bin&#x5B89;&#x88C5;</li>
+</ol>
+<p><figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">wget http://archive.cloudera.com/cm5/installer/latest/cloudera-manager-installer.bin
+chmod u+x cloudera-manager-installer.bin
+sudo ./cloudera-manager-installer.bin</span><br></pre></td></tr></table></figure></p>
+<ol start="7">
+<li>
+<p>&#x5728;&#x7EBF;&#x914D;&#x7F6E;<br>
+&#x6253;&#x5F00;http://{host}:7180/cmf/login<br>
+&#x9ED8;&#x8BA4;&#x7528;&#x6237;&#x540D;/&#x5BC6;&#x7801;&#xFF1A;admin/admin<br>
+<a href="http://www.aboutyun.com/thread-9189-1-1.html">cloudera&#x914D;&#x7F6E;&#x6587;&#x4EF6;</a></p>
+</li>
+<li>
+<p>&#x914D;&#x7F6E;&#x597D;&#x4E00;&#x53F0;Slave&#x865A;&#x62DF;&#x673A;&#x540E;&#xFF0C;&#x590D;&#x5236;&#x591A;&#x53F0;&#xFF0C;&#x5728;CM&#x4E2D;&#x6DFB;&#x52A0;&#x4E3B;&#x673A;&#x5E76;&#x5206;&#x914D;&#x96C6;&#x7FA4;</p>
+</li>
+</ol>
+<h1 id="cdh5&#x8FD0;&#x7EF4;&#x76F8;&#x5173;">CDH5&#x8FD0;&#x7EF4;&#x76F8;&#x5173;</h1>
+<h2 id="&#x7CFB;&#x7EDF;&#x670D;&#x52A1;">&#x7CFB;&#x7EDF;&#x670D;&#x52A1;</h2>
+<p>&#x670D;&#x52A1;&#x67E5;&#x8BE2;&#xFF1A;<code>service --status-all| grep cloudera</code><br>
+<em>&#x670D;&#x52A1;&#x7AEF;</em></p>
+<ul>
+<li>cloudera-scm-server</li>
+<li>cloudera-scm-server-db<br>
+<em>&#x5BA2;&#x6237;&#x7AEF;</em></li>
+<li>cloudera-scm-agent</li>
+</ul>
+<h2 id="cloudera-manager-api">Cloudera Manager API</h2>
+<p><a href="http://www.cloudera.com/content/cloudera/zh-CN/documentation/core/v5-3-x/topics/cm_intro_api.html">&#x5B98;&#x65B9;&#x6587;&#x6863;</a>
+Cloudera Manager API &#x63D0;&#x4F9B;&#x4E86;&#x914D;&#x7F6E;&#x548C;&#x670D;&#x52A1;&#x751F;&#x547D;&#x5468;&#x671F;&#x7BA1;&#x7406;&#x3001;&#x670D;&#x52A1;&#x8FD0;&#x884C;&#x72B6;&#x51B5;&#x4FE1;&#x606F;&#x548C;&#x6307;&#x6807;&#xFF0C;&#x5E76;&#x5141;&#x8BB8;&#x60A8;&#x914D;&#x7F6E; Cloudera Manager &#x672C;&#x8EAB;&#x3002;&#x6B64; API &#x4E0E; Cloudera Manager Admin Console &#x5728;&#x540C;&#x4E00;&#x4E3B;&#x673A;&#x548C;&#x7AEF;&#x53E3;&#x4E0A;&#x63A5;&#x53D7;&#x670D;&#x52A1;&#xFF0C;&#x4E0D;&#x9700;&#x8981;&#x4EFB;&#x4F55;&#x989D;&#x5916;&#x8FC7;&#x7A0B;&#x6216;&#x989D;&#x5916;&#x914D;&#x7F6E;&#x3002;&#x6B64; API &#x652F;&#x6301; HTTP &#x57FA;&#x672C;&#x9A8C;&#x8BC1;&#xFF0C;&#x63A5;&#x53D7;&#x7684;&#x7528;&#x6237;&#x548C;&#x51ED;&#x636E;&#x4E0E; Cloudera Manager Admin Console &#x76F8;&#x540C;&#x3002;</p>
+<h2 id="cloudera-management-service">Cloudera Management Service</h2>
+<p>Cloudera Management Service &#x53EF;&#x4F5C;&#x4E3A;&#x4E00;&#x7EC4;&#x89D2;&#x8272;&#x5B9E;&#x65BD;&#x5404;&#x79CD;&#x7BA1;&#x7406;&#x529F;&#x80FD;&#xFF1A;
+Activity Monitor - &#x6536;&#x96C6;&#x6709;&#x5173; MapReduce &#x670D;&#x52A1;&#x8FD0;&#x884C;&#x7684;&#x6D3B;&#x52A8;&#x7684;&#x4FE1;&#x606F;&#x3002;&#x9ED8;&#x8BA4;&#x60C5;&#x51B5;&#x4E0B;&#x672A;&#x6DFB;&#x52A0;&#x6B64;&#x89D2;&#x8272;&#x3002;
+Host Monitor - &#x6536;&#x96C6;&#x6709;&#x5173;&#x4E3B;&#x673A;&#x7684;&#x8FD0;&#x884C;&#x72B6;&#x51B5;&#x548C;&#x6307;&#x6807;&#x4FE1;&#x606F;
+Service Monitor - &#x6536;&#x96C6;&#x6709;&#x5173;&#x670D;&#x52A1;&#x7684;&#x8FD0;&#x884C;&#x72B6;&#x51B5;&#x548C;&#x6307;&#x6807;&#x4FE1;&#x606F;&#x4EE5;&#x53CA; YARN &#x548C; Impala &#x670D;&#x52A1;&#x4E2D;&#x7684;&#x6D3B;&#x52A8;&#x4FE1;&#x606F;
+Event Server - &#x805A;&#x5408; relevant Hadoop &#x4E8B;&#x4EF6;&#x5E76;&#x5C06;&#x5176;&#x7528;&#x4E8E;&#x8B66;&#x62A5;&#x548C;&#x641C;&#x7D22;
+Alert Publisher - &#x4E3A;&#x7279;&#x5B9A;&#x7C7B;&#x578B;&#x7684;&#x4E8B;&#x4EF6;&#x751F;&#x6210;&#x548C;&#x63D0;&#x4F9B;&#x8B66;&#x62A5;
+Reports Manager - &#x751F;&#x6210;&#x62A5;&#x544A;&#xFF0C;&#x5B83;&#x63D0;&#x4F9B;&#x7528;&#x6237;&#x3001;&#x7528;&#x6237;&#x7EC4;&#x548C;&#x76EE;&#x5F55;&#x7684;&#x78C1;&#x76D8;&#x4F7F;&#x7528;&#x7387;&#x7684;&#x5386;&#x53F2;&#x89C6;&#x56FE;&#xFF0C;&#x7528;&#x6237;&#x548C; YARN &#x6C60;&#x7684;&#x5904;&#x7406;&#x6D3B;&#x52A8;&#xFF0C;&#x4EE5;&#x53CA; HBase &#x8868;&#x548C;&#x547D;&#x540D;&#x7A7A;&#x95F4;&#x3002;&#x6B64;&#x89D2;&#x8272;&#x672A;&#x5728; Cloudera Express &#x4E2D;&#x6DFB;&#x52A0;&#x3002;
+Cloudera Manager &#x5C06;&#x5355;&#x72EC;&#x7BA1;&#x7406;&#x6BCF;&#x4E2A;&#x89D2;&#x8272;&#xFF0C;&#x800C;&#x4E0D;&#x662F;&#x4F5C;&#x4E3A; Cloudera Manager Server &#x7684;&#x4E00;&#x90E8;&#x5206;&#x8FDB;&#x884C;&#x7BA1;&#x7406;&#xFF0C;&#x53EF;&#x5B9E;&#x73B0;&#x53EF;&#x6269;&#x5C55;&#x6027;&#xFF08;&#x4F8B;&#x5982;&#xFF0C;&#x5728;&#x5927;&#x578B;&#x90E8;&#x7F72;&#x4E2D;&#xFF0C;&#x5B83;&#x53EF;&#x7528;&#x4E8E;&#x5C06;&#x76D1;&#x63A7;&#x5668;&#x89D2;&#x8272;&#x7F6E;&#x4E8E;&#x81EA;&#x8EAB;&#x7684;&#x4E3B;&#x673A;&#x4E0A;&#xFF09;&#x548C;&#x9694;&#x79BB;&#x3002;</p>
+<p>&#x6B64;&#x5916;&#xFF0C;&#x5BF9;&#x4E8E;&#x7279;&#x5B9A;&#x7248;&#x672C;&#x7684; Cloudera Enterprise &#x8BB8;&#x53EF;&#x8BC1;&#xFF0C;Cloudera Management Service &#x8FD8;&#x4E3A; Cloudera Navigator &#x63D0;&#x4F9B; Navigator Audit Server &#x548C; Navigator Metadata Server &#x89D2;&#x8272;&#x3002;</p>
+<h1 id="&#x5B89;&#x88C5;&#x95EE;&#x9898;&#x8BB0;&#x5F55;">&#x5B89;&#x88C5;&#x95EE;&#x9898;&#x8BB0;&#x5F55;</h1>
+<ol>
+<li>&#x65E0;&#x6CD5;&#x53D1;&#x51FA;&#x67E5;&#x8BE2;&#xFF1A;&#x672A;&#x80FD;&#x8FDE;&#x63A5;&#x5230; Host Monitor
+&#x89E3;&#x51B3;&#x65B9;&#x5F0F;&#xFF1A;
+1&#x3001;&#x65B0;&#x589E;cloudera management services
+&#x6CE8;&#x610F;&#x65B0;&#x589E;&#x7684;&#x76EE;&#x6807;&#x673A;&#x5668;&#x56E0;&#x4E3A;scm-server&#x5B89;&#x88C5;&#x7684;&#x540C;&#x4E00;&#x53F0;&#x673A;&#x5668;&#xFF0C;&#x673A;&#x5668;&#x5185;&#x5B58;&#x6700;&#x597D;&gt;=8G</li>
+</ol>
+<p>IP&#x6BB5;&#xFF1A;192.168.1.100-110</p>
+<p>&#x5B89;&#x88C5;&#x811A;&#x672C;&#xFF1A;https://github.com/javachen/hadoop-install</p>]]></content>
+    <summary type="html">
+    <![CDATA[<h1 id="hadoop&#x7248;&#x672C;&#x533A;&#x522B;">Hadoop&#x7248;&#x672C;&#x533A;&#x522B;</h1>
+<p>&#x76EE;&#x524D;&#x4E0D;&#x6536;&#x8D39;&#x76]]>
+    </summary>
+    
+      <category term="CDH" scheme="http://geosmart.github.io/tags/CDH/"/>
+    
+      <category term="Hadoop" scheme="http://geosmart.github.io/tags/Hadoop/"/>
+    
+      <category term="分布式" scheme="http://geosmart.github.io/tags/%E5%88%86%E5%B8%83%E5%BC%8F/"/>
+    
+      <category term="大数据" scheme="http://geosmart.github.io/tags/%E5%A4%A7%E6%95%B0%E6%8D%AE/"/>
+    
+      <category term="运维" scheme="http://geosmart.github.io/tags/%E8%BF%90%E7%BB%B4/"/>
+    
+      <category term="大数据" scheme="http://geosmart.github.io/categories/%E5%A4%A7%E6%95%B0%E6%8D%AE/"/>
+    
+  </entry>
+  
+  <entry>
     <title><![CDATA[Python安装升级教程]]></title>
     <link href="http://geosmart.github.io/2015/08/05/Python%E5%AE%89%E8%A3%85%E5%8D%87%E7%BA%A7%E6%95%99%E7%A8%8B/"/>
     <id>http://geosmart.github.io/2015/08/05/Python安装升级教程/</id>
     <published>2015-08-05T12:32:44.000Z</published>
-    <updated>2015-08-06T01:30:40.893Z</updated>
+    <updated>2015-08-11T10:39:28.454Z</updated>
     <content type="html"><![CDATA[<h1 id="&#x5347;&#x7EA7;&#x524D;&#x5B89;&#x88C5;&#x4F9D;&#x8D56;">&#x5347;&#x7EA7;&#x524D;&#x5B89;&#x88C5;&#x4F9D;&#x8D56;</h1>
 <p><code>yum groupinstall &quot;Development tools&quot;</code></p>
 <h1 id="python-279-&#x4E0B;&#x8F7D;&#x89E3;&#x538B;&#x7F16;&#x8BD1;&#x5B89;&#x88C5;">Python 2.7.9 &#x4E0B;&#x8F7D;&gt;&#x89E3;&#x538B;&gt;&#x7F16;&#x8BD1;&gt;&#x5B89;&#x88C5;</h1>
@@ -54,7 +381,7 @@
     
       <category term="运维" scheme="http://geosmart.github.io/tags/%E8%BF%90%E7%BB%B4/"/>
     
-      <category term="技术点滴" scheme="http://geosmart.github.io/categories/%E6%8A%80%E6%9C%AF%E7%82%B9%E6%BB%B4/"/>
+      <category term="运维" scheme="http://geosmart.github.io/categories/%E8%BF%90%E7%BB%B4/"/>
     
   </entry>
   
@@ -63,7 +390,7 @@
     <link href="http://geosmart.github.io/2015/08/03/IIS%E4%B8%8ETomcat%E5%85%B1%E4%BA%AB80%E7%AB%AF%E5%8F%A3/"/>
     <id>http://geosmart.github.io/2015/08/03/IIS与Tomcat共享80端口/</id>
     <published>2015-08-03T08:27:21.000Z</published>
-    <updated>2015-08-06T01:12:39.050Z</updated>
+    <updated>2015-08-11T10:39:23.797Z</updated>
     <content type="html"><![CDATA[<p>&#x5FAE;&#x4FE1;&#x516C;&#x4F17;&#x53F7;&#x6709;80&#x7AEF;&#x53E3;&#x8981;&#x6C42;&#xFF0C;&#x4F46;&#x662F;80&#x7AEF;&#x53E3;&#x5DF2;&#x8FD0;&#x884C;&#x4E86;&#x4E00;&#x4E2A;&#x9879;&#x76EE;&#xFF0C;&#x5982;&#x4F55;&#x5C06;&#x540E;&#x7AEF;J2EE&#x5B9E;&#x73B0;&#x7684;&#x670D;&#x52A1;&#x96C6;&#x6210;&#x5230;80&#x7AEF;&#x53E3;&#xFF0C;&#x5373;Tomcat&#x96C6;&#x6210;&#x8FDB;IIS&#x3002;
 &#x8C03;&#x7814;&#x4E86;&#x4E09;&#x79CD;&#x65B9;&#x6848;&#xFF0C;Apache Tomcat Connector&#xFF08;isapi_redirect&#x5B9E;&#x73B0;&#xFF09;&#x3001;ARR&#xFF08;IIS&#x4E2D;&#x7684;&#x53CD;&#x5411;&#x4EE3;&#x7406;&#xFF09;&#x548C; IIS2Tomcat(BonCode AJP&#x5B9E;&#x73B0;)&#xFF0C;&#x6309;&#x7167;&#x6700;&#x8F7B;&#x91CF;&#x6700;&#x7B80;&#x6D01;&#x7684;&#x90E8;&#x7F72;&#x8981;&#x6C42;&#xFF0C;&#x6700;&#x7EC8;&#x91C7;&#x7528;AJP&#x5B9E;&#x73B0;&#x3002;</p>
 <h1 id="isapi_redirect">isapi_redirect</h1>
@@ -109,7 +436,7 @@ ARR is a good starting point if you want to connect Apache Tomcat to IIS 7, howe
     
       <category term="运维" scheme="http://geosmart.github.io/tags/%E8%BF%90%E7%BB%B4/"/>
     
-      <category term="技术点滴" scheme="http://geosmart.github.io/categories/%E6%8A%80%E6%9C%AF%E7%82%B9%E6%BB%B4/"/>
+      <category term="运维" scheme="http://geosmart.github.io/categories/%E8%BF%90%E7%BB%B4/"/>
     
   </entry>
   
@@ -118,7 +445,7 @@ ARR is a good starting point if you want to connect Apache Tomcat to IIS 7, howe
     <link href="http://geosmart.github.io/2015/07/28/backbone-marionette%E5%AD%A6%E4%B9%A0%E8%A6%81%E7%82%B9/"/>
     <id>http://geosmart.github.io/2015/07/28/backbone-marionette学习要点/</id>
     <published>2015-07-28T05:35:07.000Z</published>
-    <updated>2015-08-06T01:39:51.050Z</updated>
+    <updated>2015-08-08T01:18:05.205Z</updated>
     <content type="html"><![CDATA[<h1 id="marionettebackbone&#x7684;&#x7275;&#x7EBF;&#x6728;&#x5076;">Marionette&#xFF08;Backbone&#x7684;&#x7275;&#x7EBF;&#x6728;&#x5076;&#xFF09;</h1>
 <p>&#x63D0;&#x4F9B;rendering&#x3001;template&#x7BA1;&#x7406;&#x3001;UI&#x5BF9;&#x8C61;</p>
 <h1 id="model">Model</h1>
@@ -299,7 +626,7 @@ OVA&#x5305;&#x662F;&#x4E00;&#x4E2A;&#x5355;&#x4E00;&#x7684;&#x6587;&#x4EF6;&#xFF
     <link href="http://geosmart.github.io/2015/07/12/%E7%A3%81%E7%9B%98%E9%98%B5%E5%88%97%E9%85%8D%E7%BD%AE/"/>
     <id>http://geosmart.github.io/2015/07/12/磁盘阵列配置/</id>
     <published>2015-07-12T14:04:48.000Z</published>
-    <updated>2015-07-20T14:40:02.243Z</updated>
+    <updated>2015-08-08T01:19:25.070Z</updated>
     <content type="html"><![CDATA[<p>&#x65B0;&#x8D2D;&#x8FDB;&#x4E00;&#x53F0;&#x6234;&#x5C14;&#x5854;&#x5F0F;&#x670D;&#x52A1;&#x5668;&#xFF0C;&#x673A;&#x5668;3*300G&#x7684;&#x786C;&#x76D8;&#x9ED8;&#x8BA4;&#x5DF2;&#x505A;RAID5&#x914D;&#x7F6E;&#xFF0C;&#x65B0;&#x589E;&#x786C;&#x76D8;&#x9700;&#x914D;&#x7F6E;&#x78C1;&#x76D8;&#x9635;&#x5217;</p>
 <h1 id="raid&#x5BB9;&#x91CF;&#x8BA1;&#x7B97;&#x5668;">RAID&#x5BB9;&#x91CF;&#x8BA1;&#x7B97;&#x5668;</h1>
 <p>&#x914D;&#x7F6E;&#x524D;&#xFF0C;&#x53EF;&#x6839;&#x636E;&#x786C;&#x76D8;&#x6570;&#x548C;RAID&#x7EA7;&#x522B;&#xFF0C;&#x53EF;&#x8BA1;&#x7B97;&#x914D;&#x7F6E;&#x540E;&#x7684;&#x786C;&#x76D8;&#x5B9E;&#x9645;&#x53EF;&#x7528;&#x5BB9;&#x91CF;
@@ -352,7 +679,7 @@ OVA&#x5305;&#x662F;&#x4E00;&#x4E2A;&#x5355;&#x4E00;&#x7684;&#x6587;&#x4EF6;&#xFF
     <link href="http://geosmart.github.io/2015/07/12/nginx%E8%B4%9F%E8%BD%BD%E5%9D%87%E8%A1%A1%E5%8F%82%E6%95%B0%E9%85%8D%E7%BD%AE/"/>
     <id>http://geosmart.github.io/2015/07/12/nginx负载均衡参数配置/</id>
     <published>2015-07-12T13:30:47.000Z</published>
-    <updated>2015-07-12T14:06:24.868Z</updated>
+    <updated>2015-08-08T01:26:32.927Z</updated>
     <content type="html"><![CDATA[<h1 id="&#x95EE;&#x9898;&#x63CF;&#x8FF0;">&#x95EE;&#x9898;&#x63CF;&#x8FF0;</h1>
 <p>Nginx&#x670D;&#x52A1;&#x5668;&#x8FD4;&#x56DE;&#x5927;&#x91CF;502Bad Gateway&#x548C;504 Time-Out&#xFF0C;&#x4EE3;&#x7406;&#x670D;&#x52A1;&#x5668;Jetty&#x7AEF;&#x5B58;&#x5728;&#x5927;&#x91CF;CLOSE_WAIT&#x548C;TIME_WAIT&#x72B6;&#x6001;&#x7684;&#x8FDE;&#x63A5;
 <img src="502-504.png" alt="502-504">
@@ -392,8 +719,19 @@ OVA&#x5305;&#x662F;&#x4E00;&#x4E2A;&#x5355;&#x4E00;&#x7684;&#x6587;&#x4EF6;&#xFF
 &#x53C2;&#x6570;&#x8BF4;&#x660E;&#xFF1A;
 <figure class="highlight inform7"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">LISTEN&#xFF1A;&#x4FA6;&#x542C;&#x6765;&#x81EA;&#x8FDC;&#x65B9;&#x7684;TCP&#x7AEF;&#x53E3;&#x7684;&#x8FDE;&#x63A5;&#x8BF7;&#x6C42;&#xFF1B;</span><br><span class="line">SYN-SENT&#xFF1A;&#x5728;&#x53D1;&#x9001;&#x8FDE;&#x63A5;&#x8BF7;&#x6C42;&#x540E;&#x7B49;&#x5F85;&#x5339;&#x914D;&#x7684;&#x8FDE;&#x63A5;&#x8BF7;&#x6C42;&#xFF1B;</span><br><span class="line">SYN-RECEIVED&#xFF1A;&#x5728;&#x6536;&#x5230;&#x548C;&#x53D1;&#x9001;&#x4E00;&#x4E2A;&#x8FDE;&#x63A5;&#x8BF7;&#x6C42;&#x540E;&#x7B49;&#x5F85;&#x5BF9;&#x65B9;&#x5BF9;&#x8FDE;&#x63A5;&#x8BF7;&#x6C42;&#x7684;&#x786E;&#x8BA4;&#xFF1B;</span><br><span class="line">ESTABLISHED&#xFF1A;&#x4EE3;&#x8868;&#x4E00;&#x4E2A;&#x6253;&#x5F00;&#x7684;&#x8FDE;&#x63A5;&#xFF0C;&#x6211;&#x4EEC;&#x5E38;&#x7528;&#x6B64;&#x4F5C;&#x4E3A;&#x5E76;&#x53D1;&#x8FDE;&#x63A5;&#x6570;&#xFF1B;</span><br><span class="line">FIN-WAIT-1&#xFF1A;&#x7B49;&#x5F85;&#x8FDC;&#x7A0B;TCP&#x8FDE;&#x63A5;&#x4E2D;&#x65AD;&#x8BF7;&#x6C42;&#xFF0C;&#x6216;&#x5148;&#x524D;&#x7684;&#x8FDE;&#x63A5;&#x4E2D;&#x65AD;&#x8BF7;&#x6C42;&#x7684;&#x786E;&#x8BA4;&#xFF1B;</span><br><span class="line">FIN-WAIT-2&#xFF1A;&#x4ECE;&#x8FDC;&#x7A0B;TCP&#x7B49;&#x5F85;&#x8FDE;&#x63A5;&#x4E2D;&#x65AD;&#x8BF7;&#x6C42;&#xFF1B;</span><br><span class="line">CLOSE-WAIT&#xFF1A;&#x7B49;&#x5F85;&#x4ECE;&#x672C;&#x5730;&#x7528;&#x6237;&#x53D1;&#x6765;&#x7684;&#x8FDE;&#x63A5;&#x4E2D;&#x65AD;&#x8BF7;&#x6C42;&#xFF1B;</span><br><span class="line">CLOSING&#xFF1A;&#x7B49;&#x5F85;&#x8FDC;&#x7A0B;TCP&#x5BF9;&#x8FDE;&#x63A5;&#x4E2D;&#x65AD;&#x7684;&#x786E;&#x8BA4;&#xFF1B;</span><br><span class="line">LAST-ACK&#xFF1A;&#x7B49;&#x5F85;&#x539F;&#x6765;&#x53D1;&#x5411;&#x8FDC;&#x7A0B;TCP&#x7684;&#x8FDE;&#x63A5;&#x4E2D;&#x65AD;&#x7684;&#x786E;&#x8BA4;&#xFF1B;</span><br><span class="line">TIME-WAIT&#xFF1A;&#x7B49;&#x5F85;&#x8DB3;&#x591F;&#x7684;&#x65F6;&#x95F4;&#x4EE5;&#x786E;&#x4FDD;&#x8FDC;&#x7A0B;TCP&#x8FDE;&#x63A5;&#x6536;&#x5230;&#x4E2D;&#x65AD;&#x8BF7;&#x6C42;&#x7684;&#x786E;&#x8BA4;&#xFF1B;</span><br><span class="line"><span class="keyword">CLOSED</span>&#xFF1A;&#x6CA1;&#x6709;&#x4EFB;&#x4F55;&#x8FDE;&#x63A5;&#x72B6;&#x6001;&#xFF1B;</span><br></pre></td></tr></table></figure></p>
 <h1 id="&#x670D;&#x52A1;&#x5668;tcp&#x8FDE;&#x63A5;&#x72B6;&#x6001;">&#x670D;&#x52A1;&#x5668;TCP&#x8FDE;&#x63A5;&#x72B6;&#x6001;</h1>
-<p>&#x67E5;&#x770B;&#x53E3;&#x4EE4;&#xFF1A;<code>netstat -an|awk &apos;/^tcp/{++S[$NF]}END{for (a in S)print a,S[a]}&apos;</code>
-<figure class="highlight inform7"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">CLOSED</span>&#xFF1A;&#x6CA1;&#x6709;&#x8FDE;&#x63A5;&#x6D3B;&#x52A8;&#x6216;&#x6B63;&#x5728;&#x8FDB;&#x884C;&#x7684;&#xFF1B;</span><br><span class="line">LISTEN&#xFF1A;&#x670D;&#x52A1;&#x5668;&#x6B63;&#x5728;&#x7B49;&#x5F85;&#x7684;&#x8FDB;&#x5165;&#x547C;&#x53EB;&#xFF1B;</span><br><span class="line">SYN_RECV&#xFF1A;&#x4E00;&#x4E2A;&#x8FDE;&#x63A5;&#x8BF7;&#x6C42;&#x5DF2;&#x7ECF;&#x5230;&#x8FBE;&#xFF0C;&#x7B49;&#x5F85;&#x786E;&#x8BA4;&#xFF1B;</span><br><span class="line">SYN_SENT&#xFF1A;&#x5E94;&#x7528;&#x5DF2;&#x7ECF;&#x5F00;&#x59CB;&#xFF0C;&#x6253;&#x5F00;&#x4E00;&#x4E2A;&#x8FDE;&#x63A5;&#xFF1B;</span><br><span class="line">ESTABLISHED&#xFF1A;&#x6B63;&#x5E38;&#x6570;&#x636E;&#x4F20;&#x8F93;&#x72B6;&#x6001;&#xFF0C;&#x4E5F;&#x53EF;&#x4EE5;&#x8FD1;&#x4F3C;&#x7684;&#x7406;&#x89E3;&#x4E3A;&#x5F53;&#x524D;&#x670D;&#x52A1;&#x5668;&#x7684;&#x5E76;&#x53D1;&#x6570;&#xFF1B;</span><br><span class="line">FIN_WAIT1&#xFF1A;&#x5E94;&#x7528;&#x5DF2;&#x7ECF;&#x5B8C;&#x6210;&#xFF1B;</span><br><span class="line">FIN_WAIT2&#xFF1A;&#x53E6;&#x4E00;&#x8FB9;&#x540C;&#x610F;&#x91CA;&#x653E;&#xFF1B;</span><br><span class="line">ITMED_WAIT&#xFF1A;&#x7B49;&#x5F85;&#x6240;&#x6709;&#x5206;&#x7EC4;&#x6B7B;&#x6389;&#xFF1B;</span><br><span class="line">CLOSING&#xFF1A;&#x4E24;&#x8FB9;&#x540C;&#x65F6;&#x5C1D;&#x8BD5;&#x5173;&#x95ED;&#xFF1B;</span><br><span class="line">TIME_WAIT&#xFF1A;&#x53E6;&#x4E00;&#x8FB9;&#x5DF2;&#x521D;&#x59CB;&#x5316;&#x4E00;&#x4E2A;&#x91CA;&#x653E;&#xFF1B;</span><br><span class="line">LAST_ACK&#xFF1A;&#x7B49;&#x5F85;&#x6240;&#x6709;&#x5206;&#x7EC4;&#x6B7B;&#x6389;&#xFF1B;</span><br></pre></td></tr></table></figure></p>]]></content>
+<p>&#x67E5;&#x770B;&#x53E3;&#x4EE4;&#xFF1A;<code>netstat -an|awk &apos;/^tcp/{++S[$NF]}END{for (a in S)print a,S[a]}&apos;</code></p>
+<pre><code>CLOSED&#xFF1A;&#x6CA1;&#x6709;&#x8FDE;&#x63A5;&#x6D3B;&#x52A8;&#x6216;&#x6B63;&#x5728;&#x8FDB;&#x884C;&#x7684;&#xFF1B;
+LISTEN&#xFF1A;&#x670D;&#x52A1;&#x5668;&#x6B63;&#x5728;&#x7B49;&#x5F85;&#x7684;&#x8FDB;&#x5165;&#x547C;&#x53EB;&#xFF1B;
+SYN_RECV&#xFF1A;&#x4E00;&#x4E2A;&#x8FDE;&#x63A5;&#x8BF7;&#x6C42;&#x5DF2;&#x7ECF;&#x5230;&#x8FBE;&#xFF0C;&#x7B49;&#x5F85;&#x786E;&#x8BA4;&#xFF1B;
+SYN_SENT&#xFF1A;&#x5E94;&#x7528;&#x5DF2;&#x7ECF;&#x5F00;&#x59CB;&#xFF0C;&#x6253;&#x5F00;&#x4E00;&#x4E2A;&#x8FDE;&#x63A5;&#xFF1B;
+ESTABLISHED&#xFF1A;&#x6B63;&#x5E38;&#x6570;&#x636E;&#x4F20;&#x8F93;&#x72B6;&#x6001;&#xFF0C;&#x4E5F;&#x53EF;&#x4EE5;&#x8FD1;&#x4F3C;&#x7684;&#x7406;&#x89E3;&#x4E3A;&#x5F53;&#x524D;&#x670D;&#x52A1;&#x5668;&#x7684;&#x5E76;&#x53D1;&#x6570;&#xFF1B;
+FIN_WAIT1&#xFF1A;&#x5E94;&#x7528;&#x5DF2;&#x7ECF;&#x5B8C;&#x6210;&#xFF1B;
+FIN_WAIT2&#xFF1A;&#x53E6;&#x4E00;&#x8FB9;&#x540C;&#x610F;&#x91CA;&#x653E;&#xFF1B;
+ITMED_WAIT&#xFF1A;&#x7B49;&#x5F85;&#x6240;&#x6709;&#x5206;&#x7EC4;&#x6B7B;&#x6389;&#xFF1B;
+CLOSING&#xFF1A;&#x4E24;&#x8FB9;&#x540C;&#x65F6;&#x5C1D;&#x8BD5;&#x5173;&#x95ED;&#xFF1B;
+TIME_WAIT&#xFF1A;&#x53E6;&#x4E00;&#x8FB9;&#x5DF2;&#x521D;&#x59CB;&#x5316;&#x4E00;&#x4E2A;&#x91CA;&#x653E;&#xFF1B;
+LAST_ACK&#xFF1A;&#x7B49;&#x5F85;&#x6240;&#x6709;&#x5206;&#x7EC4;&#x6B7B;&#x6389;&#xFF1B;
+</code></pre>]]></content>
     <summary type="html">
     <![CDATA[<h1 id="&#x95EE;&#x9898;&#x63CF;&#x8FF0;">&#x95EE;&#x9898;&#x63CF;&#x8FF0;</h1>
 <p>Nginx&#x670D;&#x52A1;&#x5668;&#x8FD4;&#x56DE;&#x5927;&#x9]]>
@@ -412,22 +750,53 @@ OVA&#x5305;&#x662F;&#x4E00;&#x4E2A;&#x5355;&#x4E00;&#x7684;&#x6587;&#x4EF6;&#xFF
     <link href="http://geosmart.github.io/2015/07/06/centos%E5%B8%B8%E7%94%A8%E8%84%9A%E6%9C%AC/"/>
     <id>http://geosmart.github.io/2015/07/06/centos常用脚本/</id>
     <published>2015-07-06T08:41:15.000Z</published>
-    <updated>2015-07-20T14:17:06.379Z</updated>
+    <updated>2015-08-09T04:02:37.227Z</updated>
     <content type="html"><![CDATA[<p>CentOS&#x65E5;&#x5E38;&#x4F7F;&#x7528;&#x8FC7;&#x7A0B;&#x4E2D;&#x79EF;&#x7D2F;&#x7684;Shell&#x811A;&#x672C;&#x6216;Linux&#x547D;&#x4EE4;&#xFF0C;&#x6301;&#x7EED;&#x7EF4;&#x62A4;&#x66F4;&#x65B0;</p>
-<h1 id="&#x9759;&#x6001;ip&#x8BBE;&#x7F6E;">&#x9759;&#x6001;IP&#x8BBE;&#x7F6E;</h1>
+<p>#&#x7F51;&#x7EDC;&#x8BBE;&#x7F6E;</p>
+<h2 id="hostname&#x4E3B;&#x673A;&#x540D;">HostName&#x4E3B;&#x673A;&#x540D;</h2>
+<p><figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">#&#x67E5;&#x770B;hostname
+hostname  
+#&#x8BBE;&#x7F6E;&#x6307;&#x5B9A;&#x7684;&#x57DF;&#x540D;&#x89E3;&#x6790;&#x5730;&#x5740;
+/etc/hosts       
+# &#x8BBE;&#x7F6E;&#x4E3B;&#x673A;&#x540D;&#x548C;&#x7F51;&#x7EDC;&#x914D;&#x7F6E;
+/etc/sysconfig/network</span><br></pre></td></tr></table></figure></p>
+<h2 id="&#x9759;&#x6001;ip&#x8BBE;&#x7F6E;">&#x9759;&#x6001;IP&#x8BBE;&#x7F6E;</h2>
 <p><a href="static-ip.sh">&#x4E0B;&#x8F7D; static-ip.sh</a><br>
 &#x53C2;&#x6570;: <code>static-ip.sh &lt;hostname&gt; &lt;interface&gt; &lt;baseip&gt; &lt;ipaddress&gt; &lt;gateway/dns&gt;</code><br>
-&#x793A;&#x4F8B;
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">chmod +x  ./static-ip.sh</span><br><span class="line">./static-ip.sh localhost eth0 <span class="number">192.168</span>.<span class="number">1</span> <span class="number">81</span> <span class="number">1</span></span><br></pre></td></tr></table></figure></p>
-<h1 id="&#x96C6;&#x7FA4;&#x73AF;&#x5883;&#x4E0B;ssh&#x514D;&#x5BC6;&#x7801;&#x767B;&#x9646;&#x8BA4;&#x8BC1;&#x811A;&#x672C;">&#x96C6;&#x7FA4;&#x73AF;&#x5883;&#x4E0B;ssh&#x514D;&#x5BC6;&#x7801;&#x767B;&#x9646;&#x8BA4;&#x8BC1;&#x811A;&#x672C;</h1>
+&#x793A;&#x4F8B;</p>
+<p><figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">chmod +x  ./static-ip.sh
+./static-ip.sh localhost eth0 192.168.1 81 1</span><br></pre></td></tr></table></figure></p>
+<p>&#x624B;&#x52A8;&#x8BBE;&#x7F6E;IP</p>
+<p><figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">#&#x4E34;&#x65F6;&#x8BBE;&#x7F6E;IP
+ifconfig eth0 192.168.1.160
+# &#x8BBE;&#x7F6E;DNS  
+/etc/resolv.conf  
+&#x4E34;&#x65F6;&#x8BBE;&#x7F6E;IP
+ifconfig eth0 192.168.1.160</span><br></pre></td></tr></table></figure></p>
+<p><figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">#&#x9488;&#x5BF9;&#x7279;&#x5B9A;&#x7684;&#x7F51;&#x5361;&#x8FDB;&#x884C;&#x624B;&#x52A8;&#x8BBE;&#x7F6E;
+vim /etc/sysconfig/network-scripts/ifcfg-eth0 
+
+DEVICE=&quot;eth0&quot;
+BOOTPROTO=&quot;static&quot;
+HWADDR=&quot;00:0C:29:86:3D:16&quot;
+IPV6INIT=&quot;yes&quot;
+NM_CONTROLLED=&quot;yes&quot;
+ONBOOT=&quot;yes&quot;
+TYPE=&quot;Ethernet&quot;
+UUID=&quot;dcf18d86-45ea-4b5c-9627-e75b19b3b6e7&quot;
+IPADDR=192.168.1.82
+NETMAST=255.255.255.0
+DNS1=192.168.1.1</span><br></pre></td></tr></table></figure></p>
+<h2 id="&#x96C6;&#x7FA4;&#x73AF;&#x5883;&#x4E0B;ssh&#x514D;&#x5BC6;&#x7801;&#x767B;&#x9646;&#x8BA4;&#x8BC1;&#x811A;&#x672C;">&#x96C6;&#x7FA4;&#x73AF;&#x5883;&#x4E0B;ssh&#x514D;&#x5BC6;&#x7801;&#x767B;&#x9646;&#x8BA4;&#x8BC1;&#x811A;&#x672C;</h2>
 <p><a href="">todo-gitrepository</a></p>
 <ol>
 <li>&#x786E;&#x4FDD;&#x5404;&#x8282;&#x70B9;&#x5B89;&#x88C5;ssh,expect</li>
 <li>&#x628A;&#x6240;&#x6709;&#x6587;&#x4EF6;&#x62F7;&#x8D1D;&#x5230;&#x4E3B;&#x8282;&#x70B9;&#x4E0A;</li>
 <li>&#x914D;&#x7F6E;hosts.conf&#x548C;slaves.conf</li>
-<li>&#x6267;&#x884C;keygen_master
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">chmod +x keygen_master.sh</span><br><span class="line">./keygen_master.sh</span><br></pre></td></tr></table></figure></li>
+<li>&#x6267;&#x884C;keygen_master</li>
 </ol>
+<p><figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">chmod +x keygen_master.sh
+./keygen_master.sh</span><br></pre></td></tr></table></figure></p>
 <h1 id="ps&#x8FDB;&#x7A0B;&#x64CD;&#x4F5C;&#x547D;&#x4EE4;">PS&#x8FDB;&#x7A0B;&#x64CD;&#x4F5C;&#x547D;&#x4EE4;</h1>
 <p>&#x901A;&#x5E38;&#x7528;ps&#x67E5;&#x770B;&#x8FDB;&#x7A0B;PID&#xFF0C;kill&#x7EC8;&#x6B62;&#x8FDB;&#x7A0B;</p>
 <ul>
@@ -463,12 +832,59 @@ OVA&#x5305;&#x662F;&#x4E00;&#x4E2A;&#x5355;&#x4E00;&#x7684;&#x6587;&#x4EF6;&#xFF
 <code>tail -n +20 filename</code>&#xFF1A;&#x663E;&#x793A;&#x6587;&#x4EF6;&#x81EA;&#x7B2C;20&#x884C;&#x5F00;&#x59CB;&#x540E;&#x7684;&#x6240;&#x6709;&#x884C;&#xFF08;&#x5305;&#x62EC;&#x7B2C;20&#x884C;&#xFF09;</li>
 <li><code>tail -f filename</code>&#xFF1A;&#x52A8;&#x6001;&#x663E;&#x793A;&#x6700;&#x65B0;&#x7684;&#x6587;&#x4EF6;&#x5185;&#x5BB9;<br>
 &#x5177;&#x4F53;&#x7528;&#x6CD5;man head&#x6216;man tail&#x83B7;&#x53D6;</li>
-</ul>]]></content>
+</ul>
+<h1 id="chkconfig&#x95EE;&#x9898;">chkconfig&#x95EE;&#x9898;</h1>
+<p>chkconfig --add myservice&#x95EE;&#x9898;&#xFF1A;service myservice does not support chkconfig
+&#x6211;&#x4EEC;&#x4E00;&#x822C;&#x5728;&#x811A;&#x672C;&#x5F00;&#x5934;&#x52A0;&#x5165;&#x4E0B;&#x9762;&#x4E24;&#x53E5;&#x5C31;&#x597D;&#x4E86;
+<code>vim /etc/init.d/myservice</code>
+&#x6DFB;&#x52A0;&#x4E0B;&#x9762;&#x4E24;&#x53E5;&#x5230; #!/bin/bash &#x4E4B;&#x540E;</p>
+<p><figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">#!/bin/bash
+# chkconfig: 2345 10 90
+# description: myservice ....</span><br></pre></td></tr></table></figure></p>
+<h1 id="&#x56FE;&#x5F62;&#x5316;&#x754C;&#x9762;&#x5207;&#x6362;">&#x56FE;&#x5F62;&#x5316;&#x754C;&#x9762;&#x5207;&#x6362;</h1>
+<p><code>vim /etc/inittab</code></p>
+<p><figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"># Default runlevel. The runlevels used by RHS are: 
+# 0 - halt (Do NOT set initdefault to this)          --&#x505C;&#x673A;
+# 1 - Single user mode           --&#x5355;&#x7528;&#x6237;&#x6A21;&#x5F0F;
+# 2 - Multiuser, without NFS (The same as 3, if you do not havenetworking)           --&#x591A;&#x7528;&#x6237;&#x6A21;&#x5F0F;&#xFF0C;&#x4E0D;&#x652F;&#x6301;NFS
+# 3 - Full multiuser mode          --&#x591A;&#x7528;&#x6237;&#x6A21;&#x5F0F;     
+# 4 - unused          --&#x6CA1;&#x6709;&#x4F7F;&#x7528; 
+# 5 - X11          --&#x56FE;&#x5F62;&#x754C;&#x9762;&#x65B9;&#x5F0F; 
+# 6 - reboot (Do NOT set initdefault to this)          --&#x91CD;&#x65B0;&#x542F;&#x52A8;
+# --&#x9ED8;&#x8BA4;&#x8FD0;&#x884C;&#x7B49;&#x7EA7;&#x662F;5
+id:5:initdefault:</span><br></pre></td></tr></table></figure></p>
+<h1 id="&#x6587;&#x4EF6;&#x64CD;&#x4F5C;">&#x6587;&#x4EF6;&#x64CD;&#x4F5C;</h1>
+<h2 id="mkdir-&#x65B0;&#x5EFA;&#x76EE;&#x5F55;">mkdir &#x65B0;&#x5EFA;&#x76EE;&#x5F55;</h2>
+<p>mkdir -p &#x65E0;&#x76EE;&#x5F55;&#x65B0;&#x5EFA;&#x76EE;&#x5F55;</p>
+<h2 id="rm-&#x6587;&#x4EF6;&#x5220;&#x9664;&#x53C2;&#x6570;">rm &#x6587;&#x4EF6;&#x5220;&#x9664;&#x53C2;&#x6570;&#xFF1A;</h2>
+<p><figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">-r &#x5C31;&#x662F;&#x5411;&#x4E0B;&#x9012;&#x5F52;&#xFF0C;&#x4E0D;&#x7BA1;&#x6709;&#x591A;&#x5C11;&#x7EA7;&#x76EE;&#x5F55;&#xFF0C;&#x4E00;&#x5E76;&#x5220;&#x9664;
+-f &#x5C31;&#x662F;&#x76F4;&#x63A5;&#x5F3A;&#x884C;&#x5220;&#x9664;&#xFF0C;&#x4E0D;&#x4F5C;&#x4EFB;&#x4F55;&#x63D0;&#x793A;&#x7684;&#x610F;&#x601D;
+-rf &#x9012;&#x5F52;&#x5F3A;&#x5236;&#x5220;&#x9664;</span><br></pre></td></tr></table></figure></p>
+<p>&#x9700;&#x8981;&#x63D0;&#x9192;&#x7684;&#x662F;&#xFF1A;&#x4F7F;&#x7528;&#x8FD9;&#x4E2A;rm -rf&#x7684;&#x65F6;&#x5019;&#x4E00;&#x5B9A;&#x8981;&#x683C;&#x5916;&#x5C0F;&#x5FC3;&#xFF0C;linux&#x6CA1;&#x6709;&#x56DE;&#x6536;&#x7AD9;&#x7684;</p>
+<h2 id="tar&#x6587;&#x4EF6;&#x89E3;&#x538B;">tar&#x6587;&#x4EF6;&#x89E3;&#x538B;</h2>
+<p>tar&#x5728;linux&#x4E0A;&#x662F;&#x5E38;&#x7528;&#x7684;&#x6253;&#x5305;&#x3001;&#x538B;&#x7F29;&#x3001;&#x52A0;&#x538B;&#x7F29;&#x5DE5;&#x5177;&#xFF0C;&#x4ED6;&#x7684;&#x53C2;&#x6570;&#x5F88;&#x591A;&#xFF0C;&#x6298;&#x91CC;&#x4EC5;&#x4EC5;&#x5217;&#x4E3E;&#x5E38;&#x7528;&#x7684;&#x538B;&#x7F29;&#x4E0E;&#x89E3;&#x538B;&#x7F29;&#x53C2;&#x6570;</p>
+<p><figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">-c &#xFF1A;create &#x5EFA;&#x7ACB;&#x538B;&#x7F29;&#x6863;&#x6848;&#x7684;&#x53C2;&#x6570;&#xFF1B;
+-x &#xFF1A; &#x89E3;&#x538B;&#x7F29;&#x538B;&#x7F29;&#x6863;&#x6848;&#x7684;&#x53C2;&#x6570;&#xFF1B;
+-z &#xFF1A; &#x662F;&#x5426;&#x9700;&#x8981;&#x7528;gzip&#x538B;&#x7F29;&#xFF1B;
+-v&#xFF1A; &#x538B;&#x7F29;&#x7684;&#x8FC7;&#x7A0B;&#x4E2D;&#x663E;&#x793A;&#x6863;&#x6848;&#xFF1B;
+-f&#xFF1A; &#x7F6E;&#x9876;&#x6587;&#x6863;&#x540D;&#xFF0C;&#x5728;f&#x540E;&#x9762;&#x7ACB;&#x5373;&#x63A5;&#x6587;&#x4EF6;&#x540D;&#xFF0C;&#x4E0D;&#x80FD;&#x518D;&#x52A0;&#x53C2;&#x6570;
+1 &#x5C06;tgz&#x6587;&#x4EF6;&#x89E3;&#x538B;&#x5230;&#x6307;&#x5B9A;&#x76EE;&#x5F55;
+tar   zxvf    test.tgz  -C  &#x6307;&#x5B9A;&#x76EE;&#x5F55;
+&#x6BD4;&#x5982;&#x5C06;/source/kernel.tgz&#x89E3;&#x538B;&#x5230;  /source/linux-2.6.29 &#x76EE;&#x5F55;
+tar  zxvf  /source/kernel.tgz  -C /source/ linux-2.6.29</span><br></pre></td></tr></table></figure></p>
+<h1 id="vim&#x64CD;&#x4F5C;">VIM&#x64CD;&#x4F5C;</h1>
+<p>http://www.eepw.com.cn/article/48018.htm</p>
+<p>vi&#x5220;&#x9664;*.swp&#x4E34;&#x65F6;&#x6587;&#x4EF6;&#x5220;&#x9664;
+i&#x63D2;&#x5165;
+esc&#x547D;&#x4EE4;&#x884C;
+:&#x5E95;&#x884C;&#xFF08;x&#x4FDD;&#x5B58;&#xFF09;:</p>]]></content>
     <summary type="html">
     <![CDATA[<p>CentOS&#x65E5;&#x5E38;&#x4F7F;&#x7528;&#x8FC7;&#x7A0B;&#x4E2D;&#x79EF;&#x7D2F;&#x7684;Shell&#x811A;&#x672C;&#x6216;Linux&#x547D;&#x4EE4;&]]>
     </summary>
     
       <category term="CentOS" scheme="http://geosmart.github.io/tags/CentOS/"/>
+    
+      <category term="Shell" scheme="http://geosmart.github.io/tags/Shell/"/>
     
       <category term="运维" scheme="http://geosmart.github.io/tags/%E8%BF%90%E7%BB%B4/"/>
     
@@ -682,7 +1098,7 @@ Redis &#x76EE;&#x5F55;&#xFF1A;/usr/local/redis/</p>
     <link href="http://geosmart.github.io/2015/06/30/hexo%E5%AE%89%E8%A3%85/"/>
     <id>http://geosmart.github.io/2015/06/30/hexo安装/</id>
     <published>2015-06-30T04:58:32.000Z</published>
-    <updated>2015-06-30T14:59:07.548Z</updated>
+    <updated>2015-08-08T01:16:51.076Z</updated>
     <content type="html"><![CDATA[<h2 id="hexo&#x73AF;&#x5883;&#x642D;&#x5EFA;">hexo&#x73AF;&#x5883;&#x642D;&#x5EFA;</h2>
 <p><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">npm install -g hexo-cli</span><br><span class="line">hexo init</span><br><span class="line">npm install</span><br><span class="line">npm install hexo-deployer-git --save</span><br><span class="line">npm install hexo-server --save</span><br><span class="line">npm install hexo-generator-sitemap --save</span><br><span class="line">npm install hexo-generator-feed --save</span><br><span class="line">npm install hexo-toc --save</span><br><span class="line">npm install hexo-html-minifier --save</span><br></pre></td></tr></table></figure></p>
 <h2 id="&#x53EF;&#x9009;&#x63D2;&#x4EF6;">&#x53EF;&#x9009;&#x63D2;&#x4EF6;</h2>
@@ -733,7 +1149,7 @@ Redis &#x76EE;&#x5F55;&#xFF1A;/usr/local/redis/</p>
     <link href="http://geosmart.github.io/2015/06/30/zabbix-server%E5%AE%89%E8%A3%85%E8%84%9A%E6%9C%AC/"/>
     <id>http://geosmart.github.io/2015/06/30/zabbix-server安装脚本/</id>
     <published>2015-06-30T02:47:59.000Z</published>
-    <updated>2015-07-12T14:00:56.083Z</updated>
+    <updated>2015-08-10T08:43:14.200Z</updated>
     <content type="html"><![CDATA[<p><img src="zabbix.png" alt="zabbix"></p>
 <h1 id="&#x51C6;&#x5907;&#x5185;&#x5BB9;">&#x51C6;&#x5907;&#x5185;&#x5BB9;</h1>
 <ol>
@@ -769,7 +1185,7 @@ Redis &#x76EE;&#x5F55;&#xFF1A;/usr/local/redis/</p>
 <ol start="5">
 <li>
 <p>Mysql&#x4E2D;&#x65B0;&#x5EFA;Zabbix&#x6570;&#x636E;&#x5E93;
-<figure class="highlight coffeescript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br></pre></td><td class="code"><pre><span class="line">mysql -uroot -proot</span><br><span class="line">create database zabbix;</span><br><span class="line">grant all privileges <span class="literal">on</span> zabbix.* to zabbix<span class="property">@localhost</span> identified <span class="keyword">by</span> <span class="string">&apos;zabbix&apos;</span>;</span><br><span class="line">quit</span><br><span class="line">`<span class="javascript"></span>``<span class="javascript"> </span><br><span class="line"></span><br><span class="line"><span class="number">6.</span> &#x6267;&#x884C;&#x5B89;&#x88C5;&#x811A;&#x672C;</span><br><span class="line"></span>``<span class="javascript"></span>` bash </span><br><span class="line">cd /usr/local/zabbix</span><br><span class="line">chmod +x configure</span><br><span class="line">cd /usr/local/zabbix/script</span><br><span class="line">chmod +x install-zabbix_server.sh </span><br><span class="line">sudo ./install-zabbix_server.sh</span><br><span class="line">`<span class="javascript"></span>``<span class="javascript">  </span><br><span class="line"></span><br><span class="line"># &#x76F8;&#x5173;&#x64CD;&#x4F5C;</span><br><span class="line"><span class="number">1.</span> zabbix&#x7F51;&#x7AD9;&#x4E2D;&#x7684;&#x542F;&#x7528;&#x4E2D;&#x6587;&#x540E;&#x4E71;&#x7801;&#x95EE;&#x9898;</span><br><span class="line">* &#x5728;zabbix&#x7F51;&#x7AD9;&#x76EE;&#x5F55;&#x4E0B;&#x7684;include/locales.inc.php&#x6587;&#x4EF6;&#x4E2D;&#x542F;&#x7528;&#x4E2D;&#x6587;&#xFF08;<span class="string">&apos;display&apos;</span>=<span class="literal">true</span>&#xFF09;</span><br><span class="line">* &#x5728;windows&#x4E0B;&#x63A7;&#x5236;&#x9762;&#x677F;-&gt;&#x5B57;&#x4F53;-&gt;&#x9009;&#x62E9;&#x4E00;&#x79CD;&#x4E2D;&#x6587;&#x5B57;&#x5E93;&#x4F8B;&#x5982;&#x201C;&#x6977;&#x4F53;&#x201D;&#xFF0C;&#x628A;&#x5B83;&#x62F7;&#x8D1D;&#x5230;zabbix&#x7684;web&#x7AEF;&#x7684;fonts&#x76EE;&#x5F55;&#x4E0B;&#x4F8B;&#x5982;&#xFF1A;/<span class="keyword">var</span>/www/html/zabbix/fonts&#xFF0C;&#x5E76;&#x4E14;&#x628A;TTF&#x540E;&#x7F00;&#x6539;&#x4E3A;ttf</span><br><span class="line">* &#x4FEE;&#x6539;zabbix&#x7684;web&#x7AEF;/include/defines.inc.php&#xFF0C;&#x5982;&#x4E0B;</span><br><span class="line"></span>``<span class="javascript"></span>` php</span><br><span class="line"><span class="regexp">//</span>define(<span class="string">&apos;ZBX_GRAPH_FONT_NAME&apos;</span>, <span class="string">&apos;DejaVuSans&apos;</span>); <span class="regexp">//</span> origin name</span><br><span class="line">define(<span class="string">&apos;ZBX_GRAPH_FONT_NAME&apos;</span>, <span class="string">&apos;simkai&apos;</span>); <span class="regexp">//</span> custom  font name</span><br><span class="line">`<span class="javascript"></span>``<span class="javascript"> </span><br><span class="line"><span class="number">2.</span> &#x82E5;zabbix&#x7684;host&#x65E0;&#x6CD5;&#x8BBF;&#x95EE;&#xFF0C;&#x8003;&#x8651;&#x9632;&#x706B;&#x5899;&#x662F;&#x5426;&#x9700;&#x8981;&#x5173;&#x95ED;/&#x52A0;&#x5165;&#x4FE1;&#x4EFB;&#x7AEF;&#x53E3;</span><br><span class="line"></span>``<span class="javascript"></span>` bash</span><br><span class="line"><span class="comment">#&#x67E5;&#x770B;&#x9632;&#x706B;&#x5899;&#x72B6;&#x6001;</span></span><br><span class="line">service iptables status </span><br><span class="line"><span class="comment">#&#x5173;&#x95ED;&#x9632;&#x706B;&#x5899; </span></span><br><span class="line">service iptables stop </span><br><span class="line"><span class="comment">#&#x6C38;&#x4E45;&#x5173;&#x95ED;&#x9632;&#x706B;&#x5899; </span></span><br><span class="line">chkconfig   iptables <span class="literal">off</span></span><br></pre></td></tr></table></figure></p>
+<figure class="highlight coffeescript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br></pre></td><td class="code"><pre><span class="line">mysql -uroot -proot</span><br><span class="line">create database zabbix;</span><br><span class="line">grant all privileges <span class="literal">on</span> zabbix.* to zabbix<span class="property">@localhost</span> identified <span class="keyword">by</span> <span class="string">&apos;zabbix&apos;</span>;</span><br><span class="line">quit</span><br><span class="line">`<span class="javascript"></span>``<span class="javascript"> </span><br><span class="line"></span><br><span class="line"><span class="number">6.</span> &#x6267;&#x884C;&#x5B89;&#x88C5;&#x811A;&#x672C;</span><br><span class="line"></span>``<span class="javascript"></span>` bash </span><br><span class="line">cd /usr/local/zabbix</span><br><span class="line">chmod +x configure</span><br><span class="line">cd /usr/local/zabbix/script</span><br><span class="line">chmod +x install-zabbix_server.sh </span><br><span class="line">sudo ./install-zabbix_server.sh</span><br><span class="line">`<span class="javascript"></span>``<span class="javascript">  </span><br><span class="line"></span><br><span class="line"># &#x76F8;&#x5173;&#x64CD;&#x4F5C;</span><br><span class="line"><span class="number">1.</span> zabbix&#x7F51;&#x7AD9;&#x4E2D;&#x7684;&#x542F;&#x7528;&#x4E2D;&#x6587;&#x540E;&#x4E71;&#x7801;&#x95EE;&#x9898;</span><br><span class="line">* &#x5728;zabbix&#x7F51;&#x7AD9;&#x76EE;&#x5F55;&#x4E0B;&#x7684;include/locales.inc.php&#x6587;&#x4EF6;&#x4E2D;&#x542F;&#x7528;&#x4E2D;&#x6587;&#xFF08;<span class="string">&apos;display&apos;</span>=<span class="literal">true</span>&#xFF09;</span><br><span class="line">* &#x5728;windows&#x4E0B;&#x63A7;&#x5236;&#x9762;&#x677F;-&gt;&#x5B57;&#x4F53;-&gt;&#x9009;&#x62E9;&#x4E00;&#x79CD;&#x4E2D;&#x6587;&#x5B57;&#x5E93;&#x4F8B;&#x5982;&#x201C;&#x6977;&#x4F53;&#x201D;&#xFF0C;&#x628A;&#x5B83;&#x62F7;&#x8D1D;&#x5230;zabbix&#x7684;web&#x7AEF;&#x7684;fonts&#x76EE;&#x5F55;&#x4E0B;&#x4F8B;&#x5982;&#xFF1A;/<span class="keyword">var</span>/www/html/zabbix/fonts&#xFF0C;&#x5E76;&#x4E14;&#x628A;TTF&#x540E;&#x7F00;&#x6539;&#x4E3A;ttf</span><br><span class="line">* &#x4FEE;&#x6539;zabbix&#x7684;web&#x7AEF;/include/defines.inc.php&#xFF0C;&#x5982;&#x4E0B;</span><br><span class="line"></span>``<span class="javascript"></span>` php</span><br><span class="line"><span class="regexp">//</span>define(<span class="string">&apos;ZBX_GRAPH_FONT_NAME&apos;</span>, <span class="string">&apos;DejaVuSans&apos;</span>); <span class="regexp">//</span> origin name</span><br><span class="line">define(<span class="string">&apos;ZBX_GRAPH_FONT_NAME&apos;</span>, <span class="string">&apos;simkai&apos;</span>); <span class="regexp">//</span> custom  font name</span><br><span class="line">`<span class="javascript"></span>``<span class="javascript"> </span><br><span class="line"><span class="number">2.</span> &#x82E5;zabbix&#x7684;host&#x65E0;&#x6CD5;&#x8BBF;&#x95EE;&#xFF0C;&#x8003;&#x8651;&#x9632;&#x706B;&#x5899;&#x662F;&#x5426;&#x9700;&#x8981;&#x5173;&#x95ED;/&#x52A0;&#x5165;&#x4FE1;&#x4EFB;&#x7AEF;&#x53E3;</span><br><span class="line"></span><br><span class="line"></span>``<span class="javascript"></span>` bash</span><br><span class="line"><span class="comment">#&#x67E5;&#x770B;&#x9632;&#x706B;&#x5899;&#x72B6;&#x6001;</span></span><br><span class="line">service iptables status </span><br><span class="line"><span class="comment">#&#x5173;&#x95ED;&#x9632;&#x706B;&#x5899; </span></span><br><span class="line">service iptables stop </span><br><span class="line"><span class="comment">#&#x6C38;&#x4E45;&#x5173;&#x95ED;&#x9632;&#x706B;&#x5899; </span></span><br><span class="line">chkconfig   iptables <span class="literal">off</span></span><br></pre></td></tr></table></figure></p>
 </li>
 <li>
 <p>&#x7F16;&#x8BD1;&#x95EE;&#x9898;
@@ -800,258 +1216,6 @@ Redis &#x76EE;&#x5F55;&#xFF1A;/usr/local/redis/</p>
       <category term="监控" scheme="http://geosmart.github.io/tags/%E7%9B%91%E6%8E%A7/"/>
     
       <category term="运维" scheme="http://geosmart.github.io/tags/%E8%BF%90%E7%BB%B4/"/>
-    
-      <category term="技术点滴" scheme="http://geosmart.github.io/categories/%E6%8A%80%E6%9C%AF%E7%82%B9%E6%BB%B4/"/>
-    
-  </entry>
-  
-  <entry>
-    <title><![CDATA[zabbix-agent安装脚本]]></title>
-    <link href="http://geosmart.github.io/2015/06/29/zabbix-agent%E5%AE%89%E8%A3%85%E8%84%9A%E6%9C%AC/"/>
-    <id>http://geosmart.github.io/2015/06/29/zabbix-agent安装脚本/</id>
-    <published>2015-06-29T07:33:38.000Z</published>
-    <updated>2015-07-08T01:54:11.503Z</updated>
-    <content type="html"><![CDATA[<p><img src="zabbix.png" alt="zabbix"></p>
-<h1 id="&#x51C6;&#x5907;&#x5185;&#x5BB9;">&#x51C6;&#x5907;&#x5185;&#x5BB9;</h1>
-<ol>
-<li><a href="http://sourceforge.net/projects/zabbix/files/ZABBIX%20Latest%20Stable/2.2.9/zabbix-2.2.9.tar.gz/download">zabbix&#x5B89;&#x88C5;&#x5305;&#xFF08;&#x5B98;&#x7F51;&#x7248;&#x672C;&#xFF1A;zabbix-2.2.9.tar.gz&#xFF09;</a></li>
-<li>yum groupinstall &quot;Development tools&quot;</li>
-<li><a href="install-zabbix_agent.sh">zabbix&#x5B89;&#x88C5;&#x811A;&#x672C;</a></li>
-</ol>
-<p>cd /tmp &amp;&amp; tar -zxf  zabbix.gz</p>
-<h1 id="&#x5B89;&#x88C5;&#x6B65;&#x9AA4;">&#x5B89;&#x88C5;&#x6B65;&#x9AA4;</h1>
-<ol>
-<li>&#x4FEE;&#x6539;zabbix_server&#x7A0B;&#x5E8F;&#x7684;&#x78C1;&#x76D8;&#x8DEF;&#x5F84;<br>
-&#x4FEE;&#x6539;zabbix_server&#x4E3B;&#x7A0B;&#x5E8F;&#x8DEF;&#x5F84;
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># vim /usr/local/zabbix/misc/init.d/tru64/zabbix_server</span></span><br><span class="line">DAEMON=/usr/<span class="built_in">local</span>/zabbix/sbin/zabbix_server</span><br></pre></td></tr></table></figure></li>
-</ol>
-<p>&#x6DFB;&#x52A0;&#x4E0B;&#x9762;&#x4E24;&#x53E5;&#x5230;<code>#!/bin/bash</code>&#x4E4B;&#x540E;&#xFF0C;&#x89E3;&#x51B3;<code>service myservicedoes not support chkconfig</code>&#x95EE;&#x9898;
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># chkconfig: 2345 10 90 </span></span><br><span class="line"><span class="comment"># description:zabbix....</span></span><br></pre></td></tr></table></figure></p>
-<ol start="2">
-<li>
-<p>&#x7F16;&#x8F91;zabbix_agentd&#x914D;&#x7F6E;&#x6587;&#x4EF6;
-<code>vim /usr/local/zabbix/etc/zabbix_agentd.conf</code>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">LogFile=/tmp/zabbix_agentd.log </span><br><span class="line"><span class="comment">#&#x670D;&#x52A1;&#x7AEF;IP  </span></span><br><span class="line">Server=<span class="number">192.168</span>.<span class="number">1.80</span></span><br><span class="line"><span class="comment">#&#x670D;&#x52A1;&#x7AEF;IP   </span></span><br><span class="line">ServerActive= <span class="number">192.168</span>.<span class="number">1.80</span></span><br><span class="line"><span class="comment">#&#x5BA2;&#x6237;&#x7AEF;IP&#x4E0E;zabbix-web&#x914D;&#x7F6E;&#x4E0A;&#x7684;hostName&#x4E00;&#x81F4;   </span></span><br><span class="line">Hostname=localhost</span><br><span class="line">UnsafeUserParameters=<span class="number">1</span></span><br></pre></td></tr></table></figure></p>
-</li>
-<li>
-<p>&#x6267;&#x884C;&#x5B89;&#x88C5;&#x811A;&#x672C;
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">cd</span> /usr/<span class="built_in">local</span>/zabbix/script/install-zabbix_agentd.sh</span><br><span class="line">chmod +x install-zabbix_agentd.sh </span><br><span class="line">sudo ./install-zabbix_agentd.sh</span><br></pre></td></tr></table></figure></p>
-</li>
-</ol>
-<h1 id="&#x76F8;&#x5173;&#x64CD;&#x4F5C;">&#x76F8;&#x5173;&#x64CD;&#x4F5C;</h1>
-<ol>
-<li>&#x82E5;zabbix&#x7684;host&#x65E0;&#x6CD5;&#x8BBF;&#x95EE;&#xFF0C;&#x8003;&#x8651;&#x9632;&#x706B;&#x5899;&#x662F;&#x5426;&#x9700;&#x8981;&#x5173;&#x95ED;/&#x52A0;&#x5165;&#x4FE1;&#x4EFB;&#x7AEF;&#x53E3;</li>
-</ol>
-<pre><code class="language-bash">#&#x67E5;&#x770B;&#x9632;&#x706B;&#x5899;&#x72B6;&#x6001;
-service iptables status 
-#&#x5173;&#x95ED;&#x9632;&#x706B;&#x5899; 
-service iptables stop  
-#&#x6C38;&#x4E45;&#x5173;&#x95ED;&#x9632;&#x706B;&#x5899; 
-chkconfig   iptables off 
-</code></pre>
-<ol start="2">
-<li>&#x67E5;&#x770B;zabbix&#x670D;&#x52A1;&#x662F;&#x5426;&#x5DF2;&#x542F;&#x52A8;</li>
-</ol>
-<pre><code class="language-bash">netstat -utlnp | grep zabbix 
-</code></pre>
-<ol start="3">
-<li>&#x914D;&#x7F6E;&#x6587;&#x4EF6;&#x66F4;&#x65B0;&#x540E;&#xFF0C;&#x9700;&#x91CD;&#x542F;&#x5BA2;&#x6237;&#x7AEF;&#x670D;&#x52A1;</li>
-</ol>
-<pre><code class="language-bash">service zabbix_agentd restart
-</code></pre>]]></content>
-    <summary type="html">
-    <![CDATA[<p><img src="zabbix.png" alt="zabbix"></p>
-<h1 id="&#x51C6;&#x5907;&#x5185;&#x5BB9;">&#x51C6;&#x5907;&#x5185;&#x5BB9;</h1>
-<ol>
-<li><a href=]]>
-    </summary>
-    
-      <category term="CentOS" scheme="http://geosmart.github.io/tags/CentOS/"/>
-    
-      <category term="监控" scheme="http://geosmart.github.io/tags/%E7%9B%91%E6%8E%A7/"/>
-    
-      <category term="运维" scheme="http://geosmart.github.io/tags/%E8%BF%90%E7%BB%B4/"/>
-    
-      <category term="技术点滴" scheme="http://geosmart.github.io/categories/%E6%8A%80%E6%9C%AF%E7%82%B9%E6%BB%B4/"/>
-    
-  </entry>
-  
-  <entry>
-    <title><![CDATA[mongodb手动安装脚本]]></title>
-    <link href="http://geosmart.github.io/2015/06/28/mongodb%E6%89%8B%E5%8A%A8%E5%AE%89%E8%A3%85%E8%84%9A%E6%9C%AC/"/>
-    <id>http://geosmart.github.io/2015/06/28/mongodb手动安装脚本/</id>
-    <published>2015-06-28T12:26:00.000Z</published>
-    <updated>2015-07-15T07:17:15.345Z</updated>
-    <content type="html"><![CDATA[<p><img src="nosql.png" alt="nosql"></p>
-<h1 id="&#x51C6;&#x5907;&#x4E8B;&#x9879;">&#x51C6;&#x5907;&#x4E8B;&#x9879;</h1>
-<h2 id="&#x4E0B;&#x8F7D;&#x5B89;&#x88C5;&#x5305;&#x6587;&#x4EF6;&#x4E8C;&#x8FDB;&#x5236;&#x7F16;&#x8BD1;&#x7248;">&#x4E0B;&#x8F7D;&#x5B89;&#x88C5;&#x5305;&#x6587;&#x4EF6;&#xFF08;&#x4E8C;&#x8FDB;&#x5236;&#x7F16;&#x8BD1;&#x7248;&#xFF09;</h2>
-<p><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">mkdir -p /usr/<span class="built_in">local</span>/mongodb</span><br><span class="line"><span class="built_in">cd</span> /usr/<span class="built_in">local</span>/mongodb</span><br><span class="line">wget http://fastdl.mongodb.org/linux/mongodb-linux-x86_64-<span class="number">2.6</span>.<span class="number">3</span>.tgz</span><br><span class="line">tar -zvxf mongodb-linux-x86_64-<span class="number">2.6</span>.<span class="number">3</span>.tgz</span><br></pre></td></tr></table></figure></p>
-<h2 id="&#x91CD;&#x547D;&#x540D;&#x65B0;&#x5EFA;&#x6570;&#x636E;&#x65E5;&#x5FD7;&#x76EE;&#x5F55;">&#x91CD;&#x547D;&#x540D;&gt;&#x65B0;&#x5EFA;&#x6570;&#x636E;/&#x65E5;&#x5FD7;&#x76EE;&#x5F55;</h2>
-<p><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">mv mongodb-linux-x86_64-<span class="number">2.6</span>.<span class="number">3</span> mongodb</span><br><span class="line">mkdir data</span><br><span class="line">mkdir <span class="built_in">log</span></span><br></pre></td></tr></table></figure></p>
-<h1 id="&#x914D;&#x7F6E;&#x73AF;&#x5883;&#x53D8;&#x91CF;">&#x914D;&#x7F6E;&#x73AF;&#x5883;&#x53D8;&#x91CF;</h1>
-<p>CentOs&#x4E2D;&#x914D;&#x7F6E;path&#x73AF;&#x5883;&#x53D8;&#x91CF;,&#x786E;&#x4FDD;mongodb&#x7684;bin&#x76EE;&#x5F55;&#x5305;&#x542B;&#x5728;path&#x73AF;&#x5883;&#x53D8;&#x91CF;&#x4E2D;&#x3002;</p>
-<h2 id="&#x914D;&#x7F6E;path">&#x914D;&#x7F6E;PATH</h2>
-<p><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">vim /etc/profile </span><br><span class="line">&#x3000;&#x3000;<span class="comment">#set for mongodb </span></span><br><span class="line">&#x3000;&#x3000;<span class="built_in">export</span> MONGODB_HOME=/usr/<span class="built_in">local</span>/mongodb </span><br><span class="line">&#x3000;&#x3000;<span class="built_in">export</span> PATH=<span class="variable">$MONGODB_HOME</span>/bin:<span class="variable">$PATH</span></span><br></pre></td></tr></table></figure></p>
-<h2 id="&#x67E5;&#x770B;&#x5F53;&#x524D;path">&#x67E5;&#x770B;&#x5F53;&#x524D;PATH</h2>
-<p><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">echo</span> <span class="variable">$PATH</span></span><br></pre></td></tr></table></figure></p>
-<h2 id="&#x8BA9;&#x73AF;&#x5883;&#x53D8;&#x91CF;&#x751F;&#x6548;">&#x8BA9;&#x73AF;&#x5883;&#x53D8;&#x91CF;&#x751F;&#x6548;</h2>
-<p><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">source</span> /etc/profile</span><br><span class="line">//&#x9A8C;&#x8BC1;&#x73AF;&#x5883;&#x53D8;&#x91CF;&#x662F;&#x5426;&#x751F;&#x6548;</span><br><span class="line">mongod -version</span><br><span class="line"><span class="built_in">echo</span> <span class="variable">$PATH</span></span><br><span class="line">```  </span><br><span class="line"></span><br><span class="line"><span class="comment">## &#x6DFB;&#x52A0;CentOS&#x5F00;&#x673A;&#x542F;&#x52A8;&#x9879;</span></span><br></pre></td></tr></table></figure></p>
-<p>vim  /etc/rc.d/rc.local
-//&#x5C06;mongodb&#x542F;&#x52A8;&#x547D;&#x4EE4;&#x624B;&#x52A8;&#x8FFD;&#x52A0;&#x5230;&#x672C;&#x6587;&#x4EF6;&#x4E2D;&#xFF1A;
-/usr/local/mongodb/bin/mongod --dbpath /usr/local/mongodb/data --logpath /usr/local/mongodb/log/mongodb.log  --fork --smallfiles
-<figure class="highlight groovy"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"># &#x542F;&#x52A8;MongoDB</span><br><span class="line">## &#x914D;&#x7F6E;&#x6587;&#x4EF6;&#x5F62;&#x5F0F; </span><br><span class="line">``` bash</span><br><span class="line">vim  <span class="regexp">/usr/</span>local<span class="regexp">/mongodb/</span>mongodb.conf</span><br><span class="line">dbpath=<span class="regexp">/usr/</span>local<span class="regexp">/mongodb/</span>data</span><br><span class="line">logpath=<span class="regexp">/usr/</span>local<span class="regexp">/mongodb/</span>log/mongodb.log</span><br><span class="line">logappend=<span class="literal">true</span></span><br><span class="line">port=<span class="number">27017</span></span><br><span class="line">fork=<span class="literal">true</span></span><br><span class="line">noauth=<span class="literal">true</span></span><br><span class="line">journal=<span class="literal">true</span></span><br><span class="line">smallfiles=<span class="literal">true</span> </span><br><span class="line">```  </span><br><span class="line"></span><br><span class="line">## &#x547D;&#x4EE4;&#x884C;&#x5F62;&#x5F0F;</span><br><span class="line">``` Bash</span><br><span class="line"><span class="regexp">/usr/</span>local<span class="regexp">/mongodb/</span>bin<span class="regexp">/mongod --dbpath /</span>usr<span class="regexp">/local/</span>mongodb<span class="regexp">/data --logpath /</span>usr<span class="regexp">/local/</span>mongodb<span class="regexp">/log/</span>mongodb.log  --fork --smallfiles</span><br><span class="line"><span class="comment">//&#x53EF;&#x9009;&#xFF1A;--auth</span></span><br></pre></td></tr></table></figure></p>
-<h1 id="&#x589E;&#x52A0;&#x7528;&#x6237;">&#x589E;&#x52A0;&#x7528;&#x6237;</h1>
-<p><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">useradd mongodb -M <span class="operator">-s</span> /sbin/nologin</span><br></pre></td></tr></table></figure></p>
-<h1 id="&#x542F;&#x52A8;&#x670D;&#x52A1;&#x6D4B;&#x8BD5;&#x670D;&#x52A1;&#x72B6;&#x6001;">&#x542F;&#x52A8;&#x670D;&#x52A1;/&#x6D4B;&#x8BD5;&#x670D;&#x52A1;&#x72B6;&#x6001;</h1>
-<pre><code class="language-bash">service mongod start
-service mongod status
-shutdown -r now
-service mongod status
-mongo admin
-show dbs&#xFF1B;
-db.test.find();
-exit
-</code></pre>
-<h1 id="&#x90E8;&#x7F72;&#x95EE;&#x9898;&#x8BB0;&#x5F55;">&#x90E8;&#x7F72;&#x95EE;&#x9898;&#x8BB0;&#x5F55;</h1>
-<h2 id="mongovue&#x4E0D;&#x80FD;&#x8FDE;&#x63A5;">MongoVUE&#x4E0D;&#x80FD;&#x8FDE;&#x63A5;</h2>
-<p>&#x5C06;27017&#x7AEF;&#x53E3;&#x52A0;&#x5165;&#x4FE1;&#x4EFB;&#x5217;&#x8868;&#xFF1B;&#x5C40;&#x57DF;&#x7F51;&#x6D4B;&#x8BD5;&#x76F4;&#x63A5;&#x5173;&#x95ED;&#x9632;&#x706B;&#x5899;</p>
-<pre><code class="language-bash">//&#x5173;&#x95ED;&#x9632;&#x706B;&#x5899; 
-service iptables stop 
-//&#x5F00;&#x542F;
-chkconfig iptables on
-//&#x5173;&#x95ED;
-chkconfig iptables off 
-//&#x67E5;&#x8BE2;TCP&#x8FDE;&#x63A5;&#x60C5;&#x51B5;
- netstat -n | awk &apos;/^tcp/ {++S[$NF]} END {for(a in S) print a, S[a]}&apos;
-//&#x67E5;&#x8BE2;&#x7AEF;&#x53E3;&#x5360;&#x7528;&#x60C5;&#x51B5;&#xFF1A;
- netstat   -anp   |   grep  portno
-//&#xFF08;&#x4F8B;&#x5982;&#xFF1A;netstat &#x2013;apn | grep 80&#xFF09;
-</code></pre>]]></content>
-    <summary type="html">
-    <![CDATA[<p><img src="nosql.png" alt="nosql"></p>
-<h1 id="&#x51C6;&#x5907;&#x4E8B;&#x9879;">&#x51C6;&#x5907;&#x4E8B;&#x9879;</h1>
-<h2 id="&#x4E0B;&#x]]>
-    </summary>
-    
-      <category term="CentOS" scheme="http://geosmart.github.io/tags/CentOS/"/>
-    
-      <category term="数据库" scheme="http://geosmart.github.io/tags/%E6%95%B0%E6%8D%AE%E5%BA%93/"/>
-    
-      <category term="技术点滴" scheme="http://geosmart.github.io/categories/%E6%8A%80%E6%9C%AF%E7%82%B9%E6%BB%B4/"/>
-    
-  </entry>
-  
-  <entry>
-    <title><![CDATA[jdk安装脚本]]></title>
-    <link href="http://geosmart.github.io/2015/06/28/jdk%E5%AE%89%E8%A3%85%E8%84%9A%E6%9C%AC/"/>
-    <id>http://geosmart.github.io/2015/06/28/jdk安装脚本/</id>
-    <published>2015-06-28T08:03:00.000Z</published>
-    <updated>2015-07-06T05:19:17.979Z</updated>
-    <content type="html"><![CDATA[<h2 id="&#x51C6;&#x5907;&#x5185;&#x5BB9;">&#x51C6;&#x5907;&#x5185;&#x5BB9;</h2>
-<ol>
-<li><a href="http://download.oracle.com/otn-pub/java/jdk/7u80-b15/jdk-7u80-linux-x64.tar.gz">jdk7 X64&#x5B89;&#x88C5;&#x5305;&#xFF08;&#x5B98;&#x7F51;&#x7248;&#x672C;&#xFF1A;jdk-7u80-linux-x64.tar.gz&#xFF09;</a>
-&#x4E0B;&#x8F7D;&#x540E;&#x5E76;&#x91CD;&#x547D;&#x540D;&#x4E3A;jetty.tar.gz</li>
-<li><a href="install-jdk.sh">jdk&#x5B89;&#x88C5;&#x811A;&#x672C;</a></li>
-</ol>
-<h2 id="&#x5B89;&#x88C5;&#x6B65;&#x9AA4;">&#x5B89;&#x88C5;&#x6B65;&#x9AA4;</h2>
-<p>&#x5C06;&#x6587;&#x4EF6;&#x590D;&#x5236;&#x5230;CentOS&#x540E;&#x8FDB;&#x884C;&#x5B89;&#x88C5;</p>
-<ol>
-<li>CentOS&#x8DEF;&#x5F84;&#xFF1A;/tmp/jdk</li>
-<li>&#x6267;&#x884C;</li>
-</ol>
-<p><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"><span class="built_in">cd</span> /tmp/jdk</span><br><span class="line">chmod +x install-jdk.sh </span><br><span class="line">sudo ./install-jdk.sh</span><br></pre></td></tr></table></figure></p>
-<ol start="3">
-<li>&#x4E00;&#x8DEF;&#x56DE;&#x8F66;&#x5373;&#x53EF;</li>
-</ol>
-<p>#&#x9644;&#x4EF6; install-jdk.sh
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"><span class="shebang">#!/bin/sh</span></span><br><span class="line">BASEDIR=$(<span class="built_in">cd</span> `dirname <span class="variable">$0</span>`; <span class="built_in">pwd</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment">#jdk-7u80-linux-x64</span></span><br><span class="line"><span class="built_in">read</span>  -p <span class="string">&quot;Please select java tar package full path path[/tmp/jdk.tar.gz] &quot;</span> INSTALL_FILE</span><br><span class="line"><span class="keyword">if</span> [ ! <span class="operator">-f</span> <span class="string">&quot;<span class="variable">$INSTALL_FILE</span>&quot;</span> ]; <span class="keyword">then</span></span><br><span class="line">trueINSTALL_FILE=<span class="string">&quot;/tmp/jdk.tar.gz&quot;</span></span><br><span class="line"><span class="keyword">fi</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># Set install path</span></span><br><span class="line"><span class="built_in">read</span>  -p <span class="string">&quot;Please select java install path path[/usr/local/java]: &quot;</span> INSTALL_PATH</span><br><span class="line"><span class="keyword">if</span> [ <span class="string">&quot;<span class="variable">$INSTALL_PATH</span>&quot;</span> = <span class="string">&quot;&quot;</span> ]; <span class="keyword">then</span></span><br><span class="line">trueINSTALL_PATH=<span class="string">&quot;/usr/local/java&quot;</span></span><br><span class="line"><span class="keyword">fi</span></span><br><span class="line"><span class="keyword">if</span> [ ! <span class="operator">-d</span> <span class="variable">$INSTALL_PATH</span> ]; <span class="keyword">then</span></span><br><span class="line">    <span class="built_in">echo</span> <span class="string">&quot;mkdir <span class="variable">$INSTALL_PATH</span>&quot;</span></span><br><span class="line">    mkdir -p <span class="variable">$INSTALL_PATH</span></span><br><span class="line"><span class="keyword">fi</span></span><br><span class="line"></span><br><span class="line"><span class="built_in">echo</span> <span class="string">&quot;uncompress <span class="variable">$INSTALL_FILE</span> to <span class="variable">$INSTALL_PATH</span>&quot;</span></span><br><span class="line"><span class="keyword">if</span> [ -w <span class="variable">$INSTALL_PATH</span> ]; <span class="keyword">then</span></span><br><span class="line">  tar -zxvf <span class="variable">$INSTALL_FILE</span> -C <span class="variable">$INSTALL_PATH</span> --strip-components=<span class="number">1</span></span><br><span class="line"><span class="keyword">else</span></span><br><span class="line">  sudo tar -zxvf <span class="variable">$INSTALL_FILE</span> -C <span class="variable">$INSTALL_PATH</span> --strip-components=<span class="number">1</span></span><br><span class="line"><span class="keyword">fi</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="built_in">echo</span> <span class="string">&quot;Setting java environment...&quot;</span></span><br><span class="line"><span class="built_in">echo</span> <span class="string">&quot;export JAVA_HOME=<span class="variable">$INSTALL_PATH</span>&quot;</span> | sudo tee <span class="operator">-a</span> /etc/profile</span><br><span class="line"></span><br><span class="line">JAVA_HOME=<span class="variable">$INSTALL_PATH</span></span><br><span class="line"><span class="comment">#<span class="doctag">FIXME</span></span></span><br><span class="line"><span class="built_in">echo</span> <span class="string">&quot;export CLASSPATH=.:<span class="variable">$JAVA_HOME</span>/lib/tools.jar:<span class="variable">$JAVA_HOME</span>/lib/dt.jar&quot;</span> | sudo tee <span class="operator">-a</span> /etc/profile</span><br><span class="line"><span class="built_in">echo</span> <span class="string">&apos;export PATH=$JAVA_HOME/bin:$PATH&apos;</span> | sudo tee <span class="operator">-a</span> /etc/profile</span><br><span class="line"></span><br><span class="line"><span class="built_in">echo</span> <span class="string">&quot;refresh java environment...&quot;</span></span><br><span class="line"><span class="comment">#<span class="doctag">TODO</span> what does &quot;.&quot;  do? the same as &quot;source&quot; command?</span></span><br><span class="line">. /etc/profile </span><br><span class="line"><span class="built_in">source</span> /etc/profile</span><br><span class="line"></span><br><span class="line">java -version</span><br><span class="line"><span class="keyword">if</span> [ <span class="string">&quot;$?&quot;</span> = <span class="string">&quot;0&quot;</span> ]; <span class="keyword">then</span></span><br><span class="line"><span class="built_in">echo</span> <span class="operator">-e</span> <span class="string">&quot;\033[32m Installed, please source /etc/profile or relogin. \033[0m&quot;</span></span><br><span class="line"><span class="keyword">else</span></span><br><span class="line"><span class="built_in">echo</span> <span class="operator">-e</span> <span class="string">&quot;\033[31m Install failed. \033[0m&quot;</span></span><br><span class="line"><span class="keyword">fi</span></span><br><span class="line"></span><br><span class="line"><span class="built_in">unset</span> BASEDIR</span><br><span class="line"><span class="built_in">unset</span> INSTALL_PATH</span><br><span class="line"><span class="built_in">unset</span> INSTALL_FILE</span><br><span class="line"></span><br><span class="line"><span class="built_in">exit</span> <span class="number">0</span></span><br></pre></td></tr></table></figure></p>]]></content>
-    <summary type="html">
-    <![CDATA[<h2 id="&#x51C6;&#x5907;&#x5185;&#x5BB9;">&#x51C6;&#x5907;&#x5185;&#x5BB9;</h2>
-<ol>
-<li><a href="http://download.oracle.com/otn-pub/java/jd]]>
-    </summary>
-    
-      <category term="CentOS" scheme="http://geosmart.github.io/tags/CentOS/"/>
-    
-      <category term="运维" scheme="http://geosmart.github.io/tags/%E8%BF%90%E7%BB%B4/"/>
-    
-      <category term="技术点滴" scheme="http://geosmart.github.io/categories/%E6%8A%80%E6%9C%AF%E7%82%B9%E6%BB%B4/"/>
-    
-  </entry>
-  
-  <entry>
-    <title><![CDATA[jetty手动安装脚本]]></title>
-    <link href="http://geosmart.github.io/2015/06/28/jetty%E6%89%8B%E5%8A%A8%E5%AE%89%E8%A3%85%E8%84%9A%E6%9C%AC/"/>
-    <id>http://geosmart.github.io/2015/06/28/jetty手动安装脚本/</id>
-    <published>2015-06-28T05:39:00.000Z</published>
-    <updated>2015-07-06T05:19:25.683Z</updated>
-    <content type="html"><![CDATA[<p>##&#x5B89;&#x88C5;&#x6B65;&#x9AA4;
-&#x5C06;&#x6587;&#x4EF6;&#x590D;&#x5236;&#x5230;CentOS&#x540E;&#x8FDB;&#x884C;&#x5B89;&#x88C5;</p>
-<h3 id="&#x4E0B;&#x8F7D;&#x89E3;&#x538B;jetty">&#x4E0B;&#x8F7D;&#x89E3;&#x538B;Jetty</h3>
-<p><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">cd</span> /tmp</span><br><span class="line">wget http://eclipse.org/downloads/download.php?file=/jetty/stable-<span class="number">9</span>/dist/jetty-distribution-<span class="number">9.3</span>.<span class="number">0</span>.v20150612.tar.gz&amp;r=<span class="number">1</span> </span><br><span class="line">tar -xzvf  jetty-distribution-<span class="number">9.3</span>.<span class="number">0</span>.v20150612.tar.gz </span><br><span class="line">mv jetty-distribution-<span class="number">9.1</span>.<span class="number">1</span>.v20140108 /usr/<span class="built_in">local</span>/jetty</span><br></pre></td></tr></table></figure></p>
-<h3 id="&#x65B0;&#x5EFA;&#x7528;&#x6237;&#x914D;&#x7F6E;jetty&#x6240;&#x5C5E;&#x6743;&#x9650;">&#x65B0;&#x5EFA;&#x7528;&#x6237;&gt;&#x914D;&#x7F6E;jetty&#x6240;&#x5C5E;&#x6743;&#x9650;</h3>
-<p><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">useradd -m jetty </span><br><span class="line">chown -R jetty:jetty /usr/<span class="built_in">local</span>/jetty/</span><br></pre></td></tr></table></figure></p>
-<h3 id="&#x5B89;&#x88C5;&#x5230;&#x7CFB;&#x7EDF;&#x670D;&#x52A1;">&#x5B89;&#x88C5;&#x5230;&#x7CFB;&#x7EDF;&#x670D;&#x52A1;</h3>
-<p><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">ln <span class="operator">-s</span> /usr/<span class="built_in">local</span>/jetty/bin/jetty.sh /etc/init.d/jetty</span><br><span class="line">chkconfig --add jetty </span><br><span class="line">chkconfig --level <span class="number">345</span> jetty on</span><br></pre></td></tr></table></figure></p>
-<h3 id="&#x7F16;&#x8F91;&#x542F;&#x52A8;&#x811A;&#x672C;">&#x7F16;&#x8F91;&#x542F;&#x52A8;&#x811A;&#x672C;</h3>
-<p><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">vim /etc/default/jetty </span><br><span class="line">JETTY_HOME=/usr/<span class="built_in">local</span>/jetty </span><br><span class="line">JETTY_USER=jetty </span><br><span class="line">JETTY_PORT=<span class="number">8080</span></span><br><span class="line">JETTY_LOGS=/usr/<span class="built_in">local</span>/jetty/logs/</span><br></pre></td></tr></table></figure></p>
-<h3 id="&#x542F;&#x52A8;&#x670D;&#x52A1;&#x6D4B;&#x8BD5;">&#x542F;&#x52A8;&#x670D;&#x52A1;&gt;&#x6D4B;&#x8BD5;</h3>
-<pre><code class="language-bash">service jetty start
-curl localhost:8080
-</code></pre>
-<h3 id="&#x5E38;&#x7528;&#x64CD;&#x4F5C;&#x6307;&#x4EE4;">&#x5E38;&#x7528;&#x64CD;&#x4F5C;&#x6307;&#x4EE4;</h3>
-<pre><code class="language-bash">jetty [-d] {start|stop|run|restart|check|supervise} [ CONFIGS ... ]
-</code></pre>]]></content>
-    <summary type="html">
-    <![CDATA[<p>##&#x5B89;&#x88C5;&#x6B65;&#x9AA4;
-&#x5C06;&#x6587;&#x4EF6;&#x590D;&#x5236;&#x5230;CentOS&#x540E;&#x8FDB;&#x884C;&#x5B89;&#x88C5;</p>
-<h3]]>
-    </summary>
-    
-      <category term="CentOS" scheme="http://geosmart.github.io/tags/CentOS/"/>
-    
-      <category term="Web服务器" scheme="http://geosmart.github.io/tags/Web%E6%9C%8D%E5%8A%A1%E5%99%A8/"/>
-    
-      <category term="技术点滴" scheme="http://geosmart.github.io/categories/%E6%8A%80%E6%9C%AF%E7%82%B9%E6%BB%B4/"/>
-    
-  </entry>
-  
-  <entry>
-    <title><![CDATA[jetty一键安装脚本]]></title>
-    <link href="http://geosmart.github.io/2015/06/28/jetty%E4%B8%80%E9%94%AE%E5%AE%89%E8%A3%85%E8%84%9A%E6%9C%AC/"/>
-    <id>http://geosmart.github.io/2015/06/28/jetty一键安装脚本/</id>
-    <published>2015-06-28T05:39:00.000Z</published>
-    <updated>2015-07-06T05:19:12.608Z</updated>
-    <content type="html"><![CDATA[<h2 id="&#x51C6;&#x5907;&#x5185;&#x5BB9;">&#x51C6;&#x5907;&#x5185;&#x5BB9;</h2>
-<ol>
-<li><a href="http://download.eclipse.org/jetty/9.2.11.v20150529/dist/jetty-distribution-9.2.11.v20150529.tar.gz">jetty&#x5B89;&#x88C5;&#x5305;&#xFF08;&#x5B98;&#x7F51;&#x7248;&#x672C;&#xFF1A;jetty-distribution-9.2.11.v20150529.tar&#xFF09;</a>
-&#x4E0B;&#x8F7D;&#x540E;&#x5E76;&#x91CD;&#x547D;&#x540D;&#x4E3A;jetty.tar.gz</li>
-<li><a href="install-jetty.sh">jetty&#x5B89;&#x88C5;&#x811A;&#x672C;</a></li>
-<li>&#x5DF2;&#x5B89;&#x88C5;JDK1.7</li>
-</ol>
-<h2 id="&#x5B89;&#x88C5;&#x6B65;&#x9AA4;">&#x5B89;&#x88C5;&#x6B65;&#x9AA4;</h2>
-<p>&#x5C06;&#x6587;&#x4EF6;&#x590D;&#x5236;&#x5230;CentOS&#x540E;&#x8FDB;&#x884C;&#x5B89;&#x88C5;</p>
-<ol>
-<li>
-<p>CentOS&#x8DEF;&#x5F84;&#xFF1A;/tmp/jetty</p>
-</li>
-<li>
-<p>&#x6267;&#x884C;
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">cd</span> /tmp/jetty</span><br><span class="line">chmod +x install-jetty.sh </span><br><span class="line">sudo ./install-jetty.sh</span><br></pre></td></tr></table></figure></p>
-</li>
-<li>
-<p>&#x4E00;&#x8DEF;&#x56DE;&#x8F66;&#x5373;&#x53EF;</p>
-</li>
-</ol>]]></content>
-    <summary type="html">
-    <![CDATA[<h2 id="&#x51C6;&#x5907;&#x5185;&#x5BB9;">&#x51C6;&#x5907;&#x5185;&#x5BB9;</h2>
-<ol>
-<li><a href="http://download.eclipse.org/jetty/9.2.11.v]]>
-    </summary>
-    
-      <category term="CentOS" scheme="http://geosmart.github.io/tags/CentOS/"/>
-    
-      <category term="Web服务器" scheme="http://geosmart.github.io/tags/Web%E6%9C%8D%E5%8A%A1%E5%99%A8/"/>
     
       <category term="技术点滴" scheme="http://geosmart.github.io/categories/%E6%8A%80%E6%9C%AF%E7%82%B9%E6%BB%B4/"/>
     

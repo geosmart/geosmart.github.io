@@ -4,7 +4,7 @@
 .archive-year {
   text-decoration: none;
   text-transform: uppercase;
-  color: #666;
+  color: #323232;
   line-height: 1em;
   text-shadow: 0 1px #fff;
 }
@@ -306,7 +306,7 @@ body {
   position: relative;
   padding: 18px 30px 17px;
   border-bottom: 1px solid #eee;
-  color: #666;
+  color: #323232;
   font-size: 16px;
   font-weight: 600;
   text-transform: uppercase;
@@ -1023,7 +1023,7 @@ body {
   text-decoration: none;
   font-size: 24px;
   letter-spacing: -1px;
-  color: #555;
+  color: #212121;
   line-height: 1.3em;
   -webkit-transition: color 0.2s;
   -moz-transition: color 0.2s;
@@ -1038,7 +1038,7 @@ a.article-title:hover {
   margin-bottom: 10px;
 }
 .article-entry {
-  color: #555;
+  color: #212121;
   font-size: 16px;
   font-weight: 300;
   line-height: 1.6em;
@@ -1200,7 +1200,7 @@ a.article-title:hover {
   text-decoration: none;
 }
 .article-footer a:hover {
-  color: #555;
+  color: #212121;
 }
 .article-tag-list-item {
   float: left;
@@ -1250,7 +1250,7 @@ a.article-title:hover {
   box-sizing: border-box;
   font: 14px "华文黑体", "Titillium Web", "Helvetica Neue", Helvetica, Arial, "Microsoft Yahei", sans-serif;
   padding: 0 15px;
-  color: #555;
+  color: #212121;
   outline: none;
   border: 1px solid #ddd;
   -webkit-border-radius: 3px 3px 0 0;
@@ -1368,7 +1368,7 @@ a.article-title:hover {
 .archive-year-wrap {
   padding: 18px 30px 17px;
   font-size: 16px;
-  color: #666;
+  color: #323232;
   border-bottom: 1px solid #eee;
 }
 .archive-year i {
@@ -1400,7 +1400,7 @@ a.article-title:hover {
 .archive-article-title {
   text-decoration: none;
   font-weight: bold;
-  color: #555;
+  color: #212121;
   -webkit-transition: color 0.2s;
   -moz-transition: color 0.2s;
   -ms-transition: color 0.2s;
