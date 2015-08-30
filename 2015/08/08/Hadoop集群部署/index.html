@@ -18,7 +18,7 @@ Apache&amp;#x">
 &amp;#x76EE;&amp;#x524D;&amp;#x4E0D;&amp;#x6536;&amp;#x8D39;&amp;#x7684;Hadoop&amp;#x7248;&amp;#x672C;&amp;#x4E3B;&amp;#x8981;&amp;#x6709;&amp;#x4E09;&amp;#x4E2A;&amp;#xFF0C;&amp;#x5206;&amp;#x522B;&amp;#x662F;&amp;#xFF1A;
 
 Apache&amp;#x">
-<meta property="og:updated_time" content="2015-08-12T09:42:22.597Z">
+<meta property="og:updated_time" content="2015-08-30T11:56:28.690Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Hadoop集群部署">
 <meta name="twitter:description" content="Hadoop&amp;#x7248;&amp;#x672C;&amp;#x533A;&amp;#x522B;
@@ -214,6 +214,7 @@ FQDN&#x662F;Fully Qualified Domain Name&#x7684;&#x7F29;&#x5199;, &#x542B;&#x4E49
 NETWORKING=yes
 HOSTNAME=master.lt.com
 NTPSERVERARGS=iburst</span><br></pre></td></tr></table></figure></p>
+<p><em>TODO:&#x53EF;&#x5C40;&#x57DF;&#x7F51;&#x642D;&#x5EFA;DNS&#x670D;&#x52A1;&#x5668;&#xFF0C;Slave&#x673A;&#x5668;&#x5373;&#x53EF;&#x4E0D;&#x914D;&#x914D;&#x7F6E;hosts</em></p>
 <ol start="3">
 <li>
 <p>SSH&#x65E0;&#x5BC6;&#x7801;&#x767B;&#x9646;&#x914D;&#x7F6E;<br>
@@ -240,6 +241,14 @@ vim /etc/selinux/config
 #&#x5C06;SELINUX=enforcing&#x6539;&#x4E3A;SELINUX=disabled
 #3. reboot</span><br></pre></td></tr></table></figure></p>
 <ol start="6">
+<li>swap&#x914D;&#x7F6E;
+Cloudera &#x5EFA;&#x8BAE;&#x5C06; /proc/sys/vm/swappiness &#x8BBE;&#x7F6E;&#x4E3A; 0&#x3002;&#x9ED8;&#x8BA4;&#x8BBE;&#x7F6E;&#x4E3A; 60&#x3002;
+&#x67E5;&#x770B;&#x5F53;&#x524D;swap&#x5206;&#x533A;&#x8BBE;&#x7F6E;<code>cat /proc/sys/vm/swappiness</code><br>
+&#x4E34;&#x65F6;&#x4FEE;&#x6539;&#x503C;&#xFF1A;<code>sudo sysctl vm.swappiness=0</code><br>
+&#x6C38;&#x4E45;&#x4FEE;&#x6539;&#x503C;&#xFF1A;<code>vim /etc/sysctl.conf</code>&#xFF0C;&#x5728;&#x6700;&#x540E;&#x52A0;&#x4E00;&#x884C;<code>vm.swappiness = 0</code></li>
+</ol>
+<p><figure class="highlight avrasm"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">swappiness&#x7684;&#x503C;&#x7684;&#x5927;&#x5C0F;&#x5BF9;&#x5982;&#x4F55;&#x4F7F;&#x7528;<span class="keyword">swap</span>&#x5206;&#x533A;&#x662F;&#x6709;&#x7740;&#x5F88;&#x5927;&#x7684;&#x8054;&#x7CFB;</span><br><span class="line">swappiness=<span class="number">0</span>&#x7684;&#x65F6;&#x5019;&#x8868;&#x793A;&#x6700;&#x5927;&#x9650;&#x5EA6;&#x4F7F;&#x7528;&#x7269;&#x7406;&#x5185;&#x5B58;&#xFF0C;&#x7136;&#x540E;&#x624D;&#x662F; <span class="keyword">swap</span>&#x7A7A;&#x95F4;</span><br><span class="line">swappiness&#xFF1D;<span class="number">100</span>&#x7684;&#x65F6;&#x5019;&#x8868;&#x793A;&#x79EF;&#x6781;&#x7684;&#x4F7F;&#x7528;<span class="keyword">swap</span>&#x5206;&#x533A;&#xFF0C;&#x5E76;&#x4E14;&#x628A;&#x5185;&#x5B58;&#x4E0A;&#x7684;&#x6570;&#x636E;&#x53CA;&#x65F6;&#x7684;&#x642C;&#x8FD0;&#x5230;<span class="keyword">swap</span>&#x7A7A;&#x95F4;&#x91CC;&#x9762;</span><br></pre></td></tr></table></figure></p>
+<ol start="7">
 <li>cloudera-manager-installer.bin&#x5B89;&#x88C5;</li>
 </ol>
 <p><figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">wget http://archive.cloudera.com/cm5/installer/latest/cloudera-manager-installer.bin
@@ -300,7 +309,7 @@ Cloudera Manager &#x5C06;&#x5355;&#x72EC;&#x7BA1;&#x7406;&#x6BCF;&#x4E2A;&#x89D2
 </ul>
       </div>
       <footer class="article-footer">
-        <a data-url="http://geosmart.github.io/2015/08/08/Hadoop集群部署/" data-id="cidegl73t000inspa298jf6qd" class="article-share-link">分享到</a>
+        <a data-url="http://geosmart.github.io/2015/08/08/Hadoop集群部署/" data-id="cidyiclz9000osgpaj94t1nnx" class="article-share-link">分享到</a>
         
           <a href="http://geosmart.github.io/2015/08/08/Hadoop集群部署/#comments" class="article-comment-link">评论</a>
         
@@ -379,6 +388,15 @@ Cloudera Manager &#x5C06;&#x5355;&#x72EC;&#x7BA1;&#x7406;&#x6BCF;&#x4E2A;&#x89D2
           <li>
             
             <div class="item-inner">
+              <p class="item-category"><a class="article-category-link" href="/categories/技术点滴/">技术点滴</a></p>
+              <p class="item-title"><a href="/2015/08/16/一路见识的SQL-NOSQL数据库ORM/" class="title">一路见识的SQL/NOSQL数据库ORM</a></p>
+              <p class="item-date"><time datetime="2015-08-16T12:02:08.000Z" itemprop="datePublished">16   八月   2015</time></p>
+            </div>
+          </li>
+        
+          <li>
+            
+            <div class="item-inner">
               <p class="item-category"><a class="article-category-link" href="/categories/大数据/">大数据</a></p>
               <p class="item-title"><a href="/2015/08/11/Hadoop生态圈/" class="title">Hadoop生态圈</a></p>
               <p class="item-date"><time datetime="2015-08-11T08:29:41.000Z" itemprop="datePublished">11   八月   2015</time></p>
@@ -412,15 +430,6 @@ Cloudera Manager &#x5C06;&#x5355;&#x72EC;&#x7BA1;&#x7406;&#x6BCF;&#x4E2A;&#x89D2
             </div>
           </li>
         
-          <li>
-            
-            <div class="item-inner">
-              <p class="item-category"><a class="article-category-link" href="/categories/技术点滴/">技术点滴</a></p>
-              <p class="item-title"><a href="/2015/07/28/backbone-marionette学习要点/" class="title">backbone.marionette学习要点</a></p>
-              <p class="item-date"><time datetime="2015-07-28T05:35:07.000Z" itemprop="datePublished">28   七月   2015</time></p>
-            </div>
-          </li>
-        
       </ul>
     </div>
   </div>
@@ -428,21 +437,21 @@ Cloudera Manager &#x5C06;&#x5355;&#x72EC;&#x7BA1;&#x7406;&#x6BCF;&#x4E2A;&#x89D2
       <div class="widget-wrap widget-list">
     <h3 class="widget-title">分类</h3>
     <div class="widget">
-      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/大数据/">大数据</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/技术点滴/">技术点滴</a><span class="category-list-count">17</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/运维/">运维</a><span class="category-list-count">2</span></li></ul>
+      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/大数据/">大数据</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/技术点滴/">技术点滴</a><span class="category-list-count">18</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/运维/">运维</a><span class="category-list-count">2</span></li></ul>
     </div>
   </div>
     
       <div class="widget-wrap widget-list">
     <h3 class="widget-title">归档</h3>
     <div class="widget">
-      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/08/">八月 2015</a><span class="archive-list-count">4</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/07/">七月 2015</a><span class="archive-list-count">7</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/06/">六月 2015</a><span class="archive-list-count">12</span></li></ul>
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/08/">八月 2015</a><span class="archive-list-count">5</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/07/">七月 2015</a><span class="archive-list-count">7</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/06/">六月 2015</a><span class="archive-list-count">12</span></li></ul>
     </div>
   </div>
     
       <div class="widget-wrap widget-float">
     <h3 class="widget-title">标签云</h3>
     <div class="widget tagcloud">
-      <a href="/tags/CDH/" style="font-size: 12px">CDH</a> <a href="/tags/CentOS/" style="font-size: 20px">CentOS</a> <a href="/tags/Hadoop/" style="font-size: 12px">Hadoop</a> <a href="/tags/J2EE/" style="font-size: 10px">J2EE</a> <a href="/tags/Python/" style="font-size: 10px">Python</a> <a href="/tags/Shell/" style="font-size: 10px">Shell</a> <a href="/tags/TEST/" style="font-size: 12px">TEST</a> <a href="/tags/Web服务器/" style="font-size: 16px">Web服务器</a> <a href="/tags/backbone/" style="font-size: 10px">backbone</a> <a href="/tags/分布式/" style="font-size: 12px">分布式</a> <a href="/tags/前端/" style="font-size: 10px">前端</a> <a href="/tags/大数据/" style="font-size: 12px">大数据</a> <a href="/tags/工具/" style="font-size: 14px">工具</a> <a href="/tags/数据库/" style="font-size: 12px">数据库</a> <a href="/tags/监控/" style="font-size: 12px">监控</a> <a href="/tags/硬件/" style="font-size: 10px">硬件</a> <a href="/tags/运维/" style="font-size: 18px">运维</a>
+      <a href="/tags/CDH/" style="font-size: 12px">CDH</a> <a href="/tags/CentOS/" style="font-size: 20px">CentOS</a> <a href="/tags/Hadoop/" style="font-size: 12px">Hadoop</a> <a href="/tags/J2EE/" style="font-size: 10px">J2EE</a> <a href="/tags/Python/" style="font-size: 10px">Python</a> <a href="/tags/Shell/" style="font-size: 10px">Shell</a> <a href="/tags/TEST/" style="font-size: 12px">TEST</a> <a href="/tags/Web服务器/" style="font-size: 16px">Web服务器</a> <a href="/tags/backbone/" style="font-size: 10px">backbone</a> <a href="/tags/分布式/" style="font-size: 12px">分布式</a> <a href="/tags/前端/" style="font-size: 10px">前端</a> <a href="/tags/大数据/" style="font-size: 12px">大数据</a> <a href="/tags/工具/" style="font-size: 14px">工具</a> <a href="/tags/数据库/" style="font-size: 14px">数据库</a> <a href="/tags/监控/" style="font-size: 12px">监控</a> <a href="/tags/硬件/" style="font-size: 10px">硬件</a> <a href="/tags/运维/" style="font-size: 18px">运维</a>
     </div>
   </div>
     
