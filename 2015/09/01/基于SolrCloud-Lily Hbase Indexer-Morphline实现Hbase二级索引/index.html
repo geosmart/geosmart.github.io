@@ -16,7 +16,7 @@ CDH5.4&amp;#x4E2D;&amp;#x7684;Key-Value Indexer&amp;#x4F7F;&amp;#x7528;&amp;#x76
 <meta property="og:description" content="&amp;#x5173;&amp;#x4E8E;Key-Value Indexer&amp;#x7EC4;&amp;#x4EF6;
 CDH&amp;#x5B98;&amp;#x65B9;&amp;#x6587;&amp;#x6863;
 CDH5.4&amp;#x4E2D;&amp;#x7684;Key-Value Indexer&amp;#x4F7F;&amp;#x7528;&amp;#x7684;&amp;#x662F;Lily HBase NRT Indexer&amp;#x670D;&amp;#x52A1;&amp;#xFF">
-<meta property="og:updated_time" content="2015-09-02T05:00:45.781Z">
+<meta property="og:updated_time" content="2015-09-02T05:04:45.170Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="基于SolrCloud-Lily Hbase Indexer-Morphline实现Hbase二级索引">
 <meta name="twitter:description" content="&amp;#x5173;&amp;#x4E8E;Key-Value Indexer&amp;#x7EC4;&amp;#x4EF6;
@@ -233,9 +233,6 @@ solrctl collection --reload hbase-collection-userInfo</span><br></pre></td></tr>
 --connection-param solr.zk=master:2181/solr \
 --connection-param solr.collection=hbase-collection-record \
 --zookeeper master:2181</span><br></pre></td></tr></table></figure></p>
-<p>&#x9047;&#x5230;&#x7684;&#x95EE;&#x9898;&#xFF0C;&#x8BE6;&#x7EC6;&#x65E5;&#x5FD7;</p>
-<p><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">[WARN ][<span class="number">08</span>:<span class="number">56</span>:<span class="number">49</span>,<span class="number">677</span>][.com:<span class="number">2181</span>)] org.apache.zookeeper.ClientCnxn - Session <span class="number">0x0</span> <span class="keyword">for</span> server <span class="keyword">null</span>, unexpected error, closing socket connection and attempting reconnect</span><br><span class="line">java.net.ConnectException: Connection refused</span><br><span class="line">     at sun.nio.ch.SocketChannelImpl.checkConnect(Native Method)</span><br><span class="line">     at sun.nio.ch.SocketChannelImpl.finishConnect(SocketChannelImpl.java:<span class="number">739</span>)</span><br><span class="line">     at org.apache.zookeeper.ClientCnxnSocketNIO.doTransport(ClientCnxnSocketNIO.java:<span class="number">350</span>)</span><br><span class="line">     at org.apache.zookeeper.ClientCnxn$SendThread.run(ClientCnxn.java:<span class="number">1081</span>)</span><br></pre></td></tr></table></figure></p>
-<p>&#x89E3;&#x51B3;&#xFF1A;&#x5C06;&#x5E2E;&#x52A9;&#x6587;&#x6863;&#x539F;&#x6587;&#x4E2D;&#x7684;-zookeeper hbase-cluster-zookeeper:2181&#x4E2D;hbase-cluster-zookeeper&#x6362;&#x6210;zoomkeeper&#x7684;&#x4E3B;&#x673A;&#x540D;</p>
 <h2 id="&#x9A8C;&#x8BC1;&#x7D22;&#x5F15;&#x5668;&#x662F;&#x5426;&#x5DF2;&#x6210;&#x529F;&#x521B;&#x5EFA;">&#x9A8C;&#x8BC1;&#x7D22;&#x5F15;&#x5668;&#x662F;&#x5426;&#x5DF2;&#x6210;&#x529F;&#x521B;&#x5EFA;</h2>
 <p>&#x6267;&#x884C;<code>$ hbase-indexer list-indexers</code>&#x9A8C;&#x8BC1;&#x7D22;&#x5F15;&#x5668;&#x662F;&#x5426;&#x5DF2;&#x6210;&#x529F;&#x521B;&#x5EFA;</p>
 <p>&#x66F4;&#x591A;&#x5E2E;&#x52A9;&#xFF0C;&#x8BF7;&#x4F7F;&#x7528;&#x4EE5;&#x4E0B;&#x547D;&#x4EE4;&#xFF1A;</p>
@@ -248,11 +245,17 @@ $ hbase-indexer delete-indexer --help
 # &#x5220;&#x9664;&#x7D22;&#x5F15;&#xFF1A;hbase-indexer delete-indexer  -n recordIndexer</span><br></pre></td></tr></table></figure></p>
 <h2 id="&#x6D4B;&#x8BD5;&#x662F;solr&#x662F;&#x5426;&#x5DF2;&#x65B0;&#x5EFA;&#x7D22;&#x5F15;">&#x6D4B;&#x8BD5;&#x662F;solr&#x662F;&#x5426;&#x5DF2;&#x65B0;&#x5EFA;&#x7D22;&#x5F15;</h2>
 <p>&#x5199;&#x5165;&#x6570;&#x636E;&#x65F6;&#xFF0C;&#x5728;solr-webui&#x63A7;&#x5236;&#x53F0;&#x67E5;&#x770B;&#x65E5;&#x5FD7;&#x662F;&#x5426;&#x66F4;&#x65B0;</p>
-<p><figure class="highlight livecodeserver"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">put</span> <span class="string">&apos;record&apos;</span>, <span class="string">&apos;row7&apos;</span>, <span class="string">&apos;data&apos;</span>, <span class="string">&apos;value7&apos;</span>   </span><br><span class="line"><span class="built_in">put</span> <span class="string">&apos;record&apos;</span>,<span class="string">&apos;myrow-1&apos;</span>,data:q2_s<span class="string">&apos;,&apos;</span><span class="built_in">value</span>-<span class="number">2</span>-&#x6D4B;&#x8BD5;<span class="string">&apos;</span></span><br></pre></td></tr></table></figure></p>
-<p>disable   &apos;record&apos;
-drop &apos;record&apos;</p>
+<p><figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">put &apos;record&apos;, &apos;row7&apos;, &apos;data&apos;, &apos;value7&apos;   
+put &apos;record&apos;, &apos;myrow&apos;, &apos;data:q2_s&apos;, &apos;value7&apos;   
+# disable &apos;record&apos;
+# drop &apos;record&apos;</span><br></pre></td></tr></table></figure></p>
 <h2 id="&#x95EE;&#x9898;qa">&#x95EE;&#x9898;QA</h2>
 <ol>
+<li>&#x6CE8;&#x518C;Lily HBase Indexer Service&#x53D1;&#x751F;&#x9519;&#x8BEF;&#xFF0C;&#x8BE6;&#x7EC6;&#x65E5;&#x5FD7;</li>
+</ol>
+<p><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">[WARN ][<span class="number">08</span>:<span class="number">56</span>:<span class="number">49</span>,<span class="number">677</span>][.com:<span class="number">2181</span>)] org.apache.zookeeper.ClientCnxn - Session <span class="number">0x0</span> <span class="keyword">for</span> server <span class="keyword">null</span>, unexpected error, closing socket connection and attempting reconnect</span><br><span class="line">java.net.ConnectException: Connection refused</span><br><span class="line">     at sun.nio.ch.SocketChannelImpl.checkConnect(Native Method)</span><br><span class="line">     at sun.nio.ch.SocketChannelImpl.finishConnect(SocketChannelImpl.java:<span class="number">739</span>)</span><br><span class="line">     at org.apache.zookeeper.ClientCnxnSocketNIO.doTransport(ClientCnxnSocketNIO.java:<span class="number">350</span>)</span><br><span class="line">     at org.apache.zookeeper.ClientCnxn$SendThread.run(ClientCnxn.java:<span class="number">1081</span>)</span><br></pre></td></tr></table></figure></p>
+<p>&#x89E3;&#x51B3;&#xFF1A;&#x5C06;&#x5E2E;&#x52A9;&#x6587;&#x6863;&#x539F;&#x6587;&#x4E2D;&#x7684;-zookeeper hbase-cluster-zookeeper:2181&#x4E2D;hbase-cluster-zookeeper&#x6362;&#x6210;zoomkeeper&#x7684;&#x4E3B;&#x673A;&#x540D;</p>
+<ol start="2">
 <li>solr schema.xm&#x7684;&#x914D;&#x7F6E;&#x95EE;&#x9898;&#xFF0C;&#x4EE5;&#x53CA;morphline&#x7684;mapping&#x914D;&#x7F6E;&#x95EE;&#x9898;</li>
 </ol>
 <p><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">ERROR  org.apache.solr.common.SolrException: ERROR: [doc=row3] unknown field <span class="string">&apos;data&apos;</span></span><br><span class="line">trueat org.apache.solr.update.DocumentBuilder.toDocument(DocumentBuilder.java:<span class="number">185</span>)</span><br></pre></td></tr></table></figure></p>
@@ -264,12 +267,14 @@ Thanks for the response. In the meantime I got a solution which is fine for me u
 solrctl instancedir --update hbase-collection-record   $HOME/hbase-collection-record
 solrctl collection --reload  hbase-collection-record</p>
 <p>&#x4FEE;&#x6539;Collection
-&#x5F53;&#x6211;&#x4EEC;&#x521B;&#x5EFA;Collection&#x5B8C;&#x6210;&#x540E;&#xFF0C;&#x5982;&#x679C;&#x9700;&#x8981;&#x4FEE;&#x6539;schema.xml&#x6587;&#x4EF6;&#x91CD;&#x65B0;&#x914D;&#x7F6E;&#x9700;&#x8981;&#x7D22;&#x5F15;&#x7684;&#x5B57;&#x6BB5;&#x53EF;&#x4EE5;&#x6309;&#x5982;&#x4E0B;&#x64CD;&#x4F5C;&#xFF1A;<br>
-1.&#x5982;&#x679C;&#x662F;&#x4FEE;&#x6539;&#x539F;&#x6709;schema.xml&#x4E2D;&#x5B57;&#x6BB5;&#x503C;&#xFF0C;&#x800C;&#x5728;solr&#x4E2D;&#x5DF2;&#x7ECF;&#x63D2;&#x5165;&#x4E86;&#x7D22;&#x5F15;&#x6570;&#x636E;&#xFF0C;&#x90A3;&#x4E48;&#x6211;&#x4EEC;&#x9700;&#x8981;&#x6E05;&#x7A7A;&#x7D22;&#x5F15;&#x6570;&#x636E;&#x96C6;&#xFF0C;&#x6E05;&#x7A7A;&#x6570;&#x636E;&#x96C6;&#x53EF;&#x4EE5;&#x901A;&#x8FC7;solr API&#x6765;&#x5B8C;&#x6210;&#x3002;<br>
-2.&#x5982;&#x679C;&#x662F;&#x5728;&#x539F;&#x6709;schema.xml&#x4E2D;&#x52A0;&#x5165;&#x65B0;&#x7684;&#x7D22;&#x5F15;&#x5B57;&#x6BB5;&#xFF0C;&#x90A3;&#x4E48;&#x53EF;&#x4EE5;&#x8DF3;&#x8FC7;1&#xFF0C;&#x76F4;&#x63A5;&#x6267;&#x884C;&#xFF1A;</p>
+&#x5F53;&#x6211;&#x4EEC;&#x521B;&#x5EFA;Collection&#x5B8C;&#x6210;&#x540E;&#xFF0C;&#x5982;&#x679C;&#x9700;&#x8981;&#x4FEE;&#x6539;schema.xml&#x6587;&#x4EF6;&#x91CD;&#x65B0;&#x914D;&#x7F6E;&#x9700;&#x8981;&#x7D22;&#x5F15;&#x7684;&#x5B57;&#x6BB5;&#x53EF;&#x4EE5;&#x6309;&#x5982;&#x4E0B;&#x64CD;&#x4F5C;&#xFF1A;</p>
+<ul>
+<li>&#x5982;&#x679C;&#x662F;&#x4FEE;&#x6539;&#x539F;&#x6709;schema.xml&#x4E2D;&#x5B57;&#x6BB5;&#x503C;&#xFF0C;&#x800C;&#x5728;solr&#x4E2D;&#x5DF2;&#x7ECF;&#x63D2;&#x5165;&#x4E86;&#x7D22;&#x5F15;&#x6570;&#x636E;&#xFF0C;&#x90A3;&#x4E48;&#x6211;&#x4EEC;&#x9700;&#x8981;&#x6E05;&#x7A7A;&#x7D22;&#x5F15;&#x6570;&#x636E;&#x96C6;&#xFF0C;&#x6E05;&#x7A7A;&#x6570;&#x636E;&#x96C6;&#x53EF;&#x4EE5;&#x901A;&#x8FC7;solr API&#x6765;&#x5B8C;&#x6210;&#x3002;</li>
+<li>&#x5982;&#x679C;&#x662F;&#x5728;&#x539F;&#x6709;schema.xml&#x4E2D;&#x52A0;&#x5165;&#x65B0;&#x7684;&#x7D22;&#x5F15;&#x5B57;&#x6BB5;&#xFF0C;&#x90A3;&#x4E48;&#x53EF;&#x4EE5;&#x8DF3;&#x8FC7;1&#xFF0C;&#x76F4;&#x63A5;&#x6267;&#x884C;&#xFF1A;</li>
+</ul>
 <p><figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">solrctl instancedir --update solrtest $HOME/solrtest   
 solrctl collection --reload solrtest</span><br></pre></td></tr></table></figure></p>
-<ol start="2">
+<ol start="3">
 <li>schema.xml&#x7684;&#x914D;&#x7F6E;&#x548C;morphline.conf&#x7684;&#x914D;&#x7F6E;&#x5982;&#x4F55;&#x7EC4;&#x5408;&#xFF0C;&#x5B9E;&#x73B0;&#x4E00;&#x4E2A;&#x5B58;&#x5728;&#x591A;&#x4E2A;ColumnFamily&#x7684;Hbase&#x6620;&#x5C04;&#x793A;&#x4F8B;
 &#x89E3;&#x51B3;&#x65B9;&#x5F0F;&#xFF1A;</li>
 </ol>
