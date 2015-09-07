@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <feed xmlns="http://www.w3.org/2005/Atom">
   
-  <title><![CDATA[geosmart]]></title>
-  <subtitle><![CDATA[生命不止 奋斗不息]]></subtitle>
+  <title><![CDATA[Geosmart's Notes]]></title>
+  <subtitle><![CDATA[追求心智成长，记录技术点滴]]></subtitle>
   <link href="/atom.xml" rel="self"/>
   <link href="http://geosmart.github.io//"/>
-  <updated>2015-09-02T05:06:35.647Z</updated>
+  <updated>2015-09-07T13:22:28.401Z</updated>
   <id>http://geosmart.github.io//</id>
   
   <author>
@@ -16,13 +16,19 @@
   <generator uri="http://hexo.io/">Hexo</generator>
   
   <entry>
-    <title><![CDATA[基于SolrCloud-Lily Hbase Indexer-Morphline实现Hbase二级索引]]></title>
-    <link href="http://geosmart.github.io/2015/09/01/%E5%9F%BA%E4%BA%8ESolrCloud-Lily%20Hbase%20Indexer-Morphline%E5%AE%9E%E7%8E%B0Hbase%E4%BA%8C%E7%BA%A7%E7%B4%A2%E5%BC%95/"/>
-    <id>http://geosmart.github.io/2015/09/01/基于SolrCloud-Lily Hbase Indexer-Morphline实现Hbase二级索引/</id>
+    <title><![CDATA[基于SolrCloud-Lily Hbase Indexer实现Hbase二级索引]]></title>
+    <link href="http://geosmart.github.io/2015/09/01/%E5%9F%BA%E4%BA%8ESolrCloud-Lily%20Hbase%20Indexer%E5%AE%9E%E7%8E%B0Hbase%E4%BA%8C%E7%BA%A7%E7%B4%A2%E5%BC%95/"/>
+    <id>http://geosmart.github.io/2015/09/01/基于SolrCloud-Lily Hbase Indexer实现Hbase二级索引/</id>
     <published>2015-09-01T11:41:27.000Z</published>
-    <updated>2015-09-02T05:06:35.647Z</updated>
-    <content type="html"><![CDATA[<h1 id="&#x5173;&#x4E8E;key-value-indexer&#x7EC4;&#x4EF6;">&#x5173;&#x4E8E;Key-Value Indexer&#x7EC4;&#x4EF6;</h1>
-<p><a href="http://www.cloudera.com/content/cloudera/zh-CN/documentation/core/v5-3-x/topics/search_use_hbase_indexer_service.html?scroll=xd_583c10bfdbd326ba-204beb9-13ef1573a9e--7fbb">CDH&#x5B98;&#x65B9;&#x6587;&#x6863;</a>
+    <updated>2015-09-07T13:22:28.401Z</updated>
+    <content type="html"><![CDATA[<h1 id="&#x5173;&#x4E8E;hbase&#x4E8C;&#x7EA7;&#x7D22;&#x5F15;">&#x5173;&#x4E8E;Hbase&#x4E8C;&#x7EA7;&#x7D22;&#x5F15;</h1>
+<p>Hbase&#x67E5;&#x8BE2;&#x65B9;&#x5F0F;&#xFF1A;Hbase  Filter&#x6839;&#x636E;Rowkey &#x67E5;&#x8BE2;&#xFF1B;&#x81EA;&#x5DF1;&#x5B9E;&#x73B0;&#x4E8C;&#x7EA7;&#x7D22;&#x5F15;&#xFF0C;&#x901A;&#x8FC7;&#x4E8C;&#x7EA7;&#x7D22;&#x5F15;&#x67E5;&#x8BE2;&#x591A;&#x7B26;&#x5408;&#x6761;&#x4EF6;&#x7684;&#x884C;&#x5065;&#xFF0C;&#x7136;&#x540E;&#x518D;&#x67E5;&#x8BE2;hbase&#x3002;<br>
+&#x4E8C;&#x7EA7;&#x7D22;&#x5F15;&#x6784;&#x5EFA;&#x65B9;&#x5F0F;&#xFF1A;&#x8868;&#x7D22;&#x5F15;&#x3001;&#x5217;&#x7D22;&#x5F15;&#x3001;&#x5168;&#x6587;&#x7D22;&#x5F15;<br>
+&#x62DF;&#x91C7;&#x7528;&#x5168;&#x6587;&#x7D22;&#x5F15;&#xFF1A;&#x4EE5;CDH5&#x4E2D;&#x7684;Lily HBase Indexer&#x670D;&#x52A1;&#x5B9E;&#x73B0;&#xFF0C;&#x5176;&#x4F7F;&#x7528;SolrCloud&#x5B58;&#x50A8;HBase&#x7684;&#x7D22;&#x5F15;&#x6570;&#x636E;&#xFF0C;Indexer&#x7D22;&#x5F15;&#x548C;&#x641C;&#x7D22;&#x4E0D;&#x4F1A;&#x5F71;&#x54CD;HBase&#x8FD0;&#x884C;&#x7684;&#x7A33;&#x5B9A;&#x6027;&#x548C;HBase&#x6570;&#x636E;&#x5199;&#x5165;&#x7684;&#x541E;&#x5410;&#x91CF;&#xFF0C;&#x56E0;&#x4E3A;&#x7D22;&#x5F15;&#x548C;&#x641C;&#x7D22;&#x8FC7;&#x7A0B;&#x662F;&#x5B8C;&#x5168;&#x5206;&#x5F00;&#x5E76;&#x4E14;&#x5F02;&#x6B65;&#x7684;&#x3002;Lily HBase Indexer&#x5728;CDH5&#x4E2D;&#x8FD0;&#x884C;&#x5FC5;&#x987B;&#x4F9D;&#x8D56;HBase&#x3001;SolrCloud&#x548C;Zookeeper&#x670D;&#x52A1;&#x3002;</p>
+<h1 id="&#x5173;&#x4E8E;key-value-indexer&#x7EC4;&#x4EF6;">&#x5173;&#x4E8E;Key-Value Indexer&#x7EC4;&#x4EF6;</h1>
+<p><a href="http://www.cloudera.com/content/cloudera/zh-CN/documentation/core/v5-3-x/topics/search_use_hbase_indexer_service.html?scroll=xd_583c10bfdbd326ba-204beb9-13ef1573a9e--7fbb">CDH&#x5B98;&#x65B9;&#x6587;&#x6863;</a><br>
+<a href="http://blog.cloudera.com/blog/2013/11/email-indexing-using-cloudera-search-and-hbase/">&#x53C2;&#x8003;&#x535A;&#x5BA2;&#xFF1A;Email Indexing Using Cloudera Search and HBase</a><br>
+<a href="http://blog.csdn.net/kissmelove01/article/details/45043955">&#x53C2;&#x8003;&#x535A;&#x5BA2;&#xFF1A;http://blog.csdn.net/kissmelove01/article/details/45043955</a><br>
 CDH5.4&#x4E2D;&#x7684;Key-Value Indexer&#x4F7F;&#x7528;&#x7684;&#x662F;Lily HBase NRT Indexer&#x670D;&#x52A1;&#xFF0C;Lily HBase Indexer&#x662F;&#x4E00;&#x6B3E;&#x7075;&#x6D3B;&#x7684;&#x3001;&#x53EF;&#x6269;&#x5C55;&#x7684;&#x3001;&#x9AD8;&#x5BB9;&#x9519;&#x7684;&#x3001;&#x4E8B;&#x52A1;&#x6027;&#x7684;&#xFF0C;&#x5E76;&#x4E14;&#x8FD1;&#x5B9E;&#x65F6;&#x7684;&#x5904;&#x7406;HBase&#x5217;&#x7D22;&#x5F15;&#x6570;&#x636E;&#x7684;&#x5206;&#x5E03;&#x5F0F;&#x670D;&#x52A1;&#x8F6F;&#x4EF6;&#x3002;&#x5B83;&#x662F;NGDATA&#x516C;&#x53F8;&#x5F00;&#x53D1;&#x7684;Lily&#x7CFB;&#x7EDF;&#x7684;&#x4E00;&#x90E8;&#x5206;&#xFF0C;&#x5DF2;&#x5F00;&#x653E;&#x6E90;&#x4EE3;&#x7801;&#x3002;Lily HBase Indexer&#x4F7F;&#x7528;SolrCloud&#x6765;&#x5B58;&#x50A8;HBase&#x7684;&#x7D22;&#x5F15;&#x6570;&#x636E;&#xFF0C;&#x5F53;HBase&#x6267;&#x884C;&#x5199;&#x5165;&#x3001;&#x66F4;&#x65B0;&#x6216;&#x5220;&#x9664;&#x64CD;&#x4F5C;&#x65F6;&#xFF0C;Indexer&#x901A;&#x8FC7;HBase&#x7684;replication&#x529F;&#x80FD;&#x6765;&#x628A;&#x8FD9;&#x4E9B;&#x64CD;&#x4F5C;&#x62BD;&#x8C61;&#x6210;&#x4E00;&#x7CFB;&#x5217;&#x7684;Event&#x4E8B;&#x4EF6;&#xFF0C;&#x5E76;&#x7528;&#x6765;&#x4FDD;&#x8BC1;&#x5199;&#x5165;Solr&#x4E2D;&#x7684;HBase&#x7D22;&#x5F15;&#x6570;&#x636E;&#x7684;&#x4E00;&#x81F4;&#x6027;&#x3002;&#x5E76;&#x4E14;Indexer&#x652F;&#x6301;&#x7528;&#x6237;&#x81EA;&#x5B9A;&#x4E49;&#x7684;&#x62BD;&#x53D6;&#xFF0C;&#x8F6C;&#x6362;&#x89C4;&#x5219;&#x6765;&#x7D22;&#x5F15;HBase&#x5217;&#x6570;&#x636E;&#x3002;Solr&#x641C;&#x7D22;&#x7ED3;&#x679C;&#x4F1A;&#x5305;&#x542B;&#x7528;&#x6237;&#x81EA;&#x5B9A;&#x4E49;&#x7684;columnfamily:qualifier&#x5B57;&#x6BB5;&#x7ED3;&#x679C;&#xFF0C;&#x8FD9;&#x6837;&#x5E94;&#x7528;&#x7A0B;&#x5E8F;&#x5C31;&#x53EF;&#x4EE5;&#x76F4;&#x63A5;&#x8BBF;&#x95EE;HBase&#x7684;&#x5217;&#x6570;&#x636E;&#x3002;&#x800C;&#x4E14;Indexer&#x7D22;&#x5F15;&#x548C;&#x641C;&#x7D22;&#x4E0D;&#x4F1A;&#x5F71;&#x54CD;HBase&#x8FD0;&#x884C;&#x7684;&#x7A33;&#x5B9A;&#x6027;&#x548C;HBase&#x6570;&#x636E;&#x5199;&#x5165;&#x7684;&#x541E;&#x5410;&#x91CF;&#xFF0C;&#x56E0;&#x4E3A;&#x7D22;&#x5F15;&#x548C;&#x641C;&#x7D22;&#x8FC7;&#x7A0B;&#x662F;&#x5B8C;&#x5168;&#x5206;&#x5F00;&#x5E76;&#x4E14;&#x5F02;&#x6B65;&#x7684;&#x3002;Lily HBase Indexer&#x5728;CDH5&#x4E2D;&#x8FD0;&#x884C;&#x5FC5;&#x987B;&#x4F9D;&#x8D56;HBase&#x3001;SolrCloud&#x548C;Zookeeper&#x670D;&#x52A1;&#x3002;</p>
 <h1 id="&#x4F7F;&#x7528;-lily-hbase-batch-indexer-&#x8FDB;&#x884C;&#x7D22;&#x5F15;">&#x4F7F;&#x7528; Lily HBase Batch Indexer &#x8FDB;&#x884C;&#x7D22;&#x5F15;</h1>
 <p>&#x501F;&#x52A9; Cloudera Search&#xFF0C;&#x60A8;&#x53EF;&#x4EE5;&#x5229;&#x7528; MapReduce &#x4F5C;&#x4E1A;&#x5BF9; HBase &#x8868;&#x8FDB;&#x884C;&#x6279;&#x91CF;&#x7D22;&#x5F15;&#x3002;&#x6279;&#x91CF;&#x7D22;&#x5F15;&#x4E0D;&#x9700;&#x8981;&#x4EE5;&#x4E0B;&#x64CD;&#x4F5C;&#xFF1A;</p>
@@ -149,7 +155,7 @@ put &apos;record&apos;, &apos;myrow&apos;, &apos;data:q2_s&apos;, &apos;value7&a
 <p><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">ERROR  org.apache.solr.common.SolrException: ERROR: [doc=row3] unknown field <span class="string">&apos;data&apos;</span></span><br><span class="line">trueat org.apache.solr.update.DocumentBuilder.toDocument(DocumentBuilder.java:<span class="number">185</span>)</span><br></pre></td></tr></table></figure></p>
 <p>&#x89E3;&#x51B3;&#x65B9;&#x5F0F;&#xFF1A;<br>
 Thanks for the response. In the meantime I got a solution which is fine for me using: &lt;dynamicField name=&quot;*&quot; type=&quot;string&quot; indexed=&quot;true&quot; stored=&quot;true&quot; /&gt; But type=&quot;ignored&quot; is a good hint once I want to get rid of the fields I do not need, thanks. &#x2013;</p>
-<p><a href="http://blog.csdn.net/kissmelove01/article/details/45043955">&#x53C2;&#x8003;</a>,schema&#x65B0;&#x589E;&#x914D;&#x7F6E;&#xFF1A;</p>
+<p>schema&#x65B0;&#x589E;&#x914D;&#x7F6E;&#xFF1A;</p>
 <p><figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="title">dynamicField</span> <span class="attribute">name</span>=<span class="value">&quot;*&quot;</span> <span class="attribute">type</span>=<span class="value">&quot;string&quot;</span> <span class="attribute">indexed</span>=<span class="value">&quot;true&quot;</span> <span class="attribute">stored</span>=<span class="value">&quot;true&quot;</span> /&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="title">field</span> <span class="attribute">name</span>=<span class="value">&quot;data&quot;</span> <span class="attribute">type</span>=<span class="value">&quot;string&quot;</span> <span class="attribute">indexed</span>=<span class="value">&quot;true&quot;</span> <span class="attribute">stored</span>=<span class="value">&quot;true&quot;</span> <span class="attribute">multiValued</span>=<span class="value">&quot;true&quot;</span>/&gt;</span></span><br></pre></td></tr></table></figure></p>
 <p>&#x4FEE;&#x6539;schema.xml&#x540E;&#xFF0C;&#x6267;&#x884C;&#x4EE5;&#x4E0B;&#x547D;&#x4EE4;&#x66F4;&#x65B0;&#x914D;&#x7F6E;&#xFF1A;
 solrctl instancedir --update hbase-collection-record   $HOME/hbase-collection-record
@@ -164,11 +170,12 @@ solrctl collection --reload  hbase-collection-record</p>
 solrctl collection --reload solrtest</span><br></pre></td></tr></table></figure></p>
 <ol start="3">
 <li>schema.xml&#x7684;&#x914D;&#x7F6E;&#x548C;morphline.conf&#x7684;&#x914D;&#x7F6E;&#x5982;&#x4F55;&#x7EC4;&#x5408;&#xFF0C;&#x5B9E;&#x73B0;&#x4E00;&#x4E2A;&#x5B58;&#x5728;&#x591A;&#x4E2A;ColumnFamily&#x7684;Hbase&#x6620;&#x5C04;&#x793A;&#x4F8B;
-&#x89E3;&#x51B3;&#x65B9;&#x5F0F;&#xFF1A;</li>
+&#x89E3;&#x51B3;&#x65B9;&#x5F0F;&#xFF1A;
+<a href="https://github.com/jshmain/cloudera-search/blob/master/email-search/email-schema.xml">email-schema&#x793A;&#x4F8B;</a></li>
 </ol>]]></content>
     <summary type="html">
-    <![CDATA[<h1 id="&#x5173;&#x4E8E;key-value-indexer&#x7EC4;&#x4EF6;">&#x5173;&#x4E8E;Key-Value Indexer&#x7EC4;&#x4EF6;</h1>
-<p><a href="http://www.clo]]>
+    <![CDATA[<h1 id="&#x5173;&#x4E8E;hbase&#x4E8C;&#x7EA7;&#x7D22;&#x5F15;">&#x5173;&#x4E8E;Hbase&#x4E8C;&#x7EA7;&#x7D22;&#x5F15;</h1>
+<p>Hbase&#x67E5;&#]]>
     </summary>
     
       <category term="CDH" scheme="http://geosmart.github.io/tags/CDH/"/>
@@ -192,7 +199,7 @@ solrctl collection --reload solrtest</span><br></pre></td></tr></table></figure>
     <link href="http://geosmart.github.io/2015/08/16/%E4%B8%80%E8%B7%AF%E8%A7%81%E8%AF%86%E7%9A%84SQL-NOSQL%E6%95%B0%E6%8D%AE%E5%BA%93ORM/"/>
     <id>http://geosmart.github.io/2015/08/16/一路见识的SQL-NOSQL数据库ORM/</id>
     <published>2015-08-16T12:02:08.000Z</published>
-    <updated>2015-09-02T05:02:50.367Z</updated>
+    <updated>2015-09-07T12:20:16.200Z</updated>
     <content type="html"><![CDATA[<p>&#x4E00;&#x8DEF;&#x8D70;&#x6765;&#xFF0C;&#x5173;&#x7CFB;&#x6570;&#x636E;&#x5E93;&#x5230;&#x975E;&#x5173;&#x7CFB;&#x6570;&#x636E;&#x5E93;&#xFF0C;&#x4E0D;&#x89C9;&#x5DF2;&#x63A5;&#x89E6;&#x4E86;&#x4E0D;&#x5C11;&#x7684;ORM&#x6846;&#x67B6;&#x4E5F;&#x5728;&#x8FD9;&#x4E9B;ORM&#x6846;&#x67B6;&#x7684;&#x57FA;&#x7840;&#x4E0A;&#x79EF;&#x7D2F;&#x4E86;&#x4E00;&#x4E9B;&#x901A;&#x7528;&#x7684;DAO&#xFF0C;&#x4E0B;&#x9762;&#x4ECE; <em>&#x5B66;&#x4E60;&#x7B14;&#x8BB0;&#xFF08;&#x539F;&#x7406;&#x3001;&#x4F18;&#x52BF;&#x3001;&#x52A3;&#x52BF;&#xFF09;</em> &#x548C; <em>&#x4E2A;&#x4EBA;&#x603B;&#x7ED3;&#xFF08;&#x8E29;&#x8FC7;&#x7684;&#x5751;&#xFF0C;&#x6CE8;&#x610F;&#x4E8B;&#x9879;&#xFF09;</em> &#x4E24;&#x65B9;&#x9762;&#x5C55;&#x5F00;&#x63CF;&#x8FF0;&#xFF1A;</p>
 <h1 id="sql">SQL</h1>
 <h2 id="linq">LINQ</h2>
@@ -237,8 +244,25 @@ Spring Framework JDBC&#x4F1A;&#x5C01;&#x88C5;&#x5904;&#x7406;JDBC&#x5E95;&#x5C42
 </li>
 </ul>
 <p>&#x4F18;&#x52BF;&#xFF1A;&#x5F3A;&#x5927;&#x3001;&#x4F18;&#x96C5;&#x3001;&#x8F7B;&#x91CF;&#x3001;&#x6301;&#x7EED;&#x66F4;&#x65B0;&#x7EF4;&#x62A4;&#xFF0C;&#x4E0E;JDBC&#x76F8;&#x5BF9;&#xFF0C;&#x51CF;&#x5C11;&#x4E86;&#x5927;&#x91CF;&#x7684;&#x5197;&#x4F59;DAO&#x5C42;&#x4EE3;&#x7801;</p>
-<h2 id="mybatis">MyBatis</h2>
 <h2 id="hibernate">Hibernate</h2>
+<h2 id="mybatis">MyBatis</h2>
+<p>MyBatis&#x7684;&#x524D;&#x8EAB;&#x53EB;iBatis&#xFF0C;&#x672C;&#x662F;apache&#x7684;&#x4E00;&#x4E2A;&#x5F00;&#x6E90;&#x9879;&#x76EE;, 2010&#x5E74;&#x8FD9;&#x4E2A;&#x9879;&#x76EE;&#x7531;apache software foundation &#x8FC1;&#x79FB;&#x5230;&#x4E86;google code&#xFF0C;&#x5E76;&#x4E14;&#x6539;&#x540D;&#x4E3A;MyBatis&#x3002;<br>
+MyBatis &#x662F;&#x652F;&#x6301;&#x5B9A;&#x5236;&#x5316; SQL&#x3001;&#x5B58;&#x50A8;&#x8FC7;&#x7A0B;&#x4EE5;&#x53CA;&#x9AD8;&#x7EA7;&#x6620;&#x5C04;&#x7684;&#x4F18;&#x79C0;&#x7684;&#x6301;&#x4E45;&#x5C42;&#x6846;&#x67B6;&#x3002;MyBatis &#x907F;&#x514D;&#x4E86;&#x51E0;&#x4E4E;&#x6240;&#x6709;&#x7684; JDBC &#x4EE3;&#x7801;&#x548C;&#x624B;&#x52A8;&#x8BBE;&#x7F6E;&#x53C2;&#x6570;&#x4EE5;&#x53CA;&#x83B7;&#x53D6;&#x7ED3;&#x679C;&#x96C6;&#x3002;MyBatis &#x53EF;&#x4EE5;&#x5BF9;&#x914D;&#x7F6E;&#x548C;&#x539F;&#x751F;Map&#x4F7F;&#x7528;&#x7B80;&#x5355;&#x7684; XML &#x6216;&#x6CE8;&#x89E3;&#xFF0C;&#x5C06;&#x63A5;&#x53E3;&#x548C; Java &#x7684; POJOs(Plain Old Java Objects,&#x666E;&#x901A;&#x7684; Java&#x5BF9;&#x8C61;)&#x6620;&#x5C04;&#x6210;&#x6570;&#x636E;&#x5E93;&#x4E2D;&#x7684;&#x8BB0;&#x5F55;&#x3002;
+Mybatis&#x7684;&#x529F;&#x80FD;&#x67B6;&#x6784;&#x5206;&#x4E3A;&#x4E09;&#x5C42;&#xFF1A;</p>
+<ol>
+<li>API&#x63A5;&#x53E3;&#x5C42;&#xFF1A;&#x63D0;&#x4F9B;&#x7ED9;&#x5916;&#x90E8;&#x4F7F;&#x7528;&#x7684;&#x63A5;&#x53E3;API&#xFF0C;&#x5F00;&#x53D1;&#x4EBA;&#x5458;&#x901A;&#x8FC7;&#x8FD9;&#x4E9B;&#x672C;&#x5730;API&#x6765;&#x64CD;&#x7EB5;&#x6570;&#x636E;&#x5E93;&#x3002;&#x63A5;&#x53E3;&#x5C42;&#x4E00;&#x63A5;&#x6536;&#x5230;&#x8C03;&#x7528;&#x8BF7;&#x6C42;&#x5C31;&#x4F1A;&#x8C03;&#x7528;&#x6570;&#x636E;&#x5904;&#x7406;&#x5C42;&#x6765;&#x5B8C;&#x6210;&#x5177;&#x4F53;&#x7684;&#x6570;&#x636E;&#x5904;&#x7406;&#x3002;</li>
+<li>&#x6570;&#x636E;&#x5904;&#x7406;&#x5C42;&#xFF1A;&#x8D1F;&#x8D23;&#x5177;&#x4F53;&#x7684;SQL&#x67E5;&#x627E;&#x3001;SQL&#x89E3;&#x6790;&#x3001;SQL&#x6267;&#x884C;&#x548C;&#x6267;&#x884C;&#x7ED3;&#x679C;&#x6620;&#x5C04;&#x5904;&#x7406;&#x7B49;&#x3002;&#x5B83;&#x4E3B;&#x8981;&#x7684;&#x76EE;&#x7684;&#x662F;&#x6839;&#x636E;&#x8C03;&#x7528;&#x7684;&#x8BF7;&#x6C42;&#x5B8C;&#x6210;&#x4E00;&#x6B21;&#x6570;&#x636E;&#x5E93;&#x64CD;&#x4F5C;&#x3002;</li>
+<li>&#x57FA;&#x7840;&#x652F;&#x6491;&#x5C42;&#xFF1A;&#x8D1F;&#x8D23;&#x6700;&#x57FA;&#x7840;&#x7684;&#x529F;&#x80FD;&#x652F;&#x6491;&#xFF0C;&#x5305;&#x62EC;&#x8FDE;&#x63A5;&#x7BA1;&#x7406;&#x3001;&#x4E8B;&#x52A1;&#x7BA1;&#x7406;&#x3001;&#x914D;&#x7F6E;&#x52A0;&#x8F7D;&#x548C;&#x7F13;&#x5B58;&#x5904;&#x7406;&#xFF0C;&#x8FD9;&#x4E9B;&#x90FD;&#x662F;&#x5171;&#x7528;&#x7684;&#x4E1C;&#x897F;&#xFF0C;&#x5C06;&#x4ED6;&#x4EEC;&#x62BD;&#x53D6;&#x51FA;&#x6765;&#x4F5C;&#x4E3A;&#x6700;&#x57FA;&#x7840;&#x7684;&#x7EC4;&#x4EF6;&#x3002;&#x4E3A;&#x4E0A;&#x5C42;&#x7684;&#x6570;&#x636E;&#x5904;&#x7406;&#x5C42;&#x63D0;&#x4F9B;&#x6700;&#x57FA;&#x7840;&#x7684;&#x652F;&#x6491;&#x3002;</li>
+</ol>
+<h2 id="mybatis&#x4E0E;hibernate&#x6BD4;&#x8F83;">Mybatis&#x4E0E;Hibernate&#x6BD4;&#x8F83;</h2>
+<p>Mybatis&#xFF1A;&#x5C0F;&#x5DE7;&#x3001;&#x65B9;&#x4FBF;&#x3001;&#x9AD8;&#x6548;&#x3001;&#x7B80;&#x5355;&#x3001;&#x76F4;&#x63A5;&#x3001;&#x534A;&#x81EA;&#x52A8;&#x3001;&#x79FB;&#x690D;&#x6027;&#x4F4E;
+Hibernate&#xFF1A;&#x5F3A;&#x5927;&#x3001;&#x65B9;&#x4FBF;&#x3001;&#x9AD8;&#x6548;&#x3001;&#x590D;&#x6742;&#x3001;&#x7ED5;&#x5F2F;&#x5B50;&#x3001;&#x5168;&#x81EA;&#x52A8;&#x3001;&#x79FB;&#x690D;&#x6027;&#x9AD8;</p>
+<h2 id="mybatis&#x5E94;&#x7528;&#x573A;&#x666F;">Mybatis&#x5E94;&#x7528;&#x573A;&#x666F;</h2>
+<p>&#x4E00;&#x76F4;&#x5728;&#x7528;Hibnernate&#xFF0C;&#x62BD;&#x53D6;&#x4E00;&#x4E2A;&#x5B8C;&#x5584;&#x7684;DAO&#x62BD;&#x8C61;&#x7C7B;&#x540E;&#x4F1A;&#x5C11;&#x5F88;&#x591A;&#x5DE5;&#x4F5C;&#xFF0C;&#x66F4;&#x53D7;&#x76CA;&#x4E0E;&#x5176;&#x66F4;&#x6362;&#x6570;&#x636E;&#x5E93;&#x65F6;&#x8D85;&#x5F3A;&#x7684;&#x79FB;&#x690D;&#x6027;&#xFF0C;DAO&#x5C42;&#x57FA;&#x672C;&#x4E0D;&#x4F5C;&#x4FEE;&#x6539;&#xFF0C;&#x66F4;&#x6362;&#x6570;&#x636E;&#x5E93;&#x65B9;&#x8A00;&#x5373;&#x53EF;&#x3002;&#x4F46;&#x5728;&#x4EE5;&#x4E0B;&#x573A;&#x666F;&#x65F6;&#xFF0C;Mybatis&#x81EA;&#x6709;&#x5176;&#x53EF;&#x53D6;&#x4E4B;&#x5904;&#xFF1A;</p>
+<ol>
+<li>&#x5F53;&#x65E0;&#x6CD5;&#x5BF9;&#x6570;&#x636E;&#x5E93;&#x7ED3;&#x6784;&#x505A;&#x5230;&#x63A7;&#x5236;&#x548C;&#x4FEE;&#x6539;&#xFF0C;Mybatis&#x7684;&#x7075;&#x6D3B;&#x6027;&#x5C06;&#x6BD4;hibernate&#x66F4;&#x9002;&#x5408;&#xFF1B;</li>
+<li>&#x5F53;&#x7CFB;&#x7EDF;&#x6570;&#x636E;&#x5904;&#x7406;&#x91CF;&#x5DE8;&#x5927;&#xFF0C;&#x6027;&#x80FD;&#x8981;&#x6C42;&#x6781;&#x4E3A;&#x82DB;&#x523B;&#xFF0C;&#x8FD9;&#x5F80;&#x5F80;&#x610F;&#x5473;&#x7740;&#x6211;&#x4EEC;&#x5FC5;&#x987B;&#x901A;&#x8FC7;&#x7ECF;&#x8FC7;&#x9AD8;&#x5EA6;&#x4F18;&#x5316;&#x7684;sql&#x8BED;&#x53E5;&#xFF08;&#x6216;&#x5B58;&#x50A8;&#x8FC7;&#x7A0B;&#xFF09;&#x624D;&#x80FD;&#x8FBE;&#x5230;&#x7CFB;&#x7EDF;&#x6027;&#x80FD;&#x8BBE;&#x8BA1;&#x6307;&#x6807;&#xFF0C;&#x5728;&#x8FD9;&#x79CD;&#x60C5;&#x51B5;&#x4E0B;Mybatis&#x4F1A;&#x6709;&#x66F4;&#x597D;&#x7684;&#x53EF;&#x63A7;&#x6027;&#x548C;&#x8868;&#x73B0;&#xFF0C;&#x53EF;&#x4EE5;&#x8FDB;&#x884C;&#x7EC6;&#x7C92;&#x5EA6;&#x7684;&#x4F18;&#x5316;&#x3002;</li>
+</ol>
 <h1 id="nosql">NOSQL</h1>
 <h2 id="morphia">Morphia</h2>
 <h2 id="jongo">Jongo</h2>
@@ -420,7 +444,7 @@ Hbase&#x4E3B;&#x9875;&#xFF1A;http://192.168.1.100:8888/hbase
     <link href="http://geosmart.github.io/2015/08/08/Hadoop%E9%9B%86%E7%BE%A4%E9%83%A8%E7%BD%B2/"/>
     <id>http://geosmart.github.io/2015/08/08/Hadoop集群部署/</id>
     <published>2015-08-08T03:38:22.000Z</published>
-    <updated>2015-09-02T05:09:51.438Z</updated>
+    <updated>2015-09-07T08:16:06.245Z</updated>
     <content type="html"><![CDATA[<h1 id="hadoop&#x7248;&#x672C;&#x533A;&#x522B;">Hadoop&#x7248;&#x672C;&#x533A;&#x522B;</h1>
 <p>&#x76EE;&#x524D;&#x4E0D;&#x6536;&#x8D39;&#x7684;Hadoop&#x7248;&#x672C;&#x4E3B;&#x8981;&#x6709;&#x4E09;&#x4E2A;&#xFF0C;&#x5206;&#x522B;&#x662F;&#xFF1A;</p>
 <ol>
