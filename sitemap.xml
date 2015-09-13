@@ -2,8 +2,23 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   
   <url>
+    <loc>http://geosmart.github.io/2015/07/06/centos%E5%B8%B8%E7%94%A8%E8%84%9A%E6%9C%AC/</loc>
+    <lastmod>2015-09-13T12:18:45.150Z</lastmod>
+  </url>
+  
+  <url>
+    <loc>http://geosmart.github.io/2015/09/11/NLP%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/</loc>
+    <lastmod>2015-09-11T13:51:49.152Z</lastmod>
+  </url>
+  
+  <url>
     <loc>http://geosmart.github.io/2015/09/01/%E5%9F%BA%E4%BA%8ESolr%E7%9A%84Hbase%E4%BA%8C%E7%BA%A7%E7%B4%A2%E5%BC%95/</loc>
-    <lastmod>2015-09-09T12:36:42.413Z</lastmod>
+    <lastmod>2015-09-11T07:57:10.290Z</lastmod>
+  </url>
+  
+  <url>
+    <loc>http://geosmart.github.io/2015/08/08/Hadoop%E9%9B%86%E7%BE%A4%E9%83%A8%E7%BD%B2/</loc>
+    <lastmod>2015-09-09T13:06:34.070Z</lastmod>
   </url>
   
   <url>
@@ -79,16 +94,6 @@
   <url>
     <loc>http://geosmart.github.io/tags/index.html</loc>
     <lastmod>2015-09-07T13:08:30.242Z</lastmod>
-  </url>
-  
-  <url>
-    <loc>http://geosmart.github.io/2015/08/08/Hadoop%E9%9B%86%E7%BE%A4%E9%83%A8%E7%BD%B2/</loc>
-    <lastmod>2015-09-07T08:16:06.245Z</lastmod>
-  </url>
-  
-  <url>
-    <loc>http://geosmart.github.io/2015/07/06/centos%E5%B8%B8%E7%94%A8%E8%84%9A%E6%9C%AC/</loc>
-    <lastmod>2015-09-02T01:02:53.535Z</lastmod>
   </url>
   
   <url>

@@ -42,18 +42,18 @@
 
 
 <meta name="description" content="CentOS&amp;#x65E5;&amp;#x5E38;&amp;#x4F7F;&amp;#x7528;&amp;#x8FC7;&amp;#x7A0B;&amp;#x4E2D;&amp;#x79EF;&amp;#x7D2F;&amp;#x7684;Shell&amp;#x811A;&amp;#x672C;&amp;#x6216;Linux&amp;#x547D;&amp;#x4EE4;&amp;#xFF0C;&amp;#x6301;&amp;#x7EED;&amp;#x7EF4;&amp;#x62A4;&amp;#x66F4;&amp;#x65B0;
-#&amp;#x7F5">
+&amp;#x7F51">
 <meta property="og:type" content="article">
 <meta property="og:title" content="CentOS常用脚本">
 <meta property="og:url" content="http://geosmart.github.io/2015/07/06/centos常用脚本/index.html">
 <meta property="og:site_name" content="Geosmart's Notes">
 <meta property="og:description" content="CentOS&amp;#x65E5;&amp;#x5E38;&amp;#x4F7F;&amp;#x7528;&amp;#x8FC7;&amp;#x7A0B;&amp;#x4E2D;&amp;#x79EF;&amp;#x7D2F;&amp;#x7684;Shell&amp;#x811A;&amp;#x672C;&amp;#x6216;Linux&amp;#x547D;&amp;#x4EE4;&amp;#xFF0C;&amp;#x6301;&amp;#x7EED;&amp;#x7EF4;&amp;#x62A4;&amp;#x66F4;&amp;#x65B0;
-#&amp;#x7F5">
-<meta property="og:updated_time" content="2015-09-02T01:02:53.535Z">
+&amp;#x7F51">
+<meta property="og:updated_time" content="2015-09-13T12:18:45.150Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="CentOS常用脚本">
 <meta name="twitter:description" content="CentOS&amp;#x65E5;&amp;#x5E38;&amp;#x4F7F;&amp;#x7528;&amp;#x8FC7;&amp;#x7A0B;&amp;#x4E2D;&amp;#x79EF;&amp;#x7D2F;&amp;#x7684;Shell&amp;#x811A;&amp;#x672C;&amp;#x6216;Linux&amp;#x547D;&amp;#x4EE4;&amp;#xFF0C;&amp;#x6301;&amp;#x7EED;&amp;#x7EF4;&amp;#x62A4;&amp;#x66F4;&amp;#x65B0;
-#&amp;#x7F5">
+&amp;#x7F51">
 
 
 <script type="text/javascript" id="hexo.configuration">
@@ -244,7 +244,7 @@
 
       
         <span itemprop="articleBody"><p>CentOS&#x65E5;&#x5E38;&#x4F7F;&#x7528;&#x8FC7;&#x7A0B;&#x4E2D;&#x79EF;&#x7D2F;&#x7684;Shell&#x811A;&#x672C;&#x6216;Linux&#x547D;&#x4EE4;&#xFF0C;&#x6301;&#x7EED;&#x7EF4;&#x62A4;&#x66F4;&#x65B0;</p>
-<p>#&#x7F51;&#x7EDC;&#x8BBE;&#x7F6E;</p>
+<h1 id="&#x7F51;&#x7EDC;&#x8BBE;&#x7F6E;">&#x7F51;&#x7EDC;&#x8BBE;&#x7F6E;</h1>
 <h2 id="hostname&#x4E3B;&#x673A;&#x540D;">HostName&#x4E3B;&#x673A;&#x540D;</h2>
 <p><figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">#&#x67E5;&#x770B;hostname
 hostname  
@@ -372,60 +372,28 @@ tar  zxvf  /source/kernel.tgz  -C /source/ linux-2.6.29</span><br></pre></td></t
 i&#x63D2;&#x5165;
 esc&#x547D;&#x4EE4;&#x884C;
 :&#x5E95;&#x884C;&#xFF08;x&#x4FDD;&#x5B58;&#xFF09;:</p>
-<h1 id="&#x5E38;&#x7528;&#x67E5;&#x627E;&#x547D;&#x4EE4;">&#x5E38;&#x7528;&#x67E5;&#x627E;&#x547D;&#x4EE4;</h1>
-<ol>
-<li>
-<p>find
-find&#x662F;&#x6700;&#x5E38;&#x89C1;&#x548C;&#x6700;&#x5F3A;&#x5927;&#x7684;&#x67E5;&#x627E;&#x547D;&#x4EE4;&#xFF0C;&#x4F60;&#x53EF;&#x4EE5;&#x7528;&#x5B83;&#x627E;&#x5230;&#x4EFB;&#x4F55;&#x4F60;&#x60F3;&#x627E;&#x7684;&#x6587;&#x4EF6;&#x3002;
+<h1 id="&#x67E5;&#x627E;&#x64CD;&#x4F5C;">&#x67E5;&#x627E;&#x64CD;&#x4F5C;</h1>
+<h2 id="find">find</h2>
+<p>find&#x662F;&#x6700;&#x5E38;&#x89C1;&#x548C;&#x6700;&#x5F3A;&#x5927;&#x7684;&#x67E5;&#x627E;&#x547D;&#x4EE4;&#xFF0C;&#x4F60;&#x53EF;&#x4EE5;&#x7528;&#x5B83;&#x627E;&#x5230;&#x4EFB;&#x4F55;&#x4F60;&#x60F3;&#x627E;&#x7684;&#x6587;&#x4EF6;&#x3002;
 find&#x7684;&#x4F7F;&#x7528;&#x683C;&#x5F0F;&#x5982;&#x4E0B;&#xFF1A;
-&#x3000;&#x3000;$ find &lt;&#x6307;&#x5B9A;&#x76EE;&#x5F55;&gt; &lt;&#x6307;&#x5B9A;&#x6761;&#x4EF6;&gt; &lt;&#x6307;&#x5B9A;&#x52A8;&#x4F5C;&gt;
-&#x3000;&#x3000;- &lt;&#x6307;&#x5B9A;&#x76EE;&#x5F55;&gt;&#xFF1A; &#x6240;&#x8981;&#x641C;&#x7D22;&#x7684;&#x76EE;&#x5F55;&#x53CA;&#x5176;&#x6240;&#x6709;&#x5B50;&#x76EE;&#x5F55;&#x3002;&#x9ED8;&#x8BA4;&#x4E3A;&#x5F53;&#x524D;&#x76EE;&#x5F55;&#x3002;
-&#x3000;&#x3000;- &lt;&#x6307;&#x5B9A;&#x6761;&#x4EF6;&gt;&#xFF1A; &#x6240;&#x8981;&#x641C;&#x7D22;&#x7684;&#x6587;&#x4EF6;&#x7684;&#x7279;&#x5F81;&#x3002;
-&#x3000;&#x3000;- &lt;&#x6307;&#x5B9A;&#x52A8;&#x4F5C;&gt;&#xFF1A; &#x5BF9;&#x641C;&#x7D22;&#x7ED3;&#x679C;&#x8FDB;&#x884C;&#x7279;&#x5B9A;&#x7684;&#x5904;&#x7406;&#x3002;
-&#x5982;&#x679C;&#x4EC0;&#x4E48;&#x53C2;&#x6570;&#x4E5F;&#x4E0D;&#x52A0;&#xFF0C;find&#x9ED8;&#x8BA4;&#x641C;&#x7D22;&#x5F53;&#x524D;&#x76EE;&#x5F55;&#x53CA;&#x5176;&#x5B50;&#x76EE;&#x5F55;&#xFF0C;&#x5E76;&#x4E14;&#x4E0D;&#x8FC7;&#x6EE4;&#x4EFB;&#x4F55;&#x7ED3;&#x679C;&#xFF08;&#x4E5F;&#x5C31;&#x662F;&#x8FD4;&#x56DE;&#x6240;&#x6709;&#x6587;&#x4EF6;&#xFF09;&#xFF0C;&#x5C06;&#x5B83;&#x4EEC;&#x5168;&#x90FD;&#x663E;&#x793A;&#x5728;&#x5C4F;&#x5E55;&#x4E0A;&#x3002;
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">&#x3000;&#x3000;$ find <span class="tag">&lt;<span class="title">&#x6307;&#x5B9A;&#x76EE;&#x5F55;</span>&gt;</span> <span class="tag">&lt;<span class="title">&#x6307;&#x5B9A;&#x6761;&#x4EF6;</span>&gt;</span> <span class="tag">&lt;<span class="title">&#x6307;&#x5B9A;&#x52A8;&#x4F5C;</span>&gt;</span></span><br><span class="line">&#x3000;&#x3000;- <span class="tag">&lt;<span class="title">&#x6307;&#x5B9A;&#x76EE;&#x5F55;</span>&gt;</span>&#xFF1A; &#x6240;&#x8981;&#x641C;&#x7D22;&#x7684;&#x76EE;&#x5F55;&#x53CA;&#x5176;&#x6240;&#x6709;&#x5B50;&#x76EE;&#x5F55;&#x3002;&#x9ED8;&#x8BA4;&#x4E3A;&#x5F53;&#x524D;&#x76EE;&#x5F55;&#x3002;</span><br><span class="line">&#x3000;&#x3000;- <span class="tag">&lt;<span class="title">&#x6307;&#x5B9A;&#x6761;&#x4EF6;</span>&gt;</span>&#xFF1A; &#x6240;&#x8981;&#x641C;&#x7D22;&#x7684;&#x6587;&#x4EF6;&#x7684;&#x7279;&#x5F81;&#x3002;</span><br><span class="line">&#x3000;&#x3000;- <span class="tag">&lt;<span class="title">&#x6307;&#x5B9A;&#x52A8;&#x4F5C;</span>&gt;</span>&#xFF1A; &#x5BF9;&#x641C;&#x7D22;&#x7ED3;&#x679C;&#x8FDB;&#x884C;&#x7279;&#x5B9A;&#x7684;&#x5904;&#x7406;&#x3002;</span><br></pre></td></tr></table></figure></p>
+<p>&#x5982;&#x679C;&#x4EC0;&#x4E48;&#x53C2;&#x6570;&#x4E5F;&#x4E0D;&#x52A0;&#xFF0C;find&#x9ED8;&#x8BA4;&#x641C;&#x7D22;&#x5F53;&#x524D;&#x76EE;&#x5F55;&#x53CA;&#x5176;&#x5B50;&#x76EE;&#x5F55;&#xFF0C;&#x5E76;&#x4E14;&#x4E0D;&#x8FC7;&#x6EE4;&#x4EFB;&#x4F55;&#x7ED3;&#x679C;&#xFF08;&#x4E5F;&#x5C31;&#x662F;&#x8FD4;&#x56DE;&#x6240;&#x6709;&#x6587;&#x4EF6;&#xFF09;&#xFF0C;&#x5C06;&#x5B83;&#x4EEC;&#x5168;&#x90FD;&#x663E;&#x793A;&#x5728;&#x5C4F;&#x5E55;&#x4E0A;&#x3002;
 find&#x7684;&#x4F7F;&#x7528;&#x5B9E;&#x4F8B;&#xFF1A;
-&#x3000;&#x3000;$ find . -name &quot;my*&quot;
-&#x641C;&#x7D22;&#x5F53;&#x524D;&#x76EE;&#x5F55;&#xFF08;&#x542B;&#x5B50;&#x76EE;&#x5F55;&#xFF0C;&#x4EE5;&#x4E0B;&#x540C;&#xFF09;&#x4E2D;&#xFF0C;&#x6240;&#x6709;&#x6587;&#x4EF6;&#x540D;&#x4EE5;my&#x5F00;&#x5934;&#x7684;&#x6587;&#x4EF6;&#x3002;
-&#x3000;&#x3000;$ find . -name &quot;my*&quot; -ls
-&#x641C;&#x7D22;&#x5F53;&#x524D;&#x76EE;&#x5F55;&#x4E2D;&#xFF0C;&#x6240;&#x6709;&#x6587;&#x4EF6;&#x540D;&#x4EE5;my&#x5F00;&#x5934;&#x7684;&#x6587;&#x4EF6;&#xFF0C;&#x5E76;&#x663E;&#x793A;&#x5B83;&#x4EEC;&#x7684;&#x8BE6;&#x7EC6;&#x4FE1;&#x606F;&#x3002;
-&#x3000;&#x3000;$ find . -type f -mmin -10
-&#x641C;&#x7D22;&#x5F53;&#x524D;&#x76EE;&#x5F55;&#x4E2D;&#xFF0C;&#x6240;&#x6709;&#x8FC7;&#x53BB;10&#x5206;&#x949F;&#x4E2D;&#x66F4;&#x65B0;&#x8FC7;&#x7684;&#x666E;&#x901A;&#x6587;&#x4EF6;&#x3002;&#x5982;&#x679C;&#x4E0D;&#x52A0;-type f&#x53C2;&#x6570;&#xFF0C;&#x5219;&#x641C;&#x7D22;&#x666E;&#x901A;&#x6587;&#x4EF6;+&#x7279;&#x6B8A;&#x6587;&#x4EF6;+&#x76EE;&#x5F55;&#x3002;</p>
-</li>
-<li>
-<p>locate
-locate&#x547D;&#x4EE4;&#x5176;&#x5B9E;&#x662F;&#x201C;find -name&#x201D;&#x7684;&#x53E6;&#x4E00;&#x79CD;&#x5199;&#x6CD5;&#xFF0C;&#x4F46;&#x662F;&#x8981;&#x6BD4;&#x540E;&#x8005;&#x5FEB;&#x5F97;&#x591A;&#xFF0C;&#x539F;&#x56E0;&#x5728;&#x4E8E;&#x5B83;&#x4E0D;&#x641C;&#x7D22;&#x5177;&#x4F53;&#x76EE;&#x5F55;&#xFF0C;&#x800C;&#x662F;&#x641C;&#x7D22;&#x4E00;&#x4E2A;&#x6570;&#x636E;&#x5E93;&#xFF08;/var/lib/locatedb&#xFF09;&#xFF0C;&#x8FD9;&#x4E2A;&#x6570;&#x636E;&#x5E93;&#x4E2D;&#x542B;&#x6709;&#x672C;&#x5730;&#x6240;&#x6709;&#x6587;&#x4EF6;&#x4FE1;&#x606F;&#x3002;Linux&#x7CFB;&#x7EDF;&#x81EA;&#x52A8;&#x521B;&#x5EFA;&#x8FD9;&#x4E2A;&#x6570;&#x636E;&#x5E93;&#xFF0C;&#x5E76;&#x4E14;&#x6BCF;&#x5929;&#x81EA;&#x52A8;&#x66F4;&#x65B0;&#x4E00;&#x6B21;&#xFF0C;&#x6240;&#x4EE5;&#x4F7F;&#x7528;locate&#x547D;&#x4EE4;&#x67E5;&#x4E0D;&#x5230;&#x6700;&#x65B0;&#x53D8;&#x52A8;&#x8FC7;&#x7684;&#x6587;&#x4EF6;&#x3002;&#x4E3A;&#x4E86;&#x907F;&#x514D;&#x8FD9;&#x79CD;&#x60C5;&#x51B5;&#xFF0C;&#x53EF;&#x4EE5;&#x5728;&#x4F7F;&#x7528;locate&#x4E4B;&#x524D;&#xFF0C;&#x5148;&#x4F7F;&#x7528;updatedb&#x547D;&#x4EE4;&#xFF0C;&#x624B;&#x52A8;&#x66F4;&#x65B0;&#x6570;&#x636E;&#x5E93;&#x3002;
-locate&#x547D;&#x4EE4;&#x7684;&#x4F7F;&#x7528;&#x5B9E;&#x4F8B;&#xFF1A;
-&#x3000;&#x3000;$ locate /etc/sh
-&#x641C;&#x7D22;etc&#x76EE;&#x5F55;&#x4E0B;&#x6240;&#x6709;&#x4EE5;sh&#x5F00;&#x5934;&#x7684;&#x6587;&#x4EF6;&#x3002;
-&#x3000;&#x3000;$ locate ~/m
-&#x641C;&#x7D22;&#x7528;&#x6237;&#x4E3B;&#x76EE;&#x5F55;&#x4E0B;&#xFF0C;&#x6240;&#x6709;&#x4EE5;m&#x5F00;&#x5934;&#x7684;&#x6587;&#x4EF6;&#x3002;
-&#x3000;&#x3000;$ locate -i ~/m
-&#x641C;&#x7D22;&#x7528;&#x6237;&#x4E3B;&#x76EE;&#x5F55;&#x4E0B;&#xFF0C;&#x6240;&#x6709;&#x4EE5;m&#x5F00;&#x5934;&#x7684;&#x6587;&#x4EF6;&#xFF0C;&#x5E76;&#x4E14;&#x5FFD;&#x7565;&#x5927;&#x5C0F;&#x5199;&#x3002;</p>
-</li>
-<li>
-<p>whereis
-whereis&#x547D;&#x4EE4;&#x53EA;&#x80FD;&#x7528;&#x4E8E;&#x7A0B;&#x5E8F;&#x540D;&#x7684;&#x641C;&#x7D22;&#xFF0C;&#x800C;&#x4E14;&#x53EA;&#x641C;&#x7D22;&#x4E8C;&#x8FDB;&#x5236;&#x6587;&#x4EF6;&#xFF08;&#x53C2;&#x6570;-b&#xFF09;&#x3001;man&#x8BF4;&#x660E;&#x6587;&#x4EF6;&#xFF08;&#x53C2;&#x6570;-m&#xFF09;&#x548C;&#x6E90;&#x4EE3;&#x7801;&#x6587;&#x4EF6;&#xFF08;&#x53C2;&#x6570;-s&#xFF09;&#x3002;&#x5982;&#x679C;&#x7701;&#x7565;&#x53C2;&#x6570;&#xFF0C;&#x5219;&#x8FD4;&#x56DE;&#x6240;&#x6709;&#x4FE1;&#x606F;&#x3002;
-whereis&#x547D;&#x4EE4;&#x7684;&#x4F7F;&#x7528;&#x5B9E;&#x4F8B;&#xFF1A;
-&#x3000;&#x3000;$ whereis grep</p>
-</li>
-<li>
-<p>which
-which&#x547D;&#x4EE4;&#x7684;&#x4F5C;&#x7528;&#x662F;&#xFF0C;&#x5728;PATH&#x53D8;&#x91CF;&#x6307;&#x5B9A;&#x7684;&#x8DEF;&#x5F84;&#x4E2D;&#xFF0C;&#x641C;&#x7D22;&#x67D0;&#x4E2A;&#x7CFB;&#x7EDF;&#x547D;&#x4EE4;&#x7684;&#x4F4D;&#x7F6E;&#xFF0C;&#x5E76;&#x4E14;&#x8FD4;&#x56DE;&#x7B2C;&#x4E00;&#x4E2A;&#x641C;&#x7D22;&#x7ED3;&#x679C;&#x3002;&#x4E5F;&#x5C31;&#x662F;&#x8BF4;&#xFF0C;&#x4F7F;&#x7528;which&#x547D;&#x4EE4;&#xFF0C;&#x5C31;&#x53EF;&#x4EE5;&#x770B;&#x5230;&#x67D0;&#x4E2A;&#x7CFB;&#x7EDF;&#x547D;&#x4EE4;&#x662F;&#x5426;&#x5B58;&#x5728;&#xFF0C;&#x4EE5;&#x53CA;&#x6267;&#x884C;&#x7684;&#x5230;&#x5E95;&#x662F;&#x54EA;&#x4E00;&#x4E2A;&#x4F4D;&#x7F6E;&#x7684;&#x547D;&#x4EE4;&#x3002;
-which&#x547D;&#x4EE4;&#x7684;&#x4F7F;&#x7528;&#x5B9E;&#x4F8B;&#xFF1A;
-&#x3000;&#x3000;$ which grep</p>
-</li>
-<li>
-<p>type
-type&#x547D;&#x4EE4;&#x5176;&#x5B9E;&#x4E0D;&#x80FD;&#x7B97;&#x67E5;&#x627E;&#x547D;&#x4EE4;&#xFF0C;&#x5B83;&#x662F;&#x7528;&#x6765;&#x533A;&#x5206;&#x67D0;&#x4E2A;&#x547D;&#x4EE4;&#x5230;&#x5E95;&#x662F;&#x7531;shell&#x81EA;&#x5E26;&#x7684;&#xFF0C;&#x8FD8;&#x662F;&#x7531;shell&#x5916;&#x90E8;&#x7684;&#x72EC;&#x7ACB;&#x4E8C;&#x8FDB;&#x5236;&#x6587;&#x4EF6;&#x63D0;&#x4F9B;&#x7684;&#x3002;&#x5982;&#x679C;&#x4E00;&#x4E2A;&#x547D;&#x4EE4;&#x662F;&#x5916;&#x90E8;&#x547D;&#x4EE4;&#xFF0C;&#x90A3;&#x4E48;&#x4F7F;&#x7528;-p&#x53C2;&#x6570;&#xFF0C;&#x4F1A;&#x663E;&#x793A;&#x8BE5;&#x547D;&#x4EE4;&#x7684;&#x8DEF;&#x5F84;&#xFF0C;&#x76F8;&#x5F53;&#x4E8E;which&#x547D;&#x4EE4;&#x3002;
-type&#x547D;&#x4EE4;&#x7684;&#x4F7F;&#x7528;&#x5B9E;&#x4F8B;&#xFF1A;
-&#x3000;&#x3000;$ type cd
-&#x7CFB;&#x7EDF;&#x4F1A;&#x63D0;&#x793A;&#xFF0C;cd&#x662F;shell&#x7684;&#x81EA;&#x5E26;&#x547D;&#x4EE4;&#xFF08;build-in&#xFF09;&#x3002;
-&#x3000;&#x3000;$ type grep
-&#x7CFB;&#x7EDF;&#x4F1A;&#x63D0;&#x793A;&#xFF0C;grep&#x662F;&#x4E00;&#x4E2A;&#x5916;&#x90E8;&#x547D;&#x4EE4;&#xFF0C;&#x5E76;&#x663E;&#x793A;&#x8BE5;&#x547D;&#x4EE4;&#x7684;&#x8DEF;&#x5F84;&#x3002;
-&#x3000;&#x3000;$ type -p grep
-&#x52A0;&#x4E0A;-p&#x53C2;&#x6570;&#x540E;&#xFF0C;&#x5C31;&#x76F8;&#x5F53;&#x4E8E;which&#x547D;&#x4EE4;&#x3002;</p>
-</li>
-</ol></span>
+<figure class="highlight vim"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">&#x3000;&#x3000;$ <span class="keyword">find</span> . -name <span class="string">&quot;my*&quot;</span></span><br><span class="line">&#x641C;&#x7D22;&#x5F53;&#x524D;&#x76EE;&#x5F55;&#xFF08;&#x542B;&#x5B50;&#x76EE;&#x5F55;&#xFF0C;&#x4EE5;&#x4E0B;&#x540C;&#xFF09;&#x4E2D;&#xFF0C;&#x6240;&#x6709;&#x6587;&#x4EF6;&#x540D;&#x4EE5;my&#x5F00;&#x5934;&#x7684;&#x6587;&#x4EF6;&#x3002;</span><br><span class="line">&#x3000;&#x3000;$ <span class="keyword">find</span> . -name <span class="string">&quot;my*&quot;</span> -<span class="keyword">ls</span></span><br><span class="line">&#x641C;&#x7D22;&#x5F53;&#x524D;&#x76EE;&#x5F55;&#x4E2D;&#xFF0C;&#x6240;&#x6709;&#x6587;&#x4EF6;&#x540D;&#x4EE5;my&#x5F00;&#x5934;&#x7684;&#x6587;&#x4EF6;&#xFF0C;&#x5E76;&#x663E;&#x793A;&#x5B83;&#x4EEC;&#x7684;&#x8BE6;&#x7EC6;&#x4FE1;&#x606F;&#x3002;</span><br><span class="line">&#x3000;&#x3000;$ <span class="keyword">find</span> . -<span class="built_in">type</span> <span class="keyword">f</span> -mmin -<span class="number">10</span></span><br><span class="line">&#x641C;&#x7D22;&#x5F53;&#x524D;&#x76EE;&#x5F55;&#x4E2D;&#xFF0C;&#x6240;&#x6709;&#x8FC7;&#x53BB;<span class="number">10</span>&#x5206;&#x949F;&#x4E2D;&#x66F4;&#x65B0;&#x8FC7;&#x7684;&#x666E;&#x901A;&#x6587;&#x4EF6;&#x3002;&#x5982;&#x679C;&#x4E0D;&#x52A0;-<span class="built_in">type</span> <span class="keyword">f</span>&#x53C2;&#x6570;&#xFF0C;&#x5219;&#x641C;&#x7D22;&#x666E;&#x901A;&#x6587;&#x4EF6;+&#x7279;&#x6B8A;&#x6587;&#x4EF6;+&#x76EE;&#x5F55;&#x3002;</span><br></pre></td></tr></table></figure></p>
+<h2 id="locate">locate</h2>
+<p>locate&#x547D;&#x4EE4;&#x5176;&#x5B9E;&#x662F;&#x201C;find -name&#x201D;&#x7684;&#x53E6;&#x4E00;&#x79CD;&#x5199;&#x6CD5;&#xFF0C;&#x4F46;&#x662F;&#x8981;&#x6BD4;&#x540E;&#x8005;&#x5FEB;&#x5F97;&#x591A;&#xFF0C;&#x539F;&#x56E0;&#x5728;&#x4E8E;&#x5B83;&#x4E0D;&#x641C;&#x7D22;&#x5177;&#x4F53;&#x76EE;&#x5F55;&#xFF0C;&#x800C;&#x662F;&#x641C;&#x7D22;&#x4E00;&#x4E2A;&#x6570;&#x636E;&#x5E93;&#xFF08;/var/lib/locatedb&#xFF09;&#xFF0C;&#x8FD9;&#x4E2A;&#x6570;&#x636E;&#x5E93;&#x4E2D;&#x542B;&#x6709;&#x672C;&#x5730;&#x6240;&#x6709;&#x6587;&#x4EF6;&#x4FE1;&#x606F;&#x3002;Linux&#x7CFB;&#x7EDF;&#x81EA;&#x52A8;&#x521B;&#x5EFA;&#x8FD9;&#x4E2A;&#x6570;&#x636E;&#x5E93;&#xFF0C;&#x5E76;&#x4E14;&#x6BCF;&#x5929;&#x81EA;&#x52A8;&#x66F4;&#x65B0;&#x4E00;&#x6B21;&#xFF0C;&#x6240;&#x4EE5;&#x4F7F;&#x7528;locate&#x547D;&#x4EE4;&#x67E5;&#x4E0D;&#x5230;&#x6700;&#x65B0;&#x53D8;&#x52A8;&#x8FC7;&#x7684;&#x6587;&#x4EF6;&#x3002;&#x4E3A;&#x4E86;&#x907F;&#x514D;&#x8FD9;&#x79CD;&#x60C5;&#x51B5;&#xFF0C;&#x53EF;&#x4EE5;&#x5728;&#x4F7F;&#x7528;locate&#x4E4B;&#x524D;&#xFF0C;&#x5148;&#x4F7F;&#x7528;updatedb&#x547D;&#x4EE4;&#xFF0C;&#x624B;&#x52A8;&#x66F4;&#x65B0;&#x6570;&#x636E;&#x5E93;&#x3002;
+locate&#x547D;&#x4EE4;&#x7684;&#x4F7F;&#x7528;&#x5B9E;&#x4F8B;&#xFF1A;</p>
+<p><figure class="highlight stata"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">&#x3000;&#x3000;$ locate /etc/<span class="keyword">sh</span></span><br><span class="line">&#x641C;&#x7D22;etc&#x76EE;&#x5F55;&#x4E0B;&#x6240;&#x6709;&#x4EE5;<span class="keyword">sh</span>&#x5F00;&#x5934;&#x7684;&#x6587;&#x4EF6;&#x3002;</span><br><span class="line">&#x3000;&#x3000;$ locate ~/<span class="literal">m</span></span><br><span class="line">&#x641C;&#x7D22;&#x7528;&#x6237;&#x4E3B;&#x76EE;&#x5F55;&#x4E0B;&#xFF0C;&#x6240;&#x6709;&#x4EE5;<span class="keyword">m</span>&#x5F00;&#x5934;&#x7684;&#x6587;&#x4EF6;&#x3002;</span><br><span class="line">&#x3000;&#x3000;$ locate -i ~/<span class="literal">m</span></span><br><span class="line">&#x641C;&#x7D22;&#x7528;&#x6237;&#x4E3B;&#x76EE;&#x5F55;&#x4E0B;&#xFF0C;&#x6240;&#x6709;&#x4EE5;<span class="keyword">m</span>&#x5F00;&#x5934;&#x7684;&#x6587;&#x4EF6;&#xFF0C;&#x5E76;&#x4E14;&#x5FFD;&#x7565;&#x5927;&#x5C0F;&#x5199;&#x3002;</span><br></pre></td></tr></table></figure></p>
+<h2 id="whereis">whereis</h2>
+<p>whereis&#x547D;&#x4EE4;&#x53EA;&#x80FD;&#x7528;&#x4E8E;&#x7A0B;&#x5E8F;&#x540D;&#x7684;&#x641C;&#x7D22;&#xFF0C;&#x800C;&#x4E14;&#x53EA;&#x641C;&#x7D22;&#x4E8C;&#x8FDB;&#x5236;&#x6587;&#x4EF6;&#xFF08;&#x53C2;&#x6570;-b&#xFF09;&#x3001;man&#x8BF4;&#x660E;&#x6587;&#x4EF6;&#xFF08;&#x53C2;&#x6570;-m&#xFF09;&#x548C;&#x6E90;&#x4EE3;&#x7801;&#x6587;&#x4EF6;&#xFF08;&#x53C2;&#x6570;-s&#xFF09;&#x3002;&#x5982;&#x679C;&#x7701;&#x7565;&#x53C2;&#x6570;&#xFF0C;&#x5219;&#x8FD4;&#x56DE;&#x6240;&#x6709;&#x4FE1;&#x606F;&#x3002;
+whereis&#x547D;&#x4EE4;&#x7684;&#x4F7F;&#x7528;&#x5B9E;&#x4F8B;&#xFF1A;<code>$ whereis grep</code></p>
+<h2 id="which">which</h2>
+<p>which&#x547D;&#x4EE4;&#x7684;&#x4F5C;&#x7528;&#x662F;&#xFF0C;&#x5728;PATH&#x53D8;&#x91CF;&#x6307;&#x5B9A;&#x7684;&#x8DEF;&#x5F84;&#x4E2D;&#xFF0C;&#x641C;&#x7D22;&#x67D0;&#x4E2A;&#x7CFB;&#x7EDF;&#x547D;&#x4EE4;&#x7684;&#x4F4D;&#x7F6E;&#xFF0C;&#x5E76;&#x4E14;&#x8FD4;&#x56DE;&#x7B2C;&#x4E00;&#x4E2A;&#x641C;&#x7D22;&#x7ED3;&#x679C;&#x3002;&#x4E5F;&#x5C31;&#x662F;&#x8BF4;&#xFF0C;&#x4F7F;&#x7528;which&#x547D;&#x4EE4;&#xFF0C;&#x5C31;&#x53EF;&#x4EE5;&#x770B;&#x5230;&#x67D0;&#x4E2A;&#x7CFB;&#x7EDF;&#x547D;&#x4EE4;&#x662F;&#x5426;&#x5B58;&#x5728;&#xFF0C;&#x4EE5;&#x53CA;&#x6267;&#x884C;&#x7684;&#x5230;&#x5E95;&#x662F;&#x54EA;&#x4E00;&#x4E2A;&#x4F4D;&#x7F6E;&#x7684;&#x547D;&#x4EE4;&#x3002;
+which&#x547D;&#x4EE4;&#x7684;&#x4F7F;&#x7528;&#x5B9E;&#x4F8B;&#xFF1A;<code>$ which grep</code></p>
+<h2 id="type">type</h2>
+<p>type&#x547D;&#x4EE4;&#x5176;&#x5B9E;&#x4E0D;&#x80FD;&#x7B97;&#x67E5;&#x627E;&#x547D;&#x4EE4;&#xFF0C;&#x5B83;&#x662F;&#x7528;&#x6765;&#x533A;&#x5206;&#x67D0;&#x4E2A;&#x547D;&#x4EE4;&#x5230;&#x5E95;&#x662F;&#x7531;shell&#x81EA;&#x5E26;&#x7684;&#xFF0C;&#x8FD8;&#x662F;&#x7531;shell&#x5916;&#x90E8;&#x7684;&#x72EC;&#x7ACB;&#x4E8C;&#x8FDB;&#x5236;&#x6587;&#x4EF6;&#x63D0;&#x4F9B;&#x7684;&#x3002;&#x5982;&#x679C;&#x4E00;&#x4E2A;&#x547D;&#x4EE4;&#x662F;&#x5916;&#x90E8;&#x547D;&#x4EE4;&#xFF0C;&#x90A3;&#x4E48;&#x4F7F;&#x7528;-p&#x53C2;&#x6570;&#xFF0C;&#x4F1A;&#x663E;&#x793A;&#x8BE5;&#x547D;&#x4EE4;&#x7684;&#x8DEF;&#x5F84;&#xFF0C;&#x76F8;&#x5F53;&#x4E8E;which&#x547D;&#x4EE4;&#x3002;
+type&#x547D;&#x4EE4;&#x7684;&#x4F7F;&#x7528;&#x5B9E;&#x4F8B;&#xFF1A;</p>
+<p><figure class="highlight vim"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">&#x3000;&#x3000;$ <span class="built_in">type</span> <span class="keyword">cd</span></span><br><span class="line">&#x7CFB;&#x7EDF;&#x4F1A;&#x63D0;&#x793A;&#xFF0C;<span class="keyword">cd</span>&#x662F;<span class="keyword">shell</span>&#x7684;&#x81EA;&#x5E26;&#x547D;&#x4EE4;&#xFF08;build-in&#xFF09;&#x3002;</span><br><span class="line">&#x3000;&#x3000;$ <span class="built_in">type</span> <span class="keyword">grep</span></span><br><span class="line">&#x7CFB;&#x7EDF;&#x4F1A;&#x63D0;&#x793A;&#xFF0C;<span class="keyword">grep</span>&#x662F;&#x4E00;&#x4E2A;&#x5916;&#x90E8;&#x547D;&#x4EE4;&#xFF0C;&#x5E76;&#x663E;&#x793A;&#x8BE5;&#x547D;&#x4EE4;&#x7684;&#x8DEF;&#x5F84;&#x3002;</span><br><span class="line">&#x3000;&#x3000;$ <span class="built_in">type</span> -<span class="keyword">p</span> <span class="keyword">grep</span></span><br><span class="line">&#x52A0;&#x4E0A;-<span class="keyword">p</span>&#x53C2;&#x6570;&#x540E;&#xFF0C;&#x5C31;&#x76F8;&#x5F53;&#x4E8E;which&#x547D;&#x4EE4;&#x3002;</span><br></pre></td></tr></table></figure></p></span>
       
     </div>
 
@@ -517,7 +485,7 @@ type&#x547D;&#x4EE4;&#x7684;&#x4F7F;&#x7528;&#x5B9E;&#x4F8B;&#xFF1A;
         <nav class="site-state motion-element">
           <div class="site-state-item site-state-posts">
             <a href="/archives">
-              <span class="site-state-item-count">23</span>
+              <span class="site-state-item-count">24</span>
               <span class="site-state-item-name">日志</span>
             </a>
           </div>
@@ -566,7 +534,7 @@ type&#x547D;&#x4EE4;&#x7684;&#x4F7F;&#x7528;&#x5B9E;&#x4F8B;&#xFF1A;
           <div class="post-toc">
             
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#hostname主机名"><span class="nav-number">1.</span> <span class="nav-text">HostName主机名</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#静态ip设置"><span class="nav-number">2.</span> <span class="nav-text">静态IP设置</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#集群环境下ssh免密码登陆认证脚本"><span class="nav-number">3.</span> <span class="nav-text">集群环境下ssh免密码登陆认证脚本</span></a></li></ol><li class="nav-item nav-level-1"><a class="nav-link" href="#ps查看进程"><span class="nav-number"></span> <span class="nav-text">PS查看进程</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#端口查看"><span class="nav-number"></span> <span class="nav-text">端口查看</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#nohup后台运行"><span class="nav-number"></span> <span class="nav-text">nohup后台运行</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#重定向"><span class="nav-number"></span> <span class="nav-text">重定向</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#读取文件头尾实时内容"><span class="nav-number"></span> <span class="nav-text">读取文件头/尾/实时内容</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#chkconfig问题"><span class="nav-number"></span> <span class="nav-text">chkconfig问题</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#图形化界面切换"><span class="nav-number"></span> <span class="nav-text">图形化界面切换</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#文件操作"><span class="nav-number"></span> <span class="nav-text">文件操作</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#mkdir-新建目录"><span class="nav-number">1.</span> <span class="nav-text">mkdir 新建目录</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#rm-文件删除参数"><span class="nav-number">2.</span> <span class="nav-text">rm 文件删除参数：</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#tar文件解压"><span class="nav-number">3.</span> <span class="nav-text">tar文件解压</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#vim操作"><span class="nav-number"></span> <span class="nav-text">VIM操作</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#常用查找命令"><span class="nav-number"></span> <span class="nav-text">常用查找命令</span></a></li></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#网络设置"><span class="nav-number">1.</span> <span class="nav-text">网络设置</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#hostname主机名"><span class="nav-number">1.1.</span> <span class="nav-text">HostName主机名</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#静态ip设置"><span class="nav-number">1.2.</span> <span class="nav-text">静态IP设置</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#集群环境下ssh免密码登陆认证脚本"><span class="nav-number">1.3.</span> <span class="nav-text">集群环境下ssh免密码登陆认证脚本</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#ps查看进程"><span class="nav-number">2.</span> <span class="nav-text">PS查看进程</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#端口查看"><span class="nav-number">3.</span> <span class="nav-text">端口查看</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#nohup后台运行"><span class="nav-number">4.</span> <span class="nav-text">nohup后台运行</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#重定向"><span class="nav-number">5.</span> <span class="nav-text">重定向</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#读取文件头尾实时内容"><span class="nav-number">6.</span> <span class="nav-text">读取文件头/尾/实时内容</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#chkconfig问题"><span class="nav-number">7.</span> <span class="nav-text">chkconfig问题</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#图形化界面切换"><span class="nav-number">8.</span> <span class="nav-text">图形化界面切换</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#文件操作"><span class="nav-number">9.</span> <span class="nav-text">文件操作</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#mkdir-新建目录"><span class="nav-number">9.1.</span> <span class="nav-text">mkdir 新建目录</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#rm-文件删除参数"><span class="nav-number">9.2.</span> <span class="nav-text">rm 文件删除参数：</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#tar文件解压"><span class="nav-number">9.3.</span> <span class="nav-text">tar文件解压</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#vim操作"><span class="nav-number">10.</span> <span class="nav-text">VIM操作</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#查找操作"><span class="nav-number">11.</span> <span class="nav-text">查找操作</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#find"><span class="nav-number">11.1.</span> <span class="nav-text">find</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#locate"><span class="nav-number">11.2.</span> <span class="nav-text">locate</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#whereis"><span class="nav-number">11.3.</span> <span class="nav-text">whereis</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#which"><span class="nav-number">11.4.</span> <span class="nav-text">which</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#type"><span class="nav-number">11.5.</span> <span class="nav-text">type</span></a></li></ol></li></ol></div>
             
           </div>
           <div class="post-toc-indicator-bottom post-toc-indicator"></div>
@@ -632,6 +600,15 @@ type&#x547D;&#x4EE4;&#x7684;&#x4F7F;&#x7528;&#x5B9E;&#x4F8B;&#xFF1A;
   </script>
     
      
+     
+  	  <script type="text/javascript">
+  		var duoshuo_user_ID = geosmart
+      var duoshuo_admin_nickname="geosmart"
+  	  </script>
+     
+  	<script src="/js/ua-parser.min.js"></script>
+  	<script src="/js/hook-duoshuo.js"></script>
+  
 
     
   

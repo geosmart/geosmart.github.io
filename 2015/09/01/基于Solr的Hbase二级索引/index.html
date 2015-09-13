@@ -52,7 +52,7 @@ HBase &amp;#x662F;&amp;#x4E00;&amp;#x4E2A;&amp;#x5217;&amp;#x5B58;&amp;#x6570;&a
 <meta property="og:image" content="http://geosmart.github.io/solr-query.png">
 <meta property="og:image" content="http://geosmart.github.io/indexerConfig.png">
 <meta property="og:image" content="http://geosmart.github.io/solr.png">
-<meta property="og:updated_time" content="2015-09-09T12:36:42.413Z">
+<meta property="og:updated_time" content="2015-09-11T07:57:10.290Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="基于Solr的Hbase二级索引">
 <meta name="twitter:description" content="&amp;#x5173;&amp;#x4E8E;Hbase&amp;#x4E8C;&amp;#x7EA7;&amp;#x7D22;&amp;#x5F15;
@@ -240,6 +240,7 @@ HBase &amp;#x662F;&amp;#x4E00;&amp;#x4E2A;&amp;#x5217;&amp;#x5B58;&amp;#x6570;&a
 <li>&#x5168;&#x6587;&#x7D22;&#x5F15;&#xFF1A;&#x4EE5;CDH5&#x4E2D;&#x7684;Lily HBase Indexer&#x670D;&#x52A1;&#x5B9E;&#x73B0;&#xFF0C;&#x5176;&#x4F7F;&#x7528;SolrCloud&#x5B58;&#x50A8;HBase&#x7684;&#x7D22;&#x5F15;&#x6570;&#x636E;&#xFF0C;Indexer&#x7D22;&#x5F15;&#x548C;&#x641C;&#x7D22;&#x4E0D;&#x4F1A;&#x5F71;&#x54CD;HBase&#x8FD0;&#x884C;&#x7684;&#x7A33;&#x5B9A;&#x6027;&#x548C;HBase&#x6570;&#x636E;&#x5199;&#x5165;&#x7684;&#x541E;&#x5410;&#x91CF;&#xFF0C;&#x56E0;&#x4E3A;&#x7D22;&#x5F15;&#x548C;&#x641C;&#x7D22;&#x8FC7;&#x7A0B;&#x662F;&#x5B8C;&#x5168;&#x5206;&#x5F00;&#x5E76;&#x4E14;&#x5F02;&#x6B65;&#x7684;&#x3002;Lily HBase Indexer&#x5728;CDH5&#x4E2D;&#x8FD0;&#x884C;&#x5FC5;&#x987B;&#x4F9D;&#x8D56;HBase&#x3001;SolrCloud&#x548C;Zookeeper&#x670D;&#x52A1;&#x3002;</li>
 </ul>
 <p><img src="solr-query.png" alt="&#x901A;&#x8FC7;solr&#x67E5;&#x8BE2;rowkey&#x518D;&#x67E5;&#x8BE2;Hbase"></p>
+<p>&lt;!-- more --&gt;</p>
 <h1 id="&#x5173;&#x4E8E;key-value-indexer&#x7EC4;&#x4EF6;">&#x5173;&#x4E8E;Key-Value Indexer&#x7EC4;&#x4EF6;</h1>
 <p><a href="http://www.cloudera.com/content/cloudera/zh-CN/documentation/core/v5-3-x/topics/search_use_hbase_indexer_service.html?scroll=xd_583c10bfdbd326ba-204beb9-13ef1573a9e--7fbb">CDH&#x5B98;&#x65B9;&#x6587;&#x6863;</a><br>
 <a href="http://blog.cloudera.com/blog/2013/11/email-indexing-using-cloudera-search-and-hbase/">&#x53C2;&#x8003;&#x535A;&#x5BA2;&#xFF1A;Email Indexing Using Cloudera Search and HBase</a><br>
@@ -273,6 +274,9 @@ Lily HBase Indexer&#x5728;CDH5&#x4E2D;&#x8FD0;&#x884C;&#x5FC5;&#x987B;&#x4F9D;&#
 disable &apos;User&apos;
 drop  &apos;User&apos;
 create &apos;User&apos;, {NAME =&gt; &apos;data&apos;, REPLICATION_SCOPE =&gt; 1}  
+disable &apos;User&apos;
+alter &apos;User&apos;, {NAME =&gt; &apos;detail&apos;, REPLICATION_SCOPE =&gt; 1}  
+enable &apos;User&apos;
 
 #&#x65B0;&#x589E;CF
 disable &apos;User&apos;
@@ -291,23 +295,28 @@ put &apos;User&apos;,&apos;row1&apos;,&apos;data:psd&apos;,&apos;123&apos;</span
 <p>&#x7528;&#x4E8E; HBase &#x7D22;&#x5F15;&#x7684; SolrCloud &#x96C6;&#x5408;&#x5FC5;&#x987B;&#x5177;&#x6709;&#x53EF;&#x5BB9;&#x7EB3; HBase &#x5217;&#x7CFB;&#x5217;&#x7684;&#x7C7B;&#x578B;&#x548C;&#x8981;&#x8FDB;&#x884C;&#x7D22;&#x5F15;&#x5904;&#x7406;&#x7684;&#x9650;&#x5B9A;&#x7B26;&#x7684; Solr &#x67B6;&#x6784;&#x3002;&#x82E5;&#x8981;&#x5F00;&#x59CB;&#xFF0C;&#x8BF7;&#x8003;&#x8651;&#x5C06;&#x5305;&#x62EC;&#x4E00;&#x5207; data &#x7684;&#x5B57;&#x6BB5;&#x6DFB;&#x52A0;&#x5230;&#x9ED8;&#x8BA4;schema&#x3002;&#x4E00;&#x65E6;&#x60A8;&#x51B3;&#x5B9A;&#x91C7;&#x7528;&#x4E00;&#x79CD;schema&#xFF0C;&#x4F7F;&#x7528;&#x4EE5;&#x4E0B;&#x8868;&#x5355;&#x547D;&#x4EE4;&#x521B;&#x5EFA; SolrCloud &#x96C6;&#x5408;&#xFF1A;</p>
 <h3 id="user&#x793A;&#x4F8B;&#x914D;&#x7F6E;">user&#x793A;&#x4F8B;&#x914D;&#x7F6E;</h3>
 <p><figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"># &#x751F;&#x6210;&#x5B9E;&#x4F53;&#x914D;&#x7F6E;&#x6587;&#x4EF6;&#xFF1A;
-solrctl instancedir --generate $HOME/hbase-collection-user</span><br></pre></td></tr></table></figure></p>
+solrctl instancedir --generate $HOME/hbase-indexer/User</span><br></pre></td></tr></table></figure></p>
 <p>&#x7F16;&#x8F91;schema&#xFF0C;&#x9700;&#x5305;&#x542B;&#x4EE5;&#x4E0B;&#x5185;&#x5BB9;
-<code>vim $HOME/hbase-collection-user/conf/schema.xml</code></p>
-<p><figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">&lt;!-- &#x7ED1;&#x5B9A;rowkey--&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="title">field</span> <span class="attribute">name</span>=<span class="value">&quot;id&quot;</span> <span class="attribute">type</span>=<span class="value">&quot;string&quot;</span> <span class="attribute">indexed</span>=<span class="value">&quot;true&quot;</span> <span class="attribute">stored</span>=<span class="value">&quot;true&quot;</span> <span class="attribute">required</span>=<span class="value">&quot;true&quot;</span> <span class="attribute">multiValued</span>=<span class="value">&quot;false&quot;</span> /&gt;</span></span><br><span class="line"> </span><br><span class="line"><span class="tag">&lt;<span class="title">field</span> <span class="attribute">name</span>=<span class="value">&quot;data_name&quot;</span> <span class="attribute">type</span>=<span class="value">&quot;text_general&quot;</span> <span class="attribute">indexed</span>=<span class="value">&quot;true&quot;</span> <span class="attribute">stored</span>=<span class="value">&quot;true&quot;</span>/&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="title">field</span> <span class="attribute">name</span>=<span class="value">&quot;data_psd&quot;</span> <span class="attribute">type</span>=<span class="value">&quot;text_general&quot;</span> <span class="attribute">indexed</span>=<span class="value">&quot;true&quot;</span> <span class="attribute">stored</span>=<span class="value">&quot;true&quot;</span>/&gt;</span> </span><br><span class="line"><span class="tag">&lt;<span class="title">field</span> <span class="attribute">name</span>=<span class="value">&quot;detail_address&quot;</span> <span class="attribute">type</span>=<span class="value">&quot;text_general&quot;</span> <span class="attribute">indexed</span>=<span class="value">&quot;true&quot;</span> <span class="attribute">stored</span>=<span class="value">&quot;true&quot;</span>/&gt;</span> </span><br><span class="line"><span class="tag">&lt;<span class="title">field</span> <span class="attribute">name</span>=<span class="value">&quot;detail_photo&quot;</span> <span class="attribute">type</span>=<span class="value">&quot;text_general&quot;</span> <span class="attribute">indexed</span>=<span class="value">&quot;true&quot;</span> <span class="attribute">stored</span>=<span class="value">&quot;true&quot;</span>/&gt;</span></span><br></pre></td></tr></table></figure></p>
+<code>vim $HOME/hbase-indexer/User/conf/schema.xml</code></p>
+<p><figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">&lt;!-- &#x7ED1;&#x5B9A;rowkey--&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="title">field</span> <span class="attribute">name</span>=<span class="value">&quot;id&quot;</span> <span class="attribute">type</span>=<span class="value">&quot;string&quot;</span> <span class="attribute">indexed</span>=<span class="value">&quot;true&quot;</span> <span class="attribute">stored</span>=<span class="value">&quot;true&quot;</span> <span class="attribute">required</span>=<span class="value">&quot;true&quot;</span> <span class="attribute">multiValued</span>=<span class="value">&quot;false&quot;</span> /&gt;</span></span><br><span class="line"> </span><br><span class="line"><span class="tag">&lt;<span class="title">field</span> <span class="attribute">name</span>=<span class="value">&quot;data_name&quot;</span> <span class="attribute">type</span>=<span class="value">&quot;string&quot;</span> <span class="attribute">indexed</span>=<span class="value">&quot;true&quot;</span> <span class="attribute">stored</span>=<span class="value">&quot;true&quot;</span>/&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="title">field</span> <span class="attribute">name</span>=<span class="value">&quot;data_psd&quot;</span> <span class="attribute">type</span>=<span class="value">&quot;string&quot;</span> <span class="attribute">indexed</span>=<span class="value">&quot;true&quot;</span> <span class="attribute">stored</span>=<span class="value">&quot;true&quot;</span>/&gt;</span> </span><br><span class="line"><span class="tag">&lt;<span class="title">field</span> <span class="attribute">name</span>=<span class="value">&quot;detail_address&quot;</span> <span class="attribute">type</span>=<span class="value">&quot;string&quot;</span> <span class="attribute">indexed</span>=<span class="value">&quot;true&quot;</span> <span class="attribute">stored</span>=<span class="value">&quot;true&quot;</span>/&gt;</span> </span><br><span class="line"><span class="tag">&lt;<span class="title">field</span> <span class="attribute">name</span>=<span class="value">&quot;detail_photo&quot;</span> <span class="attribute">type</span>=<span class="value">&quot;string&quot;</span> <span class="attribute">indexed</span>=<span class="value">&quot;true&quot;</span> <span class="attribute">stored</span>=<span class="value">&quot;true&quot;</span>/&gt;</span></span><br></pre></td></tr></table></figure></p>
 <p><figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"># &#x521B;&#x5EFA; collection&#x5B9E;&#x4F8B;&#x5E76;&#x5C06;&#x914D;&#x7F6E;&#x6587;&#x4EF6;&#x4E0A;&#x4F20;&#x5230; zookeeper&#xFF1A;
-solrctl instancedir --create hbase-collection-user $HOME/hbase-collection-user 
+solrctl instancedir --create User  $HOME/hbase-indexer/User
 # &#x4E0A;&#x4F20;&#x5230; zookeeper &#x4E4B;&#x540E;&#xFF0C;&#x5176;&#x4ED6;&#x8282;&#x70B9;&#x5C31;&#x53EF;&#x4EE5;&#x4ECE;zookeeper&#x4E0B;&#x8F7D;&#x914D;&#x7F6E;&#x6587;&#x4EF6;&#x3002;&#x63A5;&#x4E0B;&#x6765;&#x521B;&#x5EFA; collection:
-solrctl collection --create hbase-collection-user</span><br></pre></td></tr></table></figure></p>
+solrctl collection --create User</span><br></pre></td></tr></table></figure></p>
 <h3 id="&#x6269;&#x5C55;&#x547D;&#x4EE4;">&#x6269;&#x5C55;&#x547D;&#x4EE4;</h3>
 <p><figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">solrctl instancedir --list  
 
 # &#x66F4;&#x65B0;coolection&#x914D;&#x7F6E;
-solrctl instancedir --update hbase-collection-user $HOME/hbase-collection-user
-solrctl collection --reload hbase-collection-user
+solrctl instancedir --update User $HOME/hbase-indexer/User
+solrctl collection --reload  User
 
-#&#x5220;&#x9664;&#x6240;&#x6709;doc
-solrctl collection --deletedocs hbase-collection-user</span><br></pre></td></tr></table></figure></p>
+
+#&#x5220;&#x9664;instancedir
+solrctl instancedir  --delete  User
+#&#x5220;&#x9664;collection
+solrctl collection --delete  User
+#&#x5220;&#x9664;collection&#x6240;&#x6709;doc
+solrctl collection --deletedocs User</span><br></pre></td></tr></table></figure></p>
 <h3 id="&#x6CE8;&#x610F;">&#x6CE8;&#x610F;</h3>
 <p>&#x5728;schema.xml&#x4E2D;uniqueKey&#x5FC5;&#x987B;&#x4E3A;rowkey,&#x800C;rowkey&#x9ED8;&#x8BA4;&#x4F7F;&#x7528;&apos;id&apos;&#x5B57;&#x6BB5;&#x8868;&#x793A;&#xFF0C;&lt;field&gt;&#x4E2D;&#x5FC5;&#x987B;&#x8981;&#x6709;uniqueKey&#x5BF9;&#x5E94;&#x7684;id&#x5B57;&#x6BB5;&#x3002;</p>
 <h2 id="&#x521B;&#x5EFA;-lily-hbase-indexer-&#x914D;&#x7F6E;">&#x521B;&#x5EFA; Lily HBase Indexer &#x914D;&#x7F6E;</h2>
@@ -328,9 +337,9 @@ solrctl collection --deletedocs hbase-collection-user</span><br></pre></td></tr>
 <p>&#x5F53; Lily HBase Indexer &#x914D;&#x7F6E; XML&#x6587;&#x4EF6;&#x7684;&#x5185;&#x5BB9;&#x4EE4;&#x4EBA;&#x6EE1;&#x610F;&#xFF0C;&#x5C06;&#x5B83;&#x6CE8;&#x518C;&#x5230; Lily HBase Indexer Service&#x3002;&#x4E0A;&#x4F20; Lily HBase Indexer &#x914D;&#x7F6E; XML&#x6587;&#x4EF6;&#x81F3; ZooKeeper&#xFF0C;&#x7531;&#x7ED9;&#x5B9A;&#x7684; SolrCloud &#x96C6;&#x5408;&#x5B8C;&#x6210;&#x6B64;&#x64CD;&#x4F5C;&#x3002;&#x4F8B;&#x5982;&#xFF1A;</p>
 <p><figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">hbase-indexer add-indexer \
 --name userIndexer \
---indexer-conf $HOME/hbase-collection-user/conf/morphline-hbase-mapper.xml \
+--indexer-conf $HOME/hbase-indexer/User/conf/morphline-hbase-mapper.xml \
 --connection-param solr.zk=master:2181/solr \
---connection-param solr.collection=hbase-collection-user \
+--connection-param solr.collection=User \
 --zookeeper master:2181</span><br></pre></td></tr></table></figure></p>
 <h2 id="&#x9A8C;&#x8BC1;&#x7D22;&#x5F15;&#x5668;&#x662F;&#x5426;&#x5DF2;&#x6210;&#x529F;&#x521B;&#x5EFA;">&#x9A8C;&#x8BC1;&#x7D22;&#x5F15;&#x5668;&#x662F;&#x5426;&#x5DF2;&#x6210;&#x529F;&#x521B;&#x5EFA;</h2>
 <p>&#x6267;&#x884C;<code>$ hbase-indexer list-indexers</code>&#x9A8C;&#x8BC1;&#x7D22;&#x5F15;&#x5668;&#x662F;&#x5426;&#x5DF2;&#x6210;&#x529F;&#x521B;&#x5EFA;</p>
@@ -338,30 +347,39 @@ solrctl collection --deletedocs hbase-collection-user</span><br></pre></td></tr>
 <p><figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hbase-indexer add-indexer --help
 $ hbase-indexer list-indexers --help
 $ hbase-indexer update-indexer --help
+$ hbase-indexer delete-indexer --help
 
 # &#x82E5;&#x4FEE;&#x6539;&#x4E86;morphline-hbase-mapper.xml&#xFF0C;&#x9700;&#x66F4;&#x65B0;&#x7D22;&#x5F15;
 hbase-indexer update-indexer  -n userIndexer
-
-# $ hbase-indexer delete-indexer --help
+ 
 # &#x5220;&#x9664;&#x7D22;&#x5F15;
-# hbase-indexer delete-indexer  -n userIndexer</span><br></pre></td></tr></table></figure></p>
+hbase-indexer delete-indexer  -n userIndexer</span><br></pre></td></tr></table></figure></p>
 <h2 id="&#x6D4B;&#x8BD5;&#x662F;solr&#x662F;&#x5426;&#x5DF2;&#x65B0;&#x5EFA;&#x7D22;&#x5F15;">&#x6D4B;&#x8BD5;&#x662F;solr&#x662F;&#x5426;&#x5DF2;&#x65B0;&#x5EFA;&#x7D22;&#x5F15;</h2>
 <p>&#x5199;&#x5165;&#x6570;&#x636E;&#x65F6;&#xFF0C;&#x5728;solr-webui&#x63A7;&#x5236;&#x53F0;&#x67E5;&#x770B;&#x65E5;&#x5FD7;&#x662F;&#x5426;&#x66F4;&#x65B0;</p>
-<p><figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">put &apos;User&apos;,&apos;row2&apos;,&apos;data:name&apos;,&apos;u2&apos;
+<p><figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">
+put &apos;User&apos;,&apos;row1&apos;,&apos;data:name&apos;,&apos;u2&apos;
+put &apos;User&apos;,&apos;row1&apos;,&apos;data:psd&apos;,&apos;123&apos;   
+put &apos;User&apos;,&apos;row1&apos;,&apos;detail:address&apos;,&apos;address2&apos;   
+put &apos;User&apos;,&apos;row1&apos;,&apos;detail:photo&apos;,&apos;photo2&apos;   
+
+put &apos;User&apos;,&apos;row2&apos;,&apos;data:name&apos;,&apos;u2&apos;
 put &apos;User&apos;,&apos;row2&apos;,&apos;data:psd&apos;,&apos;123&apos;   
 put &apos;User&apos;,&apos;row2&apos;,&apos;detail:address&apos;,&apos;address2&apos;   
-put &apos;User&apos;,&apos;row2&apos;,&apos;detail:photo&apos;,&apos;photo2&apos;</span><br></pre></td></tr></table></figure></p>
+put &apos;User&apos;,&apos;row2&apos;,&apos;detail:photo&apos;,&apos;photo2&apos;  
+
+
+put &apos;User&apos;,&apos;row3&apos;,&apos;data:name&apos;,&apos;u2&apos;
+put &apos;User&apos;,&apos;row3&apos;,&apos;data:psd&apos;,&apos;123&apos;   
+put &apos;User&apos;,&apos;row3&apos;,&apos;detail:address&apos;,&apos;&#x6C5F;&#x82CF;&#x7701;&#x5357;&#x4EAC;&#x5E02;&apos;   
+put &apos;User&apos;,&apos;row3&apos;,&apos;detail:photo&apos;,&apos;phto3&apos;</span><br></pre></td></tr></table></figure></p>
 <p><img src="solr.png" alt="solr web ui&#x67E5;&#x770B;&#x6700;&#x7EC8;&#x7ED3;&#x679C;"></p>
 <p>&#x6298;&#x817E;&#x51E0;&#x5929;&#x5F04;&#x597D;&#xFF0C;&#x4E0B;&#x4E00;&#x6B65;&#x662F;&#x5982;&#x4F55;&#x4EE5;&#x6784;&#x5EFA;&#x597D;&#x7684;&#x7D22;&#x5F15;Hbase&#x5B9E;&#x73B0;&#x591A;&#x5217;&#x6761;&#x4EF6;&#x7684;&#x7EC4;&#x5408;&#x67E5;&#x8BE2;&#x3002;</p>
 <h2 id="&#x6240;&#x9047;&#x95EE;&#x9898;qa">&#x6240;&#x9047;&#x95EE;&#x9898;QA</h2>
-<ol>
-<li>&#x6CE8;&#x518C;Lily HBase Indexer Service&#x53D1;&#x751F;&#x9519;&#x8BEF;&#xFF0C;&#x8BE6;&#x7EC6;&#x65E5;&#x5FD7;</li>
-</ol>
-<p><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">[WARN ][<span class="number">08</span>:<span class="number">56</span>:<span class="number">49</span>,<span class="number">677</span>][.com:<span class="number">2181</span>)] org.apache.zookeeper.ClientCnxn - Session <span class="number">0x0</span> <span class="keyword">for</span> server <span class="keyword">null</span>, unexpected error, closing socket connection and attempting reconnect</span><br><span class="line">java.net.ConnectException: Connection refused</span><br><span class="line">     at sun.nio.ch.SocketChannelImpl.checkConnect(Native Method)</span><br><span class="line">     at sun.nio.ch.SocketChannelImpl.finishConnect(SocketChannelImpl.java:<span class="number">739</span>)</span><br><span class="line">     at org.apache.zookeeper.ClientCnxnSocketNIO.doTransport(ClientCnxnSocketNIO.java:<span class="number">350</span>)</span><br><span class="line">     at org.apache.zookeeper.ClientCnxn$SendThread.run(ClientCnxn.java:<span class="number">1081</span>)</span><br></pre></td></tr></table></figure></p>
+<h3 id="lily-hbase-indexer-service&#x6CE8;&#x518C;&#x9519;&#x8BEF;">Lily HBase Indexer Service&#x6CE8;&#x518C;&#x9519;&#x8BEF;</h3>
+<p>&#x8BE6;&#x7EC6;&#x65E5;&#x5FD7;<br>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">[WARN ][<span class="number">08</span>:<span class="number">56</span>:<span class="number">49</span>,<span class="number">677</span>][.com:<span class="number">2181</span>)] org.apache.zookeeper.ClientCnxn - Session <span class="number">0x0</span> <span class="keyword">for</span> server <span class="keyword">null</span>, unexpected error, closing socket connection and attempting reconnect</span><br><span class="line">java.net.ConnectException: Connection refused</span><br><span class="line">     at sun.nio.ch.SocketChannelImpl.checkConnect(Native Method)</span><br><span class="line">     at sun.nio.ch.SocketChannelImpl.finishConnect(SocketChannelImpl.java:<span class="number">739</span>)</span><br><span class="line">     at org.apache.zookeeper.ClientCnxnSocketNIO.doTransport(ClientCnxnSocketNIO.java:<span class="number">350</span>)</span><br><span class="line">     at org.apache.zookeeper.ClientCnxn$SendThread.run(ClientCnxn.java:<span class="number">1081</span>)</span><br></pre></td></tr></table></figure></p>
 <p>&#x89E3;&#x51B3;&#xFF1A;&#x5C06;&#x5E2E;&#x52A9;&#x6587;&#x6863;&#x539F;&#x6587;&#x4E2D;&#x7684;-zookeeper hbase-cluster-zookeeper:2181&#x4E2D;hbase-cluster-zookeeper&#x6362;&#x6210;zoomkeeper&#x7684;&#x4E3B;&#x673A;&#x540D;</p>
-<ol start="2">
-<li>solr schema.xm&#x7684;&#x914D;&#x7F6E;&#x95EE;&#x9898;&#xFF0C;&#x4EE5;&#x53CA;morphline&#x7684;mapping&#x914D;&#x7F6E;&#x95EE;&#x9898;</li>
-</ol>
+<h3 id="schemaxm&#x548C;morphlineconf&#x914D;&#x7F6E;&#x95EE;&#x9898;">schema.xm&#x548C;morphline.conf&#x914D;&#x7F6E;&#x95EE;&#x9898;</h3>
 <p><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">ERROR  org.apache.solr.common.SolrException: ERROR: [doc=row3] unknown field <span class="string">&apos;data&apos;</span></span><br><span class="line">trueat org.apache.solr.update.DocumentBuilder.toDocument(DocumentBuilder.java:<span class="number">185</span>)</span><br></pre></td></tr></table></figure></p>
 <p>&#x89E3;&#x51B3;&#x65B9;&#x5F0F;&#xFF1A;<br>
 Thanks for the response. In the meantime I got a solution which is fine for me using: &lt;dynamicField name=&quot;*&quot; type=&quot;string&quot; indexed=&quot;true&quot; stored=&quot;true&quot; /&gt; But type=&quot;ignored&quot; is a good hint once I want to get rid of the fields I do not need, thanks. &#x2013;</p>
@@ -378,15 +396,47 @@ solrctl collection  --reload  hbase-collection-user</p>
 </ul>
 <p><figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">solrctl instancedir --update solrtest $HOME/solrtest   
 solrctl collection --reload solrtest</span><br></pre></td></tr></table></figure></p>
-<ol start="3">
-<li>&#x4E00;&#x4E2A;&#x5927;&#x7684;&#x7591;&#x95EE;&#xFF1A;schema.xml&#x7684;&#x914D;&#x7F6E;&#x548C;morphline.conf&#x7684;&#x914D;&#x7F6E;&#x5982;&#x4F55;&#x7EC4;&#x5408;&#xFF0C;&#x5B9E;&#x73B0;&#x4E00;&#x4E2A;&#x5B58;&#x5728;&#x591A;&#x4E2A;ColumnFamily&#x7684;Hbase&#x6620;&#x5C04;&#x793A;&#x4F8B;
-&#x89E3;&#x51B3;&#x65B9;&#x5F0F;&#xFF1A;
-<a href="https://github.com/jshmain/cloudera-search/blob/master/email-search/email-schema.xml">email-schema&#x793A;&#x4F8B;</a></li>
-</ol>
+<h3 id="&#x591A;&#x4E2A;hbasetable&#x65F6;schemaxml&#x7684;&#x914D;&#x7F6E;&#x548C;morphlineconf&#x7684;&#x914D;&#x7F6E;&#x5982;&#x4F55;&#x7EC4;&#x5408;">&#x591A;&#x4E2A;HbaseTable&#x65F6;schema.xml&#x7684;&#x914D;&#x7F6E;&#x548C;morphline.conf&#x7684;&#x914D;&#x7F6E;&#x5982;&#x4F55;&#x7EC4;&#x5408;</h3>
+<p>&#x89E3;&#x51B3;&#x65B9;&#x5F0F;&#xFF1A;
+<a href="https://github.com/jshmain/cloudera-search/blob/master/email-search/email-schema.xml">email-schema&#x793A;&#x4F8B;</a></p>
 <p>Q&#xFF1A;morphline.conf&#x548C;morphline-hbase-mapper.xml&#x6587;&#x4EF6;&#x662F;&#x5426;&#x6BCF;&#x4E2A;HbaseTable&#x90FD;&#x8981;&#x5BF9;&#x5E94;&#x914D;&#x7F6E;&#x4E00;&#x4E2A;?<br>
 A&#xFF1A;&#x6BCF;&#x4E00;&#x4E2A;Hbase Table&#x5BF9;&#x5E94;&#x751F;&#x6210;&#x4E00;&#x4E2A;Solr&#x7684;Collection&#x7D22;&#x5F15;&#xFF0C;&#x6BCF;&#x4E2A;&#x7D22;&#x5F15;&#x5BF9;&#x5E94;&#x4E00;&#x4E2A;Lily HBase Indexer &#x914D;&#x7F6E;&#x6587;&#x4EF6;morphlines.conf&#x548C;morphline&#x914D;&#x7F6E;&#x6587;&#x4EF6;morphline-hbase-mapper.xml&#xFF0C;&#x5176;&#x4E2D;morphlines.conf&#x53EF;&#x7531;CDH&#x7684;Key-Value Store Indexer&#x63A7;&#x5236;&#x53F0;&#x7BA1;&#x7406;&#xFF0C;&#x4EE5;id&#x533A;&#x5206;</p>
 <p>&#x5B98;&#x65B9;&#x8BF4;&#x660E;&#xFF1A;
-<figure class="highlight oxygene"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">Creating a Lily HBase Indexer configuration</span><br><span class="line">Individual Lily HBase Indexers are configured <span class="keyword">using</span> the hbase-indexer command line utility. Typically, there <span class="keyword">is</span> one Lily HBase Indexer configuration <span class="keyword">for</span> <span class="keyword">each</span> HBase table, but there can be <span class="keyword">as</span> many Lily HBase Indexer configurations <span class="keyword">as</span> there are tables <span class="keyword">and</span> column families <span class="keyword">and</span> corresponding collections <span class="keyword">in</span> the SolrCloud. <span class="keyword">Each</span> Lily HBase Indexer configuration <span class="keyword">is</span> defined <span class="keyword">in</span> an XML file such <span class="keyword">as</span> morphline-hbase-mapper.xml.</span><br></pre></td></tr></table></figure></p></span>
+<figure class="highlight livecodeserver"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">Creating <span class="operator">a</span> Lily HBase Indexer configuration  </span><br><span class="line">Individual Lily HBase Indexers are configured <span class="keyword">using</span> <span class="operator">the</span> hbase-indexer <span class="command"><span class="keyword">command</span> <span class="title">line</span> <span class="title">utility</span>.   </span></span><br><span class="line">Typically, there is <span class="constant">one</span> Lily HBase Indexer configuration <span class="keyword">for</span> <span class="keyword">each</span> HBase table,   </span><br><span class="line">but there can be <span class="keyword">as</span> many Lily HBase Indexer configurations <span class="keyword">as</span> there are tables <span class="operator">and</span> column families <span class="operator">and</span> corresponding collections <span class="operator">in</span> <span class="operator">the</span> SolrCloud.   </span><br><span class="line">Each Lily HBase Indexer configuration is defined <span class="operator">in</span> <span class="operator">an</span> XML <span class="built_in">file</span> such <span class="keyword">as</span> morphline-hbase-mapper.xml.</span><br></pre></td></tr></table></figure></p>
+<h3 id="key-value-store-indexer&#x670D;&#x52A1;&#x603B;&#x662F;&#x610F;&#x5916;&#x505C;&#x6B62;">Key-Value Store Indexer&#x670D;&#x52A1;&#x603B;&#x662F;&#x610F;&#x5916;&#x505C;&#x6B62;</h3>
+<ul>
+<li>&#x95EE;&#x9898;&#x63CF;&#x8FF0;&#xFF1A;&#x91CD;&#x65B0;&#x6784;&#x5EFA;&#x7684;Solr Collection&#x548C;Index&#xFF0C;&#x7A0B;&#x5E8F;&#x6279;&#x91CF;&#x5199;&#x5165;&#x65F6;&#x5C31;&#x670D;&#x52A1;&#x5C31;&#x81EA;&#x52A8;&#x505C;&#x6B62;</li>
+<li>&#x89E3;&#x51B3;&#xFF1A;
+1&#xFF09;&#x5220;&#x9664;Key-Value Store Indexer&#x5E76;&#x91CD;&#x65B0;&#x6DFB;&#x52A0;&#xFF0C;&#x6DFB;&#x52A0;&#x65F6;&#x9009;&#x62E9;3&#x4E2A;&#x89D2;&#x8272;&#x5B9E;&#x4F8B;&#xFF08;&#x524D;&#x9762;&#x662F;1&#x53F0;&#xFF09;&#xFF0C;
+2&#xFF09;&#x91CD;&#x8BD5;&#x5199;&#x5165;&#x6570;&#x636E;&#xFF0C;&#x5199;&#x5165;&#x4E00;&#x6B21;&#x6B7B;&#x4E00;&#x4E2A;&#xFF0C;&#x5199;&#x5B8C;&#x4E09;&#x6761;&#x6570;&#x636E;&#xFF0C;&#x6B7B;&#x5149;&#x4E86;
+3&#xFF09;&#x67E5;&#x770B;&#x65E5;&#x5FD7;&#xFF0C;&#x627E;&#x5230;&#x9519;&#x8BEF;&#x63CF;&#x8FF0;&#xFF1A;
+2015-09-11 11:28:40,732 INFO org.apache.zookeeper.ClientCnxn: Opening socket connection to server master.lt.com/192.168.1.100:2181. Will not attempt to authenticate using SASL (unknown error)</li>
+</ul>
+<p>&#x624B;&#x52A8;&#x5B9E;&#x73B0;&#xFF1F;&#xFF1F;&#xFF1F;</p>
+<h3 id="&#x5BF9;hbasetable&#x5DF2;&#x6709;&#x6570;&#x636E;&#x65B0;&#x5EFA;&#x7D22;&#x5F15;">&#x5BF9;HBaseTable&#x5DF2;&#x6709;&#x6570;&#x636E;&#x65B0;&#x5EFA;&#x7D22;&#x5F15;</h3>
+<p>&#x9700;&#x8981;&#x7528;&#x5230;Lily HBase Indexer&#x7684;&#x6279;&#x5904;&#x7406;&#x7D22;&#x5F15;&#x529F;&#x80FD;&#x4E86;</p>
+<p><figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo hadoop --config /etc/hadoop/conf \
+jar /usr/lib/hbase-solr/tools/hbase-indexer-mr-1.5-cdh5.4.4-job.jar \
+--conf /etc/hbase/conf/hbase-site.xml \
+-D &apos;mapred.child.java.opts=-Xmx500m&apos; \
+--hbase-indexer-zk master:2181 \
+--collection hbase-collection-user \
+--hbase-indexer-name userIndexer \
+--hbase-indexer-file $HOME/hbase-collection-user/conf/morphline-hbase-mapper.xml \
+--go-live \
+``` 
+
+  
+&#x9519;&#x8BEF;&#x65E5;&#x5FD7;  
+
+``` java
+Caused by: java.io.IOException Can not find resource  solrconfig.xml in classpath 
+or  /root/file:/tmp/hadoop-root/mapred/local/1441858645500/6a1a458e-35e2-4f66-82df-02795ba44e2c.solr.zip/collection1/conf</span><br></pre></td></tr></table></figure></p>
+<p>&#x4E34;&#x65F6;&#x4FEE;&#x6539;$HOME/hbase-collection-user/conf/morphline-hbase-mapper.xml&#x4E2D;morphlineFile&#x4E3A;&#x7EDD;&#x5BF9;&#x8DEF;&#x5F84;
+&lt;param name=&quot;morphlineFile&quot; value=&quot;/root/hbase-collection-user/conf/morphlines.conf&quot;/&gt;</p>
+<p>&#x5220;&#x9664;/etc/solr/conf.dist/&#x4E0B;&#x7684;collection1&#xFF0C;&#x53EF;&#x80FD;&#x662F;&#x5B89;&#x88C5;&#x65F6;&#x9ED8;&#x8BA4;&#x65B0;&#x5EFA;&#x7684;</p>
+<p>&#x53EF;&#x80FD;&#x9ED8;&#x8BA4;&#x8BFB;&#x53D6;&#x7684;&#x662F;/etc/hbase-solr/conf.dist&#x76EE;&#x5F55;&#x7684;morphline.conf</p>
+<p>/root/hbase-collection-userInfo/conf/solrconfig.xml&#x8FD9;&#x4E2A;&#x6587;&#x4EF6;&#x6253;&#x5305;&#x6210;zip&#x540E;&#x5E94;&#x8BE5;&#x4E5F;&#x662F;&#x5B58;&#x5728;&#x7684;&#xFF0C;&#x4E3A;&#x4EC0;&#x4E48;&#x62A5;&#x9519;&#xFF1F;</p></span>
       
     </div>
 
@@ -414,6 +464,8 @@ A&#xFF1A;&#x6BCF;&#x4E00;&#x4E2A;Hbase Table&#x5BF9;&#x5E94;&#x751F;&#x6210;&#x4
       
         <div class="post-nav">
           <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2015/09/11/NLP学习笔记/" rel="prev">NLP学习笔记</a>
             
           </div>
 
@@ -484,7 +536,7 @@ A&#xFF1A;&#x6BCF;&#x4E00;&#x4E2A;Hbase Table&#x5BF9;&#x5E94;&#x751F;&#x6210;&#x4
         <nav class="site-state motion-element">
           <div class="site-state-item site-state-posts">
             <a href="/archives">
-              <span class="site-state-item-count">23</span>
+              <span class="site-state-item-count">24</span>
               <span class="site-state-item-name">日志</span>
             </a>
           </div>
@@ -533,7 +585,7 @@ A&#xFF1A;&#x6BCF;&#x4E00;&#x4E2A;Hbase Table&#x5BF9;&#x5E94;&#x751F;&#x6210;&#x4
           <div class="post-toc">
             
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#关于hbase二级索引"><span class="nav-number">1.</span> <span class="nav-text">关于Hbase二级索引</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#关于key-value-indexer组件"><span class="nav-number">2.</span> <span class="nav-text">关于Key-Value Indexer组件</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#使用-lily-hbase-batch-indexer-进行索引"><span class="nav-number">3.</span> <span class="nav-text">使用 Lily HBase Batch Indexer 进行索引</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#创建hbase集群的表中列索引的步骤"><span class="nav-number">4.</span> <span class="nav-text">创建HBase集群的表中列索引的步骤：</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#填充-hbase-表"><span class="nav-number">4.1.</span> <span class="nav-text">填充 HBase 表</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#创建相应的-solrcloud-集合"><span class="nav-number">4.2.</span> <span class="nav-text">创建相应的 SolrCloud 集合</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#user示例配置"><span class="nav-number">4.2.1.</span> <span class="nav-text">user示例配置</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#扩展命令"><span class="nav-number">4.2.2.</span> <span class="nav-text">扩展命令</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#注意"><span class="nav-number">4.2.3.</span> <span class="nav-text">注意</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#创建-lily-hbase-indexer-配置"><span class="nav-number">4.3.</span> <span class="nav-text">创建 Lily HBase Indexer 配置</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#创建-morphline-配置文件"><span class="nav-number">4.4.</span> <span class="nav-text">创建 Morphline 配置文件</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#注册-lily-hbase-indexer-configuration-和-lily-hbase-indexer-service"><span class="nav-number">4.5.</span> <span class="nav-text">注册 Lily HBase Indexer Configuration 和 Lily HBase Indexer Service</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#验证索引器是否已成功创建"><span class="nav-number">4.6.</span> <span class="nav-text">验证索引器是否已成功创建</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#测试是solr是否已新建索引"><span class="nav-number">4.7.</span> <span class="nav-text">测试是solr是否已新建索引</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#所遇问题qa"><span class="nav-number">4.8.</span> <span class="nav-text">所遇问题QA</span></a></li></ol></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#关于hbase二级索引"><span class="nav-number">1.</span> <span class="nav-text">关于Hbase二级索引</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#关于key-value-indexer组件"><span class="nav-number">2.</span> <span class="nav-text">关于Key-Value Indexer组件</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#使用-lily-hbase-batch-indexer-进行索引"><span class="nav-number">3.</span> <span class="nav-text">使用 Lily HBase Batch Indexer 进行索引</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#创建hbase集群的表中列索引的步骤"><span class="nav-number">4.</span> <span class="nav-text">创建HBase集群的表中列索引的步骤：</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#填充-hbase-表"><span class="nav-number">4.1.</span> <span class="nav-text">填充 HBase 表</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#创建相应的-solrcloud-集合"><span class="nav-number">4.2.</span> <span class="nav-text">创建相应的 SolrCloud 集合</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#user示例配置"><span class="nav-number">4.2.1.</span> <span class="nav-text">user示例配置</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#扩展命令"><span class="nav-number">4.2.2.</span> <span class="nav-text">扩展命令</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#注意"><span class="nav-number">4.2.3.</span> <span class="nav-text">注意</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#创建-lily-hbase-indexer-配置"><span class="nav-number">4.3.</span> <span class="nav-text">创建 Lily HBase Indexer 配置</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#创建-morphline-配置文件"><span class="nav-number">4.4.</span> <span class="nav-text">创建 Morphline 配置文件</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#注册-lily-hbase-indexer-configuration-和-lily-hbase-indexer-service"><span class="nav-number">4.5.</span> <span class="nav-text">注册 Lily HBase Indexer Configuration 和 Lily HBase Indexer Service</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#验证索引器是否已成功创建"><span class="nav-number">4.6.</span> <span class="nav-text">验证索引器是否已成功创建</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#测试是solr是否已新建索引"><span class="nav-number">4.7.</span> <span class="nav-text">测试是solr是否已新建索引</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#所遇问题qa"><span class="nav-number">4.8.</span> <span class="nav-text">所遇问题QA</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#lily-hbase-indexer-service注册错误"><span class="nav-number">4.8.1.</span> <span class="nav-text">Lily HBase Indexer Service注册错误</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#schemaxm和morphlineconf配置问题"><span class="nav-number">4.8.2.</span> <span class="nav-text">schema.xm和morphline.conf配置问题</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#多个hbasetable时schemaxml的配置和morphlineconf的配置如何组合"><span class="nav-number">4.8.3.</span> <span class="nav-text">多个HbaseTable时schema.xml的配置和morphline.conf的配置如何组合</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#key-value-store-indexer服务总是意外停止"><span class="nav-number">4.8.4.</span> <span class="nav-text">Key-Value Store Indexer服务总是意外停止</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#对hbasetable已有数据新建索引"><span class="nav-number">4.8.5.</span> <span class="nav-text">对HBaseTable已有数据新建索引</span></a></li></ol></li></ol></li></ol></div>
             
           </div>
           <div class="post-toc-indicator-bottom post-toc-indicator"></div>
@@ -599,6 +651,15 @@ A&#xFF1A;&#x6BCF;&#x4E00;&#x4E2A;Hbase Table&#x5BF9;&#x5E94;&#x751F;&#x6210;&#x4
   </script>
     
      
+     
+  	  <script type="text/javascript">
+  		var duoshuo_user_ID = geosmart
+      var duoshuo_admin_nickname="geosmart"
+  	  </script>
+     
+  	<script src="/js/ua-parser.min.js"></script>
+  	<script src="/js/hook-duoshuo.js"></script>
+  
 
     
   
