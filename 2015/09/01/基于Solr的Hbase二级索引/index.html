@@ -30,7 +30,7 @@
 
 
 
-  <meta name="keywords" content="CDH,Hadoop,Hbase,Solr,分布式,大数据,技术点滴,">
+  <meta name="keywords" content="CDH,Hadoop,Hbase,Solr,分布式,大数据,">
 
 
 
@@ -52,7 +52,7 @@ HBase &amp;#x662F;&amp;#x4E00;&amp;#x4E2A;&amp;#x5217;&amp;#x5B58;&amp;#x6570;&a
 <meta property="og:image" content="http://geosmart.github.io/solr-query.png">
 <meta property="og:image" content="http://geosmart.github.io/indexerConfig.png">
 <meta property="og:image" content="http://geosmart.github.io/solr.png">
-<meta property="og:updated_time" content="2015-09-11T07:57:10.290Z">
+<meta property="og:updated_time" content="2015-09-15T02:53:01.324Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="基于Solr的Hbase二级索引">
 <meta name="twitter:description" content="&amp;#x5173;&amp;#x4E8E;Hbase&amp;#x4E8C;&amp;#x7EA7;&amp;#x7D22;&amp;#x5F15;
@@ -211,6 +211,21 @@ HBase &amp;#x662F;&amp;#x4E00;&amp;#x4E2A;&amp;#x5217;&amp;#x5B58;&amp;#x6570;&a
         </span>
 
         
+          <span class="post-category">
+            &nbsp; | &nbsp; 分类于
+            
+              <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
+                <a href="/categories/技术点滴/" itemprop="url" rel="index">
+                  <span itemprop="name">技术点滴</span>
+                </a>
+              </span>
+
+              
+              
+
+            
+          </span>
+        
 
         
           
@@ -232,7 +247,7 @@ HBase &amp;#x662F;&amp;#x4E00;&amp;#x4E2A;&amp;#x5217;&amp;#x5B58;&amp;#x6570;&a
 
       
         <span itemprop="articleBody"><h1 id="&#x5173;&#x4E8E;hbase&#x4E8C;&#x7EA7;&#x7D22;&#x5F15;">&#x5173;&#x4E8E;Hbase&#x4E8C;&#x7EA7;&#x7D22;&#x5F15;</h1>
-<p>HBase &#x662F;&#x4E00;&#x4E2A;&#x5217;&#x5B58;&#x6570;&#x636E;&#x5E93;&#xFF0C;&#x6BCF;&#x884C;&#x6570;&#x636E;&#x53EA;&#x6709;&#x4E00;&#x4E2A;&#x4E3B;&#x952E; -RowKey &#xFF0C;&#x65E0;&#x6CD5;&#x4F9D;&#x636E;&#x6307;&#x5B9A;&#x5217;&#x7684;&#x6570;&#x636E;&#x8FDB;&#x884C;&#x68C0;&#x7D22;&#x3002;&#x67E5;&#x8BE2;&#x65F6;&#x9700;&#x8981;&#x901A;&#x8FC7; RowKey &#x8FDB;&#x884C;&#x68C0;&#x7D22;&#xFF0C;&#x7136;&#x540E;&#x67E5;&#x770B;&#x6307;&#x5B9A;&#x5217;&#x7684;&#x6570;&#x636E;&#x662F;&#x4EC0;&#x4E48;&#xFF0C;&#x6548;&#x7387;&#x4F4E;&#x4E0B;&#x3002;&#x5728;&#x5B9E;&#x9645;&#x5E94;&#x7528;&#x4E2D;&#xFF0C;&#x6211;&#x4EEC;&#x7ECF;&#x5E38;&#x9700;&#x8981;&#x6839;&#x636E;&#x6307;&#x5B9A;&#x5217;&#x8FDB;&#x884C;&#x68C0;&#x7D22;&#xFF0C;&#x6216;&#x8005;&#x51E0;&#x4E2A;&#x5217;&#x8FDB;&#x884C;&#x7EC4;&#x5408;&#x68C0;&#x7D22;&#xFF0C;&#x8FD9;&#x5C31;&#x63D0;&#x51FA;&#x4E86;&#x5EFA;&#x7ACB; HBase &#x4E8C;&#x7EA7;&#x7D22;&#x5F15;&#x7684;&#x9700;&#x6C42;&#x3002;</p>
+<p>HBase &#x662F;&#x4E00;&#x4E2A;&#x5217;&#x5B58;&#x6570;&#x636E;&#x5E93;&#xFF0C;&#x6BCF;&#x884C;&#x6570;&#x636E;&#x53EA;&#x6709;&#x4E00;&#x4E2A;&#x4E3B;&#x952E;RowKey&#xFF0C;&#x65E0;&#x6CD5;&#x4F9D;&#x636E;&#x6307;&#x5B9A;&#x5217;&#x7684;&#x6570;&#x636E;&#x8FDB;&#x884C;&#x68C0;&#x7D22;&#x3002;&#x67E5;&#x8BE2;&#x65F6;&#x9700;&#x8981;&#x901A;&#x8FC7;RowKey&#x8FDB;&#x884C;&#x68C0;&#x7D22;&#xFF0C;&#x7136;&#x540E;&#x67E5;&#x770B;&#x6307;&#x5B9A;&#x5217;&#x7684;&#x6570;&#x636E;&#x662F;&#x4EC0;&#x4E48;&#xFF0C;&#x6548;&#x7387;&#x4F4E;&#x4E0B;&#x3002;&#x5728;&#x5B9E;&#x9645;&#x5E94;&#x7528;&#x4E2D;&#xFF0C;&#x6211;&#x4EEC;&#x7ECF;&#x5E38;&#x9700;&#x8981;&#x6839;&#x636E;&#x6307;&#x5B9A;&#x5217;&#x8FDB;&#x884C;&#x68C0;&#x7D22;&#xFF0C;&#x6216;&#x8005;&#x51E0;&#x4E2A;&#x5217;&#x8FDB;&#x884C;&#x7EC4;&#x5408;&#x68C0;&#x7D22;&#xFF0C;&#x8FD9;&#x5C31;&#x63D0;&#x51FA;&#x4E86;&#x5EFA;&#x7ACB; HBase &#x4E8C;&#x7EA7;&#x7D22;&#x5F15;&#x7684;&#x9700;&#x6C42;&#x3002;</p>
 <p>&#x4E8C;&#x7EA7;&#x7D22;&#x5F15;&#x6784;&#x5EFA;&#x65B9;&#x5F0F;&#xFF1A;&#x8868;&#x7D22;&#x5F15;&#x3001;&#x5217;&#x7D22;&#x5F15;&#x3001;&#x5168;&#x6587;&#x7D22;&#x5F15;</p>
 <ul>
 <li>&#x8868;&#x7D22;&#x5F15;&#x662F;&#x5C06;&#x7D22;&#x5F15;&#x6570;&#x636E;&#x5355;&#x72EC;&#x5B58;&#x50A8;&#x4E3A;&#x4E00;&#x5F20;&#x8868;&#xFF0C;&#x901A;&#x8FC7; HBase Coprocessor &#x751F;&#x6210;&#x5E76;&#x8BBF;&#x95EE;&#x7D22;&#x5F15;&#x6570;&#x636E;&#x3002;</li>
@@ -240,7 +255,6 @@ HBase &amp;#x662F;&amp;#x4E00;&amp;#x4E2A;&amp;#x5217;&amp;#x5B58;&amp;#x6570;&a
 <li>&#x5168;&#x6587;&#x7D22;&#x5F15;&#xFF1A;&#x4EE5;CDH5&#x4E2D;&#x7684;Lily HBase Indexer&#x670D;&#x52A1;&#x5B9E;&#x73B0;&#xFF0C;&#x5176;&#x4F7F;&#x7528;SolrCloud&#x5B58;&#x50A8;HBase&#x7684;&#x7D22;&#x5F15;&#x6570;&#x636E;&#xFF0C;Indexer&#x7D22;&#x5F15;&#x548C;&#x641C;&#x7D22;&#x4E0D;&#x4F1A;&#x5F71;&#x54CD;HBase&#x8FD0;&#x884C;&#x7684;&#x7A33;&#x5B9A;&#x6027;&#x548C;HBase&#x6570;&#x636E;&#x5199;&#x5165;&#x7684;&#x541E;&#x5410;&#x91CF;&#xFF0C;&#x56E0;&#x4E3A;&#x7D22;&#x5F15;&#x548C;&#x641C;&#x7D22;&#x8FC7;&#x7A0B;&#x662F;&#x5B8C;&#x5168;&#x5206;&#x5F00;&#x5E76;&#x4E14;&#x5F02;&#x6B65;&#x7684;&#x3002;Lily HBase Indexer&#x5728;CDH5&#x4E2D;&#x8FD0;&#x884C;&#x5FC5;&#x987B;&#x4F9D;&#x8D56;HBase&#x3001;SolrCloud&#x548C;Zookeeper&#x670D;&#x52A1;&#x3002;</li>
 </ul>
 <p><img src="solr-query.png" alt="&#x901A;&#x8FC7;solr&#x67E5;&#x8BE2;rowkey&#x518D;&#x67E5;&#x8BE2;Hbase"></p>
-<p>&lt;!-- more --&gt;</p>
 <h1 id="&#x5173;&#x4E8E;key-value-indexer&#x7EC4;&#x4EF6;">&#x5173;&#x4E8E;Key-Value Indexer&#x7EC4;&#x4EF6;</h1>
 <p><a href="http://www.cloudera.com/content/cloudera/zh-CN/documentation/core/v5-3-x/topics/search_use_hbase_indexer_service.html?scroll=xd_583c10bfdbd326ba-204beb9-13ef1573a9e--7fbb">CDH&#x5B98;&#x65B9;&#x6587;&#x6863;</a><br>
 <a href="http://blog.cloudera.com/blog/2013/11/email-indexing-using-cloudera-search-and-hbase/">&#x53C2;&#x8003;&#x535A;&#x5BA2;&#xFF1A;Email Indexing Using Cloudera Search and HBase</a><br>
@@ -456,8 +470,6 @@ or  /root/file:/tmp/hadoop-root/mapred/local/1441858645500/6a1a458e-35e2-4f66-82
           
             <a href="/tags/大数据/" rel="tag">#大数据</a>
           
-            <a href="/tags/技术点滴/" rel="tag">#技术点滴</a>
-          
         </div>
       
 
@@ -536,21 +548,21 @@ or  /root/file:/tmp/hadoop-root/mapred/local/1441858645500/6a1a458e-35e2-4f66-82
         <nav class="site-state motion-element">
           <div class="site-state-item site-state-posts">
             <a href="/archives">
-              <span class="site-state-item-count">24</span>
+              <span class="site-state-item-count">26</span>
               <span class="site-state-item-name">日志</span>
             </a>
           </div>
 
           <div class="site-state-item site-state-categories">
             
-              <span class="site-state-item-count">5</span>
+              <span class="site-state-item-count">6</span>
               <span class="site-state-item-name">分类</span>
               
           </div>
 
           <div class="site-state-item site-state-tags">
             <a href="/tags">
-              <span class="site-state-item-count">32</span>
+              <span class="site-state-item-count">34</span>
               <span class="site-state-item-name">标签</span>
               </a>
           </div>
