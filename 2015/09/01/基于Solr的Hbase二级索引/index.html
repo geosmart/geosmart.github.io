@@ -52,7 +52,7 @@ HBase &amp;#x662F;&amp;#x4E00;&amp;#x4E2A;&amp;#x5217;&amp;#x5B58;&amp;#x6570;&a
 <meta property="og:image" content="http://geosmart.github.io/solr-query.png">
 <meta property="og:image" content="http://geosmart.github.io/indexerConfig.png">
 <meta property="og:image" content="http://geosmart.github.io/solr.png">
-<meta property="og:updated_time" content="2015-09-15T02:53:01.324Z">
+<meta property="og:updated_time" content="2015-09-15T07:14:16.987Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="基于Solr的Hbase二级索引">
 <meta name="twitter:description" content="&amp;#x5173;&amp;#x4E8E;Hbase&amp;#x4E8C;&amp;#x7EA7;&amp;#x7D22;&amp;#x5F15;
@@ -288,6 +288,7 @@ Lily HBase Indexer&#x5728;CDH5&#x4E2D;&#x8FD0;&#x884C;&#x5FC5;&#x987B;&#x4F9D;&#
 disable &apos;User&apos;
 drop  &apos;User&apos;
 create &apos;User&apos;, {NAME =&gt; &apos;data&apos;, REPLICATION_SCOPE =&gt; 1}  
+
 disable &apos;User&apos;
 alter &apos;User&apos;, {NAME =&gt; &apos;detail&apos;, REPLICATION_SCOPE =&gt; 1}  
 enable &apos;User&apos;
@@ -330,7 +331,9 @@ solrctl instancedir  --delete  User
 #&#x5220;&#x9664;collection
 solrctl collection --delete  User
 #&#x5220;&#x9664;collection&#x6240;&#x6709;doc
-solrctl collection --deletedocs User</span><br></pre></td></tr></table></figure></p>
+solrctl collection --deletedocs User
+#&#x5220;&#x9664;User&#x914D;&#x7F6E;&#x76EE;&#x5F55;
+rm -rf $HOME/hbase-indexer/User</span><br></pre></td></tr></table></figure></p>
 <h3 id="&#x6CE8;&#x610F;">&#x6CE8;&#x610F;</h3>
 <p>&#x5728;schema.xml&#x4E2D;uniqueKey&#x5FC5;&#x987B;&#x4E3A;rowkey,&#x800C;rowkey&#x9ED8;&#x8BA4;&#x4F7F;&#x7528;&apos;id&apos;&#x5B57;&#x6BB5;&#x8868;&#x793A;&#xFF0C;&lt;field&gt;&#x4E2D;&#x5FC5;&#x987B;&#x8981;&#x6709;uniqueKey&#x5BF9;&#x5E94;&#x7684;id&#x5B57;&#x6BB5;&#x3002;</p>
 <h2 id="&#x521B;&#x5EFA;-lily-hbase-indexer-&#x914D;&#x7F6E;">&#x521B;&#x5EFA; Lily HBase Indexer &#x914D;&#x7F6E;</h2>
@@ -358,10 +361,10 @@ solrctl collection --deletedocs User</span><br></pre></td></tr></table></figure>
 <h2 id="&#x9A8C;&#x8BC1;&#x7D22;&#x5F15;&#x5668;&#x662F;&#x5426;&#x5DF2;&#x6210;&#x529F;&#x521B;&#x5EFA;">&#x9A8C;&#x8BC1;&#x7D22;&#x5F15;&#x5668;&#x662F;&#x5426;&#x5DF2;&#x6210;&#x529F;&#x521B;&#x5EFA;</h2>
 <p>&#x6267;&#x884C;<code>$ hbase-indexer list-indexers</code>&#x9A8C;&#x8BC1;&#x7D22;&#x5F15;&#x5668;&#x662F;&#x5426;&#x5DF2;&#x6210;&#x529F;&#x521B;&#x5EFA;</p>
 <p>&#x66F4;&#x591A;&#x5E2E;&#x52A9;&#xFF0C;&#x8BF7;&#x4F7F;&#x7528;&#x4EE5;&#x4E0B;&#x547D;&#x4EE4;&#xFF1A;</p>
-<p><figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hbase-indexer add-indexer --help
-$ hbase-indexer list-indexers --help
-$ hbase-indexer update-indexer --help
-$ hbase-indexer delete-indexer --help
+<p><figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">hbase-indexer add-indexer --help
+hbase-indexer list-indexers --help
+hbase-indexer update-indexer --help
+hbase-indexer delete-indexer --help
 
 # &#x82E5;&#x4FEE;&#x6539;&#x4E86;morphline-hbase-mapper.xml&#xFF0C;&#x9700;&#x66F4;&#x65B0;&#x7D22;&#x5F15;
 hbase-indexer update-indexer  -n userIndexer
@@ -370,7 +373,10 @@ hbase-indexer update-indexer  -n userIndexer
 hbase-indexer delete-indexer  -n userIndexer</span><br></pre></td></tr></table></figure></p>
 <h2 id="&#x6D4B;&#x8BD5;&#x662F;solr&#x662F;&#x5426;&#x5DF2;&#x65B0;&#x5EFA;&#x7D22;&#x5F15;">&#x6D4B;&#x8BD5;&#x662F;solr&#x662F;&#x5426;&#x5DF2;&#x65B0;&#x5EFA;&#x7D22;&#x5F15;</h2>
 <p>&#x5199;&#x5165;&#x6570;&#x636E;&#x65F6;&#xFF0C;&#x5728;solr-webui&#x63A7;&#x5236;&#x53F0;&#x67E5;&#x770B;&#x65E5;&#x5FD7;&#x662F;&#x5426;&#x66F4;&#x65B0;</p>
-<p><figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">
+<p><figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">put &apos;User&apos;,&apos;row1&apos;,&apos;data&apos;,&apos;u1&apos;
+
+put &apos;User&apos;,&apos;row1&apos;,&apos;data:name&apos;,&apos;u2&apos;
+
 put &apos;User&apos;,&apos;row1&apos;,&apos;data:name&apos;,&apos;u2&apos;
 put &apos;User&apos;,&apos;row1&apos;,&apos;data:psd&apos;,&apos;123&apos;   
 put &apos;User&apos;,&apos;row1&apos;,&apos;detail:address&apos;,&apos;address2&apos;   
@@ -440,7 +446,6 @@ jar /usr/lib/hbase-solr/tools/hbase-indexer-mr-1.5-cdh5.4.4-job.jar \
 --go-live \
 ``` 
 
-  
 &#x9519;&#x8BEF;&#x65E5;&#x5FD7;  
 
 ``` java
@@ -548,7 +553,7 @@ or  /root/file:/tmp/hadoop-root/mapred/local/1441858645500/6a1a458e-35e2-4f66-82
         <nav class="site-state motion-element">
           <div class="site-state-item site-state-posts">
             <a href="/archives">
-              <span class="site-state-item-count">26</span>
+              <span class="site-state-item-count">29</span>
               <span class="site-state-item-name">日志</span>
             </a>
           </div>
@@ -562,7 +567,7 @@ or  /root/file:/tmp/hadoop-root/mapred/local/1441858645500/6a1a458e-35e2-4f66-82
 
           <div class="site-state-item site-state-tags">
             <a href="/tags">
-              <span class="site-state-item-count">34</span>
+              <span class="site-state-item-count">37</span>
               <span class="site-state-item-name">标签</span>
               </a>
           </div>
