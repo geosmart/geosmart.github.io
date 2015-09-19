@@ -3,69 +3,57 @@
 <head>
   
 
-<meta charset="UTF-8">
-<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
-<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1">
+<meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
 
 
-<meta http-equiv="Cache-Control" content="no-transform">
-<meta http-equiv="Cache-Control" content="no-siteapp">
-
-
-
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
 
 
 
 
 
-  <link rel="stylesheet" type="text/css" href="/vendors/fancybox/source/jquery.fancybox.css?v=2.1.5">
+
+
+
+  <link rel="stylesheet" type="text/css" href="/vendors/fancybox/source/jquery.fancybox.css?v=2.1.5"/>
 
 
 
 
-<link rel="stylesheet" type="text/css" href="/css/main.css?v=0.4.5.1">
+<link rel="stylesheet" type="text/css" href="/css/main.css?v=0.4.5.1"/>
 
 
-    <meta name="description" content="追求心智成长，记录技术点滴">
-
-
-
-  <meta name="keywords" content="J2EE,Maven,">
+    <meta name="description" content="追求心智成长，记录技术点滴" />
 
 
 
-  <link rel="alternate" href="/atom.xml" title="Geosmart's Notes" type="application/atom+xml">
+  <meta name="keywords" content="J2EE,Maven," />
 
 
 
-  <link rel="shorticon icon" type="image/x-icon" href="/favicon.ico?v=0.4.5.1">
+  <link rel="alternate" href="/atom.xml" title="Geosmart's Notes" type="application/atom+xml" />
 
 
-<meta name="description" content="Maven
-// TODO &amp;#x5B9A;&amp;#x4E49;
-Maven&amp;#x5E38;&amp;#x7528;&amp;#x6307;&amp;#x4EE4;
-package&amp;#xFF1A;&amp;#x6253;&amp;#x5305;
-war:exploded&amp;#xFF1A;&amp;#x7F16;&amp;#x8BD1;&amp;#x4E0D;&amp;#x751F;&amp;#x6210;war&amp;#x5305;
-install&amp;#xFF1A;&amp;#x5B89;&amp;#x8">
+
+  <link rel="shorticon icon" type="image/x-icon" href="/favicon.ico?v=0.4.5.1" />
+
+
+<meta name="description" content="MavenMaven是基于项目对象模型(POM)，可以通过一小段描述信息来管理项目的构建，报告和文档的软件项目管理工具。  
+本文记录Maven开发过程中常用的脚本和遇到的问题。">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Maven使用笔记">
 <meta property="og:url" content="http://geosmart.github.io/2015/09/15/Maven使用笔记/index.html">
 <meta property="og:site_name" content="Geosmart's Notes">
-<meta property="og:description" content="Maven
-// TODO &amp;#x5B9A;&amp;#x4E49;
-Maven&amp;#x5E38;&amp;#x7528;&amp;#x6307;&amp;#x4EE4;
-package&amp;#xFF1A;&amp;#x6253;&amp;#x5305;
-war:exploded&amp;#xFF1A;&amp;#x7F16;&amp;#x8BD1;&amp;#x4E0D;&amp;#x751F;&amp;#x6210;war&amp;#x5305;
-install&amp;#xFF1A;&amp;#x5B89;&amp;#x8">
-<meta property="og:updated_time" content="2015-09-18T13:46:30.221Z">
+<meta property="og:description" content="MavenMaven是基于项目对象模型(POM)，可以通过一小段描述信息来管理项目的构建，报告和文档的软件项目管理工具。  
+本文记录Maven开发过程中常用的脚本和遇到的问题。">
+<meta property="og:updated_time" content="2015-09-19T14:21:50.648Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Maven使用笔记">
-<meta name="twitter:description" content="Maven
-// TODO &amp;#x5B9A;&amp;#x4E49;
-Maven&amp;#x5E38;&amp;#x7528;&amp;#x6307;&amp;#x4EE4;
-package&amp;#xFF1A;&amp;#x6253;&amp;#x5305;
-war:exploded&amp;#xFF1A;&amp;#x7F16;&amp;#x8BD1;&amp;#x4E0D;&amp;#x751F;&amp;#x6210;war&amp;#x5305;
-install&amp;#xFF1A;&amp;#x5B89;&amp;#x8">
+<meta name="twitter:description" content="MavenMaven是基于项目对象模型(POM)，可以通过一小段描述信息来管理项目的构建，报告和文档的软件项目管理工具。  
+本文记录Maven开发过程中常用的脚本和遇到的问题。">
 
 
 <script type="text/javascript" id="hexo.configuration">
@@ -135,7 +123,7 @@ install&amp;#xFF1A;&amp;#x5B89;&amp;#x8">
         
         <li class="menu-item menu-item-home">
           <a href="/" rel="section">
-            <i class="menu-item-icon icon-next-home"></i> <br>
+            <i class="menu-item-icon icon-next-home"></i> <br />
             首页
           </a>
         </li>
@@ -143,7 +131,7 @@ install&amp;#xFF1A;&amp;#x5B89;&amp;#x8">
         
         <li class="menu-item menu-item-archives">
           <a href="/archives" rel="section">
-            <i class="menu-item-icon icon-next-archives"></i> <br>
+            <i class="menu-item-icon icon-next-archives"></i> <br />
             归档
           </a>
         </li>
@@ -151,8 +139,32 @@ install&amp;#xFF1A;&amp;#x5B89;&amp;#x8">
         
         <li class="menu-item menu-item-tags">
           <a href="/tags" rel="section">
-            <i class="menu-item-icon icon-next-tags"></i> <br>
+            <i class="menu-item-icon icon-next-tags"></i> <br />
             标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories" rel="section">
+            <i class="menu-item-icon icon-next-categories"></i> <br />
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about" rel="section">
+            <i class="menu-item-icon icon-next-about"></i> <br />
+            关于
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-commonweal">
+          <a href="/404.html" rel="section">
+            <i class="menu-item-icon icon-next-commonweal"></i> <br />
+            公益404
           </a>
         </li>
       
@@ -167,7 +179,7 @@ install&amp;#xFF1A;&amp;#x5B89;&amp;#x8">
       
   
   <form class="site-search-form">
-    <input type="text" id="st-search-input" class="st-search-input st-default-search-input">
+    <input type="text" id="st-search-input" class="st-search-input st-default-search-input" />
   </form>
 
 
@@ -196,7 +208,7 @@ install&amp;#xFF1A;&amp;#x5B89;&amp;#x8">
   <div id="posts" class="posts-expand">
     
 
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
     <header class="post-header">
 
       
@@ -220,7 +232,7 @@ install&amp;#xFF1A;&amp;#x5B89;&amp;#x8">
         </span>
 
         
-          <span class="post-category">
+          <span class="post-category" >
             &nbsp; | &nbsp; 分类于
             
               <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
@@ -255,31 +267,22 @@ install&amp;#xFF1A;&amp;#x5B89;&amp;#x8">
       
 
       
-        <span itemprop="articleBody"><h1 id="maven">Maven</h1>
-<p>// TODO &#x5B9A;&#x4E49;</p>
-<h2 id="maven&#x5E38;&#x7528;&#x6307;&#x4EE4;">Maven&#x5E38;&#x7528;&#x6307;&#x4EE4;</h2>
-<p><code>package</code>&#xFF1A;&#x6253;&#x5305;<br>
-<code>war:exploded</code>&#xFF1A;&#x7F16;&#x8BD1;&#x4E0D;&#x751F;&#x6210;war&#x5305;<br>
-<code>install</code>&#xFF1A;&#x5B89;&#x88C5;&#x5230;&#x672C;&#x5730;&#x8D44;&#x6E90;&#x5E93;<br>
-eg&#xFF1A;<code>mvn install:install-file -Dfile=lt.util-1.0.jar -DgroupId=com.lt -DartifactId=util -Dversion=1.0 -Dpackaging=jar</code>
-<code>process-resources</code>&#xFF1A;&#x7F16;&#x8BD1;&#x5E76;&#x6253;&#x5305;&#x8D44;&#x6E90;<br>
-&#x65B0;&#x5EFA;&#x9879;&#x76EE;&#xFF1A;<code>mvn archetype:generate -DgroupId=com.lt -DartifactId=uadb.etl -DarchetypeArtifactIdmaven-archetype-webapp -DinteractiveMode=false</code></p>
-<h2 id="maven&#x8FDC;&#x7A0B;&#x5E93;">maven&#x8FDC;&#x7A0B;&#x5E93;</h2>
-<ul>
-<li>
-<p>https://search.maven.org/#search</p>
+        <span itemprop="articleBody"><h1 id="Maven">Maven</h1><p>Maven是基于项目对象模型(POM)，可以通过一小段描述信息来管理项目的构建，报告和文档的软件项目管理工具。  </p>
+<p>本文记录Maven开发过程中常用的脚本和遇到的问题。</p>
+<hr>
+<a id="more"></a>
+<h2 id="Maven常用指令">Maven常用指令</h2><p><code>package</code>：打包<br><code>war:exploded</code>：编译不生成war包<br><code>install</code>：安装到本地资源库<br>     eg：<code>mvn install:install-file -Dfile=lt.util-1.0.jar -DgroupId=com.lt -DartifactId=util -Dversion=1.0 -Dpackaging=jar</code><br><code>process-resources</code>：编译并打包资源<br>新建项目：<code>mvn archetype:generate -DgroupId=com.lt -DartifactId=uadb.etl -DarchetypeArtifactIdmaven-archetype-webapp -DinteractiveMode=false</code></p>
+<h2 id="maven远程库">maven远程库</h2><ul>
+<li><p><a href="https://search.maven.org/#search">https://search.maven.org/#search</a></p>
 </li>
-<li>
-<p>http://maven-repository.com/</p>
+<li><p><a href="http://maven-repository.com/">http://maven-repository.com/</a></p>
 </li>
-<li>
-<p>http://mvnrepository.com/</p>
+<li><p><a href="http://mvnrepository.com/">http://mvnrepository.com/</a></p>
 </li>
-<li>
-<p>http://repository.apache.org/snapshots/</p>
+<li><p><a href="http://repository.apache.org/snapshots/">http://repository.apache.org/snapshots/</a></p>
 </li>
 </ul>
-<h1 id="&#x4E0A;&#x4F20;&#x9879;&#x76EE;&#x5230;maven-central-repository">&#x4E0A;&#x4F20;&#x9879;&#x76EE;&#x5230;Maven Central Repository</h1></span>
+<h1 id="上传项目到Maven_Central_Repository">上传项目到Maven Central Repository</h1><h1 id="Maven问题记录">Maven问题记录</h1></span>
       
     </div>
 
@@ -329,7 +332,8 @@ eg&#xFF1A;<code>mvn install:install-file -Dfile=lt.util-1.0.jar -DgroupId=com.lt
         
           <div class="comments" id="comments">
             
-              <div class="ds-thread" data-thread-key="2015/09/15/Maven使用笔记/" data-title="Maven使用笔记" data-url="http://geosmart.github.io/2015/09/15/Maven使用笔记/">
+              <div class="ds-thread" data-thread-key="2015/09/15/Maven使用笔记/"
+                   data-title="Maven使用笔记" data-url="http://geosmart.github.io/2015/09/15/Maven使用笔记/">
               </div>
             
           </div>
@@ -351,7 +355,7 @@ eg&#xFF1A;<code>mvn install:install-file -Dfile=lt.util-1.0.jar -DgroupId=com.lt
 
       
         <ul class="sidebar-nav motion-element">
-          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
             文章目录
           </li>
           <li class="sidebar-nav-overview" data-target="site-overview">
@@ -362,7 +366,7 @@ eg&#xFF1A;<code>mvn install:install-file -Dfile=lt.util-1.0.jar -DgroupId=com.lt
 
       <section class="site-overview">
         <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
-          <img class="site-author-image" src="https://avatars1.githubusercontent.com/u/3156608?v=3&s=460" alt="geosmart" itemprop="image">
+          <img class="site-author-image" src="https://avatars1.githubusercontent.com/u/3156608?v=3&s=460" alt="geosmart" itemprop="image"/>
           <p class="site-author-name" itemprop="name">geosmart</p>
         </div>
         <p class="site-description motion-element" itemprop="description">追求心智成长，记录技术点滴</p>
@@ -375,10 +379,10 @@ eg&#xFF1A;<code>mvn install:install-file -Dfile=lt.util-1.0.jar -DgroupId=com.lt
           </div>
 
           <div class="site-state-item site-state-categories">
-            
+            <a href="/categories">
               <span class="site-state-item-count">6</span>
               <span class="site-state-item-name">分类</span>
-              
+              </a>
           </div>
 
           <div class="site-state-item site-state-tags">
@@ -418,7 +422,7 @@ eg&#xFF1A;<code>mvn install:install-file -Dfile=lt.util-1.0.jar -DgroupId=com.lt
           <div class="post-toc">
             
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#maven"><span class="nav-number">1.</span> <span class="nav-text">Maven</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#maven常用指令"><span class="nav-number">1.1.</span> <span class="nav-text">Maven常用指令</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#maven远程库"><span class="nav-number">1.2.</span> <span class="nav-text">maven远程库</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#上传项目到maven-central-repository"><span class="nav-number">2.</span> <span class="nav-text">上传项目到Maven Central Repository</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#Maven"><span class="nav-number">1.</span> <span class="nav-text">Maven</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#Maven常用指令"><span class="nav-number">1.1.</span> <span class="nav-text">Maven常用指令</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#maven远程库"><span class="nav-number">1.2.</span> <span class="nav-text">maven远程库</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#上传项目到Maven_Central_Repository"><span class="nav-number">2.</span> <span class="nav-text">上传项目到Maven Central Repository</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Maven问题记录"><span class="nav-number">3.</span> <span class="nav-text">Maven问题记录</span></a></li></ol></div>
             
           </div>
           <div class="post-toc-indicator-bottom post-toc-indicator"></div>
@@ -432,7 +436,7 @@ eg&#xFF1A;<code>mvn install:install-file -Dfile=lt.util-1.0.jar -DgroupId=com.lt
     </main>
 
     <footer id="footer" class="footer">
-      <div class="footer-inner"> <div class="copyright">
+      <div class="footer-inner"> <div class="copyright" >
   
   &copy; &nbsp; 
   <span itemprop="copyrightYear">2015</span>

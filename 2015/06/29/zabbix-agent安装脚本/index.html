@@ -3,67 +3,76 @@
 <head>
   
 
-<meta charset="UTF-8">
-<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
-<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1">
+<meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
 
 
-<meta http-equiv="Cache-Control" content="no-transform">
-<meta http-equiv="Cache-Control" content="no-siteapp">
-
-
-
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
 
 
 
 
 
-  <link rel="stylesheet" type="text/css" href="/vendors/fancybox/source/jquery.fancybox.css?v=2.1.5">
+
+
+
+  <link rel="stylesheet" type="text/css" href="/vendors/fancybox/source/jquery.fancybox.css?v=2.1.5"/>
 
 
 
 
-<link rel="stylesheet" type="text/css" href="/css/main.css?v=0.4.5.1">
+<link rel="stylesheet" type="text/css" href="/css/main.css?v=0.4.5.1"/>
 
 
-    <meta name="description" content="追求心智成长，记录技术点滴">
-
-
-
-  <meta name="keywords" content="CentOS,Zabbix,监控,运维,">
+    <meta name="description" content="追求心智成长，记录技术点滴" />
 
 
 
-  <link rel="alternate" href="/atom.xml" title="Geosmart's Notes" type="application/atom+xml">
+  <meta name="keywords" content="CentOS,Zabbix,监控,运维," />
 
 
 
-  <link rel="shorticon icon" type="image/x-icon" href="/favicon.ico?v=0.4.5.1">
+  <link rel="alternate" href="/atom.xml" title="Geosmart's Notes" type="application/atom+xml" />
 
 
-<meta name="description" content="&amp;#x51C6;&amp;#x5907;&amp;#x5185;&amp;#x5BB9;
 
-zabbix&amp;#x5B89;&amp;#x88C5;&amp;#x5305;&amp;#xFF08;&amp;#x5B98;&amp;#x7F51;&amp;#x7248;&amp;#x672C;&amp;#xFF1A;zabbix-2.2.9.tar.gz&amp;#xFF09;
-yum groupinstall &amp;quot;Development tools&amp;quot;
-zabbix&amp;#x5B89">
+  <link rel="shorticon icon" type="image/x-icon" href="/favicon.ico?v=0.4.5.1" />
+
+
+<meta name="description" content="准备内容
+zabbix安装包（官网版本：zabbix-2.2.9.tar.gz）
+yum groupinstall “Development tools”
+zabbix安装脚本 
+
+ cd /tmp &amp;amp;&amp;amp; tar -zxf  zabbix.gz
+安装步骤
+修改zabbix_server程序的磁盘路径修改zabbix_server主程序路径12# vim /usr/local/zab">
 <meta property="og:type" content="article">
 <meta property="og:title" content="zabbix-agent安装脚本">
 <meta property="og:url" content="http://geosmart.github.io/2015/06/29/zabbix-agent安装脚本/index.html">
 <meta property="og:site_name" content="Geosmart's Notes">
-<meta property="og:description" content="&amp;#x51C6;&amp;#x5907;&amp;#x5185;&amp;#x5BB9;
+<meta property="og:description" content="准备内容
+zabbix安装包（官网版本：zabbix-2.2.9.tar.gz）
+yum groupinstall “Development tools”
+zabbix安装脚本 
 
-zabbix&amp;#x5B89;&amp;#x88C5;&amp;#x5305;&amp;#xFF08;&amp;#x5B98;&amp;#x7F51;&amp;#x7248;&amp;#x672C;&amp;#xFF1A;zabbix-2.2.9.tar.gz&amp;#xFF09;
-yum groupinstall &amp;quot;Development tools&amp;quot;
-zabbix&amp;#x5B89">
+ cd /tmp &amp;amp;&amp;amp; tar -zxf  zabbix.gz
+安装步骤
+修改zabbix_server程序的磁盘路径修改zabbix_server主程序路径12# vim /usr/local/zab">
 <meta property="og:image" content="http://geosmart.github.io/zabbix.png">
 <meta property="og:updated_time" content="2015-09-07T13:30:07.855Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="zabbix-agent安装脚本">
-<meta name="twitter:description" content="&amp;#x51C6;&amp;#x5907;&amp;#x5185;&amp;#x5BB9;
+<meta name="twitter:description" content="准备内容
+zabbix安装包（官网版本：zabbix-2.2.9.tar.gz）
+yum groupinstall “Development tools”
+zabbix安装脚本 
 
-zabbix&amp;#x5B89;&amp;#x88C5;&amp;#x5305;&amp;#xFF08;&amp;#x5B98;&amp;#x7F51;&amp;#x7248;&amp;#x672C;&amp;#xFF1A;zabbix-2.2.9.tar.gz&amp;#xFF09;
-yum groupinstall &amp;quot;Development tools&amp;quot;
-zabbix&amp;#x5B89">
+ cd /tmp &amp;amp;&amp;amp; tar -zxf  zabbix.gz
+安装步骤
+修改zabbix_server程序的磁盘路径修改zabbix_server主程序路径12# vim /usr/local/zab">
 
 
 <script type="text/javascript" id="hexo.configuration">
@@ -133,7 +142,7 @@ zabbix&amp;#x5B89">
         
         <li class="menu-item menu-item-home">
           <a href="/" rel="section">
-            <i class="menu-item-icon icon-next-home"></i> <br>
+            <i class="menu-item-icon icon-next-home"></i> <br />
             首页
           </a>
         </li>
@@ -141,7 +150,7 @@ zabbix&amp;#x5B89">
         
         <li class="menu-item menu-item-archives">
           <a href="/archives" rel="section">
-            <i class="menu-item-icon icon-next-archives"></i> <br>
+            <i class="menu-item-icon icon-next-archives"></i> <br />
             归档
           </a>
         </li>
@@ -149,8 +158,32 @@ zabbix&amp;#x5B89">
         
         <li class="menu-item menu-item-tags">
           <a href="/tags" rel="section">
-            <i class="menu-item-icon icon-next-tags"></i> <br>
+            <i class="menu-item-icon icon-next-tags"></i> <br />
             标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories" rel="section">
+            <i class="menu-item-icon icon-next-categories"></i> <br />
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about" rel="section">
+            <i class="menu-item-icon icon-next-about"></i> <br />
+            关于
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-commonweal">
+          <a href="/404.html" rel="section">
+            <i class="menu-item-icon icon-next-commonweal"></i> <br />
+            公益404
           </a>
         </li>
       
@@ -165,7 +198,7 @@ zabbix&amp;#x5B89">
       
   
   <form class="site-search-form">
-    <input type="text" id="st-search-input" class="st-search-input st-default-search-input">
+    <input type="text" id="st-search-input" class="st-search-input st-default-search-input" />
   </form>
 
 
@@ -194,7 +227,7 @@ zabbix&amp;#x5B89">
   <div id="posts" class="posts-expand">
     
 
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
     <header class="post-header">
 
       
@@ -218,7 +251,7 @@ zabbix&amp;#x5B89">
         </span>
 
         
-          <span class="post-category">
+          <span class="post-category" >
             &nbsp; | &nbsp; 分类于
             
               <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
@@ -253,54 +286,46 @@ zabbix&amp;#x5B89">
       
 
       
-        <span itemprop="articleBody"><p><img src="zabbix.png" alt="zabbix"></p>
-<h1 id="&#x51C6;&#x5907;&#x5185;&#x5BB9;">&#x51C6;&#x5907;&#x5185;&#x5BB9;</h1>
-<ol>
-<li><a href="http://sourceforge.net/projects/zabbix/files/ZABBIX%20Latest%20Stable/2.2.9/zabbix-2.2.9.tar.gz/download">zabbix&#x5B89;&#x88C5;&#x5305;&#xFF08;&#x5B98;&#x7F51;&#x7248;&#x672C;&#xFF1A;zabbix-2.2.9.tar.gz&#xFF09;</a></li>
-<li>yum groupinstall &quot;Development tools&quot;</li>
-<li><a href="install-zabbix_agent.sh">zabbix&#x5B89;&#x88C5;&#x811A;&#x672C;</a></li>
+        <span itemprop="articleBody"><p><img src="zabbix.png" alt="zabbix"> </p>
+<h1 id="准备内容">准备内容</h1><ol>
+<li><a href="http://sourceforge.net/projects/zabbix/files/ZABBIX%20Latest%20Stable/2.2.9/zabbix-2.2.9.tar.gz/download">zabbix安装包（官网版本：zabbix-2.2.9.tar.gz）</a></li>
+<li>yum groupinstall “Development tools”</li>
+<li><a href="install-zabbix_agent.sh">zabbix安装脚本</a> </li>
 </ol>
-<p>cd /tmp &amp;&amp; tar -zxf  zabbix.gz</p>
-<h1 id="&#x5B89;&#x88C5;&#x6B65;&#x9AA4;">&#x5B89;&#x88C5;&#x6B65;&#x9AA4;</h1>
-<ol>
-<li>&#x4FEE;&#x6539;zabbix_server&#x7A0B;&#x5E8F;&#x7684;&#x78C1;&#x76D8;&#x8DEF;&#x5F84;<br>
-&#x4FEE;&#x6539;zabbix_server&#x4E3B;&#x7A0B;&#x5E8F;&#x8DEF;&#x5F84;
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># vim /usr/local/zabbix/misc/init.d/tru64/zabbix_server</span></span><br><span class="line">DAEMON=/usr/<span class="built_in">local</span>/zabbix/sbin/zabbix_server</span><br></pre></td></tr></table></figure></li>
-</ol>
-<p>&#x6DFB;&#x52A0;&#x4E0B;&#x9762;&#x4E24;&#x53E5;&#x5230;<code>#!/bin/bash</code>&#x4E4B;&#x540E;&#xFF0C;&#x89E3;&#x51B3;<code>service myservicedoes not support chkconfig</code>&#x95EE;&#x9898;
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># chkconfig: 2345 10 90 </span></span><br><span class="line"><span class="comment"># description:zabbix....</span></span><br></pre></td></tr></table></figure></p>
-<ol start="2">
-<li>
-<p>&#x7F16;&#x8F91;zabbix_agentd&#x914D;&#x7F6E;&#x6587;&#x4EF6;
-<code>vim /usr/local/zabbix/etc/zabbix_agentd.conf</code>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">LogFile=/tmp/zabbix_agentd.log </span><br><span class="line"><span class="comment">#&#x670D;&#x52A1;&#x7AEF;IP  </span></span><br><span class="line">Server=<span class="number">192.168</span>.<span class="number">1.80</span></span><br><span class="line"><span class="comment">#&#x670D;&#x52A1;&#x7AEF;IP   </span></span><br><span class="line">ServerActive= <span class="number">192.168</span>.<span class="number">1.80</span></span><br><span class="line"><span class="comment">#&#x5BA2;&#x6237;&#x7AEF;IP&#x4E0E;zabbix-web&#x914D;&#x7F6E;&#x4E0A;&#x7684;hostName&#x4E00;&#x81F4;   </span></span><br><span class="line">Hostname=localhost</span><br><span class="line">UnsafeUserParameters=<span class="number">1</span></span><br></pre></td></tr></table></figure></p>
-</li>
-<li>
-<p>&#x6267;&#x884C;&#x5B89;&#x88C5;&#x811A;&#x672C;
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">cd</span> /usr/<span class="built_in">local</span>/zabbix/script/install-zabbix_agentd.sh</span><br><span class="line">chmod +x install-zabbix_agentd.sh </span><br><span class="line">sudo ./install-zabbix_agentd.sh</span><br></pre></td></tr></table></figure></p>
+<p> cd /tmp &amp;&amp; tar -zxf  zabbix.gz</p>
+<h1 id="安装步骤">安装步骤</h1><ol>
+<li>修改zabbix_server程序的磁盘路径<br>修改zabbix_server主程序路径<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># vim /usr/local/zabbix/misc/init.d/tru64/zabbix_server</span></span><br><span class="line">DAEMON=/usr/<span class="built_in">local</span>/zabbix/sbin/zabbix_server</span><br></pre></td></tr></table></figure>
 </li>
 </ol>
-<h1 id="&#x76F8;&#x5173;&#x64CD;&#x4F5C;">&#x76F8;&#x5173;&#x64CD;&#x4F5C;</h1>
+<p>添加下面两句到<code>#!/bin/bash</code>之后，解决<code>service myservicedoes not support chkconfig</code>问题<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># chkconfig: 2345 10 90 </span></span><br><span class="line"><span class="comment"># description:zabbix....</span></span><br></pre></td></tr></table></figure></p>
 <ol>
-<li>&#x82E5;zabbix&#x7684;host&#x65E0;&#x6CD5;&#x8BBF;&#x95EE;&#xFF0C;&#x8003;&#x8651;&#x9632;&#x706B;&#x5899;&#x662F;&#x5426;&#x9700;&#x8981;&#x5173;&#x95ED;/&#x52A0;&#x5165;&#x4FE1;&#x4EFB;&#x7AEF;&#x53E3;</li>
+<li><p>编辑zabbix_agentd配置文件<br><code>vim /usr/local/zabbix/etc/zabbix_agentd.conf</code> </p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">LogFile=/tmp/zabbix_agentd.log </span><br><span class="line"><span class="comment">#服务端IP  </span></span><br><span class="line">Server=<span class="number">192.168</span>.<span class="number">1.80</span></span><br><span class="line"><span class="comment">#服务端IP   </span></span><br><span class="line">ServerActive= <span class="number">192.168</span>.<span class="number">1.80</span></span><br><span class="line"><span class="comment">#客户端IP与zabbix-web配置上的hostName一致   </span></span><br><span class="line">Hostname=localhost</span><br><span class="line">UnsafeUserParameters=<span class="number">1</span></span><br></pre></td></tr></table></figure>
+</li>
+<li><p>执行安装脚本</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">cd</span> /usr/<span class="built_in">local</span>/zabbix/script/install-zabbix_agentd.sh</span><br><span class="line">chmod +x install-zabbix_agentd.sh </span><br><span class="line">sudo ./install-zabbix_agentd.sh</span><br></pre></td></tr></table></figure>
+</li>
 </ol>
-<pre><code class="language-bash">#&#x67E5;&#x770B;&#x9632;&#x706B;&#x5899;&#x72B6;&#x6001;
+<h1 id="相关操作">相关操作</h1><ol>
+<li><p>若zabbix的host无法访问，考虑防火墙是否需要关闭/加入信任端口</p>
+<pre><code class="bash"><span class="comment">#查看防火墙状态</span>
 service iptables status 
-#&#x5173;&#x95ED;&#x9632;&#x706B;&#x5899; 
+<span class="comment">#关闭防火墙 </span>
 service iptables stop  
-#&#x6C38;&#x4E45;&#x5173;&#x95ED;&#x9632;&#x706B;&#x5899; 
-chkconfig   iptables off 
+<span class="comment">#永久关闭防火墙 </span>
+chkconfig   iptables off
 </code></pre>
-<ol start="2">
-<li>&#x67E5;&#x770B;zabbix&#x670D;&#x52A1;&#x662F;&#x5426;&#x5DF2;&#x542F;&#x52A8;</li>
-</ol>
-<pre><code class="language-bash">netstat -utlnp | grep zabbix 
+</li>
+<li><p>查看zabbix服务是否已启动</p>
+<pre><code class="bash">netstat -utlnp | grep zabbix
 </code></pre>
-<ol start="3">
-<li>&#x914D;&#x7F6E;&#x6587;&#x4EF6;&#x66F4;&#x65B0;&#x540E;&#xFF0C;&#x9700;&#x91CD;&#x542F;&#x5BA2;&#x6237;&#x7AEF;&#x670D;&#x52A1;</li>
+</li>
+<li><p>配置文件更新后，需重启客户端服务</p>
+<pre><code class="bash">service zabbix_agentd restart
+</code></pre>
+</li>
 </ol>
-<pre><code class="language-bash">service zabbix_agentd restart
-</code></pre></span>
+</span>
       
     </div>
 
@@ -354,7 +379,8 @@ chkconfig   iptables off
         
           <div class="comments" id="comments">
             
-              <div class="ds-thread" data-thread-key="2015/06/29/zabbix-agent安装脚本/" data-title="zabbix-agent安装脚本" data-url="http://geosmart.github.io/2015/06/29/zabbix-agent安装脚本/">
+              <div class="ds-thread" data-thread-key="2015/06/29/zabbix-agent安装脚本/"
+                   data-title="zabbix-agent安装脚本" data-url="http://geosmart.github.io/2015/06/29/zabbix-agent安装脚本/">
               </div>
             
           </div>
@@ -376,7 +402,7 @@ chkconfig   iptables off
 
       
         <ul class="sidebar-nav motion-element">
-          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
             文章目录
           </li>
           <li class="sidebar-nav-overview" data-target="site-overview">
@@ -387,7 +413,7 @@ chkconfig   iptables off
 
       <section class="site-overview">
         <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
-          <img class="site-author-image" src="https://avatars1.githubusercontent.com/u/3156608?v=3&s=460" alt="geosmart" itemprop="image">
+          <img class="site-author-image" src="https://avatars1.githubusercontent.com/u/3156608?v=3&s=460" alt="geosmart" itemprop="image"/>
           <p class="site-author-name" itemprop="name">geosmart</p>
         </div>
         <p class="site-description motion-element" itemprop="description">追求心智成长，记录技术点滴</p>
@@ -400,10 +426,10 @@ chkconfig   iptables off
           </div>
 
           <div class="site-state-item site-state-categories">
-            
+            <a href="/categories">
               <span class="site-state-item-count">6</span>
               <span class="site-state-item-name">分类</span>
-              
+              </a>
           </div>
 
           <div class="site-state-item site-state-tags">
@@ -457,7 +483,7 @@ chkconfig   iptables off
     </main>
 
     <footer id="footer" class="footer">
-      <div class="footer-inner"> <div class="copyright">
+      <div class="footer-inner"> <div class="copyright" >
   
   &copy; &nbsp; 
   <span itemprop="copyrightYear">2015</span>

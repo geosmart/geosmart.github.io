@@ -3,64 +3,85 @@
 <head>
   
 
-<meta charset="UTF-8">
-<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
-<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1">
+<meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
 
 
-<meta http-equiv="Cache-Control" content="no-transform">
-<meta http-equiv="Cache-Control" content="no-siteapp">
-
-
-
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
 
 
 
 
 
-  <link rel="stylesheet" type="text/css" href="/vendors/fancybox/source/jquery.fancybox.css?v=2.1.5">
+
+
+
+  <link rel="stylesheet" type="text/css" href="/vendors/fancybox/source/jquery.fancybox.css?v=2.1.5"/>
 
 
 
 
-<link rel="stylesheet" type="text/css" href="/css/main.css?v=0.4.5.1">
+<link rel="stylesheet" type="text/css" href="/css/main.css?v=0.4.5.1"/>
 
 
-    <meta name="description" content="追求心智成长，记录技术点滴">
-
-
-
-  <meta name="keywords" content="CentOS,MongoDB,数据库,">
+    <meta name="description" content="追求心智成长，记录技术点滴" />
 
 
 
-  <link rel="alternate" href="/atom.xml" title="Geosmart's Notes" type="application/atom+xml">
+  <meta name="keywords" content="CentOS,MongoDB,数据库," />
 
 
 
-  <link rel="shorticon icon" type="image/x-icon" href="/favicon.ico?v=0.4.5.1">
+  <link rel="alternate" href="/atom.xml" title="Geosmart's Notes" type="application/atom+xml" />
 
 
-<meta name="description" content="&amp;#x51C6;&amp;#x5907;&amp;#x5185;&amp;#x5BB9;
 
-mongodb&amp;#x5B89;&amp;#x88C5;&amp;#x5305;&amp;#xFF08;&amp;#x5B98;&amp;#x7F51;&amp;#x7248;&amp;#x672C;&amp;#xFF1A;mongodb-linux-x86_64-2.6.3.tgz&amp;#xFF09;
-&amp;#x4E0B;&amp;#x8F7D;&amp;#x540E;&amp;#x5E76;&amp;#x91CD;&amp;#x547D;">
+  <link rel="shorticon icon" type="image/x-icon" href="/favicon.ico?v=0.4.5.1" />
+
+
+<meta name="description" content="准备内容
+mongodb安装包（官网版本：mongodb-linux-x86_64-2.6.3.tgz）下载后并重命名为mongodb.tar.gz
+mongodb安装脚本
+
+安装步骤将文件复制到CentOS后进行安装
+
+CentOS路径：/tmp 
+执行
+123cd /tmpchmod +x install-mongodb.sh sudo ./install-mongodb.sh
+
+一路回车即可">
 <meta property="og:type" content="article">
 <meta property="og:title" content="mongodb一键安装脚本">
 <meta property="og:url" content="http://geosmart.github.io/2015/07/01/mongodb一键安装脚本/index.html">
 <meta property="og:site_name" content="Geosmart's Notes">
-<meta property="og:description" content="&amp;#x51C6;&amp;#x5907;&amp;#x5185;&amp;#x5BB9;
+<meta property="og:description" content="准备内容
+mongodb安装包（官网版本：mongodb-linux-x86_64-2.6.3.tgz）下载后并重命名为mongodb.tar.gz
+mongodb安装脚本
 
-mongodb&amp;#x5B89;&amp;#x88C5;&amp;#x5305;&amp;#xFF08;&amp;#x5B98;&amp;#x7F51;&amp;#x7248;&amp;#x672C;&amp;#xFF1A;mongodb-linux-x86_64-2.6.3.tgz&amp;#xFF09;
-&amp;#x4E0B;&amp;#x8F7D;&amp;#x540E;&amp;#x5E76;&amp;#x91CD;&amp;#x547D;">
+安装步骤将文件复制到CentOS后进行安装
+
+CentOS路径：/tmp 
+执行
+123cd /tmpchmod +x install-mongodb.sh sudo ./install-mongodb.sh
+
+一路回车即可">
 <meta property="og:image" content="http://geosmart.github.io/logo-mongodb.png">
 <meta property="og:updated_time" content="2015-09-07T13:28:53.466Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="mongodb一键安装脚本">
-<meta name="twitter:description" content="&amp;#x51C6;&amp;#x5907;&amp;#x5185;&amp;#x5BB9;
+<meta name="twitter:description" content="准备内容
+mongodb安装包（官网版本：mongodb-linux-x86_64-2.6.3.tgz）下载后并重命名为mongodb.tar.gz
+mongodb安装脚本
 
-mongodb&amp;#x5B89;&amp;#x88C5;&amp;#x5305;&amp;#xFF08;&amp;#x5B98;&amp;#x7F51;&amp;#x7248;&amp;#x672C;&amp;#xFF1A;mongodb-linux-x86_64-2.6.3.tgz&amp;#xFF09;
-&amp;#x4E0B;&amp;#x8F7D;&amp;#x540E;&amp;#x5E76;&amp;#x91CD;&amp;#x547D;">
+安装步骤将文件复制到CentOS后进行安装
+
+CentOS路径：/tmp 
+执行
+123cd /tmpchmod +x install-mongodb.sh sudo ./install-mongodb.sh
+
+一路回车即可">
 
 
 <script type="text/javascript" id="hexo.configuration">
@@ -130,7 +151,7 @@ mongodb&amp;#x5B89;&amp;#x88C5;&amp;#x5305;&amp;#xFF08;&amp;#x5B98;&amp;#x7F51;&
         
         <li class="menu-item menu-item-home">
           <a href="/" rel="section">
-            <i class="menu-item-icon icon-next-home"></i> <br>
+            <i class="menu-item-icon icon-next-home"></i> <br />
             首页
           </a>
         </li>
@@ -138,7 +159,7 @@ mongodb&amp;#x5B89;&amp;#x88C5;&amp;#x5305;&amp;#xFF08;&amp;#x5B98;&amp;#x7F51;&
         
         <li class="menu-item menu-item-archives">
           <a href="/archives" rel="section">
-            <i class="menu-item-icon icon-next-archives"></i> <br>
+            <i class="menu-item-icon icon-next-archives"></i> <br />
             归档
           </a>
         </li>
@@ -146,8 +167,32 @@ mongodb&amp;#x5B89;&amp;#x88C5;&amp;#x5305;&amp;#xFF08;&amp;#x5B98;&amp;#x7F51;&
         
         <li class="menu-item menu-item-tags">
           <a href="/tags" rel="section">
-            <i class="menu-item-icon icon-next-tags"></i> <br>
+            <i class="menu-item-icon icon-next-tags"></i> <br />
             标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories" rel="section">
+            <i class="menu-item-icon icon-next-categories"></i> <br />
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about" rel="section">
+            <i class="menu-item-icon icon-next-about"></i> <br />
+            关于
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-commonweal">
+          <a href="/404.html" rel="section">
+            <i class="menu-item-icon icon-next-commonweal"></i> <br />
+            公益404
           </a>
         </li>
       
@@ -162,7 +207,7 @@ mongodb&amp;#x5B89;&amp;#x88C5;&amp;#x5305;&amp;#xFF08;&amp;#x5B98;&amp;#x7F51;&
       
   
   <form class="site-search-form">
-    <input type="text" id="st-search-input" class="st-search-input st-default-search-input">
+    <input type="text" id="st-search-input" class="st-search-input st-default-search-input" />
   </form>
 
 
@@ -191,7 +236,7 @@ mongodb&amp;#x5B89;&amp;#x88C5;&amp;#x5305;&amp;#xFF08;&amp;#x5B98;&amp;#x7F51;&
   <div id="posts" class="posts-expand">
     
 
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
     <header class="post-header">
 
       
@@ -215,7 +260,7 @@ mongodb&amp;#x5B89;&amp;#x88C5;&amp;#x5305;&amp;#xFF08;&amp;#x5B98;&amp;#x7F51;&
         </span>
 
         
-          <span class="post-category">
+          <span class="post-category" >
             &nbsp; | &nbsp; 分类于
             
               <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
@@ -250,27 +295,21 @@ mongodb&amp;#x5B89;&amp;#x88C5;&amp;#x5305;&amp;#xFF08;&amp;#x5B98;&amp;#x7F51;&
       
 
       
-        <span itemprop="articleBody"><p><img src="logo-mongodb.png" alt=""></p>
-<h2 id="&#x51C6;&#x5907;&#x5185;&#x5BB9;">&#x51C6;&#x5907;&#x5185;&#x5BB9;</h2>
-<ol>
-<li><a href="http://fastdl.mongodb.org/linux/mongodb-linux-x86_64-2.6.3.tgz">mongodb&#x5B89;&#x88C5;&#x5305;&#xFF08;&#x5B98;&#x7F51;&#x7248;&#x672C;&#xFF1A;mongodb-linux-x86_64-2.6.3.tgz&#xFF09;</a>
-&#x4E0B;&#x8F7D;&#x540E;&#x5E76;&#x91CD;&#x547D;&#x540D;&#x4E3A;mongodb.tar.gz</li>
-<li><a href="install-mongodb.sh">mongodb&#x5B89;&#x88C5;&#x811A;&#x672C;</a></li>
+        <span itemprop="articleBody"><p><img src="logo-mongodb.png" alt="">   </p>
+<h2 id="准备内容">准备内容</h2><ol>
+<li><a href="http://fastdl.mongodb.org/linux/mongodb-linux-x86_64-2.6.3.tgz">mongodb安装包（官网版本：mongodb-linux-x86_64-2.6.3.tgz）</a><br>下载后并重命名为mongodb.tar.gz</li>
+<li><a href="install-mongodb.sh">mongodb安装脚本</a></li>
 </ol>
-<h2 id="&#x5B89;&#x88C5;&#x6B65;&#x9AA4;">&#x5B89;&#x88C5;&#x6B65;&#x9AA4;</h2>
-<p>&#x5C06;&#x6587;&#x4EF6;&#x590D;&#x5236;&#x5230;CentOS&#x540E;&#x8FDB;&#x884C;&#x5B89;&#x88C5;</p>
+<h2 id="安装步骤">安装步骤</h2><p>将文件复制到CentOS后进行安装</p>
 <ol>
-<li>
-<p>CentOS&#x8DEF;&#x5F84;&#xFF1A;/tmp</p>
+<li>CentOS路径：/tmp </li>
+<li><p>执行</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">cd</span> /tmp</span><br><span class="line">chmod +x install-mongodb.sh </span><br><span class="line">sudo ./install-mongodb.sh</span><br></pre></td></tr></table></figure>
 </li>
-<li>
-<p>&#x6267;&#x884C;
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">cd</span> /tmp</span><br><span class="line">chmod +x install-mongodb.sh </span><br><span class="line">sudo ./install-mongodb.sh</span><br></pre></td></tr></table></figure></p>
+<li><p>一路回车即可 </p>
 </li>
-<li>
-<p>&#x4E00;&#x8DEF;&#x56DE;&#x8F66;&#x5373;&#x53EF;</p>
-</li>
-</ol></span>
+</ol>
+</span>
       
     </div>
 
@@ -322,7 +361,8 @@ mongodb&amp;#x5B89;&amp;#x88C5;&amp;#x5305;&amp;#xFF08;&amp;#x5B98;&amp;#x7F51;&
         
           <div class="comments" id="comments">
             
-              <div class="ds-thread" data-thread-key="2015/07/01/mongodb一键安装脚本/" data-title="mongodb一键安装脚本" data-url="http://geosmart.github.io/2015/07/01/mongodb一键安装脚本/">
+              <div class="ds-thread" data-thread-key="2015/07/01/mongodb一键安装脚本/"
+                   data-title="mongodb一键安装脚本" data-url="http://geosmart.github.io/2015/07/01/mongodb一键安装脚本/">
               </div>
             
           </div>
@@ -344,7 +384,7 @@ mongodb&amp;#x5B89;&amp;#x88C5;&amp;#x5305;&amp;#xFF08;&amp;#x5B98;&amp;#x7F51;&
 
       
         <ul class="sidebar-nav motion-element">
-          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
             文章目录
           </li>
           <li class="sidebar-nav-overview" data-target="site-overview">
@@ -355,7 +395,7 @@ mongodb&amp;#x5B89;&amp;#x88C5;&amp;#x5305;&amp;#xFF08;&amp;#x5B98;&amp;#x7F51;&
 
       <section class="site-overview">
         <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
-          <img class="site-author-image" src="https://avatars1.githubusercontent.com/u/3156608?v=3&s=460" alt="geosmart" itemprop="image">
+          <img class="site-author-image" src="https://avatars1.githubusercontent.com/u/3156608?v=3&s=460" alt="geosmart" itemprop="image"/>
           <p class="site-author-name" itemprop="name">geosmart</p>
         </div>
         <p class="site-description motion-element" itemprop="description">追求心智成长，记录技术点滴</p>
@@ -368,10 +408,10 @@ mongodb&amp;#x5B89;&amp;#x88C5;&amp;#x5305;&amp;#xFF08;&amp;#x5B98;&amp;#x7F51;&
           </div>
 
           <div class="site-state-item site-state-categories">
-            
+            <a href="/categories">
               <span class="site-state-item-count">6</span>
               <span class="site-state-item-name">分类</span>
-              
+              </a>
           </div>
 
           <div class="site-state-item site-state-tags">
@@ -425,7 +465,7 @@ mongodb&amp;#x5B89;&amp;#x88C5;&amp;#x5305;&amp;#xFF08;&amp;#x5B98;&amp;#x7F51;&
     </main>
 
     <footer id="footer" class="footer">
-      <div class="footer-inner"> <div class="copyright">
+      <div class="footer-inner"> <div class="copyright" >
   
   &copy; &nbsp; 
   <span itemprop="copyrightYear">2015</span>

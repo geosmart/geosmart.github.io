@@ -3,63 +3,75 @@
 <head>
   
 
-<meta charset="UTF-8">
-<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
-<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1">
+<meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
 
 
-<meta http-equiv="Cache-Control" content="no-transform">
-<meta http-equiv="Cache-Control" content="no-siteapp">
-
-
-
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
 
 
 
 
 
-  <link rel="stylesheet" type="text/css" href="/vendors/fancybox/source/jquery.fancybox.css?v=2.1.5">
+
+
+
+  <link rel="stylesheet" type="text/css" href="/vendors/fancybox/source/jquery.fancybox.css?v=2.1.5"/>
 
 
 
 
-<link rel="stylesheet" type="text/css" href="/css/main.css?v=0.4.5.1">
+<link rel="stylesheet" type="text/css" href="/css/main.css?v=0.4.5.1"/>
 
 
-    <meta name="description" content="追求心智成长，记录技术点滴">
-
-
-
-  <meta name="keywords" content="Backbone,前端,">
+    <meta name="description" content="追求心智成长，记录技术点滴" />
 
 
 
-  <link rel="alternate" href="/atom.xml" title="Geosmart's Notes" type="application/atom+xml">
+  <meta name="keywords" content="Backbone,前端," />
 
 
 
-  <link rel="shorticon icon" type="image/x-icon" href="/favicon.ico?v=0.4.5.1">
+  <link rel="alternate" href="/atom.xml" title="Geosmart's Notes" type="application/atom+xml" />
 
 
-<meta name="description" content="Marionette&amp;#xFF08;Backbone&amp;#x7684;&amp;#x7275;&amp;#x7EBF;&amp;#x6728;&amp;#x5076;&amp;#xFF09;
-&amp;#x63D0;&amp;#x4F9B;rendering&amp;#x3001;template&amp;#x7BA1;&amp;#x7406;&amp;#x3001;UI&amp;#x5BF9;&amp;#x8C61;
-Model
-rest&amp;#x6570;&amp;#x636E;&amp;#xFF0C;event&amp;#">
+
+  <link rel="shorticon icon" type="image/x-icon" href="/favicon.ico?v=0.4.5.1" />
+
+
+<meta name="description" content="Marionette（Backbone的牵线木偶）提供rendering、template管理、UI对象
+Modelrest数据，event事件
+Collection：ListViewItemView
+Backbone.View的扩展，用于渲染Backbone.Model
+拥有modelEvents属性，可绑定View方法
+
+CollectionView
+用于渲染Backbone.Collecti">
 <meta property="og:type" content="article">
 <meta property="og:title" content="backbone.marionette学习要点">
 <meta property="og:url" content="http://geosmart.github.io/2015/07/28/backbone-marionette学习要点/index.html">
 <meta property="og:site_name" content="Geosmart's Notes">
-<meta property="og:description" content="Marionette&amp;#xFF08;Backbone&amp;#x7684;&amp;#x7275;&amp;#x7EBF;&amp;#x6728;&amp;#x5076;&amp;#xFF09;
-&amp;#x63D0;&amp;#x4F9B;rendering&amp;#x3001;template&amp;#x7BA1;&amp;#x7406;&amp;#x3001;UI&amp;#x5BF9;&amp;#x8C61;
-Model
-rest&amp;#x6570;&amp;#x636E;&amp;#xFF0C;event&amp;#">
+<meta property="og:description" content="Marionette（Backbone的牵线木偶）提供rendering、template管理、UI对象
+Modelrest数据，event事件
+Collection：ListViewItemView
+Backbone.View的扩展，用于渲染Backbone.Model
+拥有modelEvents属性，可绑定View方法
+
+CollectionView
+用于渲染Backbone.Collecti">
 <meta property="og:updated_time" content="2015-09-07T13:29:04.191Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="backbone.marionette学习要点">
-<meta name="twitter:description" content="Marionette&amp;#xFF08;Backbone&amp;#x7684;&amp;#x7275;&amp;#x7EBF;&amp;#x6728;&amp;#x5076;&amp;#xFF09;
-&amp;#x63D0;&amp;#x4F9B;rendering&amp;#x3001;template&amp;#x7BA1;&amp;#x7406;&amp;#x3001;UI&amp;#x5BF9;&amp;#x8C61;
-Model
-rest&amp;#x6570;&amp;#x636E;&amp;#xFF0C;event&amp;#">
+<meta name="twitter:description" content="Marionette（Backbone的牵线木偶）提供rendering、template管理、UI对象
+Modelrest数据，event事件
+Collection：ListViewItemView
+Backbone.View的扩展，用于渲染Backbone.Model
+拥有modelEvents属性，可绑定View方法
+
+CollectionView
+用于渲染Backbone.Collecti">
 
 
 <script type="text/javascript" id="hexo.configuration">
@@ -129,7 +141,7 @@ rest&amp;#x6570;&amp;#x636E;&amp;#xFF0C;event&amp;#">
         
         <li class="menu-item menu-item-home">
           <a href="/" rel="section">
-            <i class="menu-item-icon icon-next-home"></i> <br>
+            <i class="menu-item-icon icon-next-home"></i> <br />
             首页
           </a>
         </li>
@@ -137,7 +149,7 @@ rest&amp;#x6570;&amp;#x636E;&amp;#xFF0C;event&amp;#">
         
         <li class="menu-item menu-item-archives">
           <a href="/archives" rel="section">
-            <i class="menu-item-icon icon-next-archives"></i> <br>
+            <i class="menu-item-icon icon-next-archives"></i> <br />
             归档
           </a>
         </li>
@@ -145,8 +157,32 @@ rest&amp;#x6570;&amp;#x636E;&amp;#xFF0C;event&amp;#">
         
         <li class="menu-item menu-item-tags">
           <a href="/tags" rel="section">
-            <i class="menu-item-icon icon-next-tags"></i> <br>
+            <i class="menu-item-icon icon-next-tags"></i> <br />
             标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories" rel="section">
+            <i class="menu-item-icon icon-next-categories"></i> <br />
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about" rel="section">
+            <i class="menu-item-icon icon-next-about"></i> <br />
+            关于
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-commonweal">
+          <a href="/404.html" rel="section">
+            <i class="menu-item-icon icon-next-commonweal"></i> <br />
+            公益404
           </a>
         </li>
       
@@ -161,7 +197,7 @@ rest&amp;#x6570;&amp;#x636E;&amp;#xFF0C;event&amp;#">
       
   
   <form class="site-search-form">
-    <input type="text" id="st-search-input" class="st-search-input st-default-search-input">
+    <input type="text" id="st-search-input" class="st-search-input st-default-search-input" />
   </form>
 
 
@@ -190,7 +226,7 @@ rest&amp;#x6570;&amp;#x636E;&amp;#xFF0C;event&amp;#">
   <div id="posts" class="posts-expand">
     
 
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
     <header class="post-header">
 
       
@@ -214,7 +250,7 @@ rest&amp;#x6570;&amp;#x636E;&amp;#xFF0C;event&amp;#">
         </span>
 
         
-          <span class="post-category">
+          <span class="post-category" >
             &nbsp; | &nbsp; 分类于
             
               <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
@@ -249,58 +285,40 @@ rest&amp;#x6570;&amp;#x636E;&amp;#xFF0C;event&amp;#">
       
 
       
-        <span itemprop="articleBody"><h1 id="marionettebackbone&#x7684;&#x7275;&#x7EBF;&#x6728;&#x5076;">Marionette&#xFF08;Backbone&#x7684;&#x7275;&#x7EBF;&#x6728;&#x5076;&#xFF09;</h1>
-<p>&#x63D0;&#x4F9B;rendering&#x3001;template&#x7BA1;&#x7406;&#x3001;UI&#x5BF9;&#x8C61;</p>
-<h1 id="model">Model</h1>
-<p>rest&#x6570;&#x636E;&#xFF0C;event&#x4E8B;&#x4EF6;</p>
-<h1 id="collectionlistmodel">Collection&#xFF1A;List&lt;model&gt;</h1>
-<h1 id="view">View</h1>
-<h2 id="itemview">ItemView</h2>
-<ul>
-<li>Backbone.View&#x7684;&#x6269;&#x5C55;&#xFF0C;&#x7528;&#x4E8E;&#x6E32;&#x67D3;Backbone.Model</li>
-<li>&#x62E5;&#x6709;modelEvents&#x5C5E;&#x6027;&#xFF0C;&#x53EF;&#x7ED1;&#x5B9A;View&#x65B9;&#x6CD5;</li>
+        <span itemprop="articleBody"><h1 id="Marionette（Backbone的牵线木偶）">Marionette（Backbone的牵线木偶）</h1><p>提供rendering、template管理、UI对象</p>
+<h1 id="Model">Model</h1><p>rest数据，event事件</p>
+<h1 id="Collection：List">Collection：List<model></h1><h1 id="View">View</h1><h2 id="ItemView">ItemView</h2><ul>
+<li>Backbone.View的扩展，用于渲染Backbone.Model</li>
+<li>拥有modelEvents属性，可绑定View方法</li>
 </ul>
-<h2 id="collectionview">CollectionView</h2>
-<ul>
-<li>&#x7528;&#x4E8E;&#x6E32;&#x67D3;Backbone.Collection</li>
-<li>&#x53EF;&#x6E32;&#x67D3;List&lt;ItemView&gt;</li>
-<li>&#x62E5;&#x6709;collectionEvents/childEvents&#x5C5E;&#x6027;&#xFF0C;</li>
-<li>add/remove/reset/etc&#x540E;&#x81EA;&#x52A8;&#x66F4;&#x65B0;&#x89C6;&#x56FE;</li>
-<li>&#x652F;&#x6301;Filtering&#xFF08;filter&#x65B9;&#x6CD5;&#xFF09;&#x3001;Sorting&#xFF08;comparator&#x5C5E;&#x6027;&#xFF09;</li>
-<li>&#x652F;&#x6301;Pagination</li>
+<h2 id="CollectionView">CollectionView</h2><ul>
+<li>用于渲染Backbone.Collection</li>
+<li>可渲染List<ItemView></li>
+<li>拥有collectionEvents/childEvents属性，</li>
+<li>add/remove/reset/etc后自动更新视图</li>
+<li>支持Filtering（filter方法）、Sorting（comparator属性）</li>
+<li>支持Pagination</li>
 </ul>
-<h2 id="compositeview">CompositeView</h2>
-<ul>
+<h2 id="CompositeView">CompositeView</h2><ul>
 <li>renders a Collection within a template</li>
-<li>ItemView&#xFF08;model&#xFF09;&#x548C;CollectionView&#xFF08;collection&#xFF09;&#x7684;&#x7EC4;&#x5408;</li>
-<li>&#x7528;&#x4E8E;detail/table/nested lists/treeview&#x7C7B;&#x578B;&#x7684;&#x573A;&#x666F;</li>
+<li>ItemView（model）和CollectionView（collection）的组合</li>
+<li>用于detail/table/nested lists/treeview类型的场景</li>
 </ul>
-<h1 id="view-containers">View Containers</h1>
-<h2 id="region">Region</h2>
-<p>View&#x5BB9;&#x5668;&#xFF0C;&#x6E32;&#x67D3;&#x81F3;DOM&#xFF0C;DOM&#x548C;Backbone&#x7684;&#x6865;&#x6881;</p>
-<h2 id="layoutview">LayoutView</h2>
-<ul>
-<li>&#x7528;&#x4E8E;&#x590D;&#x6742;&#x5D4C;&#x5957;&#x5E03;&#x5C40;&#xFF0C;multi-view&#x7EC4;&#x6210;&#x7684;widget</li>
-<li>Region&#x5BB9;&#x5668;</li>
+<h1 id="View_Containers">View Containers</h1><h2 id="Region">Region</h2><p>View容器，渲染至DOM，DOM和Backbone的桥梁</p>
+<h2 id="LayoutView">LayoutView</h2><ul>
+<li>用于复杂嵌套布局，multi-view组成的widget</li>
+<li>Region容器</li>
 <li>render all in one call</li>
 </ul>
-<h1 id="application">Application</h1>
-<p>initialization&#x521D;&#x59CB;&#x5316;&#x548C; bootstrapping&#x5F15;&#x5BFC;&#x7A0B;&#x5E8F;</p>
-<h1 id="module">Module</h1>
-<p>&#x7C7B;&#x4F3C;Application&#xFF0C;&#x591A;&#x4E2A;Modules&#x7EC4;&#x6210;Application
-&#x53EF;&#x63A7;&#x5236;start/stop&#x6A21;&#x5757;&#xFF08;&#x53CA;&#x5176;&#x5B50;&#x6A21;&#x5757;&#xFF09;</p>
-<h1 id="controller">Controller</h1>
-<p>&#x7EC4;&#x4EF6;&#x95F4;&#x7684;&#x4EA4;&#x4E92;&#xFF0C;&#x7528;&#x4E8E;&#x590D;&#x6742;&#x4E1A;&#x52A1;&#x903B;&#x8F91;&#x7684;&#x4E1A;&#x52A1;&#x573A;&#x666F;</p>
-<p>layouts/regions&#xFF1A;&#x52A8;&#x6001;create/display/dispose&#x9875;&#x9762;dom</p>
-<h1 id="event-aggregrator">event aggregrator</h1>
-<p>&#x53EF;bind/trigger&#x4E8B;&#x4EF6;
-module/application&#x7EA7;&#x522B;&#x7684;&#x4E8B;&#x4EF6;&#x901A;&#x9053;&#xFF0C;&#x5176;&#x4ED6;&#x6240;&#x6709;&#x6A21;&#x5757;&#x90FD;&#x53EF;&#x76D1;&#x542C;&#xFF0C;&#x53EF;&#x7528;&#x4E8E;&#x5982;&#x7528;&#x6237;&#x767B;&#x9646;&#x6210;&#x529F;&#x7684;&#x4E1A;&#x52A1;&#x573A;&#x666F;</p>
-<h1 id="commands">Commands</h1>
-<p>&#x591A;&#x5904;&#x89E6;&#x53D1;&#xFF0C;&#x4E00;&#x5904;&#x5904;&#x7406;</p>
-<h1 id="requestresponse">Request/Response</h1>
-<p>&#x7528;&#x4E8E;&#x63D0;&#x4F9B;Application Level Data&#xFF0C;&#x5982;&#x8D2D;&#x7269;&#x8F66;&#x5F53;&#x524D;&#x72B6;&#x6001;
-&#x63D0;&#x4F9B;&#x5168;&#x5C40;&#x72B6;&#x6001;&#xFF0C;&#x65E0;&#x9700;&#x6240;&#x6709;&#x6A21;&#x5757;&#x90FD;&#x505A;&#x5904;&#x7406;&#xFF0C;&#x4F46;&#x6613;&#x88AB;&#x6EE5;&#x7528;&#xFF0C;&#x5F53;&#x5168;&#x5C40;&#x53EF;&#x64CD;&#x4F5C;&#x65F6;&#x96BE;&#x9884;&#x6D4B;&#x5176;&#x5F71;&#x54CD;</p>
-<p>appRouter&#xFF1A;</p></span>
+<h1 id="Application">Application</h1><p>initialization初始化和 bootstrapping引导程序</p>
+<h1 id="Module">Module</h1><p>类似Application，多个Modules组成Application<br>可控制start/stop模块（及其子模块）</p>
+<h1 id="Controller">Controller</h1><p>组件间的交互，用于复杂业务逻辑的业务场景</p>
+<p>layouts/regions：动态create/display/dispose页面dom</p>
+<h1 id="event_aggregrator">event aggregrator</h1><p>可bind/trigger事件<br>module/application级别的事件通道，其他所有模块都可监听，可用于如用户登陆成功的业务场景</p>
+<h1 id="Commands">Commands</h1><p>多处触发，一处处理</p>
+<h1 id="Request/Response">Request/Response</h1><p>用于提供Application Level Data，如购物车当前状态<br>提供全局状态，无需所有模块都做处理，但易被滥用，当全局可操作时难预测其影响</p>
+<p>appRouter：</p>
+</span>
       
     </div>
 
@@ -350,7 +368,8 @@ module/application&#x7EA7;&#x522B;&#x7684;&#x4E8B;&#x4EF6;&#x901A;&#x9053;&#xFF0
         
           <div class="comments" id="comments">
             
-              <div class="ds-thread" data-thread-key="2015/07/28/backbone-marionette学习要点/" data-title="backbone.marionette学习要点" data-url="http://geosmart.github.io/2015/07/28/backbone-marionette学习要点/">
+              <div class="ds-thread" data-thread-key="2015/07/28/backbone-marionette学习要点/"
+                   data-title="backbone.marionette学习要点" data-url="http://geosmart.github.io/2015/07/28/backbone-marionette学习要点/">
               </div>
             
           </div>
@@ -372,7 +391,7 @@ module/application&#x7EA7;&#x522B;&#x7684;&#x4E8B;&#x4EF6;&#x901A;&#x9053;&#xFF0
 
       
         <ul class="sidebar-nav motion-element">
-          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
             文章目录
           </li>
           <li class="sidebar-nav-overview" data-target="site-overview">
@@ -383,7 +402,7 @@ module/application&#x7EA7;&#x522B;&#x7684;&#x4E8B;&#x4EF6;&#x901A;&#x9053;&#xFF0
 
       <section class="site-overview">
         <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
-          <img class="site-author-image" src="https://avatars1.githubusercontent.com/u/3156608?v=3&s=460" alt="geosmart" itemprop="image">
+          <img class="site-author-image" src="https://avatars1.githubusercontent.com/u/3156608?v=3&s=460" alt="geosmart" itemprop="image"/>
           <p class="site-author-name" itemprop="name">geosmart</p>
         </div>
         <p class="site-description motion-element" itemprop="description">追求心智成长，记录技术点滴</p>
@@ -396,10 +415,10 @@ module/application&#x7EA7;&#x522B;&#x7684;&#x4E8B;&#x4EF6;&#x901A;&#x9053;&#xFF0
           </div>
 
           <div class="site-state-item site-state-categories">
-            
+            <a href="/categories">
               <span class="site-state-item-count">6</span>
               <span class="site-state-item-name">分类</span>
-              
+              </a>
           </div>
 
           <div class="site-state-item site-state-tags">
@@ -439,7 +458,7 @@ module/application&#x7EA7;&#x522B;&#x7684;&#x4E8B;&#x4EF6;&#x901A;&#x9053;&#xFF0
           <div class="post-toc">
             
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#marionettebackbone的牵线木偶"><span class="nav-number">1.</span> <span class="nav-text">Marionette（Backbone的牵线木偶）</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#model"><span class="nav-number">2.</span> <span class="nav-text">Model</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#collectionlistmodel"><span class="nav-number">3.</span> <span class="nav-text">Collection：List<model></model></span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#view"><span class="nav-number">4.</span> <span class="nav-text">View</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#itemview"><span class="nav-number">4.1.</span> <span class="nav-text">ItemView</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#collectionview"><span class="nav-number">4.2.</span> <span class="nav-text">CollectionView</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#compositeview"><span class="nav-number">4.3.</span> <span class="nav-text">CompositeView</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#view-containers"><span class="nav-number">5.</span> <span class="nav-text">View Containers</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#region"><span class="nav-number">5.1.</span> <span class="nav-text">Region</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#layoutview"><span class="nav-number">5.2.</span> <span class="nav-text">LayoutView</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#application"><span class="nav-number">6.</span> <span class="nav-text">Application</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#module"><span class="nav-number">7.</span> <span class="nav-text">Module</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#controller"><span class="nav-number">8.</span> <span class="nav-text">Controller</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#event-aggregrator"><span class="nav-number">9.</span> <span class="nav-text">event aggregrator</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#commands"><span class="nav-number">10.</span> <span class="nav-text">Commands</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#requestresponse"><span class="nav-number">11.</span> <span class="nav-text">Request/Response</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#Marionette（Backbone的牵线木偶）"><span class="nav-number">1.</span> <span class="nav-text">Marionette（Backbone的牵线木偶）</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Model"><span class="nav-number">2.</span> <span class="nav-text">Model</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Collection：List"><span class="nav-number">3.</span> <span class="nav-text">Collection：List</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#View"><span class="nav-number">4.</span> <span class="nav-text">View</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#ItemView"><span class="nav-number">4.1.</span> <span class="nav-text">ItemView</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#CollectionView"><span class="nav-number">4.2.</span> <span class="nav-text">CollectionView</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#CompositeView"><span class="nav-number">4.3.</span> <span class="nav-text">CompositeView</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#View_Containers"><span class="nav-number">5.</span> <span class="nav-text">View Containers</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#Region"><span class="nav-number">5.1.</span> <span class="nav-text">Region</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#LayoutView"><span class="nav-number">5.2.</span> <span class="nav-text">LayoutView</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Application"><span class="nav-number">6.</span> <span class="nav-text">Application</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Module"><span class="nav-number">7.</span> <span class="nav-text">Module</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Controller"><span class="nav-number">8.</span> <span class="nav-text">Controller</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#event_aggregrator"><span class="nav-number">9.</span> <span class="nav-text">event aggregrator</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Commands"><span class="nav-number">10.</span> <span class="nav-text">Commands</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Request/Response"><span class="nav-number">11.</span> <span class="nav-text">Request/Response</span></a></li></ol></div>
             
           </div>
           <div class="post-toc-indicator-bottom post-toc-indicator"></div>
@@ -453,7 +472,7 @@ module/application&#x7EA7;&#x522B;&#x7684;&#x4E8B;&#x4EF6;&#x901A;&#x9053;&#xFF0
     </main>
 
     <footer id="footer" class="footer">
-      <div class="footer-inner"> <div class="copyright">
+      <div class="footer-inner"> <div class="copyright" >
   
   &copy; &nbsp; 
   <span itemprop="copyrightYear">2015</span>

@@ -3,57 +3,54 @@
 <head>
   
 
-<meta charset="UTF-8">
-<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
-<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1">
+<meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
 
 
-<meta http-equiv="Cache-Control" content="no-transform">
-<meta http-equiv="Cache-Control" content="no-siteapp">
-
-
-
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
 
 
 
 
 
-  <link rel="stylesheet" type="text/css" href="/vendors/fancybox/source/jquery.fancybox.css?v=2.1.5">
+
+
+
+  <link rel="stylesheet" type="text/css" href="/vendors/fancybox/source/jquery.fancybox.css?v=2.1.5"/>
 
 
 
 
-<link rel="stylesheet" type="text/css" href="/css/main.css?v=0.4.5.1">
+<link rel="stylesheet" type="text/css" href="/css/main.css?v=0.4.5.1"/>
 
 
-    <meta name="description" content="追求心智成长，记录技术点滴">
-
-
-
-  <meta name="keywords" content="CentOS,Shell,运维,">
+    <meta name="description" content="追求心智成长，记录技术点滴" />
 
 
 
-  <link rel="alternate" href="/atom.xml" title="Geosmart's Notes" type="application/atom+xml">
+  <meta name="keywords" content="CentOS,Shell,运维," />
 
 
 
-  <link rel="shorticon icon" type="image/x-icon" href="/favicon.ico?v=0.4.5.1">
+  <link rel="alternate" href="/atom.xml" title="Geosmart's Notes" type="application/atom+xml" />
 
 
-<meta name="description" content="CentOS&amp;#x65E5;&amp;#x5E38;&amp;#x4F7F;&amp;#x7528;&amp;#x8FC7;&amp;#x7A0B;&amp;#x4E2D;&amp;#x79EF;&amp;#x7D2F;&amp;#x7684;Shell&amp;#x811A;&amp;#x672C;&amp;#x6216;Linux&amp;#x547D;&amp;#x4EE4;&amp;#xFF0C;&amp;#x6301;&amp;#x7EED;&amp;#x7EF4;&amp;#x62A4;&amp;#x66F4;&amp;#x65B0;
-&amp;#x7F51">
+
+  <link rel="shorticon icon" type="image/x-icon" href="/favicon.ico?v=0.4.5.1" />
+
+
+<meta name="description" content="CentOS日常使用过程中积累的Shell脚本或Linux命令，持续维护更新">
 <meta property="og:type" content="article">
 <meta property="og:title" content="CentOS常用脚本">
 <meta property="og:url" content="http://geosmart.github.io/2015/07/06/centos常用脚本/index.html">
 <meta property="og:site_name" content="Geosmart's Notes">
-<meta property="og:description" content="CentOS&amp;#x65E5;&amp;#x5E38;&amp;#x4F7F;&amp;#x7528;&amp;#x8FC7;&amp;#x7A0B;&amp;#x4E2D;&amp;#x79EF;&amp;#x7D2F;&amp;#x7684;Shell&amp;#x811A;&amp;#x672C;&amp;#x6216;Linux&amp;#x547D;&amp;#x4EE4;&amp;#xFF0C;&amp;#x6301;&amp;#x7EED;&amp;#x7EF4;&amp;#x62A4;&amp;#x66F4;&amp;#x65B0;
-&amp;#x7F51">
-<meta property="og:updated_time" content="2015-09-13T12:18:45.150Z">
+<meta property="og:description" content="CentOS日常使用过程中积累的Shell脚本或Linux命令，持续维护更新">
+<meta property="og:updated_time" content="2015-09-19T14:13:29.234Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="CentOS常用脚本">
-<meta name="twitter:description" content="CentOS&amp;#x65E5;&amp;#x5E38;&amp;#x4F7F;&amp;#x7528;&amp;#x8FC7;&amp;#x7A0B;&amp;#x4E2D;&amp;#x79EF;&amp;#x7D2F;&amp;#x7684;Shell&amp;#x811A;&amp;#x672C;&amp;#x6216;Linux&amp;#x547D;&amp;#x4EE4;&amp;#xFF0C;&amp;#x6301;&amp;#x7EED;&amp;#x7EF4;&amp;#x62A4;&amp;#x66F4;&amp;#x65B0;
-&amp;#x7F51">
+<meta name="twitter:description" content="CentOS日常使用过程中积累的Shell脚本或Linux命令，持续维护更新">
 
 
 <script type="text/javascript" id="hexo.configuration">
@@ -123,7 +120,7 @@
         
         <li class="menu-item menu-item-home">
           <a href="/" rel="section">
-            <i class="menu-item-icon icon-next-home"></i> <br>
+            <i class="menu-item-icon icon-next-home"></i> <br />
             首页
           </a>
         </li>
@@ -131,7 +128,7 @@
         
         <li class="menu-item menu-item-archives">
           <a href="/archives" rel="section">
-            <i class="menu-item-icon icon-next-archives"></i> <br>
+            <i class="menu-item-icon icon-next-archives"></i> <br />
             归档
           </a>
         </li>
@@ -139,8 +136,32 @@
         
         <li class="menu-item menu-item-tags">
           <a href="/tags" rel="section">
-            <i class="menu-item-icon icon-next-tags"></i> <br>
+            <i class="menu-item-icon icon-next-tags"></i> <br />
             标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories" rel="section">
+            <i class="menu-item-icon icon-next-categories"></i> <br />
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about" rel="section">
+            <i class="menu-item-icon icon-next-about"></i> <br />
+            关于
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-commonweal">
+          <a href="/404.html" rel="section">
+            <i class="menu-item-icon icon-next-commonweal"></i> <br />
+            公益404
           </a>
         </li>
       
@@ -155,7 +176,7 @@
       
   
   <form class="site-search-form">
-    <input type="text" id="st-search-input" class="st-search-input st-default-search-input">
+    <input type="text" id="st-search-input" class="st-search-input st-default-search-input" />
   </form>
 
 
@@ -184,7 +205,7 @@
   <div id="posts" class="posts-expand">
     
 
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
     <header class="post-header">
 
       
@@ -208,7 +229,7 @@
         </span>
 
         
-          <span class="post-category">
+          <span class="post-category" >
             &nbsp; | &nbsp; 分类于
             
               <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
@@ -243,157 +264,60 @@
       
 
       
-        <span itemprop="articleBody"><p>CentOS&#x65E5;&#x5E38;&#x4F7F;&#x7528;&#x8FC7;&#x7A0B;&#x4E2D;&#x79EF;&#x7D2F;&#x7684;Shell&#x811A;&#x672C;&#x6216;Linux&#x547D;&#x4EE4;&#xFF0C;&#x6301;&#x7EED;&#x7EF4;&#x62A4;&#x66F4;&#x65B0;</p>
-<h1 id="&#x7F51;&#x7EDC;&#x8BBE;&#x7F6E;">&#x7F51;&#x7EDC;&#x8BBE;&#x7F6E;</h1>
-<h2 id="hostname&#x4E3B;&#x673A;&#x540D;">HostName&#x4E3B;&#x673A;&#x540D;</h2>
-<p><figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">#&#x67E5;&#x770B;hostname
-hostname  
-#&#x8BBE;&#x7F6E;&#x6307;&#x5B9A;&#x7684;&#x57DF;&#x540D;&#x89E3;&#x6790;&#x5730;&#x5740;
-/etc/hosts       
-# &#x8BBE;&#x7F6E;&#x4E3B;&#x673A;&#x540D;&#x548C;&#x7F51;&#x7EDC;&#x914D;&#x7F6E;
-/etc/sysconfig/network</span><br></pre></td></tr></table></figure></p>
-<h2 id="&#x9759;&#x6001;ip&#x8BBE;&#x7F6E;">&#x9759;&#x6001;IP&#x8BBE;&#x7F6E;</h2>
-<p><a href="static-ip.sh">&#x4E0B;&#x8F7D; static-ip.sh</a><br>
-&#x53C2;&#x6570;: <code>static-ip.sh &lt;hostname&gt; &lt;interface&gt; &lt;baseip&gt; &lt;ipaddress&gt; &lt;gateway/dns&gt;</code><br>
-&#x793A;&#x4F8B;</p>
-<p><figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">chmod +x  ./static-ip.sh &amp;&amp; ./static-ip.sh localhost eth0 192.168.1 81 1</span><br></pre></td></tr></table></figure></p>
-<p>&#x624B;&#x52A8;&#x8BBE;&#x7F6E;IP</p>
-<p><figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">#&#x4E34;&#x65F6;&#x8BBE;&#x7F6E;IP
-ifconfig eth0 192.168.1.160
-# &#x8BBE;&#x7F6E;DNS  
-/etc/resolv.conf  
-&#x4E34;&#x65F6;&#x8BBE;&#x7F6E;IP
-ifconfig eth0 192.168.1.160</span><br></pre></td></tr></table></figure></p>
-<p><figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">#&#x9488;&#x5BF9;&#x7279;&#x5B9A;&#x7684;&#x7F51;&#x5361;&#x8FDB;&#x884C;&#x624B;&#x52A8;&#x8BBE;&#x7F6E;
-vim /etc/sysconfig/network-scripts/ifcfg-eth0 
-
-DEVICE=&quot;eth0&quot;
-BOOTPROTO=&quot;static&quot;
-HWADDR=&quot;00:0C:29:86:3D:16&quot;
-IPV6INIT=&quot;yes&quot;
-NM_CONTROLLED=&quot;yes&quot;
-ONBOOT=&quot;yes&quot;
-TYPE=&quot;Ethernet&quot;
-UUID=&quot;dcf18d86-45ea-4b5c-9627-e75b19b3b6e7&quot;
-IPADDR=192.168.1.82
-NETMAST=255.255.255.0
-DNS1=192.168.1.1</span><br></pre></td></tr></table></figure></p>
-<h2 id="&#x96C6;&#x7FA4;&#x73AF;&#x5883;&#x4E0B;ssh&#x514D;&#x5BC6;&#x7801;&#x767B;&#x9646;&#x8BA4;&#x8BC1;&#x811A;&#x672C;">&#x96C6;&#x7FA4;&#x73AF;&#x5883;&#x4E0B;ssh&#x514D;&#x5BC6;&#x7801;&#x767B;&#x9646;&#x8BA4;&#x8BC1;&#x811A;&#x672C;</h2>
-<p><a href="">todo-gitrepository</a></p>
+        <span itemprop="articleBody"><p>CentOS日常使用过程中积累的Shell脚本或Linux命令，持续维护更新  </p>
+<a id="more"></a>
+<h1 id="网络设置">网络设置</h1><h2 id="HostName主机名">HostName主机名</h2><figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">#&#26597;&#30475;hostname&#10;hostname  &#10;#&#35774;&#32622;&#25351;&#23450;&#30340;&#22495;&#21517;&#35299;&#26512;&#22320;&#22336;&#10;/etc/hosts       &#10;# &#35774;&#32622;&#20027;&#26426;&#21517;&#21644;&#32593;&#32476;&#37197;&#32622;&#10;/etc/sysconfig/network</span><br></pre></td></tr></table></figure>
+<h2 id="静态IP设置">静态IP设置</h2><p><a href="static-ip.sh">下载 static-ip.sh</a><br>参数: <code>static-ip.sh &lt;hostname&gt; &lt;interface&gt; &lt;baseip&gt; &lt;ipaddress&gt; &lt;gateway/dns&gt;</code><br>示例</p>
+<figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">chmod +x  ./static-ip.sh &#38;&#38; ./static-ip.sh localhost eth0 192.168.1 81 1</span><br></pre></td></tr></table></figure>
+<p>手动设置IP  </p>
+<figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">#&#20020;&#26102;&#35774;&#32622;IP&#10;ifconfig eth0 192.168.1.160&#10;# &#35774;&#32622;DNS  &#10;/etc/resolv.conf  &#10;&#20020;&#26102;&#35774;&#32622;IP&#10;ifconfig eth0 192.168.1.160</span><br></pre></td></tr></table></figure>
+<figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">#&#38024;&#23545;&#29305;&#23450;&#30340;&#32593;&#21345;&#36827;&#34892;&#25163;&#21160;&#35774;&#32622;&#10;vim /etc/sysconfig/network-scripts/ifcfg-eth0 &#10;&#10;DEVICE=&#34;eth0&#34;&#10;BOOTPROTO=&#34;static&#34;&#10;HWADDR=&#34;00:0C:29:86:3D:16&#34;&#10;IPV6INIT=&#34;yes&#34;&#10;NM_CONTROLLED=&#34;yes&#34;&#10;ONBOOT=&#34;yes&#34;&#10;TYPE=&#34;Ethernet&#34;&#10;UUID=&#34;dcf18d86-45ea-4b5c-9627-e75b19b3b6e7&#34;&#10;IPADDR=192.168.1.82&#10;NETMAST=255.255.255.0&#10;DNS1=192.168.1.1</span><br></pre></td></tr></table></figure>
+<h2 id="集群环境下ssh免密码登陆认证脚本">集群环境下ssh免密码登陆认证脚本</h2><p><a href="">todo-gitrepository</a> </p>
 <ol>
-<li>&#x786E;&#x4FDD;&#x5404;&#x8282;&#x70B9;&#x5B89;&#x88C5;ssh,expect</li>
-<li>&#x628A;&#x6240;&#x6709;&#x6587;&#x4EF6;&#x62F7;&#x8D1D;&#x5230;&#x4E3B;&#x8282;&#x70B9;&#x4E0A;</li>
-<li>&#x914D;&#x7F6E;hosts.conf&#x548C;slaves.conf</li>
-<li>&#x6267;&#x884C;keygen_master</li>
+<li>确保各节点安装ssh,expect</li>
+<li>把所有文件拷贝到主节点上</li>
+<li>配置hosts.conf和slaves.conf</li>
+<li>执行keygen_master</li>
 </ol>
-<p><figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">chmod +x keygen_master.sh
-./keygen_master.sh</span><br></pre></td></tr></table></figure></p>
-<h1 id="ps&#x67E5;&#x770B;&#x8FDB;&#x7A0B;">PS&#x67E5;&#x770B;&#x8FDB;&#x7A0B;</h1>
-<p>&#x901A;&#x5E38;&#x7528;ps&#x67E5;&#x770B;&#x8FDB;&#x7A0B;PID&#xFF0C;kill&#x7EC8;&#x6B62;&#x8FDB;&#x7A0B;</p>
+<figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">chmod +x keygen_master.sh&#10;./keygen_master.sh</span><br></pre></td></tr></table></figure>
+<h1 id="PS查看进程">PS查看进程</h1><p>通常用ps查看进程PID，kill终止进程</p>
 <ul>
-<li>grep &#x662F;&#x641C;&#x7D22;<br>
-&#x4F8B;&#x5982;&#xFF1A;<code>ps -ef | grep java</code>&#x8868;&#x793A;&#x67E5;&#x770B;&#x6240;&#x6709;&#x8FDB;&#x7A0B;&#x91CC; CMD &#x662F; java &#x7684;&#x8FDB;&#x7A0B;&#x4FE1;&#x606F;</li>
-<li>-aux &#x663E;&#x793A;&#x6240;&#x6709;&#x72B6;&#x6001;<br>
-<code>ps -aux | grep java</code></li>
-<li>kill &#x547D;&#x4EE4;&#x7528;&#x4E8E;&#x7EC8;&#x6B62;&#x8FDB;&#x7A0B;<br>
-&#x4F8B;&#x5982;&#xFF1A; <code>kill -9 [PID]</code><br>
--9 &#x8868;&#x793A;&#x5F3A;&#x8FEB;&#x8FDB;&#x7A0B;&#x7ACB;&#x5373;&#x505C;&#x6B62;</li>
+<li>grep 是搜索<br>例如：<code>ps -ef | grep java</code>表示查看所有进程里 CMD 是 java 的进程信息  </li>
+<li>-aux 显示所有状态<br><code>ps -aux | grep java</code>  </li>
+<li>kill 命令用于终止进程<br>例如： <code>kill -9 [PID]</code><br>-9 表示强迫进程立即停止 </li>
 </ul>
-<h1 id="&#x7AEF;&#x53E3;&#x67E5;&#x770B;">&#x7AEF;&#x53E3;&#x67E5;&#x770B;</h1>
-<p>&#x5982;&#x67E5;&#x770B;80&#x7AEF;&#x53E3;&#xFF1A;<code>lsof -i tcp:80</code><br>
-&#x5217;&#x51FA;&#x6240;&#x6709;&#x7AEF;&#x53E3;&#xFF1A;<code>netstat -ntlp</code></p>
-<h1 id="nohup&#x540E;&#x53F0;&#x8FD0;&#x884C;">nohup&#x540E;&#x53F0;&#x8FD0;&#x884C;</h1>
-<p>&#x540E;&#x53F0;&#x8FD0;&#x884C;test.jar<br>
-<code>nohup java -jar test.jar</code><br>
-&#x4E0D;&#x8F93;&#x51FA;nohup&#x65E5;&#x5FD7;&#xFF1A;&gt;/dev/null 2&gt;&amp;1 &amp;<br>
-<code>nohup java -jar test.jar &gt;/dev/null 2&gt;&amp;1 &amp;</code></p>
-<h1 id="&#x91CD;&#x5B9A;&#x5411;">&#x91CD;&#x5B9A;&#x5411;</h1>
-<ul>
-<li>0 &#x8868;&#x793A;&#x6807;&#x51C6;&#x8F93;&#x5165;</li>
-<li>1 &#x6807;&#x51C6;&#x8F93;&#x51FA;,&#x5728;&#x4E00;&#x822C;&#x4F7F;&#x7528;&#x65F6;&#xFF0C;&#x9ED8;&#x8BA4;&#x7684;&#x662F;&#x6807;&#x51C6;&#x8F93;&#x51FA;</li>
-<li>2 &#x6807;&#x51C6;&#x9519;&#x8BEF;&#x4FE1;&#x606F;&#x8F93;&#x51FA;<br>
-&#x53EF;&#x4EE5;&#x7528;&#x6765;&#x6307;&#x5B9A;&#x9700;&#x8981;&#x91CD;&#x5B9A;&#x5411;&#x7684;&#x6807;&#x51C6;&#x8F93;&#x5165;&#x6216;&#x8F93;&#x51FA;&#x3002;&#x4F8B;&#x5982;&#xFF0C;&#x5C06;&#x67D0;&#x4E2A;&#x7A0B;&#x5E8F;&#x7684;&#x9519;&#x8BEF;&#x4FE1;&#x606F;&#x8F93;&#x51FA;&#x5230;log&#x6587;&#x4EF6; &#x4E2D;&#xFF1A;./program 2&gt;log&#x3002;&#x8FD9;&#x6837;&#x6807;&#x51C6;&#x8F93;&#x51FA;&#x8FD8;&#x662F;&#x5728;&#x5C4F;&#x5E55;&#x4E0A;&#xFF0C;&#x4F46;&#x662F;&#x9519;&#x8BEF;&#x4FE1;&#x606F;&#x4F1A;&#x8F93;&#x51FA;&#x5230;log&#x6587;&#x4EF6;&#x4E2D;&#x3002;&#x53E6;&#x5916;&#xFF0C;&#x4E5F;&#x53EF; &#x4EE5;&#x5B9E;&#x73B0;0&#xFF0C;1&#xFF0C;2&#x4E4B;&#x95F4;&#x7684;&#x91CD;&#x5B9A;&#x5411;&#x3002;2&gt;&amp;1&#xFF1A;&#x5C06;&#x9519;&#x8BEF;&#x4FE1;&#x606F;&#x91CD;&#x5B9A;&#x5411;&#x5230;&#x6807;&#x51C6;&#x8F93;&#x51FA;&#x3002;</li>
-<li>/dev/null<br>
-&#x5B83;&#x5C31;&#x50CF;&#x4E00;&#x4E2A;&#x65E0;&#x5E95;&#x6D1E;&#xFF0C;&#x6240;&#x6709;&#x91CD;&#x5B9A;&#x5411;&#x5230;&#x5B83;&#x7684;&#x4FE1;&#x606F;&#x90FD;&#x4F1A;&#x6D88;&#x5931;&#x5F97;&#x65E0;&#x5F71;&#x65E0;&#x8E2A;&#x3002;&#x5F53;&#x6211;&#x4EEC;&#x4E0D;&#x9700;&#x8981;&#x56DE;&#x663E;&#x7A0B;&#x5E8F;&#x7684;&#x6240;&#x6709;&#x4FE1;&#x606F;&#x65F6;&#xFF0C;&#x5C31;&#x53EF;&#x4EE5;&#x5C06;&#x8F93;&#x51FA;&#x91CD;&#x5B9A;&#x5230;/dev/null&#x3002;</li>
+<h1 id="端口查看">端口查看</h1><p>如查看80端口：<code>lsof -i tcp:80</code><br>列出所有端口：<code>netstat -ntlp</code></p>
+<h1 id="nohup后台运行">nohup后台运行</h1><p>后台运行test.jar<br><code>nohup java -jar test.jar</code><br>不输出nohup日志：&gt;/dev/null 2&gt;&amp;1 &amp;<br><code>nohup java -jar test.jar &gt;/dev/null 2&gt;&amp;1 &amp;</code></p>
+<h1 id="重定向">重定向</h1><ul>
+<li>0 表示标准输入  </li>
+<li>1 标准输出,在一般使用时，默认的是标准输出  </li>
+<li>2 标准错误信息输出<br>可以用来指定需要重定向的标准输入或输出。例如，将某个程序的错误信息输出到log文件 中：./program 2&gt;log。这样标准输出还是在屏幕上，但是错误信息会输出到log文件中。另外，也可 以实现0，1，2之间的重定向。2&gt;&amp;1：将错误信息重定向到标准输出。</li>
+<li>/dev/null<br>它就像一个无底洞，所有重定向到它的信息都会消失得无影无踪。当我们不需要回显程序的所有信息时，就可以将输出重定到/dev/null。</li>
 </ul>
-<h1 id="&#x8BFB;&#x53D6;&#x6587;&#x4EF6;&#x5934;&#x5C3E;&#x5B9E;&#x65F6;&#x5185;&#x5BB9;">&#x8BFB;&#x53D6;&#x6587;&#x4EF6;&#x5934;/&#x5C3E;/&#x5B9E;&#x65F6;&#x5185;&#x5BB9;</h1>
-<ul>
-<li>head filename&#x8BFB;&#x53D6;&#x5934;&#x90E8;&#xFF0C;&#x4F7F;&#x7528;&#x547D;&#x4EE4;head&#x3002;&#x9ED8;&#x8BA4;&#x663E;&#x793A;&#x6587;&#x4EF6; filename &#x7684;&#x524D;&#x5341;&#x884C;&#x5185;&#x5BB9;<br>
-<code>head -n 20 filename</code>&#xFF1A;&#x663E;&#x793A;&#x6587;&#x4EF6;&#x7684;&#x524D;20&#x884C;&#x5185;&#x5BB9;<br>
-<code>head -n -20 filename</code>  &#xFF1A;&#x82E5;n&#x540E;&#x9762;&#x7684;&#x6574;&#x6570;&#x4E3A;&#x8D1F;&#x6570;&#x65F6;&#xFF0C;&#x5982;&#x5219;&#x8868;&#x793A;&#x5217;&#x51FA;&#x9664;&#x5C3E;&#x90E8;&#x7684;20&#x884C;&#x5916;&#x7684;&#x6240;&#x6709;&#x884C;</li>
-<li>tail filename &#x8BFB;&#x53D6;&#x5C3E;&#x90E8;&#xFF0C;&#x4F7F;&#x7528;&#x547D;&#x4EE4;tail&#xFF0C;&#x4F7F;&#x7528;&#x65B9;&#x6CD5;&#x540C;head&#x76F8;&#x4F3C;<br>
-<code>tail -n 20 filename</code>&#xFF1A;&#x663E;&#x793A;&#x6587;&#x4EF6;&#x7684;&#x6700;&#x540E;20&#x884C;&#x5185;&#x5BB9;<br>
-<code>tail -n +20 filename</code>&#xFF1A;&#x663E;&#x793A;&#x6587;&#x4EF6;&#x81EA;&#x7B2C;20&#x884C;&#x5F00;&#x59CB;&#x540E;&#x7684;&#x6240;&#x6709;&#x884C;&#xFF08;&#x5305;&#x62EC;&#x7B2C;20&#x884C;&#xFF09;</li>
-<li><code>tail -f filename</code>&#xFF1A;&#x52A8;&#x6001;&#x663E;&#x793A;&#x6700;&#x65B0;&#x7684;&#x6587;&#x4EF6;&#x5185;&#x5BB9;<br>
-&#x5177;&#x4F53;&#x7528;&#x6CD5;man head&#x6216;man tail&#x83B7;&#x53D6;</li>
+<h1 id="读取文件头/尾/实时内容">读取文件头/尾/实时内容</h1><ul>
+<li>head filename读取头部，使用命令head。默认显示文件 filename 的前十行内容<br><code>head -n 20 filename</code>：显示文件的前20行内容<br><code>head -n -20 filename</code>  ：若n后面的整数为负数时，如则表示列出除尾部的20行外的所有行    </li>
+<li>tail filename 读取尾部，使用命令tail，使用方法同head相似<br><code>tail -n 20 filename</code>：显示文件的最后20行内容<br><code>tail -n +20 filename</code>：显示文件自第20行开始后的所有行（包括第20行）  </li>
+<li><code>tail -f filename</code>：动态显示最新的文件内容<br>具体用法man head或man tail获取  </li>
 </ul>
-<h1 id="chkconfig&#x95EE;&#x9898;">chkconfig&#x95EE;&#x9898;</h1>
-<p>chkconfig --add myservice&#x95EE;&#x9898;&#xFF1A;service myservice does not support chkconfig
-&#x6211;&#x4EEC;&#x4E00;&#x822C;&#x5728;&#x811A;&#x672C;&#x5F00;&#x5934;&#x52A0;&#x5165;&#x4E0B;&#x9762;&#x4E24;&#x53E5;&#x5C31;&#x597D;&#x4E86;
-<code>vim /etc/init.d/myservice</code>
-&#x6DFB;&#x52A0;&#x4E0B;&#x9762;&#x4E24;&#x53E5;&#x5230; #!/bin/bash &#x4E4B;&#x540E;</p>
-<p><figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">#!/bin/bash
-# chkconfig: 2345 10 90
-# description: myservice ....</span><br></pre></td></tr></table></figure></p>
-<h1 id="&#x56FE;&#x5F62;&#x5316;&#x754C;&#x9762;&#x5207;&#x6362;">&#x56FE;&#x5F62;&#x5316;&#x754C;&#x9762;&#x5207;&#x6362;</h1>
-<p><code>vim /etc/inittab</code></p>
-<p><figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"># Default runlevel. The runlevels used by RHS are: 
-# 0 - halt (Do NOT set initdefault to this)          --&#x505C;&#x673A;
-# 1 - Single user mode           --&#x5355;&#x7528;&#x6237;&#x6A21;&#x5F0F;
-# 2 - Multiuser, without NFS (The same as 3, if you do not havenetworking)           --&#x591A;&#x7528;&#x6237;&#x6A21;&#x5F0F;&#xFF0C;&#x4E0D;&#x652F;&#x6301;NFS
-# 3 - Full multiuser mode          --&#x591A;&#x7528;&#x6237;&#x6A21;&#x5F0F;     
-# 4 - unused          --&#x6CA1;&#x6709;&#x4F7F;&#x7528; 
-# 5 - X11          --&#x56FE;&#x5F62;&#x754C;&#x9762;&#x65B9;&#x5F0F; 
-# 6 - reboot (Do NOT set initdefault to this)          --&#x91CD;&#x65B0;&#x542F;&#x52A8;
-# --&#x9ED8;&#x8BA4;&#x8FD0;&#x884C;&#x7B49;&#x7EA7;&#x662F;5
-id:5:initdefault:</span><br></pre></td></tr></table></figure></p>
-<h1 id="&#x6587;&#x4EF6;&#x64CD;&#x4F5C;">&#x6587;&#x4EF6;&#x64CD;&#x4F5C;</h1>
-<h2 id="mkdir-&#x65B0;&#x5EFA;&#x76EE;&#x5F55;">mkdir &#x65B0;&#x5EFA;&#x76EE;&#x5F55;</h2>
-<p>mkdir -p &#x65E0;&#x76EE;&#x5F55;&#x65B0;&#x5EFA;&#x76EE;&#x5F55;</p>
-<h2 id="rm-&#x6587;&#x4EF6;&#x5220;&#x9664;&#x53C2;&#x6570;">rm &#x6587;&#x4EF6;&#x5220;&#x9664;&#x53C2;&#x6570;&#xFF1A;</h2>
-<p><figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">-r &#x5C31;&#x662F;&#x5411;&#x4E0B;&#x9012;&#x5F52;&#xFF0C;&#x4E0D;&#x7BA1;&#x6709;&#x591A;&#x5C11;&#x7EA7;&#x76EE;&#x5F55;&#xFF0C;&#x4E00;&#x5E76;&#x5220;&#x9664;
--f &#x5C31;&#x662F;&#x76F4;&#x63A5;&#x5F3A;&#x884C;&#x5220;&#x9664;&#xFF0C;&#x4E0D;&#x4F5C;&#x4EFB;&#x4F55;&#x63D0;&#x793A;&#x7684;&#x610F;&#x601D;
--rf &#x9012;&#x5F52;&#x5F3A;&#x5236;&#x5220;&#x9664;</span><br></pre></td></tr></table></figure></p>
-<p>&#x9700;&#x8981;&#x63D0;&#x9192;&#x7684;&#x662F;&#xFF1A;&#x4F7F;&#x7528;&#x8FD9;&#x4E2A;rm -rf&#x7684;&#x65F6;&#x5019;&#x4E00;&#x5B9A;&#x8981;&#x683C;&#x5916;&#x5C0F;&#x5FC3;&#xFF0C;linux&#x6CA1;&#x6709;&#x56DE;&#x6536;&#x7AD9;&#x7684;</p>
-<h2 id="tar&#x6587;&#x4EF6;&#x89E3;&#x538B;">tar&#x6587;&#x4EF6;&#x89E3;&#x538B;</h2>
-<p>tar&#x5728;linux&#x4E0A;&#x662F;&#x5E38;&#x7528;&#x7684;&#x6253;&#x5305;&#x3001;&#x538B;&#x7F29;&#x3001;&#x52A0;&#x538B;&#x7F29;&#x5DE5;&#x5177;&#xFF0C;&#x4ED6;&#x7684;&#x53C2;&#x6570;&#x5F88;&#x591A;&#xFF0C;&#x6298;&#x91CC;&#x4EC5;&#x4EC5;&#x5217;&#x4E3E;&#x5E38;&#x7528;&#x7684;&#x538B;&#x7F29;&#x4E0E;&#x89E3;&#x538B;&#x7F29;&#x53C2;&#x6570;</p>
-<p><figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">-c &#xFF1A;create &#x5EFA;&#x7ACB;&#x538B;&#x7F29;&#x6863;&#x6848;&#x7684;&#x53C2;&#x6570;&#xFF1B;
--x &#xFF1A; &#x89E3;&#x538B;&#x7F29;&#x538B;&#x7F29;&#x6863;&#x6848;&#x7684;&#x53C2;&#x6570;&#xFF1B;
--z &#xFF1A; &#x662F;&#x5426;&#x9700;&#x8981;&#x7528;gzip&#x538B;&#x7F29;&#xFF1B;
--v&#xFF1A; &#x538B;&#x7F29;&#x7684;&#x8FC7;&#x7A0B;&#x4E2D;&#x663E;&#x793A;&#x6863;&#x6848;&#xFF1B;
--f&#xFF1A; &#x7F6E;&#x9876;&#x6587;&#x6863;&#x540D;&#xFF0C;&#x5728;f&#x540E;&#x9762;&#x7ACB;&#x5373;&#x63A5;&#x6587;&#x4EF6;&#x540D;&#xFF0C;&#x4E0D;&#x80FD;&#x518D;&#x52A0;&#x53C2;&#x6570;
-1 &#x5C06;tgz&#x6587;&#x4EF6;&#x89E3;&#x538B;&#x5230;&#x6307;&#x5B9A;&#x76EE;&#x5F55;
-tar   zxvf    test.tgz  -C  &#x6307;&#x5B9A;&#x76EE;&#x5F55;
-&#x6BD4;&#x5982;&#x5C06;/source/kernel.tgz&#x89E3;&#x538B;&#x5230;  /source/linux-2.6.29 &#x76EE;&#x5F55;
-tar  zxvf  /source/kernel.tgz  -C /source/ linux-2.6.29</span><br></pre></td></tr></table></figure></p>
-<h1 id="vim&#x64CD;&#x4F5C;">VIM&#x64CD;&#x4F5C;</h1>
-<p>http://www.eepw.com.cn/article/48018.htm</p>
-<p>vi&#x5220;&#x9664;*.swp&#x4E34;&#x65F6;&#x6587;&#x4EF6;&#x5220;&#x9664;
-i&#x63D2;&#x5165;
-esc&#x547D;&#x4EE4;&#x884C;
-:&#x5E95;&#x884C;&#xFF08;x&#x4FDD;&#x5B58;&#xFF09;:</p>
-<h1 id="&#x67E5;&#x627E;&#x64CD;&#x4F5C;">&#x67E5;&#x627E;&#x64CD;&#x4F5C;</h1>
-<h2 id="find">find</h2>
-<p>find&#x662F;&#x6700;&#x5E38;&#x89C1;&#x548C;&#x6700;&#x5F3A;&#x5927;&#x7684;&#x67E5;&#x627E;&#x547D;&#x4EE4;&#xFF0C;&#x4F60;&#x53EF;&#x4EE5;&#x7528;&#x5B83;&#x627E;&#x5230;&#x4EFB;&#x4F55;&#x4F60;&#x60F3;&#x627E;&#x7684;&#x6587;&#x4EF6;&#x3002;
-find&#x7684;&#x4F7F;&#x7528;&#x683C;&#x5F0F;&#x5982;&#x4E0B;&#xFF1A;
-<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">&#x3000;&#x3000;$ find <span class="tag">&lt;<span class="title">&#x6307;&#x5B9A;&#x76EE;&#x5F55;</span>&gt;</span> <span class="tag">&lt;<span class="title">&#x6307;&#x5B9A;&#x6761;&#x4EF6;</span>&gt;</span> <span class="tag">&lt;<span class="title">&#x6307;&#x5B9A;&#x52A8;&#x4F5C;</span>&gt;</span></span><br><span class="line">&#x3000;&#x3000;- <span class="tag">&lt;<span class="title">&#x6307;&#x5B9A;&#x76EE;&#x5F55;</span>&gt;</span>&#xFF1A; &#x6240;&#x8981;&#x641C;&#x7D22;&#x7684;&#x76EE;&#x5F55;&#x53CA;&#x5176;&#x6240;&#x6709;&#x5B50;&#x76EE;&#x5F55;&#x3002;&#x9ED8;&#x8BA4;&#x4E3A;&#x5F53;&#x524D;&#x76EE;&#x5F55;&#x3002;</span><br><span class="line">&#x3000;&#x3000;- <span class="tag">&lt;<span class="title">&#x6307;&#x5B9A;&#x6761;&#x4EF6;</span>&gt;</span>&#xFF1A; &#x6240;&#x8981;&#x641C;&#x7D22;&#x7684;&#x6587;&#x4EF6;&#x7684;&#x7279;&#x5F81;&#x3002;</span><br><span class="line">&#x3000;&#x3000;- <span class="tag">&lt;<span class="title">&#x6307;&#x5B9A;&#x52A8;&#x4F5C;</span>&gt;</span>&#xFF1A; &#x5BF9;&#x641C;&#x7D22;&#x7ED3;&#x679C;&#x8FDB;&#x884C;&#x7279;&#x5B9A;&#x7684;&#x5904;&#x7406;&#x3002;</span><br></pre></td></tr></table></figure></p>
-<p>&#x5982;&#x679C;&#x4EC0;&#x4E48;&#x53C2;&#x6570;&#x4E5F;&#x4E0D;&#x52A0;&#xFF0C;find&#x9ED8;&#x8BA4;&#x641C;&#x7D22;&#x5F53;&#x524D;&#x76EE;&#x5F55;&#x53CA;&#x5176;&#x5B50;&#x76EE;&#x5F55;&#xFF0C;&#x5E76;&#x4E14;&#x4E0D;&#x8FC7;&#x6EE4;&#x4EFB;&#x4F55;&#x7ED3;&#x679C;&#xFF08;&#x4E5F;&#x5C31;&#x662F;&#x8FD4;&#x56DE;&#x6240;&#x6709;&#x6587;&#x4EF6;&#xFF09;&#xFF0C;&#x5C06;&#x5B83;&#x4EEC;&#x5168;&#x90FD;&#x663E;&#x793A;&#x5728;&#x5C4F;&#x5E55;&#x4E0A;&#x3002;
-find&#x7684;&#x4F7F;&#x7528;&#x5B9E;&#x4F8B;&#xFF1A;
-<figure class="highlight vim"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">&#x3000;&#x3000;$ <span class="keyword">find</span> . -name <span class="string">&quot;my*&quot;</span></span><br><span class="line">&#x641C;&#x7D22;&#x5F53;&#x524D;&#x76EE;&#x5F55;&#xFF08;&#x542B;&#x5B50;&#x76EE;&#x5F55;&#xFF0C;&#x4EE5;&#x4E0B;&#x540C;&#xFF09;&#x4E2D;&#xFF0C;&#x6240;&#x6709;&#x6587;&#x4EF6;&#x540D;&#x4EE5;my&#x5F00;&#x5934;&#x7684;&#x6587;&#x4EF6;&#x3002;</span><br><span class="line">&#x3000;&#x3000;$ <span class="keyword">find</span> . -name <span class="string">&quot;my*&quot;</span> -<span class="keyword">ls</span></span><br><span class="line">&#x641C;&#x7D22;&#x5F53;&#x524D;&#x76EE;&#x5F55;&#x4E2D;&#xFF0C;&#x6240;&#x6709;&#x6587;&#x4EF6;&#x540D;&#x4EE5;my&#x5F00;&#x5934;&#x7684;&#x6587;&#x4EF6;&#xFF0C;&#x5E76;&#x663E;&#x793A;&#x5B83;&#x4EEC;&#x7684;&#x8BE6;&#x7EC6;&#x4FE1;&#x606F;&#x3002;</span><br><span class="line">&#x3000;&#x3000;$ <span class="keyword">find</span> . -<span class="built_in">type</span> <span class="keyword">f</span> -mmin -<span class="number">10</span></span><br><span class="line">&#x641C;&#x7D22;&#x5F53;&#x524D;&#x76EE;&#x5F55;&#x4E2D;&#xFF0C;&#x6240;&#x6709;&#x8FC7;&#x53BB;<span class="number">10</span>&#x5206;&#x949F;&#x4E2D;&#x66F4;&#x65B0;&#x8FC7;&#x7684;&#x666E;&#x901A;&#x6587;&#x4EF6;&#x3002;&#x5982;&#x679C;&#x4E0D;&#x52A0;-<span class="built_in">type</span> <span class="keyword">f</span>&#x53C2;&#x6570;&#xFF0C;&#x5219;&#x641C;&#x7D22;&#x666E;&#x901A;&#x6587;&#x4EF6;+&#x7279;&#x6B8A;&#x6587;&#x4EF6;+&#x76EE;&#x5F55;&#x3002;</span><br></pre></td></tr></table></figure></p>
-<h2 id="locate">locate</h2>
-<p>locate&#x547D;&#x4EE4;&#x5176;&#x5B9E;&#x662F;&#x201C;find -name&#x201D;&#x7684;&#x53E6;&#x4E00;&#x79CD;&#x5199;&#x6CD5;&#xFF0C;&#x4F46;&#x662F;&#x8981;&#x6BD4;&#x540E;&#x8005;&#x5FEB;&#x5F97;&#x591A;&#xFF0C;&#x539F;&#x56E0;&#x5728;&#x4E8E;&#x5B83;&#x4E0D;&#x641C;&#x7D22;&#x5177;&#x4F53;&#x76EE;&#x5F55;&#xFF0C;&#x800C;&#x662F;&#x641C;&#x7D22;&#x4E00;&#x4E2A;&#x6570;&#x636E;&#x5E93;&#xFF08;/var/lib/locatedb&#xFF09;&#xFF0C;&#x8FD9;&#x4E2A;&#x6570;&#x636E;&#x5E93;&#x4E2D;&#x542B;&#x6709;&#x672C;&#x5730;&#x6240;&#x6709;&#x6587;&#x4EF6;&#x4FE1;&#x606F;&#x3002;Linux&#x7CFB;&#x7EDF;&#x81EA;&#x52A8;&#x521B;&#x5EFA;&#x8FD9;&#x4E2A;&#x6570;&#x636E;&#x5E93;&#xFF0C;&#x5E76;&#x4E14;&#x6BCF;&#x5929;&#x81EA;&#x52A8;&#x66F4;&#x65B0;&#x4E00;&#x6B21;&#xFF0C;&#x6240;&#x4EE5;&#x4F7F;&#x7528;locate&#x547D;&#x4EE4;&#x67E5;&#x4E0D;&#x5230;&#x6700;&#x65B0;&#x53D8;&#x52A8;&#x8FC7;&#x7684;&#x6587;&#x4EF6;&#x3002;&#x4E3A;&#x4E86;&#x907F;&#x514D;&#x8FD9;&#x79CD;&#x60C5;&#x51B5;&#xFF0C;&#x53EF;&#x4EE5;&#x5728;&#x4F7F;&#x7528;locate&#x4E4B;&#x524D;&#xFF0C;&#x5148;&#x4F7F;&#x7528;updatedb&#x547D;&#x4EE4;&#xFF0C;&#x624B;&#x52A8;&#x66F4;&#x65B0;&#x6570;&#x636E;&#x5E93;&#x3002;
-locate&#x547D;&#x4EE4;&#x7684;&#x4F7F;&#x7528;&#x5B9E;&#x4F8B;&#xFF1A;</p>
-<p><figure class="highlight stata"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">&#x3000;&#x3000;$ locate /etc/<span class="keyword">sh</span></span><br><span class="line">&#x641C;&#x7D22;etc&#x76EE;&#x5F55;&#x4E0B;&#x6240;&#x6709;&#x4EE5;<span class="keyword">sh</span>&#x5F00;&#x5934;&#x7684;&#x6587;&#x4EF6;&#x3002;</span><br><span class="line">&#x3000;&#x3000;$ locate ~/<span class="literal">m</span></span><br><span class="line">&#x641C;&#x7D22;&#x7528;&#x6237;&#x4E3B;&#x76EE;&#x5F55;&#x4E0B;&#xFF0C;&#x6240;&#x6709;&#x4EE5;<span class="keyword">m</span>&#x5F00;&#x5934;&#x7684;&#x6587;&#x4EF6;&#x3002;</span><br><span class="line">&#x3000;&#x3000;$ locate -i ~/<span class="literal">m</span></span><br><span class="line">&#x641C;&#x7D22;&#x7528;&#x6237;&#x4E3B;&#x76EE;&#x5F55;&#x4E0B;&#xFF0C;&#x6240;&#x6709;&#x4EE5;<span class="keyword">m</span>&#x5F00;&#x5934;&#x7684;&#x6587;&#x4EF6;&#xFF0C;&#x5E76;&#x4E14;&#x5FFD;&#x7565;&#x5927;&#x5C0F;&#x5199;&#x3002;</span><br></pre></td></tr></table></figure></p>
-<h2 id="whereis">whereis</h2>
-<p>whereis&#x547D;&#x4EE4;&#x53EA;&#x80FD;&#x7528;&#x4E8E;&#x7A0B;&#x5E8F;&#x540D;&#x7684;&#x641C;&#x7D22;&#xFF0C;&#x800C;&#x4E14;&#x53EA;&#x641C;&#x7D22;&#x4E8C;&#x8FDB;&#x5236;&#x6587;&#x4EF6;&#xFF08;&#x53C2;&#x6570;-b&#xFF09;&#x3001;man&#x8BF4;&#x660E;&#x6587;&#x4EF6;&#xFF08;&#x53C2;&#x6570;-m&#xFF09;&#x548C;&#x6E90;&#x4EE3;&#x7801;&#x6587;&#x4EF6;&#xFF08;&#x53C2;&#x6570;-s&#xFF09;&#x3002;&#x5982;&#x679C;&#x7701;&#x7565;&#x53C2;&#x6570;&#xFF0C;&#x5219;&#x8FD4;&#x56DE;&#x6240;&#x6709;&#x4FE1;&#x606F;&#x3002;
-whereis&#x547D;&#x4EE4;&#x7684;&#x4F7F;&#x7528;&#x5B9E;&#x4F8B;&#xFF1A;<code>$ whereis grep</code></p>
-<h2 id="which">which</h2>
-<p>which&#x547D;&#x4EE4;&#x7684;&#x4F5C;&#x7528;&#x662F;&#xFF0C;&#x5728;PATH&#x53D8;&#x91CF;&#x6307;&#x5B9A;&#x7684;&#x8DEF;&#x5F84;&#x4E2D;&#xFF0C;&#x641C;&#x7D22;&#x67D0;&#x4E2A;&#x7CFB;&#x7EDF;&#x547D;&#x4EE4;&#x7684;&#x4F4D;&#x7F6E;&#xFF0C;&#x5E76;&#x4E14;&#x8FD4;&#x56DE;&#x7B2C;&#x4E00;&#x4E2A;&#x641C;&#x7D22;&#x7ED3;&#x679C;&#x3002;&#x4E5F;&#x5C31;&#x662F;&#x8BF4;&#xFF0C;&#x4F7F;&#x7528;which&#x547D;&#x4EE4;&#xFF0C;&#x5C31;&#x53EF;&#x4EE5;&#x770B;&#x5230;&#x67D0;&#x4E2A;&#x7CFB;&#x7EDF;&#x547D;&#x4EE4;&#x662F;&#x5426;&#x5B58;&#x5728;&#xFF0C;&#x4EE5;&#x53CA;&#x6267;&#x884C;&#x7684;&#x5230;&#x5E95;&#x662F;&#x54EA;&#x4E00;&#x4E2A;&#x4F4D;&#x7F6E;&#x7684;&#x547D;&#x4EE4;&#x3002;
-which&#x547D;&#x4EE4;&#x7684;&#x4F7F;&#x7528;&#x5B9E;&#x4F8B;&#xFF1A;<code>$ which grep</code></p>
-<h2 id="type">type</h2>
-<p>type&#x547D;&#x4EE4;&#x5176;&#x5B9E;&#x4E0D;&#x80FD;&#x7B97;&#x67E5;&#x627E;&#x547D;&#x4EE4;&#xFF0C;&#x5B83;&#x662F;&#x7528;&#x6765;&#x533A;&#x5206;&#x67D0;&#x4E2A;&#x547D;&#x4EE4;&#x5230;&#x5E95;&#x662F;&#x7531;shell&#x81EA;&#x5E26;&#x7684;&#xFF0C;&#x8FD8;&#x662F;&#x7531;shell&#x5916;&#x90E8;&#x7684;&#x72EC;&#x7ACB;&#x4E8C;&#x8FDB;&#x5236;&#x6587;&#x4EF6;&#x63D0;&#x4F9B;&#x7684;&#x3002;&#x5982;&#x679C;&#x4E00;&#x4E2A;&#x547D;&#x4EE4;&#x662F;&#x5916;&#x90E8;&#x547D;&#x4EE4;&#xFF0C;&#x90A3;&#x4E48;&#x4F7F;&#x7528;-p&#x53C2;&#x6570;&#xFF0C;&#x4F1A;&#x663E;&#x793A;&#x8BE5;&#x547D;&#x4EE4;&#x7684;&#x8DEF;&#x5F84;&#xFF0C;&#x76F8;&#x5F53;&#x4E8E;which&#x547D;&#x4EE4;&#x3002;
-type&#x547D;&#x4EE4;&#x7684;&#x4F7F;&#x7528;&#x5B9E;&#x4F8B;&#xFF1A;</p>
-<p><figure class="highlight vim"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">&#x3000;&#x3000;$ <span class="built_in">type</span> <span class="keyword">cd</span></span><br><span class="line">&#x7CFB;&#x7EDF;&#x4F1A;&#x63D0;&#x793A;&#xFF0C;<span class="keyword">cd</span>&#x662F;<span class="keyword">shell</span>&#x7684;&#x81EA;&#x5E26;&#x547D;&#x4EE4;&#xFF08;build-in&#xFF09;&#x3002;</span><br><span class="line">&#x3000;&#x3000;$ <span class="built_in">type</span> <span class="keyword">grep</span></span><br><span class="line">&#x7CFB;&#x7EDF;&#x4F1A;&#x63D0;&#x793A;&#xFF0C;<span class="keyword">grep</span>&#x662F;&#x4E00;&#x4E2A;&#x5916;&#x90E8;&#x547D;&#x4EE4;&#xFF0C;&#x5E76;&#x663E;&#x793A;&#x8BE5;&#x547D;&#x4EE4;&#x7684;&#x8DEF;&#x5F84;&#x3002;</span><br><span class="line">&#x3000;&#x3000;$ <span class="built_in">type</span> -<span class="keyword">p</span> <span class="keyword">grep</span></span><br><span class="line">&#x52A0;&#x4E0A;-<span class="keyword">p</span>&#x53C2;&#x6570;&#x540E;&#xFF0C;&#x5C31;&#x76F8;&#x5F53;&#x4E8E;which&#x547D;&#x4EE4;&#x3002;</span><br></pre></td></tr></table></figure></p></span>
+<h1 id="chkconfig问题">chkconfig问题</h1><p>chkconfig –add myservice问题：service myservice does not support chkconfig<br>我们一般在脚本开头加入下面两句就好了<br><code>vim  /etc/init.d/myservice</code><br>添加下面两句到 #!/bin/bash 之后</p>
+<figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">#!/bin/bash&#10;# chkconfig: 2345 10 90&#10;# description: myservice ....</span><br></pre></td></tr></table></figure>
+<h1 id="图形化界面切换">图形化界面切换</h1><p><code>vim /etc/inittab</code> </p>
+<figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"># Default runlevel. The runlevels used by RHS are: &#10;# 0 - halt (Do NOT set initdefault to this)          --&#20572;&#26426;&#10;# 1 - Single user mode           --&#21333;&#29992;&#25143;&#27169;&#24335;&#10;# 2 - Multiuser, without NFS (The same as 3, if you do not havenetworking)           --&#22810;&#29992;&#25143;&#27169;&#24335;&#65292;&#19981;&#25903;&#25345;NFS&#10;# 3 - Full multiuser mode          --&#22810;&#29992;&#25143;&#27169;&#24335;     &#10;# 4 - unused          --&#27809;&#26377;&#20351;&#29992; &#10;# 5 - X11          --&#22270;&#24418;&#30028;&#38754;&#26041;&#24335; &#10;# 6 - reboot (Do NOT set initdefault to this)          --&#37325;&#26032;&#21551;&#21160;&#10;# --&#40664;&#35748;&#36816;&#34892;&#31561;&#32423;&#26159;5&#10;id:5:initdefault:</span><br></pre></td></tr></table></figure>
+<h1 id="文件操作">文件操作</h1><h2 id="mkdir_新建目录">mkdir 新建目录</h2><p>mkdir -p 无目录新建目录 </p>
+<h2 id="rm_文件删除参数：">rm 文件删除参数：</h2><figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">-r &#23601;&#26159;&#21521;&#19979;&#36882;&#24402;&#65292;&#19981;&#31649;&#26377;&#22810;&#23569;&#32423;&#30446;&#24405;&#65292;&#19968;&#24182;&#21024;&#38500;&#10;-f &#23601;&#26159;&#30452;&#25509;&#24378;&#34892;&#21024;&#38500;&#65292;&#19981;&#20316;&#20219;&#20309;&#25552;&#31034;&#30340;&#24847;&#24605;&#10;-rf &#36882;&#24402;&#24378;&#21046;&#21024;&#38500;</span><br></pre></td></tr></table></figure>
+<p>需要提醒的是：使用这个rm -rf的时候一定要格外小心，linux没有回收站的  </p>
+<h2 id="tar文件解压">tar文件解压</h2><p>tar在linux上是常用的打包、压缩、加压缩工具，他的参数很多，折里仅仅列举常用的压缩与解压缩参数   </p>
+<figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">-c &#65306;create &#24314;&#31435;&#21387;&#32553;&#26723;&#26696;&#30340;&#21442;&#25968;&#65307;&#10;-x &#65306; &#35299;&#21387;&#32553;&#21387;&#32553;&#26723;&#26696;&#30340;&#21442;&#25968;&#65307;&#10;-z &#65306; &#26159;&#21542;&#38656;&#35201;&#29992;gzip&#21387;&#32553;&#65307;&#10;-v&#65306; &#21387;&#32553;&#30340;&#36807;&#31243;&#20013;&#26174;&#31034;&#26723;&#26696;&#65307;&#10;-f&#65306; &#32622;&#39030;&#25991;&#26723;&#21517;&#65292;&#22312;f&#21518;&#38754;&#31435;&#21363;&#25509;&#25991;&#20214;&#21517;&#65292;&#19981;&#33021;&#20877;&#21152;&#21442;&#25968;&#10;1 &#23558;tgz&#25991;&#20214;&#35299;&#21387;&#21040;&#25351;&#23450;&#30446;&#24405;&#10;tar   zxvf    test.tgz  -C  &#25351;&#23450;&#30446;&#24405;&#10;&#27604;&#22914;&#23558;/source/kernel.tgz&#35299;&#21387;&#21040;  /source/linux-2.6.29 &#30446;&#24405;&#10;tar  zxvf  /source/kernel.tgz  -C /source/ linux-2.6.29</span><br></pre></td></tr></table></figure>
+<h1 id="VIM操作">VIM操作</h1><p><a href="http://www.eepw.com.cn/article/48018.htm">http://www.eepw.com.cn/article/48018.htm</a></p>
+<p>vi删除*.swp临时文件删除<br>i插入<br>esc命令行<br>:底行（x保存）:</p>
+<h1 id="查找操作">查找操作</h1><h2 id="find">find</h2><p>find是最常见和最强大的查找命令，你可以用它找到任何你想找的文件。<br>find的使用格式如下：<br><figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">　　$ find <span class="tag">&lt;<span class="title">指定目录</span>&gt;</span> <span class="tag">&lt;<span class="title">指定条件</span>&gt;</span> <span class="tag">&lt;<span class="title">指定动作</span>&gt;</span></span><br><span class="line">　　- <span class="tag">&lt;<span class="title">指定目录</span>&gt;</span>： 所要搜索的目录及其所有子目录。默认为当前目录。</span><br><span class="line">　　- <span class="tag">&lt;<span class="title">指定条件</span>&gt;</span>： 所要搜索的文件的特征。</span><br><span class="line">　　- <span class="tag">&lt;<span class="title">指定动作</span>&gt;</span>： 对搜索结果进行特定的处理。</span><br></pre></td></tr></table></figure></p>
+<p>如果什么参数也不加，find默认搜索当前目录及其子目录，并且不过滤任何结果（也就是返回所有文件），将它们全都显示在屏幕上。<br>find的使用实例：<br><figure class="highlight vim"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">　　$ <span class="keyword">find</span> . -name <span class="string">"my*"</span></span><br><span class="line">搜索当前目录（含子目录，以下同）中，所有文件名以my开头的文件。</span><br><span class="line">　　$ <span class="keyword">find</span> . -name <span class="string">"my*"</span> -<span class="keyword">ls</span></span><br><span class="line">搜索当前目录中，所有文件名以my开头的文件，并显示它们的详细信息。</span><br><span class="line">　　$ <span class="keyword">find</span> . -<span class="built_in">type</span> <span class="keyword">f</span> -mmin -<span class="number">10</span></span><br><span class="line">搜索当前目录中，所有过去<span class="number">10</span>分钟中更新过的普通文件。如果不加-<span class="built_in">type</span> <span class="keyword">f</span>参数，则搜索普通文件+特殊文件+目录。</span><br></pre></td></tr></table></figure></p>
+<h2 id="locate">locate</h2><p>locate命令其实是“find -name”的另一种写法，但是要比后者快得多，原因在于它不搜索具体目录，而是搜索一个数据库（/var/lib/locatedb），这个数据库中含有本地所有文件信息。Linux系统自动创建这个数据库，并且每天自动更新一次，所以使用locate命令查不到最新变动过的文件。为了避免这种情况，可以在使用locate之前，先使用updatedb命令，手动更新数据库。<br>locate命令的使用实例：</p>
+<figure class="highlight stata"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">　　$ locate /etc/<span class="keyword">sh</span></span><br><span class="line">搜索etc目录下所有以<span class="keyword">sh</span>开头的文件。</span><br><span class="line">　　$ locate ~/<span class="literal">m</span></span><br><span class="line">搜索用户主目录下，所有以<span class="keyword">m</span>开头的文件。</span><br><span class="line">　　$ locate -i ~/<span class="literal">m</span></span><br><span class="line">搜索用户主目录下，所有以<span class="keyword">m</span>开头的文件，并且忽略大小写。</span><br></pre></td></tr></table></figure>
+<h2 id="whereis">whereis</h2><p>whereis命令只能用于程序名的搜索，而且只搜索二进制文件（参数-b）、man说明文件（参数-m）和源代码文件（参数-s）。如果省略参数，则返回所有信息。<br>whereis命令的使用实例：<code>$ whereis grep</code></p>
+<h2 id="which">which</h2><p>which命令的作用是，在PATH变量指定的路径中，搜索某个系统命令的位置，并且返回第一个搜索结果。也就是说，使用which命令，就可以看到某个系统命令是否存在，以及执行的到底是哪一个位置的命令。<br>which命令的使用实例：<code>$ which grep</code></p>
+<h2 id="type">type</h2><p>type命令其实不能算查找命令，它是用来区分某个命令到底是由shell自带的，还是由shell外部的独立二进制文件提供的。如果一个命令是外部命令，那么使用-p参数，会显示该命令的路径，相当于which命令。<br>type命令的使用实例：</p>
+<figure class="highlight vim"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">　　$ <span class="built_in">type</span> <span class="keyword">cd</span></span><br><span class="line">系统会提示，<span class="keyword">cd</span>是<span class="keyword">shell</span>的自带命令（build-in）。</span><br><span class="line">　　$ <span class="built_in">type</span> <span class="keyword">grep</span></span><br><span class="line">系统会提示，<span class="keyword">grep</span>是一个外部命令，并显示该命令的路径。</span><br><span class="line">　　$ <span class="built_in">type</span> -<span class="keyword">p</span> <span class="keyword">grep</span></span><br><span class="line">加上-<span class="keyword">p</span>参数后，就相当于which命令。</span><br></pre></td></tr></table></figure></span>
       
     </div>
 
@@ -445,7 +369,8 @@ type&#x547D;&#x4EE4;&#x7684;&#x4F7F;&#x7528;&#x5B9E;&#x4F8B;&#xFF1A;</p>
         
           <div class="comments" id="comments">
             
-              <div class="ds-thread" data-thread-key="2015/07/06/centos常用脚本/" data-title="CentOS常用脚本" data-url="http://geosmart.github.io/2015/07/06/centos常用脚本/">
+              <div class="ds-thread" data-thread-key="2015/07/06/centos常用脚本/"
+                   data-title="CentOS常用脚本" data-url="http://geosmart.github.io/2015/07/06/centos常用脚本/">
               </div>
             
           </div>
@@ -467,7 +392,7 @@ type&#x547D;&#x4EE4;&#x7684;&#x4F7F;&#x7528;&#x5B9E;&#x4F8B;&#xFF1A;</p>
 
       
         <ul class="sidebar-nav motion-element">
-          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
             文章目录
           </li>
           <li class="sidebar-nav-overview" data-target="site-overview">
@@ -478,7 +403,7 @@ type&#x547D;&#x4EE4;&#x7684;&#x4F7F;&#x7528;&#x5B9E;&#x4F8B;&#xFF1A;</p>
 
       <section class="site-overview">
         <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
-          <img class="site-author-image" src="https://avatars1.githubusercontent.com/u/3156608?v=3&s=460" alt="geosmart" itemprop="image">
+          <img class="site-author-image" src="https://avatars1.githubusercontent.com/u/3156608?v=3&s=460" alt="geosmart" itemprop="image"/>
           <p class="site-author-name" itemprop="name">geosmart</p>
         </div>
         <p class="site-description motion-element" itemprop="description">追求心智成长，记录技术点滴</p>
@@ -491,10 +416,10 @@ type&#x547D;&#x4EE4;&#x7684;&#x4F7F;&#x7528;&#x5B9E;&#x4F8B;&#xFF1A;</p>
           </div>
 
           <div class="site-state-item site-state-categories">
-            
+            <a href="/categories">
               <span class="site-state-item-count">6</span>
               <span class="site-state-item-name">分类</span>
-              
+              </a>
           </div>
 
           <div class="site-state-item site-state-tags">
@@ -534,7 +459,7 @@ type&#x547D;&#x4EE4;&#x7684;&#x4F7F;&#x7528;&#x5B9E;&#x4F8B;&#xFF1A;</p>
           <div class="post-toc">
             
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#网络设置"><span class="nav-number">1.</span> <span class="nav-text">网络设置</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#hostname主机名"><span class="nav-number">1.1.</span> <span class="nav-text">HostName主机名</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#静态ip设置"><span class="nav-number">1.2.</span> <span class="nav-text">静态IP设置</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#集群环境下ssh免密码登陆认证脚本"><span class="nav-number">1.3.</span> <span class="nav-text">集群环境下ssh免密码登陆认证脚本</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#ps查看进程"><span class="nav-number">2.</span> <span class="nav-text">PS查看进程</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#端口查看"><span class="nav-number">3.</span> <span class="nav-text">端口查看</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#nohup后台运行"><span class="nav-number">4.</span> <span class="nav-text">nohup后台运行</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#重定向"><span class="nav-number">5.</span> <span class="nav-text">重定向</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#读取文件头尾实时内容"><span class="nav-number">6.</span> <span class="nav-text">读取文件头/尾/实时内容</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#chkconfig问题"><span class="nav-number">7.</span> <span class="nav-text">chkconfig问题</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#图形化界面切换"><span class="nav-number">8.</span> <span class="nav-text">图形化界面切换</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#文件操作"><span class="nav-number">9.</span> <span class="nav-text">文件操作</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#mkdir-新建目录"><span class="nav-number">9.1.</span> <span class="nav-text">mkdir 新建目录</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#rm-文件删除参数"><span class="nav-number">9.2.</span> <span class="nav-text">rm 文件删除参数：</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#tar文件解压"><span class="nav-number">9.3.</span> <span class="nav-text">tar文件解压</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#vim操作"><span class="nav-number">10.</span> <span class="nav-text">VIM操作</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#查找操作"><span class="nav-number">11.</span> <span class="nav-text">查找操作</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#find"><span class="nav-number">11.1.</span> <span class="nav-text">find</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#locate"><span class="nav-number">11.2.</span> <span class="nav-text">locate</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#whereis"><span class="nav-number">11.3.</span> <span class="nav-text">whereis</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#which"><span class="nav-number">11.4.</span> <span class="nav-text">which</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#type"><span class="nav-number">11.5.</span> <span class="nav-text">type</span></a></li></ol></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#网络设置"><span class="nav-number">1.</span> <span class="nav-text">网络设置</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#HostName主机名"><span class="nav-number">1.1.</span> <span class="nav-text">HostName主机名</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#静态IP设置"><span class="nav-number">1.2.</span> <span class="nav-text">静态IP设置</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#集群环境下ssh免密码登陆认证脚本"><span class="nav-number">1.3.</span> <span class="nav-text">集群环境下ssh免密码登陆认证脚本</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#PS查看进程"><span class="nav-number">2.</span> <span class="nav-text">PS查看进程</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#端口查看"><span class="nav-number">3.</span> <span class="nav-text">端口查看</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#nohup后台运行"><span class="nav-number">4.</span> <span class="nav-text">nohup后台运行</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#重定向"><span class="nav-number">5.</span> <span class="nav-text">重定向</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#读取文件头/尾/实时内容"><span class="nav-number">6.</span> <span class="nav-text">读取文件头/尾/实时内容</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#chkconfig问题"><span class="nav-number">7.</span> <span class="nav-text">chkconfig问题</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#图形化界面切换"><span class="nav-number">8.</span> <span class="nav-text">图形化界面切换</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#文件操作"><span class="nav-number">9.</span> <span class="nav-text">文件操作</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#mkdir_新建目录"><span class="nav-number">9.1.</span> <span class="nav-text">mkdir 新建目录</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#rm_文件删除参数："><span class="nav-number">9.2.</span> <span class="nav-text">rm 文件删除参数：</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#tar文件解压"><span class="nav-number">9.3.</span> <span class="nav-text">tar文件解压</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#VIM操作"><span class="nav-number">10.</span> <span class="nav-text">VIM操作</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#查找操作"><span class="nav-number">11.</span> <span class="nav-text">查找操作</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#find"><span class="nav-number">11.1.</span> <span class="nav-text">find</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#locate"><span class="nav-number">11.2.</span> <span class="nav-text">locate</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#whereis"><span class="nav-number">11.3.</span> <span class="nav-text">whereis</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#which"><span class="nav-number">11.4.</span> <span class="nav-text">which</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#type"><span class="nav-number">11.5.</span> <span class="nav-text">type</span></a></li></ol></li></ol></div>
             
           </div>
           <div class="post-toc-indicator-bottom post-toc-indicator"></div>
@@ -548,7 +473,7 @@ type&#x547D;&#x4EE4;&#x7684;&#x4F7F;&#x7528;&#x5B9E;&#x4F8B;&#xFF1A;</p>
     </main>
 
     <footer id="footer" class="footer">
-      <div class="footer-inner"> <div class="copyright">
+      <div class="footer-inner"> <div class="copyright" >
   
   &copy; &nbsp; 
   <span itemprop="copyrightYear">2015</span>

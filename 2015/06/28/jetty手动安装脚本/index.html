@@ -3,63 +3,57 @@
 <head>
   
 
-<meta charset="UTF-8">
-<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
-<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1">
+<meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
 
 
-<meta http-equiv="Cache-Control" content="no-transform">
-<meta http-equiv="Cache-Control" content="no-siteapp">
-
-
-
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
 
 
 
 
 
-  <link rel="stylesheet" type="text/css" href="/vendors/fancybox/source/jquery.fancybox.css?v=2.1.5">
+
+
+
+  <link rel="stylesheet" type="text/css" href="/vendors/fancybox/source/jquery.fancybox.css?v=2.1.5"/>
 
 
 
 
-<link rel="stylesheet" type="text/css" href="/css/main.css?v=0.4.5.1">
+<link rel="stylesheet" type="text/css" href="/css/main.css?v=0.4.5.1"/>
 
 
-    <meta name="description" content="追求心智成长，记录技术点滴">
-
-
-
-  <meta name="keywords" content="CentOS,Jetty,Web服务器,">
+    <meta name="description" content="追求心智成长，记录技术点滴" />
 
 
 
-  <link rel="alternate" href="/atom.xml" title="Geosmart's Notes" type="application/atom+xml">
+  <meta name="keywords" content="CentOS,Jetty,Web服务器," />
 
 
 
-  <link rel="shorticon icon" type="image/x-icon" href="/favicon.ico?v=0.4.5.1">
+  <link rel="alternate" href="/atom.xml" title="Geosmart's Notes" type="application/atom+xml" />
 
 
-<meta name="description" content="##&amp;#x5B89;&amp;#x88C5;&amp;#x6B65;&amp;#x9AA4;
-&amp;#x5C06;&amp;#x6587;&amp;#x4EF6;&amp;#x590D;&amp;#x5236;&amp;#x5230;CentOS&amp;#x540E;&amp;#x8FDB;&amp;#x884C;&amp;#x5B89;&amp;#x88C5;
-&amp;#x4E0B;&amp;#x8F7D;&amp;#x89E3;&amp;#x538B;Jetty
-1234cd /tmpwget http://eclipse.o">
+
+  <link rel="shorticon icon" type="image/x-icon" href="/favicon.ico?v=0.4.5.1" />
+
+
+<meta name="description" content="##安装步骤将文件复制到CentOS后进行安装
+下载解压Jetty1234cd /tmpwget http://eclipse.org/downloads/download.php?file=/jetty/stable-9/dist/jetty-distribution-9.3.0.v20150612.tar.gz&amp;amp;r=1 tar -xzvf  jetty-distribution-9.3">
 <meta property="og:type" content="article">
 <meta property="og:title" content="jetty手动安装脚本">
 <meta property="og:url" content="http://geosmart.github.io/2015/06/28/jetty手动安装脚本/index.html">
 <meta property="og:site_name" content="Geosmart's Notes">
-<meta property="og:description" content="##&amp;#x5B89;&amp;#x88C5;&amp;#x6B65;&amp;#x9AA4;
-&amp;#x5C06;&amp;#x6587;&amp;#x4EF6;&amp;#x590D;&amp;#x5236;&amp;#x5230;CentOS&amp;#x540E;&amp;#x8FDB;&amp;#x884C;&amp;#x5B89;&amp;#x88C5;
-&amp;#x4E0B;&amp;#x8F7D;&amp;#x89E3;&amp;#x538B;Jetty
-1234cd /tmpwget http://eclipse.o">
+<meta property="og:description" content="##安装步骤将文件复制到CentOS后进行安装
+下载解压Jetty1234cd /tmpwget http://eclipse.org/downloads/download.php?file=/jetty/stable-9/dist/jetty-distribution-9.3.0.v20150612.tar.gz&amp;amp;r=1 tar -xzvf  jetty-distribution-9.3">
 <meta property="og:updated_time" content="2015-09-07T13:29:49.568Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="jetty手动安装脚本">
-<meta name="twitter:description" content="##&amp;#x5B89;&amp;#x88C5;&amp;#x6B65;&amp;#x9AA4;
-&amp;#x5C06;&amp;#x6587;&amp;#x4EF6;&amp;#x590D;&amp;#x5236;&amp;#x5230;CentOS&amp;#x540E;&amp;#x8FDB;&amp;#x884C;&amp;#x5B89;&amp;#x88C5;
-&amp;#x4E0B;&amp;#x8F7D;&amp;#x89E3;&amp;#x538B;Jetty
-1234cd /tmpwget http://eclipse.o">
+<meta name="twitter:description" content="##安装步骤将文件复制到CentOS后进行安装
+下载解压Jetty1234cd /tmpwget http://eclipse.org/downloads/download.php?file=/jetty/stable-9/dist/jetty-distribution-9.3.0.v20150612.tar.gz&amp;amp;r=1 tar -xzvf  jetty-distribution-9.3">
 
 
 <script type="text/javascript" id="hexo.configuration">
@@ -129,7 +123,7 @@
         
         <li class="menu-item menu-item-home">
           <a href="/" rel="section">
-            <i class="menu-item-icon icon-next-home"></i> <br>
+            <i class="menu-item-icon icon-next-home"></i> <br />
             首页
           </a>
         </li>
@@ -137,7 +131,7 @@
         
         <li class="menu-item menu-item-archives">
           <a href="/archives" rel="section">
-            <i class="menu-item-icon icon-next-archives"></i> <br>
+            <i class="menu-item-icon icon-next-archives"></i> <br />
             归档
           </a>
         </li>
@@ -145,8 +139,32 @@
         
         <li class="menu-item menu-item-tags">
           <a href="/tags" rel="section">
-            <i class="menu-item-icon icon-next-tags"></i> <br>
+            <i class="menu-item-icon icon-next-tags"></i> <br />
             标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories" rel="section">
+            <i class="menu-item-icon icon-next-categories"></i> <br />
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about" rel="section">
+            <i class="menu-item-icon icon-next-about"></i> <br />
+            关于
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-commonweal">
+          <a href="/404.html" rel="section">
+            <i class="menu-item-icon icon-next-commonweal"></i> <br />
+            公益404
           </a>
         </li>
       
@@ -161,7 +179,7 @@
       
   
   <form class="site-search-form">
-    <input type="text" id="st-search-input" class="st-search-input st-default-search-input">
+    <input type="text" id="st-search-input" class="st-search-input st-default-search-input" />
   </form>
 
 
@@ -190,7 +208,7 @@
   <div id="posts" class="posts-expand">
     
 
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
     <header class="post-header">
 
       
@@ -214,7 +232,7 @@
         </span>
 
         
-          <span class="post-category">
+          <span class="post-category" >
             &nbsp; | &nbsp; 分类于
             
               <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
@@ -249,23 +267,17 @@
       
 
       
-        <span itemprop="articleBody"><p>##&#x5B89;&#x88C5;&#x6B65;&#x9AA4;
-&#x5C06;&#x6587;&#x4EF6;&#x590D;&#x5236;&#x5230;CentOS&#x540E;&#x8FDB;&#x884C;&#x5B89;&#x88C5;</p>
-<h3 id="&#x4E0B;&#x8F7D;&#x89E3;&#x538B;jetty">&#x4E0B;&#x8F7D;&#x89E3;&#x538B;Jetty</h3>
-<p><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">cd</span> /tmp</span><br><span class="line">wget http://eclipse.org/downloads/download.php?file=/jetty/stable-<span class="number">9</span>/dist/jetty-distribution-<span class="number">9.3</span>.<span class="number">0</span>.v20150612.tar.gz&amp;r=<span class="number">1</span> </span><br><span class="line">tar -xzvf  jetty-distribution-<span class="number">9.3</span>.<span class="number">0</span>.v20150612.tar.gz </span><br><span class="line">mv jetty-distribution-<span class="number">9.1</span>.<span class="number">1</span>.v20140108 /usr/<span class="built_in">local</span>/jetty</span><br></pre></td></tr></table></figure></p>
-<h3 id="&#x65B0;&#x5EFA;&#x7528;&#x6237;&#x914D;&#x7F6E;jetty&#x6240;&#x5C5E;&#x6743;&#x9650;">&#x65B0;&#x5EFA;&#x7528;&#x6237;&gt;&#x914D;&#x7F6E;jetty&#x6240;&#x5C5E;&#x6743;&#x9650;</h3>
-<p><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">useradd -m jetty </span><br><span class="line">chown -R jetty:jetty /usr/<span class="built_in">local</span>/jetty/</span><br></pre></td></tr></table></figure></p>
-<h3 id="&#x5B89;&#x88C5;&#x5230;&#x7CFB;&#x7EDF;&#x670D;&#x52A1;">&#x5B89;&#x88C5;&#x5230;&#x7CFB;&#x7EDF;&#x670D;&#x52A1;</h3>
-<p><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">ln <span class="operator">-s</span> /usr/<span class="built_in">local</span>/jetty/bin/jetty.sh /etc/init.d/jetty</span><br><span class="line">chkconfig --add jetty </span><br><span class="line">chkconfig --level <span class="number">345</span> jetty on</span><br></pre></td></tr></table></figure></p>
-<h3 id="&#x7F16;&#x8F91;&#x542F;&#x52A8;&#x811A;&#x672C;">&#x7F16;&#x8F91;&#x542F;&#x52A8;&#x811A;&#x672C;</h3>
-<p><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">vim /etc/default/jetty </span><br><span class="line">JETTY_HOME=/usr/<span class="built_in">local</span>/jetty </span><br><span class="line">JETTY_USER=jetty </span><br><span class="line">JETTY_PORT=<span class="number">8080</span></span><br><span class="line">JETTY_LOGS=/usr/<span class="built_in">local</span>/jetty/logs/</span><br></pre></td></tr></table></figure></p>
-<h3 id="&#x542F;&#x52A8;&#x670D;&#x52A1;&#x6D4B;&#x8BD5;">&#x542F;&#x52A8;&#x670D;&#x52A1;&gt;&#x6D4B;&#x8BD5;</h3>
-<pre><code class="language-bash">service jetty start
-curl localhost:8080
+        <span itemprop="articleBody"><p>##安装步骤<br>将文件复制到CentOS后进行安装</p>
+<h3 id="下载解压Jetty">下载解压Jetty</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">cd</span> /tmp</span><br><span class="line">wget http://eclipse.org/downloads/download.php?file=/jetty/stable-<span class="number">9</span>/dist/jetty-distribution-<span class="number">9.3</span>.<span class="number">0</span>.v20150612.tar.gz&amp;r=<span class="number">1</span> </span><br><span class="line">tar -xzvf  jetty-distribution-<span class="number">9.3</span>.<span class="number">0</span>.v20150612.tar.gz </span><br><span class="line">mv jetty-distribution-<span class="number">9.1</span>.<span class="number">1</span>.v20140108 /usr/<span class="built_in">local</span>/jetty</span><br></pre></td></tr></table></figure>
+<h3 id="新建用户&gt;配置jetty所属权限">新建用户&gt;配置jetty所属权限</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">useradd -m jetty </span><br><span class="line">chown -R jetty:jetty /usr/<span class="built_in">local</span>/jetty/</span><br></pre></td></tr></table></figure>
+<h3 id="安装到系统服务">安装到系统服务</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">ln <span class="operator">-s</span> /usr/<span class="built_in">local</span>/jetty/bin/jetty.sh /etc/init.d/jetty</span><br><span class="line">chkconfig --add jetty </span><br><span class="line">chkconfig --level <span class="number">345</span> jetty on</span><br></pre></td></tr></table></figure>
+<h3 id="编辑启动脚本">编辑启动脚本</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">vim /etc/default/jetty </span><br><span class="line">JETTY_HOME=/usr/<span class="built_in">local</span>/jetty </span><br><span class="line">JETTY_USER=jetty </span><br><span class="line">JETTY_PORT=<span class="number">8080</span></span><br><span class="line">JETTY_LOGS=/usr/<span class="built_in">local</span>/jetty/logs/</span><br></pre></td></tr></table></figure>
+<h3 id="启动服务&gt;测试">启动服务&gt;测试</h3><pre><code class="bash">service jetty start
+curl localhost:<span class="number">8080</span>
 </code></pre>
-<h3 id="&#x5E38;&#x7528;&#x64CD;&#x4F5C;&#x6307;&#x4EE4;">&#x5E38;&#x7528;&#x64CD;&#x4F5C;&#x6307;&#x4EE4;</h3>
-<pre><code class="language-bash">jetty [-d] {start|stop|run|restart|check|supervise} [ CONFIGS ... ]
-</code></pre></span>
+<h3 id="常用操作指令">常用操作指令</h3><pre><code class="bash">jetty [<span class="operator">-d</span>] {start|stop|run|restart|check|supervise} [ CONFIGS ... ]
+</code></pre>
+</span>
       
     </div>
 
@@ -317,7 +329,8 @@ curl localhost:8080
         
           <div class="comments" id="comments">
             
-              <div class="ds-thread" data-thread-key="2015/06/28/jetty手动安装脚本/" data-title="jetty手动安装脚本" data-url="http://geosmart.github.io/2015/06/28/jetty手动安装脚本/">
+              <div class="ds-thread" data-thread-key="2015/06/28/jetty手动安装脚本/"
+                   data-title="jetty手动安装脚本" data-url="http://geosmart.github.io/2015/06/28/jetty手动安装脚本/">
               </div>
             
           </div>
@@ -339,7 +352,7 @@ curl localhost:8080
 
       
         <ul class="sidebar-nav motion-element">
-          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
             文章目录
           </li>
           <li class="sidebar-nav-overview" data-target="site-overview">
@@ -350,7 +363,7 @@ curl localhost:8080
 
       <section class="site-overview">
         <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
-          <img class="site-author-image" src="https://avatars1.githubusercontent.com/u/3156608?v=3&s=460" alt="geosmart" itemprop="image">
+          <img class="site-author-image" src="https://avatars1.githubusercontent.com/u/3156608?v=3&s=460" alt="geosmart" itemprop="image"/>
           <p class="site-author-name" itemprop="name">geosmart</p>
         </div>
         <p class="site-description motion-element" itemprop="description">追求心智成长，记录技术点滴</p>
@@ -363,10 +376,10 @@ curl localhost:8080
           </div>
 
           <div class="site-state-item site-state-categories">
-            
+            <a href="/categories">
               <span class="site-state-item-count">6</span>
               <span class="site-state-item-name">分类</span>
-              
+              </a>
           </div>
 
           <div class="site-state-item site-state-tags">
@@ -406,7 +419,7 @@ curl localhost:8080
           <div class="post-toc">
             
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#下载解压jetty"><span class="nav-number">1.</span> <span class="nav-text">下载解压Jetty</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#新建用户配置jetty所属权限"><span class="nav-number">2.</span> <span class="nav-text">新建用户>配置jetty所属权限</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#安装到系统服务"><span class="nav-number">3.</span> <span class="nav-text">安装到系统服务</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#编辑启动脚本"><span class="nav-number">4.</span> <span class="nav-text">编辑启动脚本</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#启动服务测试"><span class="nav-number">5.</span> <span class="nav-text">启动服务>测试</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#常用操作指令"><span class="nav-number">6.</span> <span class="nav-text">常用操作指令</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#下载解压Jetty"><span class="nav-number">1.</span> <span class="nav-text">下载解压Jetty</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#新建用户>配置jetty所属权限"><span class="nav-number">2.</span> <span class="nav-text">新建用户>配置jetty所属权限</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#安装到系统服务"><span class="nav-number">3.</span> <span class="nav-text">安装到系统服务</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#编辑启动脚本"><span class="nav-number">4.</span> <span class="nav-text">编辑启动脚本</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#启动服务>测试"><span class="nav-number">5.</span> <span class="nav-text">启动服务>测试</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#常用操作指令"><span class="nav-number">6.</span> <span class="nav-text">常用操作指令</span></a></li></ol></div>
             
           </div>
           <div class="post-toc-indicator-bottom post-toc-indicator"></div>
@@ -420,7 +433,7 @@ curl localhost:8080
     </main>
 
     <footer id="footer" class="footer">
-      <div class="footer-inner"> <div class="copyright">
+      <div class="footer-inner"> <div class="copyright" >
   
   &copy; &nbsp; 
   <span itemprop="copyrightYear">2015</span>

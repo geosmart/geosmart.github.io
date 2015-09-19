@@ -3,55 +3,55 @@
 <head>
   
 
-<meta charset="UTF-8">
-<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
-<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1">
+<meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
 
 
-<meta http-equiv="Cache-Control" content="no-transform">
-<meta http-equiv="Cache-Control" content="no-siteapp">
-
-
-
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
 
 
 
 
 
-  <link rel="stylesheet" type="text/css" href="/vendors/fancybox/source/jquery.fancybox.css?v=2.1.5">
+
+
+
+  <link rel="stylesheet" type="text/css" href="/vendors/fancybox/source/jquery.fancybox.css?v=2.1.5"/>
 
 
 
 
-<link rel="stylesheet" type="text/css" href="/css/main.css?v=0.4.5.1">
+<link rel="stylesheet" type="text/css" href="/css/main.css?v=0.4.5.1"/>
 
 
-    <meta name="description" content="追求心智成长，记录技术点滴">
-
-
-
-  <meta name="keywords" content="EXSI,运维,">
+    <meta name="description" content="追求心智成长，记录技术点滴" />
 
 
 
-  <link rel="alternate" href="/atom.xml" title="Geosmart's Notes" type="application/atom+xml">
+  <meta name="keywords" content="EXSI,运维," />
 
 
 
-  <link rel="shorticon icon" type="image/x-icon" href="/favicon.ico?v=0.4.5.1">
+  <link rel="alternate" href="/atom.xml" title="Geosmart's Notes" type="application/atom+xml" />
 
 
-<meta name="description" content="&amp;#x9047;&amp;#x5230;Sphere6.0 (esxi6 )&amp;#x5BFC;&amp;#x51FA;&amp;#x7684;OVF&amp;#x865A;&amp;#x62DF;&amp;#x673A;&amp;#x6A21;&amp;#x677F;&amp;#x5728;Vmware WorkStation 9&amp;#x548C;VmWare WorkStation11&amp;#x4E2D;&amp;#x5BFC;&amp;#x5165;&amp;#x62A5;&amp;#x9519;&amp;#x">
+
+  <link rel="shorticon icon" type="image/x-icon" href="/favicon.ico?v=0.4.5.1" />
+
+
+<meta name="description" content="遇到Sphere6.0 (esxi6 )导出的OVF虚拟机模板在Vmware WorkStation 9和VmWare WorkStation11中导入报错的问题，暂改成OVA格式进行数据交换。">
 <meta property="og:type" content="article">
 <meta property="og:title" content="开放虚拟化格式之OVF-OVA">
 <meta property="og:url" content="http://geosmart.github.io/2015/07/12/开放虚拟化格式之OVF-OVA/index.html">
 <meta property="og:site_name" content="Geosmart's Notes">
-<meta property="og:description" content="&amp;#x9047;&amp;#x5230;Sphere6.0 (esxi6 )&amp;#x5BFC;&amp;#x51FA;&amp;#x7684;OVF&amp;#x865A;&amp;#x62DF;&amp;#x673A;&amp;#x6A21;&amp;#x677F;&amp;#x5728;Vmware WorkStation 9&amp;#x548C;VmWare WorkStation11&amp;#x4E2D;&amp;#x5BFC;&amp;#x5165;&amp;#x62A5;&amp;#x9519;&amp;#x">
+<meta property="og:description" content="遇到Sphere6.0 (esxi6 )导出的OVF虚拟机模板在Vmware WorkStation 9和VmWare WorkStation11中导入报错的问题，暂改成OVA格式进行数据交换。">
 <meta property="og:image" content="http://geosmart.github.io/errorInfo.png">
-<meta property="og:updated_time" content="2015-09-07T13:29:15.498Z">
+<meta property="og:updated_time" content="2015-09-19T14:11:57.140Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="开放虚拟化格式之OVF-OVA">
-<meta name="twitter:description" content="&amp;#x9047;&amp;#x5230;Sphere6.0 (esxi6 )&amp;#x5BFC;&amp;#x51FA;&amp;#x7684;OVF&amp;#x865A;&amp;#x62DF;&amp;#x673A;&amp;#x6A21;&amp;#x677F;&amp;#x5728;Vmware WorkStation 9&amp;#x548C;VmWare WorkStation11&amp;#x4E2D;&amp;#x5BFC;&amp;#x5165;&amp;#x62A5;&amp;#x9519;&amp;#x">
+<meta name="twitter:description" content="遇到Sphere6.0 (esxi6 )导出的OVF虚拟机模板在Vmware WorkStation 9和VmWare WorkStation11中导入报错的问题，暂改成OVA格式进行数据交换。">
 
 
 <script type="text/javascript" id="hexo.configuration">
@@ -121,7 +121,7 @@
         
         <li class="menu-item menu-item-home">
           <a href="/" rel="section">
-            <i class="menu-item-icon icon-next-home"></i> <br>
+            <i class="menu-item-icon icon-next-home"></i> <br />
             首页
           </a>
         </li>
@@ -129,7 +129,7 @@
         
         <li class="menu-item menu-item-archives">
           <a href="/archives" rel="section">
-            <i class="menu-item-icon icon-next-archives"></i> <br>
+            <i class="menu-item-icon icon-next-archives"></i> <br />
             归档
           </a>
         </li>
@@ -137,8 +137,32 @@
         
         <li class="menu-item menu-item-tags">
           <a href="/tags" rel="section">
-            <i class="menu-item-icon icon-next-tags"></i> <br>
+            <i class="menu-item-icon icon-next-tags"></i> <br />
             标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories" rel="section">
+            <i class="menu-item-icon icon-next-categories"></i> <br />
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about" rel="section">
+            <i class="menu-item-icon icon-next-about"></i> <br />
+            关于
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-commonweal">
+          <a href="/404.html" rel="section">
+            <i class="menu-item-icon icon-next-commonweal"></i> <br />
+            公益404
           </a>
         </li>
       
@@ -153,7 +177,7 @@
       
   
   <form class="site-search-form">
-    <input type="text" id="st-search-input" class="st-search-input st-default-search-input">
+    <input type="text" id="st-search-input" class="st-search-input st-default-search-input" />
   </form>
 
 
@@ -182,7 +206,7 @@
   <div id="posts" class="posts-expand">
     
 
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
     <header class="post-header">
 
       
@@ -206,7 +230,7 @@
         </span>
 
         
-          <span class="post-category">
+          <span class="post-category" >
             &nbsp; | &nbsp; 分类于
             
               <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
@@ -241,19 +265,15 @@
       
 
       
-        <span itemprop="articleBody"><p>&#x9047;&#x5230;Sphere6.0 (esxi6 )&#x5BFC;&#x51FA;&#x7684;OVF&#x865A;&#x62DF;&#x673A;&#x6A21;&#x677F;&#x5728;Vmware WorkStation 9&#x548C;VmWare WorkStation11&#x4E2D;&#x5BFC;&#x5165;&#x62A5;&#x9519;&#x7684;&#x95EE;&#x9898;&#xFF0C;&#x6682;&#x6539;&#x6210;OVA&#x683C;&#x5F0F;&#x8FDB;&#x884C;&#x6570;&#x636E;&#x4EA4;&#x6362;&#x3002;</p>
-<p>#&#x95EE;&#x9898;&#x63CF;&#x8FF0;
-<img src="errorInfo.png" alt="&#x5BFC;&#x5165;&#x5931;&#x8D25;&#xFF0C;&#x672A;&#x901A;&#x8FC7; OVF &#x89C4;&#x8303;&#x4E00;&#x81F4;&#x6027;&#x6216;&#x865A;&#x62DF;&#x786C;&#x4EF6;&#x5408;&#x89C4;&#x6027;&#x68C0;&#x67E5;&#x3002;&#x8BF7;&#x5355;&#x51FB;&#x201C;&#x91CD;&#x8BD5;&#x201D;&#x653E;&#x677E; OVF &#x89C4;&#x8303;&#x4E0E;&#x865A;&#x62DF;&#x786C;&#x4EF6;&#x5408;&#x89C4;&#x6027;&#x68C0;&#x67E5;&#xFF0C;&#x5E76;&#x91CD;&#x65B0;&#x5C1D;&#x8BD5;&#x5BFC;&#x5165;"></p>
-<h2 id="&#x89E3;&#x51B3;&#x65B9;&#x5F0F;">&#x89E3;&#x51B3;&#x65B9;&#x5F0F;</h2>
-<p>&#x4EE5;OVA&#x683C;&#x5F0F;&#x8FDB;&#x884C;&#x6570;&#x636E;&#x4EA4;&#x6362;
-VMware&#x5BFC;&#x51FA;&#x65F6;&#x5C06;&#x540E;&#x7F00;&#x6539;&#x4E3A;OVA&#x540E;&#x5230;&#x5904;&#xFF1B;ESXI&#x5BFC;&#x51FA;&#x65F6;&#x9009;OVA</p>
-<p>#&#x57FA;&#x7840;&#x77E5;&#x8BC6;</p>
-<h2 id="ovf">OVF</h2>
-<p>OVF&#xFF08;Open Virtualization Format&#xFF1A;&#x5F00;&#x653E;&#x865A;&#x62DF;&#x5316;&#x683C;&#x5F0F; &#xFF09;
-OVF&#x662F;&#x4E00;&#x79CD;&#x5F00;&#x6E90;&#x7684;&#x6587;&#x4EF6;&#x89C4;&#x8303;&#xFF0C;&#x5B83;&#x63CF;&#x8FF0;&#x4E86;&#x4E00;&#x4E2A;&#x5F00;&#x6E90;&#x3001;&#x5B89;&#x5168;&#x3001;&#x6709;&#x6548;&#x3001;&#x53EF;&#x62D3;&#x5C55;&#x7684;&#x4FBF;&#x643A;&#x5F0F;&#x865A;&#x62DF;&#x6253;&#x5305;&#x4EE5;&#x53CA;&#x8F6F;&#x4EF6;&#x5206;&#x5E03;&#x683C;&#x5F0F;&#xFF0C;&#x5B83;&#x4E00;&#x822C;&#x6709;&#x51E0;&#x4E2A;&#x90E8;&#x5206;&#x7EC4;&#x6210;&#xFF0C;&#x5206;&#x522B;&#x662F;ovf&#x6587;&#x4EF6;&#x3001;mf&#x6587;&#x4EF6;&#x3001;cert&#x6587;&#x4EF6;&#x3001;vmdk&#x6587;&#x4EF6;&#x548C;iso&#x6587;&#x4EF6;&#x3002;</p>
-<h2 id="ova">OVA</h2>
-<p>OVA&#xFF08;Open Virtualization Appliance&#xFF1A;&#x5F00;&#x653E;&#x865A;&#x62DF;&#x5316;&#x8BBE;&#x5907;&#xFF09;
-OVA&#x5305;&#x662F;&#x4E00;&#x4E2A;&#x5355;&#x4E00;&#x7684;&#x6587;&#x4EF6;&#xFF0C;&#x6240;&#x6709;&#x5FC5;&#x8981;&#x7684;&#x4FE1;&#x606F;&#x90FD;&#x5C01;&#x88C5;&#x5728;&#x91CC;&#x9762;&#x3002;OVA&#x6587;&#x4EF6;&#x5219;&#x91C7;&#x7528;.tar&#x6587;&#x4EF6;&#x6269;&#x5C55;&#x540D;,&#x5305;&#x542B;&#x4E86;&#x4E00;&#x4E2A;OVF &#x5305;&#x4E2D;&#x6240;&#x6709;&#x6587;&#x4EF6;&#x7C7B;&#x578B;&#x3002;&#x8FD9;&#x6837;OVA&#x5355;&#x4E00;&#x7684;&#x6587;&#x4EF6;&#x683C;&#x5F0F;&#x4F7F;&#x5F97;&#x5B83;&#x975E;&#x5E38;&#x4FBF;&#x643A;&#x3002;</p></span>
+        <span itemprop="articleBody"><p>遇到Sphere6.0 (esxi6 )导出的OVF虚拟机模板在Vmware WorkStation 9和VmWare WorkStation11中导入报错的问题，暂改成OVA格式进行数据交换。</p>
+<hr>
+<a id="more"></a>
+<p>#问题描述<br><img src="errorInfo.png" alt="导入失败，未通过 OVF 规范一致性或虚拟硬件合规性检查。请单击“重试”放松 OVF 规范与虚拟硬件合规性检查，并重新尝试导入"></p>
+<h2 id="解决方式">解决方式</h2><p>以OVA格式进行数据交换<br>VMware导出时将后缀改为OVA后到处；ESXI导出时选OVA</p>
+<p>#基础知识</p>
+<h2 id="OVF">OVF</h2><p>OVF（Open Virtualization Format：开放虚拟化格式 ）<br>OVF是一种开源的文件规范，它描述了一个开源、安全、有效、可拓展的便携式虚拟打包以及软件分布格式，它一般有几个部分组成，分别是ovf文件、mf文件、cert文件、vmdk文件和iso文件。</p>
+<h2 id="OVA">OVA</h2><p>OVA（Open Virtualization Appliance：开放虚拟化设备）<br>OVA包是一个单一的文件，所有必要的信息都封装在里面。OVA文件则采用.tar文件扩展名,包含了一个OVF 包中所有文件类型。这样OVA单一的文件格式使得它非常便携。</p>
+</span>
       
     </div>
 
@@ -303,7 +323,8 @@ OVA&#x5305;&#x662F;&#x4E00;&#x4E2A;&#x5355;&#x4E00;&#x7684;&#x6587;&#x4EF6;&#xFF
         
           <div class="comments" id="comments">
             
-              <div class="ds-thread" data-thread-key="2015/07/12/开放虚拟化格式之OVF-OVA/" data-title="开放虚拟化格式之OVF-OVA" data-url="http://geosmart.github.io/2015/07/12/开放虚拟化格式之OVF-OVA/">
+              <div class="ds-thread" data-thread-key="2015/07/12/开放虚拟化格式之OVF-OVA/"
+                   data-title="开放虚拟化格式之OVF-OVA" data-url="http://geosmart.github.io/2015/07/12/开放虚拟化格式之OVF-OVA/">
               </div>
             
           </div>
@@ -325,7 +346,7 @@ OVA&#x5305;&#x662F;&#x4E00;&#x4E2A;&#x5355;&#x4E00;&#x7684;&#x6587;&#x4EF6;&#xFF
 
       
         <ul class="sidebar-nav motion-element">
-          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
             文章目录
           </li>
           <li class="sidebar-nav-overview" data-target="site-overview">
@@ -336,7 +357,7 @@ OVA&#x5305;&#x662F;&#x4E00;&#x4E2A;&#x5355;&#x4E00;&#x7684;&#x6587;&#x4EF6;&#xFF
 
       <section class="site-overview">
         <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
-          <img class="site-author-image" src="https://avatars1.githubusercontent.com/u/3156608?v=3&s=460" alt="geosmart" itemprop="image">
+          <img class="site-author-image" src="https://avatars1.githubusercontent.com/u/3156608?v=3&s=460" alt="geosmart" itemprop="image"/>
           <p class="site-author-name" itemprop="name">geosmart</p>
         </div>
         <p class="site-description motion-element" itemprop="description">追求心智成长，记录技术点滴</p>
@@ -349,10 +370,10 @@ OVA&#x5305;&#x662F;&#x4E00;&#x4E2A;&#x5355;&#x4E00;&#x7684;&#x6587;&#x4EF6;&#xFF
           </div>
 
           <div class="site-state-item site-state-categories">
-            
+            <a href="/categories">
               <span class="site-state-item-count">6</span>
               <span class="site-state-item-name">分类</span>
-              
+              </a>
           </div>
 
           <div class="site-state-item site-state-tags">
@@ -392,7 +413,7 @@ OVA&#x5305;&#x662F;&#x4E00;&#x4E2A;&#x5355;&#x4E00;&#x7684;&#x6587;&#x4EF6;&#xFF
           <div class="post-toc">
             
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#解决方式"><span class="nav-number">1.</span> <span class="nav-text">解决方式</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#ovf"><span class="nav-number">2.</span> <span class="nav-text">OVF</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#ova"><span class="nav-number">3.</span> <span class="nav-text">OVA</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#解决方式"><span class="nav-number">1.</span> <span class="nav-text">解决方式</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#OVF"><span class="nav-number">2.</span> <span class="nav-text">OVF</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#OVA"><span class="nav-number">3.</span> <span class="nav-text">OVA</span></a></li></ol></div>
             
           </div>
           <div class="post-toc-indicator-bottom post-toc-indicator"></div>
@@ -406,7 +427,7 @@ OVA&#x5305;&#x662F;&#x4E00;&#x4E2A;&#x5355;&#x4E00;&#x7684;&#x6587;&#x4EF6;&#xFF
     </main>
 
     <footer id="footer" class="footer">
-      <div class="footer-inner"> <div class="copyright">
+      <div class="footer-inner"> <div class="copyright" >
   
   &copy; &nbsp; 
   <span itemprop="copyrightYear">2015</span>

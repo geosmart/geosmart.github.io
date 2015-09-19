@@ -3,63 +3,66 @@
 <head>
   
 
-<meta charset="UTF-8">
-<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
-<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1">
+<meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
 
 
-<meta http-equiv="Cache-Control" content="no-transform">
-<meta http-equiv="Cache-Control" content="no-siteapp">
-
-
-
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
 
 
 
 
 
-  <link rel="stylesheet" type="text/css" href="/vendors/fancybox/source/jquery.fancybox.css?v=2.1.5">
+
+
+
+  <link rel="stylesheet" type="text/css" href="/vendors/fancybox/source/jquery.fancybox.css?v=2.1.5"/>
 
 
 
 
-<link rel="stylesheet" type="text/css" href="/css/main.css?v=0.4.5.1">
+<link rel="stylesheet" type="text/css" href="/css/main.css?v=0.4.5.1"/>
 
 
-    <meta name="description" content="追求心智成长，记录技术点滴">
-
-
-
-  <meta name="keywords" content="CDH,Hadoop,分布式,大数据,运维,">
+    <meta name="description" content="追求心智成长，记录技术点滴" />
 
 
 
-  <link rel="alternate" href="/atom.xml" title="Geosmart's Notes" type="application/atom+xml">
+  <meta name="keywords" content="CDH,Hadoop,分布式,大数据,运维," />
 
 
 
-  <link rel="shorticon icon" type="image/x-icon" href="/favicon.ico?v=0.4.5.1">
+  <link rel="alternate" href="/atom.xml" title="Geosmart's Notes" type="application/atom+xml" />
 
 
-<meta name="description" content="Hadoop&amp;#x7248;&amp;#x672C;&amp;#x533A;&amp;#x522B;
-&amp;#x76EE;&amp;#x524D;&amp;#x4E0D;&amp;#x6536;&amp;#x8D39;&amp;#x7684;Hadoop&amp;#x7248;&amp;#x672C;&amp;#x4E3B;&amp;#x8981;&amp;#x6709;&amp;#x4E09;&amp;#x4E2A;&amp;#xFF0C;&amp;#x5206;&amp;#x522B;&amp;#x662F;&amp;#xFF1A;
 
-Apache&amp;#x">
+  <link rel="shorticon icon" type="image/x-icon" href="/favicon.ico?v=0.4.5.1" />
+
+
+<meta name="description" content="Hadoop版本区别目前不收费的Hadoop版本主要有三个，分别是：
+
+Apache（最原始的版本，所有发行版均基于这个版本进行改进）
+Cloudera版本（Cloudera’s Distribution Including Apache Hadoop，简称CDH）
+Hortonworks版本(Hortonworks Data Platform，简称“HDP”），对于国内而言，绝大多数选择CDH版">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Hadoop集群部署">
 <meta property="og:url" content="http://geosmart.github.io/2015/08/08/Hadoop集群部署/index.html">
 <meta property="og:site_name" content="Geosmart's Notes">
-<meta property="og:description" content="Hadoop&amp;#x7248;&amp;#x672C;&amp;#x533A;&amp;#x522B;
-&amp;#x76EE;&amp;#x524D;&amp;#x4E0D;&amp;#x6536;&amp;#x8D39;&amp;#x7684;Hadoop&amp;#x7248;&amp;#x672C;&amp;#x4E3B;&amp;#x8981;&amp;#x6709;&amp;#x4E09;&amp;#x4E2A;&amp;#xFF0C;&amp;#x5206;&amp;#x522B;&amp;#x662F;&amp;#xFF1A;
+<meta property="og:description" content="Hadoop版本区别目前不收费的Hadoop版本主要有三个，分别是：
 
-Apache&amp;#x">
-<meta property="og:updated_time" content="2015-09-09T13:06:34.070Z">
+Apache（最原始的版本，所有发行版均基于这个版本进行改进）
+Cloudera版本（Cloudera’s Distribution Including Apache Hadoop，简称CDH）
+Hortonworks版本(Hortonworks Data Platform，简称“HDP”），对于国内而言，绝大多数选择CDH版">
+<meta property="og:updated_time" content="2015-09-19T14:11:35.351Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Hadoop集群部署">
-<meta name="twitter:description" content="Hadoop&amp;#x7248;&amp;#x672C;&amp;#x533A;&amp;#x522B;
-&amp;#x76EE;&amp;#x524D;&amp;#x4E0D;&amp;#x6536;&amp;#x8D39;&amp;#x7684;Hadoop&amp;#x7248;&amp;#x672C;&amp;#x4E3B;&amp;#x8981;&amp;#x6709;&amp;#x4E09;&amp;#x4E2A;&amp;#xFF0C;&amp;#x5206;&amp;#x522B;&amp;#x662F;&amp;#xFF1A;
+<meta name="twitter:description" content="Hadoop版本区别目前不收费的Hadoop版本主要有三个，分别是：
 
-Apache&amp;#x">
+Apache（最原始的版本，所有发行版均基于这个版本进行改进）
+Cloudera版本（Cloudera’s Distribution Including Apache Hadoop，简称CDH）
+Hortonworks版本(Hortonworks Data Platform，简称“HDP”），对于国内而言，绝大多数选择CDH版">
 
 
 <script type="text/javascript" id="hexo.configuration">
@@ -129,7 +132,7 @@ Apache&amp;#x">
         
         <li class="menu-item menu-item-home">
           <a href="/" rel="section">
-            <i class="menu-item-icon icon-next-home"></i> <br>
+            <i class="menu-item-icon icon-next-home"></i> <br />
             首页
           </a>
         </li>
@@ -137,7 +140,7 @@ Apache&amp;#x">
         
         <li class="menu-item menu-item-archives">
           <a href="/archives" rel="section">
-            <i class="menu-item-icon icon-next-archives"></i> <br>
+            <i class="menu-item-icon icon-next-archives"></i> <br />
             归档
           </a>
         </li>
@@ -145,8 +148,32 @@ Apache&amp;#x">
         
         <li class="menu-item menu-item-tags">
           <a href="/tags" rel="section">
-            <i class="menu-item-icon icon-next-tags"></i> <br>
+            <i class="menu-item-icon icon-next-tags"></i> <br />
             标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories" rel="section">
+            <i class="menu-item-icon icon-next-categories"></i> <br />
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about" rel="section">
+            <i class="menu-item-icon icon-next-about"></i> <br />
+            关于
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-commonweal">
+          <a href="/404.html" rel="section">
+            <i class="menu-item-icon icon-next-commonweal"></i> <br />
+            公益404
           </a>
         </li>
       
@@ -161,7 +188,7 @@ Apache&amp;#x">
       
   
   <form class="site-search-form">
-    <input type="text" id="st-search-input" class="st-search-input st-default-search-input">
+    <input type="text" id="st-search-input" class="st-search-input st-default-search-input" />
   </form>
 
 
@@ -190,7 +217,7 @@ Apache&amp;#x">
   <div id="posts" class="posts-expand">
     
 
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
     <header class="post-header">
 
       
@@ -234,219 +261,125 @@ Apache&amp;#x">
       
 
       
-        <span itemprop="articleBody"><h1 id="hadoop&#x7248;&#x672C;&#x533A;&#x522B;">Hadoop&#x7248;&#x672C;&#x533A;&#x522B;</h1>
-<p>&#x76EE;&#x524D;&#x4E0D;&#x6536;&#x8D39;&#x7684;Hadoop&#x7248;&#x672C;&#x4E3B;&#x8981;&#x6709;&#x4E09;&#x4E2A;&#xFF0C;&#x5206;&#x522B;&#x662F;&#xFF1A;</p>
+        <span itemprop="articleBody"><h1 id="Hadoop版本区别">Hadoop版本区别</h1><p>目前不收费的Hadoop版本主要有三个，分别是：</p>
 <ol>
-<li><em>Apache</em>&#xFF08;&#x6700;&#x539F;&#x59CB;&#x7684;&#x7248;&#x672C;&#xFF0C;&#x6240;&#x6709;&#x53D1;&#x884C;&#x7248;&#x5747;&#x57FA;&#x4E8E;&#x8FD9;&#x4E2A;&#x7248;&#x672C;&#x8FDB;&#x884C;&#x6539;&#x8FDB;&#xFF09;</li>
-<li><em>Cloudera</em>&#x7248;&#x672C;&#xFF08;Cloudera&#x2019;s Distribution Including Apache Hadoop&#xFF0C;&#x7B80;&#x79F0;CDH&#xFF09;</li>
-<li><em>Hortonworks</em>&#x7248;&#x672C;(Hortonworks Data Platform&#xFF0C;&#x7B80;&#x79F0;&#x201C;HDP&#x201D;&#xFF09;&#xFF0C;&#x5BF9;&#x4E8E;&#x56FD;&#x5185;&#x800C;&#x8A00;&#xFF0C;&#x7EDD;&#x5927;&#x591A;&#x6570;&#x9009;&#x62E9;CDH&#x7248;&#x672C;&#xFF0C;</li>
+<li><em>Apache</em>（最原始的版本，所有发行版均基于这个版本进行改进）</li>
+<li><em>Cloudera</em>版本（Cloudera’s Distribution Including Apache Hadoop，简称CDH）</li>
+<li><em>Hortonworks</em>版本(Hortonworks Data Platform，简称“HDP”），对于国内而言，绝大多数选择CDH版本，</li>
 </ol>
-<p>CDH&#x548C;Apache&#x7248;&#x672C;&#x4E3B;&#x8981;&#x533A;&#x522B;&#xFF1A;</p>
+<p>CDH和Apache版本主要区别：</p>
 <ul>
-<li>CDH&#x5BF9;Hadoop&#x7248;&#x672C;&#x7684;&#x5212;&#x5206;&#x975E;&#x5E38;&#x6E05;&#x6670;&#xFF0C;&#x76EE;&#x524D;&#x7EF4;&#x62A4;&#x7684;&#x6709;&#x4E24;&#x4E2A;&#x7CFB;&#x5217;&#x7684;&#x7248;&#x672C;&#xFF0C;&#x5206;&#x522B;&#x662F;cdh4&#x548C;cdh5</li>
-<li>&#x7531;&#x4E8E;Cloudera&#x505A;Hadoop&#x5F00;&#x53D1;&#x7684;&#xFF0C;&#x5176;&#x4ED6;&#x5382;&#x5546;&#x4EC5;&#x662F;&#x505A;Hadoop&#x96C6;&#x6210;&#x6216;CDH&#x96C6;&#x6210;&#xFF0C;&#x548C;Hadoop trunk&#x80FD;&#x6700;&#x5FEB;&#x7684;&#x540C;&#x6B65;&#xFF0C;&#x4FDD;&#x8BC1;&#x4E1A;&#x52A1;&#x7684;&#x524D;&#x5411;&#x517C;&#x5BB9;&#x6027;&#xFF1B;</li>
-<li>&#x5B89;&#x5168; CDH&#x652F;&#x6301;Kerberos&#x5B89;&#x5168;&#x8BA4;&#x8BC1;&#xFF0C;apache hadoop&#x5219;&#x4F7F;&#x7528;&#x7B80;&#x964B;&#x7684;&#x7528;&#x6237;&#x540D;&#x5339;&#x914D;&#x8BA4;&#x8BC1;</li>
-<li>CDH&#x6587;&#x6863;&#x6E05;&#x6670;&#xFF08;&#x5305;&#x62EC;&#x4E2D;&#x6587;&#x6587;&#x6863;&#xFF09;&#xFF0C;&#x5F88;&#x591A;&#x91C7;&#x7528;Apache&#x7248;&#x672C;&#x7684;&#x7528;&#x6237;&#x90FD;&#x4F1A;&#x9605;&#x8BFB;CDH&#x63D0;&#x4F9B;&#x7684;&#x6587;&#x6863;&#xFF0C;&#x5305;&#x62EC;&#x5B89;&#x88C5;&#x6587;&#x6863;&#x3001;&#x5347;&#x7EA7;&#x6587;&#x6863;&#x7B49;&#x3002;</li>
-<li>CDH&#x652F;&#x6301;Yum/Apt&#x5305;&#xFF0C;Tar&#x5305;&#xFF0C;RPM&#x5305;&#xFF0C;CM&#x5B89;&#x88C5;&#xFF0C;Cloudera Manager&#x4E09;&#x79CD;&#x65B9;&#x5F0F;&#x5B89;&#x88C5;,Apache hadoop&#x53EA;&#x652F;&#x6301;Tar&#x5305;&#x5B89;&#x88C5;&#x3002;</li>
+<li>CDH对Hadoop版本的划分非常清晰，目前维护的有两个系列的版本，分别是cdh4和cdh5</li>
+<li>由于Cloudera做Hadoop开发的，其他厂商仅是做Hadoop集成或CDH集成，和Hadoop trunk能最快的同步，保证业务的前向兼容性； </li>
+<li>安全 CDH支持Kerberos安全认证，apache hadoop则使用简陋的用户名匹配认证 </li>
+<li>CDH文档清晰（包括中文文档），很多采用Apache版本的用户都会阅读CDH提供的文档，包括安装文档、升级文档等。 </li>
+<li>CDH支持Yum/Apt包，Tar包，RPM包，CM安装，Cloudera Manager三种方式安装,Apache hadoop只支持Tar包安装。</li>
 </ul>
-<h1 id="&#x5173;&#x4E8E;cdh">&#x5173;&#x4E8E;CDH</h1>
-<p><a href="http%EF%BC%9A//www.cloudera.com/content/cloudera/zh-CN/documentation/core/v5-3-x/topics/introduction.html">&#x5B98;&#x65B9;&#x4ECB;&#x7ECD;</a><br>
-Cloudera &#x63D0;&#x4F9B;&#x4E00;&#x4E2A;&#x53EF;&#x6269;&#x5C55;&#x3001;&#x7075;&#x6D3B;&#x3001;&#x96C6;&#x6210;&#x7684;&#x5E73;&#x53F0;&#xFF0C;&#x53EF;&#x7528;&#x6765;&#x65B9;&#x4FBF;&#x5730;&#x7BA1;&#x7406;&#x60A8;&#x7684;&#x4F01;&#x4E1A;&#x4E2D;&#x5FEB;&#x901F;&#x589E;&#x957F;&#x7684;&#x591A;&#x79CD;&#x591A;&#x6837;&#x7684;&#x6570;&#x636E;&#x3002;&#x4E1A;&#x754C;&#x9886;&#x5148;&#x7684; Cloudera &#x4EA7;&#x54C1;&#x548C;&#x89E3;&#x51B3;&#x65B9;&#x6848;&#x4F7F;&#x60A8;&#x80FD;&#x591F;&#x90E8;&#x7F72;&#x5E76;&#x7BA1;&#x7406; Apache Hadoop &#x548C;&#x76F8;&#x5173;&#x9879;&#x76EE;&#x3001;&#x64CD;&#x4F5C;&#x548C;&#x5206;&#x6790;&#x60A8;&#x7684;&#x6570;&#x636E;&#x4EE5;&#x53CA;&#x4FDD;&#x62A4;&#x6570;&#x636E;&#x7684;&#x5B89;&#x5168;&#x3002;</p>
-<p>Cloudera &#x63D0;&#x4F9B;&#x4E0B;&#x5217;&#x4EA7;&#x54C1;&#x548C;&#x5DE5;&#x5177;&#xFF1A;</p>
-<ul>
-<li>CDH &#x2014; Cloudera &#x5206;&#x53D1;&#x7684; Apache Hadoop &#x548C;&#x5176;&#x4ED6;&#x76F8;&#x5173;&#x5F00;&#x653E;&#x6E90;&#x4EE3;&#x7801;&#x9879;&#x76EE;&#xFF0C;&#x5305;&#x62EC; Impala &#x548C; Cloudera Search&#x3002;CDH &#x8FD8;&#x63D0;&#x4F9B;&#x5B89;&#x5168;&#x4FDD;&#x62A4;&#x4EE5;&#x53CA;&#x4E0E;&#x8BB8;&#x591A;&#x786C;&#x4EF6;&#x548C;&#x8F6F;&#x4EF6;&#x89E3;&#x51B3;&#x65B9;&#x6848;&#x7684;&#x96C6;&#x6210;&#x3002;</li>
-<li>Cloudera Manager &#x2014; &#x4E00;&#x4E2A;&#x590D;&#x6742;&#x7684;&#x5E94;&#x7528;&#x7A0B;&#x5E8F;&#xFF0C;&#x7528;&#x4E8E;&#x90E8;&#x7F72;&#x3001;&#x7BA1;&#x7406;&#x3001;&#x76D1;&#x63A7;&#x60A8;&#x7684; CDH &#x90E8;&#x7F72;&#x5E76;&#x8BCA;&#x65AD;&#x95EE;&#x9898;&#x3002;Cloudera Manager &#x63D0;&#x4F9B; Admin Console&#xFF0C;&#x8FD9;&#x662F;&#x4E00;&#x79CD;&#x57FA;&#x4E8E; Web &#x7684;&#x7528;&#x6237;&#x754C;&#x9762;&#xFF0C;&#x4F7F;&#x60A8;&#x7684;&#x4F01;&#x4E1A;&#x6570;&#x636E;&#x7BA1;&#x7406;&#x7B80;&#x5355;&#x800C;&#x76F4;&#x63A5;&#x3002;&#x5B83;&#x8FD8;&#x5305;&#x62EC; Cloudera Manager API&#xFF0C;&#x53EF;&#x7528;&#x6765;&#x83B7;&#x53D6;&#x7FA4;&#x96C6;&#x8FD0;&#x884C;&#x72B6;&#x51B5;&#x4FE1;&#x606F;&#x548C;&#x5EA6;&#x91CF;&#x4EE5;&#x53CA;&#x914D;&#x7F6E; Cloudera Manager&#x3002;</li>
-<li>Cloudera Navigator &#x2014; CDH &#x5E73;&#x53F0;&#x7684;&#x7AEF;&#x5230;&#x7AEF;&#x6570;&#x636E;&#x7BA1;&#x7406;&#x5DE5;&#x5177;&#x3002;Cloudera Navigator &#x4F7F;&#x7BA1;&#x7406;&#x5458;&#x3001;&#x6570;&#x636E;&#x7ECF;&#x7406;&#x548C;&#x5206;&#x6790;&#x5E08;&#x80FD;&#x591F;&#x4E86;&#x89E3; Hadoop &#x4E2D;&#x7684;&#x5927;&#x91CF;&#x6570;&#x636E;&#x3002;Cloudera Navigator &#x4E2D;&#x5F3A;&#x5927;&#x7684;&#x5BA1;&#x6838;&#x3001;&#x6570;&#x636E;&#x7BA1;&#x7406;&#x3001;&#x6CBF;&#x88AD;&#x7BA1;&#x7406;&#x548C;&#x751F;&#x547D;&#x5468;&#x671F;&#x7BA1;&#x7406;&#x4F7F;&#x4F01;&#x4E1A;&#x80FD;&#x591F;&#x9075;&#x5B88;&#x4E25;&#x683C;&#x7684;&#x6CD5;&#x89C4;&#x9075;&#x4ECE;&#x6027;&#x548C;&#x6CD5;&#x89C4;&#x8981;&#x6C42;&#x3002;</li>
-<li>Cloudera Impala &#x2014; &#x4E00;&#x79CD;&#x5927;&#x89C4;&#x6A21;&#x5E76;&#x884C;&#x5904;&#x7406; SQL &#x5F15;&#x64CE;&#xFF0C;&#x7528;&#x4E8E;&#x4EA4;&#x4E92;&#x5F0F;&#x5206;&#x6790;&#x548C;&#x5546;&#x4E1A;&#x667A;&#x80FD;&#x3002;&#x5176;&#x9AD8;&#x5EA6;&#x4F18;&#x5316;&#x7684;&#x4F53;&#x7CFB;&#x7ED3;&#x6784;&#x4F7F;&#x5B83;&#x975E;&#x5E38;&#x9002;&#x5408;&#x7528;&#x4E8E;&#x5177;&#x6709;&#x8054;&#x63A5;&#x3001;&#x805A;&#x5408;&#x548C;&#x5B50;&#x67E5;&#x8BE2;&#x7684;&#x4F20;&#x7EDF; BI &#x6837;&#x5F0F;&#x7684;&#x67E5;&#x8BE2;&#x3002;&#x5B83;&#x53EF;&#x4EE5;&#x67E5;&#x8BE2;&#x6765;&#x81EA;&#x5404;&#x79CD;&#x6E90;&#x7684; Hadoop &#x6570;&#x636E;&#x6587;&#x4EF6;&#xFF0C;&#x5305;&#x62EC;&#x7531; MapReduce &#x4F5C;&#x4E1A;&#x751F;&#x6210;&#x7684;&#x6570;&#x636E;&#x6587;&#x4EF6;&#x6216;&#x52A0;&#x8F7D;&#x5230; Hive &#x8868;&#x4E2D;&#x7684;&#x6570;&#x636E;&#x6587;&#x4EF6;&#x3002;YARN &#x548C; Llama &#x8D44;&#x6E90;&#x7BA1;&#x7406;&#x7EC4;&#x4EF6;&#x8BA9; Impala &#x80FD;&#x591F;&#x5171;&#x5B58;&#x4E8E;&#x4F7F;&#x7528; Impala SQL &#x67E5;&#x8BE2;&#x5E76;&#x53D1;&#x8FD0;&#x884C;&#x6279;&#x5904;&#x7406;&#x5DE5;&#x4F5C;&#x8D1F;&#x8F7D;&#x7684;&#x7FA4;&#x96C6;&#x4E0A;&#x3002;&#x60A8;&#x53EF;&#x4EE5;&#x901A;&#x8FC7; Cloudera Manager &#x7528;&#x6237;&#x754C;&#x9762;&#x7BA1;&#x7406; Impala &#x53CA;&#x5176;&#x4ED6; Hadoop &#x7EC4;&#x4EF6;&#xFF0C;&#x5E76;&#x901A;&#x8FC7; Sentry &#x6388;&#x6743;&#x6846;&#x67B6;&#x4FDD;&#x62A4;&#x5176;&#x6570;&#x636E;&#x3002;</li>
-</ul>
-<h1 id="cloudera-quickstart-vm">Cloudera QuickStart VM</h1>
-<p><a href="http%EF%BC%9A//www.cloudera.com/content/cloudera/en/downloads/quickstart_vms/cdh-5-4-x.html">&#x4E0B;&#x8F7D;&#x5730;&#x5740;</a>
-&#x4E3A;&#x65B9;&#x4FBF;&#x5F00;&#x59CB;&#x4F7F;&#x7528;CDH&#x3001;Cloudera Manager&#x3001;Cloudera Impala &#x548C; Cloudera Search&#xFF0C;&#x8FD9;&#x4E9B;&#x865A;&#x62DF;&#x673A;&#x5668;&#x5305;&#x542B;&#x60A8;&#x6240;&#x9700;&#x7684;&#x4E00;&#x5207;&#x3002;</p>
 <hr>
-<h1 id="cdh&#x5B89;&#x88C5;&#x6B65;&#x9AA4;">CDH&#x5B89;&#x88C5;&#x6B65;&#x9AA4;</h1>
-<h2 id="cdh&#x5B89;&#x88C5;&#x53C2;&#x8003;&#x8D44;&#x6599;">CDH&#x5B89;&#x88C5;&#x53C2;&#x8003;&#x8D44;&#x6599;</h2>
+<a id="more"></a>
+<h1 id="关于CDH">关于CDH</h1><p><a href="http：//www.cloudera.com/content/cloudera/zh-CN/documentation/core/v5-3-x/topics/introduction.html">官方介绍</a><br>Cloudera 提供一个可扩展、灵活、集成的平台，可用来方便地管理您的企业中快速增长的多种多样的数据。业界领先的 Cloudera 产品和解决方案使您能够部署并管理 Apache Hadoop 和相关项目、操作和分析您的数据以及保护数据的安全。</p>
+<p>Cloudera 提供下列产品和工具：</p>
 <ul>
-<li><a href="http%EF%BC%9A//zh-cn.cloudera.com/content/cloudera/en/products-and-services/cloudera-enterprise.html">cloudera&#x7B80;&#x4ECB;</a></li>
-<li><a href="http%EF%BC%9A//www.cloudera.com/content/cloudera/zh-CN/documentation/core/v5-3-x/topics/introduction.html">cdh5&#x5B98;&#x65B9;&#x6587;&#x6863;</a></li>
-<li><a href="http%EF%BC%9A//www.cloudera.com/content/cloudera/en/documentation/core/latest/topics/cdh_ig_req_supported_versions.html">CDH5&#x5B89;&#x88C5;&#x73AF;&#x5883;&#x8981;&#x6C42;</a></li>
-<li><a href="http%EF%BC%9A//www.cloudera.com/content/cloudera/en/documentation/core/latest/topics/installation_installation.html">CDH5&#x7684;3&#x79CD;&#x5B89;&#x88C5;&#x65B9;&#x5F0F;</a></li>
-<li><a href="http%EF%BC%9A//www.cloudera.com/content/cloudera/en/documentation/core/latest/topics/cm_ig_install_path_a.html#concept_vk4_psb_zm_unique_4">&#x5728;&#x7EBF;Yum/Wget&#x5B89;&#x88C5;&#x6559;&#x7A0B;</a></li>
-<li><a href="http%EF%BC%9A//www.aboutyun.com/thread-9219-1-1.html">&#x5728;&#x7EBF;Yum/Wget&#x5B89;&#x88C5;&#x6559;&#x7A0B;-&#x4E2D;&#x6587;</a></li>
+<li>CDH — Cloudera 分发的 Apache Hadoop 和其他相关开放源代码项目，包括 Impala 和 Cloudera Search。CDH 还提供安全保护以及与许多硬件和软件解决方案的集成。</li>
+<li>Cloudera Manager — 一个复杂的应用程序，用于部署、管理、监控您的 CDH 部署并诊断问题。Cloudera Manager 提供 Admin Console，这是一种基于 Web 的用户界面，使您的企业数据管理简单而直接。它还包括 Cloudera Manager API，可用来获取群集运行状况信息和度量以及配置 Cloudera Manager。</li>
+<li>Cloudera Navigator — CDH 平台的端到端数据管理工具。Cloudera Navigator 使管理员、数据经理和分析师能够了解 Hadoop 中的大量数据。Cloudera Navigator 中强大的审核、数据管理、沿袭管理和生命周期管理使企业能够遵守严格的法规遵从性和法规要求。</li>
+<li>Cloudera Impala — 一种大规模并行处理 SQL 引擎，用于交互式分析和商业智能。其高度优化的体系结构使它非常适合用于具有联接、聚合和子查询的传统 BI 样式的查询。它可以查询来自各种源的 Hadoop 数据文件，包括由 MapReduce 作业生成的数据文件或加载到 Hive 表中的数据文件。YARN 和 Llama 资源管理组件让 Impala 能够共存于使用 Impala SQL 查询并发运行批处理工作负载的群集上。您可以通过 Cloudera Manager 用户界面管理 Impala 及其他 Hadoop 组件，并通过 Sentry 授权框架保护其数据。</li>
 </ul>
-<h2 id="&#x5728;&#x7EBF;&#x5B89;&#x88C5;&#x4F18;&#x52BF;">&#x5728;&#x7EBF;&#x5B89;&#x88C5;&#x4F18;&#x52BF;</h2>
+<h1 id="Cloudera_QuickStart_VM">Cloudera QuickStart VM</h1><p><a href="http：//www.cloudera.com/content/cloudera/en/downloads/quickstart_vms/cdh-5-4-x.html">下载地址</a></p>
+<h2 id="为方便开始使用CDH、Cloudera_Manager、Cloudera_Impala_和_Cloudera_Search，这些虚拟机器包含您所需的一切。">为方便开始使用CDH、Cloudera Manager、Cloudera Impala 和 Cloudera Search，这些虚拟机器包含您所需的一切。</h2><h1 id="CDH安装步骤">CDH安装步骤</h1><h2 id="CDH安装参考资料">CDH安装参考资料</h2><ul>
+<li><a href="http：//zh-cn.cloudera.com/content/cloudera/en/products-and-services/cloudera-enterprise.html">cloudera简介</a></li>
+<li><a href="http：//www.cloudera.com/content/cloudera/zh-CN/documentation/core/v5-3-x/topics/introduction.html">cdh5官方文档</a></li>
+<li><a href="http：//www.cloudera.com/content/cloudera/en/documentation/core/latest/topics/cdh_ig_req_supported_versions.html">CDH5安装环境要求</a></li>
+<li><a href="http：//www.cloudera.com/content/cloudera/en/documentation/core/latest/topics/installation_installation.html">CDH5的3种安装方式</a></li>
+<li><a href="http：//www.cloudera.com/content/cloudera/en/documentation/core/latest/topics/cm_ig_install_path_a.html#concept_vk4_psb_zm_unique_4">在线Yum/Wget安装教程</a></li>
+<li><a href="http：//www.aboutyun.com/thread-9219-1-1.html">在线Yum/Wget安装教程-中文</a></li>
+</ul>
+<h2 id="在线安装优势">在线安装优势</h2><ol>
+<li>联网安装、升级，非常方便 </li>
+<li>自动下载依赖软件包 </li>
+<li>Hadoop生态系统包自动匹配，不需要你寻找与当前Hadoop匹配的Hbase，Flume，Hive等软件，Yum/Apt会根据当前安装Hadoop版本自动寻找匹配版本的软件包，并保证兼容性。</li>
+<li>自动创建相关目录并软链到合适的地方（如conf和logs等目录）；自动创建hdfs, mapred用户，hdfs用户是HDFS的最高权限用户，mapred用户则负责mapreduce执行过程中相关目录的权限。</li>
+</ol>
+<h2 id="在线安装步骤">在线安装步骤</h2><ol>
+<li>静态IP配置<br><code>cd /mnt/scripts/batch-update-ip &amp;&amp; chmod +x static-ip.sh &amp;&amp; ./static-ip.sh localhost eth1 192.168.1 81 1</code><br><a href="">脚本地址</a></li>
+<li>HostName配置/FQDN配置<br>FQDN是Fully Qualified Domain Name的缩写, 含义是完整的域名. 例如, 一台机器主机名(hostname)是www, 域后缀(domain)是example.com, 那么该主机的FQDN应该是www.example.com.<br>注意：hosts配置不当，后面server和agent间通讯会存在问题，参考host配置如下：</li>
+</ol>
+<ul>
+<li>server/agent配置(master)</li>
+</ul>
+<figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"># /etc/hosts&#10;&#10;# solr/hue/hive server&#10;127.0.0.1 localhost.localdomain localhost&#10;&#10;192.168.1.90   cdhtemplate.lt.com cdhtemplate&#10;&#10;192.168.1.91   server1.lt.com server1&#10;192.168.1.92   server2.lt.com server2&#10;192.168.1.93   server3.lt.com server3&#10;192.168.1.94   server4.lt.com server4&#10;192.168.1.95   server5.lt.com server5&#10;&#10;# HDFS NameNode&#10;192.168.1.100  master.lt.com master&#10;&#10;# HDFS DataNode&#10;192.168.1.101  slave1.lt.com slave1&#10;192.168.1.102  slave2.lt.com slave2&#10;192.168.1.103  slave3.lt.com slave3&#10;192.168.1.104  slave4.lt.com slave4&#10;192.168.1.105  slave5.lt.com slave5&#10;192.168.1.106  slave6.lt.com slave6&#10;192.168.1.107  slave7.lt.com slave7&#10;192.168.1.108  slave8.lt.com slave8&#10;192.168.1.109  slave9.lt.com slave9&#10;192.168.1.110  slave10.lt.com slave10</span><br></pre></td></tr></table></figure>
+<ul>
+<li>network配置</li>
+</ul>
+<figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"># /etc/sysconfig/network&#10;NETWORKING=yes&#10;HOSTNAME=master.lt.com&#10;NTPSERVERARGS=iburst</span><br></pre></td></tr></table></figure>
+<p><em>TODO：可局域网搭建DNS服务器，Slave机器即可不配配置hosts</em> </p>
 <ol>
-<li>&#x8054;&#x7F51;&#x5B89;&#x88C5;&#x3001;&#x5347;&#x7EA7;&#xFF0C;&#x975E;&#x5E38;&#x65B9;&#x4FBF;</li>
-<li>&#x81EA;&#x52A8;&#x4E0B;&#x8F7D;&#x4F9D;&#x8D56;&#x8F6F;&#x4EF6;&#x5305;</li>
-<li>Hadoop&#x751F;&#x6001;&#x7CFB;&#x7EDF;&#x5305;&#x81EA;&#x52A8;&#x5339;&#x914D;&#xFF0C;&#x4E0D;&#x9700;&#x8981;&#x4F60;&#x5BFB;&#x627E;&#x4E0E;&#x5F53;&#x524D;Hadoop&#x5339;&#x914D;&#x7684;Hbase&#xFF0C;Flume&#xFF0C;Hive&#x7B49;&#x8F6F;&#x4EF6;&#xFF0C;Yum/Apt&#x4F1A;&#x6839;&#x636E;&#x5F53;&#x524D;&#x5B89;&#x88C5;Hadoop&#x7248;&#x672C;&#x81EA;&#x52A8;&#x5BFB;&#x627E;&#x5339;&#x914D;&#x7248;&#x672C;&#x7684;&#x8F6F;&#x4EF6;&#x5305;&#xFF0C;&#x5E76;&#x4FDD;&#x8BC1;&#x517C;&#x5BB9;&#x6027;&#x3002;</li>
-<li>&#x81EA;&#x52A8;&#x521B;&#x5EFA;&#x76F8;&#x5173;&#x76EE;&#x5F55;&#x5E76;&#x8F6F;&#x94FE;&#x5230;&#x5408;&#x9002;&#x7684;&#x5730;&#x65B9;&#xFF08;&#x5982;conf&#x548C;logs&#x7B49;&#x76EE;&#x5F55;&#xFF09;&#xFF1B;&#x81EA;&#x52A8;&#x521B;&#x5EFA;hdfs, mapred&#x7528;&#x6237;&#xFF0C;hdfs&#x7528;&#x6237;&#x662F;HDFS&#x7684;&#x6700;&#x9AD8;&#x6743;&#x9650;&#x7528;&#x6237;&#xFF0C;mapred&#x7528;&#x6237;&#x5219;&#x8D1F;&#x8D23;mapreduce&#x6267;&#x884C;&#x8FC7;&#x7A0B;&#x4E2D;&#x76F8;&#x5173;&#x76EE;&#x5F55;&#x7684;&#x6743;&#x9650;&#x3002;</li>
+<li><p>SSH无密码登陆配置<br><em>TODO：补充github脚本地址</em><br><code>cd /mnt/scripts/batch-ssh &amp;&amp; chmod +x keygen_master.sh &amp;&amp; ./keygen_master.sh</code></p>
+</li>
+<li><p>iptables防火墙配置  </p>
+</li>
 </ol>
-<h2 id="&#x5728;&#x7EBF;&#x5B89;&#x88C5;&#x6B65;&#x9AA4;">&#x5728;&#x7EBF;&#x5B89;&#x88C5;&#x6B65;&#x9AA4;</h2>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#查看防火墙状态</span></span><br><span class="line">service iptables status </span><br><span class="line"><span class="comment">#关闭防火墙 </span></span><br><span class="line">service iptables stop </span><br><span class="line"><span class="comment">#永久关闭防火墙 </span></span><br><span class="line">chkconfig iptables off</span><br></pre></td></tr></table></figure>
 <ol>
-<li>&#x9759;&#x6001;IP&#x914D;&#x7F6E;<br>
-<code>cd /mnt/scripts/batch-update-ip &amp;&amp; chmod +x static-ip.sh &amp;&amp; ./static-ip.sh localhost eth1 192.168.1 81 1</code>
-<a href="">&#x811A;&#x672C;&#x5730;&#x5740;</a></li>
-<li>HostName&#x914D;&#x7F6E;/FQDN&#x914D;&#x7F6E;<br>
-FQDN&#x662F;Fully Qualified Domain Name&#x7684;&#x7F29;&#x5199;, &#x542B;&#x4E49;&#x662F;&#x5B8C;&#x6574;&#x7684;&#x57DF;&#x540D;. &#x4F8B;&#x5982;, &#x4E00;&#x53F0;&#x673A;&#x5668;&#x4E3B;&#x673A;&#x540D;(hostname)&#x662F;www, &#x57DF;&#x540E;&#x7F00;(domain)&#x662F;example.com, &#x90A3;&#x4E48;&#x8BE5;&#x4E3B;&#x673A;&#x7684;FQDN&#x5E94;&#x8BE5;&#x662F;www.example.com.
-&#x6CE8;&#x610F;&#xFF1A;hosts&#x914D;&#x7F6E;&#x4E0D;&#x5F53;&#xFF0C;&#x540E;&#x9762;server&#x548C;agent&#x95F4;&#x901A;&#x8BAF;&#x4F1A;&#x5B58;&#x5728;&#x95EE;&#x9898;&#xFF0C;&#x53C2;&#x8003;host&#x914D;&#x7F6E;&#x5982;&#x4E0B;&#xFF1A;</li>
+<li>selinux强制访问控制安全配置  </li>
 </ol>
-<ul>
-<li>server/agent&#x914D;&#x7F6E;(master)</li>
-</ul>
-<p><figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"># /etc/hosts
-
-# solr/hue/hive server
-127.0.0.1 localhost.localdomain localhost
-
-192.168.1.90   cdhtemplate.lt.com cdhtemplate
-
-192.168.1.91   server1.lt.com server1
-192.168.1.92   server2.lt.com server2
-192.168.1.93   server3.lt.com server3
-192.168.1.94   server4.lt.com server4
-192.168.1.95   server5.lt.com server5
-
-# HDFS NameNode
-192.168.1.100  master.lt.com master
-
-# HDFS DataNode
-192.168.1.101  slave1.lt.com slave1
-192.168.1.102  slave2.lt.com slave2
-192.168.1.103  slave3.lt.com slave3
-192.168.1.104  slave4.lt.com slave4
-192.168.1.105  slave5.lt.com slave5
-192.168.1.106  slave6.lt.com slave6
-192.168.1.107  slave7.lt.com slave7
-192.168.1.108  slave8.lt.com slave8
-192.168.1.109  slave9.lt.com slave9
-192.168.1.110  slave10.lt.com slave10</span><br></pre></td></tr></table></figure></p>
-<ul>
-<li>network&#x914D;&#x7F6E;</li>
-</ul>
-<p><figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"># /etc/sysconfig/network
-NETWORKING=yes
-HOSTNAME=master.lt.com
-NTPSERVERARGS=iburst</span><br></pre></td></tr></table></figure></p>
-<p><em>TODO&#xFF1A;&#x53EF;&#x5C40;&#x57DF;&#x7F51;&#x642D;&#x5EFA;DNS&#x670D;&#x52A1;&#x5668;&#xFF0C;Slave&#x673A;&#x5668;&#x5373;&#x53EF;&#x4E0D;&#x914D;&#x914D;&#x7F6E;hosts</em></p>
-<ol start="3">
-<li>
-<p>SSH&#x65E0;&#x5BC6;&#x7801;&#x767B;&#x9646;&#x914D;&#x7F6E;<br>
-<em>TODO&#xFF1A;&#x8865;&#x5145;github&#x811A;&#x672C;&#x5730;&#x5740;</em>
-<code>cd /mnt/scripts/batch-ssh &amp;&amp; chmod +x keygen_master.sh &amp;&amp; ./keygen_master.sh</code></p>
+<figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">#&#26597;&#30475;SELinux&#29366;&#24577;&#10;/usr/sbin/sestatus -v &#10;#&#25110;&#21629;&#20196;&#10;getenforce &#10;#&#20851;&#38381;SELinux&#10;#1. &#20020;&#26102;&#20851;&#38381;&#65288;&#19981;&#29992;&#37325;&#21551;&#26426;&#22120;&#65289;&#65306;&#10;setenforce 0                  ##&#35774;&#32622;SELinux &#25104;&#20026;permissive&#27169;&#24335;&#10;                              ##setenforce 1 &#35774;&#32622;SELinux &#25104;&#20026;enforcing&#27169;&#24335;&#10;#2. &#20462;&#25913;&#37197;&#32622;&#25991;&#20214;&#10;vim /etc/selinux/config&#10;#&#23558;SELINUX=enforcing&#25913;&#20026;SELINUX=disabled&#10;#3. reboot</span><br></pre></td></tr></table></figure>
+<ol>
+<li>swap配置<br>Cloudera 建议将 /proc/sys/vm/swappiness 设置为 0。默认设置为 60。<br>查看当前swap分区设置<code>cat /proc/sys/vm/swappiness</code><br>临时修改值：<code>sudo sysctl vm.swappiness=0</code><br>永久修改值：<code>vim /etc/sysctl.conf</code>，在最后加一行<code>vm.swappiness = 0</code> </li>
+</ol>
+<figure class="highlight avrasm"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">swappiness的值的大小对如何使用<span class="keyword">swap</span>分区是有着很大的联系</span><br><span class="line">swappiness=<span class="number">0</span>的时候表示最大限度使用物理内存，然后才是 <span class="keyword">swap</span>空间</span><br><span class="line">swappiness＝<span class="number">100</span>的时候表示积极的使用<span class="keyword">swap</span>分区，并且把内存上的数据及时的搬运到<span class="keyword">swap</span>空间里面</span><br></pre></td></tr></table></figure>
+<ol>
+<li><p>安装NTP服务<br><a href="http://www.aboutyun.com/thread-8921-1-1.html">http://www.aboutyun.com/thread-8921-1-1.html</a></p>
 </li>
-<li>
-<p>iptables&#x9632;&#x706B;&#x5899;&#x914D;&#x7F6E;</p>
+<li><p>cloudera-manager-installer.bin安装  </p>
 </li>
 </ol>
-<p><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#&#x67E5;&#x770B;&#x9632;&#x706B;&#x5899;&#x72B6;&#x6001;</span></span><br><span class="line">service iptables status </span><br><span class="line"><span class="comment">#&#x5173;&#x95ED;&#x9632;&#x706B;&#x5899; </span></span><br><span class="line">service iptables stop </span><br><span class="line"><span class="comment">#&#x6C38;&#x4E45;&#x5173;&#x95ED;&#x9632;&#x706B;&#x5899; </span></span><br><span class="line">chkconfig iptables off</span><br></pre></td></tr></table></figure></p>
-<ol start="5">
-<li>selinux&#x5F3A;&#x5236;&#x8BBF;&#x95EE;&#x63A7;&#x5236;&#x5B89;&#x5168;&#x914D;&#x7F6E;</li>
-</ol>
-<p><figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">#&#x67E5;&#x770B;SELinux&#x72B6;&#x6001;
-/usr/sbin/sestatus -v 
-#&#x6216;&#x547D;&#x4EE4;
-getenforce 
-#&#x5173;&#x95ED;SELinux
-#1. &#x4E34;&#x65F6;&#x5173;&#x95ED;&#xFF08;&#x4E0D;&#x7528;&#x91CD;&#x542F;&#x673A;&#x5668;&#xFF09;&#xFF1A;
-setenforce 0                  ##&#x8BBE;&#x7F6E;SELinux &#x6210;&#x4E3A;permissive&#x6A21;&#x5F0F;
-                              ##setenforce 1 &#x8BBE;&#x7F6E;SELinux &#x6210;&#x4E3A;enforcing&#x6A21;&#x5F0F;
-#2. &#x4FEE;&#x6539;&#x914D;&#x7F6E;&#x6587;&#x4EF6;
-vim /etc/selinux/config
-#&#x5C06;SELINUX=enforcing&#x6539;&#x4E3A;SELINUX=disabled
-#3. reboot</span><br></pre></td></tr></table></figure></p>
-<ol start="6">
-<li>swap&#x914D;&#x7F6E;
-Cloudera &#x5EFA;&#x8BAE;&#x5C06; /proc/sys/vm/swappiness &#x8BBE;&#x7F6E;&#x4E3A; 0&#x3002;&#x9ED8;&#x8BA4;&#x8BBE;&#x7F6E;&#x4E3A; 60&#x3002;
-&#x67E5;&#x770B;&#x5F53;&#x524D;swap&#x5206;&#x533A;&#x8BBE;&#x7F6E;<code>cat /proc/sys/vm/swappiness</code><br>
-&#x4E34;&#x65F6;&#x4FEE;&#x6539;&#x503C;&#xFF1A;<code>sudo sysctl vm.swappiness=0</code><br>
-&#x6C38;&#x4E45;&#x4FEE;&#x6539;&#x503C;&#xFF1A;<code>vim /etc/sysctl.conf</code>&#xFF0C;&#x5728;&#x6700;&#x540E;&#x52A0;&#x4E00;&#x884C;<code>vm.swappiness = 0</code></li>
-</ol>
-<p><figure class="highlight avrasm"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">swappiness&#x7684;&#x503C;&#x7684;&#x5927;&#x5C0F;&#x5BF9;&#x5982;&#x4F55;&#x4F7F;&#x7528;<span class="keyword">swap</span>&#x5206;&#x533A;&#x662F;&#x6709;&#x7740;&#x5F88;&#x5927;&#x7684;&#x8054;&#x7CFB;</span><br><span class="line">swappiness=<span class="number">0</span>&#x7684;&#x65F6;&#x5019;&#x8868;&#x793A;&#x6700;&#x5927;&#x9650;&#x5EA6;&#x4F7F;&#x7528;&#x7269;&#x7406;&#x5185;&#x5B58;&#xFF0C;&#x7136;&#x540E;&#x624D;&#x662F; <span class="keyword">swap</span>&#x7A7A;&#x95F4;</span><br><span class="line">swappiness&#xFF1D;<span class="number">100</span>&#x7684;&#x65F6;&#x5019;&#x8868;&#x793A;&#x79EF;&#x6781;&#x7684;&#x4F7F;&#x7528;<span class="keyword">swap</span>&#x5206;&#x533A;&#xFF0C;&#x5E76;&#x4E14;&#x628A;&#x5185;&#x5B58;&#x4E0A;&#x7684;&#x6570;&#x636E;&#x53CA;&#x65F6;&#x7684;&#x642C;&#x8FD0;&#x5230;<span class="keyword">swap</span>&#x7A7A;&#x95F4;&#x91CC;&#x9762;</span><br></pre></td></tr></table></figure></p>
-<ol start="7">
-<li>
-<p>&#x5B89;&#x88C5;NTP&#x670D;&#x52A1;
-http://www.aboutyun.com/thread-8921-1-1.html</p>
+<figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">wget http&#65306;//archive.cloudera.com/cm5/installer/latest/cloudera-manager-installer.bin&#10;chmod u+x cloudera-manager-installer.bin&#10;sudo ./cloudera-manager-installer.bin</span><br></pre></td></tr></table></figure>
+<ol>
+<li><p>在线配置<br>打开http：//{host}：7180/cmf/login<br>默认用户名/密码：admin/admin<br><a href="http：//www.aboutyun.com/thread-9189-1-1.html">cloudera配置文件</a></p>
 </li>
-<li>
-<p>cloudera-manager-installer.bin&#x5B89;&#x88C5;</p>
+<li><p>集群部署<br>Cloudera Manager</p>
 </li>
 </ol>
-<p><figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">wget http&#xFF1A;//archive.cloudera.com/cm5/installer/latest/cloudera-manager-installer.bin
-chmod u+x cloudera-manager-installer.bin
-sudo ./cloudera-manager-installer.bin</span><br></pre></td></tr></table></figure></p>
-<ol start="9">
-<li>
-<p>&#x5728;&#x7EBF;&#x914D;&#x7F6E;<br>
-&#x6253;&#x5F00;http&#xFF1A;//{host}&#xFF1A;7180/cmf/login<br>
-&#x9ED8;&#x8BA4;&#x7528;&#x6237;&#x540D;/&#x5BC6;&#x7801;&#xFF1A;admin/admin<br>
-<a href="http%EF%BC%9A//www.aboutyun.com/thread-9189-1-1.html">cloudera&#x914D;&#x7F6E;&#x6587;&#x4EF6;</a></p>
-</li>
-<li>
-<p>&#x96C6;&#x7FA4;&#x90E8;&#x7F72;
-Cloudera Manager</p>
-</li>
-</ol>
-<p><figure class="highlight mathematica"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">Cloudera Manager</span><br><span class="line">HostMonitor</span><br><span class="line">Event Server</span><br><span class="line">Activity <span class="keyword">Monitor</span></span><br><span class="line">Service <span class="keyword">Monitor</span></span><br><span class="line">Alert Publisher</span><br></pre></td></tr></table></figure></p>
+<figure class="highlight mathematica"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">Cloudera Manager</span><br><span class="line">HostMonitor</span><br><span class="line">Event Server</span><br><span class="line">Activity <span class="keyword">Monitor</span></span><br><span class="line">Service <span class="keyword">Monitor</span></span><br><span class="line">Alert Publisher</span><br></pre></td></tr></table></figure>
 <p>Master</p>
-<p><figure class="highlight mathematica"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">HDFS&#xFF1A;<span class="keyword">Active</span> NameNode</span><br><span class="line">Hbase&#xFF1A;<span class="keyword">Active</span> Master</span><br><span class="line">YARN&#xFF1A;<span class="keyword">Active</span> ResourceManager,JobHistory Server</span><br></pre></td></tr></table></figure></p>
-<p>Standby Master</p>
-<p><figure class="highlight mathematica"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">HDFS&#xFF1A;Standby NameNode&#x3001;DataNode</span><br><span class="line">Hbase&#xFF1A;Standby Master&#x3001;RegionServer</span><br><span class="line">YARN&#xFF1A;Standby ResourceManager,Node Manager</span><br><span class="line">HUE&#xFF1A;<span class="keyword">Hue</span> Server</span><br></pre></td></tr></table></figure></p>
+<figure class="highlight mathematica"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">HDFS：<span class="keyword">Active</span> NameNode</span><br><span class="line">Hbase：<span class="keyword">Active</span> Master</span><br><span class="line">YARN：<span class="keyword">Active</span> ResourceManager,JobHistory Server</span><br></pre></td></tr></table></figure>
+<p>Standby Master </p>
+<figure class="highlight mathematica"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">HDFS：Standby NameNode、DataNode</span><br><span class="line">Hbase：Standby Master、RegionServer</span><br><span class="line">YARN：Standby ResourceManager,Node Manager</span><br><span class="line">HUE：<span class="keyword">Hue</span> Server</span><br></pre></td></tr></table></figure>
 <p>Slave1</p>
-<p><figure class="highlight vbscript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">HDFS&#xFF1A;DataNode&#x3001;FailoverController&#x3001;JournalNode</span><br><span class="line">Hbase&#xFF1A;RegionServer</span><br><span class="line">YARN&#xFF1A;Node Manager</span><br><span class="line">Impala&#xFF1A;Impala CatalogServer,Impala StateStore,Impala lama ApplicationMaster</span><br><span class="line">Oozie&#xFF1A;Oozie <span class="built_in">Server</span></span><br><span class="line">Hive&#xFF1A;Hive <span class="built_in">Server</span></span><br><span class="line">Sor&#xFF1A;Solr <span class="built_in">Server</span></span><br><span class="line">ZoomKeeper&#xFF1A;zoomKeeper <span class="built_in">Server</span></span><br></pre></td></tr></table></figure></p>
+<figure class="highlight vbscript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">HDFS：DataNode、FailoverController、JournalNode</span><br><span class="line">Hbase：RegionServer</span><br><span class="line">YARN：Node Manager</span><br><span class="line">Impala：Impala CatalogServer,Impala StateStore,Impala lama ApplicationMaster</span><br><span class="line">Oozie：Oozie <span class="built_in">Server</span></span><br><span class="line">Hive：Hive <span class="built_in">Server</span></span><br><span class="line">Sor：Solr <span class="built_in">Server</span></span><br><span class="line">ZoomKeeper：zoomKeeper <span class="built_in">Server</span></span><br></pre></td></tr></table></figure>
 <p>Slave2</p>
-<p><figure class="highlight vbscript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">HDFS&#xFF1A;DataNode&#x3001;FailoverController&#x3001;JournalNode</span><br><span class="line">Hbase&#xFF1A;RegionServer</span><br><span class="line">YARN&#xFF1A;Node Manager</span><br><span class="line">Impala&#xFF1A;Impala Daemon</span><br><span class="line">Hive&#xFF1A;Hive Metastore <span class="built_in">Server</span></span><br><span class="line">Sor&#xFF1A;Solr <span class="built_in">Server</span></span><br><span class="line">ZoomKeeper&#xFF1A;zoomKeeper <span class="built_in">Server</span></span><br></pre></td></tr></table></figure></p>
+<figure class="highlight vbscript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">HDFS：DataNode、FailoverController、JournalNode</span><br><span class="line">Hbase：RegionServer</span><br><span class="line">YARN：Node Manager</span><br><span class="line">Impala：Impala Daemon</span><br><span class="line">Hive：Hive Metastore <span class="built_in">Server</span></span><br><span class="line">Sor：Solr <span class="built_in">Server</span></span><br><span class="line">ZoomKeeper：zoomKeeper <span class="built_in">Server</span></span><br></pre></td></tr></table></figure>
 <p>Slave3</p>
-<p><figure class="highlight vbscript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">HDFS&#xFF1A;DataNode&#x3001;FailoverController&#x3001;JournalNode</span><br><span class="line">Hbase&#xFF1A;RegionServer</span><br><span class="line">YARN&#xFF1A;Node Manager</span><br><span class="line">Impala&#xFF1A;Impala Daemon</span><br><span class="line">Spark&#xFF1A;Spark History <span class="built_in">Server</span></span><br><span class="line">Hive&#xFF1A;Hive Metastore <span class="built_in">Server</span></span><br><span class="line">Sor&#xFF1A;Solr <span class="built_in">Server</span></span><br><span class="line">ZoomKeeper&#xFF1A;zoomKeeper <span class="built_in">Server</span></span><br></pre></td></tr></table></figure></p>
+<figure class="highlight vbscript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">HDFS：DataNode、FailoverController、JournalNode</span><br><span class="line">Hbase：RegionServer</span><br><span class="line">YARN：Node Manager</span><br><span class="line">Impala：Impala Daemon</span><br><span class="line">Spark：Spark History <span class="built_in">Server</span></span><br><span class="line">Hive：Hive Metastore <span class="built_in">Server</span></span><br><span class="line">Sor：Solr <span class="built_in">Server</span></span><br><span class="line">ZoomKeeper：zoomKeeper <span class="built_in">Server</span></span><br></pre></td></tr></table></figure>
 <p>Slave4</p>
-<p><figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">HDFS&#xFF1A;DataNode</span><br><span class="line">Hbase&#xFF1A;RegionServer</span><br><span class="line">YARN&#xFF1A;Node Manager</span><br><span class="line">Impala&#xFF1A;Impala Daemon</span><br></pre></td></tr></table></figure></p>
-<p>&#x914D;&#x7F6E;&#x597D;&#x4E00;&#x53F0;Slave&#x865A;&#x62DF;&#x673A;&#x540E;&#xFF0C;&#x590D;&#x5236;&#x591A;&#x53F0;&#xFF0C;&#x5728;CM&#x4E2D;&#x6DFB;&#x52A0;&#x4E3B;&#x673A;&#x5E76;&#x5206;&#x914D;&#x96C6;&#x7FA4;</p>
-<h1 id="&#x5916;&#x90E8;mysql&#x6570;&#x636E;&#x5E93;&#x914D;&#x7F6E;">&#x5916;&#x90E8;MySQL&#x6570;&#x636E;&#x5E93;&#x914D;&#x7F6E;</h1>
-<h1 id="cdh5&#x8FD0;&#x7EF4;&#x76F8;&#x5173;">CDH5&#x8FD0;&#x7EF4;&#x76F8;&#x5173;</h1>
-<h2 id="&#x7CFB;&#x7EDF;&#x670D;&#x52A1;">&#x7CFB;&#x7EDF;&#x670D;&#x52A1;</h2>
-<p>&#x670D;&#x52A1;&#x67E5;&#x8BE2;&#xFF1A;<code>service --status-all| grep cloudera</code><br>
-<em>&#x670D;&#x52A1;&#x7AEF;</em></p>
+<figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">HDFS：DataNode</span><br><span class="line">Hbase：RegionServer</span><br><span class="line">YARN：Node Manager</span><br><span class="line">Impala：Impala Daemon</span><br></pre></td></tr></table></figure>
+<p>配置好一台Slave虚拟机后，复制多台，在CM中添加主机并分配集群</p>
+<h1 id="外部MySQL数据库配置">外部MySQL数据库配置</h1><h1 id="CDH5运维相关">CDH5运维相关</h1><h2 id="系统服务">系统服务</h2><p>服务查询：<code>service --status-all| grep cloudera</code><br><em>服务端</em>  </p>
 <ul>
 <li>cloudera-scm-server</li>
-<li>cloudera-scm-server-db<br>
-<em>&#x5BA2;&#x6237;&#x7AEF;</em></li>
+<li>cloudera-scm-server-db<br><em>客户端</em>  </li>
 <li>cloudera-scm-agent</li>
 </ul>
-<h2 id="cloudera-manager-api">Cloudera Manager API</h2>
-<p><a href="http%EF%BC%9A//www.cloudera.com/content/cloudera/zh-CN/documentation/core/v5-3-x/topics/cm_intro_api.html">&#x5B98;&#x65B9;&#x6587;&#x6863;</a>
-Cloudera Manager API &#x63D0;&#x4F9B;&#x4E86;&#x914D;&#x7F6E;&#x548C;&#x670D;&#x52A1;&#x751F;&#x547D;&#x5468;&#x671F;&#x7BA1;&#x7406;&#x3001;&#x670D;&#x52A1;&#x8FD0;&#x884C;&#x72B6;&#x51B5;&#x4FE1;&#x606F;&#x548C;&#x6307;&#x6807;&#xFF0C;&#x5E76;&#x5141;&#x8BB8;&#x60A8;&#x914D;&#x7F6E; Cloudera Manager &#x672C;&#x8EAB;&#x3002;&#x6B64; API &#x4E0E; Cloudera Manager Admin Console &#x5728;&#x540C;&#x4E00;&#x4E3B;&#x673A;&#x548C;&#x7AEF;&#x53E3;&#x4E0A;&#x63A5;&#x53D7;&#x670D;&#x52A1;&#xFF0C;&#x4E0D;&#x9700;&#x8981;&#x4EFB;&#x4F55;&#x989D;&#x5916;&#x8FC7;&#x7A0B;&#x6216;&#x989D;&#x5916;&#x914D;&#x7F6E;&#x3002;&#x6B64; API &#x652F;&#x6301; HTTP &#x57FA;&#x672C;&#x9A8C;&#x8BC1;&#xFF0C;&#x63A5;&#x53D7;&#x7684;&#x7528;&#x6237;&#x548C;&#x51ED;&#x636E;&#x4E0E; Cloudera Manager Admin Console &#x76F8;&#x540C;&#x3002;</p>
-<h2 id="cloudera-management-service">Cloudera Management Service</h2>
-<p>Cloudera Management Service &#x53EF;&#x4F5C;&#x4E3A;&#x4E00;&#x7EC4;&#x89D2;&#x8272;&#x5B9E;&#x65BD;&#x5404;&#x79CD;&#x7BA1;&#x7406;&#x529F;&#x80FD;&#xFF1A;
-Activity Monitor - &#x6536;&#x96C6;&#x6709;&#x5173; MapReduce &#x670D;&#x52A1;&#x8FD0;&#x884C;&#x7684;&#x6D3B;&#x52A8;&#x7684;&#x4FE1;&#x606F;&#x3002;&#x9ED8;&#x8BA4;&#x60C5;&#x51B5;&#x4E0B;&#x672A;&#x6DFB;&#x52A0;&#x6B64;&#x89D2;&#x8272;&#x3002;
-Host Monitor - &#x6536;&#x96C6;&#x6709;&#x5173;&#x4E3B;&#x673A;&#x7684;&#x8FD0;&#x884C;&#x72B6;&#x51B5;&#x548C;&#x6307;&#x6807;&#x4FE1;&#x606F;
-Service Monitor - &#x6536;&#x96C6;&#x6709;&#x5173;&#x670D;&#x52A1;&#x7684;&#x8FD0;&#x884C;&#x72B6;&#x51B5;&#x548C;&#x6307;&#x6807;&#x4FE1;&#x606F;&#x4EE5;&#x53CA; YARN &#x548C; Impala &#x670D;&#x52A1;&#x4E2D;&#x7684;&#x6D3B;&#x52A8;&#x4FE1;&#x606F;
-Event Server - &#x805A;&#x5408; relevant Hadoop &#x4E8B;&#x4EF6;&#x5E76;&#x5C06;&#x5176;&#x7528;&#x4E8E;&#x8B66;&#x62A5;&#x548C;&#x641C;&#x7D22;
-Alert Publisher - &#x4E3A;&#x7279;&#x5B9A;&#x7C7B;&#x578B;&#x7684;&#x4E8B;&#x4EF6;&#x751F;&#x6210;&#x548C;&#x63D0;&#x4F9B;&#x8B66;&#x62A5;
-Reports Manager - &#x751F;&#x6210;&#x62A5;&#x544A;&#xFF0C;&#x5B83;&#x63D0;&#x4F9B;&#x7528;&#x6237;&#x3001;&#x7528;&#x6237;&#x7EC4;&#x548C;&#x76EE;&#x5F55;&#x7684;&#x78C1;&#x76D8;&#x4F7F;&#x7528;&#x7387;&#x7684;&#x5386;&#x53F2;&#x89C6;&#x56FE;&#xFF0C;&#x7528;&#x6237;&#x548C; YARN &#x6C60;&#x7684;&#x5904;&#x7406;&#x6D3B;&#x52A8;&#xFF0C;&#x4EE5;&#x53CA; HBase &#x8868;&#x548C;&#x547D;&#x540D;&#x7A7A;&#x95F4;&#x3002;&#x6B64;&#x89D2;&#x8272;&#x672A;&#x5728; Cloudera Express &#x4E2D;&#x6DFB;&#x52A0;&#x3002;
-Cloudera Manager &#x5C06;&#x5355;&#x72EC;&#x7BA1;&#x7406;&#x6BCF;&#x4E2A;&#x89D2;&#x8272;&#xFF0C;&#x800C;&#x4E0D;&#x662F;&#x4F5C;&#x4E3A; Cloudera Manager Server &#x7684;&#x4E00;&#x90E8;&#x5206;&#x8FDB;&#x884C;&#x7BA1;&#x7406;&#xFF0C;&#x53EF;&#x5B9E;&#x73B0;&#x53EF;&#x6269;&#x5C55;&#x6027;&#xFF08;&#x4F8B;&#x5982;&#xFF0C;&#x5728;&#x5927;&#x578B;&#x90E8;&#x7F72;&#x4E2D;&#xFF0C;&#x5B83;&#x53EF;&#x7528;&#x4E8E;&#x5C06;&#x76D1;&#x63A7;&#x5668;&#x89D2;&#x8272;&#x7F6E;&#x4E8E;&#x81EA;&#x8EAB;&#x7684;&#x4E3B;&#x673A;&#x4E0A;&#xFF09;&#x548C;&#x9694;&#x79BB;&#x3002;</p>
-<p>&#x6B64;&#x5916;&#xFF0C;&#x5BF9;&#x4E8E;&#x7279;&#x5B9A;&#x7248;&#x672C;&#x7684; Cloudera Enterprise &#x8BB8;&#x53EF;&#x8BC1;&#xFF0C;Cloudera Management Service &#x8FD8;&#x4E3A; Cloudera Navigator &#x63D0;&#x4F9B; Navigator Audit Server &#x548C; Navigator Metadata Server &#x89D2;&#x8272;&#x3002;</p>
-<h1 id="&#x79BB;&#x7EBF;&#x5B89;&#x88C5;cdh">&#x79BB;&#x7EBF;&#x5B89;&#x88C5;CDH</h1>
-<p><a href="%5Dhttp://blog.csdn.net/scgaliguodong123_/article/details/46661881">&#x79BB;&#x7EBF;&#x5B89;&#x88C5;Cloudera Manager5.3.4&#x4E0E;CDH5.3.4</a></p>
-<h1 id="&#x5B89;&#x88C5;&#x95EE;&#x9898;&#x8BB0;&#x5F55;">&#x5B89;&#x88C5;&#x95EE;&#x9898;&#x8BB0;&#x5F55;</h1>
-<ol>
-<li>
-<p>&#x65E0;&#x6CD5;&#x53D1;&#x51FA;&#x67E5;&#x8BE2;&#xFF1A;&#x672A;&#x80FD;&#x8FDE;&#x63A5;&#x5230; Host Monitor
-&#x89E3;&#x51B3;&#x65B9;&#x5F0F;&#xFF1A;
-1&#x3001;&#x65B0;&#x589E;cloudera management services
-&#x6CE8;&#x610F;&#x65B0;&#x589E;&#x7684;&#x76EE;&#x6807;&#x673A;&#x5668;&#x56E0;&#x4E3A;scm-server&#x5B89;&#x88C5;&#x7684;&#x540C;&#x4E00;&#x53F0;&#x673A;&#x5668;&#xFF0C;&#x673A;&#x5668;&#x5185;&#x5B58;&#x6700;&#x597D;&gt;=8G</p>
+<h2 id="Cloudera_Manager_API">Cloudera Manager API</h2><p><a href="http：//www.cloudera.com/content/cloudera/zh-CN/documentation/core/v5-3-x/topics/cm_intro_api.html">官方文档</a><br>Cloudera Manager API 提供了配置和服务生命周期管理、服务运行状况信息和指标，并允许您配置 Cloudera Manager 本身。此 API 与 Cloudera Manager Admin Console 在同一主机和端口上接受服务，不需要任何额外过程或额外配置。此 API 支持 HTTP 基本验证，接受的用户和凭据与 Cloudera Manager Admin Console 相同。</p>
+<h2 id="Cloudera_Management_Service">Cloudera Management Service</h2><p>Cloudera Management Service 可作为一组角色实施各种管理功能：<br>Activity Monitor - 收集有关 MapReduce 服务运行的活动的信息。默认情况下未添加此角色。<br>Host Monitor - 收集有关主机的运行状况和指标信息<br>Service Monitor - 收集有关服务的运行状况和指标信息以及 YARN 和 Impala 服务中的活动信息<br>Event Server - 聚合 relevant Hadoop 事件并将其用于警报和搜索<br>Alert Publisher - 为特定类型的事件生成和提供警报<br>Reports Manager - 生成报告，它提供用户、用户组和目录的磁盘使用率的历史视图，用户和 YARN 池的处理活动，以及 HBase 表和命名空间。此角色未在 Cloudera Express 中添加。<br>Cloudera Manager 将单独管理每个角色，而不是作为 Cloudera Manager Server 的一部分进行管理，可实现可扩展性（例如，在大型部署中，它可用于将监控器角色置于自身的主机上）和隔离。</p>
+<p>此外，对于特定版本的 Cloudera Enterprise 许可证，Cloudera Management Service 还为 Cloudera Navigator 提供 Navigator Audit Server 和 Navigator Metadata Server 角色。</p>
+<h1 id="离线安装CDH">离线安装CDH</h1><p><a href="]http://blog.csdn.net/scgaliguodong123_/article/details/46661881">离线安装Cloudera Manager5.3.4与CDH5.3.4</a></p>
+<h1 id="安装问题记录">安装问题记录</h1><ol>
+<li><p>无法发出查询：未能连接到 Host Monitor<br>解决方式：<br>1、新增cloudera management services<br>注意新增的目标机器因为scm-server安装的同一台机器，机器内存最好&gt;=8G</p>
 </li>
-<li>
-<p>&lt;urlopen error [Errno 111] Connection refused&gt;</p>
-</li>
+<li><urlopen error [Errno 111] Connection refused></li>
 </ol>
 <ul>
-<li>&#x95EE;&#x9898;&#x573A;&#x666F;&#xFF1A;CM&#x4E2D;&#x4E3B;&#x673A;CDH5&#x5B89;&#x88C5;Parcel&#x5B8C;&#x6210;&#x540E;&#x65E0;&#x6CD5;&#x5206;&#x914D;&#x548C;&#x6FC0;&#x6D3B;Agent</li>
-<li>&#x8BE6;&#x7EC6;&#x65E5;&#x5FD7;&#xFF1A;downloader INFO  Finished download [ url&#xFF1A; http&#xFF1A;//master.lt.com&#xFF1A;7180/cmf/parcel/download/CDH-5.4.4-1.cdh5.4.4.p0.4-el6.parcel, state&#xFF1A; exception, total_bytes&#xFF1A; 0, downloaded_bytes&#xFF1A; 0, start_time&#xFF1A; 2015-08-11 22&#xFF1A;18&#xFF1A;32, download_end_time&#xFF1A; , end_time&#xFF1A; 2015-08-11 22&#xFF1A;18&#xFF1A;33, code&#xFF1A; 600, exception&#xFF1A; &lt;urlopen error [Errno 111] Connection refused&gt;, path&#xFF1A; None ]</li>
-<li>&#x9519;&#x8BEF;&#x5206;&#x6790;&#xFF1A;&#x5728;slave&#x673A;&#x5668;&#x6267;&#x884C;<code>nc -v master.lt.com 7182</code> &#x8FD4;&#x56DE;refused&#xFF0C;&#x5224;&#x65AD;&#x662F;host&#x914D;&#x7F6E;&#x6709;&#x8BEF;&#x5BFC;&#x81F4;dns&#x89E3;&#x6790;&#x4E0D;&#x4E86;</li>
-<li>&#x89E3;&#x51B3;&#x65B9;&#x5F0F;&#xFF1A;&#x5728;slave1&#x7684;hosts&#x4E2D;&#x65B0;&#x589E;master&#x7684;&#x57DF;&#x540D;&#x89E3;&#x6790;</li>
+<li>问题场景：CM中主机CDH5安装Parcel完成后无法分配和激活Agent</li>
+<li>详细日志：downloader INFO  Finished download [ url： http：//master.lt.com：7180/cmf/parcel/download/CDH-5.4.4-1.cdh5.4.4.p0.4-el6.parcel, state： exception, total_bytes： 0, downloaded_bytes： 0, start_time： 2015-08-11 22：18：32, download_end_time： , end_time： 2015-08-11 22：18：33, code： 600, exception： <urlopen error [Errno 111] Connection refused>, path： None ]</li>
+<li>错误分析：在slave机器执行<code>nc -v master.lt.com  7182</code> 返回refused，判断是host配置有误导致dns解析不了</li>
+<li>解决方式：在slave1的hosts中新增master的域名解析 </li>
 </ul>
-<ol start="3">
-<li>Cloudera Manager&#x65E0;&#x6CD5;&#x5220;&#x9664;&#x67D0;&#x9879;&#x670D;&#x52A1;
-&#x5220;&#x9664;&#x4F9D;&#x8D56;&#x5173;&#x7CFB;&#x6216;&#x5728;&#x547D;&#x4EE4;&#x4E2D;&#x67E5;&#x770B;&#x6B63;&#x5728;&#x6267;&#x884C;&#x7684;&#xFF08;&#x5361;&#x6B7B;&#xFF09;&#x7684;&#x547D;&#x4EE4;&#xFF0C;&#x4E2D;&#x6B62;&#x5373;&#x53EF;</li>
-</ol></span>
+<ol>
+<li>Cloudera Manager无法删除某项服务<br>删除依赖关系或在命令中查看正在执行的（卡死）的命令，中止即可</li>
+</ol>
+</span>
       
     </div>
 
@@ -502,7 +435,8 @@ Cloudera Manager &#x5C06;&#x5355;&#x72EC;&#x7BA1;&#x7406;&#x6BCF;&#x4E2A;&#x89D2
         
           <div class="comments" id="comments">
             
-              <div class="ds-thread" data-thread-key="2015/08/08/Hadoop集群部署/" data-title="Hadoop集群部署" data-url="http://geosmart.github.io/2015/08/08/Hadoop集群部署/">
+              <div class="ds-thread" data-thread-key="2015/08/08/Hadoop集群部署/"
+                   data-title="Hadoop集群部署" data-url="http://geosmart.github.io/2015/08/08/Hadoop集群部署/">
               </div>
             
           </div>
@@ -524,7 +458,7 @@ Cloudera Manager &#x5C06;&#x5355;&#x72EC;&#x7BA1;&#x7406;&#x6BCF;&#x4E2A;&#x89D2
 
       
         <ul class="sidebar-nav motion-element">
-          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
             文章目录
           </li>
           <li class="sidebar-nav-overview" data-target="site-overview">
@@ -535,7 +469,7 @@ Cloudera Manager &#x5C06;&#x5355;&#x72EC;&#x7BA1;&#x7406;&#x6BCF;&#x4E2A;&#x89D2
 
       <section class="site-overview">
         <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
-          <img class="site-author-image" src="https://avatars1.githubusercontent.com/u/3156608?v=3&s=460" alt="geosmart" itemprop="image">
+          <img class="site-author-image" src="https://avatars1.githubusercontent.com/u/3156608?v=3&s=460" alt="geosmart" itemprop="image"/>
           <p class="site-author-name" itemprop="name">geosmart</p>
         </div>
         <p class="site-description motion-element" itemprop="description">追求心智成长，记录技术点滴</p>
@@ -548,10 +482,10 @@ Cloudera Manager &#x5C06;&#x5355;&#x72EC;&#x7BA1;&#x7406;&#x6BCF;&#x4E2A;&#x89D2
           </div>
 
           <div class="site-state-item site-state-categories">
-            
+            <a href="/categories">
               <span class="site-state-item-count">6</span>
               <span class="site-state-item-name">分类</span>
-              
+              </a>
           </div>
 
           <div class="site-state-item site-state-tags">
@@ -591,7 +525,7 @@ Cloudera Manager &#x5C06;&#x5355;&#x72EC;&#x7BA1;&#x7406;&#x6BCF;&#x4E2A;&#x89D2
           <div class="post-toc">
             
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#hadoop版本区别"><span class="nav-number">1.</span> <span class="nav-text">Hadoop版本区别</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#关于cdh"><span class="nav-number">2.</span> <span class="nav-text">关于CDH</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#cloudera-quickstart-vm"><span class="nav-number">3.</span> <span class="nav-text">Cloudera QuickStart VM</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#cdh安装步骤"><span class="nav-number">4.</span> <span class="nav-text">CDH安装步骤</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#cdh安装参考资料"><span class="nav-number">4.1.</span> <span class="nav-text">CDH安装参考资料</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#在线安装优势"><span class="nav-number">4.2.</span> <span class="nav-text">在线安装优势</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#在线安装步骤"><span class="nav-number">4.3.</span> <span class="nav-text">在线安装步骤</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#外部mysql数据库配置"><span class="nav-number">5.</span> <span class="nav-text">外部MySQL数据库配置</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#cdh5运维相关"><span class="nav-number">6.</span> <span class="nav-text">CDH5运维相关</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#系统服务"><span class="nav-number">6.1.</span> <span class="nav-text">系统服务</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#cloudera-manager-api"><span class="nav-number">6.2.</span> <span class="nav-text">Cloudera Manager API</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#cloudera-management-service"><span class="nav-number">6.3.</span> <span class="nav-text">Cloudera Management Service</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#离线安装cdh"><span class="nav-number">7.</span> <span class="nav-text">离线安装CDH</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#安装问题记录"><span class="nav-number">8.</span> <span class="nav-text">安装问题记录</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#Hadoop版本区别"><span class="nav-number">1.</span> <span class="nav-text">Hadoop版本区别</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#关于CDH"><span class="nav-number">2.</span> <span class="nav-text">关于CDH</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Cloudera_QuickStart_VM"><span class="nav-number">3.</span> <span class="nav-text">Cloudera QuickStart VM</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#为方便开始使用CDH、Cloudera_Manager、Cloudera_Impala_和_Cloudera_Search，这些虚拟机器包含您所需的一切。"><span class="nav-number">3.1.</span> <span class="nav-text">为方便开始使用CDH、Cloudera Manager、Cloudera Impala 和 Cloudera Search，这些虚拟机器包含您所需的一切。</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#CDH安装步骤"><span class="nav-number">4.</span> <span class="nav-text">CDH安装步骤</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#CDH安装参考资料"><span class="nav-number">4.1.</span> <span class="nav-text">CDH安装参考资料</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#在线安装优势"><span class="nav-number">4.2.</span> <span class="nav-text">在线安装优势</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#在线安装步骤"><span class="nav-number">4.3.</span> <span class="nav-text">在线安装步骤</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#外部MySQL数据库配置"><span class="nav-number">5.</span> <span class="nav-text">外部MySQL数据库配置</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#CDH5运维相关"><span class="nav-number">6.</span> <span class="nav-text">CDH5运维相关</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#系统服务"><span class="nav-number">6.1.</span> <span class="nav-text">系统服务</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Cloudera_Manager_API"><span class="nav-number">6.2.</span> <span class="nav-text">Cloudera Manager API</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Cloudera_Management_Service"><span class="nav-number">6.3.</span> <span class="nav-text">Cloudera Management Service</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#离线安装CDH"><span class="nav-number">7.</span> <span class="nav-text">离线安装CDH</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#安装问题记录"><span class="nav-number">8.</span> <span class="nav-text">安装问题记录</span></a></li></ol></div>
             
           </div>
           <div class="post-toc-indicator-bottom post-toc-indicator"></div>
@@ -605,7 +539,7 @@ Cloudera Manager &#x5C06;&#x5355;&#x72EC;&#x7BA1;&#x7406;&#x6BCF;&#x4E2A;&#x89D2
     </main>
 
     <footer id="footer" class="footer">
-      <div class="footer-inner"> <div class="copyright">
+      <div class="footer-inner"> <div class="copyright" >
   
   &copy; &nbsp; 
   <span itemprop="copyrightYear">2015</span>

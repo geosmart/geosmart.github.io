@@ -3,61 +3,73 @@
 <head>
   
 
-<meta charset="UTF-8">
-<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
-<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1">
+<meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
 
 
-<meta http-equiv="Cache-Control" content="no-transform">
-<meta http-equiv="Cache-Control" content="no-siteapp">
-
-
-
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
 
 
 
 
 
-  <link rel="stylesheet" type="text/css" href="/vendors/fancybox/source/jquery.fancybox.css?v=2.1.5">
+
+
+
+  <link rel="stylesheet" type="text/css" href="/vendors/fancybox/source/jquery.fancybox.css?v=2.1.5"/>
 
 
 
 
-<link rel="stylesheet" type="text/css" href="/css/main.css?v=0.4.5.1">
+<link rel="stylesheet" type="text/css" href="/css/main.css?v=0.4.5.1"/>
 
 
-    <meta name="description" content="追求心智成长，记录技术点滴">
-
-
-
-  <meta name="keywords" content="GATE,NLP,大数据,">
+    <meta name="description" content="追求心智成长，记录技术点滴" />
 
 
 
-  <link rel="alternate" href="/atom.xml" title="Geosmart's Notes" type="application/atom+xml">
+  <meta name="keywords" content="GATE,NLP,大数据," />
 
 
 
-  <link rel="shorticon icon" type="image/x-icon" href="/favicon.ico?v=0.4.5.1">
+  <link rel="alternate" href="/atom.xml" title="Geosmart's Notes" type="application/atom+xml" />
+
+
+
+  <link rel="shorticon icon" type="image/x-icon" href="/favicon.ico?v=0.4.5.1" />
 
 
 <meta name="description" content="GATE
+GATE(文本工程通用框架)项目开始于 1995 年英国的谢菲尔德大学.经历了近 20 年的不断发展，GATE 已经被应用于广泛的研究和项目开发。  
 
-GATE(&amp;#x6587;&amp;#x672C;&amp;#x5DE5;&amp;#x7A0B;&amp;#x901A;&amp;#x7528;&amp;#x6846;&amp;#x67B6;)&amp;#x9879;&amp;#x76EE;&amp;#x5F00;&amp;#x59CB;&amp;#x4E8E; 1995 &amp;#x5E74;&amp;#x82F1;&amp;#x56FD;&amp;#x7684;&amp;#x8C22;&amp;#x83F2;&amp;#x5C14;&amp;#x5FB7;&amp;#x5927;&amp;#x5B6">
+
+GATE 框架采用了基于组件的软件开发方式和面向对象的灵活编程。
+GATE 框架是由纯 Java 语言开发的免费开源软件，遵循 GNU library license。
+GATE 使用的编码方式是Unicode，可以支持多种语言编码，">
 <meta property="og:type" content="article">
 <meta property="og:title" content="GATE中文自然语言处理学习笔记">
 <meta property="og:url" content="http://geosmart.github.io/2015/09/17/GATE中文自然语言处理学习笔记/index.html">
 <meta property="og:site_name" content="Geosmart's Notes">
 <meta property="og:description" content="GATE
+GATE(文本工程通用框架)项目开始于 1995 年英国的谢菲尔德大学.经历了近 20 年的不断发展，GATE 已经被应用于广泛的研究和项目开发。  
 
-GATE(&amp;#x6587;&amp;#x672C;&amp;#x5DE5;&amp;#x7A0B;&amp;#x901A;&amp;#x7528;&amp;#x6846;&amp;#x67B6;)&amp;#x9879;&amp;#x76EE;&amp;#x5F00;&amp;#x59CB;&amp;#x4E8E; 1995 &amp;#x5E74;&amp;#x82F1;&amp;#x56FD;&amp;#x7684;&amp;#x8C22;&amp;#x83F2;&amp;#x5C14;&amp;#x5FB7;&amp;#x5927;&amp;#x5B6">
+
+GATE 框架采用了基于组件的软件开发方式和面向对象的灵活编程。
+GATE 框架是由纯 Java 语言开发的免费开源软件，遵循 GNU library license。
+GATE 使用的编码方式是Unicode，可以支持多种语言编码，">
 <meta property="og:image" content="https://gate.ac.uk/plugins/gau-0.1/images/logo-gate.png">
-<meta property="og:updated_time" content="2015-09-18T13:46:20.021Z">
+<meta property="og:updated_time" content="2015-09-19T12:46:27.497Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="GATE中文自然语言处理学习笔记">
 <meta name="twitter:description" content="GATE
+GATE(文本工程通用框架)项目开始于 1995 年英国的谢菲尔德大学.经历了近 20 年的不断发展，GATE 已经被应用于广泛的研究和项目开发。  
 
-GATE(&amp;#x6587;&amp;#x672C;&amp;#x5DE5;&amp;#x7A0B;&amp;#x901A;&amp;#x7528;&amp;#x6846;&amp;#x67B6;)&amp;#x9879;&amp;#x76EE;&amp;#x5F00;&amp;#x59CB;&amp;#x4E8E; 1995 &amp;#x5E74;&amp;#x82F1;&amp;#x56FD;&amp;#x7684;&amp;#x8C22;&amp;#x83F2;&amp;#x5C14;&amp;#x5FB7;&amp;#x5927;&amp;#x5B6">
+
+GATE 框架采用了基于组件的软件开发方式和面向对象的灵活编程。
+GATE 框架是由纯 Java 语言开发的免费开源软件，遵循 GNU library license。
+GATE 使用的编码方式是Unicode，可以支持多种语言编码，">
 
 
 <script type="text/javascript" id="hexo.configuration">
@@ -127,7 +139,7 @@ GATE(&amp;#x6587;&amp;#x672C;&amp;#x5DE5;&amp;#x7A0B;&amp;#x901A;&amp;#x7528;&am
         
         <li class="menu-item menu-item-home">
           <a href="/" rel="section">
-            <i class="menu-item-icon icon-next-home"></i> <br>
+            <i class="menu-item-icon icon-next-home"></i> <br />
             首页
           </a>
         </li>
@@ -135,7 +147,7 @@ GATE(&amp;#x6587;&amp;#x672C;&amp;#x5DE5;&amp;#x7A0B;&amp;#x901A;&amp;#x7528;&am
         
         <li class="menu-item menu-item-archives">
           <a href="/archives" rel="section">
-            <i class="menu-item-icon icon-next-archives"></i> <br>
+            <i class="menu-item-icon icon-next-archives"></i> <br />
             归档
           </a>
         </li>
@@ -143,8 +155,32 @@ GATE(&amp;#x6587;&amp;#x672C;&amp;#x5DE5;&amp;#x7A0B;&amp;#x901A;&amp;#x7528;&am
         
         <li class="menu-item menu-item-tags">
           <a href="/tags" rel="section">
-            <i class="menu-item-icon icon-next-tags"></i> <br>
+            <i class="menu-item-icon icon-next-tags"></i> <br />
             标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories" rel="section">
+            <i class="menu-item-icon icon-next-categories"></i> <br />
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about" rel="section">
+            <i class="menu-item-icon icon-next-about"></i> <br />
+            关于
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-commonweal">
+          <a href="/404.html" rel="section">
+            <i class="menu-item-icon icon-next-commonweal"></i> <br />
+            公益404
           </a>
         </li>
       
@@ -159,7 +195,7 @@ GATE(&amp;#x6587;&amp;#x672C;&amp;#x5DE5;&amp;#x7A0B;&amp;#x901A;&amp;#x7528;&am
       
   
   <form class="site-search-form">
-    <input type="text" id="st-search-input" class="st-search-input st-default-search-input">
+    <input type="text" id="st-search-input" class="st-search-input st-default-search-input" />
   </form>
 
 
@@ -188,7 +224,7 @@ GATE(&amp;#x6587;&amp;#x672C;&amp;#x5DE5;&amp;#x7A0B;&amp;#x901A;&amp;#x7528;&am
   <div id="posts" class="posts-expand">
     
 
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
     <header class="post-header">
 
       
@@ -233,138 +269,74 @@ GATE(&amp;#x6587;&amp;#x672C;&amp;#x5DE5;&amp;#x7A0B;&amp;#x901A;&amp;#x7528;&am
 
       
         <span itemprop="articleBody"><p><img src="https://gate.ac.uk/plugins/gau-0.1/images/logo-gate.png" alt=""></p>
-<h1 id="gate">GATE</h1>
-<blockquote>
-<p>GATE(&#x6587;&#x672C;&#x5DE5;&#x7A0B;&#x901A;&#x7528;&#x6846;&#x67B6;)&#x9879;&#x76EE;&#x5F00;&#x59CB;&#x4E8E; 1995 &#x5E74;&#x82F1;&#x56FD;&#x7684;&#x8C22;&#x83F2;&#x5C14;&#x5FB7;&#x5927;&#x5B66;.&#x7ECF;&#x5386;&#x4E86;&#x8FD1; 20 &#x5E74;&#x7684;&#x4E0D;&#x65AD;&#x53D1;&#x5C55;&#xFF0C;GATE &#x5DF2;&#x7ECF;&#x88AB;&#x5E94;&#x7528;&#x4E8E;&#x5E7F;&#x6CDB;&#x7684;&#x7814;&#x7A76;&#x548C;&#x9879;&#x76EE;&#x5F00;&#x53D1;&#x3002;</p>
+<h1 id="GATE">GATE</h1><blockquote>
+<p>GATE(文本工程通用框架)项目开始于 1995 年英国的谢菲尔德大学.经历了近 20 年的不断发展，GATE 已经被应用于广泛的研究和项目开发。  </p>
 </blockquote>
 <ul>
-<li>GATE &#x6846;&#x67B6;&#x91C7;&#x7528;&#x4E86;&#x57FA;&#x4E8E;&#x7EC4;&#x4EF6;&#x7684;&#x8F6F;&#x4EF6;&#x5F00;&#x53D1;&#x65B9;&#x5F0F;&#x548C;&#x9762;&#x5411;&#x5BF9;&#x8C61;&#x7684;&#x7075;&#x6D3B;&#x7F16;&#x7A0B;&#x3002;</li>
-<li>GATE &#x6846;&#x67B6;&#x662F;&#x7531;&#x7EAF; Java &#x8BED;&#x8A00;&#x5F00;&#x53D1;&#x7684;&#x514D;&#x8D39;&#x5F00;&#x6E90;&#x8F6F;&#x4EF6;&#xFF0C;&#x9075;&#x5FAA; GNU library license&#x3002;</li>
-<li>GATE &#x4F7F;&#x7528;&#x7684;&#x7F16;&#x7801;&#x65B9;&#x5F0F;&#x662F;Unicode&#xFF0C;&#x53EF;&#x4EE5;&#x652F;&#x6301;&#x591A;&#x79CD;&#x8BED;&#x8A00;&#x7F16;&#x7801;&#xFF0C;&#x5E76;&#x4E14;&#x9488;&#x5BF9;&#x5404;&#x79CD;&#x65AF;&#x62C9;&#x592B;&#x8BED;&#x8A00;&#x3001;&#x65E5;&#x5C14;&#x66FC;&#x8BED;&#x8A00;&#x3001;&#x62C9;&#x4E01;&#x7CFB;&#x8BED;&#x8A00;&#x548C;&#x5370;&#x5EA6;&#x8BED;&#x505A;&#x8FC7;&#x7CFB;&#x7EDF;&#x6D4B;&#x8BD5;&#x3002;</li>
-<li>GATE &#x652F;&#x6301;&#x7684;&#x6587;&#x6863;&#x7C7B;&#x578B;&#x5305;&#x62EC; XML&#x3001;RTF&#x3001;Email&#x3001;HTML&#x3001;SGML&#x4EE5;&#x53CA;&#x7EAF;&#x6587;&#x672C;&#x6587;&#x4EF6;&#x3002;</li>
-<li>GATE &#x4F5C;&#x4E3A;&#x4E00;&#x4E2A;&#x6846;&#x67B6;&#xFF0C;&#x89C4;&#x5B9A;&#x5176;&#x6846;&#x67B6;&#x5185;&#x6240;&#x6709;&#x7684;&#x81EA;&#x7136;&#x8BED;&#x8A00;&#x5904;&#x7406;&#x8F6F;&#x4EF6;&#x7CFB;&#x7EDF;&#x5143;&#x7D20;&#x90FD;&#x53EF;&#x4EE5;&#x6709;&#x6548;&#x7684;&#x88AB;&#x7EC6;&#x5206;&#x6210;&#x4E0D;&#x540C;&#x7684;&#x51E0;&#x79CD;&#x7EC4;&#x4EF6;&#xFF0C;&#x5728; GATE &#x4E2D;&#x5B83;&#x4EEC;&#x88AB;&#x79F0;&#x4E3A;&#x8D44;&#x6E90;&#x3002;&#x5728; GATE &#x6846;&#x67B6;&#x4E0B;&#x7EC4;&#x4EF6;&#x7684;&#x96C6;&#x5408;&#x88AB;&#x79F0;&#x4E3A; CREOLE&#x3002;CREOLE &#x7EC4;&#x4EF6;&#x662F;&#x901A;&#x8FC7; Java Beans &#x7684;&#x5F62;&#x5F0F;&#x6765;&#x5B9E;&#x73B0;&#x7684;&#xFF0C;CREOLE &#x5728; GATE&#x4E2D;&#x5206;&#x4E3A;&#x4E09;&#x79CD;&#x5F62;&#x5F0F;&#xFF1A;&#x8BED;&#x8A00;&#x7EC4;&#x4EF6;&#xFF08;LR&#xFF09;&#xFF0C;&#x5904;&#x7406;&#x7EC4;&#x4EF6;(PR)&#x548C;&#x53EF;&#x89C6;&#x5316;&#x7EC4;&#x4EF6;(VR)&#x3002;</li>
+<li>GATE 框架采用了基于组件的软件开发方式和面向对象的灵活编程。</li>
+<li>GATE 框架是由纯 Java 语言开发的免费开源软件，遵循 GNU library license。</li>
+<li>GATE 使用的编码方式是Unicode，可以支持多种语言编码，并且针对各种斯拉夫语言、日尔曼语言、拉丁系语言和印度语做过系统测试。</li>
+<li>GATE 支持的文档类型包括 XML、RTF、Email、HTML、SGML以及纯文本文件。</li>
+<li>GATE 作为一个框架，规定其框架内所有的自然语言处理软件系统元素都可以有效的被细分成不同的几种组件，在 GATE 中它们被称为资源。在 GATE 框架下组件的集合被称为 CREOLE。CREOLE 组件是通过 Java Beans 的形式来实现的，CREOLE 在 GATE中分为三种形式：语言组件（LR），处理组件(PR)和可视化组件(VR)。</li>
 </ul>
-<h2 id="gate&#x8D44;&#x6E90;">GATE&#x8D44;&#x6E90;&#xFF1A;</h2>
-<blockquote>
-<p><a href="http://gatechinese.com/blog/category/gate%E4%B8%AD%E6%96%87%E8%87%AA%E7%84%B6%E8%AF%AD%E8%A8%80%E5%A4%84%E7%90%86/">GATE&#x4E2D;&#x6587;&#x81EA;&#x7136;&#x8BED;&#x8A00;&#x5904;&#x7406;</a></p>
+<hr>
+<a id="more"></a>
+<h2 id="GATE资源：">GATE资源：</h2><blockquote>
+<p><a href="http://gatechinese.com/blog/category/gate%E4%B8%AD%E6%96%87%E8%87%AA%E7%84%B6%E8%AF%AD%E8%A8%80%E5%A4%84%E7%90%86/">GATE中文自然语言处理</a></p>
 </blockquote>
-<h1 id="gazetteer">Gazetteer</h1>
-<blockquote>
-<p>&#x8BCD;&#x5178;&#x5E93;&#xFF08;Gazetteer&#xFF09;&#x7531;&#x4E00;&#x7EC4;&#x8BCD;&#x5178;&#x5217;&#x8868;&#x7EC4;&#x6210;&#xFF0C;&#x5217;&#x8868;&#x5305;&#x542B;&#x5B9E;&#x4F53;&#x540D;&#x79F0;&#x5982;&#x57CE;&#x5E02;&#xFF0C;&#x7EC4;&#x7EC7;&#x673A;&#x6784;&#xFF0C;&#x661F;&#x671F;&#x7B49;&#x3002;&#x5217;&#x8868;&#x7528;&#x4E8E;&#x53D1;&#x73B0;&#x6587;&#x672C;&#x4E2D;&#x5305;&#x542B;&#x8FD9;&#x4E9B;&#x540D;&#x79F0;&#x7684;&#x6587;&#x6863;&#x548C;&#x547D;&#x540D;&#x5B9E;&#x4F53;&#x8BC6;&#x522B;&#x3002;&#x901A;&#x5E38;&#x8BCD;&#x201C;&#x8BCD;&#x5178;&#x5E93;&#x201D;&#x53EF;&#x4EA4;&#x66FF;&#x5730;&#x7528;&#x4E8E;&#x5B9E;&#x4F53;&#x5217;&#x8868;&#x96C6;&#x5408;&#xFF0C;&#x5E76;&#x5229;&#x7528;&#x8FD9;&#x4E9B;&#x5217;&#x8868;&#x53D1;&#x73B0;&#x6587;&#x672C;&#x4E2D;&#x51FA;&#x73B0;&#x8FD9;&#x4E9B;&#x540D;&#x79F0;&#x7684;&#x5904;&#x7406;&#x8D44;&#x6E90;&#x3002;<br>
-&#x5F53;&#x8BCD;&#x5178;&#x5E93;PR&#x5728;&#x4E00;&#x4E2A;&#x6587;&#x4EF6;&#x4E0A;&#x8FD0;&#x884C;&#x65F6;&#xFF0C;&#x6BCF;&#x4E2A;&#x5339;&#x914D;&#x7684;&#x6587;&#x672C;&#x5B57;&#x7B26;&#x4E32;&#x521B;&#x5EFA;&#x4E00;&#x4E2A;&#x6807;&#x6CE8;&#x7C7B;&#x578B;Lookup&#x3002;&#x8BCD;&#x5178;&#x5E93;&#x901A;&#x5E38;&#x4E0D;&#x4F9D;&#x9760;Token&#x6216;&#x4EFB;&#x4F55;&#x5176;&#x5B83;&#x6807;&#x6CE8;&#xFF0C;&#x800C;&#x662F;&#x57FA;&#x4E8E;&#x6587;&#x6863;&#x7684;&#x5B57;&#x8BCD;&#x5185;&#x5BB9;&#x53D1;&#x73B0;&#x76F8;&#x5339;&#x914D;&#x7684;&#x5B57;&#x7B26;&#x4E32;&#x3002;&#x8FD9;&#x610F;&#x5473;&#x7740;&#x4E00;&#x4E2A;&#x6761;&#x76EE;&#x53EF;&#x4EE5;&#x8DE8;&#x8D8A;&#x591A;&#x4E2A;&#x8BCD;&#xFF0C;&#x4E5F;&#x53EF;&#x4EE5;&#x628A;&#x5F00;&#x59CB;&#x548C;&#x7ED3;&#x675F;&#x4F5C;&#x4E3A;&#x4E00;&#x4E2A;&#x8BCD;&#x3002;
-&#x5982;&#x679C;&#x4E00;&#x4E2A;&#x8BCD;&#x5178;&#x5E93;&#x6B63;&#x5DE5;&#x4F5C;&#x7684;&#x6587;&#x672C;&#x6070;&#x597D;&#x6EE1;&#x8DB3;&#x8BCD;&#x8BED;&#x8FB9;&#x754C;&#xFF0C;&#x5219;&#x8BCD;&#x5178;&#x53D1;&#x73B0;&#x8BCD;&#x8BED;&#x8FB9;&#x754C;&#x7684;&#x65B9;&#x6CD5;&#x4E0D;&#x540C;&#x4E8E;GATE tokeniser&#x53D1;&#x73B0;&#x8BCD;&#x8BED;&#x8FB9;&#x754C;&#x7684;&#x65B9;&#x6CD5;&#x3002;&#x5982;&#x679C;&#x6587;&#x672C;&#x4E2D;&#x6240;&#x6709;&#x8BCD;&#x5178;&#x5B9E;&#x4F53;&#x5339;&#x914D;&#x597D;&#x4E86;&#xFF0C;&#x5219;&#x521B;&#x5EFA;&#x4E00;&#x4E2A;Lookup&#x6807;&#x6CE8;&#x3002;<br>
-&#x8BCD;&#x5178;&#x5E93;&#x5B9E;&#x4F53;&#x600E;&#x6837;&#x5339;&#x914D;&#x6587;&#x672C;&#x7684;&#x7EC6;&#x8282;&#x53D6;&#x51B3;&#x4E8E;&#x8BCD;&#x5178;&#x5E93;&#x5904;&#x7406;&#x8D44;&#x6E90;&#x53CA;&#x5176;&#x53C2;&#x6570;&#x3002;</p>
-</blockquote>
-<h2 id="gazetteer&#x751F;&#x6548;&#x673A;&#x5236;">Gazetteer&#x751F;&#x6548;&#x673A;&#x5236;</h2>
-<blockquote>
-<p>&#x5165;&#x53E3;:list.def<br>
-gazetteer&#xFF1A;*.lst<br>
-&#x683C;&#x5F0F;&#xFF1A;<code>gazetteerFileName:marjorType:minorType</code></p>
-</blockquote>
-<h2 id="annie&#x8BCD;&#x5178;&#x5E93;">ANNIE&#x8BCD;&#x5178;&#x5E93;</h2>
-<p>ANNIE&#x8BCD;&#x5178;&#x5E93;&#x662F;&#x7531;ANNIE&#x63D2;&#x4EF6;&#x63D0;&#x4F9B;&#x7684;&#x3002;&#x6BCF;&#x4E2A;&#x72EC;&#x7ACB;&#x7684;&#x8BCD;&#x5178;&#x90FD;&#x662F;&#x4E00;&#x4E2A;&#x666E;&#x901A;&#x7684;&#x6587;&#x672C;&#x6587;&#x4EF6;&#xFF0C;&#x6BCF;&#x884C;&#x4E00;&#x4E2A;&#x6761;&#x76EE;&#x3002;</p>
-<h2 id="gaze&#x8BCD;&#x5178;&#x5E93;">GAZE&#x8BCD;&#x5178;&#x5E93;</h2>
-<blockquote>
-<p>Gaze&#x662F;&#x4E00;&#x4E2A;&#x7F16;&#x8F91;&#x8BCD;&#x5178;&#x5217;&#x8868;&#xFF0C;&#x5B9A;&#x4E49;&#x8BCD;&#x5178;&#x548C;&#x628A;&#x8BCD;&#x5178;&#x6620;&#x5C04;&#x5230;&#x672C;&#x4F53;&#x7684;&#x5DE5;&#x5177;&#x3002;&#x5373;&#x9002;&#x7528;&#x4E8E;Plain/Linear &#x8BCD;&#x5178;&#xFF08;&#x9ED8;&#x8BA4;&#xFF09;&#x3001;Hash&#x8BCD;&#x5178;&#x5E93;&#x4E5F;&#x9002;&#x7528;&#x4E8E;Ontology-enabled &#x8BCD;&#x5178; (Onto&#x8BCD;&#x5178;)&#x3002;&#x6BCF;&#x5F53;&#x6267;&#x884C;&#x4FDD;&#x5B58;&#x64CD;&#x4F5C;&#x65F6;&#xFF0C;&#x91CD;&#x65B0;&#x521D;&#x59CB;&#x5316;&#x8BCD;&#x5178;PR&#x5173;&#x8054;&#x7684;&#x89C6;&#x56FE;&#x3002;&#x6CE8;&#x610F;GAZE&#x4E0D;&#x751F;&#x4EA7;&#x89C4;&#x6A21;&#x975E;&#x5E38;&#x5927;&#x7684;&#x8BCD;&#x5178; (&#x6211;&#x4EEC;&#x5047;&#x8BBE;&#x4E0D;&#x6D4F;&#x89C8;&#x8D85;&#x8FC7;4000&#x5B9E;&#x4F53;&#xFF0C;&#x4E0D;&#x62F7;&#x8D1D;&#x8D85;&#x8FC7;10000&#x4E2A;&#x5B9E;&#x4F53;)&#x3002;</p>
-</blockquote>
-<h2 id="onto&#x8BCD;&#x5178;">Onto&#x8BCD;&#x5178;</h2>
-<p>Onto&#x8BCD;&#x5178;&#x6216;&#x8005;Hierarchical&#x8BCD;&#x5178;&#xFF0C;&#x662F;&#x4E00;&#x4E2A;&#x5904;&#x7406;&#x8D44;&#x6E90;&#xFF0C;&#x80FD;&#x5C06;&#x7279;&#x5B9A;&#x8BCD;&#x5178;&#x5217;&#x8868;&#x7684;&#x5B9E;&#x4F53;&#x52A0;&#x5165;&#x5230;GATE&#x672C;&#x4F53;&#x8BED;&#x8A00;&#x8D44;&#x6E90;&#x7684;&#x7C7B;&#x4E2D;&#x3002;Onto&#x8BCD;&#x5178;&#x6307;&#x5B9A;&#x7C7B;&#x800C;&#x4E0D;&#x662F;&#x4E3B;&#x8981;&#x6216;&#x6B21;&#x8981;&#x7C7B;&#x578B;&#xFF0C;&#x610F;&#x8BC6;&#x5230;&#x5217;&#x8868;&#x548C;&#x7C7B;ID&#x4E4B;&#x95F4;&#x7684;&#x6620;&#x5C04;&#x5173;&#x7CFB;&#x3002;Gaze&#x53EF;&#x89C6;&#x8D44;&#x6E90;&#x80FD;&#x663E;&#x793A;&#x5217;&#x8868;&#xFF0C;&#x672C;&#x4F53;&#x6620;&#x5C04;&#x548C;&#x672C;&#x4F53;&#x7C7B;&#x7B49;&#x7EA7;&#xFF0C;&#x4E5F;&#x63D0;&#x4F9B;&#x7F16;&#x8F91;&#x8FD9;&#x4E9B;&#x5185;&#x5BB9;&#x7684;&#x65B9;&#x6CD5;&#x3002;</p>
-<h2 id="hash&#x8BCD;&#x5178;">Hash&#x8BCD;&#x5178;</h2>
-<blockquote>
-<p>Hash&#x8BCD;&#x5178;&#x662F;<a href="http://www.ontotext.com/">OntoText Lab</a>&#x5B8C;&#x6210;&#x7684;&#x4E00;&#x4E2A;&#x8BCD;&#x5178;&#x3002;&#x5B83;&#x7684;&#x5B9E;&#x73B0;&#x57FA;&#x4E8E;&#x51E0;&#x4E2A;java.util.HashMap&#x5BF9;&#x8C61;&#x7B80;&#x5355;&#x7684;&#x67E5;&#x627E;&#xFF0C;&#x5E76;&#x7531;Atanas Kiryakov&#x7684;&#x5947;&#x5999;&#x60F3;&#x6CD5;&#x2014;&#x2014;&#x5728;HashMaps&#x7684;&#x641C;&#x5BFB;&#x5FEB;&#x4E8E;&#x5728;&#x6709;&#x9650;&#x72B6;&#x6001;&#x673A;&#x7684;&#x641C;&#x5BFB;&#x800C;&#x5F97;&#x5230;&#x542F;&#x53D1;&#x3002;Hash&#x8BCD;&#x5178;&#x5904;&#x7406;&#x8D44;&#x6E90;&#x662F;ANNIE&#x63D2;&#x4EF6;&#x7684;&#x4E00;&#x90E8;&#x5206;&#x3002;
-&#x8BCD;&#x5178;&#x5904;&#x7406;&#x8D44;&#x6E90;&#x7528;&#x4EE5;&#x4E0B;&#x65B9;&#x5F0F;&#x5B9E;&#x73B0;&#xFF1A;&#x6BCF;&#x4E2A;&#x77ED;&#x8BED;&#xFF0C;&#x5373;&#x6BCF;&#x4E00;&#x4E2A;&#x5217;&#x8868;&#x6761;&#x76EE;&#x88AB;&#x5206;&#x5272;&#x6210;&#x51E0;&#x4E2A;&#x90E8;&#x5206;&#xFF0C;&#x5404;&#x90E8;&#x5206;&#x53D6;&#x51B3;&#x4E8E;&#x4F4D;&#x4E8E;&#x5B83;&#x4EEC;&#x4E4B;&#x95F4;&#x7684;&#x7A7A;&#x683C;&#xFF0C;&#x4F8B;&#x5982;&#xFF0C;&#x77ED;&#x8BED;&#xFF1A;&#x201C;form is emptiness&#x201D;&#x6709;&#x4E09;&#x4E2A;&#x90E8;&#x5206;&#xFF1A;&#x201C;form&#x201D;&#xFF0C; &#x201C;is&#x201D;&#x548C;&#x201C;emptiness&#x201D;&#x3002;&#x4E5F;&#x6709;&#x4E00;&#x4E2A;HashMaps&#x5217;&#x8868;&#xFF1A;mapsList&#x548C;&#x5217;&#x8868;&#x4E2D;&#x6700;&#x957F;&#x7684;&#x77ED;&#x8BED;&#x6709;&#x540C;&#x6837;&#x591A;&#x7684;&#x5143;&#x7D20;&#x3002;&#x6240;&#x4EE5;&#x7B2C;&#x4E00;&#x90E8;&#x5206;&#x77ED;&#x8BED;&#x653E;&#x5728;&#x7B2C;&#x4E00;&#x4E2A;&#x6620;&#x5C04;&#x3002;&#x7B2C;&#x4E00;&#x90E8;&#x5206;+&#x7A7A;&#x683C;+&#x7B2C;&#x4E8C;&#x90E8;&#x5206;&#x88AB;&#x653E;&#x7F6E;&#x5728;&#x7B2C;&#x4E8C;&#x4E2A;&#x6620;&#x5C04;&#x7B49;&#x3002;&#x5B8C;&#x6574;&#x7684;&#x8BCD;&#x7EC4;&#x662F;&#x653E;&#x7F6E;&#x5728;&#x9002;&#x5F53;&#x7684;&#x6620;&#x5C04;&#xFF0C;&#x5E76;&#x5F15;&#x7528;&#x4E00;&#x4E2A;&#x67E5;&#x627E;&#x5BF9;&#x8C61;&#x662F;&#x76F8;&#x8FDE;&#x3002;</p>
-</blockquote>
-<h2 id="flexible&#x8BCD;&#x5178;">Flexible&#x8BCD;&#x5178;</h2>
-<blockquote>
-<p>Flexible&#x8BCD;&#x5178;&#x63D0;&#x4F9B;&#x7528;&#x6237;&#x7075;&#x6D3B;&#x7684;&#x5F39;&#x6027;&#x9009;&#x62E9;&#x4ED6;&#x4EEC;&#x81EA;&#x5DF1;&#x5B9A;&#x5236;&#x7684;&#x8F93;&#x5165;&#x548C;&#x4E00;&#x4E2A;&#x5916;&#x90E8;&#x8BCD;&#x5178;&#x3002;&#x4F8B;&#x5982;&#xFF0C;&#x7528;&#x6237;&#x53EF;&#x80FD;&#x60F3;&#x5C06;&#x6587;&#x672C;&#x7684;&#x8BCD;&#x8BED;&#x66FF;&#x6362;&#x6210;&#x4ED6;&#x4EEC;&#x7684;&#x57FA;&#x672C;&#x5F62;&#x5F0F;(&#x8FD9;&#x662F;&#x4E00;&#x79CD;&#x5F62;&#x6001;&#x5B66;&#x5206;&#x6790;&#x4EEA;&#x7684;&#x8F93;&#x51FA;)&#x6216;&#x5728;&#x8FD0;&#x884C;&#x8BCD;&#x5178;&#x4E4B;&#x524D;&#x5206;&#x5272;&#x4E2D;&#x6587;&#x6587;&#x672C;(&#x7528;&#x4E2D;&#x6587;Tokeniser)&#x3002;
-The Flexible &#x8BCD;&#x5178; performs lookup over a document based on the values of an arbitrary feature of an arbitrary annotation type, by using an externally provided &#x8BCD;&#x5178;.&#x4F7F;&#x7528;&#x5916;&#x90E8;&#x8BCD;&#x5178;&#x662F;&#x5F88;&#x91CD;&#x8981;&#x7684;&#xFF0C;&#x8FD9;&#x5141;&#x8BB8;&#x4F7F;&#x7528;&#x4EFB;&#x4F55;&#x7C7B;&#x578B;&#x7684;&#x8BCD;&#x5178;(&#x4F8B;&#x5982;&#x672C;&#x4F53;&#x8BCD;&#x5178;)&#x3002;</p>
-</blockquote>
-<h2 id="&#x8BCD;&#x5178;&#x5217;&#x8868;collection">&#x8BCD;&#x5178;&#x5217;&#x8868;collection</h2>
-<blockquote>
-<p>&#x8BCD;&#x5178;&#x5217;&#x8868;collection&#x76F4;&#x63A5;&#x4ECE;&#x4E00;&#x7EC4;&#x6807;&#x6CE8;&#x7684;&#x8BAD;&#x7EC3;&#x6587;&#x672C;&#x6536;&#x96C6;&#x5B9E;&#x4F53;&#x4E8B;&#x4EF6;&#xFF0C;&#x6784;&#x6210;&#x6709;&#x5B9E;&#x4F53;&#x7684;&#x8BCD;&#x5178;&#x5217;&#x8868;&#x3002;&#x5B9E;&#x4F53;&#x7C7B;&#x578B;&#x548C;&#x8BCD;&#x5178;&#x5217;&#x8868;&#x7684;&#x7ED3;&#x6784;&#x662F;&#x7531;&#x7528;&#x6237;&#x5B9A;&#x4E49;&#x7684;&#x3002;&#x4E00;&#x65E6;&#x5217;&#x8868;collection&#xFF0C;&#x4E00;&#x4E2A;&#x8BED;&#x4E49;&#x8BED;&#x6CD5;&#x7528;&#x4E8E;&#x5BFB;&#x627E;&#x65B0;&#x6587;&#x672C;&#x76F8;&#x540C;&#x7684;&#x5B9E;&#x4F53;&#x3002;
-&#x5982;&#x679C;&#x6CA1;&#x6709;&#x5217;&#x8868;&#x5B58;&#x5728;&#xFF0C;&#x5BF9;&#x4E8E;&#x6BCF;&#x4E2A;&#x6807;&#x6CE8;&#x7C7B;&#x578B;&#x8981;&#x5148;&#x521B;&#x5EFA;&#x4E00;&#x4E2A;&#x7A7A;&#x5217;&#x8868;&#x3002;&#x5904;&#x7406;&#x8D44;&#x6E90;&#x8FD0;&#x884C;&#x524D;&#xFF0C;&#x5217;&#x8868;&#x96C6;&#x5FC5;&#x987B;&#x52A0;&#x8F7D;&#x5230;GATE&#x3002;&#x5982;&#x679C;&#x5DF2;&#x6709;&#x5217;&#x8868;&#x5B58;&#x5728;&#xFF0C;&#x5217;&#x8868;&#x53EA;&#x662F;&#x7B80;&#x5355;&#x7684;&#x589E;&#x52A0;&#x4EFB;&#x4F55;&#x65B0;&#x5B9E;&#x4F53;&#x3002;&#x5217;&#x8868;collection&#x53EA;&#x6536;&#x96C6;&#x6BCF;&#x4E2A;&#x5B9E;&#x4F53;&#x7684;&#x4E00;&#x4E2A;&#x4E8B;&#x4EF6;&#xFF1A;&#x5728;&#x6DFB;&#x52A0;&#x65B0;&#x7684;&#x4E4B;&#x524D;&#x8981;&#x5148;&#x68C0;&#x67E5;&#x5B9E;&#x4F53;&#x5DF2;&#x7ECF;&#x4E0D;&#x5B58;&#x5728;&#x3002;</p>
-</blockquote>
-<h2 id="ontoroot&#x8BCD;&#x5178;">OntoRoot&#x8BCD;&#x5178;</h2>
-<p>OntoRoot&#x8BCD;&#x5178;&#x662F;&#x4E00;&#x79CD;&#x52A8;&#x6001;&#x521B;&#x5EFA;&#x7684;&#x8BCD;&#x5178;&#xFF0C;&#x5373;&#x7ED3;&#x5408;&#x5176;&#x4ED6;&#x5C11;&#x91CF;&#x7684;&#x901A;&#x7528;Gate&#x8D44;&#x6E90;&#xFF0C;&#x5BF9;&#x4E8E;&#x7ED9;&#x5B9A;&#x7684;&#x672C;&#x4F53;&#x7684;&#x5185;&#x5BB9;&#x4EA7;&#x751F;&#x57FA;&#x4E8E;&#x672C;&#x4F53;&#x7684;&#x6807;&#x6CE8;&#x3002;&#x8FD9;&#x4E2A;&#x8BCD;&#x5178;&#x662F;&#x201C;Gazetteer_Ontology_Based&#x201D;&#x63D2;&#x4EF6;&#x7684;&#x4E00;&#x90E8;&#x5206;&#xFF0C;&#x5DF2;&#x5F00;&#x53D1;&#x6210;&#x4E3A;TAO&#x9879;&#x76EE;&#x7684;&#x4E00;&#x90E8;&#x5206;&#x3002;</p>
-<h2 id="&#x5927;&#x578B;kb&#x8BCD;&#x5178;">&#x5927;&#x578B;KB&#x8BCD;&#x5178;</h2>
-<blockquote>
-<p>&#x5927;&#x578B;KB &#x8BCD;&#x5178;&#x4E3A;ontology-aware&#x81EA;&#x7136;&#x8BED;&#x8A00;&#x5904;&#x7406;&#x63D0;&#x4F9B;&#x652F;&#x6301;&#x3002;&#x4F60;&#x53EF;&#x4EE5;&#x4ECE;RDF&#x88C5;&#x8F7D;&#x4EFB;&#x4F55;&#x672C;&#x4F53;&#xFF0C;&#x7136;&#x540E;&#x4F7F;&#x7528;&#x8BCD;&#x5178;&#x83B7;&#x5F97;lookup&#x6807;&#x6CE8;&#xFF0C;&#x6807;&#x6CE8;&#x6709;&#x5B9E;&#x4F8B;&#x548C;&#x7C7B;URI&#x3002;<br>
-&#x5927;&#x578B;KB&#x8BCD;&#x5178;&#x4F5C;&#x4E3A;&#x63D2;&#x4EF6;&#x8BCD;&#x5178; LKB&#x5B58;&#x5728;&#x3002;<br>
-&#x5F53;&#x524D;&#x7248;&#x672C;&#x7684;&#x5927;&#x578B;KB &#x8BCD;&#x5178;&#x4E0D;&#x4F7F;&#x7528;GATE&#x672C;&#x4F53;&#x8BED;&#x8A00;&#x8D44;&#x6E90;&#x3002;&#x76F8;&#x53CD;&#xFF0C;&#x5B83;&#x4F7F;&#x7528;&#x81EA;&#x5DF1;&#x7684;&#x539F;&#x7406;&#x53BB;&#x52A0;&#x8F7D;&#x5904;&#x7406;&#x672C;&#x4F53;&#x3002;&#x5F53;&#x524D;&#x7248;&#x672C;&#x5728;&#x4E0D;&#x4E45;&#x7684;&#x672A;&#x6765;&#x53EF;&#x80FD;&#x4F1A;&#x663E;&#x8457;&#x6539;&#x53D8;&#x3002;
-&#x5927;&#x578B;KB &#x8BCD;&#x5178;&#x662F;&#x4ECE;&#x8BED;&#x4E49;&#x641C;&#x7D22;&#x5E73;&#x53F0;Ontotext KIM&#x4E2D;&#x7684;&#x4E00;&#x4E2A;&#x7EC4;&#x4EF6;&#x5B66;&#x4E60;&#x8D77;&#x6765;&#x7684;&#x3002;&#x8FD9;&#x8BCD;&#x5178;&#x662F;&#x7531;KIM&#x53D1;&#x5C55;&#x56E2;&#x961F;&#x5F00;&#x53D1;&#x7684;&#xFF08;&#x89C1;http://nmwiki.ontotext.com/lkb_Gazetteer/team-list.html&#xFF09;&#x3002;&#x5728;kim&#x540D;&#x79F0;&#x5DE6;&#x8FB9;&#x4F60;&#x53EF;&#x4EE5;&#x627E;&#x5230;&#x6E90;&#x4EE3;&#x7801;&#x3001;&#x8D44;&#x6599;/&#x6587;&#x4EF6;&#x7BA1;&#x7406;&#x6216;&#x6E90;&#x6587;&#x4EF6;&#x3002;</p>
-</blockquote>
-<h1 id="jape">JAPE</h1>
-<blockquote>
-<p>JAPE &#x7684;&#x5168;&#x79F0;&#x662F; a Java Annotation Patterns Engine&#xFF0C;Java &#x6807;&#x6CE8;&#x6A21;&#x5F0F;&#x5F15;&#x64CE;&#xFF0C;
-JAPE &#x63D0;&#x4F9B;&#x4E86;&#x57FA;&#x4E8E;&#x6B63;&#x89C4;&#x8868;&#x8FBE;&#x5F0F;&#x7684;&#x6807;&#x6CE8;&#x6709;&#x9650;&#x72B6;&#x6001;&#x8F6C;&#x6362;&#x3002;JAPE &#x662F;&#x901A;&#x7528;&#x6A21;&#x5F0F;&#x5B9A;&#x4E49;&#x8BED;&#x8A00; CPSL(Common Pattern Specification Language1)&#x7684;&#x4E00;&#x4E2A;&#x7248;&#x672C;&#x3002;&#x6211;&#x4EEC;&#x901A;&#x8FC7; JAPE &#x8BED;&#x8A00;&#x53EF;&#x4EE5;&#x7F16;&#x5199; GATE &#x80FD;&#x591F;&#x8BC6;&#x522B;&#x7684;&#x89C4;&#x5219;&#xFF0C;&#x901A;&#x8FC7;&#x8FD9;&#x4E9B;&#x89C4;&#x5219;&#x6765;&#x8FDB;&#x884C;&#x8F83;&#x51C6;&#x786E;&#x7684;&#x547D;&#x540D;&#x5B9E;&#x4F53;&#x8BC6;&#x522B;&#x3002;</p>
-</blockquote>
-<h2 id="grammer-jape">grammer-jape</h2>
-<blockquote>
-<p>&#x5165;&#x53E3;&#xFF1A;base.jape<br>
-MultiPhase:<br>
-Phases: &#x5217;&#x8868;<br>
-jape&#xFF1A;:*.jape<br>
-&#x793A;&#x4F8B;&#xFF1A;</p>
-</blockquote>
-<p><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//&#x6CBF;&#x897F;&#x90E8;&#x5E72;&#x7EBF;&#x7531;&#x5357;&#x5411;&#x5317;&#x884C;&#x9A76;&#x81F3;&#x516D;&#x5408;&#x533A;&#x7A0B;&#x6865;&#x8857;&#x9053;&#x8377;&#x82B1;&#x793E;&#x533A;&#x65B9;&#x6865;&#x6CB3;&#x6865;&#x8DEF;&#x6BB5;</span></span><br><span class="line">Phase: spacepattern_path</span><br><span class="line">Input: Lookup  AtomToken Token Location</span><br><span class="line">Options: control = appelt  debug = <span class="literal">true</span></span><br><span class="line">Rule: path1</span><br><span class="line">Priority: <span class="number">4120</span></span><br><span class="line">(</span><br><span class="line">{Lookup.majorType == sp_path,Lookup.minorType==prefix}</span><br><span class="line">(({AtomToken})[<span class="number">1</span>,<span class="number">30</span>]):context</span><br><span class="line">{Lookup.majorType == sp_path,Lookup.minorType==suffix}</span><br><span class="line">):path</span><br><span class="line">--&gt;</span><br><span class="line">:path.Path = { type = Path, context = :context@string }</span><br></pre></td></tr></table></figure></p>
-<p>relationship&#x5982;&#x4F55;&#x6784;&#x5EFA;&#xFF1F;
-annotation&#x548C;entity&#x7684;&#x5173;&#x7CFB;&#x5982;&#x4F55;&#x6784;&#x5EFA;</p>
-<h2 id="jape&#x6807;&#x6CE8;&#x7C7B;&#x578B;">JAPE&#x6807;&#x6CE8;&#x7C7B;&#x578B;</h2>
+<h1 id="Gazetteer">Gazetteer</h1><p>词典库（Gazetteer）由一组词典列表组成，列表包含实体名称如城市，组织机构，星期等。列表用于发现文本中包含这些名称的文档和命名实体识别。通常词“词典库”可交替地用于实体列表集合，并利用这些列表发现文本中出现这些名称的处理资源。<br>当词典库PR在一个文件上运行时，每个匹配的文本字符串创建一个标注类型Lookup。词典库通常不依靠Token或任何其它标注，而是基于文档的字词内容发现相匹配的字符串。这意味着一个条目可以跨越多个词，也可以把开始和结束作为一个词。<br>如果一个词典库正工作的文本恰好满足词语边界，则词典发现词语边界的方法不同于GATE tokeniser发现词语边界的方法。如果文本中所有词典实体匹配好了，则创建一个Lookup标注。<br>词典库实体怎样匹配文本的细节取决于词典库处理资源及其参数。  </p>
+<h2 id="Gazetteer生效机制">Gazetteer生效机制</h2><p>入口:list.def<br>gazetteer：*.lst<br>格式：<code>gazetteerFileName:marjorType:minorType</code>  </p>
+<h2 id="ANNIE词典库">ANNIE词典库</h2><p>ANNIE词典库是由ANNIE插件提供的。每个独立的词典都是一个普通的文本文件，每行一个条目。</p>
+<h2 id="GAZE词典库">GAZE词典库</h2><p>Gaze是一个编辑词典列表，定义词典和把词典映射到本体的工具。即适用于Plain/Linear 词典（默认）、Hash词典库也适用于Ontology-enabled 词典 (Onto词典)。每当执行保存操作时，重新初始化词典PR关联的视图。注意GAZE不生产规模非常大的词典 (我们假设不浏览超过4000实体，不拷贝超过10000个实体)。</p>
+<h2 id="Onto词典">Onto词典</h2><p>Onto词典或者Hierarchical词典，是一个处理资源，能将特定词典列表的实体加入到GATE本体语言资源的类中。Onto词典指定类而不是主要或次要类型，意识到列表和类ID之间的映射关系。Gaze可视资源能显示列表，本体映射和本体类等级，也提供编辑这些内容的方法。</p>
+<h2 id="Hash词典">Hash词典</h2><p>Hash词典是<a href="http://www.ontotext.com/">OntoText Lab</a>完成的一个词典。它的实现基于几个java.util.HashMap对象简单的查找，并由Atanas Kiryakov的奇妙想法——在HashMaps的搜寻快于在有限状态机的搜寻而得到启发。Hash词典处理资源是ANNIE插件的一部分。<br>词典处理资源用以下方式实现：每个短语，即每一个列表条目被分割成几个部分，各部分取决于位于它们之间的空格，例如，短语：“form is emptiness”有三个部分：“form”， “is”和“emptiness”。也有一个HashMaps列表：mapsList和列表中最长的短语有同样多的元素。所以第一部分短语放在第一个映射。第一部分+空格+第二部分被放置在第二个映射等。完整的词组是放置在适当的映射，并引用一个查找对象是相连。</p>
+<h2 id="Flexible词典">Flexible词典</h2><p>Flexible词典提供用户灵活的弹性选择他们自己定制的输入和一个外部词典。例如，用户可能想将文本的词语替换成他们的基本形式(这是一种形态学分析仪的输出)或在运行词典之前分割中文文本(用中文Tokeniser)。<br>The Flexible 词典 performs lookup over a document based on the values of an arbitrary feature of an arbitrary annotation type, by using an externally provided 词典.使用外部词典是很重要的，这允许使用任何类型的词典(例如本体词典)。</p>
+<h2 id="词典列表collection">词典列表collection</h2><p>词典列表collection直接从一组标注的训练文本收集实体事件，构成有实体的词典列表。实体类型和词典列表的结构是由用户定义的。一旦列表collection，一个语义语法用于寻找新文本相同的实体。<br>如果没有列表存在，对于每个标注类型要先创建一个空列表。处理资源运行前，列表集必须加载到GATE。如果已有列表存在，列表只是简单的增加任何新实体。列表collection只收集每个实体的一个事件：在添加新的之前要先检查实体已经不存在。</p>
+<h2 id="OntoRoot词典">OntoRoot词典</h2><p>OntoRoot词典是一种动态创建的词典，即结合其他少量的通用Gate资源，对于给定的本体的内容产生基于本体的标注。这个词典是“Gazetteer_Ontology_Based”插件的一部分，已开发成为TAO项目的一部分。</p>
+<h2 id="大型KB词典">大型KB词典</h2><p>大型KB 词典为ontology-aware自然语言处理提供支持。你可以从RDF装载任何本体，然后使用词典获得lookup标注，标注有实例和类URI。<br>大型KB词典作为插件词典 LKB存在。<br>当前版本的大型KB  词典不使用GATE本体语言资源。相反，它使用自己的原理去加载处理本体。当前版本在不久的未来可能会显著改变。<br>大型KB 词典是从语义搜索平台Ontotext KIM中的一个组件学习起来的。这词典是由KIM发展团队开发的（见<a href="http://nmwiki.ontotext.com/lkb_Gazetteer/team-list.html）。在kim名称左边你可以找到源代码、资料/文件管理或源文件。">http://nmwiki.ontotext.com/lkb_Gazetteer/team-list.html）。在kim名称左边你可以找到源代码、资料/文件管理或源文件。</a> </p>
+<h1 id="JAPE">JAPE</h1><p>JAPE 的全称是 a Java Annotation Patterns Engine，Java 标注模式引擎，<br>JAPE 提供了基于正规表达式的标注有限状态转换。JAPE 是通用模式定义语言 CPSL(Common Pattern Specification Language1)的一个版本。我们通过 JAPE 语言可以编写 GATE 能够识别的规则，通过这些规则来进行较准确的命名实体识别。 </p>
+<h2 id="grammer-jape">grammer-jape</h2><p>入口：base.jape<br>MultiPhase:<br>Phases: 列表<br>jape：:*.jape<br>示例：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//沿西部干线由南向北行驶至六合区程桥街道荷花社区方桥河桥路段</span></span><br><span class="line">Phase: spacepattern_path</span><br><span class="line">Input: Lookup  AtomToken Token Location</span><br><span class="line">Options: control = appelt  debug = <span class="literal">true</span></span><br><span class="line">Rule: path1</span><br><span class="line">Priority: <span class="number">4120</span></span><br><span class="line">(</span><br><span class="line">&#123;Lookup.majorType == sp_path,Lookup.minorType==prefix&#125;</span><br><span class="line">((&#123;AtomToken&#125;)[<span class="number">1</span>,<span class="number">30</span>]):context</span><br><span class="line">&#123;Lookup.majorType == sp_path,Lookup.minorType==suffix&#125;</span><br><span class="line">):path</span><br><span class="line">--&gt;</span><br><span class="line">:path.Path = &#123; type = Path, context = :context@string &#125;</span><br></pre></td></tr></table></figure>
+<p>relationship如何构建？<br>annotation和entity的关系如何构建</p>
+<h2 id="JAPE标注类型">JAPE标注类型</h2><ul>
+<li>Lookup：Annie默认标注结果  </li>
+<li>Token：Lang_Chinese，最长分词<br>用途：数字，附号标注  </li>
+<li><p>IKAToken：IKanalyzer分词标注—两两分词  </p>
 <ul>
-<li>
-<p>Lookup&#xFF1A;Annie&#x9ED8;&#x8BA4;&#x6807;&#x6CE8;&#x7ED3;&#x679C;</p>
+<li>采用了特有的”正向迭代最细粒度切分算法”，具有80万字/秒的高速处理能力</li>
+<li>采用了多子处理器分析模式，支持：英文字母（IP地址、Email、URL）、数字（日期，常用中文数量词，罗马数字，科学计数法），中文词汇（姓名、地名处理）等分词处理。</li>
+<li>优化的词典存储，更小的内存占用。支持用户词典扩展定义</li>
+<li>针对Lucene全文检索优化的查询分析器IKQueryParser；采用歧义分析算法优化查询关键字的搜索排列组合，能极大的提高Lucene检索的命中率。</li>
+</ul>
 </li>
-<li>
-<p>Token&#xFF1A;Lang_Chinese&#xFF0C;&#x6700;&#x957F;&#x5206;&#x8BCD;<br>
-&#x7528;&#x9014;&#xFF1A;&#x6570;&#x5B57;&#xFF0C;&#x9644;&#x53F7;&#x6807;&#x6CE8;</p>
+<li><p>AtomToken：原子分词，最细颗粒度分词  </p>
 </li>
-<li>
-<p>IKAToken&#xFF1A;IKanalyzer&#x5206;&#x8BCD;&#x6807;&#x6CE8;---&#x4E24;&#x4E24;&#x5206;&#x8BCD;</p>
+</ul>
+<h2 id="Tokeniser_Rules">Tokeniser Rules</h2><p>Tokeniser Rules标注解析器。根据数字、标点符号和单词将文本分解成不同的Token。目的是将标记解析效率最大化，并通过语法规则（Grammar rules）减轻负担以此提高标记解析工作的灵活性。<br>JAPE规则包括两部分，LHS和RHS，与LHS匹配上的标注集将会按照RHS的操作执行。</p>
 <ul>
-<li>&#x91C7;&#x7528;&#x4E86;&#x7279;&#x6709;&#x7684;&quot;&#x6B63;&#x5411;&#x8FED;&#x4EE3;&#x6700;&#x7EC6;&#x7C92;&#x5EA6;&#x5207;&#x5206;&#x7B97;&#x6CD5;&quot;&#xFF0C;&#x5177;&#x6709;80&#x4E07;&#x5B57;/&#x79D2;&#x7684;&#x9AD8;&#x901F;&#x5904;&#x7406;&#x80FD;&#x529B;</li>
-<li>&#x91C7;&#x7528;&#x4E86;&#x591A;&#x5B50;&#x5904;&#x7406;&#x5668;&#x5206;&#x6790;&#x6A21;&#x5F0F;&#xFF0C;&#x652F;&#x6301;&#xFF1A;&#x82F1;&#x6587;&#x5B57;&#x6BCD;&#xFF08;IP&#x5730;&#x5740;&#x3001;Email&#x3001;URL&#xFF09;&#x3001;&#x6570;&#x5B57;&#xFF08;&#x65E5;&#x671F;&#xFF0C;&#x5E38;&#x7528;&#x4E2D;&#x6587;&#x6570;&#x91CF;&#x8BCD;&#xFF0C;&#x7F57;&#x9A6C;&#x6570;&#x5B57;&#xFF0C;&#x79D1;&#x5B66;&#x8BA1;&#x6570;&#x6CD5;&#xFF09;&#xFF0C;&#x4E2D;&#x6587;&#x8BCD;&#x6C47;&#xFF08;&#x59D3;&#x540D;&#x3001;&#x5730;&#x540D;&#x5904;&#x7406;&#xFF09;&#x7B49;&#x5206;&#x8BCD;&#x5904;&#x7406;&#x3002;</li>
-<li>&#x4F18;&#x5316;&#x7684;&#x8BCD;&#x5178;&#x5B58;&#x50A8;&#xFF0C;&#x66F4;&#x5C0F;&#x7684;&#x5185;&#x5B58;&#x5360;&#x7528;&#x3002;&#x652F;&#x6301;&#x7528;&#x6237;&#x8BCD;&#x5178;&#x6269;&#x5C55;&#x5B9A;&#x4E49;</li>
-<li>&#x9488;&#x5BF9;Lucene&#x5168;&#x6587;&#x68C0;&#x7D22;&#x4F18;&#x5316;&#x7684;&#x67E5;&#x8BE2;&#x5206;&#x6790;&#x5668;IKQueryParser&#xFF1B;&#x91C7;&#x7528;&#x6B67;&#x4E49;&#x5206;&#x6790;&#x7B97;&#x6CD5;&#x4F18;&#x5316;&#x67E5;&#x8BE2;&#x5173;&#x952E;&#x5B57;&#x7684;&#x641C;&#x7D22;&#x6392;&#x5217;&#x7EC4;&#x5408;&#xFF0C;&#x80FD;&#x6781;&#x5927;&#x7684;&#x63D0;&#x9AD8;Lucene&#x68C0;&#x7D22;&#x7684;&#x547D;&#x4E2D;&#x7387;&#x3002;</li>
-</ul>
-</li>
-<li>
-<p>AtomToken&#xFF1A;&#x539F;&#x5B50;&#x5206;&#x8BCD;&#xFF0C;&#x6700;&#x7EC6;&#x9897;&#x7C92;&#x5EA6;&#x5206;&#x8BCD;</p>
-</li>
-</ul>
-<h2 id="tokeniser-rules">Tokeniser Rules</h2>
-<p>Tokeniser Rules&#x6807;&#x6CE8;&#x89E3;&#x6790;&#x5668;&#x3002;&#x6839;&#x636E;&#x6570;&#x5B57;&#x3001;&#x6807;&#x70B9;&#x7B26;&#x53F7;&#x548C;&#x5355;&#x8BCD;&#x5C06;&#x6587;&#x672C;&#x5206;&#x89E3;&#x6210;&#x4E0D;&#x540C;&#x7684;Token&#x3002;&#x76EE;&#x7684;&#x662F;&#x5C06;&#x6807;&#x8BB0;&#x89E3;&#x6790;&#x6548;&#x7387;&#x6700;&#x5927;&#x5316;&#xFF0C;&#x5E76;&#x901A;&#x8FC7;&#x8BED;&#x6CD5;&#x89C4;&#x5219;&#xFF08;Grammar rules&#xFF09;&#x51CF;&#x8F7B;&#x8D1F;&#x62C5;&#x4EE5;&#x6B64;&#x63D0;&#x9AD8;&#x6807;&#x8BB0;&#x89E3;&#x6790;&#x5DE5;&#x4F5C;&#x7684;&#x7075;&#x6D3B;&#x6027;&#x3002;<br>
-JAPE&#x89C4;&#x5219;&#x5305;&#x62EC;&#x4E24;&#x90E8;&#x5206;&#xFF0C;LHS&#x548C;RHS&#xFF0C;&#x4E0E;LHS&#x5339;&#x914D;&#x4E0A;&#x7684;&#x6807;&#x6CE8;&#x96C6;&#x5C06;&#x4F1A;&#x6309;&#x7167;RHS&#x7684;&#x64CD;&#x4F5C;&#x6267;&#x884C;&#x3002;</p>
+<li><p>LHS(left hand sode)包含正规表达式操作符（比如*, ?, +）的标注模式</p>
 <ul>
-<li>
-<p>LHS(left hand sode)&#x5305;&#x542B;&#x6B63;&#x89C4;&#x8868;&#x8FBE;&#x5F0F;&#x64CD;&#x4F5C;&#x7B26;&#xFF08;&#x6BD4;&#x5982;*, ?, +&#xFF09;&#x7684;&#x6807;&#x6CE8;&#x6A21;&#x5F0F;</p>
-<ul>
-<li>|&#xFF1A;&#x6216;&#x8005;</li>
-<li>*&#xFF1A;&#x96F6;&#x6B21;&#x6216;&#x8005;&#x591A;&#x6B21;&#x53D1;&#x751F;</li>
-<li>?&#xFF1A;&#x96F6;&#x6B21;&#x6216;&#x8005;&#x4E00;&#x6B21;&#x53D1;&#x751F;</li>
-<li>+&#xFF1A;&#x4E00;&#x6B21;&#x6216;&#x8005;&#x591A;&#x6B21;&#x53D1;&#x751F;</li>
+<li>|：或者</li>
+<li>*：零次或者多次发生</li>
+<li>?：零次或者一次发生</li>
+<li>+：一次或者多次发生</li>
 </ul>
 </li>
-<li>
-<p>RHS(right hand side)&#x5305;&#x542B;&#x4E86;&#x6807;&#x6CE8;&#x96C6;&#x64CD;&#x4F5C;&#x63CF;&#x8FF0;&#xFF0C;&#x683C;&#x5F0F;&#xFF1A;<code>{LHS} &gt; {Annotation type};{attribute1}={value1};...;{attributen}={value n}</code></p>
+<li><p>RHS(right hand side)包含了标注集操作描述，格式：<code>{LHS} &gt; {Annotation type};{attribute1}={value1};...;{attributen}={value n}</code> </p>
 </li>
 </ul>
-<h2 id="token-types">Token Types</h2>
-<p>Word&#x3001;Number&#x3001;Symbol&#x3001;Punctuation&#x3001;SpaceToken</p>
-<h2 id="jape&#x4F18;&#x5148;&#x7EA7;&#x63A7;&#x5236;&#x7C7B;&#x578B;">JAPE&#x4F18;&#x5148;&#x7EA7;&#x63A7;&#x5236;&#x7C7B;&#x578B;</h2>
-<ul>
-<li>Brill:</li>
-<li>All:</li>
-<li>First:</li>
-<li>Once:</li>
-<li>Appelt:</li>
+<h2 id="Token_Types">Token Types</h2><p>Word、Number、Symbol、Punctuation、SpaceToken</p>
+<h2 id="JAPE优先级控制类型">JAPE优先级控制类型</h2><ul>
+<li>Brill:  </li>
+<li>All:  </li>
+<li>First:  </li>
+<li>Once:  </li>
+<li>Appelt:  </li>
 </ul>
-<h2 id="jape&#x9AD8;&#x4EAE;&#x63D2;&#x4EF6;">JAPE&#x9AD8;&#x4EAE;&#x63D2;&#x4EF6;</h2>
-<p>http://joenoodles.com/2012/10/jape-syntax-highlighting</p>
-<h1 id="relationshiotype&#x7684;&#x5B9A;&#x4E49;&#x539F;&#x7406;">relationshioType&#x7684;&#x5B9A;&#x4E49;&#x539F;&#x7406;</h1>
-<p>sentence&#xFF08;&#x6709;&#x9650;&#x72B6;&#x6001;&#x673A;&#xFF09;&#x5305;&#x542B;&#x5173;&#x7CFB;&#xFF0C;&#x6839;&#x636E;&#x5B9E;&#x9645;&#x60C5;&#x51B5;&#x5B9A;&#x4E49;
-Temporal+SpacePattern(Region+Path)+person</p>
-<p>#&#x95EE;&#x9898;
-gate&#x52A0;&#x8F7D;gapp&#x62A5;&#x9519;&#xFF1A;class not found</p></span>
+<h2 id="JAPE高亮插件">JAPE高亮插件</h2><p><a href="http://joenoodles.com/2012/10/jape-syntax-highlighting">http://joenoodles.com/2012/10/jape-syntax-highlighting</a></p>
+<h1 id="relationshioType的定义原理">relationshioType的定义原理</h1><p>sentence（有限状态机）包含关系，根据实际情况定义<br>Temporal+SpacePattern(Region+Path)+person</p>
+<p>#问题<br>gate加载gapp报错：class not found</p>
+</span>
       
     </div>
 
@@ -416,7 +388,8 @@ gate&#x52A0;&#x8F7D;gapp&#x62A5;&#x9519;&#xFF1A;class not found</p></span>
         
           <div class="comments" id="comments">
             
-              <div class="ds-thread" data-thread-key="2015/09/17/GATE中文自然语言处理学习笔记/" data-title="GATE中文自然语言处理学习笔记" data-url="http://geosmart.github.io/2015/09/17/GATE中文自然语言处理学习笔记/">
+              <div class="ds-thread" data-thread-key="2015/09/17/GATE中文自然语言处理学习笔记/"
+                   data-title="GATE中文自然语言处理学习笔记" data-url="http://geosmart.github.io/2015/09/17/GATE中文自然语言处理学习笔记/">
               </div>
             
           </div>
@@ -438,7 +411,7 @@ gate&#x52A0;&#x8F7D;gapp&#x62A5;&#x9519;&#xFF1A;class not found</p></span>
 
       
         <ul class="sidebar-nav motion-element">
-          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
             文章目录
           </li>
           <li class="sidebar-nav-overview" data-target="site-overview">
@@ -449,7 +422,7 @@ gate&#x52A0;&#x8F7D;gapp&#x62A5;&#x9519;&#xFF1A;class not found</p></span>
 
       <section class="site-overview">
         <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
-          <img class="site-author-image" src="https://avatars1.githubusercontent.com/u/3156608?v=3&s=460" alt="geosmart" itemprop="image">
+          <img class="site-author-image" src="https://avatars1.githubusercontent.com/u/3156608?v=3&s=460" alt="geosmart" itemprop="image"/>
           <p class="site-author-name" itemprop="name">geosmart</p>
         </div>
         <p class="site-description motion-element" itemprop="description">追求心智成长，记录技术点滴</p>
@@ -462,10 +435,10 @@ gate&#x52A0;&#x8F7D;gapp&#x62A5;&#x9519;&#xFF1A;class not found</p></span>
           </div>
 
           <div class="site-state-item site-state-categories">
-            
+            <a href="/categories">
               <span class="site-state-item-count">6</span>
               <span class="site-state-item-name">分类</span>
-              
+              </a>
           </div>
 
           <div class="site-state-item site-state-tags">
@@ -505,7 +478,7 @@ gate&#x52A0;&#x8F7D;gapp&#x62A5;&#x9519;&#xFF1A;class not found</p></span>
           <div class="post-toc">
             
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#gate"><span class="nav-number">1.</span> <span class="nav-text">GATE</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#gate资源"><span class="nav-number">1.1.</span> <span class="nav-text">GATE资源：</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#gazetteer"><span class="nav-number">2.</span> <span class="nav-text">Gazetteer</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#gazetteer生效机制"><span class="nav-number">2.1.</span> <span class="nav-text">Gazetteer生效机制</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#annie词典库"><span class="nav-number">2.2.</span> <span class="nav-text">ANNIE词典库</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#gaze词典库"><span class="nav-number">2.3.</span> <span class="nav-text">GAZE词典库</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#onto词典"><span class="nav-number">2.4.</span> <span class="nav-text">Onto词典</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#hash词典"><span class="nav-number">2.5.</span> <span class="nav-text">Hash词典</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#flexible词典"><span class="nav-number">2.6.</span> <span class="nav-text">Flexible词典</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#词典列表collection"><span class="nav-number">2.7.</span> <span class="nav-text">词典列表collection</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#ontoroot词典"><span class="nav-number">2.8.</span> <span class="nav-text">OntoRoot词典</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#大型kb词典"><span class="nav-number">2.9.</span> <span class="nav-text">大型KB词典</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#jape"><span class="nav-number">3.</span> <span class="nav-text">JAPE</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#grammer-jape"><span class="nav-number">3.1.</span> <span class="nav-text">grammer-jape</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#jape标注类型"><span class="nav-number">3.2.</span> <span class="nav-text">JAPE标注类型</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#tokeniser-rules"><span class="nav-number">3.3.</span> <span class="nav-text">Tokeniser Rules</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#token-types"><span class="nav-number">3.4.</span> <span class="nav-text">Token Types</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#jape优先级控制类型"><span class="nav-number">3.5.</span> <span class="nav-text">JAPE优先级控制类型</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#jape高亮插件"><span class="nav-number">3.6.</span> <span class="nav-text">JAPE高亮插件</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#relationshiotype的定义原理"><span class="nav-number">4.</span> <span class="nav-text">relationshioType的定义原理</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#GATE"><span class="nav-number">1.</span> <span class="nav-text">GATE</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#GATE资源："><span class="nav-number">1.1.</span> <span class="nav-text">GATE资源：</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Gazetteer"><span class="nav-number">2.</span> <span class="nav-text">Gazetteer</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#Gazetteer生效机制"><span class="nav-number">2.1.</span> <span class="nav-text">Gazetteer生效机制</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#ANNIE词典库"><span class="nav-number">2.2.</span> <span class="nav-text">ANNIE词典库</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#GAZE词典库"><span class="nav-number">2.3.</span> <span class="nav-text">GAZE词典库</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Onto词典"><span class="nav-number">2.4.</span> <span class="nav-text">Onto词典</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Hash词典"><span class="nav-number">2.5.</span> <span class="nav-text">Hash词典</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Flexible词典"><span class="nav-number">2.6.</span> <span class="nav-text">Flexible词典</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#词典列表collection"><span class="nav-number">2.7.</span> <span class="nav-text">词典列表collection</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#OntoRoot词典"><span class="nav-number">2.8.</span> <span class="nav-text">OntoRoot词典</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#大型KB词典"><span class="nav-number">2.9.</span> <span class="nav-text">大型KB词典</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#JAPE"><span class="nav-number">3.</span> <span class="nav-text">JAPE</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#grammer-jape"><span class="nav-number">3.1.</span> <span class="nav-text">grammer-jape</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#JAPE标注类型"><span class="nav-number">3.2.</span> <span class="nav-text">JAPE标注类型</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Tokeniser_Rules"><span class="nav-number">3.3.</span> <span class="nav-text">Tokeniser Rules</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Token_Types"><span class="nav-number">3.4.</span> <span class="nav-text">Token Types</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#JAPE优先级控制类型"><span class="nav-number">3.5.</span> <span class="nav-text">JAPE优先级控制类型</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#JAPE高亮插件"><span class="nav-number">3.6.</span> <span class="nav-text">JAPE高亮插件</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#relationshioType的定义原理"><span class="nav-number">4.</span> <span class="nav-text">relationshioType的定义原理</span></a></li></ol></div>
             
           </div>
           <div class="post-toc-indicator-bottom post-toc-indicator"></div>
@@ -519,7 +492,7 @@ gate&#x52A0;&#x8F7D;gapp&#x62A5;&#x9519;&#xFF1A;class not found</p></span>
     </main>
 
     <footer id="footer" class="footer">
-      <div class="footer-inner"> <div class="copyright">
+      <div class="footer-inner"> <div class="copyright" >
   
   &copy; &nbsp; 
   <span itemprop="copyrightYear">2015</span>

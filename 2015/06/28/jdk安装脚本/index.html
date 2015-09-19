@@ -3,63 +3,93 @@
 <head>
   
 
-<meta charset="UTF-8">
-<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
-<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1">
+<meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
 
 
-<meta http-equiv="Cache-Control" content="no-transform">
-<meta http-equiv="Cache-Control" content="no-siteapp">
-
-
-
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
 
 
 
 
 
-  <link rel="stylesheet" type="text/css" href="/vendors/fancybox/source/jquery.fancybox.css?v=2.1.5">
+
+
+
+  <link rel="stylesheet" type="text/css" href="/vendors/fancybox/source/jquery.fancybox.css?v=2.1.5"/>
 
 
 
 
-<link rel="stylesheet" type="text/css" href="/css/main.css?v=0.4.5.1">
+<link rel="stylesheet" type="text/css" href="/css/main.css?v=0.4.5.1"/>
 
 
-    <meta name="description" content="追求心智成长，记录技术点滴">
-
-
-
-  <meta name="keywords" content="CentOS,J2EE,运维,">
+    <meta name="description" content="追求心智成长，记录技术点滴" />
 
 
 
-  <link rel="alternate" href="/atom.xml" title="Geosmart's Notes" type="application/atom+xml">
+  <meta name="keywords" content="CentOS,J2EE,运维," />
 
 
 
-  <link rel="shorticon icon" type="image/x-icon" href="/favicon.ico?v=0.4.5.1">
+  <link rel="alternate" href="/atom.xml" title="Geosmart's Notes" type="application/atom+xml" />
 
 
-<meta name="description" content="&amp;#x51C6;&amp;#x5907;&amp;#x5185;&amp;#x5BB9;
 
-jdk7 X64&amp;#x5B89;&amp;#x88C5;&amp;#x5305;&amp;#xFF08;&amp;#x5B98;&amp;#x7F51;&amp;#x7248;&amp;#x672C;&amp;#xFF1A;jdk-7u80-linux-x64.tar.gz&amp;#xFF09;
-&amp;#x4E0B;&amp;#x8F7D;&amp;#x540E;&amp;#x5E76;&amp;#x91CD;&amp;#x547D;&amp;#x5">
+  <link rel="shorticon icon" type="image/x-icon" href="/favicon.ico?v=0.4.5.1" />
+
+
+<meta name="description" content="准备内容
+jdk7 X64安装包（官网版本：jdk-7u80-linux-x64.tar.gz）下载后并重命名为jetty.tar.gz
+jdk安装脚本 
+
+安装步骤将文件复制到CentOS后进行安装
+
+CentOS路径：/tmp/jdk
+执行
+
+1234cd /tmp/jdkchmod +x install-jdk.sh sudo ./install-jdk.sh
+
+一路回车即可
+
+#附件 in">
 <meta property="og:type" content="article">
 <meta property="og:title" content="jdk安装脚本">
 <meta property="og:url" content="http://geosmart.github.io/2015/06/28/jdk安装脚本/index.html">
 <meta property="og:site_name" content="Geosmart's Notes">
-<meta property="og:description" content="&amp;#x51C6;&amp;#x5907;&amp;#x5185;&amp;#x5BB9;
+<meta property="og:description" content="准备内容
+jdk7 X64安装包（官网版本：jdk-7u80-linux-x64.tar.gz）下载后并重命名为jetty.tar.gz
+jdk安装脚本 
 
-jdk7 X64&amp;#x5B89;&amp;#x88C5;&amp;#x5305;&amp;#xFF08;&amp;#x5B98;&amp;#x7F51;&amp;#x7248;&amp;#x672C;&amp;#xFF1A;jdk-7u80-linux-x64.tar.gz&amp;#xFF09;
-&amp;#x4E0B;&amp;#x8F7D;&amp;#x540E;&amp;#x5E76;&amp;#x91CD;&amp;#x547D;&amp;#x5">
+安装步骤将文件复制到CentOS后进行安装
+
+CentOS路径：/tmp/jdk
+执行
+
+1234cd /tmp/jdkchmod +x install-jdk.sh sudo ./install-jdk.sh
+
+一路回车即可
+
+#附件 in">
 <meta property="og:updated_time" content="2015-09-07T13:29:38.026Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="jdk安装脚本">
-<meta name="twitter:description" content="&amp;#x51C6;&amp;#x5907;&amp;#x5185;&amp;#x5BB9;
+<meta name="twitter:description" content="准备内容
+jdk7 X64安装包（官网版本：jdk-7u80-linux-x64.tar.gz）下载后并重命名为jetty.tar.gz
+jdk安装脚本 
 
-jdk7 X64&amp;#x5B89;&amp;#x88C5;&amp;#x5305;&amp;#xFF08;&amp;#x5B98;&amp;#x7F51;&amp;#x7248;&amp;#x672C;&amp;#xFF1A;jdk-7u80-linux-x64.tar.gz&amp;#xFF09;
-&amp;#x4E0B;&amp;#x8F7D;&amp;#x540E;&amp;#x5E76;&amp;#x91CD;&amp;#x547D;&amp;#x5">
+安装步骤将文件复制到CentOS后进行安装
+
+CentOS路径：/tmp/jdk
+执行
+
+1234cd /tmp/jdkchmod +x install-jdk.sh sudo ./install-jdk.sh
+
+一路回车即可
+
+#附件 in">
 
 
 <script type="text/javascript" id="hexo.configuration">
@@ -129,7 +159,7 @@ jdk7 X64&amp;#x5B89;&amp;#x88C5;&amp;#x5305;&amp;#xFF08;&amp;#x5B98;&amp;#x7F51;
         
         <li class="menu-item menu-item-home">
           <a href="/" rel="section">
-            <i class="menu-item-icon icon-next-home"></i> <br>
+            <i class="menu-item-icon icon-next-home"></i> <br />
             首页
           </a>
         </li>
@@ -137,7 +167,7 @@ jdk7 X64&amp;#x5B89;&amp;#x88C5;&amp;#x5305;&amp;#xFF08;&amp;#x5B98;&amp;#x7F51;
         
         <li class="menu-item menu-item-archives">
           <a href="/archives" rel="section">
-            <i class="menu-item-icon icon-next-archives"></i> <br>
+            <i class="menu-item-icon icon-next-archives"></i> <br />
             归档
           </a>
         </li>
@@ -145,8 +175,32 @@ jdk7 X64&amp;#x5B89;&amp;#x88C5;&amp;#x5305;&amp;#xFF08;&amp;#x5B98;&amp;#x7F51;
         
         <li class="menu-item menu-item-tags">
           <a href="/tags" rel="section">
-            <i class="menu-item-icon icon-next-tags"></i> <br>
+            <i class="menu-item-icon icon-next-tags"></i> <br />
             标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories" rel="section">
+            <i class="menu-item-icon icon-next-categories"></i> <br />
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about" rel="section">
+            <i class="menu-item-icon icon-next-about"></i> <br />
+            关于
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-commonweal">
+          <a href="/404.html" rel="section">
+            <i class="menu-item-icon icon-next-commonweal"></i> <br />
+            公益404
           </a>
         </li>
       
@@ -161,7 +215,7 @@ jdk7 X64&amp;#x5B89;&amp;#x88C5;&amp;#x5305;&amp;#xFF08;&amp;#x5B98;&amp;#x7F51;
       
   
   <form class="site-search-form">
-    <input type="text" id="st-search-input" class="st-search-input st-default-search-input">
+    <input type="text" id="st-search-input" class="st-search-input st-default-search-input" />
   </form>
 
 
@@ -190,7 +244,7 @@ jdk7 X64&amp;#x5B89;&amp;#x88C5;&amp;#x5305;&amp;#xFF08;&amp;#x5B98;&amp;#x7F51;
   <div id="posts" class="posts-expand">
     
 
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
     <header class="post-header">
 
       
@@ -214,7 +268,7 @@ jdk7 X64&amp;#x5B89;&amp;#x88C5;&amp;#x5305;&amp;#xFF08;&amp;#x5B98;&amp;#x7F51;
         </span>
 
         
-          <span class="post-category">
+          <span class="post-category" >
             &nbsp; | &nbsp; 分类于
             
               <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
@@ -249,34 +303,25 @@ jdk7 X64&amp;#x5B89;&amp;#x88C5;&amp;#x5305;&amp;#xFF08;&amp;#x5B98;&amp;#x7F51;
       
 
       
-        <span itemprop="articleBody"><h2 id="&#x51C6;&#x5907;&#x5185;&#x5BB9;">&#x51C6;&#x5907;&#x5185;&#x5BB9;</h2>
+        <span itemprop="articleBody"><h2 id="准备内容">准备内容</h2><ol>
+<li><a href="http://download.oracle.com/otn-pub/java/jdk/7u80-b15/jdk-7u80-linux-x64.tar.gz">jdk7 X64安装包（官网版本：jdk-7u80-linux-x64.tar.gz）</a><br>下载后并重命名为jetty.tar.gz</li>
+<li><a href="install-jdk.sh">jdk安装脚本</a> </li>
+</ol>
+<h2 id="安装步骤">安装步骤</h2><p>将文件复制到CentOS后进行安装</p>
 <ol>
-<li><a href="http://download.oracle.com/otn-pub/java/jdk/7u80-b15/jdk-7u80-linux-x64.tar.gz">jdk7 X64&#x5B89;&#x88C5;&#x5305;&#xFF08;&#x5B98;&#x7F51;&#x7248;&#x672C;&#xFF1A;jdk-7u80-linux-x64.tar.gz&#xFF09;</a>
-&#x4E0B;&#x8F7D;&#x540E;&#x5E76;&#x91CD;&#x547D;&#x540D;&#x4E3A;jetty.tar.gz</li>
-<li><a href="install-jdk.sh">jdk&#x5B89;&#x88C5;&#x811A;&#x672C;</a></li>
+<li>CentOS路径：/tmp/jdk</li>
+<li>执行</li>
 </ol>
-<h2 id="&#x5B89;&#x88C5;&#x6B65;&#x9AA4;">&#x5B89;&#x88C5;&#x6B65;&#x9AA4;</h2>
-<p>&#x5C06;&#x6587;&#x4EF6;&#x590D;&#x5236;&#x5230;CentOS&#x540E;&#x8FDB;&#x884C;&#x5B89;&#x88C5;</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"><span class="built_in">cd</span> /tmp/jdk</span><br><span class="line">chmod +x install-jdk.sh </span><br><span class="line">sudo ./install-jdk.sh</span><br></pre></td></tr></table></figure>
 <ol>
-<li>CentOS&#x8DEF;&#x5F84;&#xFF1A;/tmp/jdk</li>
-<li>&#x6267;&#x884C;</li>
+<li>一路回车即可</li>
 </ol>
-<p><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"><span class="built_in">cd</span> /tmp/jdk</span><br><span class="line">chmod +x install-jdk.sh </span><br><span class="line">sudo ./install-jdk.sh</span><br></pre></td></tr></table></figure></p>
-<ol start="3">
-<li>&#x4E00;&#x8DEF;&#x56DE;&#x8F66;&#x5373;&#x53EF;</li>
+<p>#附件 install-jdk.sh<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"><span class="shebang">#!/bin/sh</span></span><br><span class="line">BASEDIR=$(<span class="built_in">cd</span> `dirname <span class="variable">$0</span>`; <span class="built_in">pwd</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment">#jdk-7u80-linux-x64</span></span><br><span class="line"><span class="built_in">read</span>  -p <span class="string">"Please select java tar package full path path[/tmp/jdk.tar.gz] "</span> INSTALL_FILE</span><br><span class="line"><span class="keyword">if</span> [ ! <span class="operator">-f</span> <span class="string">"<span class="variable">$INSTALL_FILE</span>"</span> ]; <span class="keyword">then</span></span><br><span class="line">trueINSTALL_FILE=<span class="string">"/tmp/jdk.tar.gz"</span></span><br><span class="line"><span class="keyword">fi</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># Set install path</span></span><br><span class="line"><span class="built_in">read</span>  -p <span class="string">"Please select java install path path[/usr/local/java]: "</span> INSTALL_PATH</span><br><span class="line"><span class="keyword">if</span> [ <span class="string">"<span class="variable">$INSTALL_PATH</span>"</span> = <span class="string">""</span> ]; <span class="keyword">then</span></span><br><span class="line">trueINSTALL_PATH=<span class="string">"/usr/local/java"</span></span><br><span class="line"><span class="keyword">fi</span></span><br><span class="line"><span class="keyword">if</span> [ ! <span class="operator">-d</span> <span class="variable">$INSTALL_PATH</span> ]; <span class="keyword">then</span></span><br><span class="line">    <span class="built_in">echo</span> <span class="string">"mkdir <span class="variable">$INSTALL_PATH</span>"</span></span><br><span class="line">    mkdir -p <span class="variable">$INSTALL_PATH</span></span><br><span class="line"><span class="keyword">fi</span></span><br><span class="line"></span><br><span class="line"><span class="built_in">echo</span> <span class="string">"uncompress <span class="variable">$INSTALL_FILE</span> to <span class="variable">$INSTALL_PATH</span>"</span></span><br><span class="line"><span class="keyword">if</span> [ -w <span class="variable">$INSTALL_PATH</span> ]; <span class="keyword">then</span></span><br><span class="line">  tar -zxvf <span class="variable">$INSTALL_FILE</span> -C <span class="variable">$INSTALL_PATH</span> --strip-components=<span class="number">1</span></span><br><span class="line"><span class="keyword">else</span></span><br><span class="line">  sudo tar -zxvf <span class="variable">$INSTALL_FILE</span> -C <span class="variable">$INSTALL_PATH</span> --strip-components=<span class="number">1</span></span><br><span class="line"><span class="keyword">fi</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="built_in">echo</span> <span class="string">"Setting java environment..."</span></span><br><span class="line"><span class="built_in">echo</span> <span class="string">"export JAVA_HOME=<span class="variable">$INSTALL_PATH</span>"</span> | sudo tee <span class="operator">-a</span> /etc/profile</span><br><span class="line"></span><br><span class="line">JAVA_HOME=<span class="variable">$INSTALL_PATH</span></span><br><span class="line"><span class="comment">#<span class="doctag">FIXME</span></span></span><br><span class="line"><span class="built_in">echo</span> <span class="string">"export CLASSPATH=.:<span class="variable">$JAVA_HOME</span>/lib/tools.jar:<span class="variable">$JAVA_HOME</span>/lib/dt.jar"</span> | sudo tee <span class="operator">-a</span> /etc/profile</span><br><span class="line"><span class="built_in">echo</span> <span class="string">'export PATH=$JAVA_HOME/bin:$PATH'</span> | sudo tee <span class="operator">-a</span> /etc/profile</span><br><span class="line"></span><br><span class="line"><span class="built_in">echo</span> <span class="string">"refresh java environment..."</span></span><br><span class="line"><span class="comment">#<span class="doctag">TODO</span> what does "."  do? the same as "source" command?</span></span><br><span class="line">. /etc/profile </span><br><span class="line"><span class="built_in">source</span> /etc/profile</span><br><span class="line"></span><br><span class="line">java -version</span><br><span class="line"><span class="keyword">if</span> [ <span class="string">"$?"</span> = <span class="string">"0"</span> ]; <span class="keyword">then</span></span><br><span class="line"><span class="built_in">echo</span> <span class="operator">-e</span> <span class="string">"\033[32m Installed, please source /etc/profile or relogin. \033[0m"</span></span><br><span class="line"><span class="keyword">else</span></span><br><span class="line"><span class="built_in">echo</span> <span class="operator">-e</span> <span class="string">"\033[31m Install failed. \033[0m"</span></span><br><span class="line"><span class="keyword">fi</span></span><br><span class="line"></span><br><span class="line"><span class="built_in">unset</span> BASEDIR</span><br><span class="line"><span class="built_in">unset</span> INSTALL_PATH</span><br><span class="line"><span class="built_in">unset</span> INSTALL_FILE</span><br><span class="line"></span><br><span class="line"><span class="built_in">exit</span> <span class="number">0</span></span><br></pre></td></tr></table></figure></p>
+<ol>
+<li>卸载JDK</li>
 </ol>
-<p>#&#x9644;&#x4EF6; install-jdk.sh
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"><span class="shebang">#!/bin/sh</span></span><br><span class="line">BASEDIR=$(<span class="built_in">cd</span> `dirname <span class="variable">$0</span>`; <span class="built_in">pwd</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment">#jdk-7u80-linux-x64</span></span><br><span class="line"><span class="built_in">read</span>  -p <span class="string">&quot;Please select java tar package full path path[/tmp/jdk.tar.gz] &quot;</span> INSTALL_FILE</span><br><span class="line"><span class="keyword">if</span> [ ! <span class="operator">-f</span> <span class="string">&quot;<span class="variable">$INSTALL_FILE</span>&quot;</span> ]; <span class="keyword">then</span></span><br><span class="line">trueINSTALL_FILE=<span class="string">&quot;/tmp/jdk.tar.gz&quot;</span></span><br><span class="line"><span class="keyword">fi</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># Set install path</span></span><br><span class="line"><span class="built_in">read</span>  -p <span class="string">&quot;Please select java install path path[/usr/local/java]: &quot;</span> INSTALL_PATH</span><br><span class="line"><span class="keyword">if</span> [ <span class="string">&quot;<span class="variable">$INSTALL_PATH</span>&quot;</span> = <span class="string">&quot;&quot;</span> ]; <span class="keyword">then</span></span><br><span class="line">trueINSTALL_PATH=<span class="string">&quot;/usr/local/java&quot;</span></span><br><span class="line"><span class="keyword">fi</span></span><br><span class="line"><span class="keyword">if</span> [ ! <span class="operator">-d</span> <span class="variable">$INSTALL_PATH</span> ]; <span class="keyword">then</span></span><br><span class="line">    <span class="built_in">echo</span> <span class="string">&quot;mkdir <span class="variable">$INSTALL_PATH</span>&quot;</span></span><br><span class="line">    mkdir -p <span class="variable">$INSTALL_PATH</span></span><br><span class="line"><span class="keyword">fi</span></span><br><span class="line"></span><br><span class="line"><span class="built_in">echo</span> <span class="string">&quot;uncompress <span class="variable">$INSTALL_FILE</span> to <span class="variable">$INSTALL_PATH</span>&quot;</span></span><br><span class="line"><span class="keyword">if</span> [ -w <span class="variable">$INSTALL_PATH</span> ]; <span class="keyword">then</span></span><br><span class="line">  tar -zxvf <span class="variable">$INSTALL_FILE</span> -C <span class="variable">$INSTALL_PATH</span> --strip-components=<span class="number">1</span></span><br><span class="line"><span class="keyword">else</span></span><br><span class="line">  sudo tar -zxvf <span class="variable">$INSTALL_FILE</span> -C <span class="variable">$INSTALL_PATH</span> --strip-components=<span class="number">1</span></span><br><span class="line"><span class="keyword">fi</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="built_in">echo</span> <span class="string">&quot;Setting java environment...&quot;</span></span><br><span class="line"><span class="built_in">echo</span> <span class="string">&quot;export JAVA_HOME=<span class="variable">$INSTALL_PATH</span>&quot;</span> | sudo tee <span class="operator">-a</span> /etc/profile</span><br><span class="line"></span><br><span class="line">JAVA_HOME=<span class="variable">$INSTALL_PATH</span></span><br><span class="line"><span class="comment">#<span class="doctag">FIXME</span></span></span><br><span class="line"><span class="built_in">echo</span> <span class="string">&quot;export CLASSPATH=.:<span class="variable">$JAVA_HOME</span>/lib/tools.jar:<span class="variable">$JAVA_HOME</span>/lib/dt.jar&quot;</span> | sudo tee <span class="operator">-a</span> /etc/profile</span><br><span class="line"><span class="built_in">echo</span> <span class="string">&apos;export PATH=$JAVA_HOME/bin:$PATH&apos;</span> | sudo tee <span class="operator">-a</span> /etc/profile</span><br><span class="line"></span><br><span class="line"><span class="built_in">echo</span> <span class="string">&quot;refresh java environment...&quot;</span></span><br><span class="line"><span class="comment">#<span class="doctag">TODO</span> what does &quot;.&quot;  do? the same as &quot;source&quot; command?</span></span><br><span class="line">. /etc/profile </span><br><span class="line"><span class="built_in">source</span> /etc/profile</span><br><span class="line"></span><br><span class="line">java -version</span><br><span class="line"><span class="keyword">if</span> [ <span class="string">&quot;$?&quot;</span> = <span class="string">&quot;0&quot;</span> ]; <span class="keyword">then</span></span><br><span class="line"><span class="built_in">echo</span> <span class="operator">-e</span> <span class="string">&quot;\033[32m Installed, please source /etc/profile or relogin. \033[0m&quot;</span></span><br><span class="line"><span class="keyword">else</span></span><br><span class="line"><span class="built_in">echo</span> <span class="operator">-e</span> <span class="string">&quot;\033[31m Install failed. \033[0m&quot;</span></span><br><span class="line"><span class="keyword">fi</span></span><br><span class="line"></span><br><span class="line"><span class="built_in">unset</span> BASEDIR</span><br><span class="line"><span class="built_in">unset</span> INSTALL_PATH</span><br><span class="line"><span class="built_in">unset</span> INSTALL_FILE</span><br><span class="line"></span><br><span class="line"><span class="built_in">exit</span> <span class="number">0</span></span><br></pre></td></tr></table></figure></p>
-<ol start="4">
-<li>&#x5378;&#x8F7D;JDK</li>
-</ol>
-<p><figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">#&#x67E5;&#x770B;&#x7CFB;&#x7EDF;&#x5DF2;&#x5B89;&#x88C5;&#x7684;jdk
-rpm -qa|grep jdk
-java-1.7.0-openjdk-1.7.0.45-2.4.3.3.el6.x86_64
-#&#x5378;&#x8F7D;&#x6307;&#x5B9A;&#x7248;&#x672C;&#x7684;jdk
-rpm -e --nodeps  java-1.7.0-openjdk-1.7.0.45-2.4.3.3.el6.x86_64
-# &#x5220;&#x9664;JAVA_HOME&#xFF0C;CLASSPATH&#x7B49;&#x76F8;&#x5173;&#x73AF;&#x5883;&#x53D8;&#x91CF;
-vim /etc/profile</span><br></pre></td></tr></table></figure></p></span>
+<figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">#&#26597;&#30475;&#31995;&#32479;&#24050;&#23433;&#35013;&#30340;jdk&#10;rpm -qa|grep jdk&#10;java-1.7.0-openjdk-1.7.0.45-2.4.3.3.el6.x86_64&#10;#&#21368;&#36733;&#25351;&#23450;&#29256;&#26412;&#30340;jdk&#10;rpm -e --nodeps  java-1.7.0-openjdk-1.7.0.45-2.4.3.3.el6.x86_64&#10;# &#21024;&#38500;JAVA_HOME&#65292;CLASSPATH&#31561;&#30456;&#20851;&#29615;&#22659;&#21464;&#37327;&#10;vim /etc/profile</span><br></pre></td></tr></table></figure>
+</span>
       
     </div>
 
@@ -328,7 +373,8 @@ vim /etc/profile</span><br></pre></td></tr></table></figure></p></span>
         
           <div class="comments" id="comments">
             
-              <div class="ds-thread" data-thread-key="2015/06/28/jdk安装脚本/" data-title="jdk安装脚本" data-url="http://geosmart.github.io/2015/06/28/jdk安装脚本/">
+              <div class="ds-thread" data-thread-key="2015/06/28/jdk安装脚本/"
+                   data-title="jdk安装脚本" data-url="http://geosmart.github.io/2015/06/28/jdk安装脚本/">
               </div>
             
           </div>
@@ -350,7 +396,7 @@ vim /etc/profile</span><br></pre></td></tr></table></figure></p></span>
 
       
         <ul class="sidebar-nav motion-element">
-          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
             文章目录
           </li>
           <li class="sidebar-nav-overview" data-target="site-overview">
@@ -361,7 +407,7 @@ vim /etc/profile</span><br></pre></td></tr></table></figure></p></span>
 
       <section class="site-overview">
         <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
-          <img class="site-author-image" src="https://avatars1.githubusercontent.com/u/3156608?v=3&s=460" alt="geosmart" itemprop="image">
+          <img class="site-author-image" src="https://avatars1.githubusercontent.com/u/3156608?v=3&s=460" alt="geosmart" itemprop="image"/>
           <p class="site-author-name" itemprop="name">geosmart</p>
         </div>
         <p class="site-description motion-element" itemprop="description">追求心智成长，记录技术点滴</p>
@@ -374,10 +420,10 @@ vim /etc/profile</span><br></pre></td></tr></table></figure></p></span>
           </div>
 
           <div class="site-state-item site-state-categories">
-            
+            <a href="/categories">
               <span class="site-state-item-count">6</span>
               <span class="site-state-item-name">分类</span>
-              
+              </a>
           </div>
 
           <div class="site-state-item site-state-tags">
@@ -431,7 +477,7 @@ vim /etc/profile</span><br></pre></td></tr></table></figure></p></span>
     </main>
 
     <footer id="footer" class="footer">
-      <div class="footer-inner"> <div class="copyright">
+      <div class="footer-inner"> <div class="copyright" >
   
   &copy; &nbsp; 
   <span itemprop="copyrightYear">2015</span>

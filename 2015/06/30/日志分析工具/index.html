@@ -3,54 +3,54 @@
 <head>
   
 
-<meta charset="UTF-8">
-<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
-<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1">
+<meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
 
 
-<meta http-equiv="Cache-Control" content="no-transform">
-<meta http-equiv="Cache-Control" content="no-siteapp">
-
-
-
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
 
 
 
 
 
-  <link rel="stylesheet" type="text/css" href="/vendors/fancybox/source/jquery.fancybox.css?v=2.1.5">
+
+
+
+  <link rel="stylesheet" type="text/css" href="/vendors/fancybox/source/jquery.fancybox.css?v=2.1.5"/>
 
 
 
 
-<link rel="stylesheet" type="text/css" href="/css/main.css?v=0.4.5.1">
+<link rel="stylesheet" type="text/css" href="/css/main.css?v=0.4.5.1"/>
 
 
-    <meta name="description" content="追求心智成长，记录技术点滴">
-
-
-
-  <meta name="keywords" content="工具,运维,">
+    <meta name="description" content="追求心智成长，记录技术点滴" />
 
 
 
-  <link rel="alternate" href="/atom.xml" title="Geosmart's Notes" type="application/atom+xml">
+  <meta name="keywords" content="工具,运维," />
 
 
 
-  <link rel="shorticon icon" type="image/x-icon" href="/favicon.ico?v=0.4.5.1">
+  <link rel="alternate" href="/atom.xml" title="Geosmart's Notes" type="application/atom+xml" />
 
 
-<meta name="description" content="&amp;#x6700;&amp;#x8FD1;&amp;#x9700;&amp;#x8981;&amp;#x5BF9;&amp;#x591A;&amp;#x53F0;Web&amp;#x670D;&amp;#x52A1;&amp;#x5668;/Java&amp;#x5BA2;&amp;#x6237;&amp;#x7AEF;&amp;#x7A0B;&amp;#x5E8F;&amp;#x7684;&amp;#x65E5;&amp;#x5FD7;&amp;#x8FDB;&amp;#x884C;&amp;#x5206;&amp;#x6790;&amp;#xFF0C;&amp;#x6BD4;">
+
+  <link rel="shorticon icon" type="image/x-icon" href="/favicon.ico?v=0.4.5.1" />
+
+
+<meta name="description" content="最近需要对多台Web服务器/Java客户端程序的日志进行分析，比较了一些开源的日志分析产工具，目前在用的有OtrosLogViewer（olv）和LogExpert">
 <meta property="og:type" content="article">
 <meta property="og:title" content="日志分析工具">
 <meta property="og:url" content="http://geosmart.github.io/2015/06/30/日志分析工具/index.html">
 <meta property="og:site_name" content="Geosmart's Notes">
-<meta property="og:description" content="&amp;#x6700;&amp;#x8FD1;&amp;#x9700;&amp;#x8981;&amp;#x5BF9;&amp;#x591A;&amp;#x53F0;Web&amp;#x670D;&amp;#x52A1;&amp;#x5668;/Java&amp;#x5BA2;&amp;#x6237;&amp;#x7AEF;&amp;#x7A0B;&amp;#x5E8F;&amp;#x7684;&amp;#x65E5;&amp;#x5FD7;&amp;#x8FDB;&amp;#x884C;&amp;#x5206;&amp;#x6790;&amp;#xFF0C;&amp;#x6BD4;">
-<meta property="og:updated_time" content="2015-07-01T06:52:07.114Z">
+<meta property="og:description" content="最近需要对多台Web服务器/Java客户端程序的日志进行分析，比较了一些开源的日志分析产工具，目前在用的有OtrosLogViewer（olv）和LogExpert">
+<meta property="og:updated_time" content="2015-09-19T14:12:31.139Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="日志分析工具">
-<meta name="twitter:description" content="&amp;#x6700;&amp;#x8FD1;&amp;#x9700;&amp;#x8981;&amp;#x5BF9;&amp;#x591A;&amp;#x53F0;Web&amp;#x670D;&amp;#x52A1;&amp;#x5668;/Java&amp;#x5BA2;&amp;#x6237;&amp;#x7AEF;&amp;#x7A0B;&amp;#x5E8F;&amp;#x7684;&amp;#x65E5;&amp;#x5FD7;&amp;#x8FDB;&amp;#x884C;&amp;#x5206;&amp;#x6790;&amp;#xFF0C;&amp;#x6BD4;">
+<meta name="twitter:description" content="最近需要对多台Web服务器/Java客户端程序的日志进行分析，比较了一些开源的日志分析产工具，目前在用的有OtrosLogViewer（olv）和LogExpert">
 
 
 <script type="text/javascript" id="hexo.configuration">
@@ -120,7 +120,7 @@
         
         <li class="menu-item menu-item-home">
           <a href="/" rel="section">
-            <i class="menu-item-icon icon-next-home"></i> <br>
+            <i class="menu-item-icon icon-next-home"></i> <br />
             首页
           </a>
         </li>
@@ -128,7 +128,7 @@
         
         <li class="menu-item menu-item-archives">
           <a href="/archives" rel="section">
-            <i class="menu-item-icon icon-next-archives"></i> <br>
+            <i class="menu-item-icon icon-next-archives"></i> <br />
             归档
           </a>
         </li>
@@ -136,8 +136,32 @@
         
         <li class="menu-item menu-item-tags">
           <a href="/tags" rel="section">
-            <i class="menu-item-icon icon-next-tags"></i> <br>
+            <i class="menu-item-icon icon-next-tags"></i> <br />
             标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories" rel="section">
+            <i class="menu-item-icon icon-next-categories"></i> <br />
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about" rel="section">
+            <i class="menu-item-icon icon-next-about"></i> <br />
+            关于
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-commonweal">
+          <a href="/404.html" rel="section">
+            <i class="menu-item-icon icon-next-commonweal"></i> <br />
+            公益404
           </a>
         </li>
       
@@ -152,7 +176,7 @@
       
   
   <form class="site-search-form">
-    <input type="text" id="st-search-input" class="st-search-input st-default-search-input">
+    <input type="text" id="st-search-input" class="st-search-input st-default-search-input" />
   </form>
 
 
@@ -181,7 +205,7 @@
   <div id="posts" class="posts-expand">
     
 
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
     <header class="post-header">
 
       
@@ -205,7 +229,7 @@
         </span>
 
         
-          <span class="post-category">
+          <span class="post-category" >
             &nbsp; | &nbsp; 分类于
             
               <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
@@ -240,45 +264,29 @@
       
 
       
-        <span itemprop="articleBody"><p>&#x6700;&#x8FD1;&#x9700;&#x8981;&#x5BF9;&#x591A;&#x53F0;Web&#x670D;&#x52A1;&#x5668;/Java&#x5BA2;&#x6237;&#x7AEF;&#x7A0B;&#x5E8F;&#x7684;&#x65E5;&#x5FD7;&#x8FDB;&#x884C;&#x5206;&#x6790;&#xFF0C;&#x6BD4;&#x8F83;&#x4E86;&#x4E00;&#x4E9B;&#x5F00;&#x6E90;&#x7684;&#x65E5;&#x5FD7;&#x5206;&#x6790;&#x4EA7;&#x5DE5;&#x5177;&#xFF0C;&#x76EE;&#x524D;&#x5728;&#x7528;&#x7684;&#x6709;OtrosLogViewer&#xFF08;olv&#xFF09;&#x548C;LogExpert</p>
-<h2 id="awstats">AWStats</h2>
-<ul>
-<li>&#x57FA;&#x4E8E;Perl&#xFF0C;&#x5F00;&#x6E90;&#x3001;&#x7B80;&#x6D01;&#x3001;&#x5F3A;&#x5927;&#x7684;&#x7F51;&#x7AD9;&#x65E5;&#x5FD7;&#x5206;&#x6790;&#x5DE5;&#x5177;
-Free real-time logfile analyzer to get advanced statistics (GNU GPL).
-AWStats is a free powerful and featureful tool that generates advanced web, streaming, ftp or mail server statistics, graphically. This log analyzer works as a CGI or from command line and shows you all possible information your log contains, in few graphical web pages. It uses a partial information file to be able to process large log files, often and quickly. It can analyze log files from all major server tools like Apache log files (NCSA combined/XLF/ELF log format or common/CLF log format), WebStar, IIS (W3C log format) and a lot of other web, proxy, wap, streaming servers, mail servers and some ftp servers.
-Take a look at this comparison table for an idea on features and differences between most famous statistics tools (AWStats, Analog, Webalizer,...).
-AWStats is a free software distributed under the GNU General Public License. You can have a look at this license chart to know what you can/can&apos;t do.
-As AWStats works from the command line but also as a CGI, it can work with all web hosting providers which allow Perl, CGI and log access.</li>
+        <span itemprop="articleBody"><p>最近需要对多台Web服务器/Java客户端程序的日志进行分析，比较了一些开源的日志分析产工具，目前在用的有OtrosLogViewer（olv）和LogExpert</p>
+<hr>
+<a id="more"></a>
+<h2 id="AWStats">AWStats</h2><ul>
+<li>基于Perl，开源、简洁、强大的网站日志分析工具<br>Free real-time logfile analyzer to get advanced statistics (GNU GPL).<br>AWStats is a free powerful and featureful tool that generates advanced web, streaming, ftp or mail server statistics, graphically. This log analyzer works as a CGI or from command line and shows you all possible information your log contains, in few graphical web pages. It uses a partial information file to be able to process large log files, often and quickly. It can analyze log files from all major server tools like Apache log files (NCSA combined/XLF/ELF log format or common/CLF log format), WebStar, IIS (W3C log format) and a lot of other web, proxy, wap, streaming servers, mail servers and some ftp servers.<br>Take a look at this comparison table for an idea on features and differences between most famous statistics tools (AWStats, Analog, Webalizer,…).<br>AWStats is a free software distributed under the GNU General Public License. You can have a look at this license chart to know what you can/can’t do.<br>As AWStats works from the command line but also as a CGI, it can work with all web hosting providers which allow Perl, CGI and log access.</li>
 </ul>
-<h2 id="otroslogviewer">OtrosLogViewer</h2>
-<ul>
-<li>&#x57FA;&#x4E8E;Java&#x5F00;&#x53D1;&#x7684;&#xFF0C;&#x5F00;&#x6E90;&#x3001;&#x5F3A;&#x5927;&#x3001;&#x53EF;&#x81EA;&#x5B9A;&#x4E49;&#x65E5;&#x5FD7;&#x8BED;&#x6CD5;&#x89C4;&#x5219;&#x8FDB;&#x884C;&#x89E3;&#x6790;&#x3001;UI&#x53CB;&#x597D;&#xFF0C;&#x53EF;&#x62D6;&#x62FD;http&#x65E5;&#x5FD7;&#x8FDB;&#x884C;&#x5206;&#x6790;&#xFF0C;&#x597D;&#x8BC4;</li>
-<li>&#x95EE;&#x9898;1&#xFF1A;&#x5728;windows&#x4E0B;&#x5207;&#x6362;log&#x4F1A;&#x975E;&#x5E38;&#x5361;&#x987F;&#xFF0C;linux&#x4E0B;&#x6B63;&#x5E38;&#xFF0C;&#x6682;&#x672A;&#x627E;&#x5230;&#x539F;&#x56E0;</li>
-<li>&#x95EE;&#x9898;2&#xFF1A; illegal character in schema name at index xxx
-&#x4E0D;&#x80FD;&#x76F4;&#x63A5;&#x62D6;&#x62FD;&#x6587;&#x4EF6;&#xFF08;&#x5982;http://192.168.1.81:8080/logs/uadb/uadb.log&#xFF09;&#xFF0C;&#x9700;&#x62D6;&#x62FD;&#x6D4F;&#x89C8;&#x5668;&#x9875;&#x9762;&#xFF08;&#x5982;http://192.168.1.81:8080/logs/uadb&#xFF09;&#x4E2D;&#x7684;&#x65E5;&#x5FD7;&#x94FE;&#x63A5;</li>
-<li>&#x95EE;&#x9898;3 &#x6309;<code>%d{yyyy-MM-dd HH\:mm\:ss,SSS} [%t] [%c] [%p] - %m%n</code>&#x89C4;&#x5219;&#x62C6;&#x5206;&#x884C;&#x5B58;&#x5728;&#x95EE;&#x9898;&#xFF0C;&#x5B58;&#x5728;&#x591A;&#x884C;&#x5E76;&#x5728;&#x4E00;&#x8D77;</li>
+<h2 id="OtrosLogViewer">OtrosLogViewer</h2><ul>
+<li>基于Java开发的，开源、强大、可自定义日志语法规则进行解析、UI友好，可拖拽http日志进行分析，好评</li>
+<li>问题1：在windows下切换log会非常卡顿，linux下正常，暂未找到原因</li>
+<li>问题2： illegal character in schema name at index xxx<br>  不能直接拖拽文件（如<a href="http://192.168.1.81:8080/logs/uadb/uadb.log），需拖拽浏览器页面（如http://192.168.1.81:8080/logs/uadb）中的日志链接">http://192.168.1.81:8080/logs/uadb/uadb.log），需拖拽浏览器页面（如http://192.168.1.81:8080/logs/uadb）中的日志链接</a></li>
+<li>问题3 按<code>%d{yyyy-MM-dd HH\:mm\:ss,SSS} [%t] [%c] [%p] - %m%n</code>规则拆分行存在问题，存在多行并在一起</li>
 </ul>
 <p>Useful software for analysing applications logs and traces.</p>
-<h2 id="logexpert">LogExpert</h2>
-<ul>
-<li>&#x5C0F;&#x800C;&#x7F8E;&#x7684;&#x5355;&#x673A;&#x65E5;&#x5FD7;&#x5206;&#x6790;&#x5DE5;&#x5177;&#xFF0C;&#x597D;&#x8BC4;
-You are a developer needing a nice tail application for MS Windows?
-You are in the need for a powerful logfile analysis tool?
-You love logfiles?
-You live in your logfiles?
-Or at least: you have to work with them?
-Download LogExpert if you answered &quot;yes&quot; to any of the questions above!</li>
+<h2 id="LogExpert">LogExpert</h2><ul>
+<li>小而美的单机日志分析工具，好评<br>  You are a developer needing a nice tail application for MS Windows?<br>  You are in the need for a powerful logfile analysis tool?<br>  You love logfiles?<br>  You live in your logfiles?<br>  Or at least: you have to work with them?<br>  Download LogExpert if you answered “yes” to any of the questions above!</li>
 </ul>
-<h2 id="log-parser">Log Parser</h2>
-<ul>
-<li>&#x57FA;&#x4E8E;.NET&#x5E73;&#x53F0;
-Log Parser is a powerful, versatile tool that provides universal query access to text-based data such as log files, XML files and CSV files, as well as key data sources on the Windows operating system such as the Event Log, the Registry, the file system, and Active Directory. You tell Log Parser what information you need and how you want it processed. The results of your query can be custom-formatted in text based output, or they can be persisted to more specialty targets like SQL, SYSLOG, or a chart. Most software is designed to accomplish a limited number of specific tasks. Log Parser is different... the number of ways it can be used is limited only by the needs and imagination of the user. The world is your database with Log Parser.</li>
+<h2 id="Log_Parser">Log Parser</h2><ul>
+<li>基于.NET平台<br>  Log Parser is a powerful, versatile tool that provides universal query access to text-based data such as log files, XML files and CSV files, as well as key data sources on the Windows operating system such as the Event Log, the Registry, the file system, and Active Directory. You tell Log Parser what information you need and how you want it processed. The results of your query can be custom-formatted in text based output, or they can be persisted to more specialty targets like SQL, SYSLOG, or a chart. Most software is designed to accomplish a limited number of specific tasks. Log Parser is different… the number of ways it can be used is limited only by the needs and imagination of the user. The world is your database with Log Parser.</li>
 </ul>
-<h2 id="chainsaw">Chainsaw</h2>
-<ul>
-<li>&#x867D;&#x662F;apache&#x5B98;&#x65B9;&#x7684;&#x4E13;&#x4E1A;Log4j&#x5206;&#x6790;&#x5DE5;&#x5177;&#xFF0C;2004&#x5E74;&#x5C31;&#x6CA1;&#x66F4;&#x65B0;&#x4E86;,&#x5DEE;&#x8BC4;&#xFF01;
-Chainsaw v2 is a companion application to Log4j written by members of the Log4j development community. Like a number of Open Source projects, this new version was built upon inspirations, ideas and creations of others. Chainsaw v2 has it&apos;s roots from the original Chainsaw utility written by Oliver Burn, and with inspiration from the Log Factor 5 utility contributed by ThoughtWorks Inc.</li>
-</ul></span>
+<h2 id="Chainsaw">Chainsaw</h2><ul>
+<li>虽是apache官方的专业Log4j分析工具，2004年就没更新了,差评！<br>  Chainsaw v2 is a companion application to Log4j written by members of the Log4j development community. Like a number of Open Source projects, this new version was built upon inspirations, ideas and creations of others. Chainsaw v2 has it’s roots from the original Chainsaw utility written by Oliver Burn, and with inspiration from the Log Factor 5 utility contributed by ThoughtWorks Inc.</li>
+</ul>
+</span>
       
     </div>
 
@@ -328,7 +336,8 @@ Chainsaw v2 is a companion application to Log4j written by members of the Log4j 
         
           <div class="comments" id="comments">
             
-              <div class="ds-thread" data-thread-key="2015/06/30/日志分析工具/" data-title="日志分析工具" data-url="http://geosmart.github.io/2015/06/30/日志分析工具/">
+              <div class="ds-thread" data-thread-key="2015/06/30/日志分析工具/"
+                   data-title="日志分析工具" data-url="http://geosmart.github.io/2015/06/30/日志分析工具/">
               </div>
             
           </div>
@@ -350,7 +359,7 @@ Chainsaw v2 is a companion application to Log4j written by members of the Log4j 
 
       
         <ul class="sidebar-nav motion-element">
-          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
             文章目录
           </li>
           <li class="sidebar-nav-overview" data-target="site-overview">
@@ -361,7 +370,7 @@ Chainsaw v2 is a companion application to Log4j written by members of the Log4j 
 
       <section class="site-overview">
         <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
-          <img class="site-author-image" src="https://avatars1.githubusercontent.com/u/3156608?v=3&s=460" alt="geosmart" itemprop="image">
+          <img class="site-author-image" src="https://avatars1.githubusercontent.com/u/3156608?v=3&s=460" alt="geosmart" itemprop="image"/>
           <p class="site-author-name" itemprop="name">geosmart</p>
         </div>
         <p class="site-description motion-element" itemprop="description">追求心智成长，记录技术点滴</p>
@@ -374,10 +383,10 @@ Chainsaw v2 is a companion application to Log4j written by members of the Log4j 
           </div>
 
           <div class="site-state-item site-state-categories">
-            
+            <a href="/categories">
               <span class="site-state-item-count">6</span>
               <span class="site-state-item-name">分类</span>
-              
+              </a>
           </div>
 
           <div class="site-state-item site-state-tags">
@@ -417,7 +426,7 @@ Chainsaw v2 is a companion application to Log4j written by members of the Log4j 
           <div class="post-toc">
             
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#awstats"><span class="nav-number">1.</span> <span class="nav-text">AWStats</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#otroslogviewer"><span class="nav-number">2.</span> <span class="nav-text">OtrosLogViewer</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#logexpert"><span class="nav-number">3.</span> <span class="nav-text">LogExpert</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#log-parser"><span class="nav-number">4.</span> <span class="nav-text">Log Parser</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#chainsaw"><span class="nav-number">5.</span> <span class="nav-text">Chainsaw</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#AWStats"><span class="nav-number">1.</span> <span class="nav-text">AWStats</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#OtrosLogViewer"><span class="nav-number">2.</span> <span class="nav-text">OtrosLogViewer</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#LogExpert"><span class="nav-number">3.</span> <span class="nav-text">LogExpert</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Log_Parser"><span class="nav-number">4.</span> <span class="nav-text">Log Parser</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Chainsaw"><span class="nav-number">5.</span> <span class="nav-text">Chainsaw</span></a></li></ol></div>
             
           </div>
           <div class="post-toc-indicator-bottom post-toc-indicator"></div>
@@ -431,7 +440,7 @@ Chainsaw v2 is a companion application to Log4j written by members of the Log4j 
     </main>
 
     <footer id="footer" class="footer">
-      <div class="footer-inner"> <div class="copyright">
+      <div class="footer-inner"> <div class="copyright" >
   
   &copy; &nbsp; 
   <span itemprop="copyrightYear">2015</span>
