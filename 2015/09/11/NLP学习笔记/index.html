@@ -47,7 +47,7 @@
 <meta property="og:url" content="http://geosmart.github.io/2015/09/11/NLP学习笔记/index.html">
 <meta property="og:site_name" content="Geosmart's Notes">
 <meta property="og:description" content="记录一些NLP学习过程中的专业名词">
-<meta property="og:updated_time" content="2015-09-19T14:10:52.850Z">
+<meta property="og:updated_time" content="2015-09-20T12:22:20.520Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="NLP学习笔记">
 <meta name="twitter:description" content="记录一些NLP学习过程中的专业名词">
@@ -275,7 +275,17 @@
 </li>
 <li><p>GATE(General Architecture for Text Engineering)文本工程通用框架</p>
 </li>
+<li><p>HMM(Hidden Markov Models)隐马尔科夫模型：一个隐马尔科夫模型它用来描述一个含有隐含未知参数的马尔可夫过程。其难点是从可观察的参数中确定该过程的隐含参数。然后利用这些参数来作进一步的分析，例如模式识别。  </p>
+</li>
 </ul>
+<blockquote>
+<p>由一个向量和两个矩阵(pi,A,B)描述的隐马尔科夫模型对于实际系统有着巨大的价值，虽然经常只是一种近似，但它们却是经得起分析的。隐马尔科夫模型通常解决的问题包括：</p>
+<ol>
+<li>对于一个观察序列匹配最可能的系统——评估，使用前向算法（forward algorithm）解决；</li>
+<li>对于已生成的一个观察序列，确定最可能的隐藏状态序列——解码，使用Viterbi 算法（Viterbi algorithm）解决；</li>
+<li>对于已生成的观察序列，决定最可能的模型参数——学习，使用前向-后向算法（forward-backward algorithm）解决。</li>
+</ol>
+</blockquote>
 <h2 id="GATE专业名词">GATE专业名词</h2><ul>
 <li><p>LR(Language Resource)：语言资源，与数据相关的资源，比如词典、文档和本体(Ontology)等。其中一些语言组件需要和软件搭配使用（比如，WordNet 使用了 C 和 Prolog语言的 API 的用户查询接口），虽然其中涉及了软件，但是由于 API 也是为语言资源服务的，所以我们仍然把这些资源定义为语言组件。</p>
 </li>
@@ -283,9 +293,11 @@
 </li>
 <li><p>VR（Pisual Resource）: 可视化资源，指构成 GATE 的可视化界面 GUI 的相关资源。</p>
 </li>
-<li><p>CREOLE(a Collection of Reusable Objects for Language Engineering)可重用语言引擎对象集合</p>
+<li><p>CREOLE(a Collection of Reusable Objects for Language Engineering)可重用语言引擎对象集合，提供了文本解析、文本抽取、结果测算等众多插件</p>
 </li>
 <li><p>ANNIE</p>
+</li>
+<li><p>Corpus 语料库，文档的集合</p>
 </li>
 </ul>
 <h2 id="行业名词">行业名词</h2><ul>
