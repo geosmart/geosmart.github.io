@@ -30,7 +30,7 @@
 
 
 
-  <meta name="keywords" content="J2EE,SQLite,数据库," />
+  <meta name="keywords" content="J2EE,SQLite," />
 
 
 
@@ -41,28 +41,25 @@
   <link rel="shorticon icon" type="image/x-icon" href="/favicon.ico?v=0.4.5.1" />
 
 
-<meta name="description" content="官方文档sqlite在多线程下的应用
-SQLite特点SQLite只支持库级锁，同时只能允许一个写操作。但SQLite尽量延迟申请X锁，直到数据块真正写盘时才申请X锁，这是非常巧妙而有效的。
+<meta name="description" content="SQLite特点SQLite只支持库级锁，同时只能允许一个写操作。但SQLite尽量延迟申请X锁，直到数据块真正写盘时才申请X锁，非常巧妙而有效。
 
 SQLite支持3种线程模式:单线程,多线程,串行
-可使用WAL（Write-Ahead Logging）模式时，写操作是append到WAL文件，而不直接改动数据库文件，因此数据库文件可以被同时读取。当执">
+可使用WAL（Write-Ahead Logging）模式时，写操作是append到WAL文件，而不直接改动数据库文件，因此数据库文件可以被同时读取。当执行checkpoint操作时，WAL文件的内">
 <meta property="og:type" content="article">
 <meta property="og:title" content="SQLite数据库使用笔记">
 <meta property="og:url" content="http://geosmart.github.io/2015/09/15/SQLite数据库使用笔记/index.html">
 <meta property="og:site_name" content="Geosmart's Notes">
-<meta property="og:description" content="官方文档sqlite在多线程下的应用
-SQLite特点SQLite只支持库级锁，同时只能允许一个写操作。但SQLite尽量延迟申请X锁，直到数据块真正写盘时才申请X锁，这是非常巧妙而有效的。
+<meta property="og:description" content="SQLite特点SQLite只支持库级锁，同时只能允许一个写操作。但SQLite尽量延迟申请X锁，直到数据块真正写盘时才申请X锁，非常巧妙而有效。
 
 SQLite支持3种线程模式:单线程,多线程,串行
-可使用WAL（Write-Ahead Logging）模式时，写操作是append到WAL文件，而不直接改动数据库文件，因此数据库文件可以被同时读取。当执">
-<meta property="og:updated_time" content="2015-09-19T14:11:06.458Z">
+可使用WAL（Write-Ahead Logging）模式时，写操作是append到WAL文件，而不直接改动数据库文件，因此数据库文件可以被同时读取。当执行checkpoint操作时，WAL文件的内">
+<meta property="og:updated_time" content="2015-09-22T01:02:29.612Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="SQLite数据库使用笔记">
-<meta name="twitter:description" content="官方文档sqlite在多线程下的应用
-SQLite特点SQLite只支持库级锁，同时只能允许一个写操作。但SQLite尽量延迟申请X锁，直到数据块真正写盘时才申请X锁，这是非常巧妙而有效的。
+<meta name="twitter:description" content="SQLite特点SQLite只支持库级锁，同时只能允许一个写操作。但SQLite尽量延迟申请X锁，直到数据块真正写盘时才申请X锁，非常巧妙而有效。
 
 SQLite支持3种线程模式:单线程,多线程,串行
-可使用WAL（Write-Ahead Logging）模式时，写操作是append到WAL文件，而不直接改动数据库文件，因此数据库文件可以被同时读取。当执">
+可使用WAL（Write-Ahead Logging）模式时，写操作是append到WAL文件，而不直接改动数据库文件，因此数据库文件可以被同时读取。当执行checkpoint操作时，WAL文件的内">
 
 
 <script type="text/javascript" id="hexo.configuration">
@@ -245,8 +242,8 @@ SQLite支持3种线程模式:单线程,多线程,串行
             &nbsp; | &nbsp; 分类于
             
               <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
-                <a href="/categories/技术点滴/" itemprop="url" rel="index">
-                  <span itemprop="name">技术点滴</span>
+                <a href="/categories/数据库/" itemprop="url" rel="index">
+                  <span itemprop="name">数据库</span>
                 </a>
               </span>
 
@@ -276,13 +273,15 @@ SQLite支持3种线程模式:单线程,多线程,串行
       
 
       
-        <span itemprop="articleBody"><p><a href="http://www.sqlite.org/wal.html">官方文档</a><br><a href="http://www.cnblogs.com/wuhenke/archive/2011/11/20/2256618.html">sqlite在多线程下的应用</a></p>
-<h1 id="SQLite特点">SQLite特点</h1><p>SQLite只支持库级锁，同时只能允许一个写操作。但SQLite尽量延迟申请X锁，直到数据块真正写盘时才申请X锁，这是非常巧妙而有效的。</p>
+        <span itemprop="articleBody"><h1 id="SQLite特点">SQLite特点</h1><p>SQLite只支持库级锁，同时只能允许一个写操作。但SQLite尽量延迟申请X锁，直到数据块真正写盘时才申请X锁，非常巧妙而有效。</p>
 <ol>
 <li>SQLite支持3种线程模式:单线程,多线程,串行</li>
 <li>可使用WAL（Write-Ahead Logging）模式时，写操作是append到WAL文件，而不直接改动数据库文件，因此数据库文件可以被同时读取。当执行checkpoint操作时，WAL文件的内容会被写回数据库文件。当WAL文件达到SQLITE_DEFAULT_WAL_AUTOCHECKPOINT（默认值是1000）页（默认大小是1KB）时，会自动使用当前COMMIT的线程来执行checkpoint操作。也可以关闭自动checkpoint，改为手动定期<br>checkpoint。jdbc可通过setJournalMode(JournalMode.WAL)/setJounalSizeLimit实现</li>
 <li>事务是和数据库连接相关的，每个数据库连接（使用pager来）维护自己的事务，且同时只能有一个事务（但是可以用SAVEPOINT来实现内嵌事务）。</li>
 </ol>
+<hr>
+<a id="more"></a>
+<p><a href="http://www.sqlite.org/wal.html">官方文档</a><br><a href="http://www.cnblogs.com/wuhenke/archive/2011/11/20/2256618.html">sqlite在多线程下的应用</a></p>
 <h2 id="WAL模式">WAL模式</h2><ul>
 <li>-shm文件包含-wal文件的数据索引，-shm文件提升-wal文件的读性能</li>
 <li>如果-shm文件被删除，下次数据库连接时会自动新建一个-shm文件 </li>
@@ -317,8 +316,6 @@ SQLite支持3种线程模式:单线程,多线程,串行
             <a href="/tags/J2EE/" rel="tag">#J2EE</a>
           
             <a href="/tags/SQLite/" rel="tag">#SQLite</a>
-          
-            <a href="/tags/数据库/" rel="tag">#数据库</a>
           
         </div>
       
@@ -399,21 +396,21 @@ SQLite支持3种线程模式:单线程,多线程,串行
         <nav class="site-state motion-element">
           <div class="site-state-item site-state-posts">
             <a href="/archives">
-              <span class="site-state-item-count">29</span>
+              <span class="site-state-item-count">31</span>
               <span class="site-state-item-name">日志</span>
             </a>
           </div>
 
           <div class="site-state-item site-state-categories">
             <a href="/categories">
-              <span class="site-state-item-count">6</span>
+              <span class="site-state-item-count">12</span>
               <span class="site-state-item-name">分类</span>
               </a>
           </div>
 
           <div class="site-state-item site-state-tags">
             <a href="/tags">
-              <span class="site-state-item-count">37</span>
+              <span class="site-state-item-count">41</span>
               <span class="site-state-item-name">标签</span>
               </a>
           </div>

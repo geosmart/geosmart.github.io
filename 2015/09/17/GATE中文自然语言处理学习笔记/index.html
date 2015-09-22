@@ -60,7 +60,7 @@ GATE 框架采用了基于组件的软件开发方式和面向对象的灵活编
 GATE 框架是由纯 Java 语言开发的免费开源软件，遵循 GNU library license。
 GATE 使用的编码方式是Unicode，可以支持多种语言编码，">
 <meta property="og:image" content="https://gate.ac.uk/plugins/gau-0.1/images/logo-gate.png">
-<meta property="og:updated_time" content="2015-09-20T05:02:45.939Z">
+<meta property="og:updated_time" content="2015-09-22T00:55:54.735Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="GATE中文自然语言处理学习笔记">
 <meta name="twitter:description" content="GATE
@@ -248,6 +248,21 @@ GATE 使用的编码方式是Unicode，可以支持多种语言编码，">
         </span>
 
         
+          <span class="post-category" >
+            &nbsp; | &nbsp; 分类于
+            
+              <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
+                <a href="/categories/NLP/" itemprop="url" rel="index">
+                  <span itemprop="name">NLP</span>
+                </a>
+              </span>
+
+              
+              
+
+            
+          </span>
+        
 
         
           
@@ -300,8 +315,8 @@ GATE 使用的编码方式是Unicode，可以支持多种语言编码，">
 <p>relationship如何构建？<br>annotation和entity的关系如何构建</p>
 <h2 id="JAPE标注类型">JAPE标注类型</h2><ul>
 <li>Lookup：Annie默认标注结果  </li>
-<li>Token：Lang_Chinese，最长分词<br>用途：数字，附号标注  </li>
-<li><p>IKAToken：IKanalyzer分词标注—两两分词  </p>
+<li>Token：Lang_Chinese，最长分词，包含符号<br>用途：数字，附号标注  </li>
+<li><p>IKAToken：IKanalyzer分词标注—两两分词，不处理符号</p>
 <ul>
 <li>采用了特有的”正向迭代最细粒度切分算法”，具有80万字/秒的高速处理能力</li>
 <li>采用了多子处理器分析模式，支持：英文字母（IP地址、Email、URL）、数字（日期，常用中文数量词，罗马数字，科学计数法），中文词汇（姓名、地名处理）等分词处理。</li>
@@ -327,15 +342,28 @@ GATE 使用的编码方式是Unicode，可以支持多种语言编码，">
 </ul>
 <h2 id="Token_Types">Token Types</h2><p>Word、Number、Symbol、Punctuation、SpaceToken</p>
 <h2 id="JAPE优先级控制类型">JAPE优先级控制类型</h2><ul>
-<li>Brill:  </li>
-<li>All:  </li>
-<li>First:  </li>
-<li>Once:  </li>
-<li>Appelt:  </li>
+<li>Brill:  Brill 默认的控制风格，作用是在给定的范围内对文档进行匹配并添加类型，当多个匹配规则都匹配到一个文本时默认都会把相应的类型添加上去，这些类型没有重要等级。</li>
+<li>All: All 作用类似于Brill，但是All的匹配支持内嵌匹配</li>
+<li>First First只匹配第一个匹配到的匹配规则并添加对应类型，所以此时使用’*’,’?’或’+’这类匹配规则是不恰当的</li>
+<li>Once:  Once 一旦匹配到匹配规则，则整个JAPE解析直接退出</li>
+<li>Appelt: Applet 根据优先规则，匹配唯一一个匹配规则</li>
 </ul>
-<h2 id="JAPE高亮插件">JAPE高亮插件</h2><p><a href="http://joenoodles.com/2012/10/jape-syntax-highlighting">http://joenoodles.com/2012/10/jape-syntax-highlighting</a></p>
+<h2 id="JAPE高亮插件">JAPE高亮插件</h2><p>找到一个Linux平台的，gedit的插件：<a href="http://joenoodles.com/2012/10/jape-syntax-highlighting">jape-syntax-highlighting</a>，待尝试</p>
+<p>当前处理方式</p>
+<ol>
+<li>myeclipse设置*.jape默认打开程序为sublime text<br><code>General&gt;Editors&gt;File Associations</code></li>
+<li>在sublime text代开jape后缀文件，并将Syntax设置为open all with current extention as java</li>
+<li>sublimet text3安装SublimeAStyleFormatter插件进行代码格式化<ul>
+<li><code>ctrl+alt+f</code>: Format current file  </li>
+<li><code>ctrl+k, ctrl+f</code>: Format current selection<br>TODO：暂不能自动格式化jape，和语法高亮报错 </li>
+</ul>
+</li>
+</ol>
 <h1 id="正则表达式">正则表达式</h1><h1 id="relationshioType的定义原理">relationshioType的定义原理</h1><p>sentence（有限状态机）包含关系，根据实际情况定义<br>Temporal+SpacePattern(Region+Path)+person</p>
-<p>#问题<br>gate加载gapp报错：class not found</p>
+<p>#问题 </p>
+<ul>
+<li>问题：gate加载gapp报错：creole.xml中PR的class xxx not found<br>解决：将编译后文件放在gate\bin目录内</li>
+</ul>
 </span>
       
     </div>
@@ -429,21 +457,21 @@ GATE 使用的编码方式是Unicode，可以支持多种语言编码，">
         <nav class="site-state motion-element">
           <div class="site-state-item site-state-posts">
             <a href="/archives">
-              <span class="site-state-item-count">29</span>
+              <span class="site-state-item-count">31</span>
               <span class="site-state-item-name">日志</span>
             </a>
           </div>
 
           <div class="site-state-item site-state-categories">
             <a href="/categories">
-              <span class="site-state-item-count">6</span>
+              <span class="site-state-item-count">12</span>
               <span class="site-state-item-name">分类</span>
               </a>
           </div>
 
           <div class="site-state-item site-state-tags">
             <a href="/tags">
-              <span class="site-state-item-count">37</span>
+              <span class="site-state-item-count">41</span>
               <span class="site-state-item-name">标签</span>
               </a>
           </div>
