@@ -55,7 +55,7 @@ Hortonworks版本(Hortonworks Data Platform，简称“HDP”），对于国内�
 Apache（最原始的版本，所有发行版均基于这个版本进行改进）
 Cloudera版本（Cloudera’s Distribution Including Apache Hadoop，简称CDH）
 Hortonworks版本(Hortonworks Data Platform，简称“HDP”），对于国内而言，绝大多数选择CDH版">
-<meta property="og:updated_time" content="2015-09-23T00:34:52.207Z">
+<meta property="og:updated_time" content="2015-09-25T09:21:41.089Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Hadoop集群部署">
 <meta name="twitter:description" content="Hadoop版本区别目前不收费的Hadoop版本主要有三个，分别是：
@@ -369,14 +369,15 @@ Hortonworks版本(Hortonworks Data Platform，简称“HDP”），对于国内�
 <li>cloudera-scm-server-db<br><em>客户端</em>  </li>
 <li>cloudera-scm-agent</li>
 </ul>
-<h2 id="Cloudera_Manager_API">Cloudera Manager API</h2><p><a href="http：//www.cloudera.com/content/cloudera/zh-CN/documentation/core/v5-3-x/topics/cm_intro_api.html">官方文档</a><br>Cloudera Manager API 提供了配置和服务生命周期管理、服务运行状况信息和指标，并允许您配置 Cloudera Manager 本身。此 API 与 Cloudera Manager Admin Console 在同一主机和端口上接受服务，不需要任何额外过程或额外配置。此 API 支持 HTTP 基本验证，接受的用户和凭据与 Cloudera Manager Admin Console 相同。</p>
+<h2 id="Cloudera_Manager_API">Cloudera Manager API</h2><p><a href="http://zh-cn.cloudera.com/content/cloudera/en/documentation.html">官方文档</a><br>Cloudera Manager API 提供了配置和服务生命周期管理、服务运行状况信息和指标，并允许您配置 Cloudera Manager 本身。此 API 与 Cloudera Manager Admin Console 在同一主机和端口上接受服务，不需要任何额外过程或额外配置。此 API 支持 HTTP 基本验证，接受的用户和凭据与 Cloudera Manager Admin Console 相同。</p>
 <h2 id="Cloudera_Management_Service">Cloudera Management Service</h2><p>Cloudera Management Service 可作为一组角色实施各种管理功能：<br>Activity Monitor - 收集有关 MapReduce 服务运行的活动的信息。默认情况下未添加此角色。<br>Host Monitor - 收集有关主机的运行状况和指标信息<br>Service Monitor - 收集有关服务的运行状况和指标信息以及 YARN 和 Impala 服务中的活动信息<br>Event Server - 聚合 relevant Hadoop 事件并将其用于警报和搜索<br>Alert Publisher - 为特定类型的事件生成和提供警报<br>Reports Manager - 生成报告，它提供用户、用户组和目录的磁盘使用率的历史视图，用户和 YARN 池的处理活动，以及 HBase 表和命名空间。此角色未在 Cloudera Express 中添加。<br>Cloudera Manager 将单独管理每个角色，而不是作为 Cloudera Manager Server 的一部分进行管理，可实现可扩展性（例如，在大型部署中，它可用于将监控器角色置于自身的主机上）和隔离。</p>
 <p>此外，对于特定版本的 Cloudera Enterprise 许可证，Cloudera Management Service 还为 Cloudera Navigator 提供 Navigator Audit Server 和 Navigator Metadata Server 角色。</p>
 <h1 id="离线安装CDH">离线安装CDH</h1><p><a href="]http://blog.csdn.net/scgaliguodong123_/article/details/46661881">离线安装Cloudera Manager5.3.4与CDH5.3.4</a></p>
 <h1 id="安装问题记录">安装问题记录</h1><ol>
 <li><p>无法发出查询：未能连接到 Host Monitor<br>解决方式：<br>1、新增cloudera management services<br>注意新增的目标机器因为scm-server安装的同一台机器，机器内存最好&gt;=8G</p>
 </li>
-<li><urlopen error [Errno 111] Connection refused></li>
+<li><p>urlopen error [Errno 111] Connection refused</p>
+</li>
 </ol>
 <ul>
 <li>问题场景：CM中主机CDH5安装Parcel完成后无法分配和激活Agent</li>
@@ -386,6 +387,9 @@ Hortonworks版本(Hortonworks Data Platform，简称“HDP”），对于国内�
 </ul>
 <ol>
 <li>Cloudera Manager无法删除某项服务<br>删除依赖关系或在命令中查看正在执行的（卡死）的命令，中止即可</li>
+</ol>
+<ol>
+<li>如何制作CDH Agent 虚拟机模板<br>问题：CDH Manager安装配置好一台机器A后，如果以A复制出B，在集群中B与A会冲突，每次Host Inspector只能检测到一个<br>解决：</li>
 </ol>
 </span>
       
