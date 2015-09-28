@@ -41,18 +41,18 @@
   <link rel="shorticon icon" type="image/x-icon" href="/favicon.ico?v=0.4.5.1" />
 
 
-<meta name="description" content="MavenMaven是基于项目对象模型(POM)，可以通过一小段描述信息来管理项目的构建，报告和文档的软件项目管理工具。  
+<meta name="description" content="关于MavenMaven是基于项目对象模型(POM)，可以通过一小段描述信息来管理项目的构建，报告和文档的软件项目管理工具。  
 本文记录Maven开发过程中常用的脚本和遇到的问题。">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Maven使用笔记">
 <meta property="og:url" content="http://geosmart.github.io/2015/09/15/Maven使用笔记/index.html">
 <meta property="og:site_name" content="Geosmart's Notes">
-<meta property="og:description" content="MavenMaven是基于项目对象模型(POM)，可以通过一小段描述信息来管理项目的构建，报告和文档的软件项目管理工具。  
+<meta property="og:description" content="关于MavenMaven是基于项目对象模型(POM)，可以通过一小段描述信息来管理项目的构建，报告和文档的软件项目管理工具。  
 本文记录Maven开发过程中常用的脚本和遇到的问题。">
-<meta property="og:updated_time" content="2015-09-26T11:59:50.575Z">
+<meta property="og:updated_time" content="2015-09-28T06:36:48.249Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Maven使用笔记">
-<meta name="twitter:description" content="MavenMaven是基于项目对象模型(POM)，可以通过一小段描述信息来管理项目的构建，报告和文档的软件项目管理工具。  
+<meta name="twitter:description" content="关于MavenMaven是基于项目对象模型(POM)，可以通过一小段描述信息来管理项目的构建，报告和文档的软件项目管理工具。  
 本文记录Maven开发过程中常用的脚本和遇到的问题。">
 
 
@@ -267,12 +267,12 @@
       
 
       
-        <span itemprop="articleBody"><h1 id="Maven">Maven</h1><p>Maven是基于项目对象模型(POM)，可以通过一小段描述信息来管理项目的构建，报告和文档的软件项目管理工具。  </p>
+        <span itemprop="articleBody"><h1 id="关于Maven">关于Maven</h1><p>Maven是基于项目对象模型(POM)，可以通过一小段描述信息来管理项目的构建，报告和文档的软件项目管理工具。  </p>
 <p>本文记录Maven开发过程中常用的脚本和遇到的问题。</p>
 <hr>
 <a id="more"></a>
-<h2 id="Maven常用指令">Maven常用指令</h2><p><code>package</code>：打包<br><code>war:exploded</code>：编译不生成war包<br><code>install</code>：安装到本地资源库<br>     eg：<code>mvn install:install-file -Dfile=lt.util-1.0.jar -DgroupId=com.lt -DartifactId=util -Dversion=1.0 -Dpackaging=jar</code><br><code>process-resources</code>：编译并打包资源<br>新建项目：<code>mvn archetype:generate -DgroupId=com.lt -DartifactId=uadb.etl -DarchetypeArtifactIdmaven-archetype-webapp -DinteractiveMode=false</code></p>
-<h2 id="maven远程库">maven远程库</h2><ul>
+<h1 id="Maven常用指令">Maven常用指令</h1><p><code>package</code>：打包<br><code>war:exploded</code>：编译不生成war包<br><code>install</code>：安装到本地资源库<br>     eg：<code>mvn install:install-file -Dfile=lt.util-1.0.jar -DgroupId=com.lt -DartifactId=util -Dversion=1.0 -Dpackaging=jar</code><br><code>process-resources</code>：编译并打包资源<br>新建项目：<code>mvn archetype:generate -DgroupId=com.lt -DartifactId=uadb.etl -DarchetypeArtifactIdmaven-archetype-webapp -DinteractiveMode=false</code></p>
+<h1 id="maven远程库">maven远程库</h1><ul>
 <li><p><a href="https://search.maven.org/#search">https://search.maven.org/#search</a></p>
 </li>
 <li><p><a href="http://maven-repository.com/">http://maven-repository.com/</a></p>
@@ -282,11 +282,14 @@
 <li><p><a href="http://repository.apache.org/snapshots/">http://repository.apache.org/snapshots/</a></p>
 </li>
 </ul>
-<h1 id="上传项目到Maven_Central_Repository">上传项目到Maven Central Repository</h1><h1 id="Maven问题记录">Maven问题记录</h1><ol>
-<li><p>本地库有改jar包但是依旧无法编译<br>本地下载的Zip已损坏，删除本地库中的jar文件和目录，重新从远处库下载</p>
-</li>
-<li></li>
-</ol>
+<h1 id="上传项目到Maven_Central_Repository">上传项目到Maven Central Repository</h1><h2 id="Maven本地开发">Maven本地开发</h2><ul>
+<li>下载apache-maven</li>
+<li>设置本地库路径<br>在maven\config\settings.xml中设置本地库路径：<code>&lt;localRepository&gt;D:\Dev\Maven-Respository&lt;/localRepository&gt;</code></li>
+<li>在Myeclipse中设置安装路径<br>在<code>Window&gt;Preferences&gt;Myeclipse&gt;Maven4Myeclipse&gt;Installations</code>中执行Add加入本地maven路径<br>在<code>Window&gt;Preferences&gt;Myeclipse&gt;Maven4Myeclipse&gt;User Settings</code>中Browser选择maven\config\settings.xml，执行Update Settings，Reindex</li>
+</ul>
+<h1 id="Maven问题记录">Maven问题记录</h1><ul>
+<li>本地库有改jar包但是依旧无法编译<br>本地下载的Zip已损坏，删除本地库中的jar文件和目录，重新从远处库下载</li>
+</ul>
 </span>
       
     </div>
@@ -427,7 +430,7 @@
           <div class="post-toc">
             
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#Maven"><span class="nav-number">1.</span> <span class="nav-text">Maven</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#Maven常用指令"><span class="nav-number">1.1.</span> <span class="nav-text">Maven常用指令</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#maven远程库"><span class="nav-number">1.2.</span> <span class="nav-text">maven远程库</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#上传项目到Maven_Central_Repository"><span class="nav-number">2.</span> <span class="nav-text">上传项目到Maven Central Repository</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Maven问题记录"><span class="nav-number">3.</span> <span class="nav-text">Maven问题记录</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#关于Maven"><span class="nav-number">1.</span> <span class="nav-text">关于Maven</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Maven常用指令"><span class="nav-number">2.</span> <span class="nav-text">Maven常用指令</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#maven远程库"><span class="nav-number">3.</span> <span class="nav-text">maven远程库</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#上传项目到Maven_Central_Repository"><span class="nav-number">4.</span> <span class="nav-text">上传项目到Maven Central Repository</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#Maven本地开发"><span class="nav-number">4.1.</span> <span class="nav-text">Maven本地开发</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Maven问题记录"><span class="nav-number">5.</span> <span class="nav-text">Maven问题记录</span></a></li></ol></div>
             
           </div>
           <div class="post-toc-indicator-bottom post-toc-indicator"></div>
