@@ -215,6 +215,120 @@
           
           
             
+              <a class="post-title-link" href="/2015/08/08/Hadoop集群部署/" itemprop="url">
+                Hadoop集群部署
+              </a>
+            
+          
+        </h1>
+      
+
+      <div class="post-meta">
+        <span class="post-time">
+          发表于
+          <time itemprop="dateCreated" datetime="2015-08-08T11:38:22+08:00" content="8   August   2015">
+            8   August   2015
+          </time>
+        </span>
+
+        
+          <span class="post-category" >
+            &nbsp; | &nbsp; 分类于
+            
+              <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
+                <a href="/categories/大数据/" itemprop="url" rel="index">
+                  <span itemprop="name">大数据</span>
+                </a>
+              </span>
+
+              
+              
+                ， 
+              
+
+            
+              <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
+                <a href="/categories/大数据/运维/" itemprop="url" rel="index">
+                  <span itemprop="name">运维</span>
+                </a>
+              </span>
+
+              
+              
+
+            
+          </span>
+        
+
+        
+          
+            <span class="post-comments-count">
+              &nbsp; | &nbsp;
+              <a href="/2015/08/08/Hadoop集群部署/#comments" itemprop="discussionUrl">
+                <span class="post-comments-count ds-thread-count" data-thread-key="2015/08/08/Hadoop集群部署/" itemprop="commentsCount"></span>
+              </a>
+            </span>
+          
+        
+      </div>
+    </header>
+
+    <div class="post-body">
+
+      
+      
+
+      
+        
+          <h1 id="Hadoop版本区别">Hadoop版本区别</h1><p>目前不收费的Hadoop版本主要有三个，分别是：</p>
+<ol>
+<li><em>Apache</em>（最原始的版本，所有发行版均基于这个版本进行改进）</li>
+<li><em>Cloudera</em>版本（Cloudera’s Distribution Including Apache Hadoop，简称CDH）</li>
+<li><em>Hortonworks</em>版本(Hortonworks Data Platform，简称“HDP”），对于国内而言，绝大多数选择CDH版本，</li>
+</ol>
+<p>CDH和Apache版本主要区别：</p>
+<ul>
+<li>CDH对Hadoop版本的划分非常清晰，目前维护的有两个系列的版本，分别是cdh4和cdh5</li>
+<li>由于Cloudera做Hadoop开发的，其他厂商仅是做Hadoop集成或CDH集成，和Hadoop trunk能最快的同步，保证业务的前向兼容性； </li>
+<li>安全 CDH支持Kerberos安全认证，apache hadoop则使用简陋的用户名匹配认证 </li>
+<li>CDH文档清晰（包括中文文档），很多采用Apache版本的用户都会阅读CDH提供的文档，包括安装文档、升级文档等。 </li>
+<li>CDH支持Yum/Apt包，Tar包，RPM包，CM安装，Cloudera Manager三种方式安装,Apache hadoop只支持Tar包安装。</li>
+</ul>
+<hr>
+          <div class="post-more-link text-center">
+            <a class="btn" href="/2015/08/08/Hadoop集群部署/#more" rel="contents">
+              阅读全文 &raquo;
+            </a>
+          </div>
+        
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <header class="post-header">
+
+      
+      
+        <h1 class="post-title" itemprop="name headline">
+          
+          
+            
               <a class="post-title-link" href="/2015/08/05/Python安装升级教程/" itemprop="url">
                 Python安装升级教程
               </a>
@@ -1504,106 +1618,6 @@ LNMP相关软件安装目录Nginx 目录: /usr/local/nginx/MySQL 目录 : /usr/l
 
 
     
-      
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-    <header class="post-header">
-
-      
-      
-        <h1 class="post-title" itemprop="name headline">
-          
-          
-            
-              <a class="post-title-link" href="/2015/06/29/zabbix-agent安装脚本/" itemprop="url">
-                zabbix-agent安装脚本
-              </a>
-            
-          
-        </h1>
-      
-
-      <div class="post-meta">
-        <span class="post-time">
-          发表于
-          <time itemprop="dateCreated" datetime="2015-06-29T15:33:38+08:00" content="29   June   2015">
-            29   June   2015
-          </time>
-        </span>
-
-        
-          <span class="post-category" >
-            &nbsp; | &nbsp; 分类于
-            
-              <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
-                <a href="/categories/运维/" itemprop="url" rel="index">
-                  <span itemprop="name">运维</span>
-                </a>
-              </span>
-
-              
-              
-
-            
-          </span>
-        
-
-        
-          
-            <span class="post-comments-count">
-              &nbsp; | &nbsp;
-              <a href="/2015/06/29/zabbix-agent安装脚本/#comments" itemprop="discussionUrl">
-                <span class="post-comments-count ds-thread-count" data-thread-key="2015/06/29/zabbix-agent安装脚本/" itemprop="commentsCount"></span>
-              </a>
-            </span>
-          
-        
-      </div>
-    </header>
-
-    <div class="post-body">
-
-      
-      
-
-      
-        
-          <span itemprop="articleBody">
-            
-             
-准备内容
-zabbix安装包（官网版本：zabbix-2.2.9.tar.gz）
-yum groupinstall “Development tools”
-zabbix安装脚本 
-
- cd /tmp &amp;&amp; tar -zxf  zabbix.gz
-安装步骤
-修改zabbix_ser
-            ...
-          </span>
-          <div class="post-more-link text-center">
-            <a class="btn" href="/2015/06/29/zabbix-agent安装脚本/#more" rel="contents">
-              阅读全文 &raquo;
-            </a>
-          </div>
-        
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
   </section>
 
   
@@ -1642,7 +1656,7 @@ zabbix安装脚本
         <nav class="site-state motion-element">
           <div class="site-state-item site-state-posts">
             <a href="/archives">
-              <span class="site-state-item-count">34</span>
+              <span class="site-state-item-count">35</span>
               <span class="site-state-item-name">日志</span>
             </a>
           </div>
@@ -1656,7 +1670,7 @@ zabbix安装脚本
 
           <div class="site-state-item site-state-tags">
             <a href="/tags">
-              <span class="site-state-item-count">44</span>
+              <span class="site-state-item-count">43</span>
               <span class="site-state-item-name">标签</span>
               </a>
           </div>

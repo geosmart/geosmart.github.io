@@ -30,7 +30,7 @@
 
 
 
-  <meta name="keywords" content="工具,运维," />
+  <meta name="keywords" content="CDH,Hadoop," />
 
 
 
@@ -41,16 +41,31 @@
   <link rel="shorticon icon" type="image/x-icon" href="/favicon.ico?v=0.4.5.1" />
 
 
-<meta name="description" content="最近需要对多台Web服务器/Java客户端程序的日志进行分析，比较了一些开源的日志分析产工具，目前在用的有OtrosLogViewer（olv）和LogExpert">
+<meta name="description" content="本文主要描述如何在vsphere6中配置linux虚拟机作为cdh的集群模板节点（直接复制虚拟机加入cdh manager会存在配置冲突）
+配置步骤  
+
+Create a working cluster with all required components on a single VM  
+Shut cluster down and set cdh services off  
+Create">
 <meta property="og:type" content="article">
-<meta property="og:title" content="日志分析工具">
-<meta property="og:url" content="http://geosmart.github.io/2015/06/30/日志分析工具/index.html">
+<meta property="og:title" content="CDHAgent虚拟机模板配置">
+<meta property="og:url" content="http://geosmart.github.io/2015/10/10/CDHAgent虚拟机模板配置/index.html">
 <meta property="og:site_name" content="Geosmart's Notes">
-<meta property="og:description" content="最近需要对多台Web服务器/Java客户端程序的日志进行分析，比较了一些开源的日志分析产工具，目前在用的有OtrosLogViewer（olv）和LogExpert">
-<meta property="og:updated_time" content="2015-09-19T14:12:31.139Z">
+<meta property="og:description" content="本文主要描述如何在vsphere6中配置linux虚拟机作为cdh的集群模板节点（直接复制虚拟机加入cdh manager会存在配置冲突）
+配置步骤  
+
+Create a working cluster with all required components on a single VM  
+Shut cluster down and set cdh services off  
+Create">
+<meta property="og:updated_time" content="2015-10-10T13:38:41.218Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="日志分析工具">
-<meta name="twitter:description" content="最近需要对多台Web服务器/Java客户端程序的日志进行分析，比较了一些开源的日志分析产工具，目前在用的有OtrosLogViewer（olv）和LogExpert">
+<meta name="twitter:title" content="CDHAgent虚拟机模板配置">
+<meta name="twitter:description" content="本文主要描述如何在vsphere6中配置linux虚拟机作为cdh的集群模板节点（直接复制虚拟机加入cdh manager会存在配置冲突）
+配置步骤  
+
+Create a working cluster with all required components on a single VM  
+Shut cluster down and set cdh services off  
+Create">
 
 
 <script type="text/javascript" id="hexo.configuration">
@@ -60,7 +75,7 @@
   };
 </script>
 
-  <title> 日志分析工具 | Geosmart's Notes </title>
+  <title> CDHAgent虚拟机模板配置 | Geosmart's Notes </title>
 </head>
 
 <body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
@@ -214,7 +229,7 @@
           
           
             
-              日志分析工具
+              CDHAgent虚拟机模板配置
             
           
         </h1>
@@ -223,8 +238,8 @@
       <div class="post-meta">
         <span class="post-time">
           发表于
-          <time itemprop="dateCreated" datetime="2015-06-30T14:47:50+08:00" content="30   June   2015">
-            30   June   2015
+          <time itemprop="dateCreated" datetime="2015-10-10T09:12:48+08:00" content="10   October   2015">
+            10   October   2015
           </time>
         </span>
 
@@ -233,8 +248,8 @@
             &nbsp; | &nbsp; 分类于
             
               <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
-                <a href="/categories/技术点滴/" itemprop="url" rel="index">
-                  <span itemprop="name">技术点滴</span>
+                <a href="/categories/运维/" itemprop="url" rel="index">
+                  <span itemprop="name">运维</span>
                 </a>
               </span>
 
@@ -249,8 +264,8 @@
           
             <span class="post-comments-count">
               &nbsp; | &nbsp;
-              <a href="/2015/06/30/日志分析工具/#comments" itemprop="discussionUrl">
-                <span class="post-comments-count ds-thread-count" data-thread-key="2015/06/30/日志分析工具/" itemprop="commentsCount"></span>
+              <a href="/2015/10/10/CDHAgent虚拟机模板配置/#comments" itemprop="discussionUrl">
+                <span class="post-comments-count ds-thread-count" data-thread-key="2015/10/10/CDHAgent虚拟机模板配置/" itemprop="commentsCount"></span>
               </a>
             </span>
           
@@ -264,28 +279,37 @@
       
 
       
-        <span itemprop="articleBody"><p>最近需要对多台Web服务器/Java客户端程序的日志进行分析，比较了一些开源的日志分析产工具，目前在用的有OtrosLogViewer（olv）和LogExpert</p>
+        <span itemprop="articleBody"><p>本文主要描述如何在vsphere6中配置linux虚拟机作为cdh的集群模板节点（直接复制虚拟机加入cdh manager会存在配置冲突）</p>
+<p>配置步骤  </p>
+<ol>
+<li>Create a working cluster with all required components on a single VM  </li>
+<li>Shut cluster down and set cdh services off  </li>
+<li>Create template from VM and deploy a new VM from the template  </li>
+<li>Perform hostname changes on the new VM  </li>
+<li>Restart cluster in he new VM and check everything works  </li>
+</ol>
 <hr>
 <a id="more"></a>
-<h2 id="AWStats">AWStats</h2><ul>
-<li>基于Perl，开源、简洁、强大的网站日志分析工具<br>Free real-time logfile analyzer to get advanced statistics (GNU GPL).<br>AWStats is a free powerful and featureful tool that generates advanced web, streaming, ftp or mail server statistics, graphically. This log analyzer works as a CGI or from command line and shows you all possible information your log contains, in few graphical web pages. It uses a partial information file to be able to process large log files, often and quickly. It can analyze log files from all major server tools like Apache log files (NCSA combined/XLF/ELF log format or common/CLF log format), WebStar, IIS (W3C log format) and a lot of other web, proxy, wap, streaming servers, mail servers and some ftp servers.<br>Take a look at this comparison table for an idea on features and differences between most famous statistics tools (AWStats, Analog, Webalizer,…).<br>AWStats is a free software distributed under the GNU General Public License. You can have a look at this license chart to know what you can/can’t do.<br>As AWStats works from the command line but also as a CGI, it can work with all web hosting providers which allow Perl, CGI and log access.</li>
-</ul>
-<h2 id="OtrosLogViewer">OtrosLogViewer</h2><ul>
-<li>基于Java开发的，开源、强大、可自定义日志语法规则进行解析、UI友好，可拖拽http日志进行分析，好评</li>
-<li>问题1：在windows下切换log会非常卡顿，linux下正常，暂未找到原因</li>
-<li>问题2： illegal character in schema name at index xxx<br>  不能直接拖拽文件（如<a href="http://192.168.1.81:8080/logs/uadb/uadb.log），需拖拽浏览器页面（如http://192.168.1.81:8080/logs/uadb）中的日志链接">http://192.168.1.81:8080/logs/uadb/uadb.log），需拖拽浏览器页面（如http://192.168.1.81:8080/logs/uadb）中的日志链接</a></li>
-<li>问题3 按<code>%d{yyyy-MM-dd HH\:mm\:ss,SSS} [%t] [%c] [%p] - %m%n</code>规则拆分行存在问题，存在多行并在一起</li>
-</ul>
-<p>Useful software for analysing applications logs and traces.</p>
-<h2 id="LogExpert">LogExpert</h2><ul>
-<li>小而美的单机日志分析工具，好评<br>  You are a developer needing a nice tail application for MS Windows?<br>  You are in the need for a powerful logfile analysis tool?<br>  You love logfiles?<br>  You live in your logfiles?<br>  Or at least: you have to work with them?<br>  Download LogExpert if you answered “yes” to any of the questions above!</li>
-</ul>
-<h2 id="Log_Parser">Log Parser</h2><ul>
-<li>基于.NET平台<br>  Log Parser is a powerful, versatile tool that provides universal query access to text-based data such as log files, XML files and CSV files, as well as key data sources on the Windows operating system such as the Event Log, the Registry, the file system, and Active Directory. You tell Log Parser what information you need and how you want it processed. The results of your query can be custom-formatted in text based output, or they can be persisted to more specialty targets like SQL, SYSLOG, or a chart. Most software is designed to accomplish a limited number of specific tasks. Log Parser is different… the number of ways it can be used is limited only by the needs and imagination of the user. The world is your database with Log Parser.</li>
-</ul>
-<h2 id="Chainsaw">Chainsaw</h2><ul>
-<li>虽是apache官方的专业Log4j分析工具，2004年就没更新了,差评！<br>  Chainsaw v2 is a companion application to Log4j written by members of the Log4j development community. Like a number of Open Source projects, this new version was built upon inspirations, ideas and creations of others. Chainsaw v2 has it’s roots from the original Chainsaw utility written by Oliver Burn, and with inspiration from the Log Factor 5 utility contributed by ThoughtWorks Inc.</li>
-</ul>
+<p>I’ve checked the following components:</p>
+<h1 id="Step_1_–_installation">Step 1 – installation</h1><p>Install CDH with required components and check everything works</p>
+<h1 id="Step_2_–_shut_down_cluster">Step 2 – shut down cluster</h1><p>From CDH web console – Shutdown cluster and Cloudera Management Services</p>
+<p>From Linux CLI:</p>
+<figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">service cloudera-scm-agent stop&#10;service cloudera-scm-server stop&#10;service cloudera-scm-server-db stop&#10;chkconfig cloudera-scm-agent off&#10;chkconfig cloudera-scm-server off&#10;chkconfig cloudera-scm-server-db off&#10;poweroff</span><br></pre></td></tr></table></figure>
+<p>Note – the chkconfig is important, so the services will not restart automatically on the new VM</p>
+<h1 id="Step_3_–_Create_VM_template">Step 3 – Create VM template</h1><p>From Vsphere UI (or any other vmware tool)</p>
+<p>Point on VM and right-click to “Clone to Template…”<br>Go to newly created template and right-click to “Deploy virtual Machine”<br>Start the newly created VM</p>
+<h1 id="Step_4_–_Perform_changes_in_new_VM">Step 4 – Perform changes in new VM</h1><p>Change hostname and set new IP (might need the VM console for this)<br>Useful command is system-config-network</p>
+<p>Cloudera related changes:</p>
+<p>Change the host name in the file /etc/cloudera-scm-agent/config.ini<br>Update host name in the following tables in Postgres<br>Use dbvisualizer (<a href="http://www.dbvis.com/">http://www.dbvis.com/</a> or any other tool)<br>or the command “psql -U cloudera-scm -p 7432 -d scm”<br>password from here – /var/lib/cloudera-scm-server-db/data/generated_password.txt<br>Note – some of the changes can be done from CM UI after the host tables is changed. i.e. not via the psql.<br>Table hosts</p>
+<p>select HOST_ID, HOST_IDENTIFIER, NAME from HOSTS;<br>update hosts set name=’NEWHOSTNAME.FQDN’ where host_id=1;<br>Table hosts_aud</p>
+<p>select * from hosts_aud;<br>update hosts_aud set name=’NEWHOSTNAME.FQDN where host_id=1;<br>Table processes</p>
+<p>select process_id,name,status_links from processes;<br>Create for each process its own update, something like:</p>
+<p>update processes set status_links=’{“status”:”<a href="http://NEWHOSTNAME.FQDN:8042/&quot;}">http://NEWHOSTNAME.FQDN:8042/&quot;}</a>‘ where process_id=66;<br>update processes set status_links=’{“status”:”<a href="http://NEWHOSTNAME.FQDN:8084/&quot;}">http://NEWHOSTNAME.FQDN:8084/&quot;}</a>‘ where process_id=29;<br>update processes set status_links=’{“status”:”<a href="http://NEWHOSTNAME.FQDN:8091/&quot;}">http://NEWHOSTNAME.FQDN:8091/&quot;}</a>‘ where process_id=30;<br>update processes set status_links=’{“status”:”<a href="http://NEWHOSTNAME.FQDN:50090/&quot;}">http://NEWHOSTNAME.FQDN:50090/&quot;}</a>‘ where process_id=62;<br>update processes set status_links=’{“status”:”<a href="http://NEWHOSTNAME.FQDN:50070/&quot;}">http://NEWHOSTNAME.FQDN:50070/&quot;}</a>‘ where process_id=63;<br>update processes set status_links=’{“status”:”<a href="http://NEWHOSTNAME.FQDN:50075/&quot;}">http://NEWHOSTNAME.FQDN:50075/&quot;}</a>‘ where process_id=64;<br>update processes set status_links=’{“status”:”<a href="http://NEWHOSTNAME.FQDN:25000/&quot;}">http://NEWHOSTNAME.FQDN:25000/&quot;}</a>‘ where process_id=73;<br>update processes set status_links=’{“status”:”<a href="http://NEWHOSTNAME.FQDN:19888/&quot;}">http://NEWHOSTNAME.FQDN:19888/&quot;}</a>‘ where process_id=65;<br>update processes set status_links=’{“status”:”<a href="http://NEWHOSTNAME.FQDN:11000/oozie&quot;}">http://NEWHOSTNAME.FQDN:11000/oozie&quot;}</a>‘ where process_id=74;<br>update processes set status_links=’{“status”:”<a href="http://NEWHOSTNAME.FQDN:25010/&quot;}">http://NEWHOSTNAME.FQDN:25010/&quot;}</a>‘ where process_id=71;<br>update processes set status_links=’{“status”:”<a href="http://NEWHOSTNAME.FQDN:8088/&quot;}">http://NEWHOSTNAME.FQDN:8088/&quot;}</a>‘ where process_id=67;<br>update processes set status_links=’{“status”:”<a href="http://NEWHOSTNAME.FQDN:8086/&quot;}">http://NEWHOSTNAME.FQDN:8086/&quot;}</a>‘ where process_id=27;<br>update processes set status_links=’{“status”:”<a href="http://NEWHOSTNAME.FQDN:8087/&quot;}">http://NEWHOSTNAME.FQDN:8087/&quot;}</a>‘ where process_id=28;<br>update processes set status_links=’{“status”:”<a href="http://NEWHOSTNAME.FQDN:25020/&quot;}">http://NEWHOSTNAME.FQDN:25020/&quot;}</a>‘ where process_id=72;<br>update processes set status_links=’{“status”:”<a href="http://NEWHOSTNAME.FQDN:8888/&quot;}">http://NEWHOSTNAME.FQDN:8888/&quot;}</a>‘ where process_id=75;<br>update processes set status_links=’{“status”:”<a href="http://NEWHOSTNAME.FQDN:18088&quot;}">http://NEWHOSTNAME.FQDN:18088&quot;}</a>‘ where process_id=82;<br>Note: Need to check resource field as well</p>
+<p>Tables configs_aud and configs(two similar tables)</p>
+<p>select config_id,attr,value from configs_aud where value like ‘%OLDHOSTNAME%’;<br>Update according to the output, e.g.:</p>
+<p>update configs_aud set value=’NEWHOSTNAME.FQDN’ where config_id=63;<br>update configs_aud set value=’NEWHOSTNAME.FQDN:7432’ where config_id=16;<br>Table command</p>
+<p>select command_id,arguments from commands where arguments like ‘%OLDHOSTNAME%’;<br>update commands set arguments=’{“@class”:”com.cloudera.cmf.command.BasicCmdArgs”,”alertConfig”:null,”argsNEWHOSTNAME.FQDNNEWHOSTNAME.FQDN”,”postgresql”,”NEWHOSTNAME.FQDN:7432”,”amon”,”amon”,”gybJy2O6OMcommand_id=16;</p>
+<h1 id="参考阅读">参考阅读</h1><p><a href="http://www.cloudera.com/content/cloudera/zh-CN/documentation/core/v5-3-x/topics/cm_mc_adding_hosts.html?scroll=cmug_topic_7_5">将主机添加到群集</a><br><a href="https://linuxlabrat.wordpress.com/2015/01/27/duplicating-cloudera-vm-cloudera-related-changescloudetable/">Duplicating Cloudera VM Cloudera related changesCloudeTable</a></p>
 </span>
       
     </div>
@@ -294,9 +318,9 @@
       
         <div class="post-tags">
           
-            <a href="/tags/工具/" rel="tag">#工具</a>
+            <a href="/tags/CDH/" rel="tag">#CDH</a>
           
-            <a href="/tags/运维/" rel="tag">#运维</a>
+            <a href="/tags/Hadoop/" rel="tag">#Hadoop</a>
           
         </div>
       
@@ -305,13 +329,11 @@
         <div class="post-nav">
           <div class="post-nav-prev post-nav-item">
             
-              <a href="/2015/07/01/mongodb一键安装脚本/" rel="prev">mongodb一键安装脚本</a>
-            
           </div>
 
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2015/06/30/常用git命令/" rel="next">常用git命令</a>
+              <a href="/2015/10/03/Docker学习笔记/" rel="next">Docker学习笔记</a>
             
           </div>
         </div>
@@ -336,8 +358,8 @@
         
           <div class="comments" id="comments">
             
-              <div class="ds-thread" data-thread-key="2015/06/30/日志分析工具/"
-                   data-title="日志分析工具" data-url="http://geosmart.github.io/2015/06/30/日志分析工具/">
+              <div class="ds-thread" data-thread-key="2015/10/10/CDHAgent虚拟机模板配置/"
+                   data-title="CDHAgent虚拟机模板配置" data-url="http://geosmart.github.io/2015/10/10/CDHAgent虚拟机模板配置/">
               </div>
             
           </div>
@@ -426,7 +448,7 @@
           <div class="post-toc">
             
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#AWStats"><span class="nav-number">1.</span> <span class="nav-text">AWStats</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#OtrosLogViewer"><span class="nav-number">2.</span> <span class="nav-text">OtrosLogViewer</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#LogExpert"><span class="nav-number">3.</span> <span class="nav-text">LogExpert</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Log_Parser"><span class="nav-number">4.</span> <span class="nav-text">Log Parser</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Chainsaw"><span class="nav-number">5.</span> <span class="nav-text">Chainsaw</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#Step_1_–_installation"><span class="nav-number">1.</span> <span class="nav-text">Step 1 – installation</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Step_2_–_shut_down_cluster"><span class="nav-number">2.</span> <span class="nav-text">Step 2 – shut down cluster</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Step_3_–_Create_VM_template"><span class="nav-number">3.</span> <span class="nav-text">Step 3 – Create VM template</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Step_4_–_Perform_changes_in_new_VM"><span class="nav-number">4.</span> <span class="nav-text">Step 4 – Perform changes in new VM</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#参考阅读"><span class="nav-number">5.</span> <span class="nav-text">参考阅读</span></a></li></ol></div>
             
           </div>
           <div class="post-toc-indicator-bottom post-toc-indicator"></div>
