@@ -55,7 +55,7 @@ Hortonworks版本(Hortonworks Data Platform，简称“HDP”），对于国内�
 Apache（最原始的版本，所有发行版均基于这个版本进行改进）
 Cloudera版本（Cloudera’s Distribution Including Apache Hadoop，简称CDH）
 Hortonworks版本(Hortonworks Data Platform，简称“HDP”），对于国内而言，绝大多数选择CDH版">
-<meta property="og:updated_time" content="2015-09-26T13:34:08.905Z">
+<meta property="og:updated_time" content="2015-10-11T02:27:18.937Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Hadoop集群部署">
 <meta name="twitter:description" content="Hadoop版本区别目前不收费的Hadoop版本主要有三个，分别是：
@@ -327,7 +327,8 @@ Hortonworks版本(Hortonworks Data Platform，简称“HDP”），对于国内�
 <li>Hadoop生态系统包自动匹配，不需要你寻找与当前Hadoop匹配的Hbase，Flume，Hive等软件，Yum/Apt会根据当前安装Hadoop版本自动寻找匹配版本的软件包，并保证兼容性。</li>
 <li>自动创建相关目录并软链到合适的地方（如conf和logs等目录）；自动创建hdfs, mapred用户，hdfs用户是HDFS的最高权限用户，mapred用户则负责mapreduce执行过程中相关目录的权限。</li>
 </ol>
-<h2 id="在线安装步骤">在线安装步骤</h2><h3 id="静态IP配置">静态IP配置</h3><p><code>cd /mnt/scripts/batch-update-ip &amp;&amp; chmod +x static-ip.sh &amp;&amp; ./static-ip.sh localhost eth1 192.168.1 81 1</code><br><a href="">脚本地址</a></p>
+<h2 id="在线安装步骤">在线安装步骤</h2><p><a href="http://www.tuicool.com/articles/ENjmeaY">离线安装Cloudera Manager 5和CDH5(最新版5.1.3) 完全教程</a></p>
+<h3 id="静态IP配置">静态IP配置</h3><p><code>cd /mnt/scripts/batch-update-ip &amp;&amp; chmod +x static-ip.sh &amp;&amp; ./static-ip.sh localhost eth1 192.168.1 81 1</code><br><a href="">脚本地址</a></p>
 <ol>
 <li>HostName配置/FQDN配置<br>FQDN是Fully Qualified Domain Name的缩写, 含义是完整的域名. 例如, 一台机器主机名(hostname)是www, 域后缀(domain)是example.com, 那么该主机的FQDN应该是www.example.com.<br>注意：hosts配置不当，后面server和agent间通讯会存在问题，参考host配置如下：</li>
 </ol>
