@@ -30,7 +30,7 @@
 
 
 
-  <meta name="keywords" content="CentOS,MongoDB,数据库," />
+  <meta name="keywords" content="geosmart,blog,hexo" />
 
 
 
@@ -41,20 +41,22 @@
   <link rel="shorticon icon" type="image/x-icon" href="/favicon.ico?v=0.4.5.1" />
 
 
-<meta name="description" content="准备事项下载安装包文件（二进制编译版）1234mkdir -p /usr/local/mongodbcd /usr/local/mongodbwget http://fastdl.mongodb.org/linux/mongodb-linux-x86_64-2.6.3.tgztar -zvxf mongodb-linux-x86_64-2.6.3.tgz
-重命名&amp;gt;新建数据/日志目录123mv">
+<meta name="description" content="部署文档参考离线安装Cloudera Manager5.3.4与CDH5.3.4离线安装Cloudera Manager 5和CDH5(最新版5.1.3) 完全教程离线安装 Cloudera ( CDH 5.x )离线安装 Cloudera官方教程
+软件准备官方资源地址JDK7最低版本：1.7.0_67cloudera-manager-installer：下载地址CDH Parcel 
+虚拟机准备">
 <meta property="og:type" content="article">
-<meta property="og:title" content="mongodb手动安装脚本">
-<meta property="og:url" content="http://geosmart.github.io/2015/06/28/mongodb手动安装脚本/index.html">
+<meta property="og:title" content="Hadoop离线集群部署">
+<meta property="og:url" content="http://geosmart.github.io/2015/10/20/Hadoop离线集群部署/index.html">
 <meta property="og:site_name" content="Geosmart's Notes">
-<meta property="og:description" content="准备事项下载安装包文件（二进制编译版）1234mkdir -p /usr/local/mongodbcd /usr/local/mongodbwget http://fastdl.mongodb.org/linux/mongodb-linux-x86_64-2.6.3.tgztar -zvxf mongodb-linux-x86_64-2.6.3.tgz
-重命名&amp;gt;新建数据/日志目录123mv">
-<meta property="og:image" content="http://geosmart.github.io/nosql.png">
-<meta property="og:updated_time" content="2015-09-07T13:30:01.594Z">
+<meta property="og:description" content="部署文档参考离线安装Cloudera Manager5.3.4与CDH5.3.4离线安装Cloudera Manager 5和CDH5(最新版5.1.3) 完全教程离线安装 Cloudera ( CDH 5.x )离线安装 Cloudera官方教程
+软件准备官方资源地址JDK7最低版本：1.7.0_67cloudera-manager-installer：下载地址CDH Parcel 
+虚拟机准备">
+<meta property="og:updated_time" content="2015-10-20T12:56:58.023Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="mongodb手动安装脚本">
-<meta name="twitter:description" content="准备事项下载安装包文件（二进制编译版）1234mkdir -p /usr/local/mongodbcd /usr/local/mongodbwget http://fastdl.mongodb.org/linux/mongodb-linux-x86_64-2.6.3.tgztar -zvxf mongodb-linux-x86_64-2.6.3.tgz
-重命名&amp;gt;新建数据/日志目录123mv">
+<meta name="twitter:title" content="Hadoop离线集群部署">
+<meta name="twitter:description" content="部署文档参考离线安装Cloudera Manager5.3.4与CDH5.3.4离线安装Cloudera Manager 5和CDH5(最新版5.1.3) 完全教程离线安装 Cloudera ( CDH 5.x )离线安装 Cloudera官方教程
+软件准备官方资源地址JDK7最低版本：1.7.0_67cloudera-manager-installer：下载地址CDH Parcel 
+虚拟机准备">
 
 
 <script type="text/javascript" id="hexo.configuration">
@@ -64,7 +66,7 @@
   };
 </script>
 
-  <title> mongodb手动安装脚本 | Geosmart's Notes </title>
+  <title> Hadoop离线集群部署 | Geosmart's Notes </title>
 </head>
 
 <body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
@@ -218,7 +220,7 @@
           
           
             
-              mongodb手动安装脚本
+              Hadoop离线集群部署
             
           
         </h1>
@@ -227,34 +229,19 @@
       <div class="post-meta">
         <span class="post-time">
           发表于
-          <time itemprop="dateCreated" datetime="2015-06-28T20:26:00+08:00" content="28   June   2015">
-            28   June   2015
+          <time itemprop="dateCreated" datetime="2015-10-20T11:04:32+08:00" content="20   October   2015">
+            20   October   2015
           </time>
         </span>
 
-        
-          <span class="post-category" >
-            &nbsp; | &nbsp; 分类于
-            
-              <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
-                <a href="/categories/技术点滴/" itemprop="url" rel="index">
-                  <span itemprop="name">技术点滴</span>
-                </a>
-              </span>
-
-              
-              
-
-            
-          </span>
         
 
         
           
             <span class="post-comments-count">
               &nbsp; | &nbsp;
-              <a href="/2015/06/28/mongodb手动安装脚本/#comments" itemprop="discussionUrl">
-                <span class="post-comments-count ds-thread-count" data-thread-key="2015/06/28/mongodb手动安装脚本/" itemprop="commentsCount"></span>
+              <a href="/2015/10/20/Hadoop离线集群部署/#comments" itemprop="discussionUrl">
+                <span class="post-comments-count ds-thread-count" data-thread-key="2015/10/20/Hadoop离线集群部署/" itemprop="commentsCount"></span>
               </a>
             </span>
           
@@ -268,65 +255,60 @@
       
 
       
-        <span itemprop="articleBody"><p><img src="nosql.png" alt="nosql">   </p>
-<h1 id="准备事项">准备事项</h1><h2 id="下载安装包文件（二进制编译版）">下载安装包文件（二进制编译版）</h2><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">mkdir -p /usr/<span class="built_in">local</span>/mongodb</span><br><span class="line"><span class="built_in">cd</span> /usr/<span class="built_in">local</span>/mongodb</span><br><span class="line">wget http://fastdl.mongodb.org/linux/mongodb-linux-x86_64-<span class="number">2.6</span>.<span class="number">3</span>.tgz</span><br><span class="line">tar -zvxf mongodb-linux-x86_64-<span class="number">2.6</span>.<span class="number">3</span>.tgz</span><br></pre></td></tr></table></figure>
-<h2 id="重命名&gt;新建数据/日志目录">重命名&gt;新建数据/日志目录</h2><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">mv mongodb-linux-x86_64-<span class="number">2.6</span>.<span class="number">3</span> mongodb</span><br><span class="line">mkdir data</span><br><span class="line">mkdir <span class="built_in">log</span></span><br></pre></td></tr></table></figure>
-<h1 id="配置环境变量">配置环境变量</h1><p>CentOs中配置path环境变量,确保mongodb的bin目录包含在path环境变量中。</p>
-<h2 id="配置PATH">配置PATH</h2><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">vim /etc/profile </span><br><span class="line">　　<span class="comment">#set for mongodb </span></span><br><span class="line">　　<span class="built_in">export</span> MONGODB_HOME=/usr/<span class="built_in">local</span>/mongodb </span><br><span class="line">　　<span class="built_in">export</span> PATH=<span class="variable">$MONGODB_HOME</span>/bin:<span class="variable">$PATH</span></span><br></pre></td></tr></table></figure>
-<h2 id="查看当前PATH">查看当前PATH</h2><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">echo</span> <span class="variable">$PATH</span></span><br></pre></td></tr></table></figure>
-<h2 id="让环境变量生效">让环境变量生效</h2><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">source</span> /etc/profile</span><br><span class="line">//验证环境变量是否生效</span><br><span class="line">mongod -version</span><br><span class="line"><span class="built_in">echo</span> <span class="variable">$PATH</span></span><br><span class="line">```  </span><br><span class="line"></span><br><span class="line"><span class="comment">## 添加CentOS开机启动项</span></span><br></pre></td></tr></table></figure>
-<p>vim  /etc/rc.d/rc.local<br>//将mongodb启动命令手动追加到本文件中：<br>/usr/local/mongodb/bin/mongod –dbpath /usr/local/mongodb/data –logpath /usr/local/mongodb/log/mongodb.log  –fork –smallfiles<br><figure class="highlight groovy"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"># 启动MongoDB</span><br><span class="line">## 配置文件形式 </span><br><span class="line">``` bash</span><br><span class="line">vim  <span class="regexp">/usr/</span>local<span class="regexp">/mongodb/</span>mongodb.conf</span><br><span class="line">dbpath=<span class="regexp">/usr/</span>local<span class="regexp">/mongodb/</span>data</span><br><span class="line">logpath=<span class="regexp">/usr/</span>local<span class="regexp">/mongodb/</span>log/mongodb.log</span><br><span class="line">logappend=<span class="literal">true</span></span><br><span class="line">port=<span class="number">27017</span></span><br><span class="line">fork=<span class="literal">true</span></span><br><span class="line">noauth=<span class="literal">true</span></span><br><span class="line">journal=<span class="literal">true</span></span><br><span class="line">smallfiles=<span class="literal">true</span> </span><br><span class="line">```  </span><br><span class="line"></span><br><span class="line">## 命令行形式</span><br><span class="line">``` Bash</span><br><span class="line"><span class="regexp">/usr/</span>local<span class="regexp">/mongodb/</span>bin<span class="regexp">/mongod --dbpath /</span>usr<span class="regexp">/local/</span>mongodb<span class="regexp">/data --logpath /</span>usr<span class="regexp">/local/</span>mongodb<span class="regexp">/log/</span>mongodb.log  --fork --smallfiles</span><br><span class="line"><span class="comment">//可选：--auth</span></span><br></pre></td></tr></table></figure></p>
-<h1 id="增加用户">增加用户</h1><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">useradd mongodb -M <span class="operator">-s</span> /sbin/nologin</span><br></pre></td></tr></table></figure>
-<h1 id="启动服务/测试服务状态">启动服务/测试服务状态</h1><pre><code class="bash">service mongod start
-service mongod status
-shutdown -r now
-service mongod status
-mongo admin
-show dbs；
-db.test.find();
-<span class="built_in">exit</span>
-</code></pre>
-<h1 id="部署问题记录">部署问题记录</h1><h2 id="MongoVUE不能连接">MongoVUE不能连接</h2><p>将27017端口加入信任列表；局域网测试直接关闭防火墙</p>
-<pre><code class="bash">//关闭防火墙 
-service iptables stop 
-//开启
-chkconfig iptables on
-//关闭
-chkconfig iptables off 
-//查询TCP连接情况
- netstat -n | awk <span class="string">'/^tcp/ {++S[$NF]} END {for(a in S) print a, S[a]}'</span>
-//查询端口占用情况：
- netstat   -anp   |   grep  portno
-//（例如：netstat –apn | grep <span class="number">80</span>）
-</code></pre>
+        <span itemprop="articleBody"><h1 id="部署文档参考">部署文档参考</h1><p><a href="http://blog.csdn.net/scgaliguodong123_/article/details/46661881">离线安装Cloudera Manager5.3.4与CDH5.3.4</a><br><a href="http://www.tuicool.com/articles/ENjmeaY">离线安装Cloudera Manager 5和CDH5(最新版5.1.3) 完全教程</a><br><a href="http://www.cnblogs.com/modestmt/p/4540818.html">离线安装 Cloudera ( CDH 5.x )</a><br><a href="http://www.aboutyun.com/thread-8921-1-1.html">离线安装 Cloudera</a><br><a href="http://www.cloudera.com/content/cloudera/zh-CN/documentation/core/v5-3-x/topics/cm_ig_install_path_b.html#cmig_topic_6_6">官方教程</a></p>
+<h1 id="软件准备">软件准备</h1><p><a href="http://www.cloudera.com/content/www/en-us/documentation/enterprise/latest/topics/cm_vd.html">官方资源地址</a><br>JDK7最低版本：1.7.0_67<br>cloudera-manager-installer：<a href="http://archive.cloudera.com/cm5/installer/latest/cloudera-manager-installer.bin">下载地址</a><br>CDH Parcel </p>
+<h1 id="虚拟机准备">虚拟机准备</h1><p>100：Cloudera Manager<br>161：MySQL<br>104~106：Cloudera Agent</p>
+<p>Host配置&gt;SSH&gt;安装JDK&gt;配置MySQL&gt;关闭防火墙和SELinux</p>
+<h1 id="安装JDK">安装JDK</h1><p>将 JDK 提取至 /usr/java/jdk-version；例如：/usr/java/jdk1.7.0_80<br>将装有 JDK 的目录通过符号链接至 /usr/java/default；例如：<br>ln -s /usr/java/jdk.1.7.0_80 /usr/java/default </p>
+<h1 id="MySQL数据库配置">MySQL数据库配置</h1><h2 id="安装配置MySQL">安装配置MySQL</h2><h2 id="配置SCM数据库">配置SCM数据库</h2><figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">--hive数据库</span></span><br><span class="line"><span class="operator"><span class="keyword">create</span> <span class="keyword">database</span> hive <span class="keyword">DEFAULT</span> <span class="keyword">CHARSET</span> utf8 <span class="keyword">COLLATE</span> utf8_general_ci;</span></span><br><span class="line"><span class="comment">--集群监控数据库</span></span><br><span class="line"><span class="operator"><span class="keyword">create</span> <span class="keyword">database</span> amon <span class="keyword">DEFAULT</span> <span class="keyword">CHARSET</span> utf8 <span class="keyword">COLLATE</span> utf8_general_ci;</span></span><br><span class="line"><span class="comment">--hue数据库</span></span><br><span class="line"><span class="operator"><span class="keyword">create</span> <span class="keyword">database</span> hue <span class="keyword">DEFAULT</span> <span class="keyword">CHARSET</span> utf8 <span class="keyword">COLLATE</span> utf8_general_ci;</span></span><br><span class="line"></span><br><span class="line"><span class="operator"><span class="keyword">grant</span> <span class="keyword">all</span> <span class="keyword">privileges</span> <span class="keyword">on</span> *.* <span class="keyword">to</span> <span class="string">'root'</span>@<span class="string">'%'</span> <span class="keyword">identified</span> <span class="keyword">by</span> <span class="string">'root'</span> <span class="keyword">with</span> <span class="keyword">grant</span> <span class="keyword">option</span>;</span></span><br><span class="line"></span><br><span class="line"><span class="operator"><span class="keyword">grant</span> <span class="keyword">all</span> <span class="keyword">privileges</span> <span class="keyword">on</span> *.* <span class="keyword">to</span> <span class="string">'root'</span>@<span class="string">'master'</span> <span class="keyword">identified</span> <span class="keyword">by</span> <span class="string">'root'</span> <span class="keyword">with</span> <span class="keyword">grant</span> <span class="keyword">option</span>;</span></span><br><span class="line"><span class="operator"><span class="keyword">grant</span> <span class="keyword">all</span> <span class="keyword">privileges</span> <span class="keyword">on</span> *.* <span class="keyword">to</span> <span class="string">'root'</span>@<span class="string">'192.168.1.100'</span> <span class="keyword">identified</span> <span class="keyword">by</span> <span class="string">'root'</span> <span class="keyword">with</span> <span class="keyword">grant</span> <span class="keyword">option</span>;</span></span><br><span class="line"><span class="operator"><span class="keyword">grant</span> <span class="keyword">all</span> <span class="keyword">privileges</span> <span class="keyword">on</span> *.* <span class="keyword">to</span> <span class="string">'root'</span>@<span class="string">'192.168.1.183'</span> <span class="keyword">identified</span> <span class="keyword">by</span> <span class="string">'root'</span> <span class="keyword">with</span> <span class="keyword">grant</span> <span class="keyword">option</span>;</span></span><br><span class="line"><span class="operator"><span class="keyword">flush</span> <span class="keyword">privileges</span>;</span></span><br></pre></td></tr></table></figure>
+<h1 id="安装cloudera-manager">安装cloudera-manager</h1><p>主节点解压安装<br>cloudera manager的目录默认位置在/opt下，<br>解压：cd /opt &amp;&amp; tar xzvf cloudera-manager*.tar.gz   </p>
+<h1 id="添加cloudera-scm用户：">添加cloudera-scm用户：</h1><p>Agent节点执行：useradd –system –home=/opt/cm-5.4.7/run/cloudera-scm-server/ –no-create-home –shell=/bin/false –comment  “Cloudera SCM User” cloudera-scm</p>
+<h1 id="更改cloudera-scm用户目录">更改cloudera-scm用户目录</h1><ul>
+<li>查看用户ID:id cloudera-scm</li>
+<li>查看用户home：echo ~cloudera-scm</li>
+<li>修改用户home：usermod -d /opt/cm-5.4.7/run/cloudera-scm-server/ -u ${用户ID} cloudera-scm<br>如：usermod -d /opt/cm-5.4.7/run/cloudera-scm-server/ -u 496 cloudera-scm</li>
+</ul>
+<h1 id="安装_mysql_connector：">安装 mysql connector：</h1><p><a href="http://www.cloudera.com/content/cloudera/zh-CN/documentation/core/v5-3-x/topics/cm_ig_mysql.html?scroll=cmig_topic_5_5">外部MySQL数据库配置</a><br><a href="http://www.cnblogs.com/peijie-tech/articles/4446011.html">mysql-connector-java与mysql的版本对应关系</a></p>
+<ul>
+<li>下载<a href="http://ftp.ntu.edu.tw/MySQL/Downloads/Connector-J/">mysql-connector-java-5.1.36.tar.gz</a>文件中提取 JDBC 驱动程序 JAR 文件。</li>
+<li>解压：<code>tar zxvf mysql-connector-java-5.1.36.tar.gz</code>，</li>
+<li>解压后找到mysql-connector-java-5.1.33-bin.jar，放到/opt/cm-5.4.7/share/cmf/lib/中。</li>
+</ul>
+<h1 id="初始化CM5的数据库：">初始化CM5的数据库：</h1><p>在SCM主节点初始化SCM数据库<br>格式:scm_prepare_database.sh 数据库类型 数据库 服务器IP 用户名 密码 –scm-host Cloudera_Manager_Server机器IP scm scm scm<br>如：<code>/opt/cm-5.4.7/share/cmf/schema/scm_prepare_database.sh  mysql -h 192.168.1.161 -uroot -proot --scm-host 192.168.1.100 scm scm scm</code></p>
+<h1 id="Agent配置">Agent配置</h1><ul>
+<li>修改配置文件<br><code>/opt/cm-5.4.7/etc/cloudera-scm-agent/config.ini</code>中的server_host为主节点的主机名。</li>
+<li><p>同步Agent到其他节点<br><code>scp -r /opt/cm-5.4.7 root@192.168.1.90:/opt/</code></p>
+</li>
+<li><p>修改hostname、hosts</p>
+</li>
+</ul>
+<h1 id="准备Parcels，用以安装CDH5">准备Parcels，用以安装CDH5</h1><p>将CHD5相关的Parcel包放到主节点的/opt/cloudera/parcel-repo/目录中（parcel-repo需要手动创建）。<br>相关的文件如下：</p>
+<blockquote>
+<p>CDH-5.4.7-1.cdh5.4.7.p0.3-el6.parcel<br>CDH-5.4.7-1.cdh5.4.7.p0.3-el6.parcel.sha1<br>manifest.json</p>
+</blockquote>
+<p>将CDH-5.4.7-1.cdh5.4.7.p0.3-el6.parcel.sha1，重命名为CDH-5.4.7-1.cdh5.4.7.p0.3-el6.parcel.sha，这点必须注意，否则，系统会重新下载CDH-5.4.7-1.cdh5.4.7.p0.3-el6.parcel文件。</p>
+<h1 id="启动脚本">启动脚本</h1><ul>
+<li>启动cloudera manager server服务：<code>/opt/cm-5.4.7/etc/init.d/cloudera-scm-server start</code></li>
+<li>启动cloudera manager agent服务：<code>/opt/cm-5.4.7/etc/init.d/cloudera-scm-agent start</code></li>
+</ul>
+<p>添加到启动项目？？？</p>
+<h1 id="CDH5的安装配置">CDH5的安装配置</h1><p>进入cdm：192.168.1.100:7180</p>
 </span>
       
     </div>
 
     <footer class="post-footer">
       
-        <div class="post-tags">
-          
-            <a href="/tags/CentOS/" rel="tag">#CentOS</a>
-          
-            <a href="/tags/MongoDB/" rel="tag">#MongoDB</a>
-          
-            <a href="/tags/数据库/" rel="tag">#数据库</a>
-          
-        </div>
-      
 
       
         <div class="post-nav">
           <div class="post-nav-prev post-nav-item">
             
-              <a href="/2015/06/29/zabbix-agent安装脚本/" rel="prev">zabbix-agent安装脚本</a>
-            
           </div>
 
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2015/06/28/jdk安装脚本/" rel="next">jdk安装脚本</a>
+              <a href="/2015/10/10/CDHAgent虚拟机模板配置/" rel="next">CDHAgent虚拟机模板配置</a>
             
           </div>
         </div>
@@ -351,8 +333,8 @@ chkconfig iptables off
         
           <div class="comments" id="comments">
             
-              <div class="ds-thread" data-thread-key="2015/06/28/mongodb手动安装脚本/"
-                   data-title="mongodb手动安装脚本" data-url="http://geosmart.github.io/2015/06/28/mongodb手动安装脚本/">
+              <div class="ds-thread" data-thread-key="2015/10/20/Hadoop离线集群部署/"
+                   data-title="Hadoop离线集群部署" data-url="http://geosmart.github.io/2015/10/20/Hadoop离线集群部署/">
               </div>
             
           </div>
@@ -441,7 +423,7 @@ chkconfig iptables off
           <div class="post-toc">
             
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#准备事项"><span class="nav-number">1.</span> <span class="nav-text">准备事项</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#下载安装包文件（二进制编译版）"><span class="nav-number">1.1.</span> <span class="nav-text">下载安装包文件（二进制编译版）</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#重命名>新建数据/日志目录"><span class="nav-number">1.2.</span> <span class="nav-text">重命名>新建数据/日志目录</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#配置环境变量"><span class="nav-number">2.</span> <span class="nav-text">配置环境变量</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#配置PATH"><span class="nav-number">2.1.</span> <span class="nav-text">配置PATH</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#查看当前PATH"><span class="nav-number">2.2.</span> <span class="nav-text">查看当前PATH</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#让环境变量生效"><span class="nav-number">2.3.</span> <span class="nav-text">让环境变量生效</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#增加用户"><span class="nav-number">3.</span> <span class="nav-text">增加用户</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#启动服务/测试服务状态"><span class="nav-number">4.</span> <span class="nav-text">启动服务/测试服务状态</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#部署问题记录"><span class="nav-number">5.</span> <span class="nav-text">部署问题记录</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#MongoVUE不能连接"><span class="nav-number">5.1.</span> <span class="nav-text">MongoVUE不能连接</span></a></li></ol></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#部署文档参考"><span class="nav-number">1.</span> <span class="nav-text">部署文档参考</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#软件准备"><span class="nav-number">2.</span> <span class="nav-text">软件准备</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#虚拟机准备"><span class="nav-number">3.</span> <span class="nav-text">虚拟机准备</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#安装JDK"><span class="nav-number">4.</span> <span class="nav-text">安装JDK</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#MySQL数据库配置"><span class="nav-number">5.</span> <span class="nav-text">MySQL数据库配置</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#安装配置MySQL"><span class="nav-number">5.1.</span> <span class="nav-text">安装配置MySQL</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#配置SCM数据库"><span class="nav-number">5.2.</span> <span class="nav-text">配置SCM数据库</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#安装cloudera-manager"><span class="nav-number">6.</span> <span class="nav-text">安装cloudera-manager</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#添加cloudera-scm用户："><span class="nav-number">7.</span> <span class="nav-text">添加cloudera-scm用户：</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#更改cloudera-scm用户目录"><span class="nav-number">8.</span> <span class="nav-text">更改cloudera-scm用户目录</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#安装_mysql_connector："><span class="nav-number">9.</span> <span class="nav-text">安装 mysql connector：</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#初始化CM5的数据库："><span class="nav-number">10.</span> <span class="nav-text">初始化CM5的数据库：</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Agent配置"><span class="nav-number">11.</span> <span class="nav-text">Agent配置</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#准备Parcels，用以安装CDH5"><span class="nav-number">12.</span> <span class="nav-text">准备Parcels，用以安装CDH5</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#启动脚本"><span class="nav-number">13.</span> <span class="nav-text">启动脚本</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#CDH5的安装配置"><span class="nav-number">14.</span> <span class="nav-text">CDH5的安装配置</span></a></li></ol></div>
             
           </div>
           <div class="post-toc-indicator-bottom post-toc-indicator"></div>
