@@ -55,7 +55,7 @@ Hortonworks版本(Hortonworks Data Platform，简称“HDP”），对于国内�
 Apache（最原始的版本，所有发行版均基于这个版本进行改进）
 Cloudera版本（Cloudera’s Distribution Including Apache Hadoop，简称CDH）
 Hortonworks版本(Hortonworks Data Platform，简称“HDP”），对于国内而言，绝大多数选择CDH版">
-<meta property="og:updated_time" content="2015-10-21T08:43:41.742Z">
+<meta property="og:updated_time" content="2015-10-27T01:50:14.028Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Hadoop集群部署">
 <meta name="twitter:description" content="Hadoop版本区别目前不收费的Hadoop版本主要有三个，分别是：
@@ -380,7 +380,7 @@ Hortonworks版本(Hortonworks Data Platform，简称“HDP”），对于国内�
 <h2 id="Cloudera_Management_Service">Cloudera Management Service</h2><p>Cloudera Management Service 可作为一组角色实施各种管理功能：<br>Activity Monitor - 收集有关 MapReduce 服务运行的活动的信息。默认情况下未添加此角色。<br>Host Monitor - 收集有关主机的运行状况和指标信息<br>Service Monitor - 收集有关服务的运行状况和指标信息以及 YARN 和 Impala 服务中的活动信息<br>Event Server - 聚合 relevant Hadoop 事件并将其用于警报和搜索<br>Alert Publisher - 为特定类型的事件生成和提供警报<br>Reports Manager - 生成报告，它提供用户、用户组和目录的磁盘使用率的历史视图，用户和 YARN 池的处理活动，以及 HBase 表和命名空间。此角色未在 Cloudera Express 中添加。<br>Cloudera Manager 将单独管理每个角色，而不是作为 Cloudera Manager Server 的一部分进行管理，可实现可扩展性（例如，在大型部署中，它可用于将监控器角色置于自身的主机上）和隔离。</p>
 <p>此外，对于特定版本的 Cloudera Enterprise 许可证，Cloudera Management Service 还为 Cloudera Navigator 提供 Navigator Audit Server 和 Navigator Metadata Server 角色。</p>
 <h1 id="安装问题记录">安装问题记录</h1><ol>
-<li><p>无法发出查询：未能连接到 Host Monitor<br>解决方式：<br>1、新增cloudera management services<br>注意新增的目标机器因为scm-server安装的同一台机器，机器内存最好&gt;=8G</p>
+<li><p>无法发出查询：未能连接到 Host Monitor<br>解决方式：新增cloudera management services ,注意新增的目标机器因为scm-server安装的同一台机器，机器内存最好&gt;=8G</p>
 </li>
 <li><p>urlopen error [Errno 111] Connection refused</p>
 </li>
@@ -392,20 +392,10 @@ Hortonworks版本(Hortonworks Data Platform，简称“HDP”），对于国内�
 <li>解决方式：在slave1的hosts中新增master的域名解析 </li>
 </ul>
 <ol>
-<li>Cloudera Manager无法删除某项服务<br>删除依赖关系或在命令中查看正在执行的（卡死）的命令，中止即可</li>
-</ol>
-<p>4、正在获取安装锁.问题<br>意外中止安装后重新安装提示”正在获取安装锁…“<br>在Manager节点运行<code>rm /tmp/.scm_prepare_node.lock</code>删除Manager的lock文件后重新安装即可</p>
-<ol>
-<li>如何制作CDH Agent 虚拟机模板 </li>
-</ol>
-<ul>
-<li>问题描述：CDH Manager安装配置好一台Agent机器A（VM虚拟机）后，如果以A复制出B，在集群中B与A会冲突，每次Host Inspector只能检测到一个</li>
-<li>问题定位：判断为SCM库中HOSTS表的HOST_IDENTIFIER字段冲突导致</li>
-<li>解决思路：ClouderaManager是根据什么自动生成HOST_IDENTIFIER的？ 如何复制VM虚拟机才能不冲突？</li>
-<li>问题解决：由于在复制cm-5.4.7到agent之前启动了cloudera-scm-agent，在/opt/cm-5.4.7/lib/cloudera-scm-agent中生成response.avro和uuid两个文件，cloudera的HOST_IDENTIFIER读取的就是uuid文件的文本，停止agent&gt;删除response.avro和uuid&gt;启动agent，问题解决</li>
-</ul>
-<ol>
-<li>对于此 Cloudera Manager 版本 (5.4.7) 太新的 CDH 版本不会显示</li>
+<li><p>正在获取安装锁.问题<br>意外中止安装后重新安装提示”正在获取安装锁…“<br>在Manager节点运行<code>rm /tmp/.scm_prepare_node.lock</code>删除Manager的lock文件后重新安装即可</p>
+</li>
+<li><p>对于此 Cloudera Manager 版本 (5.4.7) 太新的 CDH 版本不会显示</p>
+</li>
 </ol>
 <ul>
 <li>问题描述：Versions of CDH that are too new for this version of Cloudera Manager (5.4.7) will not be shown.</li>
@@ -414,19 +404,19 @@ Hortonworks版本(Hortonworks Data Platform，简称“HDP”），对于国内�
 <li>问题解决：停止server&gt;重置scm数据库&gt;启动server&gt;复制parcel到/opt/cloudera/parcel-repo/目录</li>
 </ul>
 <p><a href="https://community.cloudera.com/t5/Cloudera-Manager-Installation/Can-t-find-CM-5-4-2-for-Trusty-or-Precise/td-p/28685">参考</a></p>
-<p>7.[Errno 2] No such file or directory: u’/opt/cloudera/parcels/CDH-5.4.7-1.cdh5.4.7.p0.3/meta/parcel.json’ - master.lt.com<br>需要存在目录：/opt/cloudera/parcel-cache</p>
 <ol>
-<li>启用透明大页面问题</li>
+<li><p>[Errno 2] No such file or directory: u’/opt/cloudera/parcels/CDH-5.4.7-1.cdh5.4.7.p0.3/meta/parcel.json’ - master.lt.com<br>需要存在目录：/opt/cloudera/parcel-cache</p>
+</li>
+<li><p>启用透明大页面问题</p>
+</li>
 </ol>
 <ul>
 <li>问题描述：已启用“透明大页面”，它可能会导致重大的性能问题。版本为“CentOS release 6.5 (Final)”且发行版为“2.6.32-431.el6.x86_64”的 Kernel 已将 enabled 设置为“[always] madvise never”，并将 defrag 设置为“[always] madvise never”。</li>
 <li>问题解决：运行“echo never &gt; /sys/kernel/mm/redhat_transparent_hugepage/defrag”以禁用此设置，然后将同一命令添加到一个 init 脚本中，如 /etc/rc.local，</li>
 </ul>
-<p>9、修改Cloudera Manager 管理机器的IP<br><a href="http://www.cnblogs.com/chenfool/archive/2014/05/27/3756066.html">解决方案</a></p>
 <ol>
-<li>创建 Hive Metastore 数据库表失败<br>问题日志：</li>
+<li>修改Cloudera Manager 管理机器的IP<br><a href="http://www.cnblogs.com/chenfool/archive/2014/05/27/3756066.html">解决方案</a></li>
 </ol>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><span class="line">++ exec /opt/cloudera/parcels/CDH-<span class="number">5.4</span>.7-<span class="number">1</span>.cdh5.4.7.p0.3/lib/hadoop/bin/hadoop jar /opt/cloudera/parcels/CDH-<span class="number">5.4</span>.7-<span class="number">1</span>.cdh5.4.7.p0.3/lib/hive/lib/hive-cli-<span class="number">1.1</span>.0-cdh5.4.7.jar org.apache.hive.beeline.HiveSchemaTool -verbose -dbType mysql -initSchema</span><br><span class="line">org.apache.hadoop.hive.metastore.HiveMetaException: Failed to load driver</span><br><span class="line">org.apache.hadoop.hive.metastore.HiveMetaException: Failed to load driver</span><br><span class="line">trueat org.apache.hive.beeline.HiveSchemaHelper.getConnectionToMetastore(HiveSchemaHelper.java:<span class="number">79</span>)</span><br><span class="line">trueat org.apache.hive.beeline.HiveSchemaTool.getConnectionToMetastore(HiveSchemaTool.java:<span class="number">113</span>)</span><br><span class="line">trueat org.apache.hive.beeline.HiveSchemaTool.testConnectionToMetastore(HiveSchemaTool.java:<span class="number">159</span>)</span><br><span class="line">trueat org.apache.hive.beeline.HiveSchemaTool.doInit(HiveSchemaTool.java:<span class="number">257</span>)</span><br><span class="line">trueat org.apache.hive.beeline.HiveSchemaTool.doInit(HiveSchemaTool.java:<span class="number">243</span>)</span><br><span class="line">trueat org.apache.hive.beeline.HiveSchemaTool.main(HiveSchemaTool.java:<span class="number">473</span>)</span><br><span class="line">trueat sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method)</span><br><span class="line">trueat sun.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:<span class="number">57</span>)</span><br><span class="line">trueat sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:<span class="number">43</span>)</span><br><span class="line">trueat java.lang.reflect.Method.invoke(Method.java:<span class="number">606</span>)</span><br><span class="line">trueat org.apache.hadoop.util.RunJar.run(RunJar.java:<span class="number">221</span>)</span><br><span class="line">trueat org.apache.hadoop.util.RunJar.main(RunJar.java:<span class="number">136</span>)</span><br><span class="line">Caused by: java.lang.ClassNotFoundException: com.mysql.jdbc.Driver</span><br><span class="line">trueat java.net.URLClassLoader$<span class="number">1</span>.run(URLClassLoader.java:<span class="number">366</span>)</span><br><span class="line">trueat java.net.URLClassLoader$<span class="number">1</span>.run(URLClassLoader.java:<span class="number">355</span>)</span><br><span class="line">trueat java.security.AccessController.doPrivileged(Native Method)</span><br><span class="line">trueat java.net.URLClassLoader.findClass(URLClassLoader.java:<span class="number">354</span>)</span><br><span class="line">trueat java.lang.ClassLoader.loadClass(ClassLoader.java:<span class="number">425</span>)</span><br><span class="line">trueat sun.misc.Launcher$AppClassLoader.loadClass(Launcher.java:<span class="number">308</span>)</span><br><span class="line">trueat java.lang.ClassLoader.loadClass(ClassLoader.java:<span class="number">358</span>)</span><br><span class="line">trueat java.lang.Class.forName0(Native Method)</span><br><span class="line">trueat java.lang.Class.forName(Class.java:<span class="number">195</span>)</span><br><span class="line">trueat org.apache.hive.beeline.HiveSchemaHelper.getConnectionToMetastore(HiveSchemaHelper.java:<span class="number">70</span>)</span><br><span class="line">true... <span class="number">11</span> more</span><br><span class="line">true*** schemaTool failed ***</span><br></pre></td></tr></table></figure>
 </span>
       
     </div>
@@ -520,7 +510,7 @@ Hortonworks版本(Hortonworks Data Platform，简称“HDP”），对于国内�
         <nav class="site-state motion-element">
           <div class="site-state-item site-state-posts">
             <a href="/archives">
-              <span class="site-state-item-count">35</span>
+              <span class="site-state-item-count">36</span>
               <span class="site-state-item-name">日志</span>
             </a>
           </div>
