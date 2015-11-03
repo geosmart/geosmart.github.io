@@ -53,7 +53,7 @@
 问题描述：CDH Manager安装配置好一台Agent机器A（VM虚拟机）后，如果以A复制出B，在集群中B与A会冲突，每次Host Inspector只能检测到一个
 问题定位：判断为SCM库中HOSTS表的HOST_IDENTIFIER字段冲突导致
 解决思路：ClouderaManager是根据什么自动生成HOST_IDENTIFIER的？ 如何复制VM虚">
-<meta property="og:updated_time" content="2015-10-27T02:40:53.594Z">
+<meta property="og:updated_time" content="2015-11-03T01:41:18.194Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="CDH使用问题记录">
 <meta name="twitter:description" content="如何制作CDH Agent 虚拟机模板
@@ -285,7 +285,7 @@
 <li>问题定位：Java OOM虚拟机内存溢出问题 </li>
 <li>解决方式：hbase-indexer github-issues：<a href="https://github.com/NGDATA/hbase-indexer/issues/66">Lily Hbase Indexers always auto exit</a>，<br>通过向hbase-indexer官方github提交issue寻求帮助，确认是OOM问题！<ul>
 <li>运行<code>hbase-indexer server</code>在单个hbase-server服务器调试运行（不在cloudera管理下运行），不会发生OOM</li>
-<li>CM集中管理JVM虚拟机内存分配，默认设置的是131M，改为1GB后重新启动服务，往Hbase写入数据时，SOlr索引生成正常，Hbase-Indexer未自动退出。<br><img src="" alt=""></li>
+<li>CM集中修改参数<em>Lily HBase Indexer的Java堆栈大小</em>，默认设置的是131M，改为1GB后重新启动服务，往Hbase写入数据时，SOlr索引生成正常，Hbase-Indexer未自动退出。<br><img src="" alt=""></li>
 </ul>
 </li>
 </ul>
@@ -295,13 +295,13 @@
 <h1 id="Hbase运行中止问题">Hbase运行中止问题</h1><ul>
 <li>错误日志</li>
 </ul>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//cat /var/log/hbase/hbase-cmf-hbase-REGIONSERVER-slave3.lt.com.log.out</span></span><br><span class="line"></span><br><span class="line">Error syncing, request close of wal </span><br><span class="line">java.io.IOException: Failed on local exception: java.io.IOException: Connection reset by peer; Host Details : local host is: <span class="string">"slave3.lt.com/192.168.1.103"</span>; destination host is: <span class="string">"server1.lt.com"</span>:<span class="number">8020</span>;  </span><br><span class="line">trueat com.sun.proxy.$Proxy20.updateBlockForPipeline(Unknown Source) </span><br><span class="line">Caused by: java.io.IOException: Connection reset by peer</span><br></pre></td></tr></table></figure>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//cat /var/log/hbase/hbase-cmf-hbase-REGIONSERVER-slave3.lt.com.log.out</span></span><br><span class="line"></span><br><span class="line">Error syncing, request close of wal </span><br><span class="line">java.io.IOException: Failed on local exception: java.io.IOException: Connection reset by peer; Host Details : local host is: <span class="string">"slave3.lt.com/192.168.1.103"</span>; destination host is: <span class="string">"server1.lt.com"</span>:<span class="number">8020</span>;  </span><br><span class="line">trueat com.sun.proxy.$Proxy20.updateBlockForPipeline(Unknown Source) </span><br><span class="line">Caused by: java.io.IOException: Connection reset by peer </span><br><span class="line">``` </span><br><span class="line"></span><br><span class="line">``` yaml</span><br><span class="line">Unable to reconnect to ZooKeeper service, session <span class="number">0x1508e4d86eb8047</span> has expired, closing socket connection</span><br></pre></td></tr></table></figure>
 <ul>
 <li>参数说明</li>
 </ul>
 <figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">hbase.regionserver.lease.period&#10;&#40664;&#35748;&#20540;&#65306;60000&#10;&#35828;&#26126;&#65306;&#23458;&#25143;&#31471;&#31199;&#29992;HRegion server &#26399;&#38480;&#65292;&#21363;&#36229;&#26102;&#38400;&#20540;&#12290;&#10;&#35843;&#20248;&#65306;&#36825;&#20010;&#37197;&#21512;hbase.client.scanner.caching&#20351;&#29992;&#65292;&#22914;&#26524;&#20869;&#23384;&#22815;&#22823;&#65292;&#20294;&#26159;&#21462;&#20986;&#36739;&#22810;&#25968;&#25454;&#21518;&#35745;&#31639;&#36807;&#31243;&#36739;&#38271;&#65292;&#21487;&#33021;&#36229;&#36807;&#36825;&#20010;&#38408;&#20540;&#65292;&#36866;&#24403;&#21487;&#35774;&#32622;&#36739;&#38271;&#30340;&#21709;&#24212;&#26102;&#38388;&#20197;&#38450;&#34987;&#35748;&#20026;&#23445;&#26426;</span><br></pre></td></tr></table></figure>
 <ul>
-<li>解决方式<br>在CM的Hbase配置hbase.regionserver.lease.period默认值改为600000（10分钟）</li>
+<li>解决方式<br>在CM的Hbase配置hbase.regionserver.lease.period默认值改为1（天）</li>
 </ul>
 </span>
       
