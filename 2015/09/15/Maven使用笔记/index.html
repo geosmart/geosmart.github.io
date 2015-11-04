@@ -49,7 +49,7 @@
 <meta property="og:site_name" content="Geosmart's Notes">
 <meta property="og:description" content="关于MavenMaven是基于项目对象模型(POM)，可以通过一小段描述信息来管理项目的构建，报告和文档的软件项目管理工具。  
 本文记录Maven开发过程中常用的脚本和遇到的问题。">
-<meta property="og:updated_time" content="2015-09-28T06:36:48.249Z">
+<meta property="og:updated_time" content="2015-11-04T09:26:50.123Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Maven使用笔记">
 <meta name="twitter:description" content="关于MavenMaven是基于项目对象模型(POM)，可以通过一小段描述信息来管理项目的构建，报告和文档的软件项目管理工具。  
@@ -289,6 +289,9 @@
 </ul>
 <h1 id="Maven问题记录">Maven问题记录</h1><ul>
 <li>本地库有改jar包但是依旧无法编译<br>本地下载的Zip已损坏，删除本地库中的jar文件和目录，重新从远处库下载</li>
+</ul>
+<ul>
+<li>远程库只能下载索引，不能下载jar！<br>日志：The container ‘Maven Dependencies’ references non existing library ‘D:\soft\Maven\Maven-Respository\org\apache\ant\ant\1.9.3\ant-1.9.3.jar’</li>
 </ul>
 </span>
       
