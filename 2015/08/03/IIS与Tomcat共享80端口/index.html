@@ -47,7 +47,7 @@
 <meta property="og:url" content="http://geosmart.github.io/2015/08/03/IIS与Tomcat共享80端口/index.html">
 <meta property="og:site_name" content="Geosmart's Notes">
 <meta property="og:description" content="微信公众号有80端口要求，但是80端口已运行了一个项目，如何将后端J2EE实现的服务集成到80端口，即Tomcat集成进IIS。调研了三种方案，Apache Tomcat Connector（isapi_redirect实现）、ARR（IIS中的反向代理）和 IIS2Tomcat(BonCode AJP实现)，按照最轻量最简洁的部署要求，最终采用AJP实现。">
-<meta property="og:updated_time" content="2015-11-04T11:33:14.673Z">
+<meta property="og:updated_time" content="2015-11-09T02:04:56.229Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="IIS与Tomcat共享80端口">
 <meta name="twitter:description" content="微信公众号有80端口要求，但是80端口已运行了一个项目，如何将后端J2EE实现的服务集成到80端口，即Tomcat集成进IIS。调研了三种方案，Apache Tomcat Connector（isapi_redirect实现）、ARR（IIS中的反向代理）和 IIS2Tomcat(BonCode AJP实现)，按照最轻量最简洁的部署要求，最终采用AJP实现。">
@@ -283,9 +283,9 @@
 </ol>
 <h1 id="AJP">AJP</h1><p>AJP：Apache JServ Protocol version<br><a href="https://github.com/Bilal-S/iis2tomcat">项目地址</a><br><a href="http://tomcatiis.riaforge.org">下载地址（需翻墙）</a><br><a href="http://blog.csdn.net/zhang_hui_cs/article/details/9399373#reply">参考博客</a><br><a href="http://v.youku.com/v_show/id_XNTg1MTgyODgw.html">详细配置视频教程</a>  </p>
 <h2 id="默认网站二级应用程序配置要点">默认网站二级应用程序配置要点</h2><ol>
-<li>执行Connector_Setup.exe安装</li>
-<li>在IIS默认网站下新增应用程序examples,物理路径指向tomcat/webapps/examples，</li>
-<li>可选：应用程序池的托管管道模式设置为集成</li>
+<li>在IIS下新增网站examples，或者在默认网站中新增应用程序examples,物理路径指向<code>｛catalina_home｝/webapps/examples</code>；</li>
+<li>执行Connector_Setup.exe安装，默认参数即可，选择指定的IIS网站，如examples；</li>
+<li>应用程序池的托管管道模式设置为集成；</li>
 <li>在examples根目录新增配置BIN目录（包含BonCodeAJP13.dll、BonCodeIIS.dll），并在根目录新增web.config，内容如下：</li>
 </ol>
 <ul>
