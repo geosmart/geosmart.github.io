@@ -47,7 +47,7 @@
 <meta property="og:url" content="http://geosmart.github.io/2015/10/20/Hadoop集群离线部署/index.html">
 <meta property="og:site_name" content="Geosmart's Notes">
 <meta property="og:description" content="GFW墙的没人性，只能费时费力搞个离线安装教程，一路遇到很多问题，稍微深入了解了一些ClouderaManager的内部实现，步骤概要：IP配置&amp;gt;Host配置&amp;gt;关闭iptables防火墙&amp;gt;关闭SELinux&amp;gt;配置NTP时钟服务&amp;gt;SSH无密码登陆&amp;gt;安装JDK&amp;gt;配置CM安装包&amp;gt;配置Parcel&amp;gt;配置MySQL&amp;gt;初始化SCM数据库&amp;gt;复制到">
-<meta property="og:updated_time" content="2015-11-12T01:30:01.739Z">
+<meta property="og:updated_time" content="2015-11-20T06:01:53.018Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Hadoop集群离线部署">
 <meta name="twitter:description" content="GFW墙的没人性，只能费时费力搞个离线安装教程，一路遇到很多问题，稍微深入了解了一些ClouderaManager的内部实现，步骤概要：IP配置&amp;gt;Host配置&amp;gt;关闭iptables防火墙&amp;gt;关闭SELinux&amp;gt;配置NTP时钟服务&amp;gt;SSH无密码登陆&amp;gt;安装JDK&amp;gt;配置CM安装包&amp;gt;配置Parcel&amp;gt;配置MySQL&amp;gt;初始化SCM数据库&amp;gt;复制到">
@@ -279,12 +279,13 @@
         <span itemprop="articleBody"><p>GFW墙的没人性，只能费时费力搞个离线安装教程，一路遇到很多问题，稍微深入了解了一些ClouderaManager的内部实现，步骤概要：<br>IP配置&gt;Host配置&gt;关闭iptables防火墙&gt;关闭SELinux&gt;配置NTP时钟服务&gt;SSH无密码登陆&gt;安装JDK&gt;<br>配置CM安装包&gt;配置Parcel&gt;配置MySQL&gt;初始化SCM数据库&gt;复制到Agent机器&gt;<br>启动CM Server&gt;配置Service&gt;设置Server/Agent开机启动</p>
 <hr>
 <a id="more"></a>
-<h1 id="部署文档参考">部署文档参考</h1><p><a href="http://blog.csdn.net/scgaliguodong123_/article/details/46661881">离线安装Cloudera Manager5.3.4与CDH5.3.4</a><br><a href="http://www.tuicool.com/articles/ENjmeaY">离线安装Cloudera Manager 5和CDH5(最新版5.1.3) 完全教程</a><br><a href="http://www.cnblogs.com/modestmt/p/4540818.html">离线安装 Cloudera ( CDH 5.x )</a><br><a href="http://www.aboutyun.com/thread-8921-1-1.html">离线安装 Cloudera</a><br><a href="http://www.cloudera.com/content/cloudera/zh-CN/documentation/core/v5-3-x/topics/cm_ig_install_path_b.html#cmig_topic_6_6">官方教程</a></p>
+<h1 id="部署文档参考">部署文档参考</h1><p><a href="http://blog.csdn.net/scgaliguodong123_/article/details/46661881">离线安装Cloudera Manager5.3.4与CDH5.3.4</a><br><a href="http://www.tuicool.com/articles/ENjmeaY">离线安装Cloudera Manager 5和CDH5(最新版5.1.3) 完全教程</a><br><a href="http://www.cnblogs.com/modestmt/p/4540818.html">离线安装 Cloudera ( CDH 5.x )</a><br><a href="http://www.aboutyun.com/thread-8921-1-1.html">离线安装 Cloudera</a><br><a href="http://www.cloudera.com/content/cloudera/zh-CN/documentation/core/v5-3-x/topics/cm_ig_install_path_b.html#cmig_topic_6_6">官方教程</a><br><a href="http://www.cloudera.com/content/www/en-us/documentation/enterprise/latest/topics/cdh_vd_cdh5_maven_repo.html#concept_emz_fg3_kq_unique_2">cdh对应hadoop版本</a></p>
 <h1 id="软件准备">软件准备</h1><p><a href="http://www.cloudera.com/content/www/en-us/documentation/enterprise/latest/topics/cm_vd.html">官方资源地址</a></p>
 <ul>
 <li>JDK7最低版本：1.7.0_67</li>
 <li>cloudera-manager-installer：<a href="http://archive.cloudera.com/cm5/installer/latest/cloudera-manager-installer.bin">下载地址</a></li>
-<li>CDH Parcel</li>
+<li>cloudera-manager-bin:<a href="https://archive.cloudera.com/cm5/cm/5/">下载地址</a></li>
+<li>CDH Parcel：<a href="http://archive.cloudera.com/cdh5/parcels/latest/">下载地址</a></li>
 </ul>
 <h1 id="虚拟机准备">虚拟机准备</h1><p>Cloudera Manager+MySQL</p>
 <figure class="highlight mathematica"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">Cloudera Manager</span><br><span class="line">HostMonitor</span><br><span class="line">Event Server</span><br><span class="line">Activity <span class="keyword">Monitor</span></span><br><span class="line">Service <span class="keyword">Monitor</span></span><br><span class="line">Alert Publisher </span><br><span class="line">MySQL</span><br></pre></td></tr></table></figure>
@@ -440,7 +441,7 @@
         <nav class="site-state motion-element">
           <div class="site-state-item site-state-posts">
             <a href="/archives">
-              <span class="site-state-item-count">36</span>
+              <span class="site-state-item-count">37</span>
               <span class="site-state-item-name">日志</span>
             </a>
           </div>
@@ -454,7 +455,7 @@
 
           <div class="site-state-item site-state-tags">
             <a href="/tags">
-              <span class="site-state-item-count">43</span>
+              <span class="site-state-item-count">44</span>
               <span class="site-state-item-name">标签</span>
               </a>
           </div>

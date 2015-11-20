@@ -30,7 +30,7 @@
 
 
 
-  <meta name="keywords" content="Backbone,Marionette," />
+  <meta name="keywords" content="Hadoop,MapReduce,分布式," />
 
 
 
@@ -41,37 +41,16 @@
   <link rel="shorticon icon" type="image/x-icon" href="/favicon.ico?v=0.4.5.1" />
 
 
-<meta name="description" content="Marionette（Backbone的牵线木偶）提供rendering、template管理、UI对象
-Modelrest数据，event事件
-Collection：ListViewItemView
-Backbone.View的扩展，用于渲染Backbone.Model
-拥有modelEvents属性，可绑定View方法
-
-CollectionView
-用于渲染Backbone.Collecti">
+<meta name="description" content="Windwos10开发环境测试MapReduce程序，需自行编译hadoop2x-eclipse-plugin，生成MyEclipse2014的MapReduceTolls插件，可结合MRUnit进行单元测试。">
 <meta property="og:type" content="article">
-<meta property="og:title" content="backbone.marionette学习要点">
-<meta property="og:url" content="http://geosmart.github.io/2015/07/28/backbone-marionette学习要点/index.html">
+<meta property="og:title" content="MyEclipse安装MapReduceTools插件">
+<meta property="og:url" content="http://geosmart.github.io/2015/11/20/MyEclipse安装MapReduceTools插件/index.html">
 <meta property="og:site_name" content="Geosmart's Notes">
-<meta property="og:description" content="Marionette（Backbone的牵线木偶）提供rendering、template管理、UI对象
-Modelrest数据，event事件
-Collection：ListViewItemView
-Backbone.View的扩展，用于渲染Backbone.Model
-拥有modelEvents属性，可绑定View方法
-
-CollectionView
-用于渲染Backbone.Collecti">
-<meta property="og:updated_time" content="2015-09-22T01:00:38.117Z">
+<meta property="og:description" content="Windwos10开发环境测试MapReduce程序，需自行编译hadoop2x-eclipse-plugin，生成MyEclipse2014的MapReduceTolls插件，可结合MRUnit进行单元测试。">
+<meta property="og:updated_time" content="2015-11-20T13:47:26.364Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="backbone.marionette学习要点">
-<meta name="twitter:description" content="Marionette（Backbone的牵线木偶）提供rendering、template管理、UI对象
-Modelrest数据，event事件
-Collection：ListViewItemView
-Backbone.View的扩展，用于渲染Backbone.Model
-拥有modelEvents属性，可绑定View方法
-
-CollectionView
-用于渲染Backbone.Collecti">
+<meta name="twitter:title" content="MyEclipse安装MapReduceTools插件">
+<meta name="twitter:description" content="Windwos10开发环境测试MapReduce程序，需自行编译hadoop2x-eclipse-plugin，生成MyEclipse2014的MapReduceTolls插件，可结合MRUnit进行单元测试。">
 
 
 <script type="text/javascript" id="hexo.configuration">
@@ -81,7 +60,7 @@ CollectionView
   };
 </script>
 
-  <title> backbone.marionette学习要点 | Geosmart's Notes </title>
+  <title> MyEclipse安装MapReduceTools插件 | Geosmart's Notes </title>
 </head>
 
 <body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
@@ -235,7 +214,7 @@ CollectionView
           
           
             
-              backbone.marionette学习要点
+              MyEclipse安装MapReduceTools插件
             
           
         </h1>
@@ -244,8 +223,8 @@ CollectionView
       <div class="post-meta">
         <span class="post-time">
           发表于
-          <time itemprop="dateCreated" datetime="2015-07-28T13:35:07+08:00" content="28   July   2015">
-            28   July   2015
+          <time itemprop="dateCreated" datetime="2015-11-20T21:03:50+08:00" content="20   November   2015">
+            20   November   2015
           </time>
         </span>
 
@@ -254,8 +233,8 @@ CollectionView
             &nbsp; | &nbsp; 分类于
             
               <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
-                <a href="/categories/前端技术/" itemprop="url" rel="index">
-                  <span itemprop="name">前端技术</span>
+                <a href="/categories/大数据/" itemprop="url" rel="index">
+                  <span itemprop="name">大数据</span>
                 </a>
               </span>
 
@@ -270,8 +249,8 @@ CollectionView
           
             <span class="post-comments-count">
               &nbsp; | &nbsp;
-              <a href="/2015/07/28/backbone-marionette学习要点/#comments" itemprop="discussionUrl">
-                <span class="post-comments-count ds-thread-count" data-thread-key="2015/07/28/backbone-marionette学习要点/" itemprop="commentsCount"></span>
+              <a href="/2015/11/20/MyEclipse安装MapReduceTools插件/#comments" itemprop="discussionUrl">
+                <span class="post-comments-count ds-thread-count" data-thread-key="2015/11/20/MyEclipse安装MapReduceTools插件/" itemprop="commentsCount"></span>
               </a>
             </span>
           
@@ -285,39 +264,23 @@ CollectionView
       
 
       
-        <span itemprop="articleBody"><h1 id="Marionette（Backbone的牵线木偶）">Marionette（Backbone的牵线木偶）</h1><p>提供rendering、template管理、UI对象</p>
-<h1 id="Model">Model</h1><p>rest数据，event事件</p>
-<h1 id="Collection：List">Collection：List<model></h1><h1 id="View">View</h1><h2 id="ItemView">ItemView</h2><ul>
-<li>Backbone.View的扩展，用于渲染Backbone.Model</li>
-<li>拥有modelEvents属性，可绑定View方法</li>
-</ul>
-<h2 id="CollectionView">CollectionView</h2><ul>
-<li>用于渲染Backbone.Collection</li>
-<li>可渲染List<ItemView></li>
-<li>拥有collectionEvents/childEvents属性，</li>
-<li>add/remove/reset/etc后自动更新视图</li>
-<li>支持Filtering（filter方法）、Sorting（comparator属性）</li>
-<li>支持Pagination</li>
-</ul>
-<h2 id="CompositeView">CompositeView</h2><ul>
-<li>renders a Collection within a template</li>
-<li>ItemView（model）和CollectionView（collection）的组合</li>
-<li>用于detail/table/nested lists/treeview类型的场景</li>
-</ul>
-<h1 id="View_Containers">View Containers</h1><h2 id="Region">Region</h2><p>View容器，渲染至DOM，DOM和Backbone的桥梁</p>
-<h2 id="LayoutView">LayoutView</h2><ul>
-<li>用于复杂嵌套布局，multi-view组成的widget</li>
-<li>Region容器</li>
-<li>render all in one call</li>
-</ul>
-<h1 id="Application">Application</h1><p>initialization初始化和 bootstrapping引导程序</p>
-<h1 id="Module">Module</h1><p>类似Application，多个Modules组成Application<br>可控制start/stop模块（及其子模块）</p>
-<h1 id="Controller">Controller</h1><p>组件间的交互，用于复杂业务逻辑的业务场景</p>
-<p>layouts/regions：动态create/display/dispose页面dom</p>
-<h1 id="event_aggregrator">event aggregrator</h1><p>可bind/trigger事件<br>module/application级别的事件通道，其他所有模块都可监听，可用于如用户登陆成功的业务场景</p>
-<h1 id="Commands">Commands</h1><p>多处触发，一处处理</p>
-<h1 id="Request/Response">Request/Response</h1><p>用于提供Application Level Data，如购物车当前状态<br>提供全局状态，无需所有模块都做处理，但易被滥用，当全局可操作时难预测其影响</p>
-<p>appRouter：</p>
+        <span itemprop="articleBody"><p>Windwos10开发环境测试MapReduce程序，需自行编译hadoop2x-eclipse-plugin，生成MyEclipse2014的MapReduceTolls插件，可结合MRUnit进行单元测试。</p>
+<hr>
+<a id="more"></a>
+<p><a href="http://my.oschina.net/muou/blog/408543">参考中文教程</a><br>具体配置步骤如下：</p>
+<h2 id="安装MyEclipse2014">安装MyEclipse2014</h2><p>Myeclipse安装位置：C:\Dev\myeclipse（路径无中文字段/空格）</p>
+<h2 id="下载Hadoop_lib">下载Hadoop lib</h2><p>下载hadoop-2.6.0.tar.gz并解压到目录（路径无中文字段/空格）<br><a href="http://mirror.bit.edu.cn/apache/hadoop/common/hadoop-2.6.0/hadoop-2.6.0.tar.gz">hadoop-2.6.0.tar.gz下载地址</a><br>解压后置于F:\Dev\hadoop\hadoop-2.6.0</p>
+<h2 id="配置Ant">配置Ant</h2><p><a href="http://archive.apache.org/dist/ant/binaries/apache-ant-1.9.0-bin.zip">ant-1.9.0下载地址</a><br>配置环境变量</p>
+<figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ANT_HOME=F:\Dev\apache-ant-1.9.0&#10;PATH &#21518;&#36861;&#21152; ;%ANT_HOME%\bin</span><br></pre></td></tr></table></figure>
+<p>检验Ant配置：<code>ant -version</code></p>
+<h2 id="编译hadoop-eclipse-plugin插件">编译hadoop-eclipse-plugin插件</h2><p><a href="https://github.com/winghc/hadoop2x-eclipse-plugin">hadoop-eclipse-plugin下载地址</a><br>解压后置于F:\Dev\hadoop\hadoop2x-eclipse-plugin-master<br>打开cmd执行以下脚本编译hadoop-eclipse-plugin插件</p>
+<figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">cd F:\Dev\hadoop\hadoop2x-eclipse-plugin-master\src\contrib\eclipse-plugin&#10;ant jar -Dversion=2.6.0 -Declipse.home=C:\Dev\myeclipse -Dhadoop.home=F:\Dev\hadoop\hadoop-2.6.0</span><br></pre></td></tr></table></figure>
+<p>执行成功后生成的jar位置：<br><code>F:\Dev\hadoop\hadoop2x-eclipse-plugin-master\build\contrib\eclipse-plugin\hadoop-eclipse-plugin-2.6.0.jar</code></p>
+<h2 id="配置hadoop-eclipse-plugin-2-6-0-jar">配置hadoop-eclipse-plugin-2.6.0.jar</h2><ol>
+<li>将<code>hadoop-eclipse-plugin-2.6.0.jar</code>剪切到<code>C:\Dev\myeclipse\dropins</code>目录；</li>
+<li>重启Myeclipse即完成MyEclipse2014的MapReduceTolls插件；</li>
+<li>可在Window&gt;Show View&gt;MapReduce Tools打开插件视图。</li>
+</ol>
 </span>
       
     </div>
@@ -326,9 +289,11 @@ CollectionView
       
         <div class="post-tags">
           
-            <a href="/tags/Backbone/" rel="tag">#Backbone</a>
+            <a href="/tags/Hadoop/" rel="tag">#Hadoop</a>
           
-            <a href="/tags/Marionette/" rel="tag">#Marionette</a>
+            <a href="/tags/MapReduce/" rel="tag">#MapReduce</a>
+          
+            <a href="/tags/分布式/" rel="tag">#分布式</a>
           
         </div>
       
@@ -337,13 +302,11 @@ CollectionView
         <div class="post-nav">
           <div class="post-nav-prev post-nav-item">
             
-              <a href="/2015/08/03/IIS与Tomcat共享80端口/" rel="prev">IIS与Tomcat共享80端口</a>
-            
           </div>
 
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2015/07/15/xmanager实现CentOS远程控制/" rel="next">xmanager实现CentOS远程控制</a>
+              <a href="/2015/10/27/CDH使用问题记录/" rel="next">CDH使用问题记录</a>
             
           </div>
         </div>
@@ -368,8 +331,8 @@ CollectionView
         
           <div class="comments" id="comments">
             
-              <div class="ds-thread" data-thread-key="2015/07/28/backbone-marionette学习要点/"
-                   data-title="backbone.marionette学习要点" data-url="http://geosmart.github.io/2015/07/28/backbone-marionette学习要点/">
+              <div class="ds-thread" data-thread-key="2015/11/20/MyEclipse安装MapReduceTools插件/"
+                   data-title="MyEclipse安装MapReduceTools插件" data-url="http://geosmart.github.io/2015/11/20/MyEclipse安装MapReduceTools插件/">
               </div>
             
           </div>
@@ -458,7 +421,7 @@ CollectionView
           <div class="post-toc">
             
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#Marionette（Backbone的牵线木偶）"><span class="nav-number">1.</span> <span class="nav-text">Marionette（Backbone的牵线木偶）</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Model"><span class="nav-number">2.</span> <span class="nav-text">Model</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Collection：List"><span class="nav-number">3.</span> <span class="nav-text">Collection：List</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#View"><span class="nav-number">4.</span> <span class="nav-text">View</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#ItemView"><span class="nav-number">4.1.</span> <span class="nav-text">ItemView</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#CollectionView"><span class="nav-number">4.2.</span> <span class="nav-text">CollectionView</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#CompositeView"><span class="nav-number">4.3.</span> <span class="nav-text">CompositeView</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#View_Containers"><span class="nav-number">5.</span> <span class="nav-text">View Containers</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#Region"><span class="nav-number">5.1.</span> <span class="nav-text">Region</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#LayoutView"><span class="nav-number">5.2.</span> <span class="nav-text">LayoutView</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Application"><span class="nav-number">6.</span> <span class="nav-text">Application</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Module"><span class="nav-number">7.</span> <span class="nav-text">Module</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Controller"><span class="nav-number">8.</span> <span class="nav-text">Controller</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#event_aggregrator"><span class="nav-number">9.</span> <span class="nav-text">event aggregrator</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Commands"><span class="nav-number">10.</span> <span class="nav-text">Commands</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Request/Response"><span class="nav-number">11.</span> <span class="nav-text">Request/Response</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#安装MyEclipse2014"><span class="nav-number">1.</span> <span class="nav-text">安装MyEclipse2014</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#下载Hadoop_lib"><span class="nav-number">2.</span> <span class="nav-text">下载Hadoop lib</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#配置Ant"><span class="nav-number">3.</span> <span class="nav-text">配置Ant</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#编译hadoop-eclipse-plugin插件"><span class="nav-number">4.</span> <span class="nav-text">编译hadoop-eclipse-plugin插件</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#配置hadoop-eclipse-plugin-2-6-0-jar"><span class="nav-number">5.</span> <span class="nav-text">配置hadoop-eclipse-plugin-2.6.0.jar</span></a></li></ol></div>
             
           </div>
           <div class="post-toc-indicator-bottom post-toc-indicator"></div>
