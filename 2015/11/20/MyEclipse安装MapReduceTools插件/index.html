@@ -47,7 +47,7 @@
 <meta property="og:url" content="http://geosmart.github.io/2015/11/20/MyEclipse安装MapReduceTools插件/index.html">
 <meta property="og:site_name" content="Geosmart's Notes">
 <meta property="og:description" content="Windwos10开发环境测试MapReduce程序，需自行编译hadoop2x-eclipse-plugin，生成MyEclipse2014的MapReduceTolls插件，可结合MRUnit进行单元测试。">
-<meta property="og:updated_time" content="2015-11-20T13:47:26.364Z">
+<meta property="og:updated_time" content="2015-11-22T01:37:04.008Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="MyEclipse安装MapReduceTools插件">
 <meta name="twitter:description" content="Windwos10开发环境测试MapReduce程序，需自行编译hadoop2x-eclipse-plugin，生成MyEclipse2014的MapReduceTolls插件，可结合MRUnit进行单元测试。">
@@ -281,6 +281,8 @@
 <li>重启Myeclipse即完成MyEclipse2014的MapReduceTolls插件；</li>
 <li>可在Window&gt;Show View&gt;MapReduce Tools打开插件视图。</li>
 </ol>
+<h2 id="配置hadoop_location">配置hadoop location</h2><p>Location name ：随便取个名字 比如 hadoop2.6.0<br>Map/Reduce（V2） Master ：根据hdfs-site.xml中配置dfs.datanode.ipc.address的值填写，50020<br>DFS Master： Name Node的IP和端口，根据core-site.xml中配置fs.defaultFS的值填写，8020</p>
+<p>CDH配置文件位置：/etc/hadoop/conf.cloudera.yarn</p>
 </span>
       
     </div>
@@ -421,7 +423,7 @@
           <div class="post-toc">
             
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#安装MyEclipse2014"><span class="nav-number">1.</span> <span class="nav-text">安装MyEclipse2014</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#下载Hadoop_lib"><span class="nav-number">2.</span> <span class="nav-text">下载Hadoop lib</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#配置Ant"><span class="nav-number">3.</span> <span class="nav-text">配置Ant</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#编译hadoop-eclipse-plugin插件"><span class="nav-number">4.</span> <span class="nav-text">编译hadoop-eclipse-plugin插件</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#配置hadoop-eclipse-plugin-2-6-0-jar"><span class="nav-number">5.</span> <span class="nav-text">配置hadoop-eclipse-plugin-2.6.0.jar</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#安装MyEclipse2014"><span class="nav-number">1.</span> <span class="nav-text">安装MyEclipse2014</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#下载Hadoop_lib"><span class="nav-number">2.</span> <span class="nav-text">下载Hadoop lib</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#配置Ant"><span class="nav-number">3.</span> <span class="nav-text">配置Ant</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#编译hadoop-eclipse-plugin插件"><span class="nav-number">4.</span> <span class="nav-text">编译hadoop-eclipse-plugin插件</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#配置hadoop-eclipse-plugin-2-6-0-jar"><span class="nav-number">5.</span> <span class="nav-text">配置hadoop-eclipse-plugin-2.6.0.jar</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#配置hadoop_location"><span class="nav-number">6.</span> <span class="nav-text">配置hadoop location</span></a></li></ol></div>
             
           </div>
           <div class="post-toc-indicator-bottom post-toc-indicator"></div>
