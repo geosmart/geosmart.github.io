@@ -30,7 +30,7 @@
 
 
 
-  <meta name="keywords" content="J2EE,Maven," />
+  <meta name="keywords" content="CentOS,yum," />
 
 
 
@@ -41,19 +41,16 @@
   <link rel="shorticon icon" type="image/x-icon" href="/favicon.ico?v=0.4.5.1" />
 
 
-<meta name="description" content="关于MavenMaven是基于项目对象模型(POM)，可以通过一小段描述信息来管理项目的构建，报告和文档的软件项目管理工具。  
-本文记录Maven开发过程中常用的脚本和遇到的问题。">
+<meta name="description" content="现场环境没有网络，有些软件安装简直太痛苦，和maven的依赖链一样，最终耗时耗力不一定能安装好，此时制作本地yum只读光盘就是一个好主意，此文主要介绍如何配置本地yum。">
 <meta property="og:type" content="article">
-<meta property="og:title" content="Maven使用笔记">
-<meta property="og:url" content="http://geosmart.github.io/2015/09/15/Maven使用笔记/index.html">
+<meta property="og:title" content="CentOS配置本地Yum源">
+<meta property="og:url" content="http://geosmart.github.io/2015/12/07/CentOS配置本地Yum源/index.html">
 <meta property="og:site_name" content="Geosmart's Notes">
-<meta property="og:description" content="关于MavenMaven是基于项目对象模型(POM)，可以通过一小段描述信息来管理项目的构建，报告和文档的软件项目管理工具。  
-本文记录Maven开发过程中常用的脚本和遇到的问题。">
-<meta property="og:updated_time" content="2015-11-27T11:59:01.343Z">
+<meta property="og:description" content="现场环境没有网络，有些软件安装简直太痛苦，和maven的依赖链一样，最终耗时耗力不一定能安装好，此时制作本地yum只读光盘就是一个好主意，此文主要介绍如何配置本地yum。">
+<meta property="og:updated_time" content="2015-12-07T11:16:05.220Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="Maven使用笔记">
-<meta name="twitter:description" content="关于MavenMaven是基于项目对象模型(POM)，可以通过一小段描述信息来管理项目的构建，报告和文档的软件项目管理工具。  
-本文记录Maven开发过程中常用的脚本和遇到的问题。">
+<meta name="twitter:title" content="CentOS配置本地Yum源">
+<meta name="twitter:description" content="现场环境没有网络，有些软件安装简直太痛苦，和maven的依赖链一样，最终耗时耗力不一定能安装好，此时制作本地yum只读光盘就是一个好主意，此文主要介绍如何配置本地yum。">
 
 
 <script type="text/javascript" id="hexo.configuration">
@@ -63,7 +60,7 @@
   };
 </script>
 
-  <title> Maven使用笔记 | Geosmart's Notes </title>
+  <title> CentOS配置本地Yum源 | Geosmart's Notes </title>
 </head>
 
 <body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
@@ -217,7 +214,7 @@
           
           
             
-              Maven使用笔记
+              CentOS配置本地Yum源
             
           
         </h1>
@@ -226,8 +223,8 @@
       <div class="post-meta">
         <span class="post-time">
           发表于
-          <time itemprop="dateCreated" datetime="2015-09-15T15:52:57+08:00" content="15   September   2015">
-            15   September   2015
+          <time itemprop="dateCreated" datetime="2015-12-07T18:59:18+08:00" content="7   December   2015">
+            7   December   2015
           </time>
         </span>
 
@@ -236,8 +233,8 @@
             &nbsp; | &nbsp; 分类于
             
               <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
-                <a href="/categories/后端技术/" itemprop="url" rel="index">
-                  <span itemprop="name">后端技术</span>
+                <a href="/categories/运维/" itemprop="url" rel="index">
+                  <span itemprop="name">运维</span>
                 </a>
               </span>
 
@@ -252,8 +249,8 @@
           
             <span class="post-comments-count">
               &nbsp; | &nbsp;
-              <a href="/2015/09/15/Maven使用笔记/#comments" itemprop="discussionUrl">
-                <span class="post-comments-count ds-thread-count" data-thread-key="2015/09/15/Maven使用笔记/" itemprop="commentsCount"></span>
+              <a href="/2015/12/07/CentOS配置本地Yum源/#comments" itemprop="discussionUrl">
+                <span class="post-comments-count ds-thread-count" data-thread-key="2015/12/07/CentOS配置本地Yum源/" itemprop="commentsCount"></span>
               </a>
             </span>
           
@@ -267,40 +264,17 @@
       
 
       
-        <span itemprop="articleBody"><h1 id="关于Maven">关于Maven</h1><p>Maven是基于项目对象模型(POM)，可以通过一小段描述信息来管理项目的构建，报告和文档的软件项目管理工具。  </p>
-<p>本文记录Maven开发过程中常用的脚本和遇到的问题。</p>
+        <span itemprop="articleBody"><p>现场环境没有网络，有些软件安装简直太痛苦，和maven的依赖链一样，最终耗时耗力不一定能安装好，此时制作本地yum只读光盘就是一个好主意，此文主要介绍如何配置本地yum。</p>
 <hr>
 <a id="more"></a>
-<h1 id="Maven_Dependency">Maven Dependency</h1><p>在POM 4中，<dependency>中还引入了<scope>，它主要管理依赖的部署。目前<scope>可以使用5个值： </p>
-<pre><code><span class="bullet">* </span>compile，缺省值，适用于所有阶段，会随着项目一起发布。 
-<span class="bullet">* </span>provided，类似compile，期望JDK、容器或使用者会提供这个依赖。如servlet.jar。 
-<span class="bullet">* </span>runtime，只在运行时使用，如JDBC驱动，适用运行和测试阶段。 
-<span class="bullet">* </span>test，只在测试时使用，用于编译和运行测试代码。不会随项目发布。 
-<span class="bullet">* </span>system，类似provided，需要显式提供包含依赖的jar，Maven不会在Repository中查找它。 
-</code></pre><h1 id="Maven常用指令">Maven常用指令</h1><p><code>package</code>：打包<br><code>war:exploded</code>：编译不生成war包<br><code>install</code>：安装到本地资源库<br>     eg：<code>mvn install:install-file -Dfile=lt.util-1.0.jar -DgroupId=com.lt -DartifactId=util -Dversion=1.0 -Dpackaging=jar</code><br><code>process-resources</code>：编译并打包资源<br>新建项目：<code>mvn archetype:generate -DgroupId=com.lt -DartifactId=uadb.etl -DarchetypeArtifactIdmaven-archetype-webapp -DinteractiveMode=false</code></p>
-<h1 id="maven_dependency_exclusion">maven dependency exclusion</h1><h1 id="maven远程库">maven远程库</h1><ul>
-<li><p><a href="https://search.maven.org/#search">https://search.maven.org/#search</a></p>
-</li>
-<li><p><a href="http://maven-repository.com/">http://maven-repository.com/</a></p>
-</li>
-<li><p><a href="http://mvnrepository.com/">http://mvnrepository.com/</a></p>
-</li>
-<li><p><a href="http://repository.apache.org/snapshots/">http://repository.apache.org/snapshots/</a></p>
-</li>
-<li><p><a href="http://maven.outofmemory.cn/">http://maven.outofmemory.cn/</a></p>
-</li>
-</ul>
-<h1 id="上传项目到Maven_Central_Repository">上传项目到Maven Central Repository</h1><h2 id="Maven本地开发">Maven本地开发</h2><ul>
-<li>下载apache-maven</li>
-<li>设置本地库路径<br>在maven\config\settings.xml中设置本地库路径：<code>&lt;localRepository&gt;D:\Dev\Maven-Respository&lt;/localRepository&gt;</code></li>
-<li>在Myeclipse中设置安装路径<br>在<code>Window&gt;Preferences&gt;Myeclipse&gt;Maven4Myeclipse&gt;Installations</code>中执行Add加入本地maven路径<br>在<code>Window&gt;Preferences&gt;Myeclipse&gt;Maven4Myeclipse&gt;User Settings</code>中Browser选择maven\config\settings.xml，执行Update Settings，Reindex</li>
-</ul>
-<h1 id="Maven问题记录">Maven问题记录</h1><ul>
-<li>本地库有改jar包但是依旧无法编译<br>本地下载的Zip已损坏，删除本地库中的jar文件和目录，重新从远处库下载</li>
-</ul>
-<ul>
-<li>远程库只能下载索引，不能下载jar！<br>日志：The container ‘Maven Dependencies’ references non existing library ‘D:\soft\Maven\Maven-Respository\org\apache\ant\ant\1.9.3\ant-1.9.3.jar’</li>
-</ul>
+<h1 id="建立本地源目录">建立本地源目录</h1><p><code>mkdir   /mnt/cdrom</code></p>
+<h1 id="挂载CentOS光盘">挂载CentOS光盘</h1><p><code>mount   /dev/cdrom    /mnt/cdrom</code></p>
+<h1 id="备份repo">备份repo</h1><p>进入/etc/yum.repos.d目录，可以看到四个文件分别为CentOS-Base.repo、 CentOS-Media.repo 、CentOS-Vault.repo、CentOS-Vault.repo.repo,将其中三个改名或者移走留下CentOS-Media.repo<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">cd</span> /etc/yum.repos.d</span><br><span class="line">mv  CentOS-Base.repo     CentOS-Base.repo.bak</span><br><span class="line">mv  CentOS-Vault.repo     CentOS-Vault.repo.bak</span><br><span class="line">mv  CentOS-Vault.repo     CentOS-Vault.repo.bak</span><br><span class="line">cp  CentOS-Media.repo     CentOS-Vault.Media.bak</span><br></pre></td></tr></table></figure></p>
+<h1 id="编辑CentOS-Media-repo">编辑CentOS-Media.repo</h1><p>编辑CentOS-Media.repo：<code>vi  CentOS-Media.repo</code><br>将以下内容<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">[c6-media]</span><br><span class="line">name=CentOS-<span class="variable">$releasever</span> - Media</span><br><span class="line">baseurl=file:///media/CentOS/</span><br><span class="line">        file:///media/cdrom/</span><br><span class="line">        file:///media/cdrecorder/</span><br><span class="line">gpgcheck=<span class="number">1</span></span><br><span class="line">enabled=<span class="number">0</span></span><br><span class="line">gpgkey=file:///etc/pki/rpm-gpg/RPM-GPG-KEY-CentOS-<span class="number">6</span></span><br></pre></td></tr></table></figure></p>
+<p>修改为<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">[c6-media]</span><br><span class="line">name=CentOS-<span class="variable">$releasever</span> - Media</span><br><span class="line">baseurl=file:///mnt/cdrom/  <span class="comment">#这里为本地源路径</span></span><br><span class="line">        file:///media/cdrom/</span><br><span class="line">        file:///media/cdrecorder/</span><br><span class="line">gpgcheck=<span class="number">1</span></span><br><span class="line">enabled=<span class="number">1</span>    <span class="comment">##开启本地源</span></span><br><span class="line">gpgkey=file:///etc/pki/rpm-gpg/RPM-GPG-KEY-CentOS-<span class="number">6</span></span><br></pre></td></tr></table></figure></p>
+<p>修改好保存并退出</p>
+<h1 id="清yum缓存">清yum缓存</h1><p><code>yum   clean</code>   </p>
+<h1 id="备注">备注</h1><p>如需要将yum源改为网络，还原<code>/etc/yum.repos.d</code>目录下的四个文件即可！</p>
 </span>
       
     </div>
@@ -309,9 +283,9 @@
       
         <div class="post-tags">
           
-            <a href="/tags/J2EE/" rel="tag">#J2EE</a>
+            <a href="/tags/CentOS/" rel="tag">#CentOS</a>
           
-            <a href="/tags/Maven/" rel="tag">#Maven</a>
+            <a href="/tags/yum/" rel="tag">#yum</a>
           
         </div>
       
@@ -320,13 +294,11 @@
         <div class="post-nav">
           <div class="post-nav-prev post-nav-item">
             
-              <a href="/2015/09/17/GATE中文自然语言处理学习笔记/" rel="prev">GATE中文自然语言处理学习笔记</a>
-            
           </div>
 
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2015/09/15/SQLite数据库使用笔记/" rel="next">SQLite数据库使用笔记</a>
+              <a href="/2015/12/07/Samba安装配置笔记/" rel="next">Samba安装配置笔记</a>
             
           </div>
         </div>
@@ -351,8 +323,8 @@
         
           <div class="comments" id="comments">
             
-              <div class="ds-thread" data-thread-key="2015/09/15/Maven使用笔记/"
-                   data-title="Maven使用笔记" data-url="http://geosmart.github.io/2015/09/15/Maven使用笔记/">
+              <div class="ds-thread" data-thread-key="2015/12/07/CentOS配置本地Yum源/"
+                   data-title="CentOS配置本地Yum源" data-url="http://geosmart.github.io/2015/12/07/CentOS配置本地Yum源/">
               </div>
             
           </div>
@@ -441,7 +413,7 @@
           <div class="post-toc">
             
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#关于Maven"><span class="nav-number">1.</span> <span class="nav-text">关于Maven</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Maven_Dependency"><span class="nav-number">2.</span> <span class="nav-text">Maven Dependency</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Maven常用指令"><span class="nav-number">3.</span> <span class="nav-text">Maven常用指令</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#maven_dependency_exclusion"><span class="nav-number">4.</span> <span class="nav-text">maven dependency exclusion</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#maven远程库"><span class="nav-number">5.</span> <span class="nav-text">maven远程库</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#上传项目到Maven_Central_Repository"><span class="nav-number">6.</span> <span class="nav-text">上传项目到Maven Central Repository</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#Maven本地开发"><span class="nav-number">6.1.</span> <span class="nav-text">Maven本地开发</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Maven问题记录"><span class="nav-number">7.</span> <span class="nav-text">Maven问题记录</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#建立本地源目录"><span class="nav-number">1.</span> <span class="nav-text">建立本地源目录</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#挂载CentOS光盘"><span class="nav-number">2.</span> <span class="nav-text">挂载CentOS光盘</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#备份repo"><span class="nav-number">3.</span> <span class="nav-text">备份repo</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#编辑CentOS-Media-repo"><span class="nav-number">4.</span> <span class="nav-text">编辑CentOS-Media.repo</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#清yum缓存"><span class="nav-number">5.</span> <span class="nav-text">清yum缓存</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#备注"><span class="nav-number">6.</span> <span class="nav-text">备注</span></a></li></ol></div>
             
           </div>
           <div class="post-toc-indicator-bottom post-toc-indicator"></div>

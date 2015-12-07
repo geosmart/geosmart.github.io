@@ -30,7 +30,7 @@
 
 
 
-  <meta name="keywords" content="J2EE,Maven," />
+  <meta name="keywords" content="CentOS,Samba," />
 
 
 
@@ -41,19 +41,16 @@
   <link rel="shorticon icon" type="image/x-icon" href="/favicon.ico?v=0.4.5.1" />
 
 
-<meta name="description" content="关于MavenMaven是基于项目对象模型(POM)，可以通过一小段描述信息来管理项目的构建，报告和文档的软件项目管理工具。  
-本文记录Maven开发过程中常用的脚本和遇到的问题。">
+<meta name="description" content="一个局域网的项目，需要在Linux上进行文件共享，最终选型samba，即通过jcifs实现java读写共享文件。">
 <meta property="og:type" content="article">
-<meta property="og:title" content="Maven使用笔记">
-<meta property="og:url" content="http://geosmart.github.io/2015/09/15/Maven使用笔记/index.html">
+<meta property="og:title" content="Samba安装配置笔记">
+<meta property="og:url" content="http://geosmart.github.io/2015/12/07/Samba安装配置笔记/index.html">
 <meta property="og:site_name" content="Geosmart's Notes">
-<meta property="og:description" content="关于MavenMaven是基于项目对象模型(POM)，可以通过一小段描述信息来管理项目的构建，报告和文档的软件项目管理工具。  
-本文记录Maven开发过程中常用的脚本和遇到的问题。">
-<meta property="og:updated_time" content="2015-11-27T11:59:01.343Z">
+<meta property="og:description" content="一个局域网的项目，需要在Linux上进行文件共享，最终选型samba，即通过jcifs实现java读写共享文件。">
+<meta property="og:updated_time" content="2015-12-07T10:58:17.831Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="Maven使用笔记">
-<meta name="twitter:description" content="关于MavenMaven是基于项目对象模型(POM)，可以通过一小段描述信息来管理项目的构建，报告和文档的软件项目管理工具。  
-本文记录Maven开发过程中常用的脚本和遇到的问题。">
+<meta name="twitter:title" content="Samba安装配置笔记">
+<meta name="twitter:description" content="一个局域网的项目，需要在Linux上进行文件共享，最终选型samba，即通过jcifs实现java读写共享文件。">
 
 
 <script type="text/javascript" id="hexo.configuration">
@@ -63,7 +60,7 @@
   };
 </script>
 
-  <title> Maven使用笔记 | Geosmart's Notes </title>
+  <title> Samba安装配置笔记 | Geosmart's Notes </title>
 </head>
 
 <body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
@@ -217,7 +214,7 @@
           
           
             
-              Maven使用笔记
+              Samba安装配置笔记
             
           
         </h1>
@@ -226,8 +223,8 @@
       <div class="post-meta">
         <span class="post-time">
           发表于
-          <time itemprop="dateCreated" datetime="2015-09-15T15:52:57+08:00" content="15   September   2015">
-            15   September   2015
+          <time itemprop="dateCreated" datetime="2015-12-07T18:18:18+08:00" content="7   December   2015">
+            7   December   2015
           </time>
         </span>
 
@@ -236,8 +233,8 @@
             &nbsp; | &nbsp; 分类于
             
               <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
-                <a href="/categories/后端技术/" itemprop="url" rel="index">
-                  <span itemprop="name">后端技术</span>
+                <a href="/categories/运维/" itemprop="url" rel="index">
+                  <span itemprop="name">运维</span>
                 </a>
               </span>
 
@@ -252,8 +249,8 @@
           
             <span class="post-comments-count">
               &nbsp; | &nbsp;
-              <a href="/2015/09/15/Maven使用笔记/#comments" itemprop="discussionUrl">
-                <span class="post-comments-count ds-thread-count" data-thread-key="2015/09/15/Maven使用笔记/" itemprop="commentsCount"></span>
+              <a href="/2015/12/07/Samba安装配置笔记/#comments" itemprop="discussionUrl">
+                <span class="post-comments-count ds-thread-count" data-thread-key="2015/12/07/Samba安装配置笔记/" itemprop="commentsCount"></span>
               </a>
             </span>
           
@@ -267,40 +264,26 @@
       
 
       
-        <span itemprop="articleBody"><h1 id="关于Maven">关于Maven</h1><p>Maven是基于项目对象模型(POM)，可以通过一小段描述信息来管理项目的构建，报告和文档的软件项目管理工具。  </p>
-<p>本文记录Maven开发过程中常用的脚本和遇到的问题。</p>
+        <span itemprop="articleBody"><p>一个局域网的项目，需要在Linux上进行文件共享，最终选型samba，即通过jcifs实现java读写共享文件。</p>
 <hr>
 <a id="more"></a>
-<h1 id="Maven_Dependency">Maven Dependency</h1><p>在POM 4中，<dependency>中还引入了<scope>，它主要管理依赖的部署。目前<scope>可以使用5个值： </p>
-<pre><code><span class="bullet">* </span>compile，缺省值，适用于所有阶段，会随着项目一起发布。 
-<span class="bullet">* </span>provided，类似compile，期望JDK、容器或使用者会提供这个依赖。如servlet.jar。 
-<span class="bullet">* </span>runtime，只在运行时使用，如JDBC驱动，适用运行和测试阶段。 
-<span class="bullet">* </span>test，只在测试时使用，用于编译和运行测试代码。不会随项目发布。 
-<span class="bullet">* </span>system，类似provided，需要显式提供包含依赖的jar，Maven不会在Repository中查找它。 
-</code></pre><h1 id="Maven常用指令">Maven常用指令</h1><p><code>package</code>：打包<br><code>war:exploded</code>：编译不生成war包<br><code>install</code>：安装到本地资源库<br>     eg：<code>mvn install:install-file -Dfile=lt.util-1.0.jar -DgroupId=com.lt -DartifactId=util -Dversion=1.0 -Dpackaging=jar</code><br><code>process-resources</code>：编译并打包资源<br>新建项目：<code>mvn archetype:generate -DgroupId=com.lt -DartifactId=uadb.etl -DarchetypeArtifactIdmaven-archetype-webapp -DinteractiveMode=false</code></p>
-<h1 id="maven_dependency_exclusion">maven dependency exclusion</h1><h1 id="maven远程库">maven远程库</h1><ul>
-<li><p><a href="https://search.maven.org/#search">https://search.maven.org/#search</a></p>
-</li>
-<li><p><a href="http://maven-repository.com/">http://maven-repository.com/</a></p>
-</li>
-<li><p><a href="http://mvnrepository.com/">http://mvnrepository.com/</a></p>
-</li>
-<li><p><a href="http://repository.apache.org/snapshots/">http://repository.apache.org/snapshots/</a></p>
-</li>
-<li><p><a href="http://maven.outofmemory.cn/">http://maven.outofmemory.cn/</a></p>
-</li>
+<h1 id="关于SMB">关于SMB</h1><p>SMB（Server Message Block）:通信协议是微软（Microsoft）和英特尔(Intel)在1987年制定的协议，主要是作为Microsoft网络的通讯协议。SMB 是在会话层（session layer）和表示层（presentation layer）以及小部分应用层（application layer）的协议。SMB使用了NetBIOS的应用程序接口 （Application Program Interface，简称API）。另外，它是一个开放性的协议，允许了协议扩展——使得它变得更大而且复杂；大约有65个最上层的作业，而每个作业都超过120个函数，甚至Windows NT也没有全部支持到，最近微软又把 SMB 改名为 CIFS（Common Internet ile System），并且加入了许多新的特色。　　<br>SMB协议是基于TCP－NETBIOS下的，一般端口使用为139，445</p>
+<h1 id="关于CIFS">关于CIFS</h1><p>CIFS(Common Internet File System)：通用Internet文件系统在windows主机之间进行网络文件共享是通过使用微软公司自己的CIFS服务实现的。CIFS 是一个新提出的协议，它使程序可以访问远程Internet计算机上的文件并要求此计算机的服务。CIFS 使用客户/服务器模式。客户程序请求远在服务器上的服务器程序为它提供服务。服务器获得请求并返回响应。<br>CIFS是公共的或开放的SMB协议版本，并由Microsoft使用。SMB协议现在是局域网上用于服务器文件访问和打印的协议。<br>象SMB协议一样，CIFS在高层运行，而不象TCP/IP协议那样运行在底层。CIFS可以看做是应用程序协议如文件传输协议和超文本传输协议的一个实现。</p>
+<h1 id="关于JCIFS">关于JCIFS</h1><p>JCIFS是CIFS 在JAVA中的一个实现，是samba组织负责维护开发的一个开源项目，专注于使用java语言对cifs协议的设计和实现。他们将jcifs设计成为一个完整的，丰富的，具有可扩展能力且线程安全的客户端库。这一库可以应用于各种java虚拟机访问遵循CIFS/SMB网络传输协议的网络资源。类似于java.io.File的接口形式，在多线程的工作方式下被证明是有效而容易使用的。</p>
+<h1 id="关于Samba">关于Samba</h1><p>Samba，是种用来让UNIX系列的操作系统与微软Windows操作系统的SMB/CIFS（Server Message Block/Common Internet File System）网络协议做链接的自由软件。第三版不仅可访问及分享SMB的文件夹及打印机，本身还可以集成入Windows Server的域，扮演为域控制站（Domain Controller）以及加入Active Directory成员。简而言之，此软件在Windows与UNIX系列OS之间搭起一座桥梁，让两者的资源可互通有无。</p>
+<h1 id="CentOS下yum安装配置Samba">CentOS下yum安装配置Samba</h1><h2 id="新建用户samba">新建用户samba</h2><p>useradd  samba</p>
+<h2 id="设置samba用户密码">设置samba用户密码</h2><p>passwd samba</p>
+<h2 id="将samba加入到Samba用户数据库">将samba加入到Samba用户数据库</h2><p><code>smbpasswd -a samba</code> windows访问samba共享目录时需要输入此用户名和密码</p>
+<h2 id="设置目录访问权限">设置目录访问权限</h2><p>chown -R   samba:samba /uadb/exchange/import<br>chown -R   samba:samba /uadb/exchange/export<br>chown -R  samba:samba /uadb/exchange/export_backup</p>
+<h2 id="编辑smb-conf配置文件">编辑smb.conf配置文件</h2><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#vim/etc/samba/smb.conf</span></span><br><span class="line">[global]</span><br><span class="line"></span><br><span class="line">workgroup = WORKGROUP</span><br><span class="line">netbios name = sambaServer</span><br><span class="line">server string = Linux Samba Server TestServer</span><br><span class="line">security = user</span><br><span class="line"></span><br><span class="line">[import]</span><br><span class="line">path = /uadb/exchange/import</span><br><span class="line">writeable = yes</span><br><span class="line">browseable = yes</span><br><span class="line">guest ok = yes</span><br><span class="line"></span><br><span class="line">[<span class="built_in">export</span>]</span><br><span class="line">path = /uadb/exchange/<span class="built_in">export</span></span><br><span class="line">writeable = yes</span><br><span class="line">browseable = yes</span><br><span class="line">guest ok = yes</span><br></pre></td></tr></table></figure>
+<h2 id="设置samba服务开机启动">设置samba服务开机启动</h2><p><code>chkconfig smb on</code></p>
+<h2 id="重启服samba服务">重启服samba服务</h2><p><code>service smb  restart</code></p>
+<h1 id="问题记录">问题记录</h1><h2 id="连接路径问题">连接路径问题</h2><ul>
+<li>问题描述：cifs.smb.SmbException: The network name cannot be found.</li>
+<li>问题定位：不能用绝对路径来访问，需要用samba的配置的共享文件夹名称来访问</li>
+<li>解决方案：正确：<code>smb://samba:samba@192.168.1.80/import</code>；错误：<code>smb://samba:samba@192.168.1.80/uadb/exchange/import</code>  </li>
 </ul>
-<h1 id="上传项目到Maven_Central_Repository">上传项目到Maven Central Repository</h1><h2 id="Maven本地开发">Maven本地开发</h2><ul>
-<li>下载apache-maven</li>
-<li>设置本地库路径<br>在maven\config\settings.xml中设置本地库路径：<code>&lt;localRepository&gt;D:\Dev\Maven-Respository&lt;/localRepository&gt;</code></li>
-<li>在Myeclipse中设置安装路径<br>在<code>Window&gt;Preferences&gt;Myeclipse&gt;Maven4Myeclipse&gt;Installations</code>中执行Add加入本地maven路径<br>在<code>Window&gt;Preferences&gt;Myeclipse&gt;Maven4Myeclipse&gt;User Settings</code>中Browser选择maven\config\settings.xml，执行Update Settings，Reindex</li>
-</ul>
-<h1 id="Maven问题记录">Maven问题记录</h1><ul>
-<li>本地库有改jar包但是依旧无法编译<br>本地下载的Zip已损坏，删除本地库中的jar文件和目录，重新从远处库下载</li>
-</ul>
-<ul>
-<li>远程库只能下载索引，不能下载jar！<br>日志：The container ‘Maven Dependencies’ references non existing library ‘D:\soft\Maven\Maven-Respository\org\apache\ant\ant\1.9.3\ant-1.9.3.jar’</li>
-</ul>
+<h1 id="Samba读写示例">Samba读写示例</h1><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br></pre></td><td class="code"><pre><span class="line">/</span><br><span class="line"> * jcifs的开发方法类似java的文件操作功能，它的资源url定位：smb:<span class="comment">//&#123;user&#125;:&#123;password&#125;@&#123;host&#125;/&#123;path&#125;，</span></span><br><span class="line"> * smb为协议名，user和password分别为共享文件机子的登陆名和密码，@后面是要访问的资源的主机名或IP地址。最后是资源的共享文件夹名称和共享资源名。</span><br><span class="line"> * 例如smb:<span class="comment">//administrator:122122@192.168.0.22/test/response.txt。</span></span><br><span class="line"> *  </span><br><span class="line"> * SmbFile file = newSmbFile(<span class="string">"smb://guest:1234@192.168.3.56/share/a.txt"</span>);</span><br><span class="line"> *</span><br><span class="line">/</span><br><span class="line"><span class="annotation">@Test</span></span><br><span class="line">true<span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">readFile</span><span class="params">()</span> </span>&#123;</span><br><span class="line">truetrue<span class="keyword">try</span> &#123;</span><br><span class="line">truetruetrue<span class="comment">// 局域网共享文件，读文件</span></span><br><span class="line">truetruetrueSmbFile smbFile = <span class="keyword">new</span> SmbFile(<span class="string">"smb://samba:samba@192.168.1.80/import/test.db"</span>);</span><br><span class="line">truetruetrue<span class="comment">// 通过 smbFile.isDirectory();isFile()可以判断smbFile是文件还是文件夹</span></span><br><span class="line">truetruetrue<span class="keyword">int</span> length = smbFile.getContentLength();</span><br><span class="line">truetruetrue<span class="keyword">byte</span> buffer[] = <span class="keyword">new</span> <span class="keyword">byte</span>[length];</span><br><span class="line">truetruetrueSmbFileInputStream in = <span class="keyword">new</span> SmbFileInputStream(smbFile);</span><br><span class="line">truetruetrue<span class="keyword">while</span> ((in.read(buffer)) != -<span class="number">1</span>) &#123;</span><br><span class="line">truetruetruetrueSystem.out.write(buffer);</span><br><span class="line">truetruetruetrueSystem.out.println(<span class="string">"\n"</span> + buffer.length);</span><br><span class="line">truetruetrue&#125;</span><br><span class="line">truetruetruein.close();</span><br><span class="line">truetruetruesmbFile.delete();</span><br><span class="line"></span><br><span class="line">truetrue&#125; <span class="keyword">catch</span> (SmbAuthException e) &#123;</span><br><span class="line">truetruetruee.printStackTrace();</span><br><span class="line">truetrue&#125; <span class="keyword">catch</span> (IOException e) &#123;</span><br><span class="line">truetruetruee.printStackTrace();</span><br><span class="line">truetrue&#125;</span><br><span class="line">true&#125;</span><br><span class="line"></span><br><span class="line">true<span class="annotation">@Test</span></span><br><span class="line">true<span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">wariteFile</span><span class="params">()</span> </span>&#123;</span><br><span class="line">truetrue<span class="keyword">try</span> &#123;</span><br><span class="line">truetruetrueSmbFile smbFileOut = <span class="keyword">new</span> SmbFile(<span class="string">"smb://samba:samba@192.168.1.80/import/test2.db"</span>);</span><br><span class="line">truetruetrue<span class="keyword">if</span> (!smbFileOut.exists())</span><br><span class="line">truetruetruetruesmbFileOut.createNewFile();</span><br><span class="line">truetruetrueSmbFileOutputStream out = <span class="keyword">new</span> SmbFileOutputStream(smbFileOut);</span><br><span class="line">truetruetrueout.write(<span class="string">"abcdefw"</span>.getBytes());</span><br><span class="line">truetruetrueout.close();</span><br><span class="line">truetruetruesmbFileOut.delete();</span><br><span class="line">truetrue&#125; <span class="keyword">catch</span> (SmbAuthException e) &#123;</span><br><span class="line">truetruetruee.printStackTrace();</span><br><span class="line">truetrue&#125; <span class="keyword">catch</span> (IOException e) &#123;</span><br><span class="line">truetruetruee.printStackTrace();</span><br><span class="line">truetrue&#125;</span><br><span class="line">true&#125;</span><br></pre></td></tr></table></figure>
 </span>
       
     </div>
@@ -309,9 +292,9 @@
       
         <div class="post-tags">
           
-            <a href="/tags/J2EE/" rel="tag">#J2EE</a>
+            <a href="/tags/CentOS/" rel="tag">#CentOS</a>
           
-            <a href="/tags/Maven/" rel="tag">#Maven</a>
+            <a href="/tags/Samba/" rel="tag">#Samba</a>
           
         </div>
       
@@ -320,13 +303,13 @@
         <div class="post-nav">
           <div class="post-nav-prev post-nav-item">
             
-              <a href="/2015/09/17/GATE中文自然语言处理学习笔记/" rel="prev">GATE中文自然语言处理学习笔记</a>
+              <a href="/2015/12/07/CentOS配置本地Yum源/" rel="prev">CentOS配置本地Yum源</a>
             
           </div>
 
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2015/09/15/SQLite数据库使用笔记/" rel="next">SQLite数据库使用笔记</a>
+              <a href="/2015/12/06/Hive学习笔记/" rel="next">Hive学习笔记</a>
             
           </div>
         </div>
@@ -351,8 +334,8 @@
         
           <div class="comments" id="comments">
             
-              <div class="ds-thread" data-thread-key="2015/09/15/Maven使用笔记/"
-                   data-title="Maven使用笔记" data-url="http://geosmart.github.io/2015/09/15/Maven使用笔记/">
+              <div class="ds-thread" data-thread-key="2015/12/07/Samba安装配置笔记/"
+                   data-title="Samba安装配置笔记" data-url="http://geosmart.github.io/2015/12/07/Samba安装配置笔记/">
               </div>
             
           </div>
@@ -441,7 +424,7 @@
           <div class="post-toc">
             
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#关于Maven"><span class="nav-number">1.</span> <span class="nav-text">关于Maven</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Maven_Dependency"><span class="nav-number">2.</span> <span class="nav-text">Maven Dependency</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Maven常用指令"><span class="nav-number">3.</span> <span class="nav-text">Maven常用指令</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#maven_dependency_exclusion"><span class="nav-number">4.</span> <span class="nav-text">maven dependency exclusion</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#maven远程库"><span class="nav-number">5.</span> <span class="nav-text">maven远程库</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#上传项目到Maven_Central_Repository"><span class="nav-number">6.</span> <span class="nav-text">上传项目到Maven Central Repository</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#Maven本地开发"><span class="nav-number">6.1.</span> <span class="nav-text">Maven本地开发</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Maven问题记录"><span class="nav-number">7.</span> <span class="nav-text">Maven问题记录</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#关于SMB"><span class="nav-number">1.</span> <span class="nav-text">关于SMB</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#关于CIFS"><span class="nav-number">2.</span> <span class="nav-text">关于CIFS</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#关于JCIFS"><span class="nav-number">3.</span> <span class="nav-text">关于JCIFS</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#关于Samba"><span class="nav-number">4.</span> <span class="nav-text">关于Samba</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#CentOS下yum安装配置Samba"><span class="nav-number">5.</span> <span class="nav-text">CentOS下yum安装配置Samba</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#新建用户samba"><span class="nav-number">5.1.</span> <span class="nav-text">新建用户samba</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#设置samba用户密码"><span class="nav-number">5.2.</span> <span class="nav-text">设置samba用户密码</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#将samba加入到Samba用户数据库"><span class="nav-number">5.3.</span> <span class="nav-text">将samba加入到Samba用户数据库</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#设置目录访问权限"><span class="nav-number">5.4.</span> <span class="nav-text">设置目录访问权限</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#编辑smb-conf配置文件"><span class="nav-number">5.5.</span> <span class="nav-text">编辑smb.conf配置文件</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#设置samba服务开机启动"><span class="nav-number">5.6.</span> <span class="nav-text">设置samba服务开机启动</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#重启服samba服务"><span class="nav-number">5.7.</span> <span class="nav-text">重启服samba服务</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#问题记录"><span class="nav-number">6.</span> <span class="nav-text">问题记录</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#连接路径问题"><span class="nav-number">6.1.</span> <span class="nav-text">连接路径问题</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Samba读写示例"><span class="nav-number">7.</span> <span class="nav-text">Samba读写示例</span></a></li></ol></div>
             
           </div>
           <div class="post-toc-indicator-bottom post-toc-indicator"></div>
