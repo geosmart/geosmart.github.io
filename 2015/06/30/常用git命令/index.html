@@ -30,7 +30,7 @@
 
 
 
-  <meta name="keywords" content="Git,工具," />
+  <meta name="keywords" content="Git," />
 
 
 
@@ -41,58 +41,16 @@
   <link rel="shorticon icon" type="image/x-icon" href="/favicon.ico?v=0.4.5.1" />
 
 
-<meta name="description" content="参考教程
-
-克隆库
-1git clone https://github.com/geosmart/geosmart.io
-
-新建 ‘gh-pages’分支，会自动生成github pages 
-1git checkout --orphan gh-pages
-
-本地提交
-1git commit -a -m &quot;commit message&quot;
-
-推送到github
-1git push origin
-
-初">
+<meta name="description" content="用github来搭建个人技术笔记，少不了记录一些常用的git命令">
 <meta property="og:type" content="article">
 <meta property="og:title" content="常用git命令">
 <meta property="og:url" content="http://geosmart.github.io/2015/06/30/常用git命令/index.html">
 <meta property="og:site_name" content="Geosmart's Notes">
-<meta property="og:description" content="参考教程
-
-克隆库
-1git clone https://github.com/geosmart/geosmart.io
-
-新建 ‘gh-pages’分支，会自动生成github pages 
-1git checkout --orphan gh-pages
-
-本地提交
-1git commit -a -m &quot;commit message&quot;
-
-推送到github
-1git push origin
-
-初">
-<meta property="og:updated_time" content="2015-09-07T13:29:24.554Z">
+<meta property="og:description" content="用github来搭建个人技术笔记，少不了记录一些常用的git命令">
+<meta property="og:updated_time" content="2015-12-29T01:07:18.520Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="常用git命令">
-<meta name="twitter:description" content="参考教程
-
-克隆库
-1git clone https://github.com/geosmart/geosmart.io
-
-新建 ‘gh-pages’分支，会自动生成github pages 
-1git checkout --orphan gh-pages
-
-本地提交
-1git commit -a -m &quot;commit message&quot;
-
-推送到github
-1git push origin
-
-初">
+<meta name="twitter:description" content="用github来搭建个人技术笔记，少不了记录一些常用的git命令">
 
 
 <script type="text/javascript" id="hexo.configuration">
@@ -275,8 +233,8 @@
             &nbsp; | &nbsp; 分类于
             
               <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
-                <a href="/categories/技术点滴/" itemprop="url" rel="index">
-                  <span itemprop="name">技术点滴</span>
+                <a href="/categories/版本控制/" itemprop="url" rel="index">
+                  <span itemprop="name">版本控制</span>
                 </a>
               </span>
 
@@ -306,35 +264,18 @@
       
 
       
-        <span itemprop="articleBody"><p><a href="https://www.atlassian.com/git/tutorials/">参考教程</a></p>
-<ol>
-<li><p>克隆库</p>
-<figure class="highlight groovy"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git clone <span class="string">https:</span><span class="comment">//github.com/geosmart/geosmart.io</span></span><br></pre></td></tr></table></figure>
-</li>
-<li><p>新建 ‘gh-pages’分支，会自动生成github pages </p>
-<figure class="highlight applescript"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git checkout <span class="comment">--orphan gh-pages</span></span><br></pre></td></tr></table></figure>
-</li>
-<li><p>本地提交</p>
-<figure class="highlight stylus"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git commit -<span class="tag">a</span> -m <span class="string">"commit message"</span></span><br></pre></td></tr></table></figure>
-</li>
-<li><p>推送到github</p>
-<figure class="highlight armasm"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="label">git</span> <span class="keyword">push </span>origin</span><br></pre></td></tr></table></figure>
-</li>
-<li><p>初始版本提交</p>
-<figure class="highlight avrasm"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">git <span class="keyword">push</span> --<span class="keyword">set</span>-upstream origin master</span><br><span class="line">或</span><br><span class="line">git <span class="keyword">push</span> origin master</span><br></pre></td></tr></table></figure>
-</li>
-<li><p>推送到github</p>
-<figure class="highlight oxygene"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">git sync</span><br><span class="line">git config --<span class="keyword">global</span> credential.helper store</span><br><span class="line">git config --<span class="keyword">global</span> push.<span class="keyword">default</span> <span class="keyword">matching</span></span><br></pre></td></tr></table></figure>
-</li>
-</ol>
-<ol>
-<li><p>git bash记住密码</p>
-<figure class="highlight stylus"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">git config credential<span class="class">.helper</span> <span class="string">'cache --timeout=300'</span></span><br><span class="line">git config --global user<span class="class">.name</span> geosmart</span><br><span class="line">git config --global user<span class="class">.email</span> geosmart@foxmail.com</span><br></pre></td></tr></table></figure>
-</li>
-<li><p>查看git配置</p>
-<figure class="highlight applescript"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git config <span class="comment">--list</span></span><br></pre></td></tr></table></figure>
-</li>
-</ol>
+        <span itemprop="articleBody"><p>用github来搭建个人技术笔记，少不了记录一些常用的git命令</p>
+<hr>
+<a id="more"></a>
+<h1 id="Git">Git</h1><p><a href="http://git-scm.com/book/zh/v2/%E8%B5%B7%E6%AD%A5-Git-%E5%9F%BA%E7%A1%80">Git基础</a><br><a href="http://yanminx.com/blog/understand-git-by-drawing">用爱一起画Git</a><br><a href="https://www.atlassian.com/git/tutorials/">参考教程</a>  </p>
+<h1 id="克隆库">克隆库</h1><figure class="highlight groovy"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git clone <span class="string">https:</span><span class="comment">//github.com/geosmart/geosmart.io</span></span><br></pre></td></tr></table></figure>
+<h1 id="新建_‘gh-pages’分支，会自动生成github_pages">新建 ‘gh-pages’分支，会自动生成github pages</h1><figure class="highlight applescript"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git checkout <span class="comment">--orphan gh-pages</span></span><br></pre></td></tr></table></figure>
+<h1 id="本地提交">本地提交</h1><figure class="highlight stylus"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git commit -<span class="tag">a</span> -m <span class="string">"commit message"</span></span><br></pre></td></tr></table></figure>
+<h1 id="初始版本提交">初始版本提交</h1><figure class="highlight avrasm"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">git <span class="keyword">push</span> --<span class="keyword">set</span>-upstream origin master</span><br><span class="line">或</span><br><span class="line">git <span class="keyword">push</span> origin master</span><br></pre></td></tr></table></figure>
+<h1 id="推送到服务器">推送到服务器</h1><figure class="highlight autohotkey"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">git push origin  </span><br><span class="line"><span class="escape">``</span><span class="escape">` </span> </span><br><span class="line">#   git同步配置</span><br></pre></td></tr></table></figure>
+<p>git sync<br>git config –global credential.helper store<br>git config –global push.default matching<br><figure class="highlight vala"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="preprocessor">#  git bash记住密码</span></span><br></pre></td></tr></table></figure></p>
+<p>git config credential.helper ‘cache –timeout=300’<br>git config –global user.name geosmart<br>git config –global user.email geosmart@foxmail.com<br><figure class="highlight vala"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="preprocessor">#  查看git配置</span></span><br></pre></td></tr></table></figure></p>
+<p>git config –list<br>```</p>
 </span>
       
     </div>
@@ -344,8 +285,6 @@
         <div class="post-tags">
           
             <a href="/tags/Git/" rel="tag">#Git</a>
-          
-            <a href="/tags/工具/" rel="tag">#工具</a>
           
         </div>
       
@@ -426,21 +365,21 @@
         <nav class="site-state motion-element">
           <div class="site-state-item site-state-posts">
             <a href="/archives">
-              <span class="site-state-item-count">40</span>
+              <span class="site-state-item-count">43</span>
               <span class="site-state-item-name">日志</span>
             </a>
           </div>
 
           <div class="site-state-item site-state-categories">
             <a href="/categories">
-              <span class="site-state-item-count">12</span>
+              <span class="site-state-item-count">13</span>
               <span class="site-state-item-name">分类</span>
               </a>
           </div>
 
           <div class="site-state-item site-state-tags">
             <a href="/tags">
-              <span class="site-state-item-count">47</span>
+              <span class="site-state-item-count">48</span>
               <span class="site-state-item-name">标签</span>
               </a>
           </div>
@@ -475,7 +414,7 @@
           <div class="post-toc">
             
             
-              <p class="post-toc-empty">此文章未包含目录</p>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#Git"><span class="nav-number">1.</span> <span class="nav-text">Git</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#克隆库"><span class="nav-number">2.</span> <span class="nav-text">克隆库</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#新建_‘gh-pages’分支，会自动生成github_pages"><span class="nav-number">3.</span> <span class="nav-text">新建 ‘gh-pages’分支，会自动生成github pages</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#本地提交"><span class="nav-number">4.</span> <span class="nav-text">本地提交</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#初始版本提交"><span class="nav-number">5.</span> <span class="nav-text">初始版本提交</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#推送到服务器"><span class="nav-number">6.</span> <span class="nav-text">推送到服务器</span></a></li></ol></div>
             
           </div>
           <div class="post-toc-indicator-bottom post-toc-indicator"></div>

@@ -48,7 +48,7 @@
 <meta property="og:site_name" content="Geosmart's Notes">
 <meta property="og:description" content="开始正式接触Hadoop，从CDH自动化分布式环境部署延伸的Hadoop生态圈的术语，列举如下：查看所有术语">
 <meta property="og:image" content="http://hadoop.apache.org/docs/r1.2.1/images/hdfsarchitecture.gif">
-<meta property="og:updated_time" content="2015-10-22T07:53:26.373Z">
+<meta property="og:updated_time" content="2015-12-08T08:12:07.267Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Hadoop生态圈">
 <meta name="twitter:description" content="开始正式接触Hadoop，从CDH自动化分布式环境部署延伸的Hadoop生态圈的术语，列举如下：查看所有术语">
@@ -275,17 +275,15 @@
 <h1 id="Apache_Flume">Apache Flume</h1><p>一个分布式、可靠可用的系统，用于高效收集、聚合和移动大量文本或从多个不同源至集中式数据存储的流数据。</p>
 <h1 id="Apache_Giraph">Apache Giraph</h1><p>一个在 Apache Hadoop 上运行的大型、容错的图像处理框架。</p>
 <h1 id="Apache_Hadoop">Apache Hadoop</h1><p>一个免费的开源软件框架，支持数据密集型分布应用程序。Apache Hadoop的核心组件为 HDFS 和 MapReduce 和 YARN 处理框架。该术语也用于与 Hadoop 相关的生态系统项目，位于分布式计算和大规模数据处理的基础架构之下。</p>
-<h1 id="MapReduce">MapReduce</h1><p>处理和生成大数据集的分布式处理框架以及在行业标准及其的大群集上运行的实施。</p>
-<p>处理模型定义两种类型的函数：处理键值对的映射功能以生成一组中间键值对的函数，以及合并所有与同一中间键关联的中间值的简化函数。</p>
-<p>MapReduce 作业区分输入数据集至独立数据块，该数据块由映射函数以并行方式处理。框架对映射的输出进行排序，然后输入到简化函数。通常作业的输入和输出存储在分布式文件系统中。</p>
-<p>实施为配置和提交作业、作业调度和管理、搜索库、排序、索引、转换索引、词语共现算法和运行时间提供 API。运行时系统负责处理区分输入数据、跨机器组调度程序执行、处理机器故障和管理需要的机器间通信的细节。</p>
+<h1 id="MapReduce">MapReduce</h1><p>MapReduce采用”分而治之”的思想，把对大规模数据集的操作，分发给一个主节点管理下的各个分节点共同完成，然后通过整合各个节点的中间结果，得到最终结果。简单地说，MapReduce就是”任务的分解与结果的汇总”。<br>在Hadoop中，用于执行MapReduce任务的机器角色有两个：一个是JobTracker；另一个是TaskTracker，JobTracker是用于调度工作的，TaskTracker是用于执行工作的。一个Hadoop集群中只有一台JobTracker。<br>在分布式计算中，MapReduce框架负责处理了并行编程中分布式存储、工作调度、负载均衡、容错均衡、容错处理以及网络通信等复杂问题，把处理过程高度抽象为两个函数：map和reduce，map负责把任务分解成多个任务，reduce负责把分解后多任务处理的结果汇总起来。<br>需要注意的是，用MapReduce来处理的数据集（或任务）必须具备这样的特点：待处理的数据集可以分解成许多小的数据集，而且每一个小数据集都可以完全并行地进行处理。</p>
 <p>MapReduce v1 (MRv1)<br>MapReduce 作业执行的运行时间框架。它定义两个守护程序：</p>
 <p>JobTracker - 协调运行 MapReduce作业，并提供资源管理和作业生命周期管理。在 YARN 中，这些功能由两个单独组件执行。<br>TaskTracker - 运行 MapReduce 作业已拆分的任务。</p>
-<h1 id="YARN">YARN</h1><p>运行分布式应用程序的通用体系结构。YARN 指定以下组件：</p>
+<h1 id="YARN">YARN</h1><p>Apache Hadoop YARN （Yet Another Resource Negotiator，另一种资源协调者）是一种新的 Hadoop 资源管理器，它是一个通用资源管理系统，可为上层应用提供统一的资源管理和调度，它的引入为集群在利用率、资源统一管理和数据共享等方面带来了巨大好处。<br>YARN最初是为了修复MapReduce实现里的明显不足，并对可伸缩性（支持一万个节点和二十万个内核的集群）、可靠性和集群利用率进行了提升。YARN实现这些需求的方式是，把Job Tracker的两个主要功能（资源管理和作业调度/监控）分成了两个独立的服务程序——全局的资源管理（RM）和针对每个应用的应用 Master（AM），这里说的应用要么是传统意义上的MapReduce任务，要么是任务的有向无环图（DAG）。</p>
+<p>运行分布式应用程序的通用体系结构。YARN 指定以下组件：</p>
 <p>ResourceManager - 管理计算资源的全局分配至应用程序。<br>ApplicationMaster - 管理应用程序的生命周期<br>NodeManager - 启动和监视群集中机器上的计算容器<br>JobHistory Server - 跟踪已完成的应用程序<br>主应用程序为群集资源与资源管理器协商 - 按照多个容器的描述，每个应用程序拥有特定的内存限制 - 然后在这些容器中运行应用程序特定的进程。在群集节点上运行的节点管理器监督容器，确保应用程序未使用超出其已分配资源的资源。</p>
 <p>MapReduce v2 (MRv2) 作为 YARN 应用程序实施。</p>
 <h1 id="Apache_HBase">Apache HBase</h1><p>面向列的可伸缩分布式数据存储。它提供实时读/写随机访问 HDFS 托管的大规模数据集的权限。<br>Hbase Web UI：<a href="http://{master}:60010/">http://{master}:60010/</a></p>
-<h2 id="Hbase表结构设计">Hbase表结构设计</h2><p> 在HBase中，数据是按Column Family来分割的，同一个Column Family下的所有列的数据放在一个文件（为简化下面的描述在此使用文件这个词，在HBase内部使用的是Store）中。</p>
+<h2 id="Hbase表结构设计">Hbase表结构设计</h2><p>在HBase中，数据是按Column Family来分割的，同一个Column Family下的所有列的数据放在一个文件（为简化下面的描述在此使用文件这个词，在HBase内部使用的是Store）中。</p>
 <p>HBase本身的设计目标是 支持稀疏表，而 稀疏表通常会有很多列，但是每一行有值的列又比较少。<br>如果不使用Column Family的概念，那么有两种设计方案：<br>1.把所有列的数据放在一个文件中（也就是传统的按行存储）。那么当我们想要访问少数几个列的数据时，需要遍历每一行，读取整个表的数据，这样子是很低效的。<br>2.把每个列的数据单独分开存在一个文件中（按列存储）。那么当我们想要访问少数几个列的数据时，只需要读取对应的文件，不用读取整个表的数据，读取效率很高。然而，由于稀疏表通常会有很多列，这会导致文件数量特别多，这本身会影响文件系统的效率。</p>
 <p>而Column Family的提出就是为了在上面两种方案中做一个折中。HBase中 将一个Column Family中的列存在一起，而不同Column Family的数据则分开。<br>由于在HBase中Column Family的数量通常很小，同时HBase建议把经常一起访问的比较类似的列放在同一个Column Family中，这样就可以在访问少数几个列时，只读取尽量少的数据。</p>
 <h2 id="Hbase性能优化配置">Hbase性能优化配置</h2><p>HBase Master 的 Java 堆栈大小（字节）-Master Default Group：377M（默认）&gt;<br>HBase RegionServer 的 Java 堆栈大小（字节）-RegionServer Default Group :588M（默认）&gt;1024M<br>HBase 客户端写入缓冲-hbase.client.write.buffer：2M（默认）&gt;</p>
@@ -443,21 +441,21 @@
         <nav class="site-state motion-element">
           <div class="site-state-item site-state-posts">
             <a href="/archives">
-              <span class="site-state-item-count">40</span>
+              <span class="site-state-item-count">43</span>
               <span class="site-state-item-name">日志</span>
             </a>
           </div>
 
           <div class="site-state-item site-state-categories">
             <a href="/categories">
-              <span class="site-state-item-count">12</span>
+              <span class="site-state-item-count">13</span>
               <span class="site-state-item-name">分类</span>
               </a>
           </div>
 
           <div class="site-state-item site-state-tags">
             <a href="/tags">
-              <span class="site-state-item-count">47</span>
+              <span class="site-state-item-count">48</span>
               <span class="site-state-item-name">标签</span>
               </a>
           </div>

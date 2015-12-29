@@ -55,7 +55,7 @@ Hortonworks版本(Hortonworks Data Platform，简称“HDP”），对于国内�
 Apache（最原始的版本，所有发行版均基于这个版本进行改进）
 Cloudera版本（Cloudera’s Distribution Including Apache Hadoop，简称CDH）
 Hortonworks版本(Hortonworks Data Platform，简称“HDP”），对于国内而言，绝大多数选择CDH版">
-<meta property="og:updated_time" content="2015-11-29T08:11:16.173Z">
+<meta property="og:updated_time" content="2015-12-08T07:25:15.881Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Hadoop集群部署">
 <meta name="twitter:description" content="Hadoop版本区别目前不收费的Hadoop版本主要有三个，分别是：
@@ -290,16 +290,16 @@ Hortonworks版本(Hortonworks Data Platform，简称“HDP”），对于国内�
       
         <span itemprop="articleBody"><h1 id="Hadoop版本区别">Hadoop版本区别</h1><p>目前不收费的Hadoop版本主要有三个，分别是：</p>
 <ol>
-<li><em>Apache</em>（最原始的版本，所有发行版均基于这个版本进行改进）</li>
-<li><em>Cloudera</em>版本（Cloudera’s Distribution Including Apache Hadoop，简称CDH）</li>
-<li><em>Hortonworks</em>版本(Hortonworks Data Platform，简称“HDP”），对于国内而言，绝大多数选择CDH版本，</li>
+<li>Apache（最原始的版本，所有发行版均基于这个版本进行改进）</li>
+<li>Cloudera版本（Cloudera’s Distribution Including Apache Hadoop，简称CDH）</li>
+<li>Hortonworks版本(Hortonworks Data Platform，简称“HDP”），对于国内而言，绝大多数选择CDH版本，</li>
 </ol>
 <p>CDH和Apache版本主要区别：</p>
 <ul>
 <li>CDH对Hadoop版本的划分非常清晰，目前维护的有两个系列的版本，分别是cdh4和cdh5</li>
-<li>由于Cloudera做Hadoop开发的，其他厂商仅是做Hadoop集成或CDH集成，和Hadoop trunk能最快的同步，保证业务的前向兼容性； </li>
-<li>安全 CDH支持Kerberos安全认证，apache hadoop则使用简陋的用户名匹配认证 </li>
-<li>CDH文档清晰（包括中文文档），很多采用Apache版本的用户都会阅读CDH提供的文档，包括安装文档、升级文档等。 </li>
+<li>由于Cloudera做Hadoop开发的，其他厂商仅是做Hadoop集成或CDH集成，和Hadoop trunk能最快的同步，保证业务的前向兼容性；</li>
+<li>安全 CDH支持Kerberos安全认证，apache hadoop则使用简陋的用户名匹配认证</li>
+<li>CDH文档清晰（包括中文文档），很多采用Apache版本的用户都会阅读CDH提供的文档，包括安装文档、升级文档等。</li>
 <li>CDH支持Yum/Apt包，Tar包，RPM包，CM安装，Cloudera Manager三种方式安装,Apache hadoop只支持Tar包安装。</li>
 </ul>
 <hr>
@@ -322,8 +322,8 @@ Hortonworks版本(Hortonworks Data Platform，简称“HDP”），对于国内�
 <li><a href="http：//www.aboutyun.com/thread-9219-1-1.html">在线Yum/Wget安装教程-中文</a></li>
 </ul>
 <h2 id="在线安装优势">在线安装优势</h2><ol>
-<li>联网安装、升级，非常方便 </li>
-<li>自动下载依赖软件包 </li>
+<li>联网安装、升级，非常方便</li>
+<li>自动下载依赖软件包</li>
 <li>Hadoop生态系统包自动匹配，不需要你寻找与当前Hadoop匹配的Hbase，Flume，Hive等软件，Yum/Apt会根据当前安装Hadoop版本自动寻找匹配版本的软件包，并保证兼容性。</li>
 <li>自动创建相关目录并软链到合适的地方（如conf和logs等目录）；自动创建hdfs, mapred用户，hdfs用户是HDFS的最高权限用户，mapred用户则负责mapreduce执行过程中相关目录的权限。</li>
 </ol>
@@ -338,27 +338,27 @@ Hortonworks版本(Hortonworks Data Platform，简称“HDP”），对于国内�
 <li>network配置</li>
 </ul>
 <figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"># vim /etc/sysconfig/network&#10;NETWORKING=yes&#10;HOSTNAME=master.lt.com&#10;NTPSERVERARGS=iburst</span><br></pre></td></tr></table></figure>
-<p><em>TODO：可局域网搭建DNS服务器，Slave机器即可不配配置hosts</em> </p>
+<p><em>TODO：可局域网搭建DNS服务器，Slave机器即可不配配置hosts</em></p>
 <h3 id="SSH无密码登陆配置">SSH无密码登陆配置</h3><p><em>TODO：补充github脚本地址</em><br>删除现有ssh配置（可选）：rm /root/.ssh/authorized_keys &amp;&amp; rm /root/.ssh/known_hosts<br><code>cd /mnt/scripts/batch-ssh &amp;&amp; chmod +x keygen_master.sh &amp;&amp; ./keygen_master.sh</code></p>
-<h3 id="iptables防火墙配置">iptables防火墙配置</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#查看防火墙状态</span></span><br><span class="line">service iptables status </span><br><span class="line"><span class="comment">#关闭防火墙 </span></span><br><span class="line">service iptables stop </span><br><span class="line"><span class="comment">#永久关闭防火墙 </span></span><br><span class="line">chkconfig iptables off</span><br></pre></td></tr></table></figure>
-<h3 id="selinux强制访问控制安全配置">selinux强制访问控制安全配置</h3><figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">#&#26597;&#30475;SELinux&#29366;&#24577;&#10;/usr/sbin/sestatus -v &#10;#&#25110;&#21629;&#20196;&#10;getenforce &#10;#&#20851;&#38381;SELinux&#10;#1. &#20020;&#26102;&#20851;&#38381;&#65288;&#19981;&#29992;&#37325;&#21551;&#26426;&#22120;&#65289;&#65306;&#10;setenforce 0                  ##&#35774;&#32622;SELinux &#25104;&#20026;permissive&#27169;&#24335;&#10;                              ##setenforce 1 &#35774;&#32622;SELinux &#25104;&#20026;enforcing&#27169;&#24335;&#10;#2. &#20462;&#25913;&#37197;&#32622;&#25991;&#20214;&#10;vim /etc/selinux/config&#10;#&#23558;SELINUX=enforcing&#25913;&#20026;SELINUX=disabled&#10;#3. reboot</span><br></pre></td></tr></table></figure>
-<h3 id="swap配置">swap配置</h3><p>Cloudera 建议将 /proc/sys/vm/swappiness 设置为 0。默认设置为 60。<br>查看当前swap分区设置<code>cat /proc/sys/vm/swappiness</code><br>临时修改值：<code>sudo sysctl vm.swappiness=0</code><br>永久修改值：<code>vim /etc/sysctl.conf</code>，在最后加一行<code>vm.swappiness = 0</code> </p>
+<h3 id="iptables防火墙配置">iptables防火墙配置</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#查看防火墙状态</span></span><br><span class="line">service iptables status</span><br><span class="line"><span class="comment">#关闭防火墙</span></span><br><span class="line">service iptables stop</span><br><span class="line"><span class="comment">#永久关闭防火墙</span></span><br><span class="line">chkconfig iptables off</span><br></pre></td></tr></table></figure>
+<h3 id="selinux强制访问控制安全配置">selinux强制访问控制安全配置</h3><figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">#&#26597;&#30475;SELinux&#29366;&#24577;&#10;/usr/sbin/sestatus -v&#10;#&#25110;&#21629;&#20196;&#10;getenforce&#10;#&#20851;&#38381;SELinux&#10;#1. &#20020;&#26102;&#20851;&#38381;&#65288;&#19981;&#29992;&#37325;&#21551;&#26426;&#22120;&#65289;&#65306;&#10;setenforce 0                  ##&#35774;&#32622;SELinux &#25104;&#20026;permissive&#27169;&#24335;&#10;                              ##setenforce 1 &#35774;&#32622;SELinux &#25104;&#20026;enforcing&#27169;&#24335;&#10;#2. &#20462;&#25913;&#37197;&#32622;&#25991;&#20214;&#10;vim /etc/selinux/config&#10;#&#23558;SELINUX=enforcing&#25913;&#20026;SELINUX=disabled&#10;#3. reboot</span><br></pre></td></tr></table></figure>
+<h3 id="swap配置">swap配置</h3><p>Cloudera 建议将 /proc/sys/vm/swappiness 设置为 0。默认设置为 60。<br>查看当前swap分区设置<code>cat /proc/sys/vm/swappiness</code><br>临时修改值：<code>sudo sysctl vm.swappiness=0</code><br>永久修改值：<code>vim /etc/sysctl.conf</code>，在最后加一行<code>vm.swappiness = 0</code></p>
 <figure class="highlight avrasm"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">swappiness的值的大小对如何使用<span class="keyword">swap</span>分区是有着很大的联系</span><br><span class="line">swappiness=<span class="number">0</span>的时候表示最大限度使用物理内存，然后才是 <span class="keyword">swap</span>空间</span><br><span class="line">swappiness＝<span class="number">100</span>的时候表示积极的使用<span class="keyword">swap</span>分区，并且把内存上的数据及时的搬运到<span class="keyword">swap</span>空间里面</span><br></pre></td></tr></table></figure>
 <h3 id="安装NTP服务">安装NTP服务</h3><p><a href="http://acooly.iteye.com/blog/1993484">NTP配置教程</a><br>集群中所有主机必须保持时间同步，如果时间相差较大会引起各种问题。 具体思路如下：<br>master节点作为ntp服务器与外界对时中心同步时间，随后对所有datanode节点提供时间同步服务。<br>所有datanode节点以master节点为基础同步时间。<br>所有节点安装相关组件： <code>yum install ntp</code> 。<br>配置开机启动： <code>chkconfig ntpd on</code> ,<br>检查是否设置成功： <code>chkconfig --list ntpd</code> 其中2-5为on状态就代表成功。</p>
 <ul>
 <li>主节点配置<br>在配置之前，先使用ntpdate手动同步一下时间，免得本机与对时中心时间差距太大，使得ntpd不能正常同步。 ntpdate -u 202.112.29.82<br>编辑<code>/etc/ntp.conf</code>配置文件，配置完成后启动服务<code>service ntpd start</code></li>
 </ul>
-<figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">driftfile /var/lib/ntp/drift&#10;&#10;restrict default kod nomodify notrap nopeer noquery&#10;restrict -6 default kod nomodify notrap nopeer noquery&#10;&#10;restrict 127.0.0.1 &#10;restrict -6 ::1&#10;&#10;#&#20801;&#35768;&#20869;&#32593;&#20854;&#20182;&#26426;&#22120;&#21516;&#27493;&#26102;&#38388;&#10;restrict 192.168.1.0 mask 255.255.255.0 nomodify notrap&#10;&#10;# &#20013;&#22269;&#36825;&#36793;&#26368;&#27963;&#36291;&#30340;&#26102;&#38388;&#26381;&#21153;&#22120; : http://www.pool.ntp.org/zone/cn&#10;server 3.cn.pool.ntp.org perfer  &#10;server 1.asia.pool.ntp.org         &#10;server 3.asia.pool.ntp.org &#10;&#10;# &#22806;&#37096;&#26102;&#38388;&#26381;&#21153;&#22120;&#19981;&#21487;&#29992;&#26102;&#65292;&#20197;&#26412;&#22320;&#26102;&#38388;&#20316;&#20026;&#26102;&#38388;&#26381;&#21153;&#10;server  127.127.1.0     # local clock&#10;fudge   127.127.1.0 stratum 10 &#10;&#10;includefile /etc/ntp/crypto/pw&#10;&#10;keys /etc/ntp/keys &#10;server 127.127.1.0 iburst</span><br></pre></td></tr></table></figure>
+<figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">driftfile /var/lib/ntp/drift&#10;&#10;restrict default kod nomodify notrap nopeer noquery&#10;restrict -6 default kod nomodify notrap nopeer noquery&#10;&#10;restrict 127.0.0.1&#10;restrict -6 ::1&#10;&#10;#&#20801;&#35768;&#20869;&#32593;&#20854;&#20182;&#26426;&#22120;&#21516;&#27493;&#26102;&#38388;&#10;restrict 192.168.1.0 mask 255.255.255.0 nomodify notrap&#10;&#10;# &#20013;&#22269;&#36825;&#36793;&#26368;&#27963;&#36291;&#30340;&#26102;&#38388;&#26381;&#21153;&#22120; : http://www.pool.ntp.org/zone/cn&#10;server 3.cn.pool.ntp.org perfer  &#10;server 1.asia.pool.ntp.org         &#10;server 3.asia.pool.ntp.org&#10;&#10;# &#22806;&#37096;&#26102;&#38388;&#26381;&#21153;&#22120;&#19981;&#21487;&#29992;&#26102;&#65292;&#20197;&#26412;&#22320;&#26102;&#38388;&#20316;&#20026;&#26102;&#38388;&#26381;&#21153;&#10;server  127.127.1.0     # local clock&#10;fudge   127.127.1.0 stratum 10&#10;&#10;includefile /etc/ntp/crypto/pw&#10;&#10;keys /etc/ntp/keys&#10;server 127.127.1.0 iburst</span><br></pre></td></tr></table></figure>
 <p>查看配置结果：   </p>
 <ul>
-<li><code>netstat -tlunp | grep ntp</code> 查看服务连接和监听 </li>
+<li><code>netstat -tlunp | grep ntp</code> 查看服务连接和监听</li>
 <li><code>ntpq -p</code>查看网络中的NTP服务器，同时显示客户端和每个服务器的关系</li>
 <li><p><code>ntpstat</code> 查看时间同步状态</p>
 </li>
 <li><p>NTP客户端配置<br>编辑<code>/etc/ntp.conf</code>配置文件，配置完成后启动服务<code>service ntpd restart</code></p>
 </li>
 </ul>
-<figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">driftfile /var/lib/ntp/drift&#10;restrict 127.0.0.1&#10;restrict -6 ::1&#10; &#10;# &#37197;&#32622;&#26102;&#38388;&#26381;&#21153;&#22120;&#20026;&#26412;&#22320;&#30340;&#26102;&#38388;&#26381;&#21153;&#22120;&#10;server 192.168.1.100&#10; &#10;restrict 192.168.1.100 nomodify notrap noquery&#10; &#10;server  127.127.1.0     # local clock&#10;fudge   127.127.1.0 stratum 10&#10; &#10;includefile /etc/ntp/crypto/pw&#10; &#10;keys /etc/ntp/keys</span><br></pre></td></tr></table></figure>
+<figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">driftfile /var/lib/ntp/drift&#10;restrict 127.0.0.1&#10;restrict -6 ::1&#10;&#10;# &#37197;&#32622;&#26102;&#38388;&#26381;&#21153;&#22120;&#20026;&#26412;&#22320;&#30340;&#26102;&#38388;&#26381;&#21153;&#22120;&#10;server 192.168.1.100&#10;&#10;restrict 192.168.1.100 nomodify notrap noquery&#10;&#10;server  127.127.1.0     # local clock&#10;fudge   127.127.1.0 stratum 10&#10;&#10;includefile /etc/ntp/crypto/pw&#10;&#10;keys /etc/ntp/keys</span><br></pre></td></tr></table></figure>
 <h3 id="cloudera-manager-installer-bin安装">cloudera-manager-installer.bin安装</h3><figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">wget http&#65306;//archive.cloudera.com/cm5/installer/latest/cloudera-manager-installer.bin&#10;chmod u+x cloudera-manager-installer.bin&#10;sudo ./cloudera-manager-installer.bin</span><br></pre></td></tr></table></figure>
 <h3 id="在线配置">在线配置</h3><p>打开http：//{host}：7180/cmf/login<br>默认用户名/密码：admin/admin<br><a href="http：//www.aboutyun.com/thread-9189-1-1.html">cloudera配置文件</a></p>
 <h1 id="CDH5运维相关">CDH5运维相关</h1><h2 id="系统服务">系统服务</h2><p>服务查询：<code>service --status-all| grep cloudera</code><br><em>服务端</em>  </p>
@@ -389,7 +389,7 @@ Hortonworks版本(Hortonworks Data Platform，简称“HDP”），对于国内�
 <li>问题场景：CM中主机CDH5安装Parcel完成后无法分配和激活Agent</li>
 <li>详细日志：downloader INFO  Finished download [ url： http：//master.lt.com：7180/cmf/parcel/download/CDH-5.4.4-1.cdh5.4.4.p0.4-el6.parcel, state： exception, total_bytes： 0, downloaded_bytes： 0, start_time： 2015-08-11 22：18：32, download_end_time： , end_time： 2015-08-11 22：18：33, code： 600, exception： <urlopen error [Errno 111] Connection refused>, path： None ]</li>
 <li>错误分析：在slave机器执行<code>nc -v master.lt.com  7182</code> 返回refused，判断是host配置有误导致dns解析不了</li>
-<li>解决方式：在slave1的hosts中新增master的域名解析 </li>
+<li>解决方式：在slave1的hosts中新增master的域名解析</li>
 </ul>
 <ol>
 <li><p>正在获取安装锁.问题<br>意外中止安装后重新安装提示”正在获取安装锁…“<br>在Manager节点运行<code>rm /tmp/.scm_prepare_node.lock</code>删除Manager的lock文件后重新安装即可</p>
@@ -510,21 +510,21 @@ Hortonworks版本(Hortonworks Data Platform，简称“HDP”），对于国内�
         <nav class="site-state motion-element">
           <div class="site-state-item site-state-posts">
             <a href="/archives">
-              <span class="site-state-item-count">40</span>
+              <span class="site-state-item-count">43</span>
               <span class="site-state-item-name">日志</span>
             </a>
           </div>
 
           <div class="site-state-item site-state-categories">
             <a href="/categories">
-              <span class="site-state-item-count">12</span>
+              <span class="site-state-item-count">13</span>
               <span class="site-state-item-name">分类</span>
               </a>
           </div>
 
           <div class="site-state-item site-state-tags">
             <a href="/tags">
-              <span class="site-state-item-count">47</span>
+              <span class="site-state-item-count">48</span>
               <span class="site-state-item-name">标签</span>
               </a>
           </div>

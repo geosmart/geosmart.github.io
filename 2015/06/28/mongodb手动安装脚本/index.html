@@ -30,7 +30,7 @@
 
 
 
-  <meta name="keywords" content="CentOS,MongoDB,数据库," />
+  <meta name="keywords" content="CentOS,MongoDB," />
 
 
 
@@ -50,7 +50,7 @@
 <meta property="og:description" content="准备事项下载安装包文件（二进制编译版）1234mkdir -p /usr/local/mongodbcd /usr/local/mongodbwget http://fastdl.mongodb.org/linux/mongodb-linux-x86_64-2.6.3.tgztar -zvxf mongodb-linux-x86_64-2.6.3.tgz
 重命名&amp;gt;新建数据/日志目录123mv">
 <meta property="og:image" content="http://geosmart.github.io/nosql.png">
-<meta property="og:updated_time" content="2015-09-07T13:30:01.594Z">
+<meta property="og:updated_time" content="2015-12-29T01:08:11.451Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="mongodb手动安装脚本">
 <meta name="twitter:description" content="准备事项下载安装包文件（二进制编译版）1234mkdir -p /usr/local/mongodbcd /usr/local/mongodbwget http://fastdl.mongodb.org/linux/mongodb-linux-x86_64-2.6.3.tgztar -zvxf mongodb-linux-x86_64-2.6.3.tgz
@@ -237,8 +237,8 @@
             &nbsp; | &nbsp; 分类于
             
               <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
-                <a href="/categories/技术点滴/" itemprop="url" rel="index">
-                  <span itemprop="name">技术点滴</span>
+                <a href="/categories/数据库/" itemprop="url" rel="index">
+                  <span itemprop="name">数据库</span>
                 </a>
               </span>
 
@@ -272,33 +272,13 @@
 <h1 id="准备事项">准备事项</h1><h2 id="下载安装包文件（二进制编译版）">下载安装包文件（二进制编译版）</h2><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">mkdir -p /usr/<span class="built_in">local</span>/mongodb</span><br><span class="line"><span class="built_in">cd</span> /usr/<span class="built_in">local</span>/mongodb</span><br><span class="line">wget http://fastdl.mongodb.org/linux/mongodb-linux-x86_64-<span class="number">2.6</span>.<span class="number">3</span>.tgz</span><br><span class="line">tar -zvxf mongodb-linux-x86_64-<span class="number">2.6</span>.<span class="number">3</span>.tgz</span><br></pre></td></tr></table></figure>
 <h2 id="重命名&gt;新建数据/日志目录">重命名&gt;新建数据/日志目录</h2><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">mv mongodb-linux-x86_64-<span class="number">2.6</span>.<span class="number">3</span> mongodb</span><br><span class="line">mkdir data</span><br><span class="line">mkdir <span class="built_in">log</span></span><br></pre></td></tr></table></figure>
 <h1 id="配置环境变量">配置环境变量</h1><p>CentOs中配置path环境变量,确保mongodb的bin目录包含在path环境变量中。</p>
-<h2 id="配置PATH">配置PATH</h2><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">vim /etc/profile </span><br><span class="line">　　<span class="comment">#set for mongodb </span></span><br><span class="line">　　<span class="built_in">export</span> MONGODB_HOME=/usr/<span class="built_in">local</span>/mongodb </span><br><span class="line">　　<span class="built_in">export</span> PATH=<span class="variable">$MONGODB_HOME</span>/bin:<span class="variable">$PATH</span></span><br></pre></td></tr></table></figure>
+<h2 id="配置PATH">配置PATH</h2><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">vim /etc/profile</span><br><span class="line">　　<span class="comment">#set for mongodb</span></span><br><span class="line">　　<span class="built_in">export</span> MONGODB_HOME=/usr/<span class="built_in">local</span>/mongodb</span><br><span class="line">　　<span class="built_in">export</span> PATH=<span class="variable">$MONGODB_HOME</span>/bin:<span class="variable">$PATH</span></span><br></pre></td></tr></table></figure>
 <h2 id="查看当前PATH">查看当前PATH</h2><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">echo</span> <span class="variable">$PATH</span></span><br></pre></td></tr></table></figure>
 <h2 id="让环境变量生效">让环境变量生效</h2><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">source</span> /etc/profile</span><br><span class="line">//验证环境变量是否生效</span><br><span class="line">mongod -version</span><br><span class="line"><span class="built_in">echo</span> <span class="variable">$PATH</span></span><br><span class="line">```  </span><br><span class="line"></span><br><span class="line"><span class="comment">## 添加CentOS开机启动项</span></span><br></pre></td></tr></table></figure>
-<p>vim  /etc/rc.d/rc.local<br>//将mongodb启动命令手动追加到本文件中：<br>/usr/local/mongodb/bin/mongod –dbpath /usr/local/mongodb/data –logpath /usr/local/mongodb/log/mongodb.log  –fork –smallfiles<br><figure class="highlight groovy"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"># 启动MongoDB</span><br><span class="line">## 配置文件形式 </span><br><span class="line">``` bash</span><br><span class="line">vim  <span class="regexp">/usr/</span>local<span class="regexp">/mongodb/</span>mongodb.conf</span><br><span class="line">dbpath=<span class="regexp">/usr/</span>local<span class="regexp">/mongodb/</span>data</span><br><span class="line">logpath=<span class="regexp">/usr/</span>local<span class="regexp">/mongodb/</span>log/mongodb.log</span><br><span class="line">logappend=<span class="literal">true</span></span><br><span class="line">port=<span class="number">27017</span></span><br><span class="line">fork=<span class="literal">true</span></span><br><span class="line">noauth=<span class="literal">true</span></span><br><span class="line">journal=<span class="literal">true</span></span><br><span class="line">smallfiles=<span class="literal">true</span> </span><br><span class="line">```  </span><br><span class="line"></span><br><span class="line">## 命令行形式</span><br><span class="line">``` Bash</span><br><span class="line"><span class="regexp">/usr/</span>local<span class="regexp">/mongodb/</span>bin<span class="regexp">/mongod --dbpath /</span>usr<span class="regexp">/local/</span>mongodb<span class="regexp">/data --logpath /</span>usr<span class="regexp">/local/</span>mongodb<span class="regexp">/log/</span>mongodb.log  --fork --smallfiles</span><br><span class="line"><span class="comment">//可选：--auth</span></span><br></pre></td></tr></table></figure></p>
+<p>vim  /etc/rc.d/rc.local<br>//将mongodb启动命令手动追加到本文件中：<br>/usr/local/mongodb/bin/mongod –dbpath /usr/local/mongodb/data –logpath /usr/local/mongodb/log/mongodb.log –maxConns=2000  –fork –smallfiles<br><figure class="highlight groovy"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"># 启动MongoDB</span><br><span class="line">## 配置文件形式</span><br><span class="line">``` bash</span><br><span class="line">vim  <span class="regexp">/usr/</span>local<span class="regexp">/mongodb/</span>mongodb.conf</span><br><span class="line">dbpath=<span class="regexp">/usr/</span>local<span class="regexp">/mongodb/</span>data</span><br><span class="line">logpath=<span class="regexp">/usr/</span>local<span class="regexp">/mongodb/</span>log/mongodb.log</span><br><span class="line">logappend=<span class="literal">true</span></span><br><span class="line">port=<span class="number">27017</span></span><br><span class="line">fork=<span class="literal">true</span></span><br><span class="line">noauth=<span class="literal">true</span></span><br><span class="line">journal=<span class="literal">true</span></span><br><span class="line">smallfiles=<span class="literal">true</span></span><br><span class="line">```  </span><br><span class="line"></span><br><span class="line">## 命令行形式</span><br><span class="line">``` Bash</span><br><span class="line"><span class="regexp">/usr/</span>local<span class="regexp">/mongodb/</span>bin<span class="regexp">/mongod --dbpath /</span>usr<span class="regexp">/local/</span>mongodb<span class="regexp">/data --logpath /</span>usr<span class="regexp">/local/</span>mongodb<span class="regexp">/log/</span>mongodb.log  --fork --smallfiles</span><br><span class="line"><span class="comment">//可选：--auth</span></span><br></pre></td></tr></table></figure></p>
 <h1 id="增加用户">增加用户</h1><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">useradd mongodb -M <span class="operator">-s</span> /sbin/nologin</span><br></pre></td></tr></table></figure>
-<h1 id="启动服务/测试服务状态">启动服务/测试服务状态</h1><pre><code class="bash">service mongod start
-service mongod status
-shutdown -r now
-service mongod status
-mongo admin
-show dbs；
-db.test.find();
-<span class="built_in">exit</span>
-</code></pre>
-<h1 id="部署问题记录">部署问题记录</h1><h2 id="MongoVUE不能连接">MongoVUE不能连接</h2><p>将27017端口加入信任列表；局域网测试直接关闭防火墙</p>
-<pre><code class="bash">//关闭防火墙 
-service iptables stop 
-//开启
-chkconfig iptables on
-//关闭
-chkconfig iptables off 
-//查询TCP连接情况
- netstat -n | awk <span class="string">'/^tcp/ {++S[$NF]} END {for(a in S) print a, S[a]}'</span>
-//查询端口占用情况：
- netstat   -anp   |   grep  portno
-//（例如：netstat –apn | grep <span class="number">80</span>）
-</code></pre>
+<h1 id="启动服务/测试服务状态">启动服务/测试服务状态</h1><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">service mongod start</span><br><span class="line">service mongod status</span><br><span class="line">shutdown -r now</span><br><span class="line">service mongod status</span><br><span class="line">mongo admin</span><br><span class="line">show dbs；</span><br><span class="line">db.test.find();</span><br><span class="line"><span class="built_in">exit</span></span><br></pre></td></tr></table></figure>
+<h1 id="部署问题记录">部署问题记录</h1><h2 id="MongoVUE不能连接">MongoVUE不能连接</h2><p>将27017端口加入信任列表；局域网测试直接关闭防火墙<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">//关闭防火墙</span><br><span class="line">service iptables stop</span><br><span class="line">//开启</span><br><span class="line">chkconfig iptables on</span><br><span class="line">//关闭</span><br><span class="line">chkconfig iptables off</span><br><span class="line">//查询TCP连接情况</span><br><span class="line"> netstat -n | awk <span class="string">'/^tcp/ &#123;++S[$NF]&#125; END &#123;for(a in S) print a, S[a]&#125;'</span></span><br><span class="line">//查询端口占用情况：</span><br><span class="line"> netstat   -anp   |   grep  portno</span><br><span class="line">//（例如：netstat –apn | grep <span class="number">80</span>）</span><br></pre></td></tr></table></figure></p>
 </span>
       
     </div>
@@ -310,8 +290,6 @@ chkconfig iptables off
             <a href="/tags/CentOS/" rel="tag">#CentOS</a>
           
             <a href="/tags/MongoDB/" rel="tag">#MongoDB</a>
-          
-            <a href="/tags/数据库/" rel="tag">#数据库</a>
           
         </div>
       
@@ -392,21 +370,21 @@ chkconfig iptables off
         <nav class="site-state motion-element">
           <div class="site-state-item site-state-posts">
             <a href="/archives">
-              <span class="site-state-item-count">40</span>
+              <span class="site-state-item-count">43</span>
               <span class="site-state-item-name">日志</span>
             </a>
           </div>
 
           <div class="site-state-item site-state-categories">
             <a href="/categories">
-              <span class="site-state-item-count">12</span>
+              <span class="site-state-item-count">13</span>
               <span class="site-state-item-name">分类</span>
               </a>
           </div>
 
           <div class="site-state-item site-state-tags">
             <a href="/tags">
-              <span class="site-state-item-count">47</span>
+              <span class="site-state-item-count">48</span>
               <span class="site-state-item-name">标签</span>
               </a>
           </div>
