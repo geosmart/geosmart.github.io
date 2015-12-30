@@ -30,7 +30,7 @@
 
 
 
-  <meta name="keywords" content="Git," />
+  <meta name="keywords" content="MongoDB," />
 
 
 
@@ -41,16 +41,16 @@
   <link rel="shorticon icon" type="image/x-icon" href="/favicon.ico?v=0.4.5.1" />
 
 
-<meta name="description" content="用github来搭建个人技术笔记，少不了记录一些常用的git命令">
+<meta name="description" content="考虑部署实施的复杂度，一直没上MongoDB集群，但现在海量数据一来，单机性能就扛不住了，本文记录MongoDB集群的基础知识。">
 <meta property="og:type" content="article">
-<meta property="og:title" content="常用git命令">
-<meta property="og:url" content="http://geosmart.github.io/2015/06/30/常用git命令/index.html">
+<meta property="og:title" content="MongoDB集群学习笔记">
+<meta property="og:url" content="http://geosmart.github.io/2015/12/29/MongoDB集群学习笔记/index.html">
 <meta property="og:site_name" content="Geosmart's Notes">
-<meta property="og:description" content="用github来搭建个人技术笔记，少不了记录一些常用的git命令">
-<meta property="og:updated_time" content="2015-12-29T01:07:18.520Z">
+<meta property="og:description" content="考虑部署实施的复杂度，一直没上MongoDB集群，但现在海量数据一来，单机性能就扛不住了，本文记录MongoDB集群的基础知识。">
+<meta property="og:updated_time" content="2015-12-30T00:54:49.402Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="常用git命令">
-<meta name="twitter:description" content="用github来搭建个人技术笔记，少不了记录一些常用的git命令">
+<meta name="twitter:title" content="MongoDB集群学习笔记">
+<meta name="twitter:description" content="考虑部署实施的复杂度，一直没上MongoDB集群，但现在海量数据一来，单机性能就扛不住了，本文记录MongoDB集群的基础知识。">
 
 
 <script type="text/javascript" id="hexo.configuration">
@@ -60,7 +60,7 @@
   };
 </script>
 
-  <title> 常用git命令 | Geosmart's Notes </title>
+  <title> MongoDB集群学习笔记 | Geosmart's Notes </title>
 </head>
 
 <body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
@@ -214,7 +214,7 @@
           
           
             
-              常用git命令
+              MongoDB集群学习笔记
             
           
         </h1>
@@ -223,8 +223,8 @@
       <div class="post-meta">
         <span class="post-time">
           发表于
-          <time itemprop="dateCreated" datetime="2015-06-30T13:18:03+08:00" content="30   June   2015">
-            30   June   2015
+          <time itemprop="dateCreated" datetime="2015-12-29T17:37:01+08:00" content="29   December   2015">
+            29   December   2015
           </time>
         </span>
 
@@ -233,8 +233,8 @@
             &nbsp; | &nbsp; 分类于
             
               <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
-                <a href="/categories/版本控制/" itemprop="url" rel="index">
-                  <span itemprop="name">版本控制</span>
+                <a href="/categories/数据库/" itemprop="url" rel="index">
+                  <span itemprop="name">数据库</span>
                 </a>
               </span>
 
@@ -249,8 +249,8 @@
           
             <span class="post-comments-count">
               &nbsp; | &nbsp;
-              <a href="/2015/06/30/常用git命令/#comments" itemprop="discussionUrl">
-                <span class="post-comments-count ds-thread-count" data-thread-key="2015/06/30/常用git命令/" itemprop="commentsCount"></span>
+              <a href="/2015/12/29/MongoDB集群学习笔记/#comments" itemprop="discussionUrl">
+                <span class="post-comments-count ds-thread-count" data-thread-key="2015/12/29/MongoDB集群学习笔记/" itemprop="commentsCount"></span>
               </a>
             </span>
           
@@ -264,18 +264,36 @@
       
 
       
-        <span itemprop="articleBody"><p>用github来搭建个人技术笔记，少不了记录一些常用的git命令</p>
+        <span itemprop="articleBody"><p>考虑部署实施的复杂度，一直没上MongoDB集群，但现在海量数据一来，单机性能就扛不住了，本文记录MongoDB集群的基础知识。</p>
 <hr>
 <a id="more"></a>
-<h1 id="Git">Git</h1><p><a href="http://git-scm.com/book/zh/v2/%E8%B5%B7%E6%AD%A5-Git-%E5%9F%BA%E7%A1%80">Git基础</a><br><a href="http://yanminx.com/blog/understand-git-by-drawing">用爱一起画Git</a><br><a href="https://www.atlassian.com/git/tutorials/">参考教程</a>  </p>
-<h1 id="克隆库">克隆库</h1><figure class="highlight groovy"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git clone <span class="string">https:</span><span class="comment">//github.com/geosmart/geosmart.io</span></span><br></pre></td></tr></table></figure>
-<h1 id="新建_‘gh-pages’分支，会自动生成github_pages">新建 ‘gh-pages’分支，会自动生成github pages</h1><figure class="highlight applescript"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git checkout <span class="comment">--orphan gh-pages</span></span><br></pre></td></tr></table></figure>
-<h1 id="本地提交">本地提交</h1><figure class="highlight stylus"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git commit -<span class="tag">a</span> -m <span class="string">"commit message"</span></span><br></pre></td></tr></table></figure>
-<h1 id="初始版本提交">初始版本提交</h1><figure class="highlight avrasm"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">git <span class="keyword">push</span> --<span class="keyword">set</span>-upstream origin master</span><br><span class="line">或</span><br><span class="line">git <span class="keyword">push</span> origin master</span><br></pre></td></tr></table></figure>
-<h1 id="推送到服务器">推送到服务器</h1><figure class="highlight autohotkey"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">git push origin  </span><br><span class="line"><span class="escape">``</span><span class="escape">` </span> </span><br><span class="line">#   git同步配置</span><br></pre></td></tr></table></figure>
-<p>git sync<br>git config –global credential.helper store<br>git config –global push.default matching<br><figure class="highlight vala"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="preprocessor">#  git bash记住密码</span></span><br></pre></td></tr></table></figure></p>
-<p>git config credential.helper ‘cache –timeout=300’<br>git config –global user.name geosmart<br>git config –global user.email geosmart@foxmail.com<br><figure class="highlight vala"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="preprocessor">#  查看git配置</span></span><br></pre></td></tr></table></figure></p>
-<p>git config –list<br>```</p>
+<p>Mongodb 有三种集群方式的搭建： Replica Set ，Sharding 和 Master-Slaver</p>
+<h1 id="基本概念">基本概念</h1><ol>
+<li>Chunck（块）：一个区间的数据称为一个数据块,是一个逻辑概念，物理存储并不连续，默认64M,可通过启动时附加’–chunkSize N’参数设置块大小</li>
+<li>Vertical Scaling（垂直扩展）：CPU/RAM/IO等硬件层扩展，有云端部署和硬件扩展的瓶颈</li>
+<li>Sharding（水平分片）：逻辑上是一个数据库，但物理存储上分开独立存储</li>
+<li>Balancing（平衡）：当存在多个可用的分片，且块的数量足够多，mongodb的balancer（平衡器）会把数据迁移到其他分片上</li>
+<li>mongos：mongos是用户和群集间的交互点，其职责是隐藏分片内部的复杂性并向用户提供一个简洁的单服务器接口，mongos会将所有用户请求转发到恰当的分片上。</li>
+<li>config server（配置服务器）：配置服务器包含了有关集群的最完整可靠的信息以供所有人（分片、mongos进程和系统管理员）访问。</li>
+</ol>
+<h1 id="集群的构造">集群的构造</h1><p>一个MongoDB集群基本由3类进程组成： shards（存储数据）, mongos(路由器）、 config servers（配置服务器）</p>
+<h1 id="Replica_Set（复制）">Replica Set（复制）</h1><h2 id="定义">定义</h2><p>复制是在多台服务器之间同步数据的过程。</p>
+<h2 id="容灾性">容灾性</h2><p>由于在不同的数据库服务器上拥有多个数据镜像，复制可以有效的防止由于单台服务器故障而导致的数据丢失。复制还能够帮助我们从硬件故障或是服务中断中恢复数据。我们也可以通过增加复制节点来将其用于灾难恢复、报表或是备份。</p>
+<h2 id="读写分离">读写分离</h2><p>在某些情况中，我们可以通过复制的方式来提高读的性能。客户端可以将读与写请求分别发送到不同的服务器上。我们还能够通过在其他数据中心建立分布式复制节点的方式来做异地冗灾，以进一步提高可用性。</p>
+<h1 id="Sharding（分片）">Sharding（分片）</h1><h2 id="定义-1">定义</h2><p>sharding（分片）是使用多个机器存储数据的方法,MongoDB使用分片以支持巨大的数据存储量与对数据操作.<br>为了解决这些问题,有两个基本的方法: 纵向扩展 和 分片 .<br>分片的目的：高数据量和吞吐量的数据库应用会对单机的性能造成较大压力,大的查询量会将单机的CPU耗尽,大的数据量对单机的存储压力较大,最终会耗尽系统的内存而将压力转移到磁盘IO上.</p>
+<p>一个分片可由多台服务器组成（每台服务器都有一份分片数据的Replica set副本）<br>根据片键（key）分片[a,b)，MongoDB会在不同分片区间移动数据子集<br><a href="http://www.server110.com/mongodb/201403/7201.html">MongoDB集群（分片）安装与配置方法图解</a></p>
+<h2 id="shard_key(片键)">shard key(片键)</h2><p>shard key大小不能超过512 bytes.<br>分片后shard key不可改变，除非重建collection</p>
+<h3 id="小基数片键">小基数片键</h3><p>小基数片键：片键值数量有限<br>适用的键：应使用组合片键(一个片键包含2个字段），请确保第二个字段有足够的值供MongoDB用来进行分割</p>
+<h3 id="升序片键">升序片键</h3><p>适用于任何升序排列的键值，而并不必须是时间戳，包括日期、自增主键。<br>只要键值趋于无穷大，就会面临单一且不可分散的热点问题</p>
+<h3 id="随机片键">随机片键</h3><p>初衷是为了避免热点，会选择一个随机值的字段来分片。<br>数据量变大后会给RAM增加压力，且会引发大量的磁盘IO</p>
+<h3 id="好片键">好片键</h3><p>具有良好的数据局部性（data locality）特征，但又不会太局部而导致热点出现。<br>准升序键+搜索键<code>｛coarselyAscending:1，search:1｝</code>，coarselyAscending用来控制数据局部化，search字段则是数据上常用的一个检索字段。<br>coarselyAscending键的每个值最好能对应几十到几百个数据块，如月份（2015-12）<br>search键则应当是应用程序通常都会依据其进行查询的字段，如用户信息、文件名称、或GUID等</p>
+<h1 id="Master-Slaver（主从）">Master-Slaver（主从）</h1><h1 id="mongodb集群监控">mongodb集群监控</h1><p>在线：Mongodb Cloud Manager<br>离线：MongoDB Management Service(MMS)</p>
+<h1 id="mongodb_gui_tools">mongodb gui tools</h1><p><code>MongoVUE1.6.9</code> 在<code>Mongodb3.2.0</code>版本不可用了，不得不寻找替代品<br><a href="https://docs.mongodb.org/ecosystem/tools/administration-interfaces">官方推荐工具列表</a></p>
+<p>亲测觉得不错的GUI工具</p>
+<ul>
+<li><a href="http://3t.io/mongochef/">3T MongoChef</a> 提供64位</li>
+<li><a href="http://mongobooster.com/">mongobooster</a></li>
+</ul>
 </span>
       
     </div>
@@ -284,7 +302,7 @@
       
         <div class="post-tags">
           
-            <a href="/tags/Git/" rel="tag">#Git</a>
+            <a href="/tags/MongoDB/" rel="tag">#MongoDB</a>
           
         </div>
       
@@ -293,13 +311,11 @@
         <div class="post-nav">
           <div class="post-nav-prev post-nav-item">
             
-              <a href="/2015/06/30/日志分析工具/" rel="prev">日志分析工具</a>
-            
           </div>
 
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2015/06/30/lnmp安装/" rel="next">LNMP安装</a>
+              <a href="/2015/12/28/MongoDB3离线部署/" rel="next">MongoDB3离线部署</a>
             
           </div>
         </div>
@@ -324,8 +340,8 @@
         
           <div class="comments" id="comments">
             
-              <div class="ds-thread" data-thread-key="2015/06/30/常用git命令/"
-                   data-title="常用git命令" data-url="http://geosmart.github.io/2015/06/30/常用git命令/">
+              <div class="ds-thread" data-thread-key="2015/12/29/MongoDB集群学习笔记/"
+                   data-title="MongoDB集群学习笔记" data-url="http://geosmart.github.io/2015/12/29/MongoDB集群学习笔记/">
               </div>
             
           </div>
@@ -414,7 +430,7 @@
           <div class="post-toc">
             
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#Git"><span class="nav-number">1.</span> <span class="nav-text">Git</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#克隆库"><span class="nav-number">2.</span> <span class="nav-text">克隆库</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#新建_‘gh-pages’分支，会自动生成github_pages"><span class="nav-number">3.</span> <span class="nav-text">新建 ‘gh-pages’分支，会自动生成github pages</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#本地提交"><span class="nav-number">4.</span> <span class="nav-text">本地提交</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#初始版本提交"><span class="nav-number">5.</span> <span class="nav-text">初始版本提交</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#推送到服务器"><span class="nav-number">6.</span> <span class="nav-text">推送到服务器</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#基本概念"><span class="nav-number">1.</span> <span class="nav-text">基本概念</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#集群的构造"><span class="nav-number">2.</span> <span class="nav-text">集群的构造</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Replica_Set（复制）"><span class="nav-number">3.</span> <span class="nav-text">Replica Set（复制）</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#定义"><span class="nav-number">3.1.</span> <span class="nav-text">定义</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#容灾性"><span class="nav-number">3.2.</span> <span class="nav-text">容灾性</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#读写分离"><span class="nav-number">3.3.</span> <span class="nav-text">读写分离</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Sharding（分片）"><span class="nav-number">4.</span> <span class="nav-text">Sharding（分片）</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#定义-1"><span class="nav-number">4.1.</span> <span class="nav-text">定义</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#shard_key(片键)"><span class="nav-number">4.2.</span> <span class="nav-text">shard key(片键)</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#小基数片键"><span class="nav-number">4.2.1.</span> <span class="nav-text">小基数片键</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#升序片键"><span class="nav-number">4.2.2.</span> <span class="nav-text">升序片键</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#随机片键"><span class="nav-number">4.2.3.</span> <span class="nav-text">随机片键</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#好片键"><span class="nav-number">4.2.4.</span> <span class="nav-text">好片键</span></a></li></ol></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Master-Slaver（主从）"><span class="nav-number">5.</span> <span class="nav-text">Master-Slaver（主从）</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#mongodb集群监控"><span class="nav-number">6.</span> <span class="nav-text">mongodb集群监控</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#mongodb_gui_tools"><span class="nav-number">7.</span> <span class="nav-text">mongodb gui tools</span></a></li></ol></div>
             
           </div>
           <div class="post-toc-indicator-bottom post-toc-indicator"></div>

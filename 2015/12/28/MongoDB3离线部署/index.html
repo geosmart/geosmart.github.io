@@ -30,7 +30,7 @@
 
 
 
-  <meta name="keywords" content="Git," />
+  <meta name="keywords" content="MongoDB," />
 
 
 
@@ -41,16 +41,18 @@
   <link rel="shorticon icon" type="image/x-icon" href="/favicon.ico?v=0.4.5.1" />
 
 
-<meta name="description" content="用github来搭建个人技术笔记，少不了记录一些常用的git命令">
+<meta name="description" content="MongoDB 3.2集群的离线部署笔记">
 <meta property="og:type" content="article">
-<meta property="og:title" content="常用git命令">
-<meta property="og:url" content="http://geosmart.github.io/2015/06/30/常用git命令/index.html">
+<meta property="og:title" content="MongoDB3离线部署">
+<meta property="og:url" content="http://geosmart.github.io/2015/12/28/MongoDB3离线部署/index.html">
 <meta property="og:site_name" content="Geosmart's Notes">
-<meta property="og:description" content="用github来搭建个人技术笔记，少不了记录一些常用的git命令">
-<meta property="og:updated_time" content="2015-12-29T01:07:18.520Z">
+<meta property="og:description" content="MongoDB 3.2集群的离线部署笔记">
+<meta property="og:image" content="https://docs.opsmanager.mongodb.com/master/_images/opsmanager-network-diagram-fullsize.png">
+<meta property="og:image" content="https://docs.opsmanager.mongodb.com/master/_images/opsmanager-large.png">
+<meta property="og:updated_time" content="2015-12-30T12:32:15.650Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="常用git命令">
-<meta name="twitter:description" content="用github来搭建个人技术笔记，少不了记录一些常用的git命令">
+<meta name="twitter:title" content="MongoDB3离线部署">
+<meta name="twitter:description" content="MongoDB 3.2集群的离线部署笔记">
 
 
 <script type="text/javascript" id="hexo.configuration">
@@ -60,7 +62,7 @@
   };
 </script>
 
-  <title> 常用git命令 | Geosmart's Notes </title>
+  <title> MongoDB3离线部署 | Geosmart's Notes </title>
 </head>
 
 <body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
@@ -214,7 +216,7 @@
           
           
             
-              常用git命令
+              MongoDB3离线部署
             
           
         </h1>
@@ -223,8 +225,8 @@
       <div class="post-meta">
         <span class="post-time">
           发表于
-          <time itemprop="dateCreated" datetime="2015-06-30T13:18:03+08:00" content="30   June   2015">
-            30   June   2015
+          <time itemprop="dateCreated" datetime="2015-12-28T21:03:12+08:00" content="28   December   2015">
+            28   December   2015
           </time>
         </span>
 
@@ -233,8 +235,8 @@
             &nbsp; | &nbsp; 分类于
             
               <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
-                <a href="/categories/版本控制/" itemprop="url" rel="index">
-                  <span itemprop="name">版本控制</span>
+                <a href="/categories/数据库/" itemprop="url" rel="index">
+                  <span itemprop="name">数据库</span>
                 </a>
               </span>
 
@@ -249,8 +251,8 @@
           
             <span class="post-comments-count">
               &nbsp; | &nbsp;
-              <a href="/2015/06/30/常用git命令/#comments" itemprop="discussionUrl">
-                <span class="post-comments-count ds-thread-count" data-thread-key="2015/06/30/常用git命令/" itemprop="commentsCount"></span>
+              <a href="/2015/12/28/MongoDB3离线部署/#comments" itemprop="discussionUrl">
+                <span class="post-comments-count ds-thread-count" data-thread-key="2015/12/28/MongoDB3离线部署/" itemprop="commentsCount"></span>
               </a>
             </span>
           
@@ -264,19 +266,61 @@
       
 
       
-        <span itemprop="articleBody"><p>用github来搭建个人技术笔记，少不了记录一些常用的git命令</p>
+        <span itemprop="articleBody"><p>MongoDB 3.2集群的离线部署笔记</p>
 <hr>
 <a id="more"></a>
-<h1 id="Git">Git</h1><p><a href="http://git-scm.com/book/zh/v2/%E8%B5%B7%E6%AD%A5-Git-%E5%9F%BA%E7%A1%80">Git基础</a><br><a href="http://yanminx.com/blog/understand-git-by-drawing">用爱一起画Git</a><br><a href="https://www.atlassian.com/git/tutorials/">参考教程</a>  </p>
-<h1 id="克隆库">克隆库</h1><figure class="highlight groovy"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git clone <span class="string">https:</span><span class="comment">//github.com/geosmart/geosmart.io</span></span><br></pre></td></tr></table></figure>
-<h1 id="新建_‘gh-pages’分支，会自动生成github_pages">新建 ‘gh-pages’分支，会自动生成github pages</h1><figure class="highlight applescript"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git checkout <span class="comment">--orphan gh-pages</span></span><br></pre></td></tr></table></figure>
-<h1 id="本地提交">本地提交</h1><figure class="highlight stylus"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git commit -<span class="tag">a</span> -m <span class="string">"commit message"</span></span><br></pre></td></tr></table></figure>
-<h1 id="初始版本提交">初始版本提交</h1><figure class="highlight avrasm"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">git <span class="keyword">push</span> --<span class="keyword">set</span>-upstream origin master</span><br><span class="line">或</span><br><span class="line">git <span class="keyword">push</span> origin master</span><br></pre></td></tr></table></figure>
-<h1 id="推送到服务器">推送到服务器</h1><figure class="highlight autohotkey"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">git push origin  </span><br><span class="line"><span class="escape">``</span><span class="escape">` </span> </span><br><span class="line">#   git同步配置</span><br></pre></td></tr></table></figure>
-<p>git sync<br>git config –global credential.helper store<br>git config –global push.default matching<br><figure class="highlight vala"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="preprocessor">#  git bash记住密码</span></span><br></pre></td></tr></table></figure></p>
-<p>git config credential.helper ‘cache –timeout=300’<br>git config –global user.name geosmart<br>git config –global user.email geosmart@foxmail.com<br><figure class="highlight vala"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="preprocessor">#  查看git配置</span></span><br></pre></td></tr></table></figure></p>
-<p>git config –list<br>```</p>
-</span>
+<h1 id="MongoDB3带来的改变">MongoDB3带来的改变</h1><p>MongoDB 3.0新版重点主要在效能的提升以及可扩展性，这些改变来自于储存层（Storage Layer）的强化，<br>MongoDB 2.8版本开始引入支持Latch-free、Non-blocking算法的WiredTiger储存引擎，因此可以开始使用新硬件才有的功能，比如大量的高速缓存（On-chip Cache）和多执行架构。<br>MongoDB 3.0 还提供了企业 Ops Manager 管理工具，用来管理大规模的 MongoDB 架构。</p>
+<p>MongoDB的管理服务（MMS）是用于监控和备份MongoDB的基础设施服务。其中监控的服务是免费的，备份的服务是需要收费的。</p>
+<h1 id="Ops_Manager">Ops Manager</h1><p><a href="https://www.mongodb.com/products/ops-manager">Ops Manager官网</a><br>官方原话：<code>The Best Way to Run MongoDB: Ops Manager</code></p>
+<p>Ops Manager能做什么？</p>
+<blockquote>
+<p>Deployment. Any topology, at any scale<br>Management. Deploy new clusters. Manage, monitor, and back up existing ones<br>Upgrades. In minutes, with no downtime<br>Scaling. Add capacity, without taking the application offline<br>Point-in-time, Scheduled Backups. Restore to any point in time, because disasters aren’t predictable<br>Performance Alerts. Monitor 100+ system metrics and get custom alerts before the system degrades<br>Add Query Optimization. Identify slow-running queries, get index suggestions, automate index builds</p>
+</blockquote>
+<h1 id="安装步骤">安装步骤</h1><h2 id="服务器准备">服务器准备</h2><figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&#10;#mms&#24212;&#29992;&#26381;&#21153;&#22120;&#10;192.168.1.80&#10;&#10;#mms&#30417;&#25511;&#25968;&#25454;&#26381;&#21153;&#22120;&#65292;Monitor Agent&#37096;&#32626;&#10;192.168.1.51&#10;&#10;#server1 192.168.1.52&#10;mongod shard11:27017&#10;mongod shard12:27018&#10;mongod config1:20000&#10;mongs1:30000&#10;&#10;# server2&#10;192.168.1.58&#10;mongod shard12:27017&#10;mongod shard22:27018&#10;mongod config2:20000&#10;mongs2:30000&#10;&#10;#server3&#10;192.168.1.54&#10;mongod shard13:27017&#10;mongod shard23:27018&#10;mongod config3:20000&#10;mongs3:30000&#10;&#10;&#10;192.168.1.51&#65306;shard&#10;192.168.1.52&#65306;shard&#10;192.168.1.83&#65306;config server&#10;192.168.1.84&#65306;mongos</span><br></pre></td></tr></table></figure>
+<h2 id="域名解析配置">域名解析配置</h2><h3 id="HostName配置/FQDN配置">HostName配置/FQDN配置</h3><p>FQDN是Fully Qualified Domain Name的缩写, 含义是完整的域名. 例如, 一台机器主机名(hostname)是www, 域后缀(domain)是example.com, 那么该主机的FQDN应该是www.example.com.<br>注意：hosts配置不当，后面server和agent间通讯会存在问题，参考host配置如下：</p>
+<ul>
+<li>server/agent配置(master)</li>
+</ul>
+<figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"># vim /etc/hosts&#10;&#10;# localhost&#10;127.0.0.1 localhost.localdomain localhost&#10;&#10;#mongodb ops manager server&#10;192.168.1.80   opsserver.lt.com opsserver&#10;&#10;#mongodb ops monitor agent&#10;192.168.1.51   opsagent1.lt.com opsagent1&#10;192.168.1.52   opsagent2.lt.com opsagent2&#10;192.168.1.53   opsagent3.lt.com opsagent3&#10;192.168.1.54   opsagent4.lt.com opsagent4&#10;192.168.1.58   opsagent8.lt.com opsagent8</span><br></pre></td></tr></table></figure>
+<ul>
+<li>network配置</li>
+</ul>
+<figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"># vim /etc/sysconfig/network&#10;NETWORKING=yes&#10;HOSTNAME=opsserver&#10;NTPSERVERARGS=iburst</span><br></pre></td></tr></table></figure>
+<h2 id="安装Ops_Manager_Application_Database">安装Ops Manager Application Database</h2><p>可选：Backup Database</p>
+<p>##　安装Ops Manager集群监控</p>
+<h3 id="关于Ops_Manager">关于Ops Manager</h3><p><a href="https://www.mongodb.com/presentations/webinar-introducing-ops-manager">视频教程</a><br><a href="http://www.slideshare.net/mongodb/ops-manager-webinar-mar-5-2015">视频教程</a></p>
+<p><a href="https://docs.opsmanager.mongodb.com/master/application/">介绍文档</a><br>MongoDB Ops Manager is a service for managing, monitoring and backing up a MongoDB infrastructure. Ops Manager provides the services described here.<br><img src="https://docs.opsmanager.mongodb.com/master/_images/opsmanager-network-diagram-fullsize.png" alt="组成部分"></p>
+<p><img src="https://docs.opsmanager.mongodb.com/master/_images/opsmanager-large.png" alt="Production Install with a Highly Available Ops Manager Application and Multiple Backup Databases¶"></p>
+<h3 id="centos6安装">centos6安装</h3><p><a href="https://docs.opsmanager.mongodb.com/current/tutorial/install-on-prem-with-rpm-packages/">RPM安装参考教程</a><br><a href="http://www.ttlsa.com/mms/follow-me-to-use-mongodb-mms-services/">中文配置教程</a></p>
+<ol>
+<li>配置mongodb mms数据服务器（192.168.1.51），安装mongodb并启动服务</li>
+<li>复制到<code>mongodb-mms-2.0.0.327-1.x86_64.rpm</code>到<code>/mnt</code></li>
+<li>执行<code>sudo rpm -ivh  /mnt/mongodb-mms-2.0.0.327-1.x86_64.rpm</code>，mms将默认安装到<code>/opt/mongodb/mms/</code></li>
+<li>配置<code>/opt/mongodb/mms/conf/conf-mms.properties</code>，设置<code>mongo.mongoUri=mongodb://192.168.1.51:27017/?maxPoolSize=150</code>等参数配置</li>
+<li>启动服务<code>sudo service mongodb-mms start</code></li>
+<li>登录http://<host>:8080/注册用户</li>
+<li>在web控制台Deployment中1台服务器配置个monitoring agent</li>
+<li><p>agent节点分别配置安装automation agent</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#以下具体参数参考http://192.168.1.80:8080/settings/agents/中的Automation选项卡的操作步骤</span></span><br><span class="line"><span class="comment">#Download the agent</span></span><br><span class="line">curl -OL http://<span class="number">192.168</span>.<span class="number">1.80</span>:<span class="number">8080</span>/download/agent/automation/mongodb-mms-automation-agent-manager-<span class="number">2.5</span>.<span class="number">11.1484</span>-<span class="number">1</span>.x86_64.rpm</span><br><span class="line"><span class="comment">#and install the package.</span></span><br><span class="line">sudo rpm -U mongodb-mms-automation-agent-manager-<span class="number">2.5</span>.<span class="number">11.1484</span>-<span class="number">1</span>.x86_64.rpm</span><br><span class="line"><span class="comment">#Open the config file</span></span><br><span class="line">sudo vi /etc/mongodb-mms/automation-agent.config</span><br><span class="line"><span class="comment">#and enter your API key, Group ID, and Ops Manager Base URL as shown below.</span></span><br><span class="line">mmsGroupId=<span class="number">5683820</span>a24ac1d328bee09c5</span><br><span class="line">mmsApiKey=<span class="number">00</span>c0acc3c1a0b3f15aed38d9694d017d</span><br><span class="line">mmsBaseUrl=http://<span class="number">192.168</span>.<span class="number">1.80</span>:<span class="number">8080</span></span><br><span class="line"><span class="comment"># Prepare a directory in which to store your MongoDB data. This directory must be owned by the mongod user. Any directory is fine, but the default is /data. This directory can be created with a command similar to below.</span></span><br><span class="line">sudo mkdir /data</span><br><span class="line">sudo chown mongod:mongod /data</span><br><span class="line"><span class="comment">#Start the agent.</span></span><br><span class="line">sudo service mongodb-mms-automation-agent start</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>zai Deployment模块Add New Cluster,配置mongos,config server和shards</p>
+</li>
+<li>集群测试</li>
+</ol>
+<h3 id="windows_server安装">windows server安装</h3><p><a href="https://docs.opsmanager.mongodb.com/current/tutorial/install-on-prem-windows/">参考教程</a></p>
+<ol>
+<li>安装mongodb</li>
+<li>安装Install Ops Manager</li>
+<li>配置<code>C:\MMSData\Server\Config\conf-mms.properties</code>（默认路径）中的<code>mongo.mongoUri</code>等连接配置属性</li>
+<li>在windows服务列表启动服务<code>MongoDB Ops Manager HTTP Service</code></li>
+<li>登录http://<host>:8080/注册用户，admin/1qaz@WSX</li>
+</ol>
+<h3 id="问题记录">问题记录</h3><ol>
+<li>No MongoDB versions have been made available for use in your deployment. Visit the Version Manager to enable MongoDB versions.<br>重新配置，将version manager参数设置为internet而非local</li>
+<li>There are a mix of Agents that are installed manually and managed by your Automation Agents. This configuration is not supported.<br>You will not be able to add new hosts to monitoring or create new automated hosts while in this state. The Agents that should be removed are indicated on the table above.<br>After stopping an Agent it can take up to 5 minutes to take effect.</li>
+<li>怎么配置离线部署shard？</li>
+</ol>
+<h1 id="MongoDB集群离线部署">MongoDB集群离线部署</h1></span>
       
     </div>
 
@@ -284,7 +328,7 @@
       
         <div class="post-tags">
           
-            <a href="/tags/Git/" rel="tag">#Git</a>
+            <a href="/tags/MongoDB/" rel="tag">#MongoDB</a>
           
         </div>
       
@@ -293,13 +337,13 @@
         <div class="post-nav">
           <div class="post-nav-prev post-nav-item">
             
-              <a href="/2015/06/30/日志分析工具/" rel="prev">日志分析工具</a>
+              <a href="/2015/12/29/MongoDB集群学习笔记/" rel="prev">MongoDB集群学习笔记</a>
             
           </div>
 
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2015/06/30/lnmp安装/" rel="next">LNMP安装</a>
+              <a href="/2015/12/28/MongoDB权限配置/" rel="next">MongoDB权限配置</a>
             
           </div>
         </div>
@@ -324,8 +368,8 @@
         
           <div class="comments" id="comments">
             
-              <div class="ds-thread" data-thread-key="2015/06/30/常用git命令/"
-                   data-title="常用git命令" data-url="http://geosmart.github.io/2015/06/30/常用git命令/">
+              <div class="ds-thread" data-thread-key="2015/12/28/MongoDB3离线部署/"
+                   data-title="MongoDB3离线部署" data-url="http://geosmart.github.io/2015/12/28/MongoDB3离线部署/">
               </div>
             
           </div>
@@ -414,7 +458,7 @@
           <div class="post-toc">
             
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#Git"><span class="nav-number">1.</span> <span class="nav-text">Git</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#克隆库"><span class="nav-number">2.</span> <span class="nav-text">克隆库</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#新建_‘gh-pages’分支，会自动生成github_pages"><span class="nav-number">3.</span> <span class="nav-text">新建 ‘gh-pages’分支，会自动生成github pages</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#本地提交"><span class="nav-number">4.</span> <span class="nav-text">本地提交</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#初始版本提交"><span class="nav-number">5.</span> <span class="nav-text">初始版本提交</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#推送到服务器"><span class="nav-number">6.</span> <span class="nav-text">推送到服务器</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#MongoDB3带来的改变"><span class="nav-number">1.</span> <span class="nav-text">MongoDB3带来的改变</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Ops_Manager"><span class="nav-number">2.</span> <span class="nav-text">Ops Manager</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#安装步骤"><span class="nav-number">3.</span> <span class="nav-text">安装步骤</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#服务器准备"><span class="nav-number">3.1.</span> <span class="nav-text">服务器准备</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#域名解析配置"><span class="nav-number">3.2.</span> <span class="nav-text">域名解析配置</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#HostName配置/FQDN配置"><span class="nav-number">3.2.1.</span> <span class="nav-text">HostName配置/FQDN配置</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#安装Ops_Manager_Application_Database"><span class="nav-number">3.3.</span> <span class="nav-text">安装Ops Manager Application Database</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#关于Ops_Manager"><span class="nav-number">3.3.1.</span> <span class="nav-text">关于Ops Manager</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#centos6安装"><span class="nav-number">3.3.2.</span> <span class="nav-text">centos6安装</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#windows_server安装"><span class="nav-number">3.3.3.</span> <span class="nav-text">windows server安装</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#问题记录"><span class="nav-number">3.3.4.</span> <span class="nav-text">问题记录</span></a></li></ol></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#MongoDB集群离线部署"><span class="nav-number">4.</span> <span class="nav-text">MongoDB集群离线部署</span></a></li></ol></div>
             
           </div>
           <div class="post-toc-indicator-bottom post-toc-indicator"></div>
