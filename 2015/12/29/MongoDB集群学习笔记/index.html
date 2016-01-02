@@ -47,7 +47,10 @@
 <meta property="og:url" content="http://geosmart.github.io/2015/12/29/MongoDB集群学习笔记/index.html">
 <meta property="og:site_name" content="Geosmart's Notes">
 <meta property="og:description" content="考虑部署实施的复杂度，一直没上MongoDB集群，但现在海量数据一来，单机性能就扛不住了，本文记录MongoDB集群的基础知识。">
-<meta property="og:updated_time" content="2015-12-30T00:54:49.402Z">
+<meta property="og:image" content="http://geosmart.github.io/automation.png">
+<meta property="og:image" content="http://geosmart.github.io/monitoring.png">
+<meta property="og:image" content="http://geosmart.github.io/backup.png">
+<meta property="og:updated_time" content="2016-01-02T11:39:43.800Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="MongoDB集群学习笔记">
 <meta name="twitter:description" content="考虑部署实施的复杂度，一直没上MongoDB集群，但现在海量数据一来，单机性能就扛不住了，本文记录MongoDB集群的基础知识。">
@@ -287,7 +290,7 @@
 <h3 id="升序片键">升序片键</h3><p>适用于任何升序排列的键值，而并不必须是时间戳，包括日期、自增主键。<br>只要键值趋于无穷大，就会面临单一且不可分散的热点问题</p>
 <h3 id="随机片键">随机片键</h3><p>初衷是为了避免热点，会选择一个随机值的字段来分片。<br>数据量变大后会给RAM增加压力，且会引发大量的磁盘IO</p>
 <h3 id="好片键">好片键</h3><p>具有良好的数据局部性（data locality）特征，但又不会太局部而导致热点出现。<br>准升序键+搜索键<code>｛coarselyAscending:1，search:1｝</code>，coarselyAscending用来控制数据局部化，search字段则是数据上常用的一个检索字段。<br>coarselyAscending键的每个值最好能对应几十到几百个数据块，如月份（2015-12）<br>search键则应当是应用程序通常都会依据其进行查询的字段，如用户信息、文件名称、或GUID等</p>
-<h1 id="Master-Slaver（主从）">Master-Slaver（主从）</h1><h1 id="mongodb集群监控">mongodb集群监控</h1><p>在线：Mongodb Cloud Manager<br>离线：MongoDB Management Service(MMS)</p>
+<h1 id="Master-Slaver（主从）">Master-Slaver（主从）</h1><h1 id="mongodb集群监控">mongodb集群监控</h1><p>在线：Mongodb Cloud Manager<br>离线：MongoDB Management Service(MMS)<br><img src="automation.png" alt="how automation agent work"><br><img src="monitoring.png" alt="how monitoring agent work"><br><img src="backup.png" alt="how bakcup agent work"></p>
 <h1 id="mongodb_gui_tools">mongodb gui tools</h1><p><code>MongoVUE1.6.9</code> 在<code>Mongodb3.2.0</code>版本不可用了，不得不寻找替代品<br><a href="https://docs.mongodb.org/ecosystem/tools/administration-interfaces">官方推荐工具列表</a></p>
 <p>亲测觉得不错的GUI工具</p>
 <ul>
@@ -315,7 +318,7 @@
 
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2015/12/28/MongoDB3离线部署/" rel="next">MongoDB3离线部署</a>
+              <a href="/2015/12/28/MongoDB权限配置/" rel="next">MongoDB权限配置</a>
             
           </div>
         </div>
@@ -381,7 +384,7 @@
         <nav class="site-state motion-element">
           <div class="site-state-item site-state-posts">
             <a href="/archives">
-              <span class="site-state-item-count">45</span>
+              <span class="site-state-item-count">50</span>
               <span class="site-state-item-name">日志</span>
             </a>
           </div>
@@ -395,7 +398,7 @@
 
           <div class="site-state-item site-state-tags">
             <a href="/tags">
-              <span class="site-state-item-count">48</span>
+              <span class="site-state-item-count">51</span>
               <span class="site-state-item-name">标签</span>
               </a>
           </div>
@@ -447,7 +450,7 @@
       <div class="footer-inner"> <div class="copyright" >
   
   &copy; &nbsp; 
-  <span itemprop="copyrightYear">2015</span>
+  <span itemprop="copyrightYear">2016</span>
   <span class="with-love">
     <i class="icon-next-heart"></i>
   </span>

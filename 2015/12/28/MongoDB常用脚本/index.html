@@ -47,7 +47,7 @@
 <meta property="og:url" content="http://geosmart.github.io/2015/12/28/MongoDB常用脚本/index.html">
 <meta property="og:site_name" content="Geosmart's Notes">
 <meta property="og:description" content="记录一些工作过程中常用的MongoDB脚本。">
-<meta property="og:updated_time" content="2015-12-28T13:00:57.946Z">
+<meta property="og:updated_time" content="2015-12-31T01:30:51.972Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Samba安装配置笔记">
 <meta name="twitter:description" content="记录一些工作过程中常用的MongoDB脚本。">
@@ -273,7 +273,7 @@
 <h1 id="查询语句">查询语句</h1><p>模糊查询<br>查询条件中包含like时，格式为：<code>{&quot;地址节全称&quot;:new RegExp(&quot;.*花园&quot;)}</code></p>
 <h1 id="操作关键词">操作关键词</h1><figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&#62;, &#62;=, &#60;, &#60;=, !=, =&#10;$gt, $gte, $lt, $lte,$ne,&#10;And&#65292;OR&#65292;In&#65292;NotIn&#10;&#26080;&#20851;&#38190;&#23383;, $or, $in&#65292;$nin</span><br></pre></td></tr></table></figure>
 <h1 id="更新语句">更新语句</h1><p>MongoDB更新字段名，如将AddressNode的adalias字段改为adtext：<code>db.AddressNode.update({}, {$rename:{&quot;adalias&quot;:&quot;adtext&quot;}}, false, true);</code></p>
-<h1 id="数据备份恢复">数据备份恢复</h1><figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">#&#25968;&#25454;&#22791;&#20221;&#10;mongodump -d uadb  -u uadb -p psd  -o  /usr/local/mongodb/dump&#10;#&#25968;&#25454;&#36824;&#21407;&#10;mongorestore -drop  -d uadb   -u uadb -p psd  /usr/local/mongodb/dump/uadb&#10;```  &#10;&#10;# &#21024;&#38500;&#25968;&#25454;&#24211;&#10;db.dropDatabase();&#10;&#10;# maxConns&#24182;&#21457;&#36830;&#25509;&#25968;&#35774;&#32622;&#10;## &#26597;&#35810;&#24182;&#21457;&#25968;&#10;db.serverStatus().connections&#10;## ulimit &#35774;&#32622;&#21487;&#20197;&#25171;&#24320;&#26368;&#22823;&#25991;&#20214;&#25551;&#36848;&#31526;&#30340;&#25968;&#37327;&#12290;&#10;&#26597;&#30475;&#26368;&#22823;&#25991;&#20214;&#25171;&#24320;&#25968;&#65306;ulimite -n&#10;&#20020;&#26102;&#29983;&#25928;&#65306;`ulimit -n 32768`&#10;&#27704;&#20037;&#29983;&#25928;&#65306;`vim /etc/rc.local` &#26032;&#22686;`ulimit -n 32768`&#10;&#10;## &#37325;&#21551;mongodb&#26381;&#21153;&#65292;&#24102;&#19978;--maxConns&#21442;&#25968;&#10;`/usr/local/mongodb/bin/mongod --dbpath /usr/local/mongodb/data --logpath /usr/local/mongodb/log/mongodb.log --maxConns=10000  --fork --smallfiles`&#10;&#10;# MongoDB&#20840;&#23616;&#21464;&#37327;&#35774;&#32622;&#10;```yaml&#10;# vim /etc/profile&#10;export MONGODB_HOME=/usr/local/mongodb&#10;export PATH=$MONGODB_HOME/bin:$PATH</span><br></pre></td></tr></table></figure>
+<h1 id="数据备份恢复">数据备份恢复</h1><figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">#&#25968;&#25454;&#22791;&#20221;&#10;mongodump -d uadb  -u uadb -p psd  -o  /usr/local/mongodb/dump&#10;#&#25968;&#25454;&#36824;&#21407;&#10;mongorestore -drop  -d uadb   -u uadb -p psd  /usr/local/mongodb/dump/uadb&#10;```  &#10;&#10;# &#21024;&#38500;&#25968;&#25454;&#24211;&#10;db.dropDatabase();&#10;&#10;# maxConns&#24182;&#21457;&#36830;&#25509;&#25968;&#35774;&#32622;&#10;&#22791;&#27880;&#65306;V3.0&#29256;&#26412;&#20197;&#19978;&#21442;&#25968;&#20026;maxIncomingConnections&#65292;&#40664;&#35748;65536&#65292;&#35814;&#35265;&#10;[V3.2&#23448;&#26041;configuration-options&#25991;&#26723;](https://docs.mongodb.org/v3.2/reference/configuration-options/)&#10;## &#26597;&#35810;&#24182;&#21457;&#25968;&#10;db.serverStatus().connections&#10;## ulimit &#35774;&#32622;&#21487;&#20197;&#25171;&#24320;&#26368;&#22823;&#25991;&#20214;&#25551;&#36848;&#31526;&#30340;&#25968;&#37327;&#12290;&#10;&#26597;&#30475;&#26368;&#22823;&#25991;&#20214;&#25171;&#24320;&#25968;&#65306;ulimite -n&#10;&#20020;&#26102;&#29983;&#25928;&#65306;`ulimit -n 32768`&#10;&#27704;&#20037;&#29983;&#25928;&#65306;`vim /etc/rc.local` &#26032;&#22686;`ulimit -n 32768`&#10;&#10;## &#37325;&#21551;mongodb&#26381;&#21153;&#65292;&#24102;&#19978;--maxConns&#21442;&#25968;&#10;`/usr/local/mongodb/bin/mongod --dbpath /usr/local/mongodb/data --logpath /usr/local/mongodb/log/mongodb.log --maxConns=20000  --fork --smallfiles`&#10;&#10;# MongoDB&#20840;&#23616;&#21464;&#37327;&#35774;&#32622;&#10;```yaml&#10;# vim /etc/profile&#10;export MONGODB_HOME=/usr/local/mongodb&#10;export PATH=$MONGODB_HOME/bin:$PATH</span><br></pre></td></tr></table></figure>
 </span>
       
     </div>
@@ -363,7 +363,7 @@
         <nav class="site-state motion-element">
           <div class="site-state-item site-state-posts">
             <a href="/archives">
-              <span class="site-state-item-count">45</span>
+              <span class="site-state-item-count">50</span>
               <span class="site-state-item-name">日志</span>
             </a>
           </div>
@@ -377,7 +377,7 @@
 
           <div class="site-state-item site-state-tags">
             <a href="/tags">
-              <span class="site-state-item-count">48</span>
+              <span class="site-state-item-count">51</span>
               <span class="site-state-item-name">标签</span>
               </a>
           </div>
@@ -429,7 +429,7 @@
       <div class="footer-inner"> <div class="copyright" >
   
   &copy; &nbsp; 
-  <span itemprop="copyrightYear">2015</span>
+  <span itemprop="copyrightYear">2016</span>
   <span class="with-love">
     <i class="icon-next-heart"></i>
   </span>

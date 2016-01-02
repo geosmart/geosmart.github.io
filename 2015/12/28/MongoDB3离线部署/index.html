@@ -49,7 +49,10 @@
 <meta property="og:description" content="MongoDB 3.2集群的离线部署笔记">
 <meta property="og:image" content="https://docs.opsmanager.mongodb.com/master/_images/opsmanager-network-diagram-fullsize.png">
 <meta property="og:image" content="https://docs.opsmanager.mongodb.com/master/_images/opsmanager-large.png">
-<meta property="og:updated_time" content="2015-12-30T12:32:15.650Z">
+<meta property="og:image" content="http://geosmart.github.io/01_deployment.png">
+<meta property="og:image" content="http://geosmart.github.io/02_statis_chart.png">
+<meta property="og:image" content="http://geosmart.github.io/03_statis_table.png">
+<meta property="og:updated_time" content="2016-01-02T12:05:53.366Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="MongoDB3离线部署">
 <meta name="twitter:description" content="MongoDB 3.2集群的离线部署笔记">
@@ -270,44 +273,55 @@
 <hr>
 <a id="more"></a>
 <h1 id="MongoDB3带来的改变">MongoDB3带来的改变</h1><p>MongoDB 3.0新版重点主要在效能的提升以及可扩展性，这些改变来自于储存层（Storage Layer）的强化，<br>MongoDB 2.8版本开始引入支持Latch-free、Non-blocking算法的WiredTiger储存引擎，因此可以开始使用新硬件才有的功能，比如大量的高速缓存（On-chip Cache）和多执行架构。<br>MongoDB 3.0 还提供了企业 Ops Manager 管理工具，用来管理大规模的 MongoDB 架构。</p>
+<h2 id="个人测试">个人测试</h2><ol>
+<li>数据恢复（mongorestore）支持并行导入了，性能有所提升；</li>
+<li>数据存储变成了*.wt后缀的，待确认具体更新；</li>
+</ol>
 <p>MongoDB的管理服务（MMS）是用于监控和备份MongoDB的基础设施服务。其中监控的服务是免费的，备份的服务是需要收费的。</p>
-<h1 id="Ops_Manager">Ops Manager</h1><p><a href="https://www.mongodb.com/products/ops-manager">Ops Manager官网</a><br>官方原话：<code>The Best Way to Run MongoDB: Ops Manager</code></p>
+<h1 id="Ops_Manager">Ops Manager</h1><p><code>The Best Way to Run MongoDB: Ops Manager</code><br><a href="https://www.mongodb.com/products/ops-manager">Ops Manager官网</a></p>
 <p>Ops Manager能做什么？</p>
 <blockquote>
 <p>Deployment. Any topology, at any scale<br>Management. Deploy new clusters. Manage, monitor, and back up existing ones<br>Upgrades. In minutes, with no downtime<br>Scaling. Add capacity, without taking the application offline<br>Point-in-time, Scheduled Backups. Restore to any point in time, because disasters aren’t predictable<br>Performance Alerts. Monitor 100+ system metrics and get custom alerts before the system degrades<br>Add Query Optimization. Identify slow-running queries, get index suggestions, automate index builds</p>
 </blockquote>
-<h1 id="安装步骤">安装步骤</h1><h2 id="服务器准备">服务器准备</h2><figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&#10;#mms&#24212;&#29992;&#26381;&#21153;&#22120;&#10;192.168.1.80&#10;&#10;#mms&#30417;&#25511;&#25968;&#25454;&#26381;&#21153;&#22120;&#65292;Monitor Agent&#37096;&#32626;&#10;192.168.1.51&#10;&#10;#server1 192.168.1.52&#10;mongod shard11:27017&#10;mongod shard12:27018&#10;mongod config1:20000&#10;mongs1:30000&#10;&#10;# server2&#10;192.168.1.58&#10;mongod shard12:27017&#10;mongod shard22:27018&#10;mongod config2:20000&#10;mongs2:30000&#10;&#10;#server3&#10;192.168.1.54&#10;mongod shard13:27017&#10;mongod shard23:27018&#10;mongod config3:20000&#10;mongs3:30000&#10;&#10;&#10;192.168.1.51&#65306;shard&#10;192.168.1.52&#65306;shard&#10;192.168.1.83&#65306;config server&#10;192.168.1.84&#65306;mongos</span><br></pre></td></tr></table></figure>
+<h1 id="安装步骤">安装步骤</h1><h2 id="服务器准备">服务器准备</h2><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#mms应用服务器</span></span><br><span class="line"><span class="number">192.168</span>.<span class="number">1.80</span></span><br><span class="line"></span><br><span class="line"><span class="comment">#mms监控数据服务器，Monitor Agent部署</span></span><br><span class="line"><span class="number">192.168</span>.<span class="number">1.51</span></span><br><span class="line"></span><br><span class="line"><span class="number">192.168</span>.<span class="number">1.52</span>：shard</span><br><span class="line"><span class="number">192.168</span>.<span class="number">1.54</span>：config server</span><br><span class="line"><span class="number">192.168</span>.<span class="number">1.58</span>：mongos</span><br></pre></td></tr></table></figure>
 <h2 id="域名解析配置">域名解析配置</h2><h3 id="HostName配置/FQDN配置">HostName配置/FQDN配置</h3><p>FQDN是Fully Qualified Domain Name的缩写, 含义是完整的域名. 例如, 一台机器主机名(hostname)是www, 域后缀(domain)是example.com, 那么该主机的FQDN应该是www.example.com.<br>注意：hosts配置不当，后面server和agent间通讯会存在问题，参考host配置如下：</p>
 <ul>
 <li>server/agent配置(master)</li>
 </ul>
-<figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"># vim /etc/hosts&#10;&#10;# localhost&#10;127.0.0.1 localhost.localdomain localhost&#10;&#10;#mongodb ops manager server&#10;192.168.1.80   opsserver.lt.com opsserver&#10;&#10;#mongodb ops monitor agent&#10;192.168.1.51   opsagent1.lt.com opsagent1&#10;192.168.1.52   opsagent2.lt.com opsagent2&#10;192.168.1.53   opsagent3.lt.com opsagent3&#10;192.168.1.54   opsagent4.lt.com opsagent4&#10;192.168.1.58   opsagent8.lt.com opsagent8</span><br></pre></td></tr></table></figure>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># vim /etc/hosts</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># localhost</span></span><br><span class="line"><span class="number">127.0</span>.<span class="number">0.1</span> localhost.localdomain localhost</span><br><span class="line"></span><br><span class="line"><span class="comment">#mongodb ops manager server</span></span><br><span class="line"><span class="number">192.168</span>.<span class="number">1.80</span>   opsserver.lt.com opsserver</span><br><span class="line"></span><br><span class="line"><span class="comment">#mongodb ops monitor agent</span></span><br><span class="line"><span class="number">192.168</span>.<span class="number">1.51</span>   opsagent1.lt.com opsagent1</span><br><span class="line"><span class="number">192.168</span>.<span class="number">1.52</span>   opsagent2.lt.com opsagent2</span><br><span class="line"><span class="number">192.168</span>.<span class="number">1.53</span>   opsagent3.lt.com opsagent3</span><br><span class="line"><span class="number">192.168</span>.<span class="number">1.54</span>   opsagent4.lt.com opsagent4</span><br><span class="line"><span class="number">192.168</span>.<span class="number">1.58</span>   opsagent8.lt.com opsagent8</span><br></pre></td></tr></table></figure>
 <ul>
 <li>network配置</li>
 </ul>
-<figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"># vim /etc/sysconfig/network&#10;NETWORKING=yes&#10;HOSTNAME=opsserver&#10;NTPSERVERARGS=iburst</span><br></pre></td></tr></table></figure>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># vim /etc/sysconfig/network</span></span><br><span class="line">NETWORKING=yes</span><br><span class="line">HOSTNAME=opsserver</span><br><span class="line">NTPSERVERARGS=iburst</span><br></pre></td></tr></table></figure>
 <h2 id="安装Ops_Manager_Application_Database">安装Ops Manager Application Database</h2><p>可选：Backup Database</p>
+<p>设置最大文件打开数<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#vim /etc/rc.local</span></span><br><span class="line"><span class="built_in">ulimit</span> -n <span class="number">65536</span></span><br></pre></td></tr></table></figure></p>
 <p>##　安装Ops Manager集群监控</p>
 <h3 id="关于Ops_Manager">关于Ops Manager</h3><p><a href="https://www.mongodb.com/presentations/webinar-introducing-ops-manager">视频教程</a><br><a href="http://www.slideshare.net/mongodb/ops-manager-webinar-mar-5-2015">视频教程</a></p>
 <p><a href="https://docs.opsmanager.mongodb.com/master/application/">介绍文档</a><br>MongoDB Ops Manager is a service for managing, monitoring and backing up a MongoDB infrastructure. Ops Manager provides the services described here.<br><img src="https://docs.opsmanager.mongodb.com/master/_images/opsmanager-network-diagram-fullsize.png" alt="组成部分"></p>
 <p><img src="https://docs.opsmanager.mongodb.com/master/_images/opsmanager-large.png" alt="Production Install with a Highly Available Ops Manager Application and Multiple Backup Databases¶"></p>
-<h3 id="centos6安装">centos6安装</h3><p><a href="https://docs.opsmanager.mongodb.com/current/tutorial/install-on-prem-with-rpm-packages/">RPM安装参考教程</a><br><a href="http://www.ttlsa.com/mms/follow-me-to-use-mongodb-mms-services/">中文配置教程</a></p>
+<h3 id="centos6安装Ops_Manager">centos6安装Ops Manager</h3><p><a href="https://docs.opsmanager.mongodb.com/current/tutorial/install-on-prem-with-rpm-packages/">RPM安装参考教程</a><br><a href="http://www.ttlsa.com/mms/follow-me-to-use-mongodb-mms-services/">中文配置教程</a></p>
 <ol>
-<li>配置mongodb mms数据服务器（192.168.1.51），安装mongodb并启动服务</li>
+<li>配置ops manager application data数据服务器（192.168.1.51），安装mongodb并启动服务<br>从其他机器复制mongodb：<code>scp -r root@192.168.1.52:/usr/local/mongodb /usr/local</code></li>
+<li>安装ops manager server</li>
+</ol>
+<ul>
 <li>复制到<code>mongodb-mms-2.0.0.327-1.x86_64.rpm</code>到<code>/mnt</code></li>
 <li>执行<code>sudo rpm -ivh  /mnt/mongodb-mms-2.0.0.327-1.x86_64.rpm</code>，mms将默认安装到<code>/opt/mongodb/mms/</code></li>
-<li>配置<code>/opt/mongodb/mms/conf/conf-mms.properties</code>，设置<code>mongo.mongoUri=mongodb://192.168.1.51:27017/?maxPoolSize=150</code>等参数配置</li>
+<li>配置/opt/mongodb/mms/conf/conf-mms.properties,设置mongo.mongoUri等参数</li>
 <li>启动服务<code>sudo service mongodb-mms start</code></li>
 <li>登录http://<host>:8080/注册用户</li>
-<li>在web控制台Deployment中1台服务器配置个monitoring agent</li>
-<li><p>agent节点分别配置安装automation agent</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#以下具体参数参考http://192.168.1.80:8080/settings/agents/中的Automation选项卡的操作步骤</span></span><br><span class="line"><span class="comment">#Download the agent</span></span><br><span class="line">curl -OL http://<span class="number">192.168</span>.<span class="number">1.80</span>:<span class="number">8080</span>/download/agent/automation/mongodb-mms-automation-agent-manager-<span class="number">2.5</span>.<span class="number">11.1484</span>-<span class="number">1</span>.x86_64.rpm</span><br><span class="line"><span class="comment">#and install the package.</span></span><br><span class="line">sudo rpm -U mongodb-mms-automation-agent-manager-<span class="number">2.5</span>.<span class="number">11.1484</span>-<span class="number">1</span>.x86_64.rpm</span><br><span class="line"><span class="comment">#Open the config file</span></span><br><span class="line">sudo vi /etc/mongodb-mms/automation-agent.config</span><br><span class="line"><span class="comment">#and enter your API key, Group ID, and Ops Manager Base URL as shown below.</span></span><br><span class="line">mmsGroupId=<span class="number">5683820</span>a24ac1d328bee09c5</span><br><span class="line">mmsApiKey=<span class="number">00</span>c0acc3c1a0b3f15aed38d9694d017d</span><br><span class="line">mmsBaseUrl=http://<span class="number">192.168</span>.<span class="number">1.80</span>:<span class="number">8080</span></span><br><span class="line"><span class="comment"># Prepare a directory in which to store your MongoDB data. This directory must be owned by the mongod user. Any directory is fine, but the default is /data. This directory can be created with a command similar to below.</span></span><br><span class="line">sudo mkdir /data</span><br><span class="line">sudo chown mongod:mongod /data</span><br><span class="line"><span class="comment">#Start the agent.</span></span><br><span class="line">sudo service mongodb-mms-automation-agent start</span><br></pre></td></tr></table></figure>
+</ul>
+<ol>
+<li>agent节点分别配置安装automation agent<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#以下具体参数参考http://192.168.1.80:8080/settings/agents/中的Automation选项卡的操作步骤</span></span><br><span class="line"></span><br><span class="line"><span class="comment">#Download the agent</span></span><br><span class="line">curl -OL http://<span class="number">192.168</span>.<span class="number">1.80</span>:<span class="number">8080</span>/download/agent/automation/mongodb-mms-automation-agent-manager-<span class="number">2.5</span>.<span class="number">11.1484</span>-<span class="number">1</span>.x86_64.rpm</span><br><span class="line"><span class="comment">#and install the package.</span></span><br><span class="line">sudo rpm -U mongodb-mms-automation-agent-manager-<span class="number">2.5</span>.<span class="number">11.1484</span>-<span class="number">1</span>.x86_64.rpm</span><br><span class="line"></span><br><span class="line"><span class="comment">#Open the config file</span></span><br><span class="line">sudo vi /etc/mongodb-mms/automation-agent.config</span><br><span class="line"><span class="comment">#配置唯一 API key, Group ID, and Ops Manager Base URL</span></span><br><span class="line">mmsGroupId=<span class="number">568486</span>a424ac2c591d35e00c</span><br><span class="line">mmsApiKey=e4db7d0b6757a704271d04e25748ac41</span><br><span class="line">mmsBaseUrl=http://<span class="number">192.168</span>.<span class="number">1.80</span>:<span class="number">8080</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># Prepare a directory in which to store your MongoDB data. This directory must be owned by the mongod user. Any directory is fine, but the default is /data. This directory can be created with a command similar to below.</span></span><br><span class="line">sudo mkdir /data</span><br><span class="line">sudo chown mongod:mongod /data</span><br><span class="line"></span><br><span class="line"><span class="comment">#Start the agent.</span></span><br><span class="line">sudo service mongodb-mms-automation-agent start</span><br><span class="line"></span><br><span class="line"><span class="comment">#设置mongodb-mms-automation-agent为开机自启动</span></span><br><span class="line">chkconfig  mongodb-mms-automation-agent on</span><br></pre></td></tr></table></figure>
 </li>
-<li><p>zai Deployment模块Add New Cluster,配置mongos,config server和shards</p>
-</li>
-<li>集群测试</li>
 </ol>
-<h3 id="windows_server安装">windows server安装</h3><p><a href="https://docs.opsmanager.mongodb.com/current/tutorial/install-on-prem-windows/">参考教程</a></p>
+<p>其他shard节点可从monitor节点复制automation-agent配置文件：<code>scp root@192.168.1.51:/etc/mongodb-mms/automation-agent.config /etc/mongodb-mms/automation-agent.config</code><br>重启automation-agent服务：<code>sudo service mongodb-mms-automation-agent restart</code></p>
+<ol>
+<li>在web控制台Deployment中选1台性能较好的服务器配置monitoring agent（如在ops manager application data数据服务器）</li>
+<li>zai Deployment模块Add New Cluster,配置mongos,config server和shards</li>
+<li>集群测试<br>服务器主机名regex过滤:(opsagent2|opsagent4|opsagent8)<br>集群服务器配置:mongos:1/mongod:3/config server:1<br>端口配置，shards(27000-28000),mongos(27017)config server(27019)<br>配置完成确认执行后，ops会按顺序自动安装部署shard&gt;config server&gt;mongos，再也不用kb手动去安装了！</li>
+</ol>
+<h3 id="windows_server安装Ops_Manager">windows server安装Ops Manager</h3><p><a href="https://docs.opsmanager.mongodb.com/current/tutorial/install-on-prem-windows/">参考教程</a></p>
 <ol>
 <li>安装mongodb</li>
 <li>安装Install Ops Manager</li>
@@ -318,9 +332,24 @@
 <h3 id="问题记录">问题记录</h3><ol>
 <li>No MongoDB versions have been made available for use in your deployment. Visit the Version Manager to enable MongoDB versions.<br>重新配置，将version manager参数设置为internet而非local</li>
 <li>There are a mix of Agents that are installed manually and managed by your Automation Agents. This configuration is not supported.<br>You will not be able to add new hosts to monitoring or create new automated hosts while in this state. The Agents that should be removed are indicated on the table above.<br>After stopping an Agent it can take up to 5 minutes to take effect.</li>
-<li>怎么配置离线部署shard？</li>
+<li><p>添加集群报错： Unable to create member 2 of myShard_0. Unable to find enough servers. Requested port range was 27000 to 27000. Excluding port ranges 27019 to 27019, 27017 to 27017. Please ensure all agents are running.<br>shard server port设置在27000-28000范围内，不能设置为27000</p>
+</li>
+<li><p>mongos服务无法启动<br>错误日志：<code>not master or secondary; cannot currently read from this replSet member ns,config.settings query,config.shards query</code><br>解决方案：pkill mongod 强制关闭mongo进程，删除/data目录内的shard数据(不能删automation的数据)，重新添加集群</p>
+</li>
 </ol>
-<h1 id="MongoDB集群离线部署">MongoDB集群离线部署</h1></span>
+<h1 id="MongoDB离线部署配置">MongoDB离线部署配置</h1><p><a href="https://docs.opsmanager.mongodb.com/v2.0/tutorial/configure-local-mode/">Configure Local Mode if Servers Have No Internet Access</a></p>
+<h2 id="设置为Local">设置为Local</h2><p>在Ops Manager控制台，单击右上角Admin，General&gt;Ops Manager Config&gt; Miscellaneous&gt;设置Version Manifest Source 为Local<br>设置 Versions Directory存储MongoDB binaries，默认<code>/opt/mongodb/mms/mongodb-releases</code></p>
+<h2 id="下载MongoDB离线Binaries">下载MongoDB离线Binaries</h2><p>cd /opt/mongodb/mms/mongodb-releases<br>curl -OL <a href="http://fastdl.mongodb.org/linux/mongodb-linux-x86_64-rhel62-3.2.0.tgz">http://fastdl.mongodb.org/linux/mongodb-linux-x86_64-rhel62-3.2.0.tgz</a></p>
+<h2 id="设置Versions_Directory目录权限">设置Versions Directory目录权限</h2><ol>
+<li>查看目录权限：<code>ls -l /opt/mongodb/mms/mongodb-releases</code></li>
+<li>设置mongodb-mms用户对Versions Directory中文件有读写权限：<code>sudo chown -R  mongodb-mms:mongodb-mms /opt/mongodb/mms/mongodb-releases</code></li>
+</ol>
+<h2 id="编辑conf-mms-properties">编辑conf-mms.properties</h2><p>在conf-mms.propertie最后新增两行<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#vim /opt/mongodb/mms/conf/conf-mms.properties</span></span><br><span class="line">automation.versions.source=<span class="built_in">local</span></span><br><span class="line">automation.versions.directory=/opt/mongodb/mms/mongodb-releases/</span><br></pre></td></tr></table></figure></p>
+<h2 id="重启服务">重启服务</h2><p><code>sudo service mongodb-mms restart</code></p>
+<h2 id="部署截图">部署截图</h2><p><img src="01_deployment.png" alt="deployment"><br><img src="02_statis_chart.png" alt="statis_chart"><br><img src="03_statis_table.png" alt="statis_table"></p>
+<h2 id="Version_Manager配置MongoDB版本">Version Manager配置MongoDB版本</h2><p>在Ops Manager控制台，Deployment&gt;Version Manager&gt;选择离线的mongodb版本&gt;Review &amp; Deploy&gt;Confirm &amp; Deploy.</p>
+<h1 id="MongoDB_数据备份与恢复">MongoDB 数据备份与恢复</h1><p><a href="https://docs.mongodb.org/manual/tutorial/backup-small-sharded-cluster-with-mongodump/">backup-small-sharded-cluster-with-mongodump</a><br>在mongodb primary节点执行mongorestore</p>
+</span>
       
     </div>
 
@@ -337,13 +366,13 @@
         <div class="post-nav">
           <div class="post-nav-prev post-nav-item">
             
-              <a href="/2015/12/29/MongoDB集群学习笔记/" rel="prev">MongoDB集群学习笔记</a>
+              <a href="/2015/12/28/MongoDB权限配置/" rel="prev">MongoDB权限配置</a>
             
           </div>
 
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2015/12/28/MongoDB权限配置/" rel="next">MongoDB权限配置</a>
+              <a href="/2015/12/28/MongoDB空间分析/" rel="next">MongoDB空间分析</a>
             
           </div>
         </div>
@@ -409,7 +438,7 @@
         <nav class="site-state motion-element">
           <div class="site-state-item site-state-posts">
             <a href="/archives">
-              <span class="site-state-item-count">45</span>
+              <span class="site-state-item-count">50</span>
               <span class="site-state-item-name">日志</span>
             </a>
           </div>
@@ -423,7 +452,7 @@
 
           <div class="site-state-item site-state-tags">
             <a href="/tags">
-              <span class="site-state-item-count">48</span>
+              <span class="site-state-item-count">51</span>
               <span class="site-state-item-name">标签</span>
               </a>
           </div>
@@ -458,7 +487,7 @@
           <div class="post-toc">
             
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#MongoDB3带来的改变"><span class="nav-number">1.</span> <span class="nav-text">MongoDB3带来的改变</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Ops_Manager"><span class="nav-number">2.</span> <span class="nav-text">Ops Manager</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#安装步骤"><span class="nav-number">3.</span> <span class="nav-text">安装步骤</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#服务器准备"><span class="nav-number">3.1.</span> <span class="nav-text">服务器准备</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#域名解析配置"><span class="nav-number">3.2.</span> <span class="nav-text">域名解析配置</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#HostName配置/FQDN配置"><span class="nav-number">3.2.1.</span> <span class="nav-text">HostName配置/FQDN配置</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#安装Ops_Manager_Application_Database"><span class="nav-number">3.3.</span> <span class="nav-text">安装Ops Manager Application Database</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#关于Ops_Manager"><span class="nav-number">3.3.1.</span> <span class="nav-text">关于Ops Manager</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#centos6安装"><span class="nav-number">3.3.2.</span> <span class="nav-text">centos6安装</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#windows_server安装"><span class="nav-number">3.3.3.</span> <span class="nav-text">windows server安装</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#问题记录"><span class="nav-number">3.3.4.</span> <span class="nav-text">问题记录</span></a></li></ol></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#MongoDB集群离线部署"><span class="nav-number">4.</span> <span class="nav-text">MongoDB集群离线部署</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#MongoDB3带来的改变"><span class="nav-number">1.</span> <span class="nav-text">MongoDB3带来的改变</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#个人测试"><span class="nav-number">1.1.</span> <span class="nav-text">个人测试</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Ops_Manager"><span class="nav-number">2.</span> <span class="nav-text">Ops Manager</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#安装步骤"><span class="nav-number">3.</span> <span class="nav-text">安装步骤</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#服务器准备"><span class="nav-number">3.1.</span> <span class="nav-text">服务器准备</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#域名解析配置"><span class="nav-number">3.2.</span> <span class="nav-text">域名解析配置</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#HostName配置/FQDN配置"><span class="nav-number">3.2.1.</span> <span class="nav-text">HostName配置/FQDN配置</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#安装Ops_Manager_Application_Database"><span class="nav-number">3.3.</span> <span class="nav-text">安装Ops Manager Application Database</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#关于Ops_Manager"><span class="nav-number">3.3.1.</span> <span class="nav-text">关于Ops Manager</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#centos6安装Ops_Manager"><span class="nav-number">3.3.2.</span> <span class="nav-text">centos6安装Ops Manager</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#windows_server安装Ops_Manager"><span class="nav-number">3.3.3.</span> <span class="nav-text">windows server安装Ops Manager</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#问题记录"><span class="nav-number">3.3.4.</span> <span class="nav-text">问题记录</span></a></li></ol></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#MongoDB离线部署配置"><span class="nav-number">4.</span> <span class="nav-text">MongoDB离线部署配置</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#设置为Local"><span class="nav-number">4.1.</span> <span class="nav-text">设置为Local</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#下载MongoDB离线Binaries"><span class="nav-number">4.2.</span> <span class="nav-text">下载MongoDB离线Binaries</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#设置Versions_Directory目录权限"><span class="nav-number">4.3.</span> <span class="nav-text">设置Versions Directory目录权限</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#编辑conf-mms-properties"><span class="nav-number">4.4.</span> <span class="nav-text">编辑conf-mms.properties</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#重启服务"><span class="nav-number">4.5.</span> <span class="nav-text">重启服务</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#部署截图"><span class="nav-number">4.6.</span> <span class="nav-text">部署截图</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Version_Manager配置MongoDB版本"><span class="nav-number">4.7.</span> <span class="nav-text">Version Manager配置MongoDB版本</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#MongoDB_数据备份与恢复"><span class="nav-number">5.</span> <span class="nav-text">MongoDB 数据备份与恢复</span></a></li></ol></div>
             
           </div>
           <div class="post-toc-indicator-bottom post-toc-indicator"></div>
@@ -475,7 +504,7 @@
       <div class="footer-inner"> <div class="copyright" >
   
   &copy; &nbsp; 
-  <span itemprop="copyrightYear">2015</span>
+  <span itemprop="copyrightYear">2016</span>
   <span class="with-love">
     <i class="icon-next-heart"></i>
   </span>
