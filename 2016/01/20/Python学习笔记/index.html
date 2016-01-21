@@ -30,7 +30,7 @@
 
 
 
-  <meta name="keywords" content="geosmart,blog,hexo" />
+  <meta name="keywords" content="Python," />
 
 
 
@@ -41,19 +41,25 @@
   <link rel="shorticon icon" type="image/x-icon" href="/favicon.ico?v=0.4.5.1" />
 
 
-<meta name="description" content="MacTalk·人生元编程
-生命中遇见的每一本书，都不是偶然">
+<meta name="description" content="2016的元月以python作为开端。采用python进行网络数据聚合抽取，需调研并搭建python工程化开发框架，几番迭代，一个适用于数据采集的开发环境搭建完成：
+
+开发环境：python2.7.10 32位/pycharm5
+项目构建：virtualenv/virtualenvWrapper 虚拟运行环境；pip 依赖项管理；pyBuilder项目构建，其中pyBuilder以disutils">
 <meta property="og:type" content="article">
-<meta property="og:title" content="MacTalk·人生元编程">
-<meta property="og:url" content="http://geosmart.github.io/2015/07/21/MacTalk·人生元编程 - 副本/index.html">
+<meta property="og:title" content="Python学习笔记">
+<meta property="og:url" content="http://geosmart.github.io/2016/01/20/Python学习笔记/index.html">
 <meta property="og:site_name" content="Geosmart's Notes">
-<meta property="og:description" content="MacTalk·人生元编程
-生命中遇见的每一本书，都不是偶然">
-<meta property="og:updated_time" content="2016-01-02T12:14:18.831Z">
+<meta property="og:description" content="2016的元月以python作为开端。采用python进行网络数据聚合抽取，需调研并搭建python工程化开发框架，几番迭代，一个适用于数据采集的开发环境搭建完成：
+
+开发环境：python2.7.10 32位/pycharm5
+项目构建：virtualenv/virtualenvWrapper 虚拟运行环境；pip 依赖项管理；pyBuilder项目构建，其中pyBuilder以disutils">
+<meta property="og:updated_time" content="2016-01-21T02:04:43.312Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="MacTalk·人生元编程">
-<meta name="twitter:description" content="MacTalk·人生元编程
-生命中遇见的每一本书，都不是偶然">
+<meta name="twitter:title" content="Python学习笔记">
+<meta name="twitter:description" content="2016的元月以python作为开端。采用python进行网络数据聚合抽取，需调研并搭建python工程化开发框架，几番迭代，一个适用于数据采集的开发环境搭建完成：
+
+开发环境：python2.7.10 32位/pycharm5
+项目构建：virtualenv/virtualenvWrapper 虚拟运行环境；pip 依赖项管理；pyBuilder项目构建，其中pyBuilder以disutils">
 
 
 <script type="text/javascript" id="hexo.configuration">
@@ -63,7 +69,7 @@
   };
 </script>
 
-  <title> MacTalk·人生元编程 | Geosmart's Notes </title>
+  <title> Python学习笔记 | Geosmart's Notes </title>
 </head>
 
 <body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
@@ -217,7 +223,7 @@
           
           
             
-              MacTalk·人生元编程
+              Python学习笔记
             
           
         </h1>
@@ -226,19 +232,34 @@
       <div class="post-meta">
         <span class="post-time">
           发表于
-          <time itemprop="dateCreated" datetime="2015-07-21T09:15:20+08:00" content="21   July   2015">
-            21   July   2015
+          <time itemprop="dateCreated" datetime="2016-01-20T14:40:10+08:00" content="20   January   2016">
+            20   January   2016
           </time>
         </span>
 
+        
+          <span class="post-category" >
+            &nbsp; | &nbsp; 分类于
+            
+              <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
+                <a href="/categories/Python/" itemprop="url" rel="index">
+                  <span itemprop="name">Python</span>
+                </a>
+              </span>
+
+              
+              
+
+            
+          </span>
         
 
         
           
             <span class="post-comments-count">
               &nbsp; | &nbsp;
-              <a href="/2015/07/21/MacTalk·人生元编程 - 副本/#comments" itemprop="discussionUrl">
-                <span class="post-comments-count ds-thread-count" data-thread-key="2015/07/21/MacTalk·人生元编程 - 副本/" itemprop="commentsCount"></span>
+              <a href="/2016/01/20/Python学习笔记/#comments" itemprop="discussionUrl">
+                <span class="post-comments-count ds-thread-count" data-thread-key="2016/01/20/Python学习笔记/" itemprop="commentsCount"></span>
               </a>
             </span>
           
@@ -252,51 +273,86 @@
       
 
       
-        <span itemprop="articleBody"><p>MacTalk·人生元编程</p>
-<p>生命中遇见的每一本书，都不是偶然</p>
+        <span itemprop="articleBody"><p>2016的元月以python作为开端。<br>采用python进行网络数据聚合抽取，需调研并搭建python工程化开发框架，几番迭代，一个适用于数据采集的开发环境搭建完成：</p>
+<ul>
+<li>开发环境：python2.7.10 32位/pycharm5</li>
+<li>项目构建：virtualenv/virtualenvWrapper 虚拟运行环境；pip 依赖项管理；pyBuilder项目构建，其中pyBuilder以disutils用于项目打包</li>
+<li>项目文档：mkdocs/sphinx；参考<a href="http://docs.python-guide.org/en/latest/writing/documentation/">python-guide-writing</a></li>
+<li>Web框架：Tornado/web,py（非阻塞式web服务器，精简）；django（文档功能齐全，但生态封闭）</li>
+<li>单元测试：unittest/coverage(测试覆盖率统计)</li>
+<li>并行框架：gevent(多线程)+monkey patch(运行时动态替换模块)，multiprocessing(多进程)</li>
+<li>爬虫框架：scrapy/selenium</li>
+<li>接口设计： zope.interface</li>
+<li>编码风格：<a href="http://zh-google-styleguide.readthedocs.org/en/latest/google-python-styleguide/contents/">google-python-styleguide</a></li>
+</ul>
 <hr>
 <a id="more"></a>
-<h1 id="生命中遇见的每一本书，都不是偶然">生命中遇见的每一本书，都不是偶然</h1><p>2015-07-09 08:10:15<br>如果你问我是否取得了最后的成功，答案是‘当然没有！’如果是的话，生活将会变得令人厌烦。</p>
-<p>2015-07-09 08:10:42<br>我们是幸运的，因为我们的心灵是如此不可预知；正因为如此，生活才充满了情趣。尽管如此，我们仍在进行努力来科学地了解我们自身……”</p>
-<h1 id="怀念2007">怀念2007</h1><p>2015-07-09 10:58:44<br>一个产品从无到有是困难的，从有到精是艰难的，而当你站上一个巅峰之后，哪怕是做最微小的改进和提升，都需要花费大量的人力物力，同时还要承受失败的风险。我们都知道，从平庸到优秀是容易的，从优秀到卓越是痛苦的，可能很多人、公司穷尽一生都无法达到卓越的境地。</p>
-<h1 id="趣谈个人建站">趣谈个人建站</h1><p>2015-07-13 11:39:40<br>我们真的不能一心多用吗？或者说并发带给我们的到底是效率的提升还是状态的下降</p>
-<p>2015-07-13 11:43:30<br>任务的并行，上下文的切换，注意力的分散，都会让你的效率大打折扣，所以设计模式中的职责单一原则不是盖的，一个类尽可能只做一件事情，无论是效率还是后期维护都会好很多，人脑其实也是一样。</p>
-<p>2015-07-13 11:45:10</p>
-<ol>
-<li>简单任务的并发是大脑天生的nature，每个人都在不自觉的应用。</li>
-<li>在宽松的环境中让简单机械的任务和复杂有机的任务并行完成是非常不错的做法，提高效率节省时间。</li>
-<li>在高危环境中（驾驶、高空作业等等）我们应该专心致志的只做当前的工作。</li>
-<li>对于复杂任务，我们最好一件一件完成，即使有些人能够同时处理多重任务，那也需要长期的艰苦训练，比如郭靖君，你能否做到，就得看有没有周伯通那样的大哥！</li>
-</ol>
-<p>2015-07-13 11:47:17<br>大牛领会了返璞归真和万物生长的道理，知行合一，遇事抖抖衣袖，不溅起一片涟漪”</p>
-<p>2015-07-13 12:25:02<br>坊间流传，普通程序员用bash，文艺程序员用zsh，XX程序员直接用原生的sh，我建议大家文艺一点，用zsh好一些，功能也最强大。目前各个版本的Linux默认的shell都是bash，如果你想用zsh，需要安装一下，如下：<br>sudo apt-get install zsh<br>具体的配置我就不介绍了，感兴趣的读者，可以参考<a href="http://leeiio.me/bash-to-zsh-for-mac/">http://leeiio.me/bash-to-zsh-for-mac/</a></p>
-<p>2015-07-13 12:55:42<br>第一个十年我才华横溢，“贼光闪现”，令周边黯然失色；第二个十年，我终于“宝光现形”，不再去抢风头，反而与身边的美丽相得益彰；进入第三个十年，繁华落尽见真醇，我进入了“醇光初现”的阶段，真正体味到了境界之美。</p>
-<p>——台湾作家林清玄</p>
-<h1 id="锤子和钉子">锤子和钉子</h1><p>2015-07-20 08:15:26<br>Hater，这种人对自己不了解或没有勇气尝试的事物永远持否定态度，如果你发现一个人大部分时间在否定着什么，那么他们的意见不听也罢，甚至于那些鼓励的建议也仅仅是建议而已，仅供参考，因为最终不是那些提建议的人去做事和承担后果</p>
-<p>2015-07-21 08:10:42<br>所有人都是在试错中成长，那些不犯错的人充满了各种幻觉，其实是因为他不再成长了。</p>
-<p>2015-07-21 08:11:00<br>他们一定要给你泼冷水的。泼冷水的愿望之强烈，你无法想象。那种强烈借助了太多的力量：怀疑、嫉妒、恐惧、愤怒。而在表现的过程中却又包装上另外一层表皮：关怀、爱护、友爱、帮助。</p>
-<p>2015-07-21 08:13:44<br>不管是谈恋爱、做项目、创业、投资都会面临这沉没成本的问题，基本的句式就是『我们已经投入了这么多……』『我们已经走了这么远……』『我们已经牺牲了这么多……』。纠结于过去的沉没成本，会让人感到痛苦和犹豫不决，该放手时要放手，</p>
-<p>2015-07-21 08:15:36<br>你一直坚持着最后失败了，就是固执不懂变通。中途转向失败了，就是没有再坚持最后一公里。相反，如果你一直坚持着最后成事了，那就是无所畏惧一往无前；转向成功了，那就是灵活柔性随需应变。可见选择是一件多么艰难而奇妙的事。是沉没的成本还是沉默的坚持，都是你自己的判断和选择，有时候是命数，有时候是形式，只要是自己选择，接受就好了，只能这样。</p>
-<p>2015-07-21 22:48:25<br>曾经有位古人说过，如果你手里有一把锤子，所有东西看上去都像钉子。还有一位今人说过，如果你有一个钉子，就会满大街找锤子！</p>
-<p>多看笔记 来自多看阅读 for Kindle</p>
+<h1 id="pip源配置">pip源配置</h1><h2 id="临时换源">临时换源</h2><p>临时换源只在某一条命令中生效，只要在命令中加上”-i“，指定使用的源即可<code>pip install scrapy -i url</code>，<br>如安装pandas：<code>pip install -i  http://pypi.douban.com/simple  pandas --trusted-host pypi.douban.com</code></p>
+<h2 id="永久换源">永久换源</h2><p>要是想永久更改pip源，在pip的配置文件（~/.pip/pip.conf）中增加<br><figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">[global]&#10;index-url=http://pypi.douban.com/simple</span><br></pre></td></tr></table></figure></p>
+<h2 id="一些国内的pip源">一些国内的pip源</h2><figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">http://mirrors.aliyun.com/pypi/simple/ # &#38463;&#37324;&#20113;&#10;http://pypi.douban.com/simple  #&#35910;&#29923;&#10;http://pypi.hustunique.com/simple  #&#21326;&#20013;&#29702;&#24037;&#22823;&#23398;&#10;http://pypi.sdutlinux.org/simple  #&#23665;&#19996;&#29702;&#24037;&#22823;&#23398;&#10;http://pypi.mirrors.ustc.edu.cn/simple  #&#20013;&#22269;&#31185;&#23398;&#25216;&#26415;&#22823;&#23398;</span><br></pre></td></tr></table></figure>
+<h1 id="打包部署问题">打包部署问题</h1><p><a href="http://zengrong.net/post/2169.htm">python打包部署历史</a><br>distutils&gt;setuptools/easyinstall(<em>.egg)&gt;pip/wheel(</em>.whl)</p>
+<h2 id="pip">pip</h2><p>导出dependency:<code>pip freeze &gt; requirements.txt</code><br>安装dependency:<code>pip install -r requirements.txt</code></p>
+<h2 id="whl">whl</h2><p>二进制文件whl</p>
+<h2 id="如何cmd中运行开发的*-py程序模块">如何cmd中运行开发的*.py程序模块</h2><p>在site-packges目录新增*.pth文件，文件内容为项目路径，如：<code>E:\PythonWorkspace\test</code></p>
+<h1 id="virtualenv">virtualenv</h1><p>习惯了J2EE下的maven开发，对于python默认的module都安装到site-packages下的混乱不能理解，好在原来有virtualenv，它比maven本地repositoy库更具有独立性，当然冗余module是代价,好在python intepreter足够小巧。<br>virtualenv可以用来创建隔离的python环境 ，但新建出来的virtualenv都依赖本机安装的python底层dll等库。</p>
+<ul>
+<li>安装：<code>pip install virtualenv</code></li>
+<li>新建virtualEnv：<code>virtualenv --no-site-packages venv</code></li>
+<li>进入venvShel：<code>E:\PythonWorkspace\ugc\ugc_venv\Scripts\activate</code></li>
+</ul>
+<h2 id="问题记录">问题记录</h2><p>问题描述：执行<code>pip install MySQL-python</code>报错： <code>fatal error C1083: Cannot open include file: &#39;config-win.h&#39;: No such file or directory</code>或者报错<code>No module named MySQLdb</code><br>解决方案：从<code>C:\Python27\Lib\site-packages</code>复制mysql相关的文件到虚拟环境的site-packages目录</p>
+<h1 id="virtualenvwrapper">virtualenvwrapper</h1><p>virtualenv创建的环境都是零散的，而且还要执行cd，执行source 来激活环境。 如此繁琐十分影响工作效率，于是有了virtualenvwrapper。vw可以进行环境的管理，把创建的环境记录下来，并进行管理。</p>
+<h2 id="安装">安装</h2><ul>
+<li>linux：<code>pip install  virtualenvwrapper</code>  </li>
+<li>windows：<code>pip install virtualenvwrapper-win</code>  </li>
+</ul>
+<h2 id="配置">配置</h2><ul>
+<li>安装完毕过后在环境变量里面新建一个WORKON_HOME字段存储虚拟python环境,WORKON_HOME：<code>E:\PythonWorkspace\venv</code></li>
+<li>环境变量立即生效：cmd中运行<code>set WORKON_HOME=E:\PythonWorkspace\venv</code></li>
+</ul>
+<h2 id="常用命令">常用命令</h2><p>virtualenvwrapper运行bat默认安装在<code>C:\Python27\Scripts\*.bat</code></p>
+<ul>
+<li>创建虚拟环境:<code>mkvirtualenv VirtualenvName</code></li>
+<li>列出所有虚拟环境:<code>Lsvirtualenv</code></li>
+<li>移除虚拟环境:<code>rmvirtualenv VirtualenvName</code></li>
+<li>切换到VirtualenvName环境:<code>workon VirtualenvName</code></li>
+<li>退出当前虚拟环境:<code>deactivate</code></li>
+</ul>
+<h1 id="pybuilder">pybuilder</h1><p><a href="http://pybuilder.github.io/">pybuilder官网</a><br>经常在java/c#/javascript之间切着敲代码，今年又多了python这个数据分析神器，习惯了Maven约定俗成的构建环境，为了实现单元测试打包一体化的高效，于是决定采用pybuidler进行工程构建</p>
+<h2 id="安装-1">安装</h2><p>在venv环境安装：<code>pip install pybuilder</code></p>
+<h2 id="pybuilder项目目录结构">pybuilder项目目录结构</h2><p><code>src/main/python</code>：源码<br><code>src/main/scripts</code>：可执行脚本<br><code>src/main/unittest</code>：单元测试</p>
+<h2 id="常用命令-1">常用命令</h2><ul>
+<li>进入venvShell：<code>workon ugc.venv</code></li>
+<li>执行默认build文件：<code>pyb_.exe</code> (参考官方文档执行pyb报错，暂未找到办法)</li>
+<li>执行默认build文件，并打印unittest错误详情：<code>pyb_.exe -v</code></li>
+<li>新增测试项目：<code>pyb_.exe  --start-project</code></li>
+<li>发布：<code>pyb_.exe install_dependencies publish</code></li>
+</ul>
+<h2 id="问题记录-1">问题记录</h2><ul>
+<li>单元测试执行错误：<code>BUILD FAILED - &#39;module&#39; object has no attribute &#39;FileUtil_test</code></li>
+</ul>
 </span>
       
     </div>
 
     <footer class="post-footer">
       
+        <div class="post-tags">
+          
+            <a href="/tags/Python/" rel="tag">#Python</a>
+          
+        </div>
+      
 
       
         <div class="post-nav">
           <div class="post-nav-prev post-nav-item">
             
-              <a href="/2015/07/21/《谜踪之国》读书笔记/" rel="prev">《谜踪之国》读书笔记</a>
-            
           </div>
 
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2015/07/15/xmanager实现CentOS远程控制/" rel="next">xmanager实现CentOS远程控制</a>
+              <a href="/2015/12/29/MongoDB集群学习笔记/" rel="next">MongoDB集群学习笔记</a>
             
           </div>
         </div>
@@ -321,8 +377,8 @@
         
           <div class="comments" id="comments">
             
-              <div class="ds-thread" data-thread-key="2015/07/21/MacTalk·人生元编程 - 副本/"
-                   data-title="MacTalk·人生元编程" data-url="http://geosmart.github.io/2015/07/21/MacTalk·人生元编程 - 副本/">
+              <div class="ds-thread" data-thread-key="2016/01/20/Python学习笔记/"
+                   data-title="Python学习笔记" data-url="http://geosmart.github.io/2016/01/20/Python学习笔记/">
               </div>
             
           </div>
@@ -369,14 +425,14 @@
 
           <div class="site-state-item site-state-categories">
             <a href="/categories">
-              <span class="site-state-item-count">13</span>
+              <span class="site-state-item-count">14</span>
               <span class="site-state-item-name">分类</span>
               </a>
           </div>
 
           <div class="site-state-item site-state-tags">
             <a href="/tags">
-              <span class="site-state-item-count">51</span>
+              <span class="site-state-item-count">50</span>
               <span class="site-state-item-name">标签</span>
               </a>
           </div>
@@ -411,7 +467,7 @@
           <div class="post-toc">
             
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#生命中遇见的每一本书，都不是偶然"><span class="nav-number">1.</span> <span class="nav-text">生命中遇见的每一本书，都不是偶然</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#怀念2007"><span class="nav-number">2.</span> <span class="nav-text">怀念2007</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#趣谈个人建站"><span class="nav-number">3.</span> <span class="nav-text">趣谈个人建站</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#锤子和钉子"><span class="nav-number">4.</span> <span class="nav-text">锤子和钉子</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#pip源配置"><span class="nav-number">1.</span> <span class="nav-text">pip源配置</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#临时换源"><span class="nav-number">1.1.</span> <span class="nav-text">临时换源</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#永久换源"><span class="nav-number">1.2.</span> <span class="nav-text">永久换源</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#一些国内的pip源"><span class="nav-number">1.3.</span> <span class="nav-text">一些国内的pip源</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#打包部署问题"><span class="nav-number">2.</span> <span class="nav-text">打包部署问题</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#pip"><span class="nav-number">2.1.</span> <span class="nav-text">pip</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#whl"><span class="nav-number">2.2.</span> <span class="nav-text">whl</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#如何cmd中运行开发的*-py程序模块"><span class="nav-number">2.3.</span> <span class="nav-text">如何cmd中运行开发的*.py程序模块</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#virtualenv"><span class="nav-number">3.</span> <span class="nav-text">virtualenv</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#问题记录"><span class="nav-number">3.1.</span> <span class="nav-text">问题记录</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#virtualenvwrapper"><span class="nav-number">4.</span> <span class="nav-text">virtualenvwrapper</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#安装"><span class="nav-number">4.1.</span> <span class="nav-text">安装</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#配置"><span class="nav-number">4.2.</span> <span class="nav-text">配置</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#常用命令"><span class="nav-number">4.3.</span> <span class="nav-text">常用命令</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#pybuilder"><span class="nav-number">5.</span> <span class="nav-text">pybuilder</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#安装-1"><span class="nav-number">5.1.</span> <span class="nav-text">安装</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#pybuilder项目目录结构"><span class="nav-number">5.2.</span> <span class="nav-text">pybuilder项目目录结构</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#常用命令-1"><span class="nav-number">5.3.</span> <span class="nav-text">常用命令</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#问题记录-1"><span class="nav-number">5.4.</span> <span class="nav-text">问题记录</span></a></li></ol></li></ol></div>
             
           </div>
           <div class="post-toc-indicator-bottom post-toc-indicator"></div>
