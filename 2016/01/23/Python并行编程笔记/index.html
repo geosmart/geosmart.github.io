@@ -30,7 +30,7 @@
 
 
 
-  <meta name="keywords" content="Python," />
+  <meta name="keywords" content="Python,并行," />
 
 
 
@@ -41,25 +41,16 @@
   <link rel="shorticon icon" type="image/x-icon" href="/favicon.ico?v=0.4.5.1" />
 
 
-<meta name="description" content="2016的元月以python作为开端。采用python进行网络数据聚合抽取，需调研并搭建python工程化开发框架，几番迭代，一个适用于数据采集的开发环境搭建完成：
-
-开发环境：python2.7.10 32位/pycharm5
-项目构建：virtualenv/virtualenvWrapper 虚拟运行环境；pip 依赖项管理；pyBuilder项目构建，其中pyBuilder以disutils">
+<meta name="description" content="大数据时代，并发/并行是不变的话题，以并行计算来提高程序运行效率，可充分利用硬件资源（CPU，内存，磁盘/网络IO）。Python作为脚本语义，解释器简洁轻量，软件研发后无需编译且更新部署方便，对于实现一些类似爬取的工具简直不要太友好。">
 <meta property="og:type" content="article">
-<meta property="og:title" content="Python学习笔记">
-<meta property="og:url" content="http://geosmart.github.io/2016/01/20/Python学习笔记/index.html">
+<meta property="og:title" content="Python并行编程笔记">
+<meta property="og:url" content="http://geosmart.github.io/2016/01/23/Python并行编程笔记/index.html">
 <meta property="og:site_name" content="Geosmart's Notes">
-<meta property="og:description" content="2016的元月以python作为开端。采用python进行网络数据聚合抽取，需调研并搭建python工程化开发框架，几番迭代，一个适用于数据采集的开发环境搭建完成：
-
-开发环境：python2.7.10 32位/pycharm5
-项目构建：virtualenv/virtualenvWrapper 虚拟运行环境；pip 依赖项管理；pyBuilder项目构建，其中pyBuilder以disutils">
-<meta property="og:updated_time" content="2016-01-21T02:04:43.312Z">
+<meta property="og:description" content="大数据时代，并发/并行是不变的话题，以并行计算来提高程序运行效率，可充分利用硬件资源（CPU，内存，磁盘/网络IO）。Python作为脚本语义，解释器简洁轻量，软件研发后无需编译且更新部署方便，对于实现一些类似爬取的工具简直不要太友好。">
+<meta property="og:updated_time" content="2016-01-23T14:10:38.215Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="Python学习笔记">
-<meta name="twitter:description" content="2016的元月以python作为开端。采用python进行网络数据聚合抽取，需调研并搭建python工程化开发框架，几番迭代，一个适用于数据采集的开发环境搭建完成：
-
-开发环境：python2.7.10 32位/pycharm5
-项目构建：virtualenv/virtualenvWrapper 虚拟运行环境；pip 依赖项管理；pyBuilder项目构建，其中pyBuilder以disutils">
+<meta name="twitter:title" content="Python并行编程笔记">
+<meta name="twitter:description" content="大数据时代，并发/并行是不变的话题，以并行计算来提高程序运行效率，可充分利用硬件资源（CPU，内存，磁盘/网络IO）。Python作为脚本语义，解释器简洁轻量，软件研发后无需编译且更新部署方便，对于实现一些类似爬取的工具简直不要太友好。">
 
 
 <script type="text/javascript" id="hexo.configuration">
@@ -69,7 +60,7 @@
   };
 </script>
 
-  <title> Python学习笔记 | Geosmart's Notes </title>
+  <title> Python并行编程笔记 | Geosmart's Notes </title>
 </head>
 
 <body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
@@ -223,7 +214,7 @@
           
           
             
-              Python学习笔记
+              Python并行编程笔记
             
           
         </h1>
@@ -232,8 +223,8 @@
       <div class="post-meta">
         <span class="post-time">
           发表于
-          <time itemprop="dateCreated" datetime="2016-01-20T14:40:10+08:00" content="20   January   2016">
-            20   January   2016
+          <time itemprop="dateCreated" datetime="2016-01-23T18:51:43+08:00" content="23   January   2016">
+            23   January   2016
           </time>
         </span>
 
@@ -242,8 +233,8 @@
             &nbsp; | &nbsp; 分类于
             
               <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
-                <a href="/categories/Python/" itemprop="url" rel="index">
-                  <span itemprop="name">Python</span>
+                <a href="/categories/脚本工具/" itemprop="url" rel="index">
+                  <span itemprop="name">脚本工具</span>
                 </a>
               </span>
 
@@ -258,8 +249,8 @@
           
             <span class="post-comments-count">
               &nbsp; | &nbsp;
-              <a href="/2016/01/20/Python学习笔记/#comments" itemprop="discussionUrl">
-                <span class="post-comments-count ds-thread-count" data-thread-key="2016/01/20/Python学习笔记/" itemprop="commentsCount"></span>
+              <a href="/2016/01/23/Python并行编程笔记/#comments" itemprop="discussionUrl">
+                <span class="post-comments-count ds-thread-count" data-thread-key="2016/01/23/Python并行编程笔记/" itemprop="commentsCount"></span>
               </a>
             </span>
           
@@ -273,65 +264,11 @@
       
 
       
-        <span itemprop="articleBody"><p>2016的元月以python作为开端。<br>采用python进行网络数据聚合抽取，需调研并搭建python工程化开发框架，几番迭代，一个适用于数据采集的开发环境搭建完成：</p>
-<ul>
-<li>开发环境：python2.7.10 32位/pycharm5</li>
-<li>项目构建：virtualenv/virtualenvWrapper 虚拟运行环境；pip 依赖项管理；pyBuilder项目构建，其中pyBuilder以disutils用于项目打包</li>
-<li>项目文档：mkdocs/sphinx；参考<a href="http://docs.python-guide.org/en/latest/writing/documentation/">python-guide-writing</a></li>
-<li>Web框架：Tornado/web,py（非阻塞式web服务器，精简）；django（文档功能齐全，但生态封闭）</li>
-<li>单元测试：unittest/coverage(测试覆盖率统计)</li>
-<li>并行框架：gevent(多线程)+monkey patch(运行时动态替换模块)，multiprocessing(多进程)</li>
-<li>爬虫框架：scrapy/selenium</li>
-<li>接口设计： zope.interface</li>
-<li>编码风格：<a href="http://zh-google-styleguide.readthedocs.org/en/latest/google-python-styleguide/contents/">google-python-styleguide</a></li>
-</ul>
+        <span itemprop="articleBody"><p>大数据时代，并发/并行是不变的话题，以并行计算来提高程序运行效率，可充分利用硬件资源（CPU，内存，磁盘/网络IO）。Python作为脚本语义，解释器简洁轻量，软件研发后无需编译且更新部署方便，对于实现一些类似爬取的工具简直不要太友好。</p>
 <hr>
 <a id="more"></a>
-<h1 id="pip源配置">pip源配置</h1><h2 id="临时换源">临时换源</h2><p>临时换源只在某一条命令中生效，只要在命令中加上”-i“，指定使用的源即可<code>pip install scrapy -i url</code>，<br>如安装pandas：<code>pip install -i  http://pypi.douban.com/simple  pandas --trusted-host pypi.douban.com</code></p>
-<h2 id="永久换源">永久换源</h2><p>要是想永久更改pip源，在pip的配置文件（~/.pip/pip.conf）中增加<br><figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">[global]&#10;index-url=http://pypi.douban.com/simple</span><br></pre></td></tr></table></figure></p>
-<h2 id="一些国内的pip源">一些国内的pip源</h2><figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">http://mirrors.aliyun.com/pypi/simple/ # &#38463;&#37324;&#20113;&#10;http://pypi.douban.com/simple  #&#35910;&#29923;&#10;http://pypi.hustunique.com/simple  #&#21326;&#20013;&#29702;&#24037;&#22823;&#23398;&#10;http://pypi.sdutlinux.org/simple  #&#23665;&#19996;&#29702;&#24037;&#22823;&#23398;&#10;http://pypi.mirrors.ustc.edu.cn/simple  #&#20013;&#22269;&#31185;&#23398;&#25216;&#26415;&#22823;&#23398;</span><br></pre></td></tr></table></figure>
-<h1 id="打包部署问题">打包部署问题</h1><p><a href="http://zengrong.net/post/2169.htm">python打包部署历史</a><br>distutils&gt;setuptools/easyinstall(<em>.egg)&gt;pip/wheel(</em>.whl)</p>
-<h2 id="pip">pip</h2><p>导出dependency:<code>pip freeze &gt; requirements.txt</code><br>安装dependency:<code>pip install -r requirements.txt</code></p>
-<h2 id="whl">whl</h2><p>二进制文件whl</p>
-<h2 id="如何cmd中运行开发的*-py程序模块">如何cmd中运行开发的*.py程序模块</h2><p>在site-packges目录新增*.pth文件，文件内容为项目路径，如：<code>E:\PythonWorkspace\test</code></p>
-<h1 id="virtualenv">virtualenv</h1><p>习惯了J2EE下的maven开发，对于python默认的module都安装到site-packages下的混乱不能理解，好在原来有virtualenv，它比maven本地repositoy库更具有独立性，当然冗余module是代价,好在python intepreter足够小巧。<br>virtualenv可以用来创建隔离的python环境 ，但新建出来的virtualenv都依赖本机安装的python底层dll等库。</p>
-<ul>
-<li>安装：<code>pip install virtualenv</code></li>
-<li>新建virtualEnv：<code>virtualenv --no-site-packages venv</code></li>
-<li>进入venvShel：<code>E:\PythonWorkspace\ugc\ugc_venv\Scripts\activate</code></li>
-</ul>
-<h2 id="问题记录">问题记录</h2><p>问题描述：执行<code>pip install MySQL-python</code>报错： <code>fatal error C1083: Cannot open include file: &#39;config-win.h&#39;: No such file or directory</code>或者报错<code>No module named MySQLdb</code><br>解决方案：从<code>C:\Python27\Lib\site-packages</code>复制mysql相关的文件到虚拟环境的site-packages目录</p>
-<h1 id="virtualenvwrapper">virtualenvwrapper</h1><p>virtualenv创建的环境都是零散的，而且还要执行cd，执行source 来激活环境。 如此繁琐十分影响工作效率，于是有了virtualenvwrapper。vw可以进行环境的管理，把创建的环境记录下来，并进行管理。</p>
-<h2 id="安装">安装</h2><ul>
-<li>linux：<code>pip install  virtualenvwrapper</code>  </li>
-<li>windows：<code>pip install virtualenvwrapper-win</code>  </li>
-</ul>
-<h2 id="配置">配置</h2><ul>
-<li>安装完毕过后在环境变量里面新建一个WORKON_HOME字段存储虚拟python环境,WORKON_HOME：<code>E:\PythonWorkspace\venv</code></li>
-<li>环境变量立即生效：cmd中运行<code>set WORKON_HOME=E:\PythonWorkspace\venv</code></li>
-</ul>
-<h2 id="常用命令">常用命令</h2><p>virtualenvwrapper运行bat默认安装在<code>C:\Python27\Scripts\*.bat</code></p>
-<ul>
-<li>创建虚拟环境:<code>mkvirtualenv VirtualenvName</code></li>
-<li>列出所有虚拟环境:<code>Lsvirtualenv</code></li>
-<li>移除虚拟环境:<code>rmvirtualenv VirtualenvName</code></li>
-<li>切换到VirtualenvName环境:<code>workon VirtualenvName</code></li>
-<li>退出当前虚拟环境:<code>deactivate</code></li>
-</ul>
-<h1 id="pybuilder">pybuilder</h1><p><a href="http://pybuilder.github.io/">pybuilder官网</a><br>经常在java/c#/javascript之间切着敲代码，今年又多了python这个数据分析神器，习惯了Maven约定俗成的构建环境，为了实现单元测试打包一体化的高效，于是决定采用pybuidler进行工程构建</p>
-<h2 id="安装-1">安装</h2><p>在venv环境安装：<code>pip install pybuilder</code></p>
-<h2 id="pybuilder项目目录结构">pybuilder项目目录结构</h2><p><code>src/main/python</code>：源码<br><code>src/main/scripts</code>：可执行脚本<br><code>src/main/unittest</code>：单元测试</p>
-<h2 id="常用命令-1">常用命令</h2><ul>
-<li>进入venvShell：<code>workon ugc.venv</code></li>
-<li>执行默认build文件：<code>pyb_.exe</code> (参考官方文档执行pyb报错，暂未找到办法)</li>
-<li>执行默认build文件，并打印unittest错误详情：<code>pyb_.exe -v</code></li>
-<li>新增测试项目：<code>pyb_.exe  --start-project</code></li>
-<li>发布：<code>pyb_.exe install_dependencies publish</code></li>
-</ul>
-<h2 id="问题记录-1">问题记录</h2><ul>
-<li>单元测试执行错误：<code>BUILD FAILED - &#39;module&#39; object has no attribute &#39;FileUtil_test</code></li>
-</ul>
-</span>
+<h1 id="python线程">python线程</h1><h2 id="threading">threading</h2><h1 id="python协程">python协程</h1><p>协程，又称微线程，纤程。英文名Coroutine。</p>
+<h2 id="生产者-消费者模型">生产者-消费者模型</h2><h1 id="python多线程">python多线程</h1><h2 id="gevent">gevent</h2><h2 id="monkey-patch">monkey.patch</h2><h1 id="python多进程">python多进程</h1><h2 id="multiprocessing">multiprocessing</h2></span>
       
     </div>
 
@@ -340,6 +277,8 @@
         <div class="post-tags">
           
             <a href="/tags/Python/" rel="tag">#Python</a>
+          
+            <a href="/tags/并行/" rel="tag">#并行</a>
           
         </div>
       
@@ -352,7 +291,7 @@
 
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2015/12/29/MongoDB集群学习笔记/" rel="next">MongoDB集群学习笔记</a>
+              <a href="/2016/01/20/搭建Python工程化开发框架/" rel="next">搭建Python工程化开发框架</a>
             
           </div>
         </div>
@@ -377,8 +316,8 @@
         
           <div class="comments" id="comments">
             
-              <div class="ds-thread" data-thread-key="2016/01/20/Python学习笔记/"
-                   data-title="Python学习笔记" data-url="http://geosmart.github.io/2016/01/20/Python学习笔记/">
+              <div class="ds-thread" data-thread-key="2016/01/23/Python并行编程笔记/"
+                   data-title="Python并行编程笔记" data-url="http://geosmart.github.io/2016/01/23/Python并行编程笔记/">
               </div>
             
           </div>
@@ -418,7 +357,7 @@
         <nav class="site-state motion-element">
           <div class="site-state-item site-state-posts">
             <a href="/archives">
-              <span class="site-state-item-count">50</span>
+              <span class="site-state-item-count">51</span>
               <span class="site-state-item-name">日志</span>
             </a>
           </div>
@@ -432,7 +371,7 @@
 
           <div class="site-state-item site-state-tags">
             <a href="/tags">
-              <span class="site-state-item-count">50</span>
+              <span class="site-state-item-count">51</span>
               <span class="site-state-item-name">标签</span>
               </a>
           </div>
@@ -467,7 +406,7 @@
           <div class="post-toc">
             
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#pip源配置"><span class="nav-number">1.</span> <span class="nav-text">pip源配置</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#临时换源"><span class="nav-number">1.1.</span> <span class="nav-text">临时换源</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#永久换源"><span class="nav-number">1.2.</span> <span class="nav-text">永久换源</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#一些国内的pip源"><span class="nav-number">1.3.</span> <span class="nav-text">一些国内的pip源</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#打包部署问题"><span class="nav-number">2.</span> <span class="nav-text">打包部署问题</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#pip"><span class="nav-number">2.1.</span> <span class="nav-text">pip</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#whl"><span class="nav-number">2.2.</span> <span class="nav-text">whl</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#如何cmd中运行开发的*-py程序模块"><span class="nav-number">2.3.</span> <span class="nav-text">如何cmd中运行开发的*.py程序模块</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#virtualenv"><span class="nav-number">3.</span> <span class="nav-text">virtualenv</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#问题记录"><span class="nav-number">3.1.</span> <span class="nav-text">问题记录</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#virtualenvwrapper"><span class="nav-number">4.</span> <span class="nav-text">virtualenvwrapper</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#安装"><span class="nav-number">4.1.</span> <span class="nav-text">安装</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#配置"><span class="nav-number">4.2.</span> <span class="nav-text">配置</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#常用命令"><span class="nav-number">4.3.</span> <span class="nav-text">常用命令</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#pybuilder"><span class="nav-number">5.</span> <span class="nav-text">pybuilder</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#安装-1"><span class="nav-number">5.1.</span> <span class="nav-text">安装</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#pybuilder项目目录结构"><span class="nav-number">5.2.</span> <span class="nav-text">pybuilder项目目录结构</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#常用命令-1"><span class="nav-number">5.3.</span> <span class="nav-text">常用命令</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#问题记录-1"><span class="nav-number">5.4.</span> <span class="nav-text">问题记录</span></a></li></ol></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#python线程"><span class="nav-number">1.</span> <span class="nav-text">python线程</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#threading"><span class="nav-number">1.1.</span> <span class="nav-text">threading</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#python协程"><span class="nav-number">2.</span> <span class="nav-text">python协程</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#生产者-消费者模型"><span class="nav-number">2.1.</span> <span class="nav-text">生产者-消费者模型</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#python多线程"><span class="nav-number">3.</span> <span class="nav-text">python多线程</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#gevent"><span class="nav-number">3.1.</span> <span class="nav-text">gevent</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#monkey-patch"><span class="nav-number">3.2.</span> <span class="nav-text">monkey.patch</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#python多进程"><span class="nav-number">4.</span> <span class="nav-text">python多进程</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#multiprocessing"><span class="nav-number">4.1.</span> <span class="nav-text">multiprocessing</span></a></li></ol></li></ol></div>
             
           </div>
           <div class="post-toc-indicator-bottom post-toc-indicator"></div>
