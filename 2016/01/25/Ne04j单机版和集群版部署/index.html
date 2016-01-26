@@ -41,28 +41,16 @@
   <link rel="shorticon icon" type="image/x-icon" href="/favicon.ico?v=0.4.5.1" />
 
 
-<meta name="description" content="部署Ne04j单机版(windows)java se 8安装java se 8下载安装java se8并临时设置环境变量：set JAVA_HOME=E:\Software\jdk8x64\jre1.8
-下载Neo4j-3.0.0neo4j-enterprise-3.0.0-M02-windows
-Neo4j Browser
-运行bin\Neo4j.bat
-在浏览器打开Neo4j的在线REPL，即">
+<meta name="description" content="Neo4j HA(Neo4j High Availability)，高可用性主要指其包含容错机制和可进行水平扩展，即Neo4j Cluster">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Ne04j单机版和集群版部署">
 <meta property="og:url" content="http://geosmart.github.io/2016/01/25/Ne04j单机版和集群版部署/index.html">
 <meta property="og:site_name" content="Geosmart's Notes">
-<meta property="og:description" content="部署Ne04j单机版(windows)java se 8安装java se 8下载安装java se8并临时设置环境变量：set JAVA_HOME=E:\Software\jdk8x64\jre1.8
-下载Neo4j-3.0.0neo4j-enterprise-3.0.0-M02-windows
-Neo4j Browser
-运行bin\Neo4j.bat
-在浏览器打开Neo4j的在线REPL，即">
-<meta property="og:updated_time" content="2016-01-25T09:39:28.995Z">
+<meta property="og:description" content="Neo4j HA(Neo4j High Availability)，高可用性主要指其包含容错机制和可进行水平扩展，即Neo4j Cluster">
+<meta property="og:updated_time" content="2016-01-26T12:10:40.575Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Ne04j单机版和集群版部署">
-<meta name="twitter:description" content="部署Ne04j单机版(windows)java se 8安装java se 8下载安装java se8并临时设置环境变量：set JAVA_HOME=E:\Software\jdk8x64\jre1.8
-下载Neo4j-3.0.0neo4j-enterprise-3.0.0-M02-windows
-Neo4j Browser
-运行bin\Neo4j.bat
-在浏览器打开Neo4j的在线REPL，即">
+<meta name="twitter:description" content="Neo4j HA(Neo4j High Availability)，高可用性主要指其包含容错机制和可进行水平扩展，即Neo4j Cluster">
 
 
 <script type="text/javascript" id="hexo.configuration">
@@ -276,12 +264,15 @@ Neo4j Browser
       
 
       
-        <span itemprop="articleBody"><h1 id="部署Ne04j单机版(windows)">部署Ne04j单机版(windows)</h1><h2 id="java_se_8安装">java se 8安装</h2><p><a href="http://download.oracle.com/otn-pub/java/jdk/8u71-b15/jdk-8u71-windows-x64.exe?AuthParam=1453700621_44741e28a0fd105dbfea10bad65c95b3">java se 8下载</a><br>安装java se8并临时设置环境变量：<code>set JAVA_HOME=E:\Software\jdk8x64\jre1.8</code></p>
+        <span itemprop="articleBody"><p>Neo4j HA(Neo4j High Availability)，高可用性主要指其包含容错机制和可进行水平扩展，即Neo4j Cluster</p>
+<hr>
+<a id="more"></a>
+<h1 id="部署Ne04j单机版(windows)">部署Ne04j单机版(windows)</h1><h2 id="java_se_8安装">java se 8安装</h2><p><a href="http://download.oracle.com/otn-pub/java/jdk/8u71-b15/jdk-8u71-windows-x64.exe?AuthParam=1453700621_44741e28a0fd105dbfea10bad65c95b3">java8下载</a><br>安装java se8后，并临时设置环境变量：<code>set JAVA_HOME=E:\Software\jdk8x64\jre1.8</code>（避免与本机java7冲突）</p>
 <h2 id="下载Neo4j-3-0-0">下载Neo4j-3.0.0</h2><p><a href="http://neo4j.com/artifact.php?name=neo4j-enterprise-3.0.0-M02-windows.zip">neo4j-enterprise-3.0.0-M02-windows</a></p>
 <h2 id="Neo4j_Browser">Neo4j Browser</h2><ul>
-<li>运行bin\Neo4j.bat</li>
-<li>在浏览器打开Neo4j的在线REPL，即<a href="http://localhost:7474/">Neo4j Browser</a></li>
-<li>在命令行输入Cypher query语句进行查询</li>
+<li>运行bin\Neo4j.bat，如<code>cd F:\Dev\neo4j-enterprise-3.0.0-M02\bin &amp;&amp; Neo4j.bat</code></li>
+<li>在浏览器打开Neo4j的在线REPL，即<a href="http://localhost:7474/">Neo4j Browser</a>,在命令行输入Cypher query语句进行查询</li>
+<li>在浏览器打开<a href="http://localhost:7474/webadmin/#/info/">Neo4j Guide</a>了解Neo4j</li>
 </ul>
 <h2 id="Neo4j_Browser常用脚本">Neo4j Browser常用脚本</h2><p>:help 帮助<br>shift+enter 多行书写<br>ctrl+enter 执行<br>:clear 清空执行结果<br>:play 打开入门教程</p>
 <h1 id="部署Neo4j集群(Linux)">部署Neo4j集群(Linux)</h1><p><a href="http://neo4j.com/docs/3.0.0-M02/">neo4j manual doc</a><br>Neo4j HA has been designed to make the transition from single machine to multi machine operation simple, by not having to change the already existing application.<br>Consider an existing application with Neo4j embedded and running on a single machine. To deploy such an application in a multi machine setup the only required change is to switch the creation of the GraphDatabaseService from GraphDatabaseFactory to HighlyAvailableGraphDatabaseFactory. Since both implement the same interface, no additional changes are required.</p>

@@ -49,7 +49,7 @@
 <meta property="og:site_name" content="Geosmart's Notes">
 <meta property="og:description" content="关于MavenMaven是基于项目对象模型(POM)，可以通过一小段描述信息来管理项目的构建，报告和文档的软件项目管理工具。  
 本文记录Maven开发过程中常用的脚本和遇到的问题。">
-<meta property="og:updated_time" content="2015-11-27T11:59:01.343Z">
+<meta property="og:updated_time" content="2016-01-26T04:33:38.156Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Maven使用笔记">
 <meta name="twitter:description" content="关于MavenMaven是基于项目对象模型(POM)，可以通过一小段描述信息来管理项目的构建，报告和文档的软件项目管理工具。  
@@ -271,12 +271,12 @@
 <p>本文记录Maven开发过程中常用的脚本和遇到的问题。</p>
 <hr>
 <a id="more"></a>
-<h1 id="Maven_Dependency">Maven Dependency</h1><p>在POM 4中，<dependency>中还引入了<scope>，它主要管理依赖的部署。目前<scope>可以使用5个值： </p>
-<pre><code><span class="bullet">* </span>compile，缺省值，适用于所有阶段，会随着项目一起发布。 
-<span class="bullet">* </span>provided，类似compile，期望JDK、容器或使用者会提供这个依赖。如servlet.jar。 
-<span class="bullet">* </span>runtime，只在运行时使用，如JDBC驱动，适用运行和测试阶段。 
-<span class="bullet">* </span>test，只在测试时使用，用于编译和运行测试代码。不会随项目发布。 
-<span class="bullet">* </span>system，类似provided，需要显式提供包含依赖的jar，Maven不会在Repository中查找它。 
+<h1 id="Maven_Dependency">Maven Dependency</h1><p>在POM 4中，<dependency>中还引入了<scope>，它主要管理依赖的部署。目前<scope>可以使用5个值：</p>
+<pre><code><span class="bullet">* </span>compile，缺省值，适用于所有阶段，会随着项目一起发布。
+<span class="bullet">* </span>provided，类似compile，期望JDK、容器或使用者会提供这个依赖。如servlet.jar。
+<span class="bullet">* </span>runtime，只在运行时使用，如JDBC驱动，适用运行和测试阶段。
+<span class="bullet">* </span>test，只在测试时使用，用于编译和运行测试代码。不会随项目发布。
+<span class="bullet">* </span>system，类似provided，需要显式提供包含依赖的jar，Maven不会在Repository中查找它。
 </code></pre><h1 id="Maven常用指令">Maven常用指令</h1><p><code>package</code>：打包<br><code>war:exploded</code>：编译不生成war包<br><code>install</code>：安装到本地资源库<br>     eg：<code>mvn install:install-file -Dfile=lt.util-1.0.jar -DgroupId=com.lt -DartifactId=util -Dversion=1.0 -Dpackaging=jar</code><br><code>process-resources</code>：编译并打包资源<br>新建项目：<code>mvn archetype:generate -DgroupId=com.lt -DartifactId=uadb.etl -DarchetypeArtifactIdmaven-archetype-webapp -DinteractiveMode=false</code></p>
 <h1 id="maven_dependency_exclusion">maven dependency exclusion</h1><h1 id="maven远程库">maven远程库</h1><ul>
 <li><p><a href="https://search.maven.org/#search">https://search.maven.org/#search</a></p>
@@ -299,7 +299,7 @@
 <li>本地库有改jar包但是依旧无法编译<br>本地下载的Zip已损坏，删除本地库中的jar文件和目录，重新从远处库下载</li>
 </ul>
 <ul>
-<li>远程库只能下载索引，不能下载jar！<br>日志：The container ‘Maven Dependencies’ references non existing library ‘D:\soft\Maven\Maven-Respository\org\apache\ant\ant\1.9.3\ant-1.9.3.jar’</li>
+<li>远程库只能下载索引，不能下载jar！<br>日志：The container ‘Maven Dependencies’ references non existing library ‘D:\soft\Maven\Maven-Respository\org\apache\ant\ant\1.9.3\ant-1.9.3.jar’<br>解决：<br>So I get you are using Eclipse with the M2E plugin. Try to update your Maven configuration : In the Project Explorer, right-click on the project, Maven -&gt; Update project.<br>If the problem still remains, try to clean your project: right-click on your pom.xml, Run as -&gt; Maven build (the second one). Enter “clean package” in the Goals fields. Check the Skip Tests box. Click on the Run button.</li>
 </ul>
 </span>
       

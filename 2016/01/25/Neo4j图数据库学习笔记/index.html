@@ -50,7 +50,7 @@
 <meta property="og:image" content="http://geosmart.github.io/query_template_create.png">
 <meta property="og:image" content="http://geosmart.github.io/sns.png">
 <meta property="og:image" content="http://geosmart.github.io/query_template_find.png">
-<meta property="og:updated_time" content="2016-01-25T09:38:25.869Z">
+<meta property="og:updated_time" content="2016-01-26T14:35:53.281Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Neo4j图数据库学习笔记">
 <meta name="twitter:description" content="Explore the World of Graphs – From Query Efficiency to Business Performance">
@@ -270,14 +270,67 @@
         <span itemprop="articleBody"><p>Explore the World of Graphs – From Query Efficiency to Business Performance</p>
 <hr>
 <a id="more"></a>
-<h1 id="关于图形数据库">关于图形数据库</h1><p>图形数据库是一种非关系型数据库，它应用图形理论存储实体之间的关系信息。最常见的一个例子，就是社会网络中人与人之间的关系。关系型数据库用于存储“关系型”数据的效果并不好，其查询复杂、缓慢、超出预期，而图形数据库的独特设计恰恰弥补了这个缺陷。<br>当前有流行图形数据库：Neo4j、FlockDB、AllegroGraph、GraphDB、InfiniteGraph、OrientDB、InfoGrid和HypergraphDB等等</p>
-<h1 id="Neo4j简介">Neo4j简介</h1><p><a href="http://neo4j.com/docs/3.0.0-M02/introduction.html">官方introduction</a><br><a href="http://neo4j.com/">Neo4j</a>是一个用Java实现、完全兼容ACID的图形数据库。数据以一种针对图形网络进行过优化的格式保存在磁盘上。Neo4j的内核是一种极快的图形引擎，具有数据库产品期望的所有特性，如恢复、两阶段提交、符合XA等。自2003年起，Neo4j就已经被作为24/7的产品使用。<br>Neo4j是目前主流的一个图数据库，相比传统的关系型数据库，它可以快速的进行基于人际社交网络类的查询查询和检索;它同时提供了cypher语言来方便进行图数据库的操作和查询，该查询语言类似SQL语言。</p>
+<h1 id="关于图形数据库">关于图形数据库</h1><p>图形数据库是一种非关系型数据库，它应用图形理论存储实体之间的关系信息。最常见的一个例子，就是社会网络中人与人之间的关系。</p>
+<ul>
+<li>当前有流行图形数据库：Neo4j、FlockDB、AllegroGraph、GraphDB、InfiniteGraph、OrientDB、InfoGrid和HypergraphDB等等</li>
+<li>关系型数据库用于存储“关系型”数据的效果并不好，其查询复杂、缓慢、超出预期，而图形数据库的独特设计恰恰弥补了这个缺陷。  </li>
+</ul>
+<h1 id="Neo4j简介">Neo4j简介</h1><p><a href="http://neo4j.com/docs/3.0.0-M02/introduction.html">官方introduction</a><br><a href="http://www.infoq.com/articles/full-stack-web-development-using-neo4j">参考full-stack-web-development-using-neo4j</a><br><a href="http://neo4j.com/">Neo4j</a>是一个用Java实现、完全兼容ACID的图形数据库。数据以一种针对图形网络进行过优化的格式保存在磁盘上。Neo4j的内核是一种极快的图形引擎，具有数据库产品期望的所有特性，如恢复、两阶段提交、符合XA等。自2003年起，Neo4j就已经被作为24/7的产品使用。<br>Neo4j是目前主流的一个图数据库，相比传统的关系型数据库，它可以快速的进行基于人际社交网络类的查询查询和检索;它同时提供了cypher语言来方便进行图数据库的操作和查询，该查询语言类似SQL语言。<br>Neo4j的数据并非保存在表或集合中，而是保存为节点以及节点之间的关系。在Neo4j中，节点以及关系都能够包含保存值的属性，此外：</p>
+<ul>
+<li>可以为节点设置零或多个标签（例如Author或Book）</li>
+<li>每个关系都对应一种类型（例如WROTE或FRIEND_OF）</li>
+<li>关系总是从一个节点指向另一个节点（但可以在不考虑指向性的情况下进行查询）</li>
+</ul>
+<h1 id="为什么要选择Neo4j？">为什么要选择Neo4j？</h1><p>在考虑为web应用选择某个数据库时，我们需要考虑对它有哪些方面的期望，其中最重要的一些条件包括：</p>
+<ul>
+<li>它是否易于使用？</li>
+<li>它是否允许你方便地回应对需求的变更？</li>
+<li>它是否支持高性能查询？</li>
+<li>是否能够方便地对其进行数据建模？</li>
+<li>它是否支持事务？</li>
+<li>它是否支持大规模应用？</li>
+<li>它是否足够有趣（很遗憾的是对于数据库的这方面要求经常被忽略）？</li>
+</ul>
+<p>从这以下几个方面来说，Neo4j是一个合适的选择。Neo4j……</p>
+<ul>
+<li>自带一套易于学习的查询语言（名为Cypher）</li>
+<li>不使用schema，因此可以满足你的任何形式的需求</li>
+<li>与关系型数据库相比，对于高度关联的数据（图形数据）的查询快速要快上许多</li>
+<li>它的实体与关系结构非常自然地切合人类的直观感受</li>
+<li>支持兼容ACID的事务操作</li>
+<li>提供了一个高可用性模型，以支持大规模数据量的查询，支持备份、数据局部性以及冗余</li>
+<li>提供了一个可视化的查询控制台，你不会对它感到厌倦的</li>
+</ul>
+<h1 id="什么时候不应使用Neo4j？">什么时候不应使用Neo4j？</h1><p>作为一个图形NoSQL数据库，Neo4j提供了大量的功能，但没有什么解决方案是完美的。在以下这些用例中，Neo4j就不是非常适合的选择：</p>
+<ul>
+<li>记录大量基于事件的数据（例如日志条目或传感器数据）</li>
+<li>对大规模分布式数据进行处理，类似于Hadoop</li>
+<li>二进制数据存储</li>
+<li>适合于保存在关系型数据库中的结构化数据</li>
+</ul>
+<p>虽然Neo4j也能够处理“大数据”，但它毕竟不是Hadoop、HBase或Cassandra，通常来说不会在Neo4j数据库中直接处理海量数据（以PB为单位）的分析。但如果你乐于提供关于某个实体及其相邻数据关系（比如你可以提供一个web页面或某个API返回其结果），那么它是一种良好的选择。无论是简单的CRUD访问，或是复杂的、深度嵌套的资源视图都能够胜任。</p>
+<p>虽然关系型数据库对于保存结构化数据来说依然是最佳的选择，但NoSQL数据库更适合于管理半结构化数据、非结构化数据以及图形数据。如果数据模型中包括大量的关联数据，并且希望使用一种直观的、有趣的并且快速的数据库进行开发，那么可以考虑尝试Neo4j。</p>
 <h1 id="Neo4j图模型">Neo4j图模型</h1><p>Neo4J中的图形模型要点：Nodes与Relationships可以被赋予Properties(key-value); Nodes可按label分组；Relationships可赋予direction和type并最终构成数据形态；Neo4j可存储10亿级别的数据量<br>Neo4J使用以下索引机制：一个超级参考节点通过一条特殊类别的边线“REFERENCE”与所有节点相连。这实际上允许创建多个索引，借以通过不同的边线类别对其加以区分。Neo4J还提供了一些特殊功能，如列出特定节点的相邻诸节点或是两节点间长度最短的诸类路径等。注意要使用上述各类“遍历”功能，Neo4J要求指定路径中经过的边线类别。</p>
 <h1 id="版本">版本</h1><p>enterprise和community公共特性<br><figure class="highlight mathematica"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">Property</span> <span class="keyword">Graph</span> Model</span><br><span class="line">Native <span class="keyword">Graph</span> Processing &amp; Storage</span><br><span class="line">ACID</span><br><span class="line">Cypher – <span class="keyword">Graph</span> Query <span class="keyword">Language</span></span><br><span class="line"><span class="keyword">Language</span> Drivers most popular languages</span><br><span class="line">REST API</span><br><span class="line">High-Performance Native API</span><br><span class="line">HTTPS (via Plug-in)</span><br></pre></td></tr></table></figure></p>
 <p>enterprise性能扩展特性<br><figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">Enterprise <span class="operator"><span class="keyword">Lock</span> Manager</span><br><span class="line"><span class="keyword">Cache</span> Sharding</span><br><span class="line">Clustered Replication</span><br><span class="line">Cypher <span class="keyword">Query</span> Tracing</span><br><span class="line">Property Existence <span class="keyword">Constraints</span></span><br><span class="line">Hot Backups</span><br><span class="line">Advanced Monitoring</span></span><br></pre></td></tr></table></figure></p>
 <h1 id="嵌入式使用">嵌入式使用</h1><p>可不必将Neo4J作为软件加以安装。可在项目中导入JAR文件来建立嵌入式图形数据库，该操作将在硬盘上建立对应的目录，类似sqlite。</p>
 <h1 id="High_Availability">High Availability</h1><p>Neo4j HA(Neo4j High Availability)，高可用性主要指其包含容错机制和可进行水平扩展，即Neo4j Cluster</p>
-<h1 id="Neo4j相关技术选型">Neo4j相关技术选型</h1><h2 id="Spring_Data_for_Neo4j">Spring Data for Neo4j</h2><h1 id="Cypher">Cypher</h1><p>Cypher(Neo4j’s graph query language)，类似SQL</p>
+<h1 id="Neo4j相关技术选型">Neo4j相关技术选型</h1><p>所有主流的编程语言都通过HTTP_API的方式支持Neo4j，或者采用基本的HTTP类库，或是通过某些原生的类库提供更高层的抽象。此外，由于Neo4j是以Java语言编写的，因此所有包含JVM接口的语言都能够充分利用Neo4j中的高性能API。</p>
+<p>Neo4j本身也提供了一个“技术栈”，它允许你选择不同的访问方式，包括简单访问乃至原生性能等等。它提供的特性包括：</p>
+<ul>
+<li>通过一个HTTP API执行Cypher查询，并获取JSON格式的结果</li>
+<li>一种“非托管扩展”机制，允许你为Neo4j数据库编写自己的终结点</li>
+<li>通过一个高层Java API指定节点与关系的遍历</li>
+<li>通过一个低层的批量加载API处理海量初始数据的获取</li>
+<li>通过一个核心Java API直接访问节点与关系，以获得最大的性能</li>
+</ul>
+<h2 id="Spring_Data_for_Neo4j">Spring Data for Neo4j</h2><p><a href="http://docs.spring.io/spring-data/data-neo4j/docs/4.0.0.RELEASE/api/">doc-api</a><br><a href="http://docs.spring.io/spring-data/data-neo4j/docs/4.0.0.RELEASE/reference/html/">The Spring Data Neo4j Guide Book</a><br><a href="">demo</a></p>
+<ul>
+<li>spring-data-neo4j<br>Spring Data Neo4j</li>
+<li>spring-data-neo4j-rest<br>pring Data Neo4j Wrapper for the Neo4j REST API, provides a Graph Database proxy for the remote invocation</li>
+<li>spring-data-neo4j-aspects<br>Advanced Mapping support for Spring Data Neo4j</li>
+</ul>
+<h1 id="Cypher">Cypher</h1><p>Cypher(Neo4j’s graph query language)，类似SQL<br>Cypher为ASCII风格的语法，它在括号内表示节点名称，并用箭头表示一个节点指向另一个节点的关系。Cypher通过这种方式允许你匹配某个指定的子图形模式。</p>
 <h2 id="Create">Create</h2><p>Create(Create Nodes and Relationships)<br><img src="query_template_create.png" alt="create模版"><br><figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">CREATE (ee:Person &#123; name: &#34;Emil&#34;, from: &#34;Sweden&#34;, klout: 99 &#125;)&#10;# () parenthesis to indicate a node&#10;# ee:Person a variable &#39;ee&#39; and label &#39;Person&#39; for the new node&#10;# &#123;&#125; brackets to add properties to the node&#10;&#10;CREATE&#22810;&#20010;Nodes&#21644;Relationships&#10;MATCH (ee:Person) where ee.name = &#34;Emil&#34;&#10;CREATE (js:Person &#123; name: &#34;Johan&#34;, from: &#34;Sweden&#34;, learn: &#34;surfing&#34; &#125;),&#10;(ir:Person &#123; name: &#34;Ian&#34;, from: &#34;England&#34;, title: &#34;author&#34; &#125;),&#10;(rvb:Person &#123; name: &#34;Rik&#34;, from: &#34;Belgium&#34;, pet: &#34;Orval&#34; &#125;),&#10;(ally:Person &#123; name: &#34;Allison&#34;, from: &#34;California&#34;, hobby: &#34;surfing&#34; &#125;),&#10;(ee)-[:KNOWS &#123;since: 2001&#125;]-&#62;(js),(ee)-[:KNOWS &#123;rating: 5&#125;]-&#62;(ir),&#10;(js)-[:KNOWS]-&#62;(ir),(js)-[:KNOWS]-&#62;(rvb),&#10;(ir)-[:KNOWS]-&#62;(js),(ir)-[:KNOWS]-&#62;(ally),&#10;(rvb)-[:KNOWS]-&#62;(ally)</span><br></pre></td></tr></table></figure></p>
 <p><img src="sns.png" alt="sns graph"></p>
 <h2 id="MATCH">MATCH</h2><p>MATCH(Finding nodes)<br><figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">MATCH (ee:Person) WHERE ee.name = "Emil" RETURN ee;</span><br><span class="line"># (ee:Person) a single node pattern with label 'Person' which will assign matches to the variable 'ee'</span><br><span class="line"># WHERE clause to constrain the results</span><br><span class="line"># ee.name = "Emil" compares name property to the value "Emil"</span><br><span class="line"># RETURN clause used to request particular results</span><br></pre></td></tr></table></figure></p>
@@ -423,7 +476,7 @@
           <div class="post-toc">
             
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#关于图形数据库"><span class="nav-number">1.</span> <span class="nav-text">关于图形数据库</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Neo4j简介"><span class="nav-number">2.</span> <span class="nav-text">Neo4j简介</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Neo4j图模型"><span class="nav-number">3.</span> <span class="nav-text">Neo4j图模型</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#版本"><span class="nav-number">4.</span> <span class="nav-text">版本</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#嵌入式使用"><span class="nav-number">5.</span> <span class="nav-text">嵌入式使用</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#High_Availability"><span class="nav-number">6.</span> <span class="nav-text">High Availability</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Neo4j相关技术选型"><span class="nav-number">7.</span> <span class="nav-text">Neo4j相关技术选型</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#Spring_Data_for_Neo4j"><span class="nav-number">7.1.</span> <span class="nav-text">Spring Data for Neo4j</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Cypher"><span class="nav-number">8.</span> <span class="nav-text">Cypher</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#Create"><span class="nav-number">8.1.</span> <span class="nav-text">Create</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#MATCH"><span class="nav-number">8.2.</span> <span class="nav-text">MATCH</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Pattern_matching"><span class="nav-number">8.3.</span> <span class="nav-text">Pattern matching</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Recomennd"><span class="nav-number">8.4.</span> <span class="nav-text">Recomennd</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Analyze"><span class="nav-number">8.5.</span> <span class="nav-text">Analyze</span></a></li></ol></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#关于图形数据库"><span class="nav-number">1.</span> <span class="nav-text">关于图形数据库</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Neo4j简介"><span class="nav-number">2.</span> <span class="nav-text">Neo4j简介</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#为什么要选择Neo4j？"><span class="nav-number">3.</span> <span class="nav-text">为什么要选择Neo4j？</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#什么时候不应使用Neo4j？"><span class="nav-number">4.</span> <span class="nav-text">什么时候不应使用Neo4j？</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Neo4j图模型"><span class="nav-number">5.</span> <span class="nav-text">Neo4j图模型</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#版本"><span class="nav-number">6.</span> <span class="nav-text">版本</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#嵌入式使用"><span class="nav-number">7.</span> <span class="nav-text">嵌入式使用</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#High_Availability"><span class="nav-number">8.</span> <span class="nav-text">High Availability</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Neo4j相关技术选型"><span class="nav-number">9.</span> <span class="nav-text">Neo4j相关技术选型</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#Spring_Data_for_Neo4j"><span class="nav-number">9.1.</span> <span class="nav-text">Spring Data for Neo4j</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Cypher"><span class="nav-number">10.</span> <span class="nav-text">Cypher</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#Create"><span class="nav-number">10.1.</span> <span class="nav-text">Create</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#MATCH"><span class="nav-number">10.2.</span> <span class="nav-text">MATCH</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Pattern_matching"><span class="nav-number">10.3.</span> <span class="nav-text">Pattern matching</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Recomennd"><span class="nav-number">10.4.</span> <span class="nav-text">Recomennd</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Analyze"><span class="nav-number">10.5.</span> <span class="nav-text">Analyze</span></a></li></ol></li></ol></div>
             
           </div>
           <div class="post-toc-indicator-bottom post-toc-indicator"></div>
