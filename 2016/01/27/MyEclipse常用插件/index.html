@@ -30,7 +30,7 @@
 
 
 
-  <meta name="keywords" content="CentOS,Xmanager," />
+  <meta name="keywords" content="Eclipse,J2EE," />
 
 
 
@@ -41,18 +41,16 @@
   <link rel="shorticon icon" type="image/x-icon" href="/favicon.ico?v=0.4.5.1" />
 
 
-<meta name="description" content="本文主要介绍通过Xmanager连接CentOS远程桌面时，在CentOS远程机器和Windows客户端需要做的一些配置。">
+<meta name="description" content="记录以J2EE开发采用MyEclipse IDE的常用插件">
 <meta property="og:type" content="article">
-<meta property="og:title" content="xmanager实现CentOS远程控制">
-<meta property="og:url" content="http://geosmart.github.io/2015/07/15/xmanager实现CentOS远程控制/index.html">
+<meta property="og:title" content="MyEclipse常用插件">
+<meta property="og:url" content="http://geosmart.github.io/2016/01/27/MyEclipse常用插件/index.html">
 <meta property="og:site_name" content="Geosmart's Notes">
-<meta property="og:description" content="本文主要介绍通过Xmanager连接CentOS远程桌面时，在CentOS远程机器和Windows客户端需要做的一些配置。">
-<meta property="og:image" content="http://geosmart.github.io/Xbrowser主界面.png">
-<meta property="og:image" content="http://geosmart.github.io/Xbrowser远程控制.png">
-<meta property="og:updated_time" content="2015-09-22T01:00:10.981Z">
+<meta property="og:description" content="记录以J2EE开发采用MyEclipse IDE的常用插件">
+<meta property="og:updated_time" content="2016-01-27T12:41:07.266Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="xmanager实现CentOS远程控制">
-<meta name="twitter:description" content="本文主要介绍通过Xmanager连接CentOS远程桌面时，在CentOS远程机器和Windows客户端需要做的一些配置。">
+<meta name="twitter:title" content="MyEclipse常用插件">
+<meta name="twitter:description" content="记录以J2EE开发采用MyEclipse IDE的常用插件">
 
 
 <script type="text/javascript" id="hexo.configuration">
@@ -62,7 +60,7 @@
   };
 </script>
 
-  <title> xmanager实现CentOS远程控制 | Geosmart's Notes </title>
+  <title> MyEclipse常用插件 | Geosmart's Notes </title>
 </head>
 
 <body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
@@ -216,7 +214,7 @@
           
           
             
-              xmanager实现CentOS远程控制
+              MyEclipse常用插件
             
           
         </h1>
@@ -225,8 +223,8 @@
       <div class="post-meta">
         <span class="post-time">
           发表于
-          <time itemprop="dateCreated" datetime="2015-07-15T09:34:10+08:00" content="15   July   2015">
-            15   July   2015
+          <time itemprop="dateCreated" datetime="2016-01-27T20:19:06+08:00" content="27   January   2016">
+            27   January   2016
           </time>
         </span>
 
@@ -235,8 +233,8 @@
             &nbsp; | &nbsp; 分类于
             
               <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
-                <a href="/categories/运维/" itemprop="url" rel="index">
-                  <span itemprop="name">运维</span>
+                <a href="/categories/IDE/" itemprop="url" rel="index">
+                  <span itemprop="name">IDE</span>
                 </a>
               </span>
 
@@ -251,8 +249,8 @@
           
             <span class="post-comments-count">
               &nbsp; | &nbsp;
-              <a href="/2015/07/15/xmanager实现CentOS远程控制/#comments" itemprop="discussionUrl">
-                <span class="post-comments-count ds-thread-count" data-thread-key="2015/07/15/xmanager实现CentOS远程控制/" itemprop="commentsCount"></span>
+              <a href="/2016/01/27/MyEclipse常用插件/#comments" itemprop="discussionUrl">
+                <span class="post-comments-count ds-thread-count" data-thread-key="2016/01/27/MyEclipse常用插件/" itemprop="commentsCount"></span>
               </a>
             </span>
           
@@ -266,38 +264,15 @@
       
 
       
-        <span itemprop="articleBody"><p>本文主要介绍通过Xmanager连接CentOS远程桌面时，在CentOS远程机器和Windows客户端需要做的一些配置。</p>
+        <span itemprop="articleBody"><p>记录以J2EE开发采用MyEclipse IDE的常用插件</p>
 <hr>
 <a id="more"></a>
-<h1 id="Xmanager简介">Xmanager简介</h1><p>Xmanager 全称Netsarang Xmanager，是国外一套非常优秀的远程监控软件。在UNIX/Linux和Windows网络环境中，Xmanager是较好的连通解决方案。通过Xmanager连接Linux远程桌面进行图形化管理其实就是利用了Xmanager套装里面的Xbrowser程序。<br>Linux远程图形化管理除了Xbrowser，还有同样优秀的VNC。</p>
-<p>特点包括：<br>可通过Xcongfig工具设置多个Xmanager设置；<br>支持多用户的Windows终端环境；<br>支持多个IP地址；<br>支持本地资源数据库；<br>通过热键转换键盘映射；<br>支持多窗口下的Windows打印功能等</p>
-<h1 id="CentOS远程机器配置">CentOS远程机器配置</h1><ol>
-<li>安装gdm<br>yum -y install gdm<br>配置系统为图形模式，打开/etc/inittab，修改为id:5:initdefault: (若已为5则不需修改)</li>
-<li><p>启用图形化界面<br><code>vim /etc/inittab</code>，3改为5</p>
-<figure class="highlight groovy"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="string">id:</span><span class="number">5</span>:<span class="string">initdefault:</span></span><br></pre></td></tr></table></figure>
-</li>
-<li><p>配置gdm参数<br><code>vim /etc/gdm/custom.conf</code>，在[security]和[xdmcp]字段下分别添加如下内容：</p>
-<figure class="highlight ini"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="title">[daemon]</span></span><br><span class="line"><span class="title">[security]</span></span><br><span class="line"><span class="setting">AllowRemoteRoot=<span class="value"><span class="keyword">true</span></span></span></span><br><span class="line"><span class="title">[xdmcp]</span></span><br><span class="line"><span class="setting">Port=<span class="value"><span class="number">177</span></span></span></span><br><span class="line"><span class="setting">Enable=<span class="value"><span class="number">1</span></span></span></span><br><span class="line"><span class="title">[greeter]</span></span><br><span class="line"><span class="title">[chooser]</span></span><br><span class="line"><span class="title">[debug]</span></span><br></pre></td></tr></table></figure>
-</li>
-<li><p>防火墙设置</p>
-</li>
-</ol>
-<ul>
-<li><p>关闭防火墙<br>临时关闭：<code>service iptables stop</code><br>永久关闭：<code>checkcfg iptables off</code></p>
-</li>
-<li><p>在防火墙上打开udp协议177 端口<br><code>iptables -A INPUT -p tcp --dport 177 -j ACCEPT</code><br><code>service iptables save</code></p>
-</li>
-</ul>
-<ol>
-<li>重启机器<br><code>reboot</code></li>
-</ol>
-<h1 id="Windows客户端配置">Windows客户端配置</h1><ol>
-<li><p>XManager远程桌面连接<br>在Windows上打开XBrowser通过IP即可远程连接CentOS<br>Xbrowser&gt;工具&gt;选项&gt;添加主机&gt;连接</p>
-</li>
-<li><p>Xshell远程桌面连接，<br>Xshell隧道连接&gt;执行<code>gnome-panel</code>命令<br>备注：只能访问用户文件夹</p>
-</li>
-</ol>
-<h1 id="效果图">效果图</h1><p><img src="Xbrowser主界面.png" alt="Xbrowser主界面"><br><img src="Xbrowser远程控制.png" alt="Xbrowser远程控制"></p>
+<h1 id="SVN">SVN</h1><p><a href="http://subclipse.tigris.org/update_1.10.x/">svn update site URL</a><br><a href="http://subclipse.tigris.org/servlets/ProjectDocumentList?folderID=2240">svn offline package</a></p>
+<h1 id="FatJar">FatJar</h1><p><a href="http://kurucz-grafika.de/fatjar">FatJar update site URL</a></p>
+<h1 id="Freemarker_Editor">Freemarker Editor</h1><p><a href="http://download.jboss.org/jbosstools/updates/development/kepler/">Freemarker Editor update site URL</a><br>安装时选择Jboss IDE即可</p>
+<h1 id="Drools插件">Drools插件</h1><p><a href="http://download.jboss.org/drools/release/5.5.0.Final/org.drools.updatesite/">drools 5.5.0 update site URL</a></p>
+<h1 id="OneJar">OneJar</h1><p><a href="http://one-jar.sourceforge.net/">OneJar官网</a></p>
+<h2 id="maven配置onejar打包">maven配置onejar打包</h2><figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">&lt;!-- Make this jar executable --&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="title">plugin</span> &gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="title">groupId</span> &gt;</span>org.apache.maven.plugins <span class="tag">&lt;/<span class="title">groupId</span> &gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="title">artifactId</span> &gt;</span>maven-jar-plugin <span class="tag">&lt;/<span class="title">artifactId</span> &gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="title">configuration</span> &gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="title">archive</span> &gt;</span></span><br><span class="line">      <span class="tag">&lt;<span class="title">manifest</span> &gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="title">mainClass</span> &gt;</span>gto.amo.mapper.app.form.Main <span class="tag">&lt;/<span class="title">mainClass</span> &gt;</span></span><br><span class="line">      <span class="tag">&lt;/<span class="title">manifest</span> &gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="title">archive</span> &gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="title">configuration</span> &gt;</span></span><br><span class="line">  <span class="tag">&lt;/<span class="title">plugin</span> &gt;</span></span><br><span class="line">  <span class="comment">&lt;!-- Includes the runtime dependencies --&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="title">plugin</span> &gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="title">groupId</span> &gt;</span>com.jolira <span class="tag">&lt;/<span class="title">groupId</span> &gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="title">artifactId</span> &gt;</span>onejar-maven-plugin <span class="tag">&lt;/<span class="title">artifactId</span> &gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="title">version</span> &gt;</span>1.4.4 <span class="tag">&lt;/<span class="title">version</span> &gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="title">executions</span> &gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="title">execution</span> &gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="title">configuration</span> &gt;</span></span><br><span class="line">      <span class="tag">&lt;<span class="title">attachToBuild</span> &gt;</span>true <span class="tag">&lt;/<span class="title">attachToBuild</span> &gt;</span></span><br><span class="line">      <span class="tag">&lt;<span class="title">classifier</span> &gt;</span>onejar <span class="tag">&lt;/<span class="title">classifier</span> &gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="title">configuration</span> &gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="title">goals</span> &gt;</span></span><br><span class="line">      <span class="tag">&lt;<span class="title">goal</span> &gt;</span>one-jar <span class="tag">&lt;/<span class="title">goal</span> &gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="title">goals</span> &gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="title">execution</span> &gt;</span></span><br><span class="line">  <span class="tag">&lt;/<span class="title">executions</span> &gt;</span></span><br><span class="line">  <span class="tag">&lt;/<span class="title">plugin</span> &gt;</span></span><br></pre></td></tr></table></figure>
 </span>
       
     </div>
@@ -306,9 +281,9 @@
       
         <div class="post-tags">
           
-            <a href="/tags/CentOS/" rel="tag">#CentOS</a>
+            <a href="/tags/Eclipse/" rel="tag">#Eclipse</a>
           
-            <a href="/tags/Xmanager/" rel="tag">#Xmanager</a>
+            <a href="/tags/J2EE/" rel="tag">#J2EE</a>
           
         </div>
       
@@ -317,13 +292,11 @@
         <div class="post-nav">
           <div class="post-nav-prev post-nav-item">
             
-              <a href="/2015/07/21/《MacTalk·人生元编程》读书笔记/" rel="prev">《MacTalk·人生元编程》读书笔记</a>
-            
           </div>
 
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2015/07/12/开放虚拟化格式之OVF-OVA/" rel="next">开放虚拟化格式之OVF-OVA</a>
+              <a href="/2016/01/25/Ne04j单机版和集群版部署/" rel="next">Ne04j单机版和集群版部署</a>
             
           </div>
         </div>
@@ -348,8 +321,8 @@
         
           <div class="comments" id="comments">
             
-              <div class="ds-thread" data-thread-key="2015/07/15/xmanager实现CentOS远程控制/"
-                   data-title="xmanager实现CentOS远程控制" data-url="http://geosmart.github.io/2015/07/15/xmanager实现CentOS远程控制/">
+              <div class="ds-thread" data-thread-key="2016/01/27/MyEclipse常用插件/"
+                   data-title="MyEclipse常用插件" data-url="http://geosmart.github.io/2016/01/27/MyEclipse常用插件/">
               </div>
             
           </div>
@@ -438,7 +411,7 @@
           <div class="post-toc">
             
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#Xmanager简介"><span class="nav-number">1.</span> <span class="nav-text">Xmanager简介</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#CentOS远程机器配置"><span class="nav-number">2.</span> <span class="nav-text">CentOS远程机器配置</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Windows客户端配置"><span class="nav-number">3.</span> <span class="nav-text">Windows客户端配置</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#效果图"><span class="nav-number">4.</span> <span class="nav-text">效果图</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#SVN"><span class="nav-number">1.</span> <span class="nav-text">SVN</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#FatJar"><span class="nav-number">2.</span> <span class="nav-text">FatJar</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Freemarker_Editor"><span class="nav-number">3.</span> <span class="nav-text">Freemarker Editor</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Drools插件"><span class="nav-number">4.</span> <span class="nav-text">Drools插件</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#OneJar"><span class="nav-number">5.</span> <span class="nav-text">OneJar</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#maven配置onejar打包"><span class="nav-number">5.1.</span> <span class="nav-text">maven配置onejar打包</span></a></li></ol></li></ol></div>
             
           </div>
           <div class="post-toc-indicator-bottom post-toc-indicator"></div>
