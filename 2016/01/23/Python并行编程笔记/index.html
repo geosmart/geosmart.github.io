@@ -47,7 +47,7 @@
 <meta property="og:url" content="http://geosmart.github.io/2016/01/23/Python并行编程笔记/index.html">
 <meta property="og:site_name" content="Geosmart's Notes">
 <meta property="og:description" content="大数据时代，并发/并行是不变的话题，以并行计算来提高程序运行效率，可充分利用硬件资源（CPU，内存，磁盘/网络IO）。Python作为脚本语义，解释器简洁轻量，软件研发后无需编译且更新部署方便，对于实现一些类似爬取的工具简直不要太友好。">
-<meta property="og:updated_time" content="2016-01-27T12:41:17.210Z">
+<meta property="og:updated_time" content="2016-02-20T14:38:28.399Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Python并行编程笔记">
 <meta name="twitter:description" content="大数据时代，并发/并行是不变的话题，以并行计算来提高程序运行效率，可充分利用硬件资源（CPU，内存，磁盘/网络IO）。Python作为脚本语义，解释器简洁轻量，软件研发后无需编译且更新部署方便，对于实现一些类似爬取的工具简直不要太友好。">
@@ -268,7 +268,8 @@
 <hr>
 <a id="more"></a>
 <h1 id="python线程">python线程</h1><h2 id="threading">threading</h2><h1 id="python协程">python协程</h1><p>协程，又称微线程，纤程。英文名Coroutine。</p>
-<h2 id="生产者-消费者模型">生产者-消费者模型</h2><h1 id="python多线程">python多线程</h1><h2 id="gevent">gevent</h2><h2 id="monkey-patch">monkey.patch</h2><h1 id="python多进程">python多进程</h1><h2 id="multiprocessing">multiprocessing</h2></span>
+<h2 id="生产者-消费者模型">生产者-消费者模型</h2><h1 id="python多线程">python多线程</h1><h2 id="gevent">gevent</h2><h2 id="monkey-patch">monkey.patch</h2><h1 id="python多进程">python多进程</h1><h2 id="multiprocessing">multiprocessing</h2><p>注意multiprocessing与gevent同时使用时，如果运行了gevent.monkey.patch_thread()或patch_all(),pool进程池将无效</p>
+</span>
       
     </div>
 
@@ -359,7 +360,7 @@
         <nav class="site-state motion-element">
           <div class="site-state-item site-state-posts">
             <a href="/archives">
-              <span class="site-state-item-count">54</span>
+              <span class="site-state-item-count">55</span>
               <span class="site-state-item-name">日志</span>
             </a>
           </div>
@@ -373,7 +374,7 @@
 
           <div class="site-state-item site-state-tags">
             <a href="/tags">
-              <span class="site-state-item-count">53</span>
+              <span class="site-state-item-count">54</span>
               <span class="site-state-item-name">标签</span>
               </a>
           </div>

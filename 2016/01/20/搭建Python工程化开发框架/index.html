@@ -53,7 +53,7 @@
 
 开发环境：python2.7.10 32位/pycharm5
 项目构建：virtualenv/virtualenvWrapper 虚拟运行环境；pip 依赖项管理；pyBuilder项目构建，其中pyBuilder以disutils">
-<meta property="og:updated_time" content="2016-01-23T14:10:52.907Z">
+<meta property="og:updated_time" content="2016-02-19T08:21:45.187Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="搭建Python工程化开发框架">
 <meta name="twitter:description" content="2016的元月以python作为开端。采用python进行网络数据聚合抽取，需调研并搭建python工程化开发框架，几番迭代，一个适用于数据采集的开发环境搭建完成：
@@ -287,6 +287,7 @@
 </ul>
 <hr>
 <a id="more"></a>
+<p>pip install -i  <a href="http://pypi.douban.com/simple">http://pypi.douban.com/simple</a>  Shapely –trusted-host pypi.douban.com</p>
 <h1 id="pip源配置">pip源配置</h1><h2 id="临时换源">临时换源</h2><p>临时换源只在某一条命令中生效，只要在命令中加上”-i“，指定使用的源即可<code>pip install scrapy -i url</code>，<br>如安装pandas：<code>pip install -i  http://pypi.douban.com/simple  pandas --trusted-host pypi.douban.com</code></p>
 <h2 id="永久换源">永久换源</h2><p>要是想永久更改pip源，在pip的配置文件（~/.pip/pip.conf）中增加<br><figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">[global]&#10;index-url=http://pypi.douban.com/simple</span><br></pre></td></tr></table></figure></p>
 <h2 id="一些国内的pip源">一些国内的pip源</h2><figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">http://mirrors.aliyun.com/pypi/simple/ # &#38463;&#37324;&#20113;&#10;http://pypi.douban.com/simple  #&#35910;&#29923;&#10;http://pypi.hustunique.com/simple  #&#21326;&#20013;&#29702;&#24037;&#22823;&#23398;&#10;http://pypi.sdutlinux.org/simple  #&#23665;&#19996;&#29702;&#24037;&#22823;&#23398;&#10;http://pypi.mirrors.ustc.edu.cn/simple  #&#20013;&#22269;&#31185;&#23398;&#25216;&#26415;&#22823;&#23398;</span><br></pre></td></tr></table></figure>
@@ -322,7 +323,11 @@
 <li>退出当前虚拟环境:<code>deactivate</code></li>
 </ul>
 <h2 id="问题记录-1">问题记录</h2><ul>
-<li>问题描述：执行virtualenv报错：<code>SyntaxError: Non-ASCII character &#39;\x90&#39; in file C:\Python27\Scripts\virtualenv.exe on line 1, but no encoding declared;</code><br>解决方案：卸载virtualenv<code>pip uninstall virtualenv</code>；卸载virtualenvwarpper<code>pip uninstall virtualenvwarpper-win</code>；重新安装virtualenvwarpper<code>pip install virtualenvwarpper-win</code>,要是还不行那就重装pythonng</li>
+<li><p>问题描述：执行virtualenv报错：<code>SyntaxError: Non-ASCII character &#39;\x90&#39; in file C:\Python27\Scripts\virtualenv.exe on line 1, but no encoding declared;</code><br>解决方案：卸载virtualenv<code>pip uninstall virtualenv</code>；卸载virtualenvwarpper<code>pip uninstall virtualenvwarpper-win</code>；重新安装virtualenvwarpper<code>pip install virtualenvwarpper-win</code>,要是还不行那就重装pythonng</p>
+</li>
+<li><p>问题描述：  File “E:\PythonWorkspace\venv\ugc.venv\Scripts\pip.exe”, line 1 SyntaxError: Non-ASCII character ‘\x90’ in file E:\PythonWorkspace\venv\ugc.venv\Scripts\pip.exe on line 1, but no encoding declared;<br>解决方案：原因是pip安装python包会加载我的用户目录，我的用户目录恰好是中文的，ascii不能编码。解决办法是：<br>python目录 Python27\Lib\site-packages 建一个文件sitecustomize.py,python会自动运行这个文件。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> sys</span><br><span class="line">sys.setdefaultencoding(<span class="string">'gb2312'</span>)</span><br></pre></td></tr></table></figure>
+</li>
 </ul>
 <h1 id="pybuilder">pybuilder</h1><p><a href="http://pybuilder.github.io/">pybuilder官网</a><br>经常在java/c#/javascript之间切着敲代码，今年又多了python这个数据分析神器，习惯了Maven约定俗成的构建环境，为了实现单元测试打包一体化的高效，于是决定采用pybuidler进行工程构建</p>
 <h2 id="安装-1">安装</h2><p>在venv环境安装：<code>pip install pybuilder</code></p>
@@ -426,7 +431,7 @@
         <nav class="site-state motion-element">
           <div class="site-state-item site-state-posts">
             <a href="/archives">
-              <span class="site-state-item-count">54</span>
+              <span class="site-state-item-count">55</span>
               <span class="site-state-item-name">日志</span>
             </a>
           </div>
@@ -440,7 +445,7 @@
 
           <div class="site-state-item site-state-tags">
             <a href="/tags">
-              <span class="site-state-item-count">53</span>
+              <span class="site-state-item-count">54</span>
               <span class="site-state-item-name">标签</span>
               </a>
           </div>
