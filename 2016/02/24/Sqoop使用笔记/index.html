@@ -30,7 +30,7 @@
 
 
 
-  <meta name="keywords" content="Java," />
+  <meta name="keywords" content="HDFS,Hadoop,Hive,Sqoop," />
 
 
 
@@ -41,16 +41,16 @@
   <link rel="shorticon icon" type="image/x-icon" href="/favicon.ico?v=0.4.5.1" />
 
 
-<meta name="description" content="2016上半年花点时间深入了解JVM，整理遇到过的内存泄漏，性能优化问题">
+<meta name="description" content="Sqoop是Apache顶级项目，主要用来在Hadoop和关系数据库中传递数据。通过sqoop，可以方便的将数据从关系数据库导入到HDFS，或将数据从HDFS导出到关系数据库。">
 <meta property="og:type" content="article">
-<meta property="og:title" content="《深入理解Java虚拟机 JVM高级特性与最佳实践》读书笔记">
-<meta property="og:url" content="http://geosmart.github.io/2016/02/22/《深入理解Java虚拟机 JVM高级特性与最佳实践》读书笔记/index.html">
+<meta property="og:title" content="Sqoop使用笔记">
+<meta property="og:url" content="http://geosmart.github.io/2016/02/24/Sqoop使用笔记/index.html">
 <meta property="og:site_name" content="Geosmart's Notes">
-<meta property="og:description" content="2016上半年花点时间深入了解JVM，整理遇到过的内存泄漏，性能优化问题">
-<meta property="og:updated_time" content="2016-02-22T14:06:52.401Z">
+<meta property="og:description" content="Sqoop是Apache顶级项目，主要用来在Hadoop和关系数据库中传递数据。通过sqoop，可以方便的将数据从关系数据库导入到HDFS，或将数据从HDFS导出到关系数据库。">
+<meta property="og:updated_time" content="2016-02-24T06:46:01.038Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="《深入理解Java虚拟机 JVM高级特性与最佳实践》读书笔记">
-<meta name="twitter:description" content="2016上半年花点时间深入了解JVM，整理遇到过的内存泄漏，性能优化问题">
+<meta name="twitter:title" content="Sqoop使用笔记">
+<meta name="twitter:description" content="Sqoop是Apache顶级项目，主要用来在Hadoop和关系数据库中传递数据。通过sqoop，可以方便的将数据从关系数据库导入到HDFS，或将数据从HDFS导出到关系数据库。">
 
 
 <script type="text/javascript" id="hexo.configuration">
@@ -60,7 +60,7 @@
   };
 </script>
 
-  <title> 《深入理解Java虚拟机 JVM高级特性与最佳实践》读书笔记 | Geosmart's Notes </title>
+  <title> Sqoop使用笔记 | Geosmart's Notes </title>
 </head>
 
 <body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
@@ -214,7 +214,7 @@
           
           
             
-              《深入理解Java虚拟机 JVM高级特性与最佳实践》读书笔记
+              Sqoop使用笔记
             
           
         </h1>
@@ -223,8 +223,8 @@
       <div class="post-meta">
         <span class="post-time">
           发表于
-          <time itemprop="dateCreated" datetime="2016-02-22T20:23:37+08:00" content="22   February   2016">
-            22   February   2016
+          <time itemprop="dateCreated" datetime="2016-02-24T09:43:28+08:00" content="24   February   2016">
+            24   February   2016
           </time>
         </span>
 
@@ -233,8 +233,8 @@
             &nbsp; | &nbsp; 分类于
             
               <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
-                <a href="/categories/读书笔记/" itemprop="url" rel="index">
-                  <span itemprop="name">读书笔记</span>
+                <a href="/categories/数据库/" itemprop="url" rel="index">
+                  <span itemprop="name">数据库</span>
                 </a>
               </span>
 
@@ -249,8 +249,8 @@
           
             <span class="post-comments-count">
               &nbsp; | &nbsp;
-              <a href="/2016/02/22/《深入理解Java虚拟机 JVM高级特性与最佳实践》读书笔记/#comments" itemprop="discussionUrl">
-                <span class="post-comments-count ds-thread-count" data-thread-key="2016/02/22/《深入理解Java虚拟机 JVM高级特性与最佳实践》读书笔记/" itemprop="commentsCount"></span>
+              <a href="/2016/02/24/Sqoop使用笔记/#comments" itemprop="discussionUrl">
+                <span class="post-comments-count ds-thread-count" data-thread-key="2016/02/24/Sqoop使用笔记/" itemprop="commentsCount"></span>
               </a>
             </span>
           
@@ -264,38 +264,41 @@
       
 
       
-        <span itemprop="articleBody"><p>2016上半年花点时间深入了解JVM，整理遇到过的内存泄漏，性能优化问题</p>
+        <span itemprop="articleBody"><p>Sqoop是Apache顶级项目，主要用来在Hadoop和关系数据库中传递数据。通过sqoop，可以方便的将数据从关系数据库导入到HDFS，或将数据从HDFS导出到关系数据库。</p>
 <hr>
 <a id="more"></a>
-<h1 id="第一章_走近Java">第一章 走近Java</h1><h2 id="Java技术体系">Java技术体系</h2><ul>
-<li>Java程序设计语言、Java虚拟机、Java API类库三部分统称为JDK(Java Development Kit) ,JDK是Java程序开发的最小环境</li>
-<li>Java API类库中的Java SE API子集和Java虚拟机两部分统称为JRE(Java Runtime Environment)，JRE是支持Java程序运行的标准环境</li>
-<li>按照Java技术关注的重点业务领域来划分，Java技术体系可分为4个平台<ul>
-<li>Java Card：支持Applets(Java小程序)运行在小内存设备（如智能卡）上的平台；</li>
-<li>Java ME(Micro Edition)：支持Java运行在移动终端上的平台；（今有Android SDK）</li>
-<li>Java SE(Standard Edition)：支持面向桌面级应用的Java平台；</li>
-<li>Java EE(Enterprise Edition)：支持使用多层架构的企业级应用(如ERP、CRM应用)的Java平台；</li>
-</ul>
+<h1 id="关于Sqoop">关于Sqoop</h1><p><a href="http://sqoop.apache.org/">官网</a><br>Sqoop架构整合了Hive、Hbase和Oozie，通过map-reduce任务来传输数据，从而提供并发特性和容错。<br>Sqoop主要通过JDBC和关系数据库进行交互。理论上支持JDBC的database都可以使用sqoop和hdfs进行数据交互。但只有一小部分经过sqoop官方测试，如：HSQLDB（1.8.0+），MySQL（5.0+），Oracle（10.2.0+），PostgreSQL（8.3+ ）；<br>MySQL和PostgreSQL支持direct；较老的版本有可能也被支持，但未经过测试。出于性能考虑，sqoop提供不同于JDBC的快速存取数据的机制，可以通过–direct使用。</p>
+<h1 id="Sqoop与MySQL数据交换">Sqoop与MySQL数据交换</h1><p>版本：sqoop-1.4.5-cdh5.4.0<br><a href="http://archive.cloudera.com/cdh5/cdh/5/sqoop-1.4.5-cdh5.4.0/SqoopUserGuide.html">sqoop-1.4.5-cdh5.4.0官方文档</a><br><a href="http://archive.cloudera.com/cdh5/cdh/5/sqoop-1.4.5-cdh5.4.0/SqoopUserGuide.html#_example_invocations">数据导入示例</a></p>
+<h2 id="mysql_drive导入sqoop">mysql drive导入sqoop</h2><p>cp  /tmp/mysql-connector-java-5.1.36-bin.jar  /opt/cloudera/parcels/CDH-5.4.7-1.cdh5.4.7.p0.3/lib/sqoop/lib<br>cp  /opt/cloudera/parcels/CDH-5.4.7-1.cdh5.4.7.p0.3/lib/sqoop/lib/mysql-connector-java-5.1.36-bin.jar   /opt/cloudera/parcels/CDH-5.4.7-1.cdh5.4.7.p0.3/lib/hadoop/lib/<br>备注：官方文档是要导入到sqoop2目录，但copy到sqoop2目录无效，sqoop目录生效</p>
+<h2 id="MySQL表导入HDFS然后导入Hive">MySQL表导入HDFS然后导入Hive</h2><ul>
+<li>切换到hdfs用户执行：<code>su hdfs</code></li>
+<li><p>将MySQL数据库geocodingdb的MatchingAddress表导入HDFS用户目录</p>
+<figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sqoop import --connect jdbc:mysql://192.168.1.161:3306/geocodingdb   \&#10;--driver com.mysql.jdbc.Driver   \&#10;--username geocodingdb --password geocodingdb  \&#10;--table MatchingAddress       \&#10;--fields-terminated-by &#39;\t&#39;  --lines-terminated-by &#39;\n&#39; --optionally-enclosed-by &#39;\&#34;&#39;&#10;--direct</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>附加<code>--direct</code>参数快速完成MySQL数据导入/导出操作<br>与selects和inserts操作相比，MySQL Direct Connector可以用mysqldump and mysqlimport工具对MySQL数据进行更快的导入和导出操作</p>
+</li>
+<li><p>hive新建表结构并导入数据</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="operator"><span class="keyword">DROP</span> <span class="keyword">TABLE</span> <span class="keyword">IF</span> <span class="keyword">EXISTS</span> geocodingdb.MatchingAddress;</span></span><br><span class="line"></span><br><span class="line"><span class="operator"><span class="keyword">create</span> <span class="keyword">external</span> <span class="keyword">table</span> geocodingdb.MatchingAddress (source_address_id <span class="keyword">string</span>,source_address <span class="keyword">string</span> ,head_splitted_address <span class="keyword">string</span>,splitted_skeleton_addressnode <span class="keyword">string</span>,skeleton_addressnode <span class="keyword">string</span>,skeleton_addressnode_type <span class="keyword">string</span>,tail_address <span class="keyword">string</span>,tail_splitted_address <span class="keyword">string</span>)</span><br><span class="line"><span class="keyword">row</span> <span class="keyword">format</span> delimited  <span class="keyword">fields</span> <span class="keyword">terminated</span> <span class="keyword">by</span> <span class="string">'\t'</span>  stored <span class="keyword">as</span> textfile;</span></span><br><span class="line"></span><br><span class="line"><span class="operator"><span class="keyword">load</span> <span class="keyword">data</span> inpath <span class="string">'/user/hdfs/MatchingAddress/*'</span>  <span class="keyword">into</span> <span class="keyword">table</span> geocodingdb.MatchingAddress;</span></span><br></pre></td></tr></table></figure>
 </li>
 </ul>
-<h2 id="Java发展史">Java发展史</h2><h2 id="Java虚拟机发展史">Java虚拟机发展史</h2><ul>
-<li>Sun Classic/Extract VM</li>
-<li>Sun HotSpot VM</li>
-<li>Sun Mobile-Embedded VM/Meta-Circular VM</li>
-<li>Bea Jrockit/IDM J9 VM</li>
-<li>Azul VM/BEA Liquid VM</li>
-<li>Apache Harmony/Google Android Dalvik VM</li>
-<li>Microsoft JVM…</li>
-</ul>
-<h2 id="Java技术的未来展望">Java技术的未来展望</h2><ul>
-<li>模块化（Jigsaw）</li>
-<li>混合语言：多语言混合编程，通过特定领域发语言去解决特定领域的问题</li>
-<li>多核并行（concurrent.forkjoin；Lambada；函数式编程）</li>
-<li>丰富语法（Coin子项目）</li>
-<li>64位虚拟机（计算机终究完全过渡到64位的时代）</li>
-</ul>
-<h2 id="JDK编译实战">JDK编译实战</h2><p><a href="https://jdk7.java.net/source.html">OpenJDK7下载</a><br>Building the source code for the OpenJDK requires a certain degree of technical expertise.</p>
-<h1 id="第二章_Java内存区域与内存溢出异常">第二章 Java内存区域与内存溢出异常</h1></span>
+<h2 id="MySQL表直接导入Hive">MySQL表直接导入Hive</h2><p>MySQL表授权<br><figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="operator"><span class="keyword">GRANT</span> <span class="keyword">ALL</span> <span class="keyword">PRIVILEGES</span> <span class="keyword">ON</span> *.* <span class="keyword">TO</span> <span class="string">'geocodingdb'</span>@<span class="string">'%'</span> <span class="keyword">IDENTIFIED</span> <span class="keyword">BY</span> <span class="string">'geocodingdb'</span> <span class="keyword">with</span> <span class="keyword">grant</span> <span class="keyword">option</span>;</span></span><br><span class="line"><span class="operator"><span class="keyword">FLUSH</span> <span class="keyword">PRIVILEGES</span>;</span></span><br></pre></td></tr></table></figure></p>
+<p>hive-import命令<br><figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sqoop import --connect jdbc:mysql://192.168.1.161:3306/geocodingdb --driver com.mysql.jdbc.Driver   \&#10;--username geocodingdb --password geocodingdb  \&#10;--table MatchingAddress \&#10;--hive-import</span><br></pre></td></tr></table></figure></p>
+<h1 id="Hive表导出到MySQL">Hive表导出到MySQL</h1><figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sqoop export --direct --connect jdbc:mysql://192.168.1.161:3306/geocodingdb --driver com.mysql.jdbc.Driver   \&#10;--username geocodingdb --password geocodingdb  \&#10;--table MatchedAddressGroupbySkeleton \&#10;--export-dir /user/hive/warehouse/geocodingdb.db/matchedaddressgroupbyskeleton  \&#10;--input-fields-terminated-by &#34;\t&#34;   \&#10;--input-null-string &#34;\\\\N&#34; --input-null-non-string &#34;\\\\N&#34;</span><br></pre></td></tr></table></figure>
+<h1 id="Sqoop(MySQL)常用命令">Sqoop(MySQL)常用命令</h1><h2 id="指定列">指定列</h2><p>sqoop import –connect jdbc:mysql://db.foo.com/corp –table EMPLOYEES \<br>–columns “employee_id,first_name,last_name,job_title”</p>
+<h2 id="使用8个线程">使用8个线程</h2><p>sqoop import –connect jdbc:mysql://db.foo.com/corp –table EMPLOYEES \<br>-m 8</p>
+<h2 id="快速模式">快速模式</h2><p>sqoop import –connect jdbc:mysql://db.foo.com/corp –table EMPLOYEES \<br>–direct</p>
+<h2 id="使用sequencefile作为存储方式">使用sequencefile作为存储方式</h2><p>sqoop import –connect jdbc:mysql://db.foo.com/corp –table EMPLOYEES \<br>–class-name com.foocorp.Employee –as-sequencefile</p>
+<h2 id="分隔符">分隔符</h2><p>sqoop import –connect jdbc:mysql://db.foo.com/corp –table EMPLOYEES \<br>–fields-terminated-by ‘\t’ –lines-terminated-by ‘\n’ \<br>–optionally-enclosed-by ‘\”‘</p>
+<h2 id="导入到hive">导入到hive</h2><p>sqoop import –connect jdbc:mysql://db.foo.com/corp –table EMPLOYEES \<br>–hive-import</p>
+<h2 id="条件过滤">条件过滤</h2><p>sqoop import –connect jdbc:mysql://db.foo.com/corp –table EMPLOYEES \<br>–where “start_date &gt; ‘2010-01-01’”</p>
+<h2 id="用dept_id作为分个字段">用dept_id作为分个字段</h2><p>sqoop import –connect jdbc:mysql://db.foo.com/corp –table EMPLOYEES \<br>–split-by dept_id</p>
+<h2 id="追加导入">追加导入</h2><p>sqoop import –connect jdbc:mysql://db.foo.com/somedb –table sometable \<br>–where “id &gt; 100000” –target-dir /incremental_dataset –append</p>
+<h1 id="问题记录">问题记录</h1><h2 id="sqoop_export_–direct导出mysqlimport错误">sqoop export –direct导出mysqlimport错误</h2><p>错误描述：Cannot run program “mysqlimport”: error=2, No such file or directory<br>解决办法：附加<code>--driver com.mysql.jdbc.Driver</code>参数</p>
+<h2 id="sqoop_export_–direct导出mapreduce程序错误">sqoop export –direct导出mapreduce程序错误</h2><p>错误描述1：Caused by: java.lang.RuntimeException: Can’t parse input data: ‘长浜    STR    18119    B316D057CE523018E0430A23A2C13018’<br>解决办法：附加<code>--input-fields-terminated-by &quot;\t&quot;</code>参数</p>
+<p>错误描述2：com.mysql.jdbc.exceptions.jdbc4.MySQLIntegrityConstraintViolationException: Duplicate entry ‘1614’ for key ‘PRIMARY’<br>解决办法：附加<code>--input-null-string &quot;\\\\N&quot; --input-null-non-string &quot;\\\\N&quot;</code>如果遇到空值就插入null</p>
+<h2 id="Sqoop_导入_Hive_导致发生_Null_Pointer_Exception_(NPE)">Sqoop 导入 Hive 导致发生 Null Pointer Exception (NPE)</h2><p>解决办法：首先通过 Sqoop 将数据导入 HDFS，然后将其从 HDFS 导入 Hive。</p>
+<h2 id="MySQL导入Hive表报错">MySQL导入Hive表报错</h2><p>Caused by: com.mysql.jdbc.exceptions.jdbc4.MySQLSyntaxErrorException: You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near ‘쀀’ )’ at line 1<br>解决：hive表编码问题；导入时不附加–hcatalog-table，手动新建表，然后导入数据</p>
+</span>
       
     </div>
 
@@ -303,7 +306,13 @@
       
         <div class="post-tags">
           
-            <a href="/tags/Java/" rel="tag">#Java</a>
+            <a href="/tags/HDFS/" rel="tag">#HDFS</a>
+          
+            <a href="/tags/Hadoop/" rel="tag">#Hadoop</a>
+          
+            <a href="/tags/Hive/" rel="tag">#Hive</a>
+          
+            <a href="/tags/Sqoop/" rel="tag">#Sqoop</a>
           
         </div>
       
@@ -312,11 +321,13 @@
         <div class="post-nav">
           <div class="post-nav-prev post-nav-item">
             
+              <a href="/2016/02/24/Python开发常见问题/" rel="prev">Python开发常见问题</a>
+            
           </div>
 
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2016/01/27/MyEclipse常用插件/" rel="next">MyEclipse常用插件</a>
+              <a href="/2016/02/22/《深入理解Java虚拟机》读书笔记/" rel="next">《深入理解Java虚拟机》读书笔记</a>
             
           </div>
         </div>
@@ -341,8 +352,8 @@
         
           <div class="comments" id="comments">
             
-              <div class="ds-thread" data-thread-key="2016/02/22/《深入理解Java虚拟机 JVM高级特性与最佳实践》读书笔记/"
-                   data-title="《深入理解Java虚拟机 JVM高级特性与最佳实践》读书笔记" data-url="http://geosmart.github.io/2016/02/22/《深入理解Java虚拟机 JVM高级特性与最佳实践》读书笔记/">
+              <div class="ds-thread" data-thread-key="2016/02/24/Sqoop使用笔记/"
+                   data-title="Sqoop使用笔记" data-url="http://geosmart.github.io/2016/02/24/Sqoop使用笔记/">
               </div>
             
           </div>
@@ -382,7 +393,7 @@
         <nav class="site-state motion-element">
           <div class="site-state-item site-state-posts">
             <a href="/archives">
-              <span class="site-state-item-count">55</span>
+              <span class="site-state-item-count">57</span>
               <span class="site-state-item-name">日志</span>
             </a>
           </div>
@@ -396,7 +407,7 @@
 
           <div class="site-state-item site-state-tags">
             <a href="/tags">
-              <span class="site-state-item-count">54</span>
+              <span class="site-state-item-count">56</span>
               <span class="site-state-item-name">标签</span>
               </a>
           </div>
@@ -431,7 +442,7 @@
           <div class="post-toc">
             
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#第一章_走近Java"><span class="nav-number">1.</span> <span class="nav-text">第一章 走近Java</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#Java技术体系"><span class="nav-number">1.1.</span> <span class="nav-text">Java技术体系</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Java发展史"><span class="nav-number">1.2.</span> <span class="nav-text">Java发展史</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Java虚拟机发展史"><span class="nav-number">1.3.</span> <span class="nav-text">Java虚拟机发展史</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Java技术的未来展望"><span class="nav-number">1.4.</span> <span class="nav-text">Java技术的未来展望</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#JDK编译实战"><span class="nav-number">1.5.</span> <span class="nav-text">JDK编译实战</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#第二章_Java内存区域与内存溢出异常"><span class="nav-number">2.</span> <span class="nav-text">第二章 Java内存区域与内存溢出异常</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#关于Sqoop"><span class="nav-number">1.</span> <span class="nav-text">关于Sqoop</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Sqoop与MySQL数据交换"><span class="nav-number">2.</span> <span class="nav-text">Sqoop与MySQL数据交换</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#mysql_drive导入sqoop"><span class="nav-number">2.1.</span> <span class="nav-text">mysql drive导入sqoop</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#MySQL表导入HDFS然后导入Hive"><span class="nav-number">2.2.</span> <span class="nav-text">MySQL表导入HDFS然后导入Hive</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#MySQL表直接导入Hive"><span class="nav-number">2.3.</span> <span class="nav-text">MySQL表直接导入Hive</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Hive表导出到MySQL"><span class="nav-number">3.</span> <span class="nav-text">Hive表导出到MySQL</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Sqoop(MySQL)常用命令"><span class="nav-number">4.</span> <span class="nav-text">Sqoop(MySQL)常用命令</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#指定列"><span class="nav-number">4.1.</span> <span class="nav-text">指定列</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#使用8个线程"><span class="nav-number">4.2.</span> <span class="nav-text">使用8个线程</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#快速模式"><span class="nav-number">4.3.</span> <span class="nav-text">快速模式</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#使用sequencefile作为存储方式"><span class="nav-number">4.4.</span> <span class="nav-text">使用sequencefile作为存储方式</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#分隔符"><span class="nav-number">4.5.</span> <span class="nav-text">分隔符</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#导入到hive"><span class="nav-number">4.6.</span> <span class="nav-text">导入到hive</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#条件过滤"><span class="nav-number">4.7.</span> <span class="nav-text">条件过滤</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#用dept_id作为分个字段"><span class="nav-number">4.8.</span> <span class="nav-text">用dept_id作为分个字段</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#追加导入"><span class="nav-number">4.9.</span> <span class="nav-text">追加导入</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#问题记录"><span class="nav-number">5.</span> <span class="nav-text">问题记录</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#sqoop_export_–direct导出mysqlimport错误"><span class="nav-number">5.1.</span> <span class="nav-text">sqoop export –direct导出mysqlimport错误</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#sqoop_export_–direct导出mapreduce程序错误"><span class="nav-number">5.2.</span> <span class="nav-text">sqoop export –direct导出mapreduce程序错误</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Sqoop_导入_Hive_导致发生_Null_Pointer_Exception_(NPE)"><span class="nav-number">5.3.</span> <span class="nav-text">Sqoop 导入 Hive 导致发生 Null Pointer Exception (NPE)</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#MySQL导入Hive表报错"><span class="nav-number">5.4.</span> <span class="nav-text">MySQL导入Hive表报错</span></a></li></ol></li></ol></div>
             
           </div>
           <div class="post-toc-indicator-bottom post-toc-indicator"></div>
