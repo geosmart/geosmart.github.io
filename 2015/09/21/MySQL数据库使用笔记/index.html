@@ -47,7 +47,7 @@
 <meta property="og:url" content="http://geosmart.github.io/2015/09/21/MySQL数据库使用笔记/index.html">
 <meta property="og:site_name" content="Geosmart's Notes">
 <meta property="og:description" content="记录一些常用的MysQL运维脚本和常见问题">
-<meta property="og:updated_time" content="2016-02-24T06:52:39.589Z">
+<meta property="og:updated_time" content="2016-03-02T11:36:11.978Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="MySQL数据库使用笔记">
 <meta name="twitter:description" content="记录一些常用的MysQL运维脚本和常见问题">
@@ -282,9 +282,15 @@
 <li>导出一个表<br>mysqldump -u 用户名 -p 数据库名表名&gt; 导出的文件名<br>mysqldump -u wcnc -p smgp_apps_wcnc users&gt; wcnc_users.sql</li>
 <li>导出一个数据库结构<br>mysqldump -u wcnc -p -d –add-drop-table smgp_apps_wcnc &gt;d:wcnc_db.sql<br>-d 没有数据 –add-drop-table 在每个create语句之前增加一个drop table</li>
 </ol>
-<h1 id="问题记录">问题记录</h1><h2 id="Too_many_connections">Too many connections</h2><p>查看最大连接数：show variables like ‘max_connections’;<br>查询一下服务器响应的最大连接数： show global status like ‘Max_used_connections’;<br>show status like ‘%connection%’;<br>显示当前运行的Query： show processlist;<br>设置新的最大连接数为5000：<br>1）shell临时修改： set GLOBAL max_connections=5000;<br>2）在/etc/my.cnf 中修改连接max_connections = 250</p>
+<h1 id="问题记录">问题记录</h1><h2 id="Too_many_connections">Too many connections</h2><p>查看最大连接数：show variables like ‘max_connections’;<br>查询一下服务器响应的最大连接数： show global status like ‘Max_used_connections’;<br>show status like ‘%connection%’;<br>显示当前运行的Query： show processlist;<br>设置新的最大连接数为5000：<br>1）shell临时修改： set GLOBAL max_connections=5000;<br>2）在/etc/my.cnf 中修改连接max_connections = 5000</p>
+<h1 id="Packet_for_query_is_too_large">Packet for query is too large</h1><ul>
+<li>关于max_allowed_packet参数<br>MySQL根据配置文件会限制Server接受的数据包大小。有时候大的插入和更新会受 max_allowed_packet 参数限制，导致写入或者更新失败。</li>
+<li>查询：show VARIABLES like ‘%max_allowed_packet%’;</li>
+<li>命令行中修改：set global max_allowed_packet = 2<em>1024</em>1024*10;</li>
+<li>在windows（my.ini），Linux（/etc/my.cnf）中 修改：max_allowed_packet = 20M</li>
+</ul>
 <h2 id="You_can’t_specify_target_table_‘Place’_for_update_in_FROM_clause">You can’t specify target table ‘Place’ for update in FROM clause</h2><p>执行错误：DELETE   FROM  Place where guid in (select guid  from  Place  where address like ‘%市%区’ and address   not  like ‘%南海区%’) ;<br>修改为：DELETE   FROM  Place where guid in (select  * from (select guid  from  Place  where address like ‘%市%区’ and address   not  like ‘%南海区%’)  as t);</p>
-<h2 id="mysql表名区分大小写">mysql表名区分大小写</h2><p>MySQL在Windows下数据库名、表名、列名、别名都不区分大小写。<br>如果想大小写区分则在my.ini 里面的mysqld部分，加入 lower_case_table_names=0</p>
+<h2 id="mysql表名区分大小写">mysql表名区分大小写</h2><p>MySQL在Windows下数据库名、表名、列名、别名都不区分大小写。<br>如果想大小写区分，在my.ini 里面的mysqld部分，加入 lower_case_table_names=0</p>
 <h2 id="查询表的字段名称">查询表的字段名称</h2><p>select column_name from information_schema.columns where table_name = ‘ExtractedAddress’ and column_name like ‘地名%’ and  column_name &lt;&gt; ‘地名’</p>
 </span>
       
@@ -375,7 +381,7 @@
         <nav class="site-state motion-element">
           <div class="site-state-item site-state-posts">
             <a href="/archives">
-              <span class="site-state-item-count">57</span>
+              <span class="site-state-item-count">58</span>
               <span class="site-state-item-name">日志</span>
             </a>
           </div>
@@ -424,7 +430,7 @@
           <div class="post-toc">
             
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#重置root密码"><span class="nav-number">1.</span> <span class="nav-text">重置root密码</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#重启mysql服务"><span class="nav-number">2.</span> <span class="nav-text">重启mysql服务</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#MySQL开启远程连接"><span class="nav-number">3.</span> <span class="nav-text">MySQL开启远程连接</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#mysql_新建用户，设置权限"><span class="nav-number">4.</span> <span class="nav-text">mysql 新建用户，设置权限</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#登陆"><span class="nav-number">5.</span> <span class="nav-text">登陆</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#建库"><span class="nav-number">6.</span> <span class="nav-text">建库</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#数据导入"><span class="nav-number">7.</span> <span class="nav-text">数据导入</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#数据导出"><span class="nav-number">8.</span> <span class="nav-text">数据导出</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#问题记录"><span class="nav-number">9.</span> <span class="nav-text">问题记录</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#Too_many_connections"><span class="nav-number">9.1.</span> <span class="nav-text">Too many connections</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#You_can’t_specify_target_table_‘Place’_for_update_in_FROM_clause"><span class="nav-number">9.2.</span> <span class="nav-text">You can’t specify target table ‘Place’ for update in FROM clause</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#mysql表名区分大小写"><span class="nav-number">9.3.</span> <span class="nav-text">mysql表名区分大小写</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#查询表的字段名称"><span class="nav-number">9.4.</span> <span class="nav-text">查询表的字段名称</span></a></li></ol></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#重置root密码"><span class="nav-number">1.</span> <span class="nav-text">重置root密码</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#重启mysql服务"><span class="nav-number">2.</span> <span class="nav-text">重启mysql服务</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#MySQL开启远程连接"><span class="nav-number">3.</span> <span class="nav-text">MySQL开启远程连接</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#mysql_新建用户，设置权限"><span class="nav-number">4.</span> <span class="nav-text">mysql 新建用户，设置权限</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#登陆"><span class="nav-number">5.</span> <span class="nav-text">登陆</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#建库"><span class="nav-number">6.</span> <span class="nav-text">建库</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#数据导入"><span class="nav-number">7.</span> <span class="nav-text">数据导入</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#数据导出"><span class="nav-number">8.</span> <span class="nav-text">数据导出</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#问题记录"><span class="nav-number">9.</span> <span class="nav-text">问题记录</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#Too_many_connections"><span class="nav-number">9.1.</span> <span class="nav-text">Too many connections</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Packet_for_query_is_too_large"><span class="nav-number">10.</span> <span class="nav-text">Packet for query is too large</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#You_can’t_specify_target_table_‘Place’_for_update_in_FROM_clause"><span class="nav-number">10.1.</span> <span class="nav-text">You can’t specify target table ‘Place’ for update in FROM clause</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#mysql表名区分大小写"><span class="nav-number">10.2.</span> <span class="nav-text">mysql表名区分大小写</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#查询表的字段名称"><span class="nav-number">10.3.</span> <span class="nav-text">查询表的字段名称</span></a></li></ol></li></ol></div>
             
           </div>
           <div class="post-toc-indicator-bottom post-toc-indicator"></div>

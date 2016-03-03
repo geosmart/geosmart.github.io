@@ -30,7 +30,7 @@
 
 
 
-  <meta name="keywords" content="HDFS,Hadoop,Hive,Sqoop," />
+  <meta name="keywords" content="Hadoop,Hive,Sqoop," />
 
 
 
@@ -47,7 +47,7 @@
 <meta property="og:url" content="http://geosmart.github.io/2016/02/24/Sqoop使用笔记/index.html">
 <meta property="og:site_name" content="Geosmart's Notes">
 <meta property="og:description" content="Sqoop是Apache顶级项目，主要用来在Hadoop和关系数据库中传递数据。通过sqoop，可以方便的将数据从关系数据库导入到HDFS，或将数据从HDFS导出到关系数据库。">
-<meta property="og:updated_time" content="2016-02-24T06:46:01.038Z">
+<meta property="og:updated_time" content="2016-03-03T02:50:46.281Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Sqoop使用笔记">
 <meta name="twitter:description" content="Sqoop是Apache顶级项目，主要用来在Hadoop和关系数据库中传递数据。通过sqoop，可以方便的将数据从关系数据库导入到HDFS，或将数据从HDFS导出到关系数据库。">
@@ -281,8 +281,14 @@
 <figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="operator"><span class="keyword">DROP</span> <span class="keyword">TABLE</span> <span class="keyword">IF</span> <span class="keyword">EXISTS</span> geocodingdb.MatchingAddress;</span></span><br><span class="line"></span><br><span class="line"><span class="operator"><span class="keyword">create</span> <span class="keyword">external</span> <span class="keyword">table</span> geocodingdb.MatchingAddress (source_address_id <span class="keyword">string</span>,source_address <span class="keyword">string</span> ,head_splitted_address <span class="keyword">string</span>,splitted_skeleton_addressnode <span class="keyword">string</span>,skeleton_addressnode <span class="keyword">string</span>,skeleton_addressnode_type <span class="keyword">string</span>,tail_address <span class="keyword">string</span>,tail_splitted_address <span class="keyword">string</span>)</span><br><span class="line"><span class="keyword">row</span> <span class="keyword">format</span> delimited  <span class="keyword">fields</span> <span class="keyword">terminated</span> <span class="keyword">by</span> <span class="string">'\t'</span>  stored <span class="keyword">as</span> textfile;</span></span><br><span class="line"></span><br><span class="line"><span class="operator"><span class="keyword">load</span> <span class="keyword">data</span> inpath <span class="string">'/user/hdfs/MatchingAddress/*'</span>  <span class="keyword">into</span> <span class="keyword">table</span> geocodingdb.MatchingAddress;</span></span><br></pre></td></tr></table></figure>
 </li>
 </ul>
-<h2 id="MySQL表直接导入Hive">MySQL表直接导入Hive</h2><p>MySQL表授权<br><figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="operator"><span class="keyword">GRANT</span> <span class="keyword">ALL</span> <span class="keyword">PRIVILEGES</span> <span class="keyword">ON</span> *.* <span class="keyword">TO</span> <span class="string">'geocodingdb'</span>@<span class="string">'%'</span> <span class="keyword">IDENTIFIED</span> <span class="keyword">BY</span> <span class="string">'geocodingdb'</span> <span class="keyword">with</span> <span class="keyword">grant</span> <span class="keyword">option</span>;</span></span><br><span class="line"><span class="operator"><span class="keyword">FLUSH</span> <span class="keyword">PRIVILEGES</span>;</span></span><br></pre></td></tr></table></figure></p>
-<p>hive-import命令<br><figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sqoop import --connect jdbc:mysql://192.168.1.161:3306/geocodingdb --driver com.mysql.jdbc.Driver   \&#10;--username geocodingdb --password geocodingdb  \&#10;--table MatchingAddress \&#10;--hive-import</span><br></pre></td></tr></table></figure></p>
+<h2 id="MySQL表直接导入Hive">MySQL表直接导入Hive</h2><ul>
+<li><p>MySQL表授权</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="operator"><span class="keyword">GRANT</span> <span class="keyword">ALL</span> <span class="keyword">PRIVILEGES</span> <span class="keyword">ON</span> *.* <span class="keyword">TO</span> <span class="string">'geocodingdb'</span>@<span class="string">'%'</span> <span class="keyword">IDENTIFIED</span> <span class="keyword">BY</span> <span class="string">'geocodingdb'</span> <span class="keyword">with</span> <span class="keyword">grant</span> <span class="keyword">option</span>;</span></span><br><span class="line"><span class="operator"><span class="keyword">FLUSH</span> <span class="keyword">PRIVILEGES</span>;</span></span><br></pre></td></tr></table></figure>
+</li>
+<li><p>hive-import命令<br>注意导入MySQL表结构字段顺序需与Hive表结构字段顺序一致</p>
+<figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sqoop import --connect jdbc:mysql://192.168.1.161:3306/geocodingdb   \&#10;--driver com.mysql.jdbc.Driver   \&#10;--username geocodingdb --password geocodingdb  \&#10;--table MatchingAddress       \&#10;--fields-terminated-by &#39;\t&#39;  --lines-terminated-by &#39;\n&#39; --optionally-enclosed-by &#39;\&#34;&#39;     \&#10;--direct</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
 <h1 id="Hive表导出到MySQL">Hive表导出到MySQL</h1><figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sqoop export --direct --connect jdbc:mysql://192.168.1.161:3306/geocodingdb --driver com.mysql.jdbc.Driver   \&#10;--username geocodingdb --password geocodingdb  \&#10;--table MatchedAddressGroupbySkeleton \&#10;--export-dir /user/hive/warehouse/geocodingdb.db/matchedaddressgroupbyskeleton  \&#10;--input-fields-terminated-by &#34;\t&#34;   \&#10;--input-null-string &#34;\\\\N&#34; --input-null-non-string &#34;\\\\N&#34;</span><br></pre></td></tr></table></figure>
 <h1 id="Sqoop(MySQL)常用命令">Sqoop(MySQL)常用命令</h1><h2 id="指定列">指定列</h2><p>sqoop import –connect jdbc:mysql://db.foo.com/corp –table EMPLOYEES \<br>–columns “employee_id,first_name,last_name,job_title”</p>
 <h2 id="使用8个线程">使用8个线程</h2><p>sqoop import –connect jdbc:mysql://db.foo.com/corp –table EMPLOYEES \<br>-m 8</p>
@@ -305,8 +311,6 @@
     <footer class="post-footer">
       
         <div class="post-tags">
-          
-            <a href="/tags/HDFS/" rel="tag">#HDFS</a>
           
             <a href="/tags/Hadoop/" rel="tag">#Hadoop</a>
           
@@ -393,7 +397,7 @@
         <nav class="site-state motion-element">
           <div class="site-state-item site-state-posts">
             <a href="/archives">
-              <span class="site-state-item-count">57</span>
+              <span class="site-state-item-count">58</span>
               <span class="site-state-item-name">日志</span>
             </a>
           </div>

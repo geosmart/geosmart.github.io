@@ -30,7 +30,7 @@
 
 
 
-  <meta name="keywords" content="CentOS,Jetty,Web服务器," />
+  <meta name="keywords" content="HDFS,Hadoop," />
 
 
 
@@ -41,19 +41,17 @@
   <link rel="shorticon icon" type="image/x-icon" href="/favicon.ico?v=0.4.5.1" />
 
 
-<meta name="description" content="##安装步骤将文件复制到CentOS后进行安装
-下载解压Jetty1234cd /tmpwget http://eclipse.org/downloads/download.php?file=/jetty/stable-9/dist/jetty-distribution-9.3.0.v20150612.tar.gz&amp;amp;r=1tar -xzvf  jetty-distribution-9.3.">
+<meta name="description" content="Hadoop框架中最核心的设计就是：MapReduce和HDFS。MapReduce的思想是分而治之（任务的分解与结果的汇总）。HDFS是Hadoop分布式文件系统（Hadoop Distributed File System）的缩写，为分布式计算存储提供了底层支持。">
 <meta property="og:type" content="article">
-<meta property="og:title" content="jetty手动安装脚本">
-<meta property="og:url" content="http://geosmart.github.io/2015/06/28/jetty手动安装脚本/index.html">
+<meta property="og:title" content="HDFS使用笔记">
+<meta property="og:url" content="http://geosmart.github.io/2016/03/03/HDFS使用笔记/index.html">
 <meta property="og:site_name" content="Geosmart's Notes">
-<meta property="og:description" content="##安装步骤将文件复制到CentOS后进行安装
-下载解压Jetty1234cd /tmpwget http://eclipse.org/downloads/download.php?file=/jetty/stable-9/dist/jetty-distribution-9.3.0.v20150612.tar.gz&amp;amp;r=1tar -xzvf  jetty-distribution-9.3.">
-<meta property="og:updated_time" content="2015-12-29T01:08:35.549Z">
+<meta property="og:description" content="Hadoop框架中最核心的设计就是：MapReduce和HDFS。MapReduce的思想是分而治之（任务的分解与结果的汇总）。HDFS是Hadoop分布式文件系统（Hadoop Distributed File System）的缩写，为分布式计算存储提供了底层支持。">
+<meta property="og:image" content="https://hadoop.apache.org/docs/r1.2.1/images/hdfsarchitecture.gif">
+<meta property="og:updated_time" content="2016-03-03T03:02:59.001Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="jetty手动安装脚本">
-<meta name="twitter:description" content="##安装步骤将文件复制到CentOS后进行安装
-下载解压Jetty1234cd /tmpwget http://eclipse.org/downloads/download.php?file=/jetty/stable-9/dist/jetty-distribution-9.3.0.v20150612.tar.gz&amp;amp;r=1tar -xzvf  jetty-distribution-9.3.">
+<meta name="twitter:title" content="HDFS使用笔记">
+<meta name="twitter:description" content="Hadoop框架中最核心的设计就是：MapReduce和HDFS。MapReduce的思想是分而治之（任务的分解与结果的汇总）。HDFS是Hadoop分布式文件系统（Hadoop Distributed File System）的缩写，为分布式计算存储提供了底层支持。">
 
 
 <script type="text/javascript" id="hexo.configuration">
@@ -63,7 +61,7 @@
   };
 </script>
 
-  <title> jetty手动安装脚本 | Geosmart's Notes </title>
+  <title> HDFS使用笔记 | Geosmart's Notes </title>
 </head>
 
 <body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
@@ -217,7 +215,7 @@
           
           
             
-              jetty手动安装脚本
+              HDFS使用笔记
             
           
         </h1>
@@ -226,8 +224,8 @@
       <div class="post-meta">
         <span class="post-time">
           发表于
-          <time itemprop="dateCreated" datetime="2015-06-28T13:39:00+08:00" content="28   June   2015">
-            28   June   2015
+          <time itemprop="dateCreated" datetime="2016-03-03T10:42:57+08:00" content="3   March   2016">
+            3   March   2016
           </time>
         </span>
 
@@ -236,8 +234,8 @@
             &nbsp; | &nbsp; 分类于
             
               <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
-                <a href="/categories/运维/" itemprop="url" rel="index">
-                  <span itemprop="name">运维</span>
+                <a href="/categories/数据库/" itemprop="url" rel="index">
+                  <span itemprop="name">数据库</span>
                 </a>
               </span>
 
@@ -252,8 +250,8 @@
           
             <span class="post-comments-count">
               &nbsp; | &nbsp;
-              <a href="/2015/06/28/jetty手动安装脚本/#comments" itemprop="discussionUrl">
-                <span class="post-comments-count ds-thread-count" data-thread-key="2015/06/28/jetty手动安装脚本/" itemprop="commentsCount"></span>
+              <a href="/2016/03/03/HDFS使用笔记/#comments" itemprop="discussionUrl">
+                <span class="post-comments-count ds-thread-count" data-thread-key="2016/03/03/HDFS使用笔记/" itemprop="commentsCount"></span>
               </a>
             </span>
           
@@ -267,16 +265,24 @@
       
 
       
-        <span itemprop="articleBody"><p>##安装步骤<br>将文件复制到CentOS后进行安装</p>
-<h3 id="下载解压Jetty">下载解压Jetty</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">cd</span> /tmp</span><br><span class="line">wget http://eclipse.org/downloads/download.php?file=/jetty/stable-<span class="number">9</span>/dist/jetty-distribution-<span class="number">9.3</span>.<span class="number">0</span>.v20150612.tar.gz&amp;r=<span class="number">1</span></span><br><span class="line">tar -xzvf  jetty-distribution-<span class="number">9.3</span>.<span class="number">0</span>.v20150612.tar.gz</span><br><span class="line">mv jetty-distribution-<span class="number">9.1</span>.<span class="number">1</span>.v20140108 /usr/<span class="built_in">local</span>/jetty</span><br></pre></td></tr></table></figure>
-<h3 id="新建用户&gt;配置jetty所属权限">新建用户&gt;配置jetty所属权限</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">useradd -m jetty</span><br><span class="line">chown -R jetty:jetty /usr/<span class="built_in">local</span>/jetty/</span><br></pre></td></tr></table></figure>
-<h3 id="安装到系统服务">安装到系统服务</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">ln <span class="operator">-s</span> /usr/<span class="built_in">local</span>/jetty/bin/jetty.sh /etc/init.d/jetty</span><br><span class="line">chkconfig --add jetty</span><br><span class="line">chkconfig --level <span class="number">345</span> jetty on</span><br></pre></td></tr></table></figure>
-<h3 id="编辑启动脚本">编辑启动脚本</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">vim /etc/default/jetty</span><br><span class="line">JETTY_HOME=/usr/<span class="built_in">local</span>/jetty</span><br><span class="line">JETTY_USER=jetty</span><br><span class="line">JETTY_PORT=<span class="number">8080</span></span><br><span class="line">JETTY_LOGS=/usr/<span class="built_in">local</span>/jetty/logs/</span><br></pre></td></tr></table></figure>
-<h3 id="启动服务&gt;测试">启动服务&gt;测试</h3><pre><code class="bash">service jetty start
-curl localhost:<span class="number">8080</span>
-</code></pre>
-<h3 id="常用操作指令">常用操作指令</h3><pre><code class="bash">jetty [<span class="operator">-d</span>] {start|stop|run|restart|check|supervise} [ CONFIGS ... ]
-</code></pre>
+        <span itemprop="articleBody"><p>Hadoop框架中最核心的设计就是：MapReduce和HDFS。MapReduce的思想是分而治之（任务的分解与结果的汇总）。HDFS是Hadoop分布式文件系统（Hadoop Distributed File System）的缩写，为分布式计算存储提供了底层支持。</p>
+<hr>
+<a id="more"></a>
+<p><img src="https://hadoop.apache.org/docs/r1.2.1/images/hdfsarchitecture.gif" alt="HDFS架构图"></p>
+<h1 id="HDFS的基本概念">HDFS的基本概念</h1><h2 id="数据块(block)">数据块(block)</h2><p>HDFS默认的最基本的存储单位是64M的数据块。和普通文件系统相同的是，HDFS中的文件是被分成64M一块的数据块存储的。不同于普通文件系统的是，HDFS中，如果一个文件小于一个数据块的大小，并不占用整个数据块存储空间。</p>
+<h2 id="元数据节点(Namenode)">元数据节点(Namenode)</h2><p>元数据节点用来管理文件系统的命名空间。其将所有的文件和文件夹的元数据保存在一个文件系统树中。这些信息也会在硬盘上保存成以下文件：命名空间镜像(namespace image)及修改日志(edit log)其还保存了一个文件包括哪些数据块，分布在哪些数据节点上。然而这些信息并不存储在硬盘上，而是在系统启动的时候从数据节点收集而成的。</p>
+<h2 id="数据节点(datanode)">数据节点(datanode)</h2><p>数据节点是文件系统中真正存储数据的地方。客户端(client)或者元数据信息(namenode)可以向数据节点请求写入或者读出数据块。其周期性的向元数据节点回报其存储的数据块信息。</p>
+<h2 id="从元数据节点(secondary_namenode)">从元数据节点(secondary namenode)</h2><p>从元数据节点并不是元数据节点出现问题时候的备用节点，它和元数据节点负责不同的事情。其主要功能就是周期性将元数据节点的命名空间镜像文件和修改日志合并，以防日志文件过大。合并过后的命名空间镜像文件也在从元数据节点保存了一份，以防元数据节点失败的时候，可以恢复。</p>
+<h1 id="HDFS读文件原理">HDFS读文件原理</h1><p>//TODO</p>
+<h1 id="HDFS写文件原理">HDFS写文件原理</h1><p>//TODO</p>
+<h1 id="HDFS文件操作">HDFS文件操作</h1><h2 id="上传本地文件到hdfs">上传本地文件到hdfs</h2><p><a href="http://www.linuxidc.com/Linux/2013-05/83867.htm">使用Java实现在HDFS中创建文件夹</a><br><figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">hdfs dfs -rm  /user/uadb/etl/geocoding&#10;hdfs dfs -rm  /user/uadb/etl/geocoding&#10;hdfs dfs -put  /user/uadb/etl/geocoding  /user/uadb/etl/</span><br></pre></td></tr></table></figure></p>
+<h2 id="删除hdfs文件">删除hdfs文件</h2><ul>
+<li>rm命令：<code>-rm [-f] [-r|-R] [-skipTrash] &lt;src&gt; ...]</code><br>删除hdfs文件夹内所有文件：<code>hdfs dfs  -rm -R  /user/hive/warehouse/geocodingdb.db/addressnodesgroupbyskeleton/*</code></li>
+</ul>
+<h2 id="删除hdfs文件夹">删除hdfs文件夹</h2><ul>
+<li>rmdir命令：<code>[-rmdir [--ignore-fail-on-non-empty] &lt;dir&gt; ...]</code>，不能删除非空文件夹<br>hdfs dfs  -rmdir   /user/hive/warehouse/geocodingdb.db/addressnodesgroupbyskeleton</li>
+</ul>
+<h1 id="HDFS相关">HDFS相关</h1><h2 id="为什么HDFS不适合大量小文件">为什么HDFS不适合大量小文件</h2><p>1）在HDFS中，namenode将文件系统中的元数据存储在内存中，因此，HDFS所能存储的文件数量会受到namenode内存的限制。一般来说，每个文件、目录、数据块的存储信息大约占150个字节，根据当前namenode的内存空间的配置，就可以计算出大约能容纳多少个文件了。<br>2）有一种误解就是，之所以HDFS不适合大量小文件，是因为即使很小的文件也会占用一个块的存储空间。这是错误的，HDFS与其它文件系统不同，小于一个块大小的文件，不会占用一个块的空间。</p>
 </span>
       
     </div>
@@ -285,11 +291,9 @@ curl localhost:<span class="number">8080</span>
       
         <div class="post-tags">
           
-            <a href="/tags/CentOS/" rel="tag">#CentOS</a>
+            <a href="/tags/HDFS/" rel="tag">#HDFS</a>
           
-            <a href="/tags/Jetty/" rel="tag">#Jetty</a>
-          
-            <a href="/tags/Web服务器/" rel="tag">#Web服务器</a>
+            <a href="/tags/Hadoop/" rel="tag">#Hadoop</a>
           
         </div>
       
@@ -298,13 +302,11 @@ curl localhost:<span class="number">8080</span>
         <div class="post-nav">
           <div class="post-nav-prev post-nav-item">
             
-              <a href="/2015/06/28/jdk安装脚本/" rel="prev">jdk安装脚本</a>
-            
           </div>
 
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2015/06/28/jetty一键安装脚本/" rel="next">jetty一键安装脚本</a>
+              <a href="/2016/02/24/Python开发常见问题/" rel="next">Python开发常见问题</a>
             
           </div>
         </div>
@@ -329,8 +331,8 @@ curl localhost:<span class="number">8080</span>
         
           <div class="comments" id="comments">
             
-              <div class="ds-thread" data-thread-key="2015/06/28/jetty手动安装脚本/"
-                   data-title="jetty手动安装脚本" data-url="http://geosmart.github.io/2015/06/28/jetty手动安装脚本/">
+              <div class="ds-thread" data-thread-key="2016/03/03/HDFS使用笔记/"
+                   data-title="HDFS使用笔记" data-url="http://geosmart.github.io/2016/03/03/HDFS使用笔记/">
               </div>
             
           </div>
@@ -419,7 +421,7 @@ curl localhost:<span class="number">8080</span>
           <div class="post-toc">
             
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#下载解压Jetty"><span class="nav-number">1.</span> <span class="nav-text">下载解压Jetty</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#新建用户>配置jetty所属权限"><span class="nav-number">2.</span> <span class="nav-text">新建用户>配置jetty所属权限</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#安装到系统服务"><span class="nav-number">3.</span> <span class="nav-text">安装到系统服务</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#编辑启动脚本"><span class="nav-number">4.</span> <span class="nav-text">编辑启动脚本</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#启动服务>测试"><span class="nav-number">5.</span> <span class="nav-text">启动服务>测试</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#常用操作指令"><span class="nav-number">6.</span> <span class="nav-text">常用操作指令</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#HDFS的基本概念"><span class="nav-number">1.</span> <span class="nav-text">HDFS的基本概念</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#数据块(block)"><span class="nav-number">1.1.</span> <span class="nav-text">数据块(block)</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#元数据节点(Namenode)"><span class="nav-number">1.2.</span> <span class="nav-text">元数据节点(Namenode)</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#数据节点(datanode)"><span class="nav-number">1.3.</span> <span class="nav-text">数据节点(datanode)</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#从元数据节点(secondary_namenode)"><span class="nav-number">1.4.</span> <span class="nav-text">从元数据节点(secondary namenode)</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#HDFS读文件原理"><span class="nav-number">2.</span> <span class="nav-text">HDFS读文件原理</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#HDFS写文件原理"><span class="nav-number">3.</span> <span class="nav-text">HDFS写文件原理</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#HDFS文件操作"><span class="nav-number">4.</span> <span class="nav-text">HDFS文件操作</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#上传本地文件到hdfs"><span class="nav-number">4.1.</span> <span class="nav-text">上传本地文件到hdfs</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#删除hdfs文件"><span class="nav-number">4.2.</span> <span class="nav-text">删除hdfs文件</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#删除hdfs文件夹"><span class="nav-number">4.3.</span> <span class="nav-text">删除hdfs文件夹</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#HDFS相关"><span class="nav-number">5.</span> <span class="nav-text">HDFS相关</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#为什么HDFS不适合大量小文件"><span class="nav-number">5.1.</span> <span class="nav-text">为什么HDFS不适合大量小文件</span></a></li></ol></li></ol></div>
             
           </div>
           <div class="post-toc-indicator-bottom post-toc-indicator"></div>
