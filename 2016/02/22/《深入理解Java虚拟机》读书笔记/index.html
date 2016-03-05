@@ -48,7 +48,12 @@
 <meta property="og:site_name" content="Geosmart's Notes">
 <meta property="og:description" content="2016上半年花点时间深入了解JVM，读《《深入理解Java虚拟机 JVM高级特性与最佳实践》，整理遇到过的内存泄漏，性能优化问题">
 <meta property="og:image" content="http://geosmart.github.io/JDK技术组成.png">
-<meta property="og:updated_time" content="2016-02-24T07:06:00.758Z">
+<meta property="og:image" content="http://geosmart.github.io/Java虚拟机运行时数据区.jpg">
+<meta property="og:image" content="http://geosmart.github.io/JavaStacks.jpg">
+<meta property="og:image" content="http://geosmart.github.io/Java本地方法栈.png">
+<meta property="og:image" content="http://geosmart.github.io/JavaHeap.gif">
+<meta property="og:image" content="http://geosmart.github.io/Java虚拟机运行时数据区拓扑关系.png">
+<meta property="og:updated_time" content="2016-03-05T15:38:33.402Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="《深入理解Java虚拟机》读书笔记">
 <meta name="twitter:description" content="2016上半年花点时间深入了解JVM，读《《深入理解Java虚拟机 JVM高级特性与最佳实践》，整理遇到过的内存泄漏，性能优化问题">
@@ -297,7 +302,50 @@
 <li>64位虚拟机（计算机终究完全过渡到64位的时代）</li>
 </ul>
 <h2 id="JDK编译实战">JDK编译实战</h2><p><a href="https://jdk7.java.net/source.html">OpenJDK7下载</a><br>Building the source code for the OpenJDK requires a certain degree of technical expertise.</p>
-<h1 id="第二章_Java内存区域与内存溢出异常">第二章 Java内存区域与内存溢出异常</h1></span>
+<h1 id="第二章_Java内存区域与内存溢出异常">第二章 Java内存区域与内存溢出异常</h1><h2 id="运行时的数据区域">运行时的数据区域</h2><p><img src="Java虚拟机运行时数据区.jpg" alt="Java虚拟机运行时数据区"></p>
+<h3 id="程序计数器">程序计数器</h3><ul>
+<li>程序计数器（Program Counter Register）是一块比较小的内存空间，它可以看作是当前线程所执行的字节码的行号指示器；</li>
+<li>PCR为线程私有内存；</li>
+<li>是唯一一个在Java虚拟机规范中没有规定任何OOM情况的区域；</li>
+</ul>
+<h3 id="Java虚拟机栈">Java虚拟机栈</h3><p><img src="JavaStacks.jpg" alt="Java虚拟机栈"></p>
+<ul>
+<li>Java虚拟机栈（Java Virtual Machine Stacks）描述的是Java方法执行的内存模型：每个方法在在执行的同时都会创建一个栈帧（Stack Frame）用于存储 局部变量表、操作数栈、动态链接、方法接口 等信息。每个方法从调用直至执行完成的过程，就对应着一个栈帧在虚拟机栈中入栈出栈的过程。</li>
+<li>Java虚拟机栈也是线程私有，它的生命周期与线程相同。</li>
+<li>Java内存区常分为 堆内存（Heap）和栈内存（Stack）；</li>
+<li>OOM情况：（1）线程请求的栈深度&gt;虚拟机所运行的最大深度；（2）虚拟机动态扩展时无法申请到足够的内存</li>
+</ul>
+<h3 id="本地方法栈">本地方法栈</h3><p><img src="Java本地方法栈.png" alt="Java本地方法栈"><br>本地方法栈（Native Method Stack）与虚拟机所发挥的作用非常相似的，他们之间的区别不过是虚拟机栈为虚拟机执行Java方法（也就是字节码）服务，而本地方法栈则为虚拟机所使用的Native方法服务。</p>
+<ul>
+<li>HotSpot虚拟机把本地方法栈和虚拟机栈合二为一；</li>
+<li>此区域会抛StackOverflowError 和 OutofMemoryError异常</li>
+</ul>
+<h3 id="Java堆">Java堆</h3><p><img src="JavaHeap.gif" alt="Java堆"><br>Java堆（Java Heap）是Java虚拟机所管理的内存中最大的一块，Java Heap是所有线程共享的一块内存区域，在VM启动时创建。</p>
+<ul>
+<li>所有的对象实例以及数组都要在堆上分配（不绝对：栈上分配、标量替换优化技术）；</li>
+<li>Java堆是垃圾收集器管理的主要区域，也可称做GC堆（Garbage Collected Heap）</li>
+<li>从内存回收的角度，现代收集器基本都采用分代收集算法，Java Heap可细分为新生代和老年代，再细致可氛围Eden空间、From Survivor空间、To Survivor空间等–&gt;更好回收内存。</li>
+<li>从内存分配的角度，线程共享的Java堆中可能分出多个线程私有的分配缓存区（TLAB：Thread Local Allocation Buffer）–&gt;更快分配内存。</li>
+<li>Java堆出于逻辑连续的内存空间中，物理上可不连续，如磁盘空间一样；</li>
+<li>Java堆在实现上可时，可以实现成固定大小的，也可以按照可扩展实现（-Xmx和-Xms控制）；</li>
+<li>OOM情况：堆中没有内存完成实例分配，堆也无法再扩展时</li>
+</ul>
+<h3 id="方法区">方法区</h3><p>方法区（Method Area）与Java堆一样，是各个线程共享的内存区域，它用于存储已被虚拟机加载的类信息、常量、静态变量、即时编译器编译后的代码等数据。</p>
+<ul>
+<li>也称为永久代（Permanent Generation）但随着Java8的到来，已放弃永久代改为采用Native Memory来实现方法区的规划。</li>
+<li>此区域回收目标主要是针对常量池的回收和对类型的卸载。</li>
+</ul>
+<h3 id="运行时常量池">运行时常量池</h3><p><img src="Java虚拟机运行时数据区拓扑关系.png" alt="Java虚拟机运行时数据区拓扑关系"><br>运行时常量池（Runtime Constants Pool）是方法区的一部分</p>
+<ul>
+<li>Class文件中除了有类的版本、字段、方法、接口等描述的信息外，还有一项信息是常量池（Constant Pool Table）,用于存放编译期生成的各种字面量和符号引用，这部分内容将在类加载后进入方法区的运行时常量池中存放。</li>
+</ul>
+<h3 id="直接内存">直接内存</h3><p>直接内存（Direct Memory）并不是虚拟机运行时数据区的一部分，也不是虚拟机规范中定义的内存区域。</p>
+<ul>
+<li>能在一些场景中显著提高性能，因为避免了在Java堆和Native堆中来回复制数据。</li>
+<li>直接内存的分配不会受到Java堆大小的限制，但会收到本机总内存（RAM以及SWAP/分页文件）大小以及处理器寻址空间的限制。</li>
+<li>设置Xmx等参数信息时注意不能忽略直接内存，不然会引起OOM。</li>
+</ul>
+<h2 id="HotSpot虚拟机">HotSpot虚拟机</h2></span>
       
     </div>
 
@@ -435,7 +483,7 @@
           <div class="post-toc">
             
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#第一章_走近Java"><span class="nav-number">1.</span> <span class="nav-text">第一章 走近Java</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#Java技术体系"><span class="nav-number">1.1.</span> <span class="nav-text">Java技术体系</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Java发展史"><span class="nav-number">1.2.</span> <span class="nav-text">Java发展史</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Java虚拟机发展史"><span class="nav-number">1.3.</span> <span class="nav-text">Java虚拟机发展史</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Java技术的未来展望"><span class="nav-number">1.4.</span> <span class="nav-text">Java技术的未来展望</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#JDK编译实战"><span class="nav-number">1.5.</span> <span class="nav-text">JDK编译实战</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#第二章_Java内存区域与内存溢出异常"><span class="nav-number">2.</span> <span class="nav-text">第二章 Java内存区域与内存溢出异常</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#第一章_走近Java"><span class="nav-number">1.</span> <span class="nav-text">第一章 走近Java</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#Java技术体系"><span class="nav-number">1.1.</span> <span class="nav-text">Java技术体系</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Java发展史"><span class="nav-number">1.2.</span> <span class="nav-text">Java发展史</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Java虚拟机发展史"><span class="nav-number">1.3.</span> <span class="nav-text">Java虚拟机发展史</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Java技术的未来展望"><span class="nav-number">1.4.</span> <span class="nav-text">Java技术的未来展望</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#JDK编译实战"><span class="nav-number">1.5.</span> <span class="nav-text">JDK编译实战</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#第二章_Java内存区域与内存溢出异常"><span class="nav-number">2.</span> <span class="nav-text">第二章 Java内存区域与内存溢出异常</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#运行时的数据区域"><span class="nav-number">2.1.</span> <span class="nav-text">运行时的数据区域</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#程序计数器"><span class="nav-number">2.1.1.</span> <span class="nav-text">程序计数器</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Java虚拟机栈"><span class="nav-number">2.1.2.</span> <span class="nav-text">Java虚拟机栈</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#本地方法栈"><span class="nav-number">2.1.3.</span> <span class="nav-text">本地方法栈</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Java堆"><span class="nav-number">2.1.4.</span> <span class="nav-text">Java堆</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#方法区"><span class="nav-number">2.1.5.</span> <span class="nav-text">方法区</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#运行时常量池"><span class="nav-number">2.1.6.</span> <span class="nav-text">运行时常量池</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#直接内存"><span class="nav-number">2.1.7.</span> <span class="nav-text">直接内存</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#HotSpot虚拟机"><span class="nav-number">2.2.</span> <span class="nav-text">HotSpot虚拟机</span></a></li></ol></li></ol></div>
             
           </div>
           <div class="post-toc-indicator-bottom post-toc-indicator"></div>

@@ -744,17 +744,19 @@
 
       
         
-          <span itemprop="articleBody">
-            
-            升级前安装依赖yum groupinstall &quot;Development tools&quot;
-Python 2.7.9 下载&gt;解压&gt;编译&gt;安装123456wget https://www.python.org/ftp/python/2.7.9/Python-2.7.9
-            ...
-          </span>
-          <div class="post-more-link text-center">
-            <a class="btn" href="/2015/08/05/Python安装升级教程/#more" rel="contents">
-              阅读全文 &raquo;
-            </a>
-          </div>
+          <span itemprop="articleBody"><h1 id="升级前安装依赖">升级前安装依赖</h1><p><code>yum groupinstall &quot;Development tools&quot;</code></p>
+<h1 id="Python_2-7-9_下载&gt;解压&gt;编译&gt;安装">Python 2.7.9 下载&gt;解压&gt;编译&gt;安装</h1><figure class="highlight vim"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">wget http<span class="variable">s:</span>//www.<span class="keyword">python</span>.org/ftp/<span class="keyword">python</span>/<span class="number">2.7</span>.<span class="number">9</span>/Python-<span class="number">2.7</span>.<span class="number">9</span>.tgz </span><br><span class="line">tar jxvf Python-<span class="number">2.7</span>.<span class="number">9</span>.tgz   </span><br><span class="line">mv Python-<span class="number">2.7</span>.<span class="number">9</span>  <span class="keyword">python</span></span><br><span class="line"><span class="keyword">cd</span> <span class="keyword">python</span></span><br><span class="line">./configure --prefix=/usr/local/<span class="keyword">python</span></span><br><span class="line"><span class="keyword">make</span> &amp;&amp; <span class="keyword">make</span> altinstall</span><br></pre></td></tr></table></figure>
+<ul>
+<li>关于altinstall<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"> Warning</span><br><span class="line">make <span class="operator"><span class="keyword">install</span> can overwrite <span class="keyword">or</span> masquerade the python <span class="built_in">binary</span>. make altinstall <span class="keyword">is</span> therefore recommended instead <span class="keyword">of</span> make <span class="keyword">install</span> since it <span class="keyword">only</span> installs exec_prefix/<span class="keyword">bin</span>/pythonversion.</span></span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<h1 id="修改系统默认Python">修改系统默认Python</h1><ol>
+<li>查看已有python版本<br><code>python -V</code></li>
+<li>查看Python版本<br><code>/usr/local/python/bin/python2.7 -V</code></li>
+<li>将系统默认Python改为新安装的Python<br><code>ln -fs /usr/local/python/bin/python2.7 /usr/bin/python</code></li>
+</ol>
+<h1 id="yum无法运行问题">yum无法运行问题</h1><p>进行更改后，yum会无法运行了。修改/usr/bin/yum文件，将第一行的<br><code>#!/usr/bin/python</code><br>中的python改为系统原有的python版本，如下：<br><code>#!/usr/bin/python2.6</code>  </p>
+</span>
         
       
     </div>
@@ -926,20 +928,40 @@ Python 2.7.9 下载&gt;解压&gt;编译&gt;安装123456wget https://www.python.o
 
       
         
-          <span itemprop="articleBody">
-            
-            Marionette（Backbone的牵线木偶）提供rendering、template管理、UI对象
-Modelrest数据，event事件
-Collection：ListViewItemView
-Backbone.View的扩展，用于渲染Backbone.Model
-拥有modelEvents
-            ...
-          </span>
-          <div class="post-more-link text-center">
-            <a class="btn" href="/2015/07/28/backbone-marionette学习要点/#more" rel="contents">
-              阅读全文 &raquo;
-            </a>
-          </div>
+          <span itemprop="articleBody"><h1 id="Marionette（Backbone的牵线木偶）">Marionette（Backbone的牵线木偶）</h1><p>提供rendering、template管理、UI对象</p>
+<h1 id="Model">Model</h1><p>rest数据，event事件</p>
+<h1 id="Collection：List">Collection：List<model></h1><h1 id="View">View</h1><h2 id="ItemView">ItemView</h2><ul>
+<li>Backbone.View的扩展，用于渲染Backbone.Model</li>
+<li>拥有modelEvents属性，可绑定View方法</li>
+</ul>
+<h2 id="CollectionView">CollectionView</h2><ul>
+<li>用于渲染Backbone.Collection</li>
+<li>可渲染List<ItemView></li>
+<li>拥有collectionEvents/childEvents属性，</li>
+<li>add/remove/reset/etc后自动更新视图</li>
+<li>支持Filtering（filter方法）、Sorting（comparator属性）</li>
+<li>支持Pagination</li>
+</ul>
+<h2 id="CompositeView">CompositeView</h2><ul>
+<li>renders a Collection within a template</li>
+<li>ItemView（model）和CollectionView（collection）的组合</li>
+<li>用于detail/table/nested lists/treeview类型的场景</li>
+</ul>
+<h1 id="View_Containers">View Containers</h1><h2 id="Region">Region</h2><p>View容器，渲染至DOM，DOM和Backbone的桥梁</p>
+<h2 id="LayoutView">LayoutView</h2><ul>
+<li>用于复杂嵌套布局，multi-view组成的widget</li>
+<li>Region容器</li>
+<li>render all in one call</li>
+</ul>
+<h1 id="Application">Application</h1><p>initialization初始化和 bootstrapping引导程序</p>
+<h1 id="Module">Module</h1><p>类似Application，多个Modules组成Application<br>可控制start/stop模块（及其子模块）</p>
+<h1 id="Controller">Controller</h1><p>组件间的交互，用于复杂业务逻辑的业务场景</p>
+<p>layouts/regions：动态create/display/dispose页面dom</p>
+<h1 id="event_aggregrator">event aggregrator</h1><p>可bind/trigger事件<br>module/application级别的事件通道，其他所有模块都可监听，可用于如用户登陆成功的业务场景</p>
+<h1 id="Commands">Commands</h1><p>多处触发，一处处理</p>
+<h1 id="Request/Response">Request/Response</h1><p>用于提供Application Level Data，如购物车当前状态<br>提供全局状态，无需所有模块都做处理，但易被滥用，当全局可操作时难预测其影响</p>
+<p>appRouter：</p>
+</span>
         
       
     </div>
