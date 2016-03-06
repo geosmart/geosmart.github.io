@@ -132,12 +132,12 @@ marked:
 # Server
 server:
   port: 5000
-  log: true
+  log: false
   ip: 127.0.0.1
 
 ## Docs: http://hexo.io/docs/deployment.html
 deploy:
   type: git
   repo: https://github.com/geosmart/geosmart.github.io.git
-  branch: gh-pages
-  message: update posts-auto deploy
+  branch: source
+  message: update blog by hexo auto deploy
