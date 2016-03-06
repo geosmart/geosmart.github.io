@@ -139,5 +139,5 @@ server:
 deploy:
   type: git
   repo: https://github.com/geosmart/geosmart.github.io.git
-  branch: source
+  branch: master
   message: update blog by hexo auto deploy
