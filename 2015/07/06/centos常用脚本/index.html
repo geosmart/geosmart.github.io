@@ -1,0 +1,766 @@
+<!doctype html>
+<html class="theme-next use-motion theme-next-mist">
+<head>
+  
+
+<meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+  <link rel="stylesheet" type="text/css" href="/vendors/fancybox/source/jquery.fancybox.css?v=2.1.5"/>
+
+
+
+
+<link rel="stylesheet" type="text/css" href="/css/main.css?v=0.4.5.1"/>
+
+
+    <meta name="description" content="追求心智成长，记录技术点滴" />
+
+
+
+  <meta name="keywords" content="CentOS,Shell," />
+
+
+
+  <link rel="alternate" href="/atom.xml" title="Geosmart's Notes" type="application/atom+xml" />
+
+
+
+  <link rel="shorticon icon" type="image/x-icon" href="/favicon.ico?v=0.4.5.1" />
+
+
+<meta name="description" content="CentOS日常使用过程中积累的Shell脚本或Linux命令，持续维护更新">
+<meta property="og:type" content="article">
+<meta property="og:title" content="CentOS常用脚本">
+<meta property="og:url" content="http://geosmart.github.io/2015/07/06/centos常用脚本/index.html">
+<meta property="og:site_name" content="Geosmart's Notes">
+<meta property="og:description" content="CentOS日常使用过程中积累的Shell脚本或Linux命令，持续维护更新">
+<meta property="og:updated_time" content="2015-12-30T08:48:17.254Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="CentOS常用脚本">
+<meta name="twitter:description" content="CentOS日常使用过程中积累的Shell脚本或Linux命令，持续维护更新">
+
+
+<script type="text/javascript" id="hexo.configuration">
+  var CONFIG = {
+    scheme: 'Mist',
+    sidebar: 'post'
+  };
+</script>
+
+  <title> CentOS常用脚本 | Geosmart's Notes </title>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  <!--[if lte IE 8]>
+  <div style=' clear: both; height: 59px; padding:0 0 0 15px; position: relative;margin:0 auto;'>
+    <a href="http://windows.microsoft.com/en-US/internet-explorer/products/ie/home?ocid=ie6_countdown_bannercode">
+      <img src="http://7u2nvr.com1.z0.glb.clouddn.com/picouterie.jpg" border="0" height="42" width="820"
+           alt="You are using an outdated browser. For a faster, safer browsing experience, upgrade for free today or use other browser ,like chrome firefox safari."
+           style='margin-left:auto;margin-right:auto;display: block;'/>
+    </a>
+  </div>
+<![endif]-->
+  
+
+  <script type="text/javascript">
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "//hm.baidu.com/hm.js?221699150bf25edfe6338d0a9f205159";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+
+  <div class="container one-column page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><h1 class="site-meta">
+  <span class="logo-line-before"><i></i></span>
+  <a href="/" class="brand" rel="start">
+      <span class="logo">
+        <i class="icon-next-logo"></i>
+      </span>
+      <span class="site-title">Geosmart's Notes</span>
+  </a>
+  <span class="logo-line-after"><i></i></span>
+</h1>
+
+<div class="site-nav-toggle">
+  <button>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+  </button>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu menu-left">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            <i class="menu-item-icon icon-next-home"></i> <br />
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            <i class="menu-item-icon icon-next-archives"></i> <br />
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            <i class="menu-item-icon icon-next-tags"></i> <br />
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories" rel="section">
+            <i class="menu-item-icon icon-next-categories"></i> <br />
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about" rel="section">
+            <i class="menu-item-icon icon-next-about"></i> <br />
+            关于
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-commonweal">
+          <a href="/404.html" rel="section">
+            <i class="menu-item-icon icon-next-commonweal"></i> <br />
+            公益404
+          </a>
+        </li>
+      
+
+      
+      
+    </ul>
+  
+
+  
+    <div class="site-search">
+      
+  
+  <form class="site-search-form">
+    <input type="text" id="st-search-input" class="st-search-input st-default-search-input" />
+  </form>
+
+
+<script type="text/javascript">
+  (function(w,d,t,u,n,s,e){w['SwiftypeObject']=n;w[n]=w[n]||function(){
+    (w[n].q=w[n].q||[]).push(arguments);};s=d.createElement(t);
+    e=d.getElementsByTagName(t)[0];s.async=1;s.src=u;e.parentNode.insertBefore(s,e);
+  })(window,document,'script','//s.swiftypecdn.com/install/v2/st.js','_st');
+
+  _st('install', 'sx6vPCUTjNbABKwx8Vig','2.0.0');
+</script>
+
+
+
+    </div>
+  
+</nav>
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div id="content" class="content"> 
+
+  <div id="posts" class="posts-expand">
+    
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <header class="post-header">
+
+      
+      
+        <h1 class="post-title" itemprop="name headline">
+          
+          
+            
+              CentOS常用脚本
+            
+          
+        </h1>
+      
+
+      <div class="post-meta">
+        <span class="post-time">
+          发表于
+          <time itemprop="dateCreated" datetime="2015-07-06T16:41:15+08:00" content="6   July   2015">
+            6   July   2015
+          </time>
+        </span>
+
+        
+          <span class="post-category" >
+            &nbsp; | &nbsp; 分类于
+            
+              <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
+                <a href="/categories/运维/" itemprop="url" rel="index">
+                  <span itemprop="name">运维</span>
+                </a>
+              </span>
+
+              
+              
+
+            
+          </span>
+        
+
+        
+          
+            <span class="post-comments-count">
+              &nbsp; | &nbsp;
+              <a href="/2015/07/06/centos常用脚本/#comments" itemprop="discussionUrl">
+                <span class="post-comments-count ds-thread-count" data-thread-key="2015/07/06/centos常用脚本/" itemprop="commentsCount"></span>
+              </a>
+            </span>
+          
+        
+      </div>
+    </header>
+
+    <div class="post-body">
+
+      
+      
+
+      
+        <span itemprop="articleBody"><p>CentOS日常使用过程中积累的Shell脚本或Linux命令，持续维护更新  </p>
+<a id="more"></a>
+<h1 id="网络设置">网络设置</h1><h2 id="HostName主机名">HostName主机名</h2><figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">#&#26597;&#30475;hostname&#10;hostname  &#10;#&#35774;&#32622;&#25351;&#23450;&#30340;&#22495;&#21517;&#35299;&#26512;&#22320;&#22336;&#10;/etc/hosts       &#10;# &#35774;&#32622;&#20027;&#26426;&#21517;&#21644;&#32593;&#32476;&#37197;&#32622;&#10;/etc/sysconfig/network</span><br></pre></td></tr></table></figure>
+<h2 id="静态IP设置">静态IP设置</h2><p><a href="static-ip.sh">下载 static-ip.sh</a><br>参数: <code>static-ip.sh &lt;hostname&gt; &lt;interface&gt; &lt;baseip&gt; &lt;ipaddress&gt; &lt;gateway/dns&gt;</code><br>示例</p>
+<figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">chmod +x  ./static-ip.sh &#38;&#38; ./static-ip.sh localhost eth0 192.168.1 81 1</span><br></pre></td></tr></table></figure>
+<p>手动设置IP  </p>
+<figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">#&#20020;&#26102;&#35774;&#32622;IP&#10;ifconfig eth0 192.168.1.160&#10;# &#35774;&#32622;DNS  &#10;/etc/resolv.conf  &#10;&#20020;&#26102;&#35774;&#32622;IP&#10;ifconfig eth0 192.168.1.160</span><br></pre></td></tr></table></figure>
+<figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">#&#38024;&#23545;&#29305;&#23450;&#30340;&#32593;&#21345;&#36827;&#34892;&#25163;&#21160;&#35774;&#32622;&#10;vim /etc/sysconfig/network-scripts/ifcfg-eth0&#10;&#10;DEVICE=&#34;eth0&#34;&#10;BOOTPROTO=&#34;static&#34;&#10;HWADDR=&#34;00:0C:29:86:3D:16&#34;&#10;IPV6INIT=&#34;yes&#34;&#10;NM_CONTROLLED=&#34;yes&#34;&#10;ONBOOT=&#34;yes&#34;&#10;TYPE=&#34;Ethernet&#34;&#10;UUID=&#34;dcf18d86-45ea-4b5c-9627-e75b19b3b6e7&#34;&#10;IPADDR=192.168.1.82&#10;NETMAST=255.255.255.0&#10;DNS1=192.168.1.1</span><br></pre></td></tr></table></figure>
+<h2 id="集群环境下ssh免密码登陆认证脚本">集群环境下ssh免密码登陆认证脚本</h2><p><a href="">todo-gitrepository</a></p>
+<ol>
+<li>确保各节点安装ssh,expect</li>
+<li>把所有文件拷贝到主节点上</li>
+<li>配置hosts.conf和slaves.conf</li>
+<li>执行keygen_master</li>
+</ol>
+<figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">chmod +x keygen_master.sh&#10;./keygen_master.sh</span><br></pre></td></tr></table></figure>
+<h1 id="PS查看进程">PS查看进程</h1><p>通常用ps查看进程PID，kill终止进程</p>
+<ul>
+<li>grep 是搜索<br>例如：<code>ps -ef | grep java</code>表示查看所有进程里 CMD 是 java 的进程信息  </li>
+<li>-aux 显示所有状态<br><code>ps -aux | grep java</code>  </li>
+<li>kill 命令用于终止进程<br>例如： <code>kill -9 [PID]</code><br>-9 表示强迫进程立即停止</li>
+</ul>
+<h1 id="端口查看">端口查看</h1><p>如查看80端口：<code>lsof -i tcp:80</code><br>列出所有端口：<code>netstat -ntlp</code></p>
+<h1 id="nohup后台运行">nohup后台运行</h1><p>后台运行test.jar<br><code>nohup java -jar test.jar</code><br>不输出nohup日志：&gt;/dev/null 2&gt;&amp;1 &amp;<br><code>nohup java -jar test.jar &gt;/dev/null 2&gt;&amp;1 &amp;</code></p>
+<h1 id="重定向">重定向</h1><ul>
+<li>0 表示标准输入  </li>
+<li>1 标准输出,在一般使用时，默认的是标准输出  </li>
+<li>2 标准错误信息输出<br>可以用来指定需要重定向的标准输入或输出。例如，将某个程序的错误信息输出到log文件 中：./program 2&gt;log。这样标准输出还是在屏幕上，但是错误信息会输出到log文件中。另外，也可 以实现0，1，2之间的重定向。2&gt;&amp;1：将错误信息重定向到标准输出。</li>
+<li>/dev/null<br>它就像一个无底洞，所有重定向到它的信息都会消失得无影无踪。当我们不需要回显程序的所有信息时，就可以将输出重定到/dev/null。</li>
+</ul>
+<h1 id="读取文件头/尾/实时内容">读取文件头/尾/实时内容</h1><ul>
+<li>head filename读取头部，使用命令head。默认显示文件 filename 的前十行内容<br><code>head -n 20 filename</code>：显示文件的前20行内容<br><code>head -n -20 filename</code>  ：若n后面的整数为负数时，如则表示列出除尾部的20行外的所有行    </li>
+<li>tail filename 读取尾部，使用命令tail，使用方法同head相似<br><code>tail -n 20 filename</code>：显示文件的最后20行内容<br><code>tail -n +20 filename</code>：显示文件自第20行开始后的所有行（包括第20行）  </li>
+<li><code>tail -f filename</code>：动态显示最新的文件内容<br>具体用法man head或man tail获取  </li>
+</ul>
+<h1 id="chkconfig问题">chkconfig问题</h1><p>chkconfig –add myservice问题：service myservice does not support chkconfig<br>我们一般在脚本开头加入下面两句就好了<br><code>vim  /etc/init.d/myservice</code><br>添加下面两句到 #!/bin/bash 之后</p>
+<figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">#!/bin/bash&#10;# chkconfig: 2345 10 90&#10;# description: myservice ....</span><br></pre></td></tr></table></figure>
+<h1 id="图形化界面切换">图形化界面切换</h1><p><code>vim /etc/inittab</code></p>
+<figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"># Default runlevel. The runlevels used by RHS are:&#10;# 0 - halt (Do NOT set initdefault to this)          --&#20572;&#26426;&#10;# 1 - Single user mode           --&#21333;&#29992;&#25143;&#27169;&#24335;&#10;# 2 - Multiuser, without NFS (The same as 3, if you do not havenetworking)           --&#22810;&#29992;&#25143;&#27169;&#24335;&#65292;&#19981;&#25903;&#25345;NFS&#10;# 3 - Full multiuser mode          --&#22810;&#29992;&#25143;&#27169;&#24335;     &#10;# 4 - unused          --&#27809;&#26377;&#20351;&#29992;&#10;# 5 - X11          --&#22270;&#24418;&#30028;&#38754;&#26041;&#24335;&#10;# 6 - reboot (Do NOT set initdefault to this)          --&#37325;&#26032;&#21551;&#21160;&#10;# --&#40664;&#35748;&#36816;&#34892;&#31561;&#32423;&#26159;5&#10;id:5:initdefault:</span><br></pre></td></tr></table></figure>
+<h1 id="文件操作">文件操作</h1><h2 id="mkdir_新建目录">mkdir 新建目录</h2><p>mkdir -p 无目录新建目录</p>
+<h2 id="touch_新建文件">touch 新建文件</h2><p>eg：<code>touch test.log</code></p>
+<h2 id="追加文本到文件">追加文本到文件</h2><p>eg：<code>echo &quot;/opt/cm/etc/init.d/cloudera-scm-server start&quot; &gt;&gt; /etc/rc.local</code></p>
+<h2 id="rm_文件删除参数：">rm 文件删除参数：</h2><figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">-r &#23601;&#26159;&#21521;&#19979;&#36882;&#24402;&#65292;&#19981;&#31649;&#26377;&#22810;&#23569;&#32423;&#30446;&#24405;&#65292;&#19968;&#24182;&#21024;&#38500;&#10;-f &#23601;&#26159;&#30452;&#25509;&#24378;&#34892;&#21024;&#38500;&#65292;&#19981;&#20316;&#20219;&#20309;&#25552;&#31034;&#30340;&#24847;&#24605;&#10;-rf &#36882;&#24402;&#24378;&#21046;&#21024;&#38500;</span><br></pre></td></tr></table></figure>
+<p>需要提醒的是：使用这个rm -rf的时候一定要格外小心，linux没有回收站的  </p>
+<h2 id="tar文件解压">tar文件解压</h2><p>tar在linux上是常用的打包、压缩、加压缩工具，他的参数很多，折里仅仅列举常用的压缩与解压缩参数   </p>
+<figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">-c &#65306;create &#24314;&#31435;&#21387;&#32553;&#26723;&#26696;&#30340;&#21442;&#25968;&#65307;&#10;-x &#65306; &#35299;&#21387;&#32553;&#21387;&#32553;&#26723;&#26696;&#30340;&#21442;&#25968;&#65307;&#10;-z &#65306; &#26159;&#21542;&#38656;&#35201;&#29992;gzip&#21387;&#32553;&#65307;&#10;-v&#65306; &#21387;&#32553;&#30340;&#36807;&#31243;&#20013;&#26174;&#31034;&#26723;&#26696;&#65307;&#10;-f&#65306; &#32622;&#39030;&#25991;&#26723;&#21517;&#65292;&#22312;f&#21518;&#38754;&#31435;&#21363;&#25509;&#25991;&#20214;&#21517;&#65292;&#19981;&#33021;&#20877;&#21152;&#21442;&#25968;&#10;1 &#23558;tgz&#25991;&#20214;&#35299;&#21387;&#21040;&#25351;&#23450;&#30446;&#24405;&#10;tar   zxvf    test.tgz  -C  &#25351;&#23450;&#30446;&#24405;&#10;&#27604;&#22914;&#23558;/source/kernel.tgz&#35299;&#21387;&#21040;  /source/linux-2.6.29 &#30446;&#24405;&#10;tar  zxvf  /source/kernel.tgz  -C /source/ linux-2.6.29</span><br></pre></td></tr></table></figure>
+<h1 id="VIM操作">VIM操作</h1><p><a href="http://www.eepw.com.cn/article/48018.htm">http://www.eepw.com.cn/article/48018.htm</a></p>
+<p>vi删除*.swp临时文件删除<br>i插入<br>esc命令行<br>:底行（x或:wq保存）</p>
+<h1 id="查找操作">查找操作</h1><h2 id="find">find</h2><p>find是最常见和最强大的查找命令，你可以用它找到任何你想找的文件。<br>find的使用格式如下：<br><figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">　　$ find <span class="tag">&lt;<span class="title">指定目录</span>&gt;</span> <span class="tag">&lt;<span class="title">指定条件</span>&gt;</span> <span class="tag">&lt;<span class="title">指定动作</span>&gt;</span></span><br><span class="line">　　- <span class="tag">&lt;<span class="title">指定目录</span>&gt;</span>： 所要搜索的目录及其所有子目录。默认为当前目录。</span><br><span class="line">　　- <span class="tag">&lt;<span class="title">指定条件</span>&gt;</span>： 所要搜索的文件的特征。</span><br><span class="line">　　- <span class="tag">&lt;<span class="title">指定动作</span>&gt;</span>： 对搜索结果进行特定的处理。</span><br></pre></td></tr></table></figure></p>
+<p>如果什么参数也不加，find默认搜索当前目录及其子目录，并且不过滤任何结果（也就是返回所有文件），将它们全都显示在屏幕上。<br>find的使用实例：<br><figure class="highlight vim"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">　　$ <span class="keyword">find</span> . -name <span class="string">"my*"</span></span><br><span class="line">搜索当前目录（含子目录，以下同）中，所有文件名以my开头的文件。</span><br><span class="line">　　$ <span class="keyword">find</span> . -name <span class="string">"my*"</span> -<span class="keyword">ls</span></span><br><span class="line">搜索当前目录中，所有文件名以my开头的文件，并显示它们的详细信息。</span><br><span class="line">　　$ <span class="keyword">find</span> . -<span class="built_in">type</span> <span class="keyword">f</span> -mmin -<span class="number">10</span></span><br><span class="line">搜索当前目录中，所有过去<span class="number">10</span>分钟中更新过的普通文件。如果不加-<span class="built_in">type</span> <span class="keyword">f</span>参数，则搜索普通文件+特殊文件+目录。</span><br></pre></td></tr></table></figure></p>
+<h2 id="locate">locate</h2><p>locate命令其实是“find -name”的另一种写法，但是要比后者快得多，原因在于它不搜索具体目录，而是搜索一个数据库（/var/lib/locatedb），这个数据库中含有本地所有文件信息。Linux系统自动创建这个数据库，并且每天自动更新一次，所以使用locate命令查不到最新变动过的文件。为了避免这种情况，可以在使用locate之前，先使用updatedb命令，手动更新数据库。<br>locate命令的使用实例：</p>
+<figure class="highlight stata"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">　　$ locate /etc/<span class="keyword">sh</span></span><br><span class="line">搜索etc目录下所有以<span class="keyword">sh</span>开头的文件。</span><br><span class="line">　　$ locate ~/<span class="literal">m</span></span><br><span class="line">搜索用户主目录下，所有以<span class="keyword">m</span>开头的文件。</span><br><span class="line">　　$ locate -i ~/<span class="literal">m</span></span><br><span class="line">搜索用户主目录下，所有以<span class="keyword">m</span>开头的文件，并且忽略大小写。</span><br></pre></td></tr></table></figure>
+<h2 id="whereis">whereis</h2><p>whereis命令只能用于程序名的搜索，而且只搜索二进制文件（参数-b）、man说明文件（参数-m）和源代码文件（参数-s）。如果省略参数，则返回所有信息。<br>whereis命令的使用实例：<code>$ whereis grep</code></p>
+<h2 id="which">which</h2><p>which命令的作用是，在PATH变量指定的路径中，搜索某个系统命令的位置，并且返回第一个搜索结果。也就是说，使用which命令，就可以看到某个系统命令是否存在，以及执行的到底是哪一个位置的命令。<br>which命令的使用实例：<code>$ which grep</code></p>
+<h2 id="type">type</h2><p>type命令其实不能算查找命令，它是用来区分某个命令到底是由shell自带的，还是由shell外部的独立二进制文件提供的。如果一个命令是外部命令，那么使用-p参数，会显示该命令的路径，相当于which命令。<br>type命令的使用实例：</p>
+<figure class="highlight vim"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">　　$ <span class="built_in">type</span> <span class="keyword">cd</span></span><br><span class="line">系统会提示，<span class="keyword">cd</span>是<span class="keyword">shell</span>的自带命令（build-in）。</span><br><span class="line">　　$ <span class="built_in">type</span> <span class="keyword">grep</span></span><br><span class="line">系统会提示，<span class="keyword">grep</span>是一个外部命令，并显示该命令的路径。</span><br><span class="line">　　$ <span class="built_in">type</span> -<span class="keyword">p</span> <span class="keyword">grep</span></span><br><span class="line">加上-<span class="keyword">p</span>参数后，就相当于which命令。</span><br></pre></td></tr></table></figure>
+<h1 id="系统时间">系统时间</h1><ul>
+<li>date 查看系统时间  </li>
+<li>date -s 修改时间<br>如：date -s  03/04/2013（将系统日期设定为2013年03月04日）</li>
+<li>date -s  110:38（将系统时间设定为上午 10:38）<br>修改完后执行：clock -w  ,强制将时间写入COMS！</li>
+</ul>
+<h1 id="chmod命令详解">chmod命令详解　　</h1><p>使用权限：所有使用者<br>使用方式：chmod [-cfvR] [–help] [–version] mode file…<br>说明：<br>Linux/Unix 的档案存取权限分为三级 : 档案拥有者、群组、其他。利用 chmod 可以藉以控制档案如何被他人所存取。<br>mode ：权限设定字串，格式如下 ：[ugoa…][[+-=][rwxX]…][,…]，其中u 表示该档案的拥有者，g 表示与该档案的拥有者属于同一个群体(group)者，o 表示其他以外的人，a 表示这三者皆是。<br><figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">+ &#34920;&#31034;&#22686;&#21152;&#26435;&#38480;&#12289;- &#34920;&#31034;&#21462;&#28040;&#26435;&#38480;&#12289;= &#34920;&#31034;&#21807;&#19968;&#35774;&#23450;&#26435;&#38480;&#12290;&#10;r &#34920;&#31034;&#21487;&#35835;&#21462;&#65292;w &#34920;&#31034;&#21487;&#20889;&#20837;&#65292;x &#34920;&#31034;&#21487;&#25191;&#34892;&#65292;X &#34920;&#31034;&#21482;&#26377;&#24403;&#35813;&#26723;&#26696;&#26159;&#20010;&#23376;&#30446;&#24405;&#25110;&#32773;&#35813;&#26723;&#26696;&#24050;&#32463;&#34987;&#35774;&#23450;&#36807;&#20026;&#21487;&#25191;&#34892;&#12290;&#10;-c : &#33509;&#35813;&#26723;&#26696;&#26435;&#38480;&#30830;&#23454;&#24050;&#32463;&#26356;&#25913;&#65292;&#25165;&#26174;&#31034;&#20854;&#26356;&#25913;&#21160;&#20316;&#10;-f : &#33509;&#35813;&#26723;&#26696;&#26435;&#38480;&#26080;&#27861;&#34987;&#26356;&#25913;&#20063;&#19981;&#35201;&#26174;&#31034;&#38169;&#35823;&#35759;&#24687;&#10;-v : &#26174;&#31034;&#26435;&#38480;&#21464;&#26356;&#30340;&#35814;&#32454;&#36164;&#26009;&#10;-R : &#23545;&#30446;&#21069;&#30446;&#24405;&#19979;&#30340;&#25152;&#26377;&#26723;&#26696;&#19982;&#23376;&#30446;&#24405;&#36827;&#34892;&#30456;&#21516;&#30340;&#26435;&#38480;&#21464;&#26356;(&#21363;&#20197;&#36882;&#22238;&#30340;&#26041;&#24335;&#36880;&#20010;&#21464;&#26356;)&#10;--help : &#26174;&#31034;&#36741;&#21161;&#35828;&#26126;&#10;--version : &#26174;&#31034;&#29256;&#26412;&#10;&#12288;&#12288;&#33539;&#20363;&#65306;&#10;&#12288;&#12288;&#23558;&#26723;&#26696; file1.txt &#35774;&#20026;&#25152;&#26377;&#20154;&#30342;&#21487;&#35835;&#21462;&#10;chmod ugo+r file1.txt&#10;&#12288;&#12288;&#23558;&#26723;&#26696; file1.txt &#35774;&#20026;&#25152;&#26377;&#20154;&#30342;&#21487;&#35835;&#21462;&#10;chmod a+r file1.txt&#10;&#12288;&#12288;&#23558;&#26723;&#26696; file1.txt &#19982; file2.txt &#35774;&#20026;&#35813;&#26723;&#26696;&#25317;&#26377;&#32773;&#65292;&#19982;&#20854;&#25152;&#23646;&#21516;&#19968;&#20010;&#32676;&#20307;&#32773;&#21487;&#20889;&#20837;&#65292;&#20294;&#20854;&#20182;&#20197;&#22806;&#30340;&#20154;&#21017;&#19981;&#21487;&#20889;&#20837;&#10;chmod ug+w,o-w file1.txt file2.txt&#10;&#12288;&#12288;&#23558; ex1.py &#35774;&#23450;&#20026;&#21482;&#26377;&#35813;&#26723;&#26696;&#25317;&#26377;&#32773;&#21487;&#20197;&#25191;&#34892;&#10;chmod u+x ex1.py&#10;&#12288;&#12288;&#23558;&#30446;&#21069;&#30446;&#24405;&#19979;&#30340;&#25152;&#26377;&#26723;&#26696;&#19982;&#23376;&#30446;&#24405;&#30342;&#35774;&#20026;&#20219;&#20309;&#20154;&#21487;&#35835;&#21462;&#10;chmod -R a+r *&#10;&#12288;&#12288;&#27492;&#22806;chmod&#20063;&#21487;&#20197;&#29992;&#25968;&#23383;&#26469;&#34920;&#31034;&#26435;&#38480;&#22914; chmod 777 file&#10;&#12288;&#12288;&#35821;&#27861;&#20026;&#65306;chmod abc file&#10;&#12288;&#12288;&#20854;&#20013;a,b,c&#21508;&#20026;&#19968;&#20010;&#25968;&#23383;&#65292;&#20998;&#21035;&#34920;&#31034;User&#12289;Group&#12289;&#21450;Other&#30340;&#26435;&#38480;&#12290;&#10;&#12288;&#12288;r=4&#65292;w=2&#65292;x=1&#10;&#12288;&#12288;&#33509;&#35201;rwx&#23646;&#24615;&#21017;4+2+1=7&#65307;&#10;&#12288;&#12288;&#33509;&#35201;rw-&#23646;&#24615;&#21017;4+2=6&#65307;&#10;&#12288;&#12288;&#33509;&#35201;r-x&#23646;&#24615;&#21017;4+1=7&#12290;&#10;&#12288;&#12288;&#33539;&#20363;&#65306;&#10;&#12288;&#12288;chmod a=rwx file &#21644; chmod 777 file &#25928;&#26524;&#30456;&#21516;&#10;&#12288;&#12288;chmod ug=rwx,o=x file &#21644; chmod 771 file &#25928;&#26524;&#30456;&#21516;&#10;&#12288;&#12288;&#33509;&#29992;chmod 4755 filename&#21487;&#20351;&#27492;&#31243;&#24335;&#20855;&#26377;root&#30340;&#26435;&#38480;</span><br></pre></td></tr></table></figure></p>
+<h1 id="chown命令详解">chown命令详解　　</h1><p>使用权限：root<br>使用方式：chown [-cfhvR] [–help] [–version] user[:group] file…<br>说明：Linux/Unix 是多人多工作业系统，所有的档案皆有拥有者。利用chown 可以将档案的拥有者加以改变。一般来说，这个指令只有是由系统管理者(root)所使用，一般使用者没有权限可以改变别人的档案拥有者，也没有权限可以自己的档案拥有者改设为别人。只有系统管理者(root)才有这样的权限。<br><figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">user : &#26032;&#30340;&#26723;&#26696;&#25317;&#26377;&#32773;&#30340;&#20351;&#29992;&#32773;&#10;IDgroup : &#26032;&#30340;&#26723;&#26696;&#25317;&#26377;&#32773;&#30340;&#20351;&#29992;&#32773;&#32676;&#20307;(group)&#10;-c : &#33509;&#35813;&#26723;&#26696;&#25317;&#26377;&#32773;&#30830;&#23454;&#24050;&#32463;&#26356;&#25913;&#65292;&#25165;&#26174;&#31034;&#20854;&#26356;&#25913;&#21160;&#20316;&#10;-f : &#33509;&#35813;&#26723;&#26696;&#25317;&#26377;&#32773;&#26080;&#27861;&#34987;&#26356;&#25913;&#20063;&#19981;&#35201;&#26174;&#31034;&#38169;&#35823;&#35759;&#24687;&#10;-h : &#21482;&#23545;&#20110;&#36830;&#32467;(link)&#36827;&#34892;&#21464;&#26356;&#65292;&#32780;&#38750;&#35813; link &#30495;&#27491;&#25351;&#21521;&#30340;&#26723;&#26696;&#10;-v : &#26174;&#31034;&#25317;&#26377;&#32773;&#21464;&#26356;&#30340;&#35814;&#32454;&#36164;&#26009;&#10;-R : &#23545;&#30446;&#21069;&#30446;&#24405;&#19979;&#30340;&#25152;&#26377;&#26723;&#26696;&#19982;&#23376;&#30446;&#24405;&#36827;&#34892;&#30456;&#21516;&#30340;&#25317;&#26377;&#32773;&#21464;&#26356;(&#21363;&#20197;&#36882;&#22238;&#30340;&#26041;&#24335;&#36880;&#20010;&#21464;&#26356;)&#10;--help : &#26174;&#31034;&#36741;&#21161;&#35828;&#26126;&#10;--version : &#26174;&#31034;&#29256;&#26412;&#10;&#12288;&#12288;&#33539;&#20363;&#65306;&#10;&#12288;&#12288;&#23558;&#26723;&#26696; file1.txt &#30340;&#25317;&#26377;&#32773;&#35774;&#20026; users &#32676;&#20307;&#30340;&#20351;&#29992;&#32773; jessie&#10;chown jessie:users file1.txt&#10;&#12288;&#12288;&#23558;&#30446;&#21069;&#30446;&#24405;&#19979;&#30340;&#25152;&#26377;&#26723;&#26696;&#19982;&#23376;&#30446;&#24405;&#30340;&#25317;&#26377;&#32773;&#30342;&#35774;&#20026; users &#32676;&#20307;&#30340;&#20351;&#29992;&#32773; lamport&#10;chown -R lamport:users *&#10;-rw------- (600) -- &#21482;&#26377;&#23646;&#20027;&#26377;&#35835;&#20889;&#26435;&#38480;&#12290;&#10;-rw-r--r-- (644) -- &#21482;&#26377;&#23646;&#20027;&#26377;&#35835;&#20889;&#26435;&#38480;&#65307;&#32780;&#23646;&#32452;&#29992;&#25143;&#21644;&#20854;&#20182;&#29992;&#25143;&#21482;&#26377;&#35835;&#26435;&#38480;&#12290;&#10;-rwx------ (700) -- &#21482;&#26377;&#23646;&#20027;&#26377;&#35835;&#12289;&#20889;&#12289;&#25191;&#34892;&#26435;&#38480;&#12290;&#10;-rwxr-xr-x (755) -- &#23646;&#20027;&#26377;&#35835;&#12289;&#20889;&#12289;&#25191;&#34892;&#26435;&#38480;&#65307;&#32780;&#23646;&#32452;&#29992;&#25143;&#21644;&#20854;&#20182;&#29992;&#25143;&#21482;&#26377;&#35835;&#12289;&#25191;&#34892;&#26435;&#38480;&#12290;&#10;-rwx--x--x (711) -- &#23646;&#20027;&#26377;&#35835;&#12289;&#20889;&#12289;&#25191;&#34892;&#26435;&#38480;&#65307;&#32780;&#23646;&#32452;&#29992;&#25143;&#21644;&#20854;&#20182;&#29992;&#25143;&#21482;&#26377;&#25191;&#34892;&#26435;&#38480;&#12290;&#10;-rw-rw-rw- (666) -- &#25152;&#26377;&#29992;&#25143;&#37117;&#26377;&#25991;&#20214;&#35835;&#12289;&#20889;&#26435;&#38480;&#12290;&#36825;&#31181;&#20570;&#27861;&#19981;&#21487;&#21462;&#12290;&#10;-rwxrwxrwx (777) -- &#25152;&#26377;&#29992;&#25143;&#37117;&#26377;&#35835;&#12289;&#20889;&#12289;&#25191;&#34892;&#26435;&#38480;&#12290;&#26356;&#19981;&#21487;&#21462;&#30340;&#20570;&#27861;&#12290;&#10;&#20197;&#19979;&#26159;&#23545;&#30446;&#24405;&#30340;&#20004;&#20010;&#26222;&#36890;&#35774;&#23450;&#65306;&#10;drwx------ (700) - &#21482;&#26377;&#23646;&#20027;&#21487;&#22312;&#30446;&#24405;&#20013;&#35835;&#12289;&#20889;&#12290;&#10;drwxr-xr-x (755) - &#25152;&#26377;&#29992;&#25143;&#21487;&#35835;&#35813;&#30446;&#24405;&#65292;&#20294;&#21482;&#26377;&#23646;&#20027;&#25165;&#33021;&#25913;&#21464;&#30446;&#24405;&#20013;&#30340;&#20869;&#23481;&#10;suid&#30340;&#20195;&#34920;&#25968;&#23383;&#26159;4&#65292;&#27604;&#22914;4755&#30340;&#32467;&#26524;&#26159;-rwsr-xr-x&#10;sgid&#30340;&#20195;&#34920;&#25968;&#23383;&#26159;2&#65292;&#27604;&#22914;6755&#30340;&#32467;&#26524;&#26159;-rwsr-sr-x&#10;sticky&#20301;&#20195;&#34920;&#25968;&#23383;&#26159;1&#65292;&#27604;&#22914;7755&#30340;&#32467;&#26524;&#26159;-rwsr-sr-t</span><br></pre></td></tr></table></figure></p>
+<h1 id="scp命令详解">scp命令详解　</h1><h2 id="关于scp">关于scp　</h2><p>scp是secure copy的缩写，scp是linux系统下基于ssh登陆进行安全的远程文件拷贝命令。linux的scp命令可以在linux服务器之间复制文件和目录。</p>
+<h2 id="scp命令的用途">scp命令的用途</h2><p>scp在网络上不同的主机之间复制文件，它使用ssh安全协议传输数据，具有和ssh一样的验证机制，从而安全的远程拷贝文件。<br>scp命令基本格式：<code>scp [-1246BCpqrv] [-c cipher] [-F ssh_config] [-i identity_file]
+[-l limit] [-o ssh_option] [-P port] [-S program]
+[[user@]host1:]file1 [...] [[user@]host2:]file2</code></p>
+<h2 id="scp命令的参数说明">scp命令的参数说明</h2><figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">-1    &#24378;&#21046;scp&#21629;&#20196;&#20351;&#29992;&#21327;&#35758;ssh1&#10;-2    &#24378;&#21046;scp&#21629;&#20196;&#20351;&#29992;&#21327;&#35758;ssh2&#10;-4    &#24378;&#21046;scp&#21629;&#20196;&#21482;&#20351;&#29992;IPv4&#23547;&#22336;&#10;-6    &#24378;&#21046;scp&#21629;&#20196;&#21482;&#20351;&#29992;IPv6&#23547;&#22336;&#10;-B    &#20351;&#29992;&#25209;&#22788;&#29702;&#27169;&#24335;&#65288;&#20256;&#36755;&#36807;&#31243;&#20013;&#19981;&#35810;&#38382;&#20256;&#36755;&#21475;&#20196;&#25110;&#30701;&#35821;&#65289;&#10;-C    &#20801;&#35768;&#21387;&#32553;&#12290;&#65288;&#23558;-C&#26631;&#24535;&#20256;&#36882;&#32473;ssh&#65292;&#20174;&#32780;&#25171;&#24320;&#21387;&#32553;&#21151;&#33021;&#65289;&#10;-p &#20445;&#30041;&#21407;&#25991;&#20214;&#30340;&#20462;&#25913;&#26102;&#38388;&#65292;&#35775;&#38382;&#26102;&#38388;&#21644;&#35775;&#38382;&#26435;&#38480;&#12290;&#10;-q    &#19981;&#26174;&#31034;&#20256;&#36755;&#36827;&#24230;&#26465;&#12290;&#10;-r    &#36882;&#24402;&#22797;&#21046;&#25972;&#20010;&#30446;&#24405;&#12290;&#10;-v &#35814;&#32454;&#26041;&#24335;&#26174;&#31034;&#36755;&#20986;&#12290;scp&#21644;ssh(1)&#20250;&#26174;&#31034;&#20986;&#25972;&#20010;&#36807;&#31243;&#30340;&#35843;&#35797;&#20449;&#24687;&#12290;&#36825;&#20123;&#20449;&#24687;&#29992;&#20110;&#35843;&#35797;&#36830;&#25509;&#65292;&#39564;&#35777;&#21644;&#37197;&#32622;&#38382;&#39064;&#12290;&#10;-c cipher    &#20197;cipher&#23558;&#25968;&#25454;&#20256;&#36755;&#36827;&#34892;&#21152;&#23494;&#65292;&#36825;&#20010;&#36873;&#39033;&#23558;&#30452;&#25509;&#20256;&#36882;&#32473;ssh&#12290;&#10;-F ssh_config    &#25351;&#23450;&#19968;&#20010;&#26367;&#20195;&#30340;ssh&#37197;&#32622;&#25991;&#20214;&#65292;&#27492;&#21442;&#25968;&#30452;&#25509;&#20256;&#36882;&#32473;ssh&#12290;&#10;-i identity_file        &#20174;&#25351;&#23450;&#25991;&#20214;&#20013;&#35835;&#21462;&#20256;&#36755;&#26102;&#20351;&#29992;&#30340;&#23494;&#38053;&#25991;&#20214;&#65292;&#27492;&#21442;&#25968;&#30452;&#25509;&#20256;&#36882;&#32473;ssh&#12290;&#10;-l limit    &#38480;&#23450;&#29992;&#25143;&#25152;&#33021;&#20351;&#29992;&#30340;&#24102;&#23485;&#65292;&#20197;Kbit/s&#20026;&#21333;&#20301;&#12290;&#10;-o ssh_option    &#22914;&#26524;&#20064;&#24815;&#20110;&#20351;&#29992;ssh_config(5)&#20013;&#30340;&#21442;&#25968;&#20256;&#36882;&#26041;&#24335;&#65292;&#10;-P port &#27880;&#24847;&#26159;&#22823;&#20889;&#30340;P, port&#26159;&#25351;&#23450;&#25968;&#25454;&#20256;&#36755;&#29992;&#21040;&#30340;&#31471;&#21475;&#21495;&#10;-S program    &#25351;&#23450;&#21152;&#23494;&#20256;&#36755;&#26102;&#25152;&#20351;&#29992;&#30340;&#31243;&#24207;&#12290;&#27492;&#31243;&#24207;&#24517;&#39035;&#33021;&#22815;&#29702;&#35299;ssh(1)&#30340;&#36873;&#39033;&#12290;</span><br></pre></td></tr></table></figure>
+<h2 id="从本地服务器复制到远程服务器">从本地服务器复制到远程服务器</h2><p>复制文件命令格式：<br><figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">scp local_file remote_username@remote_ip:remote_folder&#10;scp local_file remote_username@remote_ip:remote_file&#10;scp local_file remote_ip:remote_folder&#10;scp local_file remote_ip:remote_file</span><br></pre></td></tr></table></figure></p>
+<p>实例<br><figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">scp /home/linux/soft/scp.zip root@www.mydomain.com:/home/linux/others/soft&#10;scp /home/linux/soft/scp.zip root@www.mydomain.com:/home/linux/others/soft/scp2.zip&#10;scp /home/linux/soft/scp.zip www.mydomain.com:/home/linux/others/soft&#10;scp /home/linux/soft/scp.zip www.mydomain.com:/home/linux/others/soft/scp2.zip</span><br></pre></td></tr></table></figure></p>
+<p>复制目录命令格式：<br><figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">scp -r local_folder remote_username@remote_ip:remote_folder&#10;scp -r local_folder remote_ip:remote_folder</span><br></pre></td></tr></table></figure></p>
+<p>实例:将 本地 soft 目录 复制 到 远程 others 目录下，即复制后远程服务器上会有/home/linux/others/soft/ 目录<br><figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">scp -r /home/linux/soft/ root@www.mydomain.com:/home/linux/others/&#10;scp -r /home/linux/soft/ www.mydomain.com:/home/linux/others/</span><br></pre></td></tr></table></figure></p>
+<h2 id="从远程服务器复制到本地服务器">从远程服务器复制到本地服务器</h2><p>从远程复制到本地的scp命令与上面的命令雷同，只要将从本地复制到远程的命令后面2个参数互换顺序就行了。<br>例如<br><figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">scp root@www.mydomain.com:/home/linux/soft/scp.zip /home/linux/others/scp.zip&#10;scp  -r www.mydomain.com:/home/linux/soft/ /home/linux/others/</span><br></pre></td></tr></table></figure></p>
+<h1 id="rpm命令">rpm命令</h1><p>命令格式 rpm {-q|–query} [select-options] [query-options]</p>
+</span>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/CentOS/" rel="tag">#CentOS</a>
+          
+            <a href="/tags/Shell/" rel="tag">#Shell</a>
+          
+        </div>
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2015/07/12/nginx负载均衡参数配置/" rel="prev">nginx负载均衡参数配置</a>
+            
+          </div>
+
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2015/07/01/mongodb一键安装脚本/" rel="next">mongodb一键安装脚本</a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+ </div>
+
+        
+
+        
+          <div class="comments" id="comments">
+            
+              <div class="ds-thread" data-thread-key="2015/07/06/centos常用脚本/"
+                   data-title="CentOS常用脚本" data-url="http://geosmart.github.io/2015/07/06/centos常用脚本/">
+              </div>
+            
+          </div>
+        
+      </div>
+
+      
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" src="https://avatars1.githubusercontent.com/u/3156608?v=3&s=460" alt="geosmart" itemprop="image"/>
+          <p class="site-author-name" itemprop="name">geosmart</p>
+        </div>
+        <p class="site-description motion-element" itemprop="description">追求心智成长，记录技术点滴</p>
+        <nav class="site-state motion-element">
+          <div class="site-state-item site-state-posts">
+            <a href="/archives">
+              <span class="site-state-item-count">58</span>
+              <span class="site-state-item-name">日志</span>
+            </a>
+          </div>
+
+          <div class="site-state-item site-state-categories">
+            <a href="/categories">
+              <span class="site-state-item-count">15</span>
+              <span class="site-state-item-name">分类</span>
+              </a>
+          </div>
+
+          <div class="site-state-item site-state-tags">
+            <a href="/tags">
+              <span class="site-state-item-count">56</span>
+              <span class="site-state-item-name">标签</span>
+              </a>
+          </div>
+
+        </nav>
+
+        
+          <div class="feed-link motion-element">
+            <a href="/atom.xml" rel="alternate">
+              <i class="menu-item-icon icon-next-feed"></i>
+              RSS
+            </a>
+          </div>
+        
+
+        <div class="links-of-author motion-element">
+          
+        </div>
+
+        
+        
+
+        <div class="links-of-author motion-element">
+          
+        </div>
+
+      </section>
+
+      
+        <section class="post-toc-wrap sidebar-panel-active">
+          <div class="post-toc-indicator-top post-toc-indicator"></div>
+          <div class="post-toc">
+            
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#网络设置"><span class="nav-number">1.</span> <span class="nav-text">网络设置</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#HostName主机名"><span class="nav-number">1.1.</span> <span class="nav-text">HostName主机名</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#静态IP设置"><span class="nav-number">1.2.</span> <span class="nav-text">静态IP设置</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#集群环境下ssh免密码登陆认证脚本"><span class="nav-number">1.3.</span> <span class="nav-text">集群环境下ssh免密码登陆认证脚本</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#PS查看进程"><span class="nav-number">2.</span> <span class="nav-text">PS查看进程</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#端口查看"><span class="nav-number">3.</span> <span class="nav-text">端口查看</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#nohup后台运行"><span class="nav-number">4.</span> <span class="nav-text">nohup后台运行</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#重定向"><span class="nav-number">5.</span> <span class="nav-text">重定向</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#读取文件头/尾/实时内容"><span class="nav-number">6.</span> <span class="nav-text">读取文件头/尾/实时内容</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#chkconfig问题"><span class="nav-number">7.</span> <span class="nav-text">chkconfig问题</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#图形化界面切换"><span class="nav-number">8.</span> <span class="nav-text">图形化界面切换</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#文件操作"><span class="nav-number">9.</span> <span class="nav-text">文件操作</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#mkdir_新建目录"><span class="nav-number">9.1.</span> <span class="nav-text">mkdir 新建目录</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#touch_新建文件"><span class="nav-number">9.2.</span> <span class="nav-text">touch 新建文件</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#追加文本到文件"><span class="nav-number">9.3.</span> <span class="nav-text">追加文本到文件</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#rm_文件删除参数："><span class="nav-number">9.4.</span> <span class="nav-text">rm 文件删除参数：</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#tar文件解压"><span class="nav-number">9.5.</span> <span class="nav-text">tar文件解压</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#VIM操作"><span class="nav-number">10.</span> <span class="nav-text">VIM操作</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#查找操作"><span class="nav-number">11.</span> <span class="nav-text">查找操作</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#find"><span class="nav-number">11.1.</span> <span class="nav-text">find</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#locate"><span class="nav-number">11.2.</span> <span class="nav-text">locate</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#whereis"><span class="nav-number">11.3.</span> <span class="nav-text">whereis</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#which"><span class="nav-number">11.4.</span> <span class="nav-text">which</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#type"><span class="nav-number">11.5.</span> <span class="nav-text">type</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#系统时间"><span class="nav-number">12.</span> <span class="nav-text">系统时间</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#chmod命令详解"><span class="nav-number">13.</span> <span class="nav-text">chmod命令详解　　</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#chown命令详解"><span class="nav-number">14.</span> <span class="nav-text">chown命令详解　　</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#scp命令详解"><span class="nav-number">15.</span> <span class="nav-text">scp命令详解　</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#关于scp"><span class="nav-number">15.1.</span> <span class="nav-text">关于scp　</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#scp命令的用途"><span class="nav-number">15.2.</span> <span class="nav-text">scp命令的用途</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#scp命令的参数说明"><span class="nav-number">15.3.</span> <span class="nav-text">scp命令的参数说明</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#从本地服务器复制到远程服务器"><span class="nav-number">15.4.</span> <span class="nav-text">从本地服务器复制到远程服务器</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#从远程服务器复制到本地服务器"><span class="nav-number">15.5.</span> <span class="nav-text">从远程服务器复制到本地服务器</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#rpm命令"><span class="nav-number">16.</span> <span class="nav-text">rpm命令</span></a></li></ol></div>
+            
+          </div>
+          <div class="post-toc-indicator-bottom post-toc-indicator"></div>
+        </section>
+      
+
+    </div>
+  </aside>
+
+
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner"> <div class="copyright" >
+  
+  &copy; &nbsp; 
+  <span itemprop="copyrightYear">2016</span>
+  <span class="with-love">
+    <i class="icon-next-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">geosmart</span>
+</div>
+
+<div class="powered-by">
+  由 <a class="theme-link" href="http://hexo.io">Hexo</a> 强力驱动
+</div>
+
+<div class="theme-info">
+  主题 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Mist
+  </a>
+</div>
+
+
+ </div>
+    </footer>
+
+    <div class="back-to-top"></div>
+  </div>
+
+  <script type="text/javascript" src="/vendors/jquery/index.js?v=2.1.3"></script>
+
+  
+  
+  
+    
+
+  
+    
+  
+
+  <script type="text/javascript">
+    var duoshuoQuery = {short_name:"geosmart"};
+    (function() {
+      var ds = document.createElement('script');
+      ds.type = 'text/javascript';ds.async = true;
+      ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+      ds.charset = 'UTF-8';
+      (document.getElementsByTagName('head')[0]
+      || document.getElementsByTagName('body')[0]).appendChild(ds);
+    })();
+  </script>
+    
+     
+     
+  	  <script type="text/javascript">
+  		var duoshuo_user_ID = geosmart
+      var duoshuo_admin_nickname="geosmart"
+  	  </script>
+     
+  	<script src="/js/ua-parser.min.js"></script>
+  	<script src="/js/hook-duoshuo.js"></script>
+  
+
+    
+  
+  
+  <script type="text/javascript" src="/vendors/fancybox/source/jquery.fancybox.pack.js"></script>
+  <script type="text/javascript" src="/js/fancy-box.js?v=0.4.5.1"></script>
+
+
+  <script type="text/javascript" src="/js/helpers.js?v=0.4.5.1"></script>
+  
+
+  <script type="text/javascript" src="/vendors/velocity/velocity.min.js"></script>
+  <script type="text/javascript" src="/vendors/velocity/velocity.ui.min.js"></script>
+
+  <script type="text/javascript" src="/js/motion_global.js?v=0.4.5.1" id="motion.global"></script>
+
+
+
+
+  <script type="text/javascript" src="/js/nav-toggle.js?v=0.4.5.1"></script>
+  <script type="text/javascript" src="/vendors/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  
+<script type="text/javascript" src="/js/bootstrap.scrollspy.js?v=0.4.5.1" id="bootstrap.scrollspy.custom"></script>
+
+
+<script type="text/javascript" id="sidebar.toc.highlight">
+  $(document).ready(function () {
+    var tocSelector = '.post-toc';
+    var $tocSelector = $(tocSelector);
+    var activeCurrentSelector = '.active-current';
+
+    $tocSelector
+      .on('activate.bs.scrollspy', function () {
+        var $currentActiveElement = $(tocSelector + ' .active').last();
+
+        removeCurrentActiveClass();
+        $currentActiveElement.addClass('active-current');
+
+        $tocSelector[0].scrollTop = $currentActiveElement.position().top;
+      })
+      .on('clear.bs.scrollspy', function () {
+        removeCurrentActiveClass();
+      });
+
+    function removeCurrentActiveClass () {
+      $(tocSelector + ' ' + activeCurrentSelector)
+        .removeClass(activeCurrentSelector.substring(1));
+    }
+
+    function processTOC () {
+      getTOCMaxHeight();
+      toggleTOCOverflowIndicators();
+    }
+
+    function getTOCMaxHeight () {
+      var height = $('.sidebar').height() -
+                   $tocSelector.position().top -
+                   $('.post-toc-indicator-bottom').height();
+
+      $tocSelector.css('height', height);
+
+      return height;
+    }
+
+    function toggleTOCOverflowIndicators () {
+      tocOverflowIndicator(
+        '.post-toc-indicator-top',
+        $tocSelector.scrollTop() > 0 ? 'show' : 'hide'
+      );
+
+      tocOverflowIndicator(
+        '.post-toc-indicator-bottom',
+        $tocSelector.scrollTop() >= $tocSelector.find('ol').height() - $tocSelector.height() ? 'hide' : 'show'
+      )
+    }
+
+    $(document).on('sidebar.motion.complete', function () {
+      processTOC();
+    });
+
+    $('body').scrollspy({ target: tocSelector });
+    $(window).on('resize', function () {
+      if ( $('.sidebar').hasClass('sidebar-active') ) {
+        processTOC();
+      }
+    });
+
+    onScroll($tocSelector);
+
+    function onScroll (element) {
+      element.on('mousewheel DOMMouseScroll', function (event) {
+          var oe = event.originalEvent;
+          var delta = oe.wheelDelta || -oe.detail;
+
+          this.scrollTop += ( delta < 0 ? 1 : -1 ) * 30;
+          event.preventDefault();
+
+          toggleTOCOverflowIndicators();
+      });
+    }
+
+    function tocOverflowIndicator (indicator, action) {
+      var $indicator = $(indicator);
+      var opacity = action === 'show' ? 0.4 : 0;
+      $indicator.velocity ?
+        $indicator.velocity('stop').velocity({
+          opacity: opacity
+        }, { duration: 100 }) :
+        $indicator.stop().animate({
+          opacity: opacity
+        }, 100);
+    }
+
+  });
+</script>
+
+<script type="text/javascript" id="sidebar.nav">
+  $(document).ready(function () {
+    var html = $('html');
+    var TAB_ANIMATE_DURATION = 200;
+    var hasVelocity = $.isFunction(html.velocity);
+
+    $('.sidebar-nav li').on('click', function () {
+      var item = $(this);
+      var activeTabClassName = 'sidebar-nav-active';
+      var activePanelClassName = 'sidebar-panel-active';
+      if (item.hasClass(activeTabClassName)) {
+        return;
+      }
+
+      var currentTarget = $('.' + activePanelClassName);
+      var target = $('.' + item.data('target'));
+
+      hasVelocity ?
+        currentTarget.velocity('transition.slideUpOut', TAB_ANIMATE_DURATION, function () {
+          target
+            .velocity('stop')
+            .velocity('transition.slideDownIn', TAB_ANIMATE_DURATION)
+            .addClass(activePanelClassName);
+        }) :
+        currentTarget.animate({ opacity: 0 }, TAB_ANIMATE_DURATION, function () {
+          currentTarget.hide();
+          target
+            .stop()
+            .css({'opacity': 0, 'display': 'block'})
+            .animate({ opacity: 1 }, TAB_ANIMATE_DURATION, function () {
+              currentTarget.removeClass(activePanelClassName);
+              target.addClass(activePanelClassName);
+            });
+        });
+
+      item.siblings().removeClass(activeTabClassName);
+      item.addClass(activeTabClassName);
+    });
+
+    $('.post-toc a').on('click', function (e) {
+      e.preventDefault();
+      var targetSelector = escapeSelector(this.getAttribute('href'));
+      var offset = $(targetSelector).offset().top;
+      hasVelocity ?
+        html.velocity('stop').velocity('scroll', {
+          offset: offset  + 'px',
+          mobileHA: false
+        }) :
+        $('html, body').stop().animate({
+          scrollTop: offset
+        }, 500);
+    });
+
+    // Expand sidebar on post detail page by default, when post has a toc.
+    var $tocContent = $('.post-toc-content');
+    if (isDesktop() && CONFIG.sidebar === 'post') {
+      if ($tocContent.length > 0 && $tocContent.html().trim().length > 0) {
+        displaySidebar();
+      }
+    }
+  });
+</script>
+
+
+
+  <script type="text/javascript">
+    $(document).ready(function () {
+      if (CONFIG.sidebar === 'always') {
+        displaySidebar();
+      }
+      if (isMobile()) {
+        FastClick.attach(document.body);
+      }
+    });
+  </script>
+
+  
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/lazyload.js"></script>
+  <script type="text/javascript">
+    $(function () {
+      $("#posts").find('img').lazyload({
+        placeholder: "/images/loading.gif",
+        effect: "fadeIn"
+      });
+    });
+  </script>
+</body>
+</html>
