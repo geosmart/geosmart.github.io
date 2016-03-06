@@ -1,0 +1,739 @@
+<!doctype html>
+<html class="theme-next use-motion theme-next-mist">
+<head>
+  
+
+<meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+  <link rel="stylesheet" type="text/css" href="/vendors/fancybox/source/jquery.fancybox.css?v=2.1.5"/>
+
+
+
+
+<link rel="stylesheet" type="text/css" href="/css/main.css?v=0.4.5.1"/>
+
+
+    <meta name="description" content="追求心智成长，记录技术点滴" />
+
+
+
+  <meta name="keywords" content="CentOS,Nginx,Web服务器," />
+
+
+
+  <link rel="alternate" href="/atom.xml" title="Geosmart's Notes" type="application/atom+xml" />
+
+
+
+  <link rel="shorticon icon" type="image/x-icon" href="/favicon.ico?v=0.4.5.1" />
+
+
+<meta name="description" content="问题描述Nginx服务器返回大量502Bad Gateway和504 Time-Out，代理服务器Jetty端存在大量CLOSE_WAIT和TIME_WAIT状态的连接错误信息查看口令：netstat -n | awk &amp;#39;/^tcp/ {++S[$NF]} END {for(a in S) print a, S[a]}&amp;#39;
+解决方案
+Linux中TCP/IP内核参数 优化编辑参数：v">
+<meta property="og:type" content="article">
+<meta property="og:title" content="nginx负载均衡参数配置">
+<meta property="og:url" content="http://geosmart.github.io/2015/07/12/nginx负载均衡参数配置/index.html">
+<meta property="og:site_name" content="Geosmart's Notes">
+<meta property="og:description" content="问题描述Nginx服务器返回大量502Bad Gateway和504 Time-Out，代理服务器Jetty端存在大量CLOSE_WAIT和TIME_WAIT状态的连接错误信息查看口令：netstat -n | awk &amp;#39;/^tcp/ {++S[$NF]} END {for(a in S) print a, S[a]}&amp;#39;
+解决方案
+Linux中TCP/IP内核参数 优化编辑参数：v">
+<meta property="og:image" content="http://geosmart.github.io/502-504.png">
+<meta property="og:image" content="http://geosmart.github.io/proxy.png">
+<meta property="og:updated_time" content="2015-09-22T00:59:46.222Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="nginx负载均衡参数配置">
+<meta name="twitter:description" content="问题描述Nginx服务器返回大量502Bad Gateway和504 Time-Out，代理服务器Jetty端存在大量CLOSE_WAIT和TIME_WAIT状态的连接错误信息查看口令：netstat -n | awk &amp;#39;/^tcp/ {++S[$NF]} END {for(a in S) print a, S[a]}&amp;#39;
+解决方案
+Linux中TCP/IP内核参数 优化编辑参数：v">
+
+
+<script type="text/javascript" id="hexo.configuration">
+  var CONFIG = {
+    scheme: 'Mist',
+    sidebar: 'post'
+  };
+</script>
+
+  <title> nginx负载均衡参数配置 | Geosmart's Notes </title>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  <!--[if lte IE 8]>
+  <div style=' clear: both; height: 59px; padding:0 0 0 15px; position: relative;margin:0 auto;'>
+    <a href="http://windows.microsoft.com/en-US/internet-explorer/products/ie/home?ocid=ie6_countdown_bannercode">
+      <img src="http://7u2nvr.com1.z0.glb.clouddn.com/picouterie.jpg" border="0" height="42" width="820"
+           alt="You are using an outdated browser. For a faster, safer browsing experience, upgrade for free today or use other browser ,like chrome firefox safari."
+           style='margin-left:auto;margin-right:auto;display: block;'/>
+    </a>
+  </div>
+<![endif]-->
+  
+
+  <script type="text/javascript">
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "//hm.baidu.com/hm.js?221699150bf25edfe6338d0a9f205159";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+
+  <div class="container one-column page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><h1 class="site-meta">
+  <span class="logo-line-before"><i></i></span>
+  <a href="/" class="brand" rel="start">
+      <span class="logo">
+        <i class="icon-next-logo"></i>
+      </span>
+      <span class="site-title">Geosmart's Notes</span>
+  </a>
+  <span class="logo-line-after"><i></i></span>
+</h1>
+
+<div class="site-nav-toggle">
+  <button>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+  </button>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu menu-left">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            <i class="menu-item-icon icon-next-home"></i> <br />
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            <i class="menu-item-icon icon-next-archives"></i> <br />
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            <i class="menu-item-icon icon-next-tags"></i> <br />
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories" rel="section">
+            <i class="menu-item-icon icon-next-categories"></i> <br />
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about" rel="section">
+            <i class="menu-item-icon icon-next-about"></i> <br />
+            关于
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-commonweal">
+          <a href="/404.html" rel="section">
+            <i class="menu-item-icon icon-next-commonweal"></i> <br />
+            公益404
+          </a>
+        </li>
+      
+
+      
+      
+    </ul>
+  
+
+  
+    <div class="site-search">
+      
+  
+  <form class="site-search-form">
+    <input type="text" id="st-search-input" class="st-search-input st-default-search-input" />
+  </form>
+
+
+<script type="text/javascript">
+  (function(w,d,t,u,n,s,e){w['SwiftypeObject']=n;w[n]=w[n]||function(){
+    (w[n].q=w[n].q||[]).push(arguments);};s=d.createElement(t);
+    e=d.getElementsByTagName(t)[0];s.async=1;s.src=u;e.parentNode.insertBefore(s,e);
+  })(window,document,'script','//s.swiftypecdn.com/install/v2/st.js','_st');
+
+  _st('install', 'sx6vPCUTjNbABKwx8Vig','2.0.0');
+</script>
+
+
+
+    </div>
+  
+</nav>
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div id="content" class="content"> 
+
+  <div id="posts" class="posts-expand">
+    
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <header class="post-header">
+
+      
+      
+        <h1 class="post-title" itemprop="name headline">
+          
+          
+            
+              nginx负载均衡参数配置
+            
+          
+        </h1>
+      
+
+      <div class="post-meta">
+        <span class="post-time">
+          发表于
+          <time itemprop="dateCreated" datetime="2015-07-12T21:30:47+08:00" content="12   July   2015">
+            12   July   2015
+          </time>
+        </span>
+
+        
+          <span class="post-category" >
+            &nbsp; | &nbsp; 分类于
+            
+              <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
+                <a href="/categories/运维/" itemprop="url" rel="index">
+                  <span itemprop="name">运维</span>
+                </a>
+              </span>
+
+              
+              
+
+            
+          </span>
+        
+
+        
+          
+            <span class="post-comments-count">
+              &nbsp; | &nbsp;
+              <a href="/2015/07/12/nginx负载均衡参数配置/#comments" itemprop="discussionUrl">
+                <span class="post-comments-count ds-thread-count" data-thread-key="2015/07/12/nginx负载均衡参数配置/" itemprop="commentsCount"></span>
+              </a>
+            </span>
+          
+        
+      </div>
+    </header>
+
+    <div class="post-body">
+
+      
+      
+
+      
+        <span itemprop="articleBody"><h1 id="问题描述">问题描述</h1><p>Nginx服务器返回大量502Bad Gateway和504 Time-Out，代理服务器Jetty端存在大量CLOSE_WAIT和TIME_WAIT状态的连接<br><img src="502-504.png" alt="502-504"><br>错误信息查看口令：<br><code>netstat -n | awk &#39;/^tcp/ {++S[$NF]} END {for(a in S) print a, S[a]}&#39;</code></p>
+<h1 id="解决方案">解决方案</h1><ol>
+<li>Linux中TCP/IP内核参数 优化<br>编辑参数：<code>vi /etc/sysctl.conf</code><figure class="highlight stylus"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">net<span class="class">.core</span><span class="class">.somaxconn</span> = <span class="number">4096</span></span><br><span class="line">net<span class="class">.ipv4</span><span class="class">.tcp_max_syn_backlog</span> = <span class="number">8192</span></span><br><span class="line">net<span class="class">.ipv4</span><span class="class">.tcp_syn_retries</span>= <span class="number">5</span></span><br><span class="line">net<span class="class">.ipv4</span><span class="class">.tcp_synack_retries</span> = <span class="number">5</span></span><br><span class="line">net<span class="class">.ipv4</span><span class="class">.tcp_abort_on_overflow</span>=<span class="number">0</span></span><br><span class="line">net<span class="class">.ipv4</span><span class="class">.tcp_tw_reuse</span>=<span class="number">1</span></span><br><span class="line">net<span class="class">.ipv4</span><span class="class">.tcp_tw_recycle</span>=<span class="number">1</span> </span><br><span class="line">net<span class="class">.ipv4</span><span class="class">.tcp_timestamps</span>=<span class="number">1</span></span><br><span class="line">net<span class="class">.ipv4</span><span class="class">.tcp_syncookies</span>=<span class="number">1</span></span><br><span class="line">net<span class="class">.ipv4</span><span class="class">.tcp_max_tw_buckets</span>=<span class="number">90000</span></span><br><span class="line">net<span class="class">.ipv4</span><span class="class">.tcp_fin_timeout</span>=<span class="number">30</span></span><br><span class="line">net<span class="class">.ipv4</span><span class="class">.ip_local_port_range</span>=<span class="number">10000</span> <span class="number">65000</span></span><br><span class="line">net<span class="class">.ipv4</span><span class="class">.tcp_keepalive_time</span>=<span class="number">1200</span></span><br></pre></td></tr></table></figure>
+</li>
+</ol>
+<p>让参数生效：<code>/sbin/sysctl -p</code></p>
+<ol>
+<li>Nginx配置参数<br>主要配置三个proxy_超时控制参数<figure class="highlight nginx"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="title">upstream</span> uadb_server&#123;   </span><br><span class="line">     <span class="title">server</span> <span class="number">192.168.1.81:8080</span>  weight=<span class="number">1</span> max_fails=<span class="number">2</span> fail_timeout=<span class="number">0</span>; </span><br><span class="line">     <span class="title">server</span> <span class="number">192.168.1.82:8080</span>  weight=<span class="number">1</span> max_fails=<span class="number">2</span> fail_timeout=<span class="number">0</span>;    </span><br><span class="line">&#125; </span><br><span class="line"><span class="title">server</span> &#123;</span><br><span class="line">        <span class="title">listen</span>       <span class="number">9090</span>;</span><br><span class="line">        <span class="title">server_name</span>  uadb_server;   </span><br><span class="line">        <span class="title">access_log</span>  /var/log/nginx/uadb_server-access-ssl.log;</span><br><span class="line">        <span class="title">error_log</span>  /var/log/nginx/uadb_server-<span class="built_in">error</span>-ssl.log;</span><br><span class="line">        <span class="title">location</span> /&#123; </span><br><span class="line">           <span class="title">proxy_pass</span> <span class="url">http://uadb_server</span>; </span><br><span class="line">           <span class="comment"># time out settings</span></span><br><span class="line">           <span class="title">proxy_connect_timeout</span> <span class="number">60</span>;</span><br><span class="line">           <span class="title">proxy_read_timeout</span>  <span class="number">3600</span>;</span><br><span class="line">           <span class="title">proxy_send_timeout</span>  <span class="number">3600</span>;</span><br><span class="line">           <span class="title">proxy_temp_file_write_size</span> <span class="number">64k</span>;</span><br><span class="line">           <span class="title">proxy_redirect</span>          <span class="built_in">off</span>; </span><br><span class="line">        &#125; </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+</li>
+</ol>
+<h1 id="Nginx_upstream负载均衡/反向代理">Nginx upstream负载均衡/反向代理</h1><p><img src="proxy.png" alt="proxy">   </p>
+<h2 id="upstream算法分析">upstream算法分析</h2><ol>
+<li>轮询每个请求按时间顺序分配到不同的后端服务器了，后端服务器down掉，自动切除；</li>
+<li>weight：设定服务器权值：如weight=2，服务器性能不均时候使用。weight：默认为1，weight越大，负载的权重越大；</li>
+<li>ip_hash ：每个请求按访问ip的hash结果分配，每个访客有固定的后端服务器，可以解决session问题；</li>
+<li>fair（第三方）：按后端服务器的响应时间来分配，响应时间短的优先分配</li>
+<li>url_hash (第三方)： 按访问的url的hash结果分配，使每个url定向到同一个后端服务器，后端为缓存服务器比较有效。</li>
+</ol>
+<h2 id="upstream参数介绍">upstream参数介绍</h2><ol>
+<li>down：当前的IP server暂时不参与负载，不进行反向代理；</li>
+<li>max_fails：允许请求失败的次数默认为1，当超过最大次数时，返回proxy_next_upstream模块定义的错误；</li>
+<li>fail_timeout：max_fails次失败后，暂停的时间；</li>
+<li>backup：其它所有非backup机器down或者忙时候，请求backup机器，这台机器压力最轻。</li>
+</ol>
+<h1 id="netstat参数状态">netstat参数状态</h1><p>查看口令：<code>netstat -an</code><br>参数说明：<br><figure class="highlight inform7"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">LISTEN：侦听来自远方的TCP端口的连接请求；</span><br><span class="line">SYN-SENT：在发送连接请求后等待匹配的连接请求；</span><br><span class="line">SYN-RECEIVED：在收到和发送一个连接请求后等待对方对连接请求的确认；</span><br><span class="line">ESTABLISHED：代表一个打开的连接，我们常用此作为并发连接数；</span><br><span class="line">FIN-WAIT-1：等待远程TCP连接中断请求，或先前的连接中断请求的确认；</span><br><span class="line">FIN-WAIT-2：从远程TCP等待连接中断请求；</span><br><span class="line">CLOSE-WAIT：等待从本地用户发来的连接中断请求；</span><br><span class="line">CLOSING：等待远程TCP对连接中断的确认；</span><br><span class="line">LAST-ACK：等待原来发向远程TCP的连接中断的确认；</span><br><span class="line">TIME-WAIT：等待足够的时间以确保远程TCP连接收到中断请求的确认；</span><br><span class="line"><span class="keyword">CLOSED</span>：没有任何连接状态；</span><br></pre></td></tr></table></figure></p>
+<h1 id="服务器TCP连接状态">服务器TCP连接状态</h1><p>查看口令：<code>netstat -an|awk &#39;/^tcp/{++S[$NF]}END{for (a in S)print a,S[a]}&#39;</code></p>
+<pre><code><span class="keyword">CLOSED</span>：没有连接活动或正在进行的；
+<span class="keyword"><span class="common">LISTEN</span></span>：服务器正在等待的进入呼叫；
+<span class="keyword">SYN_RECV</span>：一个连接请求已经到达，等待确认；
+<span class="keyword">SYN_SENT</span>：应用已经开始，打开一个连接；
+<span class="keyword">ESTABLISHED</span>：正常数据传输状态，也可以近似的理解为当前服务器的并发数；
+<span class="keyword">FIN_WAIT1</span>：应用已经完成；
+<span class="keyword">FIN_WAIT2</span>：另一边同意释放；
+<span class="keyword">ITMED_WAIT</span>：等待所有分组死掉；
+<span class="keyword">CLOSING</span>：两边同时尝试关闭；
+<span class="keyword">TIME_WAIT</span>：另一边已初始化一个释放；
+<span class="keyword">LAST_ACK</span>：等待所有分组死掉；
+</code></pre></span>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/CentOS/" rel="tag">#CentOS</a>
+          
+            <a href="/tags/Nginx/" rel="tag">#Nginx</a>
+          
+            <a href="/tags/Web服务器/" rel="tag">#Web服务器</a>
+          
+        </div>
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2015/07/12/磁盘阵列配置/" rel="prev">磁盘阵列配置</a>
+            
+          </div>
+
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2015/07/06/centos常用脚本/" rel="next">CentOS常用脚本</a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+ </div>
+
+        
+
+        
+          <div class="comments" id="comments">
+            
+              <div class="ds-thread" data-thread-key="2015/07/12/nginx负载均衡参数配置/"
+                   data-title="nginx负载均衡参数配置" data-url="http://geosmart.github.io/2015/07/12/nginx负载均衡参数配置/">
+              </div>
+            
+          </div>
+        
+      </div>
+
+      
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" src="https://avatars1.githubusercontent.com/u/3156608?v=3&s=460" alt="geosmart" itemprop="image"/>
+          <p class="site-author-name" itemprop="name">geosmart</p>
+        </div>
+        <p class="site-description motion-element" itemprop="description">追求心智成长，记录技术点滴</p>
+        <nav class="site-state motion-element">
+          <div class="site-state-item site-state-posts">
+            <a href="/archives">
+              <span class="site-state-item-count">58</span>
+              <span class="site-state-item-name">日志</span>
+            </a>
+          </div>
+
+          <div class="site-state-item site-state-categories">
+            <a href="/categories">
+              <span class="site-state-item-count">15</span>
+              <span class="site-state-item-name">分类</span>
+              </a>
+          </div>
+
+          <div class="site-state-item site-state-tags">
+            <a href="/tags">
+              <span class="site-state-item-count">56</span>
+              <span class="site-state-item-name">标签</span>
+              </a>
+          </div>
+
+        </nav>
+
+        
+          <div class="feed-link motion-element">
+            <a href="/atom.xml" rel="alternate">
+              <i class="menu-item-icon icon-next-feed"></i>
+              RSS
+            </a>
+          </div>
+        
+
+        <div class="links-of-author motion-element">
+          
+        </div>
+
+        
+        
+
+        <div class="links-of-author motion-element">
+          
+        </div>
+
+      </section>
+
+      
+        <section class="post-toc-wrap sidebar-panel-active">
+          <div class="post-toc-indicator-top post-toc-indicator"></div>
+          <div class="post-toc">
+            
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#问题描述"><span class="nav-number">1.</span> <span class="nav-text">问题描述</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#解决方案"><span class="nav-number">2.</span> <span class="nav-text">解决方案</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Nginx_upstream负载均衡/反向代理"><span class="nav-number">3.</span> <span class="nav-text">Nginx upstream负载均衡/反向代理</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#upstream算法分析"><span class="nav-number">3.1.</span> <span class="nav-text">upstream算法分析</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#upstream参数介绍"><span class="nav-number">3.2.</span> <span class="nav-text">upstream参数介绍</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#netstat参数状态"><span class="nav-number">4.</span> <span class="nav-text">netstat参数状态</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#服务器TCP连接状态"><span class="nav-number">5.</span> <span class="nav-text">服务器TCP连接状态</span></a></li></ol></div>
+            
+          </div>
+          <div class="post-toc-indicator-bottom post-toc-indicator"></div>
+        </section>
+      
+
+    </div>
+  </aside>
+
+
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner"> <div class="copyright" >
+  
+  &copy; &nbsp; 
+  <span itemprop="copyrightYear">2016</span>
+  <span class="with-love">
+    <i class="icon-next-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">geosmart</span>
+</div>
+
+<div class="powered-by">
+  由 <a class="theme-link" href="http://hexo.io">Hexo</a> 强力驱动
+</div>
+
+<div class="theme-info">
+  主题 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Mist
+  </a>
+</div>
+
+
+ </div>
+    </footer>
+
+    <div class="back-to-top"></div>
+  </div>
+
+  <script type="text/javascript" src="/vendors/jquery/index.js?v=2.1.3"></script>
+
+  
+  
+  
+    
+
+  
+    
+  
+
+  <script type="text/javascript">
+    var duoshuoQuery = {short_name:"geosmart"};
+    (function() {
+      var ds = document.createElement('script');
+      ds.type = 'text/javascript';ds.async = true;
+      ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+      ds.charset = 'UTF-8';
+      (document.getElementsByTagName('head')[0]
+      || document.getElementsByTagName('body')[0]).appendChild(ds);
+    })();
+  </script>
+    
+     
+     
+  	  <script type="text/javascript">
+  		var duoshuo_user_ID = geosmart
+      var duoshuo_admin_nickname="geosmart"
+  	  </script>
+     
+  	<script src="/js/ua-parser.min.js"></script>
+  	<script src="/js/hook-duoshuo.js"></script>
+  
+
+    
+  
+  
+  <script type="text/javascript" src="/vendors/fancybox/source/jquery.fancybox.pack.js"></script>
+  <script type="text/javascript" src="/js/fancy-box.js?v=0.4.5.1"></script>
+
+
+  <script type="text/javascript" src="/js/helpers.js?v=0.4.5.1"></script>
+  
+
+  <script type="text/javascript" src="/vendors/velocity/velocity.min.js"></script>
+  <script type="text/javascript" src="/vendors/velocity/velocity.ui.min.js"></script>
+
+  <script type="text/javascript" src="/js/motion_global.js?v=0.4.5.1" id="motion.global"></script>
+
+
+
+
+  <script type="text/javascript" src="/js/nav-toggle.js?v=0.4.5.1"></script>
+  <script type="text/javascript" src="/vendors/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  
+<script type="text/javascript" src="/js/bootstrap.scrollspy.js?v=0.4.5.1" id="bootstrap.scrollspy.custom"></script>
+
+
+<script type="text/javascript" id="sidebar.toc.highlight">
+  $(document).ready(function () {
+    var tocSelector = '.post-toc';
+    var $tocSelector = $(tocSelector);
+    var activeCurrentSelector = '.active-current';
+
+    $tocSelector
+      .on('activate.bs.scrollspy', function () {
+        var $currentActiveElement = $(tocSelector + ' .active').last();
+
+        removeCurrentActiveClass();
+        $currentActiveElement.addClass('active-current');
+
+        $tocSelector[0].scrollTop = $currentActiveElement.position().top;
+      })
+      .on('clear.bs.scrollspy', function () {
+        removeCurrentActiveClass();
+      });
+
+    function removeCurrentActiveClass () {
+      $(tocSelector + ' ' + activeCurrentSelector)
+        .removeClass(activeCurrentSelector.substring(1));
+    }
+
+    function processTOC () {
+      getTOCMaxHeight();
+      toggleTOCOverflowIndicators();
+    }
+
+    function getTOCMaxHeight () {
+      var height = $('.sidebar').height() -
+                   $tocSelector.position().top -
+                   $('.post-toc-indicator-bottom').height();
+
+      $tocSelector.css('height', height);
+
+      return height;
+    }
+
+    function toggleTOCOverflowIndicators () {
+      tocOverflowIndicator(
+        '.post-toc-indicator-top',
+        $tocSelector.scrollTop() > 0 ? 'show' : 'hide'
+      );
+
+      tocOverflowIndicator(
+        '.post-toc-indicator-bottom',
+        $tocSelector.scrollTop() >= $tocSelector.find('ol').height() - $tocSelector.height() ? 'hide' : 'show'
+      )
+    }
+
+    $(document).on('sidebar.motion.complete', function () {
+      processTOC();
+    });
+
+    $('body').scrollspy({ target: tocSelector });
+    $(window).on('resize', function () {
+      if ( $('.sidebar').hasClass('sidebar-active') ) {
+        processTOC();
+      }
+    });
+
+    onScroll($tocSelector);
+
+    function onScroll (element) {
+      element.on('mousewheel DOMMouseScroll', function (event) {
+          var oe = event.originalEvent;
+          var delta = oe.wheelDelta || -oe.detail;
+
+          this.scrollTop += ( delta < 0 ? 1 : -1 ) * 30;
+          event.preventDefault();
+
+          toggleTOCOverflowIndicators();
+      });
+    }
+
+    function tocOverflowIndicator (indicator, action) {
+      var $indicator = $(indicator);
+      var opacity = action === 'show' ? 0.4 : 0;
+      $indicator.velocity ?
+        $indicator.velocity('stop').velocity({
+          opacity: opacity
+        }, { duration: 100 }) :
+        $indicator.stop().animate({
+          opacity: opacity
+        }, 100);
+    }
+
+  });
+</script>
+
+<script type="text/javascript" id="sidebar.nav">
+  $(document).ready(function () {
+    var html = $('html');
+    var TAB_ANIMATE_DURATION = 200;
+    var hasVelocity = $.isFunction(html.velocity);
+
+    $('.sidebar-nav li').on('click', function () {
+      var item = $(this);
+      var activeTabClassName = 'sidebar-nav-active';
+      var activePanelClassName = 'sidebar-panel-active';
+      if (item.hasClass(activeTabClassName)) {
+        return;
+      }
+
+      var currentTarget = $('.' + activePanelClassName);
+      var target = $('.' + item.data('target'));
+
+      hasVelocity ?
+        currentTarget.velocity('transition.slideUpOut', TAB_ANIMATE_DURATION, function () {
+          target
+            .velocity('stop')
+            .velocity('transition.slideDownIn', TAB_ANIMATE_DURATION)
+            .addClass(activePanelClassName);
+        }) :
+        currentTarget.animate({ opacity: 0 }, TAB_ANIMATE_DURATION, function () {
+          currentTarget.hide();
+          target
+            .stop()
+            .css({'opacity': 0, 'display': 'block'})
+            .animate({ opacity: 1 }, TAB_ANIMATE_DURATION, function () {
+              currentTarget.removeClass(activePanelClassName);
+              target.addClass(activePanelClassName);
+            });
+        });
+
+      item.siblings().removeClass(activeTabClassName);
+      item.addClass(activeTabClassName);
+    });
+
+    $('.post-toc a').on('click', function (e) {
+      e.preventDefault();
+      var targetSelector = escapeSelector(this.getAttribute('href'));
+      var offset = $(targetSelector).offset().top;
+      hasVelocity ?
+        html.velocity('stop').velocity('scroll', {
+          offset: offset  + 'px',
+          mobileHA: false
+        }) :
+        $('html, body').stop().animate({
+          scrollTop: offset
+        }, 500);
+    });
+
+    // Expand sidebar on post detail page by default, when post has a toc.
+    var $tocContent = $('.post-toc-content');
+    if (isDesktop() && CONFIG.sidebar === 'post') {
+      if ($tocContent.length > 0 && $tocContent.html().trim().length > 0) {
+        displaySidebar();
+      }
+    }
+  });
+</script>
+
+
+
+  <script type="text/javascript">
+    $(document).ready(function () {
+      if (CONFIG.sidebar === 'always') {
+        displaySidebar();
+      }
+      if (isMobile()) {
+        FastClick.attach(document.body);
+      }
+    });
+  </script>
+
+  
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/lazyload.js"></script>
+  <script type="text/javascript">
+    $(function () {
+      $("#posts").find('img').lazyload({
+        placeholder: "/images/loading.gif",
+        effect: "fadeIn"
+      });
+    });
+  </script>
+</body>
+</html>

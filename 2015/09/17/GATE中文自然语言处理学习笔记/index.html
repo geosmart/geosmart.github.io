@@ -1,0 +1,837 @@
+<!doctype html>
+<html class="theme-next use-motion theme-next-mist">
+<head>
+  
+
+<meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+  <link rel="stylesheet" type="text/css" href="/vendors/fancybox/source/jquery.fancybox.css?v=2.1.5"/>
+
+
+
+
+<link rel="stylesheet" type="text/css" href="/css/main.css?v=0.4.5.1"/>
+
+
+    <meta name="description" content="追求心智成长，记录技术点滴" />
+
+
+
+  <meta name="keywords" content="GATE,NLP,大数据," />
+
+
+
+  <link rel="alternate" href="/atom.xml" title="Geosmart's Notes" type="application/atom+xml" />
+
+
+
+  <link rel="shorticon icon" type="image/x-icon" href="/favicon.ico?v=0.4.5.1" />
+
+
+<meta name="description" content="GATE
+GATE(文本工程通用框架)项目开始于 1995 年英国的谢菲尔德大学.经历了近 20 年的不断发展，GATE 已经被应用于广泛的研究和项目开发。  
+
+
+GATE 框架采用了基于组件的软件开发方式和面向对象的灵活编程。
+GATE 框架是由纯 Java 语言开发的免费开源软件，遵循 GNU library license。
+GATE 使用的编码方式是Unicode，可以支持多种语言编码，">
+<meta property="og:type" content="article">
+<meta property="og:title" content="GATE中文自然语言处理学习笔记">
+<meta property="og:url" content="http://geosmart.github.io/2015/09/17/GATE中文自然语言处理学习笔记/index.html">
+<meta property="og:site_name" content="Geosmart's Notes">
+<meta property="og:description" content="GATE
+GATE(文本工程通用框架)项目开始于 1995 年英国的谢菲尔德大学.经历了近 20 年的不断发展，GATE 已经被应用于广泛的研究和项目开发。  
+
+
+GATE 框架采用了基于组件的软件开发方式和面向对象的灵活编程。
+GATE 框架是由纯 Java 语言开发的免费开源软件，遵循 GNU library license。
+GATE 使用的编码方式是Unicode，可以支持多种语言编码，">
+<meta property="og:image" content="https://gate.ac.uk/plugins/gau-0.1/images/logo-gate.png">
+<meta property="og:image" content="http://geosmart.github.io/GATEFrame.png">
+<meta property="og:updated_time" content="2015-12-17T07:31:43.527Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="GATE中文自然语言处理学习笔记">
+<meta name="twitter:description" content="GATE
+GATE(文本工程通用框架)项目开始于 1995 年英国的谢菲尔德大学.经历了近 20 年的不断发展，GATE 已经被应用于广泛的研究和项目开发。  
+
+
+GATE 框架采用了基于组件的软件开发方式和面向对象的灵活编程。
+GATE 框架是由纯 Java 语言开发的免费开源软件，遵循 GNU library license。
+GATE 使用的编码方式是Unicode，可以支持多种语言编码，">
+
+
+<script type="text/javascript" id="hexo.configuration">
+  var CONFIG = {
+    scheme: 'Mist',
+    sidebar: 'post'
+  };
+</script>
+
+  <title> GATE中文自然语言处理学习笔记 | Geosmart's Notes </title>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  <!--[if lte IE 8]>
+  <div style=' clear: both; height: 59px; padding:0 0 0 15px; position: relative;margin:0 auto;'>
+    <a href="http://windows.microsoft.com/en-US/internet-explorer/products/ie/home?ocid=ie6_countdown_bannercode">
+      <img src="http://7u2nvr.com1.z0.glb.clouddn.com/picouterie.jpg" border="0" height="42" width="820"
+           alt="You are using an outdated browser. For a faster, safer browsing experience, upgrade for free today or use other browser ,like chrome firefox safari."
+           style='margin-left:auto;margin-right:auto;display: block;'/>
+    </a>
+  </div>
+<![endif]-->
+  
+
+  <script type="text/javascript">
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "//hm.baidu.com/hm.js?221699150bf25edfe6338d0a9f205159";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+
+  <div class="container one-column page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><h1 class="site-meta">
+  <span class="logo-line-before"><i></i></span>
+  <a href="/" class="brand" rel="start">
+      <span class="logo">
+        <i class="icon-next-logo"></i>
+      </span>
+      <span class="site-title">Geosmart's Notes</span>
+  </a>
+  <span class="logo-line-after"><i></i></span>
+</h1>
+
+<div class="site-nav-toggle">
+  <button>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+  </button>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu menu-left">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            <i class="menu-item-icon icon-next-home"></i> <br />
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            <i class="menu-item-icon icon-next-archives"></i> <br />
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            <i class="menu-item-icon icon-next-tags"></i> <br />
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories" rel="section">
+            <i class="menu-item-icon icon-next-categories"></i> <br />
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about" rel="section">
+            <i class="menu-item-icon icon-next-about"></i> <br />
+            关于
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-commonweal">
+          <a href="/404.html" rel="section">
+            <i class="menu-item-icon icon-next-commonweal"></i> <br />
+            公益404
+          </a>
+        </li>
+      
+
+      
+      
+    </ul>
+  
+
+  
+    <div class="site-search">
+      
+  
+  <form class="site-search-form">
+    <input type="text" id="st-search-input" class="st-search-input st-default-search-input" />
+  </form>
+
+
+<script type="text/javascript">
+  (function(w,d,t,u,n,s,e){w['SwiftypeObject']=n;w[n]=w[n]||function(){
+    (w[n].q=w[n].q||[]).push(arguments);};s=d.createElement(t);
+    e=d.getElementsByTagName(t)[0];s.async=1;s.src=u;e.parentNode.insertBefore(s,e);
+  })(window,document,'script','//s.swiftypecdn.com/install/v2/st.js','_st');
+
+  _st('install', 'sx6vPCUTjNbABKwx8Vig','2.0.0');
+</script>
+
+
+
+    </div>
+  
+</nav>
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div id="content" class="content"> 
+
+  <div id="posts" class="posts-expand">
+    
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <header class="post-header">
+
+      
+      
+        <h1 class="post-title" itemprop="name headline">
+          
+          
+            
+              GATE中文自然语言处理学习笔记
+            
+          
+        </h1>
+      
+
+      <div class="post-meta">
+        <span class="post-time">
+          发表于
+          <time itemprop="dateCreated" datetime="2015-09-17T11:28:20+08:00" content="17   September   2015">
+            17   September   2015
+          </time>
+        </span>
+
+        
+          <span class="post-category" >
+            &nbsp; | &nbsp; 分类于
+            
+              <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
+                <a href="/categories/NLP/" itemprop="url" rel="index">
+                  <span itemprop="name">NLP</span>
+                </a>
+              </span>
+
+              
+              
+
+            
+          </span>
+        
+
+        
+          
+            <span class="post-comments-count">
+              &nbsp; | &nbsp;
+              <a href="/2015/09/17/GATE中文自然语言处理学习笔记/#comments" itemprop="discussionUrl">
+                <span class="post-comments-count ds-thread-count" data-thread-key="2015/09/17/GATE中文自然语言处理学习笔记/" itemprop="commentsCount"></span>
+              </a>
+            </span>
+          
+        
+      </div>
+    </header>
+
+    <div class="post-body">
+
+      
+      
+
+      
+        <span itemprop="articleBody"><p><img src="https://gate.ac.uk/plugins/gau-0.1/images/logo-gate.png" alt=""></p>
+<h1 id="GATE">GATE</h1><blockquote>
+<p>GATE(文本工程通用框架)项目开始于 1995 年英国的谢菲尔德大学.经历了近 20 年的不断发展，GATE 已经被应用于广泛的研究和项目开发。  </p>
+</blockquote>
+<ul>
+<li>GATE 框架采用了基于组件的软件开发方式和面向对象的灵活编程。</li>
+<li>GATE 框架是由纯 Java 语言开发的免费开源软件，遵循 GNU library license。</li>
+<li>GATE 使用的编码方式是Unicode，可以支持多种语言编码，并且针对各种斯拉夫语言、日尔曼语言、拉丁系语言和印度语做过系统测试。</li>
+<li>GATE 支持的文档类型包括 XML、RTF、Email、HTML、SGML以及纯文本文件。</li>
+<li>GATE 作为一个框架，规定其框架内所有的自然语言处理软件系统元素都可以有效的被细分成不同的几种组件，在 GATE 中它们被称为资源。在 GATE 框架下组件的集合被称为 CREOLE。CREOLE 组件是通过 Java Beans 的形式来实现的，CREOLE 在 GATE中分为三种形式：语言组件（LR），处理组件(PR)和可视化组件(VR)。</li>
+</ul>
+<hr>
+<a id="more"></a>
+<h2 id="GATE资源：">GATE资源：</h2><blockquote>
+<p><a href="http://gatechinese.com/blog/category/gate%E4%B8%AD%E6%96%87%E8%87%AA%E7%84%B6%E8%AF%AD%E8%A8%80%E5%A4%84%E7%90%86/">GATE中文自然语言处理</a></p>
+</blockquote>
+<p><img src="GATEFrame.png" alt="GATE框架"></p>
+<h1 id="Pipeline">Pipeline</h1><h2 id="CorpusController">CorpusController</h2><h2 id="RealtimeCorpusController">RealtimeCorpusController</h2><h2 id="SerialAnalyserController">SerialAnalyserController</h2><h1 id="Gazetteer">Gazetteer</h1><p>词典库（Gazetteer）由一组词典列表组成，列表包含实体名称如城市，组织机构，星期等。列表用于发现文本中包含这些名称的文档和命名实体识别。通常词“词典库”可交替地用于实体列表集合，并利用这些列表发现文本中出现这些名称的处理资源。<br>当词典库PR在一个文件上运行时，每个匹配的文本字符串创建一个标注类型Lookup。词典库通常不依靠Token或任何其它标注，而是基于文档的字词内容发现相匹配的字符串。这意味着一个条目可以跨越多个词，也可以把开始和结束作为一个词。<br>如果一个词典库正工作的文本恰好满足词语边界，则词典发现词语边界的方法不同于GATE tokeniser发现词语边界的方法。如果文本中所有词典实体匹配好了，则创建一个Lookup标注。<br>词典库实体怎样匹配文本的细节取决于词典库处理资源及其参数。  </p>
+<h2 id="Gazetteer生效机制">Gazetteer生效机制</h2><p>入口:list.def<br>gazetteer： xx.lst<br>格式：<code>gazetteerFileName:marjorType:minorType</code></p>
+<h2 id="ANNIE词典库">ANNIE词典库</h2><p>ANNIE词典库是由ANNIE插件提供的。每个独立的词典都是一个普通的文本文件，每行一个条目。</p>
+<h2 id="GAZE词典库">GAZE词典库</h2><p>Gaze是一个编辑词典列表，定义词典和把词典映射到本体的工具。即适用于Plain/Linear 词典（默认）、Hash词典库也适用于Ontology-enabled 词典 (Onto词典)。每当执行保存操作时，重新初始化词典PR关联的视图。注意GAZE不生产规模非常大的词典 (我们假设不浏览超过4000实体，不拷贝超过10000个实体)。</p>
+<h2 id="Onto词典">Onto词典</h2><p>Onto词典或者Hierarchical词典，是一个处理资源，能将特定词典列表的实体加入到GATE本体语言资源的类中。Onto词典指定类而不是主要或次要类型，意识到列表和类ID之间的映射关系。Gaze可视资源能显示列表，本体映射和本体类等级，也提供编辑这些内容的方法。</p>
+<h2 id="Hash词典">Hash词典</h2><p>Hash词典是<a href="http://www.ontotext.com/">OntoText Lab</a>完成的一个词典。它的实现基于几个java.util.HashMap对象简单的查找，并由Atanas Kiryakov的奇妙想法——在HashMaps的搜寻快于在有限状态机的搜寻而得到启发。Hash词典处理资源是ANNIE插件的一部分。<br>词典处理资源用以下方式实现：每个短语，即每一个列表条目被分割成几个部分，各部分取决于位于它们之间的空格，例如，短语：“form is emptiness”有三个部分：“form”， “is”和“emptiness”。也有一个HashMaps列表：mapsList和列表中最长的短语有同样多的元素。所以第一部分短语放在第一个映射。第一部分+空格+第二部分被放置在第二个映射等。完整的词组是放置在适当的映射，并引用一个查找对象是相连。</p>
+<h2 id="Flexible词典">Flexible词典</h2><p>Flexible词典提供用户灵活的弹性选择他们自己定制的输入和一个外部词典。例如，用户可能想将文本的词语替换成他们的基本形式(这是一种形态学分析仪的输出)或在运行词典之前分割中文文本(用中文Tokeniser)。<br>The Flexible 词典 performs lookup over a document based on the values of an arbitrary feature of an arbitrary annotation type, by using an externally provided 词典.使用外部词典是很重要的，这允许使用任何类型的词典(例如本体词典)。</p>
+<h2 id="词典列表collection">词典列表collection</h2><p>词典列表collection直接从一组标注的训练文本收集实体事件，构成有实体的词典列表。实体类型和词典列表的结构是由用户定义的。一旦列表collection，一个语义语法用于寻找新文本相同的实体。<br>如果没有列表存在，对于每个标注类型要先创建一个空列表。处理资源运行前，列表集必须加载到GATE。如果已有列表存在，列表只是简单的增加任何新实体。列表collection只收集每个实体的一个事件：在添加新的之前要先检查实体已经不存在。</p>
+<h2 id="OntoRoot词典">OntoRoot词典</h2><p>OntoRoot词典是一种动态创建的词典，即结合其他少量的通用Gate资源，对于给定的本体的内容产生基于本体的标注。这个词典是“Gazetteer_Ontology_Based”插件的一部分，已开发成为TAO项目的一部分。</p>
+<h2 id="大型KB词典">大型KB词典</h2><p>大型KB 词典为ontology-aware自然语言处理提供支持。你可以从RDF装载任何本体，然后使用词典获得lookup标注，标注有实例和类URI。<br>大型KB词典作为插件词典 LKB存在。<br>当前版本的大型KB  词典不使用GATE本体语言资源。相反，它使用自己的原理去加载处理本体。当前版本在不久的未来可能会显著改变。<br>大型KB 词典是从语义搜索平台Ontotext KIM中的一个组件学习起来的。这词典是由KIM发展团队开发的（见<a href="http://nmwiki.ontotext.com/lkb_Gazetteer/team-list.html）。在kim名称左边你可以找到源代码、资料/文件管理或源文件。">http://nmwiki.ontotext.com/lkb_Gazetteer/team-list.html）。在kim名称左边你可以找到源代码、资料/文件管理或源文件。</a></p>
+<h1 id="JAPE">JAPE</h1><p>JAPE 的全称是 a Java Annotation Patterns Engine，Java 标注模式引擎，<br>JAPE 提供了基于正规表达式的标注有限状态转换。JAPE 是通用模式定义语言 CPSL(Common Pattern Specification Language1)的一个版本。我们通过 JAPE 语言可以编写 GATE 能够识别的规则，通过这些规则来进行较准确的命名实体识别。</p>
+<h2 id="grammer-jape">grammer-jape</h2><p>入口：base.jape<br>MultiPhase:<br>Phases: 列表<br>jape：:xx.jape<br>示例：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//沿西部干线由南向北行驶至六合区程桥街道荷花社区方桥河桥路段</span></span><br><span class="line">Phase: spacepattern_path</span><br><span class="line">Input: Lookup  AtomToken Token Location</span><br><span class="line">Options: control = appelt  debug = <span class="literal">true</span></span><br><span class="line">Rule: path1</span><br><span class="line">Priority: <span class="number">4120</span></span><br><span class="line">(</span><br><span class="line">&#123;Lookup.majorType == sp_path,Lookup.minorType==prefix&#125;</span><br><span class="line">((&#123;AtomToken&#125;)[<span class="number">1</span>,<span class="number">30</span>]):context</span><br><span class="line">&#123;Lookup.majorType == sp_path,Lookup.minorType==suffix&#125;</span><br><span class="line">):path</span><br><span class="line">--&gt;</span><br><span class="line">:path.Path = &#123; type = Path, context = :context@string &#125;</span><br></pre></td></tr></table></figure>
+<p>relationship如何构建？<br>annotation和entity的关系如何构建</p>
+<h2 id="JAPE标注类型">JAPE标注类型</h2><ul>
+<li>Lookup：Annie默认标注结果  </li>
+<li>Token：Lang_Chinese，最长分词，包含符号<br>用途：数字，附号标注  </li>
+<li><p>IKAToken：IKanalyzer分词标注—两两分词，不处理符号</p>
+<ul>
+<li>采用了特有的”正向迭代最细粒度切分算法”，具有80万字/秒的高速处理能力</li>
+<li>采用了多子处理器分析模式，支持：英文字母（IP地址、Email、URL）、数字（日期，常用中文数量词，罗马数字，科学计数法），中文词汇（姓名、地名处理）等分词处理。</li>
+<li>优化的词典存储，更小的内存占用。支持用户词典扩展定义</li>
+<li>针对Lucene全文检索优化的查询分析器IKQueryParser；采用歧义分析算法优化查询关键字的搜索排列组合，能极大的提高Lucene检索的命中率。</li>
+</ul>
+</li>
+<li><p>AtomToken：原子分词，最细颗粒度分词  </p>
+</li>
+</ul>
+<h2 id="Tokeniser_Rules">Tokeniser Rules</h2><p>Tokeniser Rules标注解析器。根据数字、标点符号和单词将文本分解成不同的Token。目的是将标记解析效率最大化，并通过语法规则（Grammar rules）减轻负担以此提高标记解析工作的灵活性。<br>JAPE规则包括两部分，LHS和RHS，与LHS匹配上的标注集将会按照RHS的操作执行。</p>
+<ul>
+<li><p>LHS(left hand sode)包含正规表达式操作符（比如*, ?, +）的标注模式<br>  | 或者</p>
+<ul>
+<li>零次或者多次发生<br>? 零次或者一次发生</li>
+</ul>
+<ul>
+<li>一次或者多次发生</li>
+</ul>
+</li>
+<li><p>RHS(right hand side)包含了标注集操作描述，格式：<code>{LHS} &gt; {Annotation type};{attribute1}={value1};...;{attributen}={value n}</code></p>
+</li>
+</ul>
+<h2 id="Token_Types">Token Types</h2><p>Word、Number、Symbol、Punctuation、SpaceToken</p>
+<h2 id="JAPE优先级控制类型">JAPE优先级控制类型</h2><ul>
+<li>Brill:  Brill 默认的控制风格，作用是在给定的范围内对文档进行匹配并添加类型，当多个匹配规则都匹配到一个文本时默认都会把相应的类型添加上去，这些类型没有重要等级。</li>
+<li>All: All 作用类似于Brill，但是All的匹配支持内嵌匹配</li>
+<li>First First只匹配第一个匹配到的匹配规则并添加对应类型，所以此时使用’*’,’?’或’+’这类匹配规则是不恰当的</li>
+<li>Once:  Once 一旦匹配到匹配规则，则整个JAPE解析直接退出</li>
+<li>Appelt: Applet 根据优先规则，匹配唯一一个匹配规则</li>
+</ul>
+<h2 id="JAPE高亮插件">JAPE高亮插件</h2><p>找到一个Linux平台的，gedit的插件：<a href="http://joenoodles.com/2012/10/jape-syntax-highlighting">jape-syntax-highlighting</a>，待尝试</p>
+<p>当前处理方式</p>
+<ol>
+<li>myeclipse设置*.jape默认打开程序为sublime text<br><code>General&gt;Editors&gt;File Associations</code></li>
+<li>在sublime text代开jape后缀文件，并将Syntax设置为open all with current extention as java</li>
+<li>sublimet text3安装SublimeAStyleFormatter插件进行代码格式化<ul>
+<li><code>ctrl+alt+f</code>: Format current file  </li>
+<li><code>ctrl+k, ctrl+f</code>: Format current selection<br>TODO：暂不能自动格式化jape，和语法高亮报错</li>
+</ul>
+</li>
+</ol>
+<h1 id="正则表达式">正则表达式</h1><h1 id="relationshioType的定义原理">relationshioType的定义原理</h1><p>sentence（有限状态机）包含关系，根据实际情况定义<br>Temporal+SpacePattern(Region+Path)+person</p>
+<h1 id="问题记录">问题记录</h1><h2 id="spring集成开发的plugin如何在gate中运行">spring集成开发的plugin如何在gate中运行</h2><p>由于插件最终需在gate框架中运行，建议以maven进行项目包/结构管理，fatjar编译打包；  </p>
+<ul>
+<li>参考Lang_Chinese插件修改gapp(根据creole.xml)，新增PR配置<br><a href="https://gate.ac.uk/sale/tao/splitch3.html">gapp参考</a><br>配置文件参考</li>
+</ul>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br></pre></td><td class="code"><pre><span class="line"><span class="pi">&lt;?xml version="1.0"?&gt;</span></span><br><span class="line"><span class="comment">&lt;!-- Geocoding 地址解析 --&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="title">CREOLE-DIRECTORY</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="title">JAR</span> <span class="attribute">SCAN</span>=<span class="value">"true"</span>&gt;</span>gto.geocoding.jar<span class="tag">&lt;/<span class="title">JAR</span>&gt;</span></span><br><span class="line"></span><br><span class="line">  <span class="tag">&lt;<span class="title">JAR</span>&gt;</span>lib/util-1.2.jar<span class="tag">&lt;/<span class="title">JAR</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="title">JAR</span>&gt;</span>lib/uadb.trext-1.2.jar<span class="tag">&lt;/<span class="title">JAR</span>&gt;</span></span><br><span class="line"></span><br><span class="line">  <span class="tag">&lt;<span class="title">CREOLE</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="title">RESOURCE</span>&gt;</span></span><br><span class="line">      <span class="tag">&lt;<span class="title">NAME</span>&gt;</span>GeocodingProcesser<span class="tag">&lt;/<span class="title">NAME</span>&gt;</span></span><br><span class="line">      <span class="tag">&lt;<span class="title">COMMENT</span>&gt;</span>地址正向解析<span class="tag">&lt;/<span class="title">COMMENT</span>&gt;</span></span><br><span class="line">      <span class="tag">&lt;<span class="title">HELPURL</span>&gt;</span>http://gisc.chzu.edu.cn/mysnspace/geocoding<span class="tag">&lt;/<span class="title">HELPURL</span>&gt;</span></span><br><span class="line">      <span class="tag">&lt;<span class="title">CLASS</span>&gt;</span>gto.geocoding.processor.GeocodingProcessMain<span class="tag">&lt;/<span class="title">CLASS</span>&gt;</span></span><br><span class="line">      <span class="tag">&lt;<span class="title">PARAMETER</span> <span class="attribute">NAME</span>=<span class="value">"inputASName"</span> <span class="attribute">RUNTIME</span>=<span class="value">"true"</span> <span class="attribute">DEFAULT</span>=<span class="value">"GTO"</span></span><br><span class="line">        <span class="attribute">COMMENT</span>=<span class="value">"The annotation set to be used as input for the transducer"</span></span><br><span class="line">        <span class="attribute">OPTIONAL</span>=<span class="value">"false"</span>&gt;</span>java.lang.String</span><br><span class="line">      <span class="tag">&lt;/<span class="title">PARAMETER</span>&gt;</span></span><br><span class="line">      <span class="tag">&lt;<span class="title">PARAMETER</span> <span class="attribute">NAME</span>=<span class="value">"outputASName"</span> <span class="attribute">RUNTIME</span>=<span class="value">"true"</span> <span class="attribute">DEFAULT</span>=<span class="value">"GTO"</span></span><br><span class="line">        <span class="attribute">COMMENT</span>=<span class="value">"The annotation set to be used as output for the transducer"</span></span><br><span class="line">        <span class="attribute">OPTIONAL</span>=<span class="value">"true"</span>&gt;</span>java.lang.String</span><br><span class="line">      <span class="tag">&lt;/<span class="title">PARAMETER</span>&gt;</span></span><br><span class="line">      <span class="tag">&lt;<span class="title">PARAMETER</span> <span class="attribute">NAME</span>=<span class="value">"geocodingMethod"</span> <span class="attribute">RUNTIME</span>=<span class="value">"true"</span> <span class="attribute">DEFAULT</span>=<span class="value">"LT"</span></span><br><span class="line">        <span class="attribute">COMMENT</span>=<span class="value">"The GeocodingMethodEnum to geocoding"</span> <span class="attribute">OPTIONAL</span>=<span class="value">"false"</span>&gt;</span>java.lang.String</span><br><span class="line">      <span class="tag">&lt;/<span class="title">PARAMETER</span>&gt;</span></span><br><span class="line">      <span class="tag">&lt;<span class="title">PARAMETER</span> <span class="attribute">NAME</span>=<span class="value">"geocodingUrl"</span> <span class="attribute">RUNTIME</span>=<span class="value">"true"</span> <span class="attribute">DEFAULT</span>=<span class="value">"http://192.168.1.52:8080/uadb.app/rest/v100/dz/geocoding"</span></span><br><span class="line">        <span class="attribute">COMMENT</span>=<span class="value">"The geocoding url"</span> <span class="attribute">OPTIONAL</span>=<span class="value">"false"</span>&gt;</span>java.lang.String</span><br><span class="line">      <span class="tag">&lt;/<span class="title">PARAMETER</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="title">RESOURCE</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;/<span class="title">CREOLE</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="title">CREOLE-DIRECTORY</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<ul>
+<li>将插件复制于GATE\plugins根目录内；  </li>
+<li>在gate中手动配置PR顺序，执行标注无误后，另存为gapp<br>urlList新增URLHolder</li>
+</ul>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="title">gate.util.persistence.PersistenceManager-URLHolder</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="title">urlString</span>&gt;</span>$relpath$../../../../gto.geocoding/<span class="tag">&lt;/<span class="title">urlString</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="title">gate.util.persistence.PersistenceManager-URLHolder</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<ul>
+<li>CollectionPersistence新增PRPersistence  </li>
+</ul>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="title">gate.util.persistence.PRPersistence</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="title">runtimeParams</span> <span class="attribute">class</span>=<span class="value">"gate.util.persistence.MapPersistence"</span>&gt;</span></span><br><span class="line">      <span class="tag">&lt;<span class="title">mapType</span>&gt;</span>gate.util.SimpleFeatureMapImpl<span class="tag">&lt;/<span class="title">mapType</span>&gt;</span></span><br><span class="line">      <span class="tag">&lt;<span class="title">localMap</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="title">entry</span>&gt;</span></span><br><span class="line">          <span class="tag">&lt;<span class="title">string</span>&gt;</span>inputASName<span class="tag">&lt;/<span class="title">string</span>&gt;</span></span><br><span class="line">          <span class="tag">&lt;<span class="title">string</span>&gt;</span>GTO<span class="tag">&lt;/<span class="title">string</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;/<span class="title">entry</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="title">entry</span>&gt;</span></span><br><span class="line">          <span class="tag">&lt;<span class="title">string</span>&gt;</span>outputASName<span class="tag">&lt;/<span class="title">string</span>&gt;</span></span><br><span class="line">          <span class="tag">&lt;<span class="title">string</span>&gt;</span>GTO<span class="tag">&lt;/<span class="title">string</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;/<span class="title">entry</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="title">entry</span>&gt;</span></span><br><span class="line">          <span class="tag">&lt;<span class="title">string</span>&gt;</span>geocodingMethod<span class="tag">&lt;/<span class="title">string</span>&gt;</span></span><br><span class="line">          <span class="tag">&lt;<span class="title">string</span>&gt;</span>LT<span class="tag">&lt;/<span class="title">string</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;/<span class="title">entry</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="title">entry</span>&gt;</span></span><br><span class="line">          <span class="tag">&lt;<span class="title">string</span>&gt;</span>geocodingUrl<span class="tag">&lt;/<span class="title">string</span>&gt;</span></span><br><span class="line">          <span class="tag">&lt;<span class="title">string</span>&gt;</span>http://192.168.1.52:8080/uadb.app/rest/v100/dz/geocoding<span class="tag">&lt;/<span class="title">string</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;/<span class="title">entry</span>&gt;</span></span><br><span class="line">      <span class="tag">&lt;/<span class="title">localMap</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="title">runtimeParams</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="title">resourceType</span>&gt;</span>gto.geocoding.processor.GeocodingProcessMain<span class="tag">&lt;/<span class="title">resourceType</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="title">resourceName</span>&gt;</span>GeocodingProcess<span class="tag">&lt;/<span class="title">resourceName</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="title">initParams</span> <span class="attribute">class</span>=<span class="value">"gate.util.persistence.MapPersistence"</span>&gt;</span></span><br><span class="line">      <span class="tag">&lt;<span class="title">mapType</span>&gt;</span>gate.util.SimpleFeatureMapImpl<span class="tag">&lt;/<span class="title">mapType</span>&gt;</span></span><br><span class="line">      <span class="tag">&lt;<span class="title">localMap</span>/&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="title">initParams</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="title">features</span> <span class="attribute">class</span>=<span class="value">"gate.util.persistence.MapPersistence"</span>&gt;</span></span><br><span class="line">      <span class="tag">&lt;<span class="title">mapType</span>&gt;</span>gate.util.SimpleFeatureMapImpl<span class="tag">&lt;/<span class="title">mapType</span>&gt;</span></span><br><span class="line">      <span class="tag">&lt;<span class="title">localMap</span>/&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="title">features</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;/<span class="title">gate.util.persistence.PRPersistence</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<h2 id="Jface运行GATE环境路径设置问题">Jface运行GATE环境路径设置问题</h2><p>问题：GATE环境，以Fatjar打包JFace程序，错误日志：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">Could not check plugin-mappings.xml</span><br><span class="line">java.net.MalformedURLException: no protocol: plugin-mappings.xml</span><br><span class="line">gate.util.GateException: java.net.MalformedURLException: no protocol: creole.xml      </span><br><span class="line">gate.creole.ResourceInstantiationException:Couldnot get resource data <span class="keyword">for</span> gate.corpora.CorpusImpl.</span><br><span class="line">You may need first to load the plugin that contains your resource.</span><br><span class="line">For example, to create a gate.creole.tokeniser.DefaultTokeniser</span><br><span class="line">you need first to load the ANNIE plugin.</span><br><span class="line">Go to the menu File-&gt;Manage CREOLE plugins or use the method</span><br><span class="line">Gate.getCreoleRegister().registerDirectories(pluginDirectoryURL)</span><br></pre></td></tr></table></figure>
+<p>解决：路径问题，单斜杠改成双斜杠</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//错误</span></span><br><span class="line">System.setProperty(<span class="string">"gate.builtin.ic.dir"</span>, <span class="keyword">new</span> File(gateDir + <span class="string">"/resources/creole"</span>).toURL().toURI().toString());</span><br><span class="line"><span class="comment">//正确</span></span><br><span class="line">String builtinDir = <span class="keyword">new</span> File(gateDir + <span class="string">"\\resources\\creole"</span>).toURI().toURL().toString();</span><br><span class="line">System.setProperty(<span class="string">"gate.builtin.creole.dir"</span>, builtinDir);</span><br></pre></td></tr></table></figure>
+<h2 id="gate插件加载错误">gate插件加载错误</h2><ul>
+<li>错误日志</li>
+</ul>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">gate.creole.ResourceInstantiationException: Could not get resource data <span class="keyword">for</span> gate.creole.gazetteer.DefaultGazetteer.</span><br><span class="line">gate.creole.gazetteer.DefaultGazetteer can be found in the ANNIE plugin</span><br></pre></td></tr></table></figure>
+<ul>
+<li><p>问题定位：需要在GATE中注册ANNIE插件，初始化后千万别忘得了！</p>
+</li>
+<li><p>解决方案：</p>
+</li>
+</ul>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">boolean</span> initialized = <span class="keyword">false</span>;</span><br><span class="line">String gateDir = System.getProperty(<span class="string">"user.dir"</span>) + <span class="string">"/src/main/resources/gate"</span>;</span><br><span class="line"></span><br><span class="line"><span class="annotation">@Before</span></span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">startup</span><span class="params">()</span> </span>&#123;</span><br><span class="line">System.out.println(<span class="string">"---startup"</span>);</span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span> (!initialized) &#123;</span><br><span class="line">  <span class="comment">// 初始化GATE环境</span></span><br><span class="line">  gateCommonService.setGateDir(gateDir);</span><br><span class="line">  gateCommonService.initGate();</span><br><span class="line">  <span class="comment">//注册插件</span></span><br><span class="line">  gateCommonService.registerGatePlugins(<span class="keyword">new</span> String[] &#123;<span class="string">"ANNIE"</span>, <span class="string">"Lang_Chinese"</span>&#125;);</span><br><span class="line">  initialized = <span class="keyword">true</span>;</span><br><span class="line">&#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">registerGatePlugins</span><span class="params">(String[] pluginNames)</span> </span>&#123;</span><br><span class="line">  <span class="keyword">for</span> (String pluginName : pluginNames) &#123;</span><br><span class="line">    <span class="keyword">try</span> &#123;</span><br><span class="line">      URL pathUrl = getGatePluginPath(pluginName);</span><br><span class="line">      Gate.getCreoleRegister().registerDirectories(pathUrl);</span><br><span class="line">    &#125; <span class="keyword">catch</span> (GateException e) &#123;</span><br><span class="line">      e.printStackTrace();</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h2 id="Linux中gate初始化错误">Linux中gate初始化错误</h2><ul>
+<li>错误日志</li>
+</ul>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">Using file:/uadb/uadb.etl.pre/resources/gate/%<span class="number">5</span>Cresources%<span class="number">5</span>Ccreole/ as built-in CREOLE directory URL</span><br><span class="line"> <span class="number">2015</span>-<span class="number">11</span>-<span class="number">10</span> <span class="number">22</span>:<span class="number">08</span>:<span class="number">26</span>,<span class="number">255</span> [main] [gate.creole.CreoleRegisterImpl] [WARN] - Could not check plugin-mappings.xml</span><br><span class="line"> java.io.FileNotFoundException: /uadb/uadb.etl.pre/resources/gate/\resources\creole/plugin-mappings.xml (No such file or directory)</span><br></pre></td></tr></table></figure>
+<ul>
+<li><p>问题定位：window下用的\和\符号在linux下和unix下不可用</p>
+</li>
+<li><p>解决方案：路径符号由\改成//</p>
+</li>
+</ul>
+<h2 id="Spring集成GATE，Fatjar打包后的标注乱码问题">Spring集成GATE，Fatjar打包后的标注乱码问题</h2><ul>
+<li>问题描述：main和junit测试标注正常，但fatjar打包后的程序业务标注未生成<br>  应标注：[Number, Token, Lookup, SpaceToken, Split, Sentence, IKAToken, AtomToken, Context, Place, Mapcode, Location, Region,Scale, Entity]<br>  实际标注：[Split, Token, SpaceToken, DEFAULT_TOKEN, Sentence, IKAToken,AtomToken]</li>
+<li>问题定位<br>chineseNE子管道配置的标注有问题，多出个DEFAULT_TOKEN，Sentence正常标注，但未生成Number和Lookup标注，</li>
+<li>解决方案<br>gate环境用spring集成，程序是调用gapp执行标注piopeline，jape和gazetteer等资源都是外部化的，为什么不行？<br>进行各种测试排除，发现输出日志中错误的都是乱码，断定是读文件的编码问题！！！这种问题，解决过程中纠结的要死，解决了感觉自己绝逼傻透了！<br>想起那首记忆深刻的程序员之诗，<code>手持两把锟斤拷，口中直呼烫烫烫，脚踏千朵屯屯屯，笑看万物锘锘锘</code></li>
+</ul>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//错误</span></span><br><span class="line">Document doc = Factory.newDocument(file.toURI().toURL());</span><br><span class="line"><span class="comment">//正确</span></span><br><span class="line">Document doc = Factory.newDocument(file.toURI().toURL(), <span class="string">"UTF-8"</span>);</span><br></pre></td></tr></table></figure>
+</span>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/GATE/" rel="tag">#GATE</a>
+          
+            <a href="/tags/NLP/" rel="tag">#NLP</a>
+          
+            <a href="/tags/大数据/" rel="tag">#大数据</a>
+          
+        </div>
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2015/09/18/Markdown常用语法/" rel="prev">Markdown常用语法</a>
+            
+          </div>
+
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2015/09/15/Maven使用笔记/" rel="next">Maven使用笔记</a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+ </div>
+
+        
+
+        
+          <div class="comments" id="comments">
+            
+              <div class="ds-thread" data-thread-key="2015/09/17/GATE中文自然语言处理学习笔记/"
+                   data-title="GATE中文自然语言处理学习笔记" data-url="http://geosmart.github.io/2015/09/17/GATE中文自然语言处理学习笔记/">
+              </div>
+            
+          </div>
+        
+      </div>
+
+      
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" src="https://avatars1.githubusercontent.com/u/3156608?v=3&s=460" alt="geosmart" itemprop="image"/>
+          <p class="site-author-name" itemprop="name">geosmart</p>
+        </div>
+        <p class="site-description motion-element" itemprop="description">追求心智成长，记录技术点滴</p>
+        <nav class="site-state motion-element">
+          <div class="site-state-item site-state-posts">
+            <a href="/archives">
+              <span class="site-state-item-count">58</span>
+              <span class="site-state-item-name">日志</span>
+            </a>
+          </div>
+
+          <div class="site-state-item site-state-categories">
+            <a href="/categories">
+              <span class="site-state-item-count">15</span>
+              <span class="site-state-item-name">分类</span>
+              </a>
+          </div>
+
+          <div class="site-state-item site-state-tags">
+            <a href="/tags">
+              <span class="site-state-item-count">56</span>
+              <span class="site-state-item-name">标签</span>
+              </a>
+          </div>
+
+        </nav>
+
+        
+          <div class="feed-link motion-element">
+            <a href="/atom.xml" rel="alternate">
+              <i class="menu-item-icon icon-next-feed"></i>
+              RSS
+            </a>
+          </div>
+        
+
+        <div class="links-of-author motion-element">
+          
+        </div>
+
+        
+        
+
+        <div class="links-of-author motion-element">
+          
+        </div>
+
+      </section>
+
+      
+        <section class="post-toc-wrap sidebar-panel-active">
+          <div class="post-toc-indicator-top post-toc-indicator"></div>
+          <div class="post-toc">
+            
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#GATE"><span class="nav-number">1.</span> <span class="nav-text">GATE</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#GATE资源："><span class="nav-number">1.1.</span> <span class="nav-text">GATE资源：</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Pipeline"><span class="nav-number">2.</span> <span class="nav-text">Pipeline</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#CorpusController"><span class="nav-number">2.1.</span> <span class="nav-text">CorpusController</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#RealtimeCorpusController"><span class="nav-number">2.2.</span> <span class="nav-text">RealtimeCorpusController</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#SerialAnalyserController"><span class="nav-number">2.3.</span> <span class="nav-text">SerialAnalyserController</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Gazetteer"><span class="nav-number">3.</span> <span class="nav-text">Gazetteer</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#Gazetteer生效机制"><span class="nav-number">3.1.</span> <span class="nav-text">Gazetteer生效机制</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#ANNIE词典库"><span class="nav-number">3.2.</span> <span class="nav-text">ANNIE词典库</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#GAZE词典库"><span class="nav-number">3.3.</span> <span class="nav-text">GAZE词典库</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Onto词典"><span class="nav-number">3.4.</span> <span class="nav-text">Onto词典</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Hash词典"><span class="nav-number">3.5.</span> <span class="nav-text">Hash词典</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Flexible词典"><span class="nav-number">3.6.</span> <span class="nav-text">Flexible词典</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#词典列表collection"><span class="nav-number">3.7.</span> <span class="nav-text">词典列表collection</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#OntoRoot词典"><span class="nav-number">3.8.</span> <span class="nav-text">OntoRoot词典</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#大型KB词典"><span class="nav-number">3.9.</span> <span class="nav-text">大型KB词典</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#JAPE"><span class="nav-number">4.</span> <span class="nav-text">JAPE</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#grammer-jape"><span class="nav-number">4.1.</span> <span class="nav-text">grammer-jape</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#JAPE标注类型"><span class="nav-number">4.2.</span> <span class="nav-text">JAPE标注类型</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Tokeniser_Rules"><span class="nav-number">4.3.</span> <span class="nav-text">Tokeniser Rules</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Token_Types"><span class="nav-number">4.4.</span> <span class="nav-text">Token Types</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#JAPE优先级控制类型"><span class="nav-number">4.5.</span> <span class="nav-text">JAPE优先级控制类型</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#JAPE高亮插件"><span class="nav-number">4.6.</span> <span class="nav-text">JAPE高亮插件</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#正则表达式"><span class="nav-number">5.</span> <span class="nav-text">正则表达式</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#relationshioType的定义原理"><span class="nav-number">6.</span> <span class="nav-text">relationshioType的定义原理</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#问题记录"><span class="nav-number">7.</span> <span class="nav-text">问题记录</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#spring集成开发的plugin如何在gate中运行"><span class="nav-number">7.1.</span> <span class="nav-text">spring集成开发的plugin如何在gate中运行</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Jface运行GATE环境路径设置问题"><span class="nav-number">7.2.</span> <span class="nav-text">Jface运行GATE环境路径设置问题</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#gate插件加载错误"><span class="nav-number">7.3.</span> <span class="nav-text">gate插件加载错误</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Linux中gate初始化错误"><span class="nav-number">7.4.</span> <span class="nav-text">Linux中gate初始化错误</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Spring集成GATE，Fatjar打包后的标注乱码问题"><span class="nav-number">7.5.</span> <span class="nav-text">Spring集成GATE，Fatjar打包后的标注乱码问题</span></a></li></ol></li></ol></div>
+            
+          </div>
+          <div class="post-toc-indicator-bottom post-toc-indicator"></div>
+        </section>
+      
+
+    </div>
+  </aside>
+
+
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner"> <div class="copyright" >
+  
+  &copy; &nbsp; 
+  <span itemprop="copyrightYear">2016</span>
+  <span class="with-love">
+    <i class="icon-next-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">geosmart</span>
+</div>
+
+<div class="powered-by">
+  由 <a class="theme-link" href="http://hexo.io">Hexo</a> 强力驱动
+</div>
+
+<div class="theme-info">
+  主题 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Mist
+  </a>
+</div>
+
+
+ </div>
+    </footer>
+
+    <div class="back-to-top"></div>
+  </div>
+
+  <script type="text/javascript" src="/vendors/jquery/index.js?v=2.1.3"></script>
+
+  
+  
+  
+    
+
+  
+    
+  
+
+  <script type="text/javascript">
+    var duoshuoQuery = {short_name:"geosmart"};
+    (function() {
+      var ds = document.createElement('script');
+      ds.type = 'text/javascript';ds.async = true;
+      ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+      ds.charset = 'UTF-8';
+      (document.getElementsByTagName('head')[0]
+      || document.getElementsByTagName('body')[0]).appendChild(ds);
+    })();
+  </script>
+    
+     
+     
+  	  <script type="text/javascript">
+  		var duoshuo_user_ID = geosmart
+      var duoshuo_admin_nickname="geosmart"
+  	  </script>
+     
+  	<script src="/js/ua-parser.min.js"></script>
+  	<script src="/js/hook-duoshuo.js"></script>
+  
+
+    
+  
+  
+  <script type="text/javascript" src="/vendors/fancybox/source/jquery.fancybox.pack.js"></script>
+  <script type="text/javascript" src="/js/fancy-box.js?v=0.4.5.1"></script>
+
+
+  <script type="text/javascript" src="/js/helpers.js?v=0.4.5.1"></script>
+  
+
+  <script type="text/javascript" src="/vendors/velocity/velocity.min.js"></script>
+  <script type="text/javascript" src="/vendors/velocity/velocity.ui.min.js"></script>
+
+  <script type="text/javascript" src="/js/motion_global.js?v=0.4.5.1" id="motion.global"></script>
+
+
+
+
+  <script type="text/javascript" src="/js/nav-toggle.js?v=0.4.5.1"></script>
+  <script type="text/javascript" src="/vendors/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  
+<script type="text/javascript" src="/js/bootstrap.scrollspy.js?v=0.4.5.1" id="bootstrap.scrollspy.custom"></script>
+
+
+<script type="text/javascript" id="sidebar.toc.highlight">
+  $(document).ready(function () {
+    var tocSelector = '.post-toc';
+    var $tocSelector = $(tocSelector);
+    var activeCurrentSelector = '.active-current';
+
+    $tocSelector
+      .on('activate.bs.scrollspy', function () {
+        var $currentActiveElement = $(tocSelector + ' .active').last();
+
+        removeCurrentActiveClass();
+        $currentActiveElement.addClass('active-current');
+
+        $tocSelector[0].scrollTop = $currentActiveElement.position().top;
+      })
+      .on('clear.bs.scrollspy', function () {
+        removeCurrentActiveClass();
+      });
+
+    function removeCurrentActiveClass () {
+      $(tocSelector + ' ' + activeCurrentSelector)
+        .removeClass(activeCurrentSelector.substring(1));
+    }
+
+    function processTOC () {
+      getTOCMaxHeight();
+      toggleTOCOverflowIndicators();
+    }
+
+    function getTOCMaxHeight () {
+      var height = $('.sidebar').height() -
+                   $tocSelector.position().top -
+                   $('.post-toc-indicator-bottom').height();
+
+      $tocSelector.css('height', height);
+
+      return height;
+    }
+
+    function toggleTOCOverflowIndicators () {
+      tocOverflowIndicator(
+        '.post-toc-indicator-top',
+        $tocSelector.scrollTop() > 0 ? 'show' : 'hide'
+      );
+
+      tocOverflowIndicator(
+        '.post-toc-indicator-bottom',
+        $tocSelector.scrollTop() >= $tocSelector.find('ol').height() - $tocSelector.height() ? 'hide' : 'show'
+      )
+    }
+
+    $(document).on('sidebar.motion.complete', function () {
+      processTOC();
+    });
+
+    $('body').scrollspy({ target: tocSelector });
+    $(window).on('resize', function () {
+      if ( $('.sidebar').hasClass('sidebar-active') ) {
+        processTOC();
+      }
+    });
+
+    onScroll($tocSelector);
+
+    function onScroll (element) {
+      element.on('mousewheel DOMMouseScroll', function (event) {
+          var oe = event.originalEvent;
+          var delta = oe.wheelDelta || -oe.detail;
+
+          this.scrollTop += ( delta < 0 ? 1 : -1 ) * 30;
+          event.preventDefault();
+
+          toggleTOCOverflowIndicators();
+      });
+    }
+
+    function tocOverflowIndicator (indicator, action) {
+      var $indicator = $(indicator);
+      var opacity = action === 'show' ? 0.4 : 0;
+      $indicator.velocity ?
+        $indicator.velocity('stop').velocity({
+          opacity: opacity
+        }, { duration: 100 }) :
+        $indicator.stop().animate({
+          opacity: opacity
+        }, 100);
+    }
+
+  });
+</script>
+
+<script type="text/javascript" id="sidebar.nav">
+  $(document).ready(function () {
+    var html = $('html');
+    var TAB_ANIMATE_DURATION = 200;
+    var hasVelocity = $.isFunction(html.velocity);
+
+    $('.sidebar-nav li').on('click', function () {
+      var item = $(this);
+      var activeTabClassName = 'sidebar-nav-active';
+      var activePanelClassName = 'sidebar-panel-active';
+      if (item.hasClass(activeTabClassName)) {
+        return;
+      }
+
+      var currentTarget = $('.' + activePanelClassName);
+      var target = $('.' + item.data('target'));
+
+      hasVelocity ?
+        currentTarget.velocity('transition.slideUpOut', TAB_ANIMATE_DURATION, function () {
+          target
+            .velocity('stop')
+            .velocity('transition.slideDownIn', TAB_ANIMATE_DURATION)
+            .addClass(activePanelClassName);
+        }) :
+        currentTarget.animate({ opacity: 0 }, TAB_ANIMATE_DURATION, function () {
+          currentTarget.hide();
+          target
+            .stop()
+            .css({'opacity': 0, 'display': 'block'})
+            .animate({ opacity: 1 }, TAB_ANIMATE_DURATION, function () {
+              currentTarget.removeClass(activePanelClassName);
+              target.addClass(activePanelClassName);
+            });
+        });
+
+      item.siblings().removeClass(activeTabClassName);
+      item.addClass(activeTabClassName);
+    });
+
+    $('.post-toc a').on('click', function (e) {
+      e.preventDefault();
+      var targetSelector = escapeSelector(this.getAttribute('href'));
+      var offset = $(targetSelector).offset().top;
+      hasVelocity ?
+        html.velocity('stop').velocity('scroll', {
+          offset: offset  + 'px',
+          mobileHA: false
+        }) :
+        $('html, body').stop().animate({
+          scrollTop: offset
+        }, 500);
+    });
+
+    // Expand sidebar on post detail page by default, when post has a toc.
+    var $tocContent = $('.post-toc-content');
+    if (isDesktop() && CONFIG.sidebar === 'post') {
+      if ($tocContent.length > 0 && $tocContent.html().trim().length > 0) {
+        displaySidebar();
+      }
+    }
+  });
+</script>
+
+
+
+  <script type="text/javascript">
+    $(document).ready(function () {
+      if (CONFIG.sidebar === 'always') {
+        displaySidebar();
+      }
+      if (isMobile()) {
+        FastClick.attach(document.body);
+      }
+    });
+  </script>
+
+  
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/lazyload.js"></script>
+  <script type="text/javascript">
+    $(function () {
+      $("#posts").find('img').lazyload({
+        placeholder: "/images/loading.gif",
+        effect: "fadeIn"
+      });
+    });
+  </script>
+</body>
+</html>
