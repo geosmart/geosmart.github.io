@@ -36,5 +36,4 @@ Github:：[http://github.com/geosmart](http://github.com/geosmart)
 //待补充MindManager技术栈图
 
 # 联系方式
-Email: geosmart@foxmail.com   
-QQ: 328627175   
+Email: geosmart@foxmail.com 

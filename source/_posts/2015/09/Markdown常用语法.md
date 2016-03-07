@@ -1,7 +1,7 @@
 title: Markdown常用语法
 date: 2015-09-18 21:59:42
 tags: [Markdown]
-categories: [工具] 
+categories: [工具]
 ---
 
 记录一些markdown的语法和使用示例
@@ -34,19 +34,19 @@ categories: [工具]
 
 # 分割线
 ---
-*** 
+***
 
 # 表格
 ``` markdown
-|	序号	|	交易名	|	交易说明	|	备注	|
-|	---		|	---		|	---			|	--- 	|
-|	1		|	1		|	1			|	1 		|
-|	2		|	2		|	2			|	2		|
-|	3		|	3		|	3			|	3		|
-```
+|Header |Column 1 | Column 2 | Column 3  |
+|:--- |:---- |:----:| ----:|
+|1. Row| is | is | is  |
+|2. Row| left | nicely | right  |
+|3. Row| aligned | centered | aligned  |  
+``` 
 
-|	序号	|	交易名	|	交易说明	|	备注	|
-|	---		|	---		|	---			|	--- 	|
-|	1		|	1		|	1			|	1 		|
-|	2		|	2		|	2			|	2		|
-|	3		|	3		|	3			|	3		|
+|Header |Column 1 | Column 2 | Column 3  |
+|:--- |:---- |:----:| ----:|
+|1. Row| is | is | is  |
+|2. Row| left | nicely | right  |
+|3. Row| aligned | centered | aligned  |  
