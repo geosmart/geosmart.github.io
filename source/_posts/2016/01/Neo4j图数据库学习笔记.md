@@ -183,3 +183,6 @@ RETURN DISTINCT surfer
   * 由于Neo4j JVM和内存回收器的head-room消耗，需要足够大的heap   memory用来进行事物状态和查询处理；因为工作负载非常依赖heap memory，所以配置heap memory从1G到32G都很常见；  
   * Neo4j page cache 最好有足够的内存来保持整个数据集在内存中，也就是说page cache应该足够大，以适应所有的neostore.* 文件（不是neostore.transaction.db.* 文件）；  
   * 配置足够的操作系统page cache以适应索引的内容和schema目录,因为如果索引不能装入内存,它将会影响索引查找性能；
+
+
+  

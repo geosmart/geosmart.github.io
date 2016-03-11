@@ -108,12 +108,20 @@ UDF程序打包有两张方式：
 2. 通过在YARN的ResourceManager UI中查看Mapreduce打印的详细日志，日志会打印syso的内容；
 
 # Hive JDBC
- HiveServer和HiveServer2都有两种模式，分别为嵌入式和单机服务器模式，
+HiveServer和HiveServer2都有两种模式，分别为嵌入式和单机服务器模式，
  1. 嵌入式URI为"jdbc:hive://"或者"jdbc:hive2://"；
  2. 单机服务器模式的URI为"jdbc:hive://host:port/dbname"或者"jdbc:hive2://host:port/dbname"；
  3. HiveServer使用的JDBC驱动类为org.apache.hadoop.hive.jdbc.HiveDriver，HiveServer2使用的驱动类为org.apache.hive.jdbc.HiveDriver；
 
 # 问题记录
+## /tmp/hive on HDFS should be writable
+问题日志：Exception in thread "main" java.lang.RuntimeException: java.lang.RuntimeException: The root scratch dir: /tmp/hive on HDFS should be writable. Current permissions are: rwx-wx--x
+解决方法：
+1. 更新权限hdfs目录权限：`hadoop fs -chmod 777 /tmp/hive`
+2. hdfs执行：`hadoop fs -rm -r /tmp/hive;  `
+3. local执行：`rm -rf /tmp/hive`
+
+Hive shell
 ## hive query can't generate result set via jdbc
 解决：Use stmt.execute() for a query that makes a new table. of executeQuery. The executeQuery() is now only for select queries (DML) while execute is probably for DDL (data definition).
 DML：
