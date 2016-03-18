@@ -53,6 +53,105 @@ Maven是基于项目对象模型(POM)，可以通过一小段描述信息来管�
 在`Window>Preferences>Myeclipse>Maven4Myeclipse>Installations`中执行Add加入本地maven路径
 在`Window>Preferences>Myeclipse>Maven4Myeclipse>User Settings`中Browser选择maven\config\settings.xml，执行Update Settings，Reindex
 
+## Maven项目聚合
+为解决多个依赖项目自动打包，可通过聚合maven项目解决
+pom示例
+```xml
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+
+	<groupId>com.lt.util</groupId>
+	<artifactId>util.aggregation</artifactId>
+	<version>0.0.1</version>
+	<packaging>pom</packaging>
+
+	<name>util.aggregation</name>
+
+	<properties>
+		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+	</properties>
+	<modules>
+		<module>../util.common</module>
+		<module>../util.jdbc</module>
+		<module>../util.web</module>
+		<module>../util.geo</module>
+		<module>../util.hibernate</module>
+	</modules>
+</project>
+```
+通过`mvn clean install`进行打包
+
+## Maven项目依赖继承
+`uadb.parent`项目
+```xml
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+
+	<groupId>com.lt.uadb</groupId>
+	<artifactId>uadb.parent</artifactId>
+	<version>0.0.1</version>
+	<packaging>pom</packaging>
+
+	<name>uadb.parent</name>
+	<!-- 项目属性 -->
+	<properties>
+		<!-- framework -->
+		<jdk.version>1.7</jdk.version>
+		<!-- test -->
+		<junit.version>4.8.2</junit.version>
+		<!-- encode -->
+		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+	</properties>
+	<dependencyManagement>
+
+		<dependencies>
+			<!--test -->
+			<dependency>
+				<groupId>junit</groupId>
+				<artifactId>junit</artifactId>
+				<version>${junit.version}</version>
+				<scope>test</scope>
+			</dependency>
+		</dependencies>
+	</dependencyManagement>
+</project>
+```
+child项目引用parent项目
+```xml
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+	<artifactId>uadb.etl.pre</artifactId>
+	<version>1.0</version>
+	<name>uadb.etl.pre</name>
+	<packaging>jar</packaging>
+
+	<parent>
+		<groupId>com.lt.uadb</groupId>
+		<artifactId>uadb.parent</artifactId>
+		<version>0.0.1</version>
+	</parent>
+	<!-- 项目属性 -->
+	<properties>
+		<!-- framework -->
+		<jdk.version>1.7</jdk.version>
+		<!-- test -->
+		<junit.version>4.8.2</junit.version>
+		<!-- encode -->
+		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+	</properties>
+
+	<dependencies>
+			<!--test -->
+  		<dependency>
+  			<groupId>junit</groupId>
+  			<artifactId>junit</artifactId>
+  		</dependency>
+	</dependencies>
+</project>
+```
 
 # Maven问题记录
 *	本地库有改jar包但是依旧无法编译

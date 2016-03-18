@@ -67,6 +67,7 @@ __在大量使用反射、动态代理、CGLib等ByteCode框架、动态生成JS
 ## 复制算法（Coping）
 ## 标记-整理算法（Mark-Compact）
 ![内存碎片整理](内存碎片整理.png)
+
 ## 分代收集算法
 ---
 # HotSpot的算法实现
