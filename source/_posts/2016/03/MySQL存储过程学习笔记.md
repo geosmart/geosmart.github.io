@@ -35,23 +35,7 @@ mysql存储过程中，定义变量有两种方式：
 
 ## 注意事项
 * 变量命名需与表字段不一致；
-
-# 存储过程中select行号（RowNumber）
-[参考create-a-view-with-column-num-rows-mysql](http://stackoverflow.com/questions/15891993/create-a-view-with-column-num-rows-mysql)
-定义函数`getRowNum`
-```sql
-REATE DEFINER=`geocodingdb`@`%` FUNCTION `geocodingdb`.`getRowNum`() RETURNS int(11)
-BEGIN
-      SET @temp_rowNumber := IFNULL(@temp_rowNumber,0)+1;
-      return @temp_rowNumber;
-END
-```
-SQL调用
-```sql
-SET @temp_rowNumber=0;
-select fieldA , getRowNum() AS rownum from tableName;
-```
-
+ 
 # 输出日志信息
 SELECT concat('Comment:','---Comment---');
 
