@@ -102,6 +102,13 @@ UDF程序打包有两张方式：
 1. 以类fatjar工具将UDF和依赖打成一个jar包，但是打包部署耗时；
 2. 将jar包分为稳定和经常更新的两类；通过执行add和delete动态添加依赖
 
+## CM中设置Hive自动加载UDTF依赖JAR
+[参考cloudera mamager中配置hive加载自定义的jar包](http://blog.csdn.net/xiao_jun_0820/article/details/38302451)
+1. 进入Hive配置页
+2. 在高级选型中设置`Hive 辅助 JAR 目录`：`/etc/hive/udtflib`
+3. 设置Gateway Default Group（hive-env.sh 的 Gateway 客户端环境高级配置代码段（安全阀））：`HIVE_AUX_JARS_PATH=/etc/hive/udtflib`
+4. 重启集群，CM会自动将Hive辅助JAR目录中的jar包分发到Hive客户端
+
 ## UDF日志查看
 除了开发环境的Junit单元测试外，生产环境的日志查看非常重要，
 1. 通过在hue -jobbrowser中查看syslog；
@@ -120,12 +127,11 @@ HiveServer和HiveServer2都有两种模式，分别为嵌入式和单机服务�
 1. 更新权限hdfs目录权限：`hadoop fs -chmod 777 /tmp/hive`
 2. hdfs执行：`hadoop fs -rm -r /tmp/hive;  `
 3. local执行：`rm -rf /tmp/hive`
-
-Hive shell
+ 
 ## hive query can't generate result set via jdbc
 解决：Use stmt.execute() for a query that makes a new table. of executeQuery. The executeQuery() is now only for select queries (DML) while execute is probably for DDL (data definition).
-DML：
-DDL：
+* DDL（Data Definition Language 数据定义语言）用于操作对象和对象的属性，这种对象包括数据库本身，以及数据库对象，像：表、视图等等，DDL对这些对象和属性的管理和定义具体表现在Create、Drop和Alter上；  
+* DML（Data Manipulation Language 数据操控语言）用于操作数据库对象中包含的数据，也就是说操作的单位是记录；  
 
 ## Hive Jdbc调用UDTF问题
 * 问题描述：在Java中以Hive的JDBC接口调用UDTF语句，逐行执行到create temporary function就会报错，但在Hue中（客户端连接）能正常执行
