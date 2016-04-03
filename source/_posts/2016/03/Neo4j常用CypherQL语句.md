@@ -31,11 +31,28 @@ RETURN  u5
 ```
 
 # match Node
+* match by property
 ```sql
 MATCH (root { name : 'root' })
 return root
 ```
-
+* match by ID identifier
+```sql
+MATCH (s)
+WHERE ID(s) = 65110
+RETURN s
+```
+* complex query
+```sql
+MATCH (d:District {state: {state}, district: {district}})
+MATCH (d)<-[:REPRESENTS]-(l:Legislator)
+MATCH (l)-[:SERVES_ON]->(c:Committee)
+MATCH (c)<-[:REFERRED_TO]-(b:Bill)
+MATCH (b)-[:DEALS_WITH]->(s:Subject)
+WITH l.govtrackID AS govtrackID, l.lastName AS lastName, l.firstName AS firstName, l.currentParty AS party, s.title AS subject, count(*) AS strength, collect(DISTINCT c.name) AS committees ORDER BY strength DESC LIMIT 10
+WITH {lastName: lastName, firstName: firstName, govtrackID: govtrackID, party: party, committees: committees} AS legislator, collect({subject: subject, strength: strength}) AS subjects
+RETURN {legislator: legislator, subjects: subjects} AS r
+```
 # match relationNode
 ```sql
 MATCH (root{ type:'admin' })-->(user)
@@ -71,3 +88,9 @@ MATCH (n { name:'Andres' })DETACH DELETE n
 Match (:AddressNode)-[r:parent]->(:AddressNode)
 delete r
 ```
+# start
+The START clause should only be used when accessing legacy indexes [Legacy Indexing](http://neo4j.com/docs/stable/indexing.html).In all other cases, use MATCH instead (see Section 11.1, “Match”).
+In Cypher, every query describes a pattern, and in that pattern one can have multiple starting points. A starting point is a relationship or a node where a pattern is anchored. Using START you can only introduce starting points by legacy index seeks. Note that trying to use a legacy index that doesn’t exist will generate an error.
+
+# create index
+CREATE INDEX ON :PRO( preAddressNodeGUIDs)

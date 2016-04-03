@@ -25,6 +25,7 @@ Neo4j HA(Neo4j High Availability)，高可用性主要指其包含容错机制�
 * 运行bin\Neo4j.bat，如`cd F:\Dev\neo4j-enterprise-3.0.0-M02\bin && Neo4j.bat`
 * 在浏览器打开Neo4j的在线REPL，即[Neo4j Browser](http://localhost:7474/),在命令行输入Cypher query语句进行查询
 * 在浏览器打开[Neo4j Guide](http://localhost:7474/webadmin/#/info/)了解Neo4j
+* 老版本的在线入口：[neo4j webAdmin](http://localhost:7474/webadmin/#/index/)
 
 ## Neo4j Browser常用脚本
 :help 帮助

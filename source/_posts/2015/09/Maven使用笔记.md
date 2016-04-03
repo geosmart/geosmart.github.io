@@ -43,6 +43,24 @@ Maven是基于项目对象模型(POM)，可以通过一小段描述信息来管�
 
 * http://maven.outofmemory.cn/
 
+当然，在国内还是老实参考[开源中国社区的教程](http://maven.oschina.net/help.html)配置maven
+``` xml
+ <mirrors>
+	<mirror>
+		<id>nexus-osc</id>
+		<mirrorOf>central</mirrorOf>
+		<name>Nexus osc</name>
+		<url>http://maven.oschina.net/content/groups/public/</url>
+	</mirror>
+	<mirror>
+		<id>nexus-osc-thirdparty</id>
+		<mirrorOf>thirdparty</mirrorOf>
+		<name>Nexus osc thirdparty</name>
+		<url>http://maven.oschina.net/content/repositories/thirdparty/</url>
+	</mirror>
+</mirrors>
+```
+
 # 上传项目到Maven Central Repository
 
 ## Maven本地开发
@@ -152,6 +170,14 @@ child项目引用parent项目
 	</dependencies>
 </project>
 ```
+# 复制依赖项
+dependency:copy-dependencies
+输出到target/deps
+
+# 在Github搭建个人Maven仓库
+## deploy到本地目录
+## 本地目录提交到gtihub上
+## 配置github地址为仓库地址
 
 # Maven问题记录
 *	本地库有改jar包但是依旧无法编译
