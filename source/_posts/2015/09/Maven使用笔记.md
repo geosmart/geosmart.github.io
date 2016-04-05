@@ -189,3 +189,10 @@ dependency:copy-dependencies
 解决：
 So I get you are using Eclipse with the M2E plugin. Try to update your Maven configuration : In the Project Explorer, right-click on the project, Maven -> Update project.
 If the problem still remains, try to clean your project: right-click on your pom.xml, Run as -> Maven build (the second one). Enter "clean package" in the Goals fields. Check the Skip Tests box. Click on the Run button.
+
+* cannot find maven installation embedded
+Simply remove the external maven installation. When you restart eclipse, the embedded maven will reappear.
+
+* install offline问题
+The repository system is offline but the artifact org.apache.maven.plugins:maven-install-plugin:pom:2.3.1 is not available in the local repository.
+取消勾选offline选项,重新执行install

@@ -17,8 +17,8 @@ categories: [工具]
 # 代码
 
 # 图片
->`![geosmart](https://avatars1.githubusercontent.com/u/3156608?v=3&s=460)`  
-![geosmart](https://avatars1.githubusercontent.com/u/3156608?v=3&s=460)
+>`![geosmart](https://avatars1.githubusercontent.com/u/3156608?v=3&s=64)`  
+![geosmart](https://avatars1.githubusercontent.com/u/3156608?v=3&s=64)
 
 # 链接
 >`[geosmart](geosmart.github.io)`  
@@ -35,15 +35,14 @@ categories: [工具]
 # 分割线
 ---
 ***
-
 # 表格
-``` markdown
+```markdown
 |Header |Column 1 | Column 2 | Column 3  |
 |:--- |:---- |:----:| ----:|
 |1. Row| is | is | is  |
 |2. Row| left | nicely | right  |
 |3. Row| aligned | centered | aligned  |  
-``` 
+```
 
 |Header |Column 1 | Column 2 | Column 3  |
 |:--- |:---- |:----:| ----:|

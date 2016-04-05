@@ -87,7 +87,7 @@ virtualenvwrapper运行bat默认安装在`C:\Python27\Scripts\*.bat`
 
 ## 问题记录
 * 问题描述：执行virtualenv报错：`SyntaxError: Non-ASCII character '\x90' in file C:\Python27\Scripts\virtualenv.exe on line 1, but no encoding declared;`
-解决方案：卸载virtualenv`pip uninstall virtualenv`；卸载virtualenvwarpper`pip uninstall virtualenvwarpper-win`；重新安装virtualenvwarpper`pip install virtualenvwarpper-win`,要是还不行那就重装pythonng
+解决方案：卸载virtualenv`pip uninstall virtualenv`；卸载virtualenvwarpper`pip uninstall virtualenvwarpper-win`；重新安装virtualenvwarpper`pip install virtualenvwarpper-win`,要是还不行那就重装python！
 
 * 问题描述：  File "E:\PythonWorkspace\venv\ugc.venv\Scripts\pip.exe", line 1 SyntaxError: Non-ASCII character '\x90' in file E:\PythonWorkspace\venv\ugc.venv\Scripts\pip.exe on line 1, but no encoding declared;  
 解决方案：原因是pip安装python包会加载我的用户目录，我的用户目录恰好是中文的，ascii不能编码。解决办法是：

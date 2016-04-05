@@ -1,17 +1,16 @@
-layout: neo4j
-title: Spatial空间索引笔记
+title: Neo4j空间索引学习笔记
 date: 2016-04-03 11:18:18
 tags: [Neo4j]
 categories: [数据库]
 ---
-Neo4j采用Neo4j Spatial插件实现空间索引，Neo4j Spatial可使用API或Cypher执行空间查询操作，另作为插件可部署于GeoServer与uDig；这种结合关系与空间的分析值得尝试！
+Neo4j采用Neo4j Spatial插件实现空间索引，Neo4j Spatial可使用API或Cypher执行空间查询操作，另作为插件可部署于GeoServer与uDig；与Oracle/MySQL Spatial Extention/MongoDB 2dSphere等空间模块相比，这种结合关系与空间的分析更值得尝试！
 - - -
 <!-- more -->
 # 相关资料
 [neo4j spatial github官网](http://neo4j-contrib.github.io/spatial/)
 [lyonwj博客](http://www.lyonwj.com/)
 
-## Neo4j Spatial简介
+# Neo4j Spatial简介
 Neo4j Spatial is a library of utilities for Neo4j that faciliates the enabling of spatial operations on data.
 - Utilities for importing from ESRI Shapefile as well as Open Street Map files
 - Support for all the common geometry types
@@ -19,11 +18,6 @@ Neo4j Spatial is a library of utilities for Neo4j that faciliates the enabling o
 - Support for topology operations during the search (contains, within, intersects, covers, disjoint, etc.)
 - The possibility to enable spatial operations on any graph of data, regardless of the way the spatial data is stored, as long as an adapter is provided to map from the graph to the geometries.
 - Ability to split a single layer or dataset into multiple sub-layers or views with pre-configured filters
-
-## Java构建Neo4j 空间索引
-[参考distance-queries-with-neo4j-spatial](https://structr.org/blog/distance-queries-with-neo4j-spatial)
-[gist代码示例：Neo4j Emberded 嵌入式SpringBean配置](https://gist.github.com/geosmart/0559745a69875e9f8876aeecda10f86b)
-[gist代码示例：Java实现Neo4j Spatial新建索引和空间查询测试用例](https://gist.github.com/geosmart/19e6e4cb0c953e1b63e9afe48425de8f)
 
 # neo4j spatial 安装
 1. 在[neo4j spatial github maven库](https://github.com/neo4j-contrib/m2/tree/master/releases/org/neo4j/neo4j-spatial)下载最新服务端Neo4j Spatial Server插件，下载后解压到neo4j plugin目录；
@@ -36,25 +30,28 @@ Neo4j Spatial is a library of utilities for Neo4j that faciliates the enabling o
   - Create nodes with lat/lon data as properties
   - Add these nodes to the Spatial index
 4. RTree关系可视化
-![RTree索引](RTreeRelationship.png)
+![RTree索引](RTreeRelationship.png)  
 Neo4j Spatial REST服务可参考[Neo4j Spatial v0.12-neo4j-2.0.0-SNAPSHOT文档](http://neo4j-contrib.github.io/spatial/)
 
 # neo4j spatial应用
-The technology industry and open source groups are building Spatial tools (“where” analysis) and Graph tools (relationship analysis)
-so that businesses can improve their insight on patterns, trends, and (perhaps most importantly) outliers in the networks.
+The technology industry and open source groups are building __Spatial tools (“where” analysis) and Graph tools (relationship analysis)__ so that businesses can improve their insight on patterns, trends, and (perhaps most importantly) outliers in the networks.
 
-*  [neo4j-spatial-part1-finding-things-close-to-other-thing](http://neo4j.com/blog/neo4j-spatial-part1-finding-things-close-to-other-things/)
+* [using-neo4j-spatial-and-leaflet-js-with-mapbox](http://www.lyonwj.com/using-neo4j-spatial-and-leaflet-js-with-mapbox)
+* [neo4j-spatial-part1-finding-things-close-to-other-thing](http://neo4j.com/blog/neo4j-spatial-part1-finding-things-close-to-other-things/)
 * [Mapping the World's Airports With Neo4j Spatial and Openflights](http://www.lyonwj.com/mapping-the-worlds-airports-with-neo4j-spatial-and-openflights-part-1)
 * [Geospatial Indexing US Congressional Districts with Neo4j-spatial](http://neo4j.com/blog/geospatial-indexing-us-congress-neo4j/)
 * [Webinar: Recommend Restaurants Near Me: Introduction to Neo4j Spatial](http://neo4j.com/news/webinar-recommend-restaurants-intro-neo4j-spatial/)
 * [Finding Valuable Outliers and Opportunities Using Graph and Spatial](http://neo4j.com/blog/outliers-opportunities-graph-spatial/)
 * [legis-graph-spatial](http://legis-graph.github.io/legis-graph-spatial/)
 
+# Java构建Neo4j 空间索引
+[参考distance-queries-with-neo4j-spatial](https://structr.org/blog/distance-queries-with-neo4j-spatial)  
+[gist代码示例：Neo4j Emberded 嵌入式SpringBean配置](https://gist.github.com/geosmart/0559745a69875e9f8876aeecda10f86b)  
+[gist代码示例：Java实现Neo4j Spatial新建索引和空间查询测试用例](https://gist.github.com/geosmart/19e6e4cb0c953e1b63e9afe48425de8f)  
 
 # neo4j spatial query 示例
-[start-node-by-index-query](http://neo4j.com/docs/stable/query-start.html#start-node-by-index-query)
 ## withinDistance缓存区查询
-查询点120.678966,31.300864周边0.1km范围内的Node  
+查询点120.678966,31.300864周边0.1km范围内的Node
 ```sql
 start n = node:geom('withinDistance:[31.331937,120.638154,0.1]') return n limit 100
 ```
@@ -65,10 +62,28 @@ start n = node:geom('bbox:[31.300864,120.678966,31.330864,120.978966]') return n
 ```
 ## 空间索引和关系遍历联合查询
 联合geom索引图层和match进行查询  
+* 查询指定范围&&指定path路径中的节点
 ```sql
 start n = node:geom('withinDistance:[31.331937,120.638154,0.1]')
-match r=(:DIS{text:'工业园区'})-[:BELONGTO ]-(:POI{text:'拙政别墅'})  
-return n,r
+match path=(:DIS{text:'工业园区'})-[:BELONGTO ]-(:POI{text:'拙政别墅'})
+where n in nodes(path)
+return n,path
 ```
-查询结果可视化效果图
+  优化后
+```sql
+profile start n = node:geom('withinDistance:[31.331937,120.638154,0.1]')
+match path=(:DIS{text:'工业园区'})<-[:BELONGTO ]-(n)
+return path
+```
+  查询结果可视化效果图
 ![空间索引和关系遍历联合查询](spatialQuery.png)
+
+* 缓冲区查询，text约束，label约束
+```sql
+profile start n = node:geom('withinDistance:[31.331937,120.638154,1.0]')
+match (n)
+where  (labels(n) in ['POI','STR'])  and n.text='拙政别墅'
+return n
+```
+CypherQL必须先执行空间索引，再执行Relation过滤，这样每个空间围内的Node都要进行Relationship过滤，效率较低；  
+若能先执行Match再执行空间过滤，可提高SpatialIndex命中率，但是CypherQL怎么写？暂时无解！临时采用NativeAPI进行Match过滤，再以SpatialIndex withinDiatance过滤。  

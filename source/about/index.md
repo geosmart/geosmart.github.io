@@ -3,10 +3,7 @@ date: 2015-06-29 15:33:38
 tags:
 categories:
 ---
-
-
-![](https://avatars1.githubusercontent.com/u/3156608?v=3&s=460)  
-
+![avatars](https://avatars1.githubusercontent.com/u/3156608?v=3&s=128)  
 
 # 个人信息
 Geosmart/男/85后  
@@ -22,7 +19,7 @@ Github:：[http://github.com/geosmart](http://github.com/geosmart)
 前端框架：JQuery/Requirejs/Backbone/Bootstrap/EasyUI/DWZ  
 前端工具：NPM
 写作工具：SublimeText/Hexo/Atom/Evernote
-数据库：MySQL/Oracle/SQLite；Hbase/MongoDB   
+数据库：MySQL/Oracle/SQLite；Hbase/MongoDB/Neo4j   
 大数据：Hadoop/CDH/MongoDB Shard     
 地理信息：ArcGIS/Openlayers  
 自然语言处理：GATE    
@@ -36,4 +33,4 @@ Github:：[http://github.com/geosmart](http://github.com/geosmart)
 //待补充MindManager技术栈图
 
 # 联系方式
-Email: geosmart@foxmail.com 
+Email: geosmart@foxmail.com
