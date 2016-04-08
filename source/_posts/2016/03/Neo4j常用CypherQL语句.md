@@ -6,7 +6,9 @@ categories: [数据库]
 记录常用Cypher语句
 - - -
 <!-- more -->
-[官方文档参考](cypher-query-lang)
+# 参考文档
+[cypher-query-lang](http://neo4j.com/docs/stable/cypher-query-lang.html)
+[cypher-refcard ](http://neo4j.com/docs/stable/cypher-refcard/)
 
 # create Node
 ```sql
@@ -123,3 +125,4 @@ MATCH (p:AddressNode {ruleabbr:"POI",text:"拙政别墅"})
 RETURN p
 ```
 ![Neo4j联合索引测试2](Neo4j联合索引测试2.png)
+暂测试，疑neo4j由于采用lucene全文索引的缘故，在2个字段各有索引，但无联合索引的情况下，索引倒排会提高检索命中率。

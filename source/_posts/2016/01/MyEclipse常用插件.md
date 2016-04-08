@@ -9,7 +9,7 @@ categories: [IDE]
 ![Eclipse内核版本](Eclipse版本.png)
 
 # SVN
-[svn update site URL](http://subclipse.tigris.org/update_1.10.x/)  
+[svn update site URL](http://subclipse.tigris.org/update_1.12.x/)  
 [svn offline package](http://subclipse.tigris.org/servlets/ProjectDocumentList?folderID=2240)
 
 # FatJar
