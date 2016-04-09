@@ -40,7 +40,7 @@ Get-Neo4jServer C:\Neo4j
 # 启动Neo4j服务
 Start-Neo4jServer
 # 关闭Neo4j服务
-Restart-Neo4jServer
+Stop-Neo4jServer
 # 重启Neo4j服务
 Restart-Neo4jServer
 ```

@@ -51,15 +51,24 @@ The technology industry and open source groups are building __Spatial tools (“
 
 # neo4j spatial query 示例
 ## withinDistance缓存区查询
-查询点120.678966,31.300864周边0.1km范围内的Node
+查询点120.678966,31.300864周边0.1km范围内的Node  
+格式：`START n = node:<layer>("withinDistance:[<y>, <x>, <max distance in km>]")`
 ```sql
-start n = node:geom('withinDistance:[31.331937,120.638154,0.1]') return n limit 100
+start n = node:geom('withinDistance:[31.331937,120.638154,0.1]') return n limit 10
 ```
 ## bbox矩形查询
-查询由点1(120.678966,31.300864)与点2(120.978966,31.330864)构成的矩形范围内的Node  
+查询由点1(120.678966,31.300864)与点2(120.978966,31.330864)构成的BBox矩形范围内的Node   
+格式：`START n = node:<layer>("bbox:[<min x>, <max x>, <min y>, <max y>]")`
 ```sql
-start n = node:geom('bbox:[31.300864,120.678966,31.330864,120.978966]') return n limit 100
+start n = node:geom('bbox:[120.678966,120.978966,31.300864,31.330864]') return n limit 10
 ```
+## withinWKTGeometry查询
+查询由点1(120.678966,31.300864)与点2(120.978966,31.330864)构成的Polygon多边形范围内的Node   
+格式：`START n = node:<layer>("withinWKTGeometry:POLYGON((<x1> <y1>, ..., <xN> <yN>, <x1> <y1>))")`
+```sql
+start n = node:geoindex('withinWKTGeometry:POLYGON ((120.678966 31.300864, 120.678966 31.330864, 120.978966 31.330864, 120.978966 31.300864, 120.678966 31.300864))')  return n limit 10
+```
+
 ## 空间索引和关系遍历联合查询
 联合geom索引图层和match进行查询  
 * 查询指定范围&&指定path路径中的节点
@@ -78,12 +87,15 @@ return path
   查询结果可视化效果图
 ![空间索引和关系遍历联合查询](spatialQuery.png)
 
-* 缓冲区查询，text约束，label约束
+* 联合查询：withinWKTGeometry空间过滤与match属性过滤
 ```sql
-profile start n = node:geom('withinDistance:[31.331937,120.638154,1.0]')
+profile start n = node:geoindex('withinWKTGeometry:POLYGON ((120.678966 31.300864, 120.678966 31.330864, 120.978966 31.330864, 120.978966 31.300864, 120.678966 31.300864))')
 match (n)
-where  (labels(n) in ['POI','STR'])  and n.text='拙政别墅'
-return n
+where (n.ruleabbr in ['POI','STR']) and n.spapriority=1
+and ANY(adtext IN n.adtext WHERE adtext =~ '.*公司.*' )
+return n limit 10
 ```
 CypherQL必须先执行空间索引，再执行Relation过滤，这样每个空间围内的Node都要进行Relationship过滤，效率较低；  
-若能先执行Match再执行空间过滤，可提高SpatialIndex命中率，但是CypherQL怎么写？暂时无解！临时采用NativeAPI进行Match过滤，再以SpatialIndex withinDiatance过滤。  
+若能先执行Match再执行空间过滤，可提高SpatialIndex命中率
+若无分页需求，可临时采用NativeAPI进行Match过滤，再以SpatialIndex withinDiatance过滤。  
+若需要分页的话skip limit必须在CypherQL中实现，但是空间索引与属性过滤并行的CQL怎么写？暂时无解！  
