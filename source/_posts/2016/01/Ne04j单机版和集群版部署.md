@@ -20,7 +20,6 @@ Neo4j HA(Neo4j High Availability)，高可用性主要指其包含容错机制�
 [neo4j-enterprise-2.3.2-windows](http://neo4j.com/artifact.php?name=neo4j-community-2.3.2-windows.zip)
 设置NEO4J_HOME，
 
-
 ## Neo4j Browser
 * 运行bin\Neo4j.bat，如`cd F:\Dev\neo4j-enterprise-3.0.0-M02\bin && Neo4j.bat`
 * 在浏览器打开Neo4j的在线REPL，即[Neo4j Browser](http://localhost:7474/),在命令行输入Cypher query语句进行查询

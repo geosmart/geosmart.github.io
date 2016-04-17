@@ -96,10 +96,17 @@ Neo4j本身也提供了一个“技术栈”，它允许你选择不同的访问
 * 通过一个低层的批量加载API处理海量初始数据的获取
 * 通过一个核心Java API直接访问节点与关系，以获得最大的性能
 
+##  Jcypher
+1. 集成Remote、Emberded和InMemmory三种Neo4j数据库访问形式，在程序测试和Neo4j Browserz间切换很方便；
+2. 无需在POJO中手动标注实现OGM，会自动将对象嵌套关系转换为Graph Relationship，可更专注与业务逻辑；
+
+## NativeAPI
+Neo4j官方原生API，需手动进行事物管理，实现较为繁琐；
+
 ## Spring Data for Neo4j
 [doc-api](http://docs.spring.io/spring-data/data-neo4j/docs/4.0.0.RELEASE/api/)
 [The Spring Data Neo4j Guide Book](http://docs.spring.io/spring-data/data-neo4j/docs/4.0.0.RELEASE/reference/html/)
-[demo]()
+[demo.neo4j.springdata](https://github.com/geosmart/me.demo.neo4j/tree/master/neo4j.springdata)
 * spring-data-neo4j
 Spring Data Neo4j
 * spring-data-neo4j-rest

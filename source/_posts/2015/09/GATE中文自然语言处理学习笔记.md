@@ -151,6 +151,16 @@ TODO：暂不能自动格式化jape，和语法高亮报错
 sentence（有限状态机）包含关系，根据实际情况定义
 Temporal+SpacePattern(Region+Path)+person
 
+# GATE在多线程中的配置
+[Using GATE Embedded in a Multithreaded Environment](https://gate.ac.uk/sale/tao/#x1-1760007.14)
+All the standard ANNIE PRs are safe when independent instances are used in diﬀerent threads concurrently, as are the standard transient document, transient corpus and controller classes. A typical pattern of development for a multithreaded GATE-based application is:
+	* Develop your GATE processing pipeline in GATE Developer.
+	* Save your pipeline as a .gapp ﬁle.
+	* In your application’s initialisation phase, load n copies of the pipeline using `PersistenceManager.loadObjectFromFile()` , or load the pipeline once and then make copies of it using `Factory.duplicate`, and either give one copy to each thread or store them in a pool (e.g. a LinkedList).
+	* When you need to process a text, get one copy of the pipeline from the pool, and return it to the pool when you have ﬁnished processing.
+Alternatively you can use the Spring Framework as described in the next section to handle the pooling for you.
+## Spring pooling
+
 # 问题记录
 ## spring集成开发的plugin如何在gate中运行
 由于插件最终需在gate框架中运行，建议以maven进行项目包/结构管理，fatjar编译打包；  
