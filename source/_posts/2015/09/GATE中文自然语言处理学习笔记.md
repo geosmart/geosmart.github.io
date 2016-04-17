@@ -160,6 +160,7 @@ All the standard ANNIE PRs are safe when independent instances are used in diﬀ
 	* When you need to process a text, get one copy of the pipeline from the pool, and return it to the pool when you have ﬁnished processing.
 Alternatively you can use the Spring Framework as described in the next section to handle the pooling for you.
 ## Spring pooling
+[Spring集成GATE池资源管理](https://gist.github.com/geosmart/ee8ca82b03dfa10a2bdb58767060fa6f)
 
 # 问题记录
 ## spring集成开发的plugin如何在gate中运行
