@@ -159,6 +159,7 @@ All the standard ANNIE PRs are safe when independent instances are used in diﬀ
 	* In your application’s initialisation phase, load n copies of the pipeline using `PersistenceManager.loadObjectFromFile()` , or load the pipeline once and then make copies of it using `Factory.duplicate`, and either give one copy to each thread or store them in a pool (e.g. a LinkedList).
 	* When you need to process a text, get one copy of the pipeline from the pool, and return it to the pool when you have ﬁnished processing.
 Alternatively you can use the Spring Framework as described in the next section to handle the pooling for you.
+
 ## Spring pooling
 [Spring集成GATE池资源管理](https://gist.github.com/geosmart/ee8ca82b03dfa10a2bdb58767060fa6f)
 
@@ -351,3 +352,7 @@ Document doc = Factory.newDocument(file.toURI().toURL());
 //正确
 Document doc = Factory.newDocument(file.toURI().toURL(), "UTF-8");
 ```
+
+## Gazetteer问题
+* 问题描述：Correct format for gazetteer entry features is: [entry]([separator][featureName]=[featureValue])*
+* 解决：gazetteer辞典中不能带有冒号，会识别成`list.def`然后抛错
