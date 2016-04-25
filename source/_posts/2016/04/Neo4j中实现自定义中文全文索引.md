@@ -109,3 +109,20 @@ public class AddressNodeNeoDaoTest {
       }
 }
 ```
+
+# CyperQL中使用自定义全文索引查询
+## 正则查询
+```sql
+profile  
+match (a:AddressNode{ruleabbr:'TOW',text:'唯亭镇'})<-[r:BELONGTO]-(b:AddressNode{ruleabbr:'STR'})
+where b.text=~ '金陵.*'
+return a,b
+```
+## 全文索引查询
+```sql
+profile
+START b=node:addressNodeFullTextIndex("text:金陵*")
+match (a:AddressNode{ruleabbr:'TOW',text:'唯亭镇'})<-[r:BELONGTO]-(b:AddressNode)
+where b.ruleabbr='STR'
+return a,b
+```
