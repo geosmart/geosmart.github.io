@@ -29,6 +29,7 @@ Maven是基于项目对象模型(POM)，可以通过一小段描述信息来管�
 `process-resources`：编译并打包资源  
 新建项目：`mvn archetype:generate -DgroupId=com.lt -DartifactId=uadb.etl -DarchetypeArtifactIdmaven-archetype-webapp -DinteractiveMode=false  `
 
+
 # maven dependency exclusion
 
 
@@ -70,6 +71,18 @@ Maven是基于项目对象模型(POM)，可以通过一小段描述信息来管�
 *	在Myeclipse中设置安装路径   
 在`Window>Preferences>Myeclipse>Maven4Myeclipse>Installations`中执行Add加入本地maven路径
 在`Window>Preferences>Myeclipse>Maven4Myeclipse>User Settings`中Browser选择maven\config\settings.xml，执行Update Settings，Reindex
+
+## maven引用本地jar包
+假设将包htmlparser.jar放入了项目下的lib目录中 -> ${project}/lib/htmlparser.jar,则pom.xml中应该配置如下：
+```xml
+<dependency>  
+  <groupId>com.htmlparser</groupId>  
+  <artifactId>htmlparser</artifactId>  
+  <version>2.0</version>  
+  <scope>system</scope>  
+  <systemPath>${project.basedir}/lib/htmlparser.jar</systemPath>  
+</dependency>  
+```
 
 ## Maven项目聚合
 为解决多个依赖项目自动打包，可通过聚合maven项目解决

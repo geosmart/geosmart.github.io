@@ -177,6 +177,9 @@ WHERE js.name = "Johan" AND surfer.hobby = "surfing"
 RETURN DISTINCT surfer
 ```
 
+# Visualization
+[visualization](http://neo4j.com/developer/guide-data-visualization/)
+
 # Neo4j可用性测试
 [Neo4j in Production](http://neo4j.com/developer/in-production/)
 读写性能测试

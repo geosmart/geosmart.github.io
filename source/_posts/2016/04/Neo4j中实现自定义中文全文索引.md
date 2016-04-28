@@ -126,3 +126,12 @@ match (a:AddressNode{ruleabbr:'TOW',text:'唯亭镇'})<-[r:BELONGTO]-(b:AddressN
 where b.ruleabbr='STR'
 return a,b
 ```
+
+# LegacyIndex中建立联合exact和fulltext索引
+对label为AddressNode的节点，根据节点属性ruleabbr的分类addressnode_fulltext_index（省->市->区县->乡镇街道->街路巷/物业小区）/addressnode_exact_index(门牌号->楼幢号->单元号->层号->户室号)，对属性text分别建不同类型的索引
+```sql
+profile
+START a=node:addressnode_fulltext_index("text:商业街"),b=node:addressnode_exact_index("text:二期19")
+match (a:AddressNode{ruleabbr:'STR'})-[r:BELONGTO]-(b:AddressNode{ruleabbr:'TAB'})
+return a,b limit 10
+```
