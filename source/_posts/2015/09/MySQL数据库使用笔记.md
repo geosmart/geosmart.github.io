@@ -10,26 +10,17 @@ categories: [数据库]
 <!-- more -->
 [MySQL函数文档](http://dev.mysql.com/doc/refman/5.7/en/string-functions.html)
 
-
-# 重置root密码
-
-``` sql
-service  mysql  restart --skip-grant-tables &
-
-mysql
-use mysql
-
-//新增
-insert into user(host,user,password) values('%','root',password('root'));
-grant all privileges on *.* to root@"%";
-
-//更新
-update user set password=password("root") where user="root";
-
-flush privileges;
-
-
-service  mysql  restart  
+# linux重置mysql root密码
+```sql
+# 新建文件
+touch /mnt/script/mysql-init
+# 文件内容为
+SET PASSWORD FOR 'root'@'localhost' = PASSWORD('MyNewPass');
+# 查看mysqld进程ID并杀掉
+service mysqld status
+kill ${pid}
+# 重启mysql服务并重置root密码
+mysqld_safe --init-file=/mnt/script/mysql-init &
 ```
 
 # 重启mysql服务
@@ -81,7 +72,6 @@ mysqldump -u wcnc -p -d --add-drop-table smgp_apps_wcnc >d:wcnc_db.sql
 -d 没有数据 --add-drop-table 在每个create语句之前增加一个drop table
 
 # 问题记录
-
 ## Too many connections
 查看最大连接数：show variables like 'max_connections';
 查询一下服务器响应的最大连接数： show global status like 'Max_used_connections';

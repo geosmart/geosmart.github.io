@@ -8,15 +8,15 @@ neo4j包含schema indexes 和 legacy indexes两种类型，两者理念不同且
 <!-- more -->
 # schema index vs legacy index
 参考[neo4j index-confusion](http://nigelsmall.com/neo4j/index-confusion)
-* schema index和legacy index 都是基于lucene实现
-* 如果你正在使用Neo4j 2.0或者更高版本并且不需要支持2.0版本之前legacy index的代码，那么请只使用schema index同时避免legacy index
-* 如果你被卡住的Neo4j的早期版本，并且无法升级，无论如何你都只有一种索引可以选择（legacy index）
-* 如果你需要全文检索的索引，不管是什么版本，有都将使用legacy index。
+* schema index和legacy index 都是基于lucene实现；
+* 如果你正在使用Neo4j 2.0或者更高版本并且不需要支持2.0版本之前legacy index的代码，那么请只使用schema index同时避免legacy index；
+* 如果你不得不使用Neo4j的早期版本，并且无法升级，无论如何你都只有一种索引可以选择（legacy index）；
+* 如果你需要全文检索的索引，不管是什么版本，都将使用legacy index。
 
 # schema index（schema based indexes）
 `Neo4j is a schema-optional graph database. You can use Neo4j without any schema. Optionally you can introduce it in order to gain performance or modeling benefits.
 This allows a way of working where the schema does not get in your way until you are at a stage where you want to reap the benefits of having one.`
-* 在Neo4j 2.0版本之前，Legacy index被称作indexes。这个索引是在graph外部通过Lucene实现，允许“节点”和“关系”以键值对的形式被检索。从Neo4j 提供的REST接口来看，被称作`index`的变量通常是指Legacy indexes。
+* 在Neo4j 2.0版本之前，Legacy index被称作indexes。这个索引是在graph外部通过Lucene实现，允许“节点”和“关系”以键值对的形式被检索。从Neo4j 提供的REST接口来看，被称作`index`的变量通常是指Legacy indexes；
 * Legacy index能够提供全文本检索的能力。这个功能并没有在schema index中被提供，这也是Neo4j 2.0* 版本保留legacy indexes的原因之一。
 
 ## 新建索引
@@ -43,7 +43,7 @@ analyzer      | Analyzer类全名     | 自定义Lucene Analyzer，注意：to_l
 
 ## 新建索引
 分exact和fulltext两类，两者可结合使用，可新建relationship索引，默认存储在根目录的index/lucene目录；  
-fulltext索引新建方式参考笔记[Neo4j中实现自定义中文全文索引](http://geosmart.github.io/2016/04/21/Neo4j中实现自定义中文全文索)
+fulltext索引新建方式参考笔记[Neo4j中实现自定义中文全文索引](http://geosmart.github.io/2016/04/21/Neo4j中实现自定义中文全文索引)
 * 注意：使用legacy index查询往往需要一个start node；
 
 ## 存储方式

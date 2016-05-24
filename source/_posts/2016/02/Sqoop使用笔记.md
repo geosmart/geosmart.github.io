@@ -133,3 +133,90 @@ sqoop import --connect jdbc:mysql://db.foo.com/somedb --table sometable \
 ## MySQL导入Hive表报错
 Caused by: com.mysql.jdbc.exceptions.jdbc4.MySQLSyntaxErrorException: You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near '쀀' )' at line 1
 解决：hive表编码问题；导入时不附加--hcatalog-table，手动新建表，然后导入数据
+
+# Sqoop导入MySQL大表内存溢出问题
+[SqoopUserGuide](https://sqoop.apache.org/docs/1.4.5/SqoopUserGuide.html)
+抛出异常java.lang.OutOfMemoryError：GC overhead limit exceeded导致服务起不来
+
+参考：http://www.hadooptechs.com/sqoop/handling-database-fetch-size-in-sqoop
+
+
+修改yarn的nodemanager xmx还是sqoop 的xmx
+# 分页查询写入
+``` bash
+sqoop import --connect jdbc:mysql://192.168.1.161:3306/geocodingdb  --username geocodingdb --password geocodingdb  \
+--query 'select * from  MatchingAddress  WHERE $CONDITIONS  limit 0,100000'  \
+--split-by  guid  \
+--fields-terminated-by '\t'  --lines-terminated-by '\n' --optionally-enclosed-by '\"'  \
+--target-dir /user/hive/warehouse/geocodingdb.db/matchingaddress  \
+--append
+```
+
+```bash
+sqoop import --connect jdbc:mysql://192.168.1.161:3306/geocodingdb  --username geocodingdb --password geocodingdb  \
+--query 'select * from  MatchingAddress  WHERE $CONDITIONS'  \
+--split-by  guid  \
+--fields-terminated-by '\t'  --lines-terminated-by '\n' --optionally-enclosed-by '\"'  \
+--target-dir /user/hive/warehouse/geocodingdb.db/matchingaddress  \
+--append
+```
+
+
+sqoop import --connect jdbc:mysql://192.168.1.161:3306/geocodingdb?user=geocodingdb&password=geocodingdb&dontTrackOpenResources=true&defaultFetchSize=10000&useCursorFetch=true  --query 'select * from MatchingAddress  WHERE $CONDITIONS' --split-by  guid \
+--fields-terminated-by '\t'  --lines-terminated-by '\n' --optionally-enclosed-by '\"'  \
+--target-dir /user/hive/warehouse/geocodingdb.db/matchingaddress  \
+--append
+
+
+sqoop import --connect jdbc:mysql://192.168.1.161:3306/geocodingdb  \
+--driver com.mysql.jdbc.Driver  \
+--username geocodingdb --password geocodingdb  \
+--direct  \
+--table MatchingAddress1  \
+--fields-terminated-by '\t'  --lines-terminated-by '\n' --optionally-enclosed-by '\"'  \
+--target-dir /user/hive/warehouse/geocodingdb.db/matchingaddress  \
+--append
+
+
+
+sqoop import --connect jdbc:mysql://192.168.1.161:3306/geocodingdb  \
+--driver com.mysql.jdbc.Driver  \
+--username geocodingdb --password geocodingdb  \
+--direct  \
+--table MatchingAddress2  \
+--fields-terminated-by '\t'  --lines-terminated-by '\n' --optionally-enclosed-by '\"'  \
+--target-dir /user/hive/warehouse/geocodingdb.db/matchingaddress  \
+--append
+
+sqoop import --connect jdbc:mysql://192.168.1.161:3306/geocodingdb  \
+--driver com.mysql.jdbc.Driver  \
+--username geocodingdb --password geocodingdb  \
+--direct  \
+--table MatchingAddress3  \
+--fields-terminated-by '\t'  --lines-terminated-by '\n' --optionally-enclosed-by '\"'  \
+--target-dir /user/hive/warehouse/geocodingdb.db/matchingaddress  \
+--append
+
+sqoop import --connect jdbc:mysql://192.168.1.161:3306/geocodingdb  \
+--driver com.mysql.jdbc.Driver  \
+--username geocodingdb --password geocodingdb  \
+--direct  \
+--table MatchingAddress4  \
+--fields-terminated-by '\t'  --lines-terminated-by '\n' --optionally-enclosed-by '\"'  \
+--target-dir /user/hive/warehouse/geocodingdb.db/matchingaddress  \
+--append
+
+sqoop import --connect jdbc:mysql://192.168.1.161:3306/geocodingdb  \
+--driver com.mysql.jdbc.Driver  \
+--username geocodingdb --password geocodingdb  \
+--direct  \
+--table MatchingAddress5  \
+--fields-terminated-by '\t'  --lines-terminated-by '\n' --optionally-enclosed-by '\"'  \
+--target-dir /user/hive/warehouse/geocodingdb.db/matchingaddress  \
+--append
+
+
+
+
+
+Stack trace: ExitCodeException exitCode=255:

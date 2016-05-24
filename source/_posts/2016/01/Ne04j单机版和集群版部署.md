@@ -34,6 +34,8 @@ Set-ExecutionPolicy -ExecutionPolicy RemoteSigned
 Import-Module C:\Neo4j\bin\Neo4j-Management.psd1
 # 查询Neo4j命令
 Get-Command -Module Neo4j-Management
+# 安装Neo4j服务
+Install-Neo4jServer
 # 查询NEO4J_HOME路径
 Get-Neo4jServer C:\Neo4j
 # 启动Neo4j服务

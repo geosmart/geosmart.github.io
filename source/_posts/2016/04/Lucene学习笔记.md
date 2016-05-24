@@ -53,7 +53,6 @@ Lucene的索引结构是有层次结构的，主要分以下几个层次：
 ## 段(Segment)
 一个索引可以包含多个段，段与段之间是独立的，添加新文档可以生成新的段，不同的段可以合并。
 具有相同前缀文件的属同一个段，segments.gen和segments_5是段的元数据文件，也即它们保存了段的属性信息。
-
 ## 文档(Document)
 `A document is a sequence of fields. `
 文档是我们建索引的基本单位，不同的文档是保存在不同的段中的，一个段可以包含多篇文档。
@@ -61,13 +60,11 @@ Lucene的索引结构是有层次结构的，主要分以下几个层次：
 ## 域(Field)
 `A field is a named sequence of terms.  `
 一篇文档包含不同类型的信息，可以分开索引，比如标题，时间，正文，作者等，都可以保存在不同的域里（不同域的索引方式可以不同）。
-
 ### Field类型
 * field的text以文本形式存储在index中，field倒排后即为index，也可配置为只存储不建index；    
 Field.Store.* field存储选项通过倒排序索引来控制文本是否可以搜索；
 * field的text看分词为term后建立index，或者field的text直接以原始文本作为term存储为index；大多数field是分词后建立索引的，但有时候指定一些identifier field只存储原始文本是很有用的；  
 Field.Index.*  field索引选项确定是否要存储域的真实值；
-
 ## 词元(Term)
 `A term is a string. `
 词元是索引的最小单位，是经过词法分析和语言处理后的字符串。
@@ -134,10 +131,12 @@ Lucene的索引结构中存在这样的情况，某个值A后面可能存在某�
 * 跳跃是有间隔的(Interval)，也即每次跳跃的元素数，间隔是事先配置好的，如图跳跃表的间隔为3。
 * 跳跃表是由层次的(level)，每一层的每隔指定间隔的元素构成上一层，如图跳跃表共有2层。
 
-
 #  TF-IDF
-TF-IDF（term frequency–inverse document frequency）
-是一种用于信息检索与数据挖掘的常用加权技术。
+TF-IDF（term frequency–inverse document frequency）是一种用于信息检索与数据挖掘的常用加权技术。
+## Lucene词元权重计算
+* Term Frequency（tf）：此term在文档中出现的次数，tf越大则该词元越重要。
+* Document Frequency（df）：有多少文档包含此term，df越大该词元越不重要。
+计算夹角的余弦值，夹角越小，余弦值越大，分值越大，从而相关性越大。
 
 # Lucene检索
 ## TokenStream
@@ -156,5 +155,8 @@ TokenStreamComponents其实是将tokenizer和tokenfilter包装起来的(也可�
 Analyzer就是一个TokenStreamComponents的容器，因此需要确定ReuseStrategy,重写createComponents(fieldName,reader)方法,使用时调用tokenStream(fieldName,reader)方法获取TokenStream就可以了。
 
 # Lucene常用组件
-lucene-core.jar
-lucene-analyzers.jar
+* lucene-core
+* lucene-analyzers-common
+* lucene-analyzers
+* lucene-queryparser
+* lucene-codecs

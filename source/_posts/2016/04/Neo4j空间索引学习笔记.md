@@ -49,6 +49,15 @@ The technology industry and open source groups are building __Spatial tools (“
 [gist代码示例：Neo4j Emberded 嵌入式SpringBean配置](https://gist.github.com/geosmart/0559745a69875e9f8876aeecda10f86b)  
 [gist代码示例：Java实现Neo4j Spatial新建索引和空间查询测试用例](https://gist.github.com/geosmart/19e6e4cb0c953e1b63e9afe48425de8f)  
 
+# 关于withinDistance查询结果排序问题
+* 球面距离计算采用OrthodromicDistance算法
+[OrthodromicDistance算法](http://www.movable-type.co.uk/scripts/latlong-db.html)：`d = acos( sin(lat1)*sin(lat2) + cos(lat1)*cos(lat2)*cos(lon2-lon1) ) * R`，
+Neo4j-Spatial中的实现：`org.neo4j.gis.spatial.pipes.processing.OrthodromicDistance`
+
+* 返回结果默认以命中目标坐标与查询中心点坐标的距离进行排序
+参考Neo4j Spatial 源码测试用例中的：[TestSimplePointLayer](https://github.com/neo4j-contrib/spatial/blob/ca7bb0f6db16bf1b012a4365bc17ca2881816106/src/test/java/org/neo4j/gis/spatial/TestSimplePointLayer.java)中的checkPointOrder，
+查询示例：`List<GeoPipeFlow> res = GeoPipeline. startNearestNeighborLatLonSearch( layer, start, distance).sort("OrthodromicDistance").toList();`
+
 # neo4j spatial query 示例
 ## withinDistance缓存区查询
 查询点120.678966,31.300864周边0.1km范围内的Node  
