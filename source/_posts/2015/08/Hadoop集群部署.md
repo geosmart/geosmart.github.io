@@ -277,21 +277,25 @@ Cloudera Manager 将单独管理每个角色，而不是作为 Cloudera Manager 
 
 
 # 安装问题记录
-
 1. 无法发出查询：未能连接到 Host Monitor
+
 解决方式：新增cloudera management services ,注意新增的目标机器因为scm-server安装的同一台机器，机器内存最好>=8G
 
 2. urlopen error [Errno 111] Connection refused
-- 问题场景：CM中主机CDH5安装Parcel完成后无法分配和激活Agent
-- 详细日志：downloader INFO  Finished download [ url： http：//master.lt.com：7180/cmf/parcel/download/CDH-5.4.4-1.cdh5.4.4.p0.4-el6.parcel, state： exception, total_bytes： 0, downloaded_bytes： 0, start_time： 2015-08-11 22：18：32, download_end_time： , end_time： 2015-08-11 22：18：33, code： 600, exception： <urlopen error [Errno 111] Connection refused>, path： None ]
-- 错误分析：在slave机器执行`nc -v master.lt.com  7182` 返回refused，判断是host配置有误导致dns解析不了
-- 解决方式：在slave1的hosts中新增master的域名解析
 
-3. 正在获取安装锁.问题
-意外中止安装后重新安装提示”正在获取安装锁...“
-在Manager节点运行`rm /tmp/.scm_prepare_node.lock`删除Manager的lock文件后重新安装即可
+* 问题场景：CM中主机CDH5安装Parcel完成后无法分配和激活Agent
+* 详细日志
+>downloader INFO  Finished download [ url： http：//master.lt.com：7180/cmf/parcel/download/CDH-5.4.4-1.cdh5.4.4.p0.4-el6.parcel, state： exception, total_bytes： 0, downloaded_bytes： 0, start_time： 2015-08-11 22：18：32, download_end_time： , end_time： 2015-08-11 22：18：33, code： 600, exception： <urlopen error [Errno 111] Connection refused>, path： None ]
+* 错误分析：在slave机器执行`nc -v master.lt.com  7182` 返回refused，判断是host配置有误导致dns解析不了
+* 解决方式：在slave1的hosts中新增master的域名解析
+
+3. 正在获取安装锁问题
+
+* 问题描述：意外中止安装后重新安装提示”正在获取安装锁...“  ；
+* 问题解决：在Manager节点运行`rm /tmp/.scm_prepare_node.lock`删除Manager的lock文件后重新安装即可；
 
 4. 对于此 Cloudera Manager 版本 (5.4.7) 太新的 CDH 版本不会显示
+
 *	问题描述：Versions of CDH that are too new for this version of Cloudera Manager (5.4.7) will not be shown.
 *	问题定位：PARCELS表fileName=CDH-5.4.7-1.cdh5.4.7.p0.3-el6.parcel的hash值为null，判断为parcel文件问题或scm数据库生成干扰问题
 *	解决思路：判断为/opt/cloudera/parcel-repo/目录内的本地parcel应该在scm数据库初始化结束后再放入

@@ -62,6 +62,8 @@ Maven是基于项目对象模型(POM)，可以通过一小段描述信息来管�
 </mirrors>
 ```
 
+[maven依赖离线下载-1maven](https://www.1maven.com/index.html)
+
 # 上传项目到Maven Central Repository
 
 ## Maven本地开发

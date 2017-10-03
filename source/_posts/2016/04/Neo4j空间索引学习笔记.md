@@ -1,8 +1,11 @@
+---
 title: Neo4j空间索引学习笔记
+tags: Neo4j
+notebook: N02 数据库
 date: 2016-04-03 11:18:18
-tags: [Neo4j]
 categories: [数据库]
 ---
+
 Neo4j采用Neo4j Spatial插件实现空间索引，Neo4j Spatial可使用API或Cypher执行空间查询操作，另作为插件可部署于GeoServer与uDig；与Oracle/MySQL Spatial Extention/MongoDB 2dSphere等空间模块相比，这种结合关系与空间的分析更值得尝试！
 - - -
 <!-- more -->
@@ -61,42 +64,53 @@ Neo4j-Spatial中的实现：`org.neo4j.gis.spatial.pipes.processing.OrthodromicD
 # neo4j spatial query 示例
 ## withinDistance缓存区查询
 查询点120.678966,31.300864周边0.1km范围内的Node  
-格式：`START n = node:<layer>("withinDistance:[<y>, <x>, <max distance in km>]")`
+格式：`START n = node:<layer>("withinDistance:[<y>, <x>, <max distance in km>]")`  
+
 ```sql
 start n = node:geom('withinDistance:[31.331937,120.638154,0.1]') return n limit 10
 ```
+
 ## bbox矩形查询
 查询由点1(120.678966,31.300864)与点2(120.978966,31.330864)构成的BBox矩形范围内的Node   
-格式：`START n = node:<layer>("bbox:[<min x>, <max x>, <min y>, <max y>]")`
+格式：`START n = node:<layer>("bbox:[<min x>, <max x>, <min y>, <max y>]")`  
+
 ```sql
 start n = node:geom('bbox:[120.678966,120.978966,31.300864,31.330864]') return n limit 10
 ```
+
 ## withinWKTGeometry查询
 查询由点1(120.678966,31.300864)与点2(120.978966,31.330864)构成的Polygon多边形范围内的Node   
-格式：`START n = node:<layer>("withinWKTGeometry:POLYGON((<x1> <y1>, ..., <xN> <yN>, <x1> <y1>))")`
+格式：`START n = node:<layer>("withinWKTGeometry:POLYGON((<x1> <y1>, ..., <xN> <yN>, <x1> <y1>))")`  
+
 ```sql
 start n = node:geoindex('withinWKTGeometry:POLYGON ((120.678966 31.300864, 120.678966 31.330864, 120.978966 31.330864, 120.978966 31.300864, 120.678966 31.300864))')  return n limit 10
 ```
 
 ## 空间索引和关系遍历联合查询
-联合geom索引图层和match进行查询  
+联合geom索引图层和match进行查询
+
 * 查询指定范围&&指定path路径中的节点
+
 ```sql
 start n = node:geom('withinDistance:[31.331937,120.638154,0.1]')
 match path=(:DIS{text:'工业园区'})-[:BELONGTO ]-(:POI{text:'拙政别墅'})
 where n in nodes(path)
 return n,path
 ```
-  优化后
+
+优化后
+
 ```sql
 profile start n = node:geom('withinDistance:[31.331937,120.638154,0.1]')
 match path=(:DIS{text:'工业园区'})<-[:BELONGTO ]-(n)
 return path
 ```
-  查询结果可视化效果图
+
+查询结果可视化效果图
 ![空间索引和关系遍历联合查询](spatialQuery.png)
 
 * 联合查询：withinWKTGeometry空间过滤与match属性过滤
+
 ```sql
 profile start n = node:geoindex('withinWKTGeometry:POLYGON ((120.678966 31.300864, 120.678966 31.330864, 120.978966 31.330864, 120.978966 31.300864, 120.678966 31.300864))')
 match (n)
@@ -104,7 +118,49 @@ where (n.ruleabbr in ['POI','STR']) and n.spapriority=1
 and ANY(adtext IN n.adtext WHERE adtext =~ '.*公司.*' )
 return n limit 10
 ```
-CypherQL必须先执行空间索引，再执行Relation过滤，这样每个空间围内的Node都要进行Relationship过滤，效率较低；  
-若能先执行Match再执行空间过滤，可提高SpatialIndex命中率
-若无分页需求，可临时采用NativeAPI进行Match过滤，再以SpatialIndex withinDiatance过滤。  
-若需要分页的话skip limit必须在CypherQL中实现，但是空间索引与属性过滤并行的CQL怎么写？暂时无解！  
+
+* CypherQL必须先执行空间索引，再执行Relation过滤，这样每个空间围内的Node都要进行Relationship过滤，效率较低；  
+* 若能先执行Match再执行空间过滤，可提高SpatialIndex命中率
+* 若无分页需求，可临时采用NativeAPI进行Match过滤，再以SpatialIndex withinDiatance过滤。  
+* 若需要分页的话skip limit必须在CypherQL中实现，但是空间索引与关系遍历并行的CQL怎么写？暂时无解！
+
+# 问题
+## 建空间索引内存溢出问题
+neo4j transaction优化方案：每n条手动提交事物  
+
+```java
+  // 获取所有地址节类型，针对不同地址节分别构建R树索引
+	public void createAddressNodeIndex_spatial(Set< String> addressNodes) {
+		final long commitInterval = 10000;
+		Transaction tx = graphDBService.beginTx();
+		try {
+			long i = 0L;
+			long startTime = System.currentTimeMillis();
+			for (String addressNodeLabel : addressNodes) {
+				Index< Node> index = getSpatialIndex(UADBLabel.valueOf(addressNodeLabel));
+				ResourceIterator< Node> nodes = graphDBService.findNodes(createAddresseNodeLable(addressNodeLabel));
+
+				while (nodes.hasNext()) {
+					Node node = nodes.next();
+					if (node.getProperty("lon", null) != null && node.getProperty("lat", null) != null) {
+						index.add(node, "", "");
+						i++;
+					}
+					// 处理内存溢出
+					if (i % commitInterval == 0) {
+						tx.success();
+						tx.close();
+						log.info("indexing ({} nodes added) ... time in seconds:{}", i,
+								DateUtil.convertMillis2DateStr(System.currentTimeMillis() - startTime));
+						tx = graphDBService.beginTx();
+					}
+				}
+			}
+			tx.success();
+		} finally {
+			tx.close();
+		}
+	}
+```
+
+建空间索引速度还是偏慢，35万左右的数据量建索引花了将近1.5小时。

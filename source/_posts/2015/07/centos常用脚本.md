@@ -21,13 +21,16 @@ hostname
 ```
 
 ## 静态IP设置
-[下载 static-ip.sh](static-ip.sh)  
+[下载 static-ip-centos6.sh](static-ip-centos6.sh)  
 参数: `static-ip.sh <hostname> <interface> <baseip> <ipaddress> <gateway/dns>`  
 示例
-
 ``` shell
 chmod +x  ./static-ip.sh && ./static-ip.sh localhost eth0 192.168.1 81 1
 ```
+
+[下载 static-ip-centos7.sh](static-ip-centos7.sh)  
+参数: 在文件中修改ip相关参数
+
 
 手动设置IP  
 
@@ -119,7 +122,7 @@ chkconfig --add myservice问题：service myservice does not support chkconfig
 # description: myservice ....
 ```
 
-# 图形化界面切换
+# 图形化界面切换CentOS6
 `vim /etc/inittab`
 
 ``` shell
@@ -134,6 +137,17 @@ chkconfig --add myservice问题：service myservice does not support chkconfig
 # --默认运行等级是5
 id:5:initdefault:      
 ```
+# 图形化界面切换CentOS7
+使用systemd创建符号链接指向默认运行级别。
+
+1. 首先删除已经存在的符号链接 
+`rm /etc/systemd/system/default.target `
+2. 默认级别转换为3(文本模式) 
+`ln -sf /lib/systemd/system/multi-user.target /etc/systemd/system/default.target `
+或者默认级别转换为5(图形模式) 
+`ln -sf /lib/systemd/system/graphical.target /etc/systemd/system/default.target `
+3. 重启 
+`reboot`
 
 # 文件操作
 ## mkdir 新建目录
@@ -377,3 +391,17 @@ scp  -r www.mydomain.com:/home/linux/soft/ /home/linux/others/
 
 # rpm命令
 命令格式 rpm {-q|--query} [select-options] [query-options]
+
+# yum命令
+## yum切换阿里云源
+```bash
+mv /etc/yum.repos.d/CentOS-Base.repo /etc/yum.repos.d/CentOS-Base.repo.backup
+wget -O /etc/yum.repos.d/CentOS-Base.repo http://mirrors.aliyun.com/repo/Centos-7.repo
+yum clean all
+yum makecache
+```
+## 查询 
+`yum search {name}`
+
+## 安装
+`yum install {name}`

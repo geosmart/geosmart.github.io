@@ -71,6 +71,18 @@ mysqldump -u wcnc -p smgp_apps_wcnc users> wcnc_users.sql
 mysqldump -u wcnc -p -d --add-drop-table smgp_apps_wcnc >d:wcnc_db.sql
 -d 没有数据 --add-drop-table 在每个create语句之前增加一个drop table
 
+## 示例
+```sql
+# 数据库备份
+`mysqldump geocodingdb  -ugeocodingdb -pgeocodingdb   --routines --comments > /uadb/geocodingdb.sql`
+# 压缩备份
+`mysqldump standarddb  -ustandarddb -pstandarddb  --routines   --comments   | gzip -v > /uadb/standarddb.gz`
+# 压缩已有备份sql
+`zip -r   /uadb/uadb.bakcup.suzhou.0512.zip  /uadb/uadb.bakcup.suzhou.0512`
+# 数据库还原
+`mysql   -ugeocodingdb -pgeocodingdb geocodingdb   --comments  < /uadb/geocodingdb.sql`
+```
+
 # 问题记录
 ## Too many connections
 查看最大连接数：show variables like 'max_connections';

@@ -1,6 +1,6 @@
 title: 一路见识的SQL/NOSQL数据库ORM
 date: 2015-08-16 20:02:08
-tags: [CentOS,数据库,ORM]
+tags: [数据库,ORM]
 categories: [后端技术]
 ---
 

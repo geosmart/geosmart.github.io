@@ -3,7 +3,16 @@ date: 2015-09-26 22:53:20
 tags: [TextEditor,Markdown]
 categories: [工具]
 ---
-一些SublimeText的常用快捷键，以及一个基于SublimeText搭建的Markdown书写工具，包含主题，高亮，快捷键等内容，个人主要用SublimeText-Markdown写技术笔记
+
+曾尝试寻找在线平台写博客
+
+* segmentfault：专栏文章模块markdown编写可检测剪贴板图片，且需要审核；但是笔记模块不支持
+* csdn：改版的markdown编辑器很好，但是不支持粘帖图片，且存在删文风险 
+
+几经周折，最终还是选择了自己搭建写作环境：`sumblime配置markdown写作环境 + evernote笔记检索+hexo博客框架 + github.io发布  `；
+以sublimeText编辑器作为写作环境（markdown语法高亮/预览），以sublime-evernote发布到evernote，hexo搭建博客框架定期发布到github.io，
+谨记编辑器够用就好，内容应始终放在第一位。
+
 - - -
 <!-- more -->
 
@@ -59,7 +68,7 @@ categories: [工具]
 语法高亮：Monokai Extended<br>[Github地址](https://github.com/jonschlinkert/sublime-monokai-extended) ![效果图](sublimetext.png)
 
 ## Markdown编辑：MarkdownEditing
-
+设置为MarkdownEditing>MultiMarkDown
 [官方文档](https://github.com/SublimeText-Markdown/MarkdownEditing#key-bindings)
 
 - 选择内容设为链接：Ctrl + Win + V  
@@ -91,3 +100,42 @@ body {
   font-family: Consolas, monaco, "Helvetica Neue", Helvetica, Arial, "Hiragino Sans GB", "Microsoft YaHei", STHeiti, "WenQuanYi Micro Hei", sans-serif;
 }
 ```
+
+# sublime配置笔记同步到evernote
+[参考配置sublime-evernote](http://www.jianshu.com/p/f5118d466f81/comments/2422205)
+
+Evernote 的快捷键在 Key Bindings——User配置
+
+```json
+[
+{ "keys": ["super+e"], "command": "show_overlay", "args": {"overlay": "command_palette", "text": "Evernote: "} },
+{ "keys": ["ctrl+e", "ctrl+s"], "command": "send_to_evernote" },
+{ "keys": ["ctrl+e", "ctrl+o"], "command": "open_evernote_note" },
+{ "keys": ["ctrl+e", "ctrl+u"], "command": "save_evernote_note" },
+] 
+```
+如新增笔记：["ctrl+e", "ctrl+s"] 就是先按完ctrl + e 后再按 ctrl + s ；
+
+sublime-evernote配置
+
+```json
+ {
+  "code_friendly": true,
+  "code_highlighting_style": "github",
+  "extensions":
+  [
+    "md"
+  ],
+  "noteStoreUrl": "https://www.evernote.com/shard/s56/notestore",
+  "show_stacks": true,
+  "token": "S=s56:U=63871d:E=15c7d92376e:C=15525e109a8:P=1cd:A=en-devtoken:V=2:H=b30896c360f9be6886b610bbb7dc7df3",
+  "update_on_save": true
+}
+```
+
+ 
+## 问题记录
+## markdown笔记与evernote保留字冲突问题  
+* 问题描述：Evernote complained:The contents of the note are not valid. The inline HTML tag 'String' is not allowed in Evernote notes.Retry?    
+* 问题解决：List<String>改为List< String>接警
+

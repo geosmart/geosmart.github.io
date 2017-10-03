@@ -5,3 +5,11 @@ db.json
 node_modules/
 public/
 .deploy*/
+.idea/codeStyleSettings.xml
+.idea/compiler.xml
+.idea/copyright/profiles_settings.xml
+.idea/geosmart.io.iml
+.idea/misc.xml
+.idea/modules.xml
+.idea/vcs.xml
+.idea/workspace.xml

@@ -1,7 +1,7 @@
 title: Neo4j中实现自定义中文全文索引
 date: 2016-04-21 21:17:53
 tags: [Neo4j,Lucene]
-categories: [数据库]
+categories: 数据库
 ---
 数据库检索效率时，一般首要优化途径是从索引入手，然后根据需求再考虑更复杂的负载均衡、读写分离和分布式水平/垂直分库/表等手段；
 索引通过信息冗余来提高检索效率，其以空间换时间并会降低数据写入的效率；因此对索引字段的选择非常重要。
@@ -118,6 +118,7 @@ match (a:AddressNode{ruleabbr:'TOW',text:'唯亭镇'})<-[r:BELONGTO]-(b:AddressN
 where b.text=~ '金陵.*'
 return a,b
 ```
+
 ## 全文索引查询
 ```sql
 profile

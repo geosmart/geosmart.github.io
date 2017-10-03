@@ -52,6 +52,7 @@ DROP TEMPORARY TABLE IF EXISTS sp_output_tmp;
 
 # 游标嵌套循环（nested cursor loop）
 [参考/multiple-cursors-in-nested-loops-in-mysql](http://stackoverflow.com/questions/6099500/multiple-cursors-in-nested-loops-in-mysql/6099837#6099837)
+
 ```sql
 BEGIN
   DECLARE done1 int default false;  
@@ -102,12 +103,14 @@ END
 # 动态sql
 PREPARE命令：`PREPARE stmt_name FROM preparable_stmt`
 The PREPARE statement prepares a SQL statement and assigns it a name, stmt_name, by which to refer to the statement later. The prepared statement is executed with EXECUTE and released with DEALLOCATE PREPARE. For examples, see Section 13.5, “SQL Syntax for Prepared Statements”.  
+
 ```sql
  SET @sql = "select *  from table";
  PREPARE stmt from @sql ;
  EXECUTE stmt;
  DEALLOCATE PREPARE stmt;   
 ```
+
 注意：__The text must represent a single statement, not multiple statements.__
 
 # 批量更新

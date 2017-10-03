@@ -41,6 +41,12 @@ hexo s
 
 ```
 
+# 配置评论插件
+多说挂了，换gitment,参考
+* [Gitment：使用 GitHub Issues 搭建评论系统](https://imsun.net/posts/gitment-introduction/)
+* [hexo next主题集成gitment评论系统](http://yangq.me/post/ab9bb85a.html)
+
+
 # 常见问题
 ## hexo部署错误
 错误日志：Error: spawn git ENOENT  

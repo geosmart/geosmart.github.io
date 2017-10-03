@@ -1,29 +1,14 @@
 # Hexo Configuration
-## Docs: http://hexo.io/docs/configuration.html
-## Source: https://github.com/hexojs/hexo/
-
+## Docs: https://hexo.io/docs/configuration.html
+## Source: https://github.com/hexojs/hexo/ 
 # Site
 title:  Geosmart's Notes
-subtitle: 追求心智成长，记录技术点滴
-description:
+subtitle: 追求心智成长，记录技术点滴 
 author: geosmart
 language: zh-Hans
 timezone: Asia/Shanghai
- # 博客关键字
-keywords: 全栈工程师,大数据工程师,J2EE,GIS
-
-# theme:next
-avatar: https://avatars1.githubusercontent.com/u/3156608?v=3&s=460
-description: 追求心智成长，记录技术点滴
-# Miscellaneous #社交网络和统计连接地址
-baidu_analytics: 221699150bf25edfe6338d0a9f205159
-
-# 搜索  使用 Swiftype 之前需要前往 Swiftype 配置一个搜索引擎。 然后，编辑 站点配置文件，新增 swiftype_key 字段，值为你的 swiftype 搜索引擎的 key。
-swiftype_key: sx6vPCUTjNbABKwx8Vig
-auto_excerpt:
-  enable: false
-  length: 150
-
+# 博客关键字
+keywords: 全栈工程师,大数据工程师,J2EE,GIS 
 
 # URL
 ## If your site is put in a subdirectory, set url as 'http://yoursite.com/child' and root as '/child/'
@@ -31,6 +16,19 @@ url: http://geosmart.github.io
 root: /
 permalink: :year/:month/:day/:title/
 permalink_defaults:
+
+# theme:next 
+avatar: https://avatars1.githubusercontent.com/u/3156608?v=3&s=128
+#description: 追求心智成长,记录技术点滴
+
+# Miscellaneous #社交网络和统计连接地址
+baidu_analytics: 221699150bf25edfe6338d0a9f205159
+
+# 搜索  使用 Swiftype 之前需要前往 Swiftype 配置一个搜索引擎。 然后，编辑 站点配置文件，新增 swiftype_key 字段，值为你的 swiftype 搜索引擎的 key。
+#swiftype_key: sx6vPCUTjNbABKwx8Vig
+#auto_excerpt:
+ # enable: false
+ # length: 150
 
 # Directory
 source_dir: source
@@ -55,7 +53,7 @@ future: true
 highlight:
   enable: true
   line_number: true
-  auto_detect: true
+  auto_detect: false
   tab_replace: true
 toc:
   maxDepth: 3
@@ -70,7 +68,6 @@ archive_generator:
   per_page: 15
   yearly: true
   monthly: true
-
 
 # Date / Time format
 ## Hexo uses Moment.js to parse and display date
@@ -95,23 +92,15 @@ pagination_dir: page
 sitemap:
   path: sitemap.xml
 
+baidusitemap:
+  path: baidusitemap.xml
+
+
 # Extensions
-## Plugins: http://hexo.io/plugins/
-## Themes: http://hexo.io/themes/
-#theme: hueman
+## Plugins: https://hexo.io/plugins/
+## Themes: https://hexo.io/themes/
 theme: next
-plugins:
-- hexo-generator-feed
-- hexo-generator-sitemap
-
-#comment duoshuo
-duoshuo_shortname: geosmart
-
-#Feed Atom
-feed:
-	type: atom
-	path: atom.xml
-	limit: 20
+# theme: jekyll
 
 # Minify HTML files with HTMLMinifier
 # Docs: https://github.com/hexojs/hexo-html-minifier
@@ -128,11 +117,18 @@ marked:
   smartLists: true
   smartypants: true
 
+# Search
+search:
+  path: search.xml
+  field: post
+  format: html
+  limit: 10000
+
 # Deployment
 # Server
 server:
   port: 5000
-  log: false
+  log: true
   ip: 127.0.0.1
 
 ## Docs: http://hexo.io/docs/deployment.html
@@ -140,4 +136,4 @@ deploy:
   type: git
   repo: https://github.com/geosmart/geosmart.github.io.git
   branch: master
-  message: update blog by hexo auto deploy
+  message: update posts-auto deploy 
