@@ -7,7 +7,7 @@ categories: A3中间件
 
 @(A3中间件)[Kafka]
 
-Kafka学习笔记
+Kafkaï¿½ is used for building `real-time` data pipelines and streaming apps. It is `horizontally scalable`, `fault-tolerant`, `wicked fast`, and runs in production in thousands of companies.
 - - -
 <!-- more --> 
 
@@ -25,13 +25,15 @@ Kafka学习笔记
 kafka是干什么的，它就是那个"篮子"。
 
 # Kafka简介
-Apache Kafka是由Apache软件基金会开发的一个开源消息系统项目，由Scala写成。Kafka最初是由LinkedIn开发，并于2011年初开源。
-是一个分布式、分区的、多副本的、多订阅者，基于zookeeper协调的分布式日志系统(也可以当做MQ系统)，常见可以用于web/nginx日志、访问日志，消息服务等等，Linkedin于2010年贡献给了Apache基金会并成为顶级开源项目。
 
-快速：单个kafka服务每秒可以处理数以千计从客户端发来的几百兆字节的读取和写入。
-可扩展性：kafka被设计为允许单个集群作为中央数据骨干大型组织。它可以弹性地，透明地扩展，无需停机。数据流被划分并分布在机器的集群中，允许数据流比任何单一机器的性能大，并让集群来协调消费者。
-可靠性：消息被保存在磁盘上,并在集群中复制，防止数据丢失。每个代理可以处理TB级的消息，而不影响性能。
-分布式设计：kafka使用现代化的集群为中心设计，并提供了强大的耐用性和容错性保证。
+![Alt text](Alt text.png)
+Apache Kafka是由Apache软件基金会开发的一个开源消息系统项目，由Scala写成。Kafka最初是由LinkedIn开发，并于2011年初开源。
+Kafka是一个分布式、分区的、多副本的、多订阅者，基于zookeeper协调的分布式日志系统(也可以当做MQ系统)，常见可以用于web/nginx日志、访问日志，消息服务等等，Linkedin于2010年贡献给了Apache基金会并成为顶级开源项目。
+
+* 快速：单个kafka服务每秒可以处理数以千计从客户端发来的几百兆字节的读取和写入。
+* 可扩展性：kafka被设计为允许单个集群作为中央数据骨干大型组织。它可以弹性地，透明地扩展，无需停机。数据流被划分并分布在机器的集群中，允许数据流比任何单一机器的性能大，并让集群来协调消费者。
+* 可靠性：消息被保存在磁盘上,并在集群中复制，防止数据丢失。每个代理可以处理TB级的消息，而不影响性能。
+* 分布式设计：kafka使用现代化的集群为中心设计，并提供了强大的耐用性和容错性保证。
 
 # kafka名词解释
 后面大家会看到一些关于kafka的名词，比如topic、producer、consumer、broker，我这边来简单说明一下。
@@ -51,24 +53,22 @@ Client和Server之间的通讯是通过一条简单、高能并且和开发语�
 生产者发送到一个特定的Topic的分区上的消息将会按照它们发送的顺序依次加入
 消费者收到的消息也是此顺序
 如果一个Topic配置了复制因子( replication facto)为N， 那么可以允许N-1服务器宕机而不丢失任何已经增加的消息
-
 # Kafka的文件存储机制
 一个商业化消息队列的好坏，其文件存储机制是衡量一个消息队列服务技术水平的最关键指标之一。
 ## topic中partion存储分布
 在Kafka文件存储中，同一个topic下有多个不同partition，每个partition为一个目录，
 partiton命名规则为topic名称+有序序号，第一个partiton序号从0开始，序号最大值为partitions数量减1。
-
 ## partion中文件存储方式
 * 每个partion(目录)相当于一个巨型文件被平均分配到多个`大小相等segment`(段)数据文件中。但每个段segment file消息数量不一定相等，这种特性方便old segment file快速被删除。
 * 每个partiton只需要支持顺序读写就行了，segment文件生命周期由服务端配置参数决定。
 这样做的好处就是能快速删除无用文件，有效提高磁盘利用率。
-
 ## partion中segment文件存储结构
 * segment file组成：由2大部分组成，分别为index file和data file，此2个文件一一对应，成对出现，后缀”.index”和“.log”分别表示为segment索引文件、数据文件.
 * segment文件命名规则：partion全局的第一个segment从0开始，后续每个segment文件名为上一个segment文件最后一条消息的offset值。数值最大为64位long大小，19位数字字符长度，没有数字用0填充。
 * 索引文件存储大量元数据，数据文件存储大量消息，索引文件中元数据指向对应数据文件中message的物理偏移地址。
 
 message物理结构参数说明：
+
 | 关键字|     解释说明  |
 | :-------- |:-------- |
 | 8 byte offset|在parition(分区)内的每条消息都有一个有序的id号，这个id号被称为偏移(offset),它可以唯一确定每条消息在parition(分区)内的位置。即offset表示partiion的第多少message			  |
@@ -113,3 +113,4 @@ message物理结构参数说明：
 
 # 参考
 * [kafka中文教程](http://www.orchome.com/kafka/index)
+* [enter link description here](http://blog.csdn.net/suifeng3051/article/details/48053965)

@@ -8,7 +8,7 @@ categories: 04数据结构
 
 @(04数据结构)[AVL]
 
-数据结构之AVL-树
+ An AVL tree is a `self-balancing binary search tree`, and it was the `first` such data structure to be invented. 
 - - -
 <!--more-->
 
