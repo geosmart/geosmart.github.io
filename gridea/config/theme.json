@@ -1,0 +1,17 @@
+{
+  "config": {
+    "archivesPageSize": 50,
+    "dateFormat": "YYYY-MM-DD",
+    "feedCount": 10,
+    "feedFullText": false,
+    "footerInfo": "Powered by <a href=\"https://github.com/getgridea/gridea\" target=\"_blank\">Gridea</a>",
+    "postPageSize": 10,
+    "postUrlFormat": "SHORT_ID",
+    "showFeatureImage": true,
+    "siteDescription": "温故而知新",
+    "siteName": "geosmart's note",
+    "tagUrlFormat": "SHORT_ID",
+    "themeName": "notes"
+  },
+  "customConfig": {}
+}

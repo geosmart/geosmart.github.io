@@ -1,0 +1,26 @@
+{
+  "config": {
+    "branch": "master",
+    "domain": "http://geosmart.github.io/",
+    "email": "geosmart@foxmail.com",
+    "platform": "github",
+    "repository": "geosmart.github.io",
+    "token": "32c747437eda9937c549af2d84c77bca65b61c4e",
+    "username": "geosmart"
+  },
+  "comment": {
+    "commentPlatform": "gitalk",
+    "disqusSetting": {
+      "api": "",
+      "apikey": "",
+      "shortname": ""
+    },
+    "gitalkSetting": {
+      "clientId": "8a29a27c357a64ed79fd",
+      "clientSecret": "fe1b781c49fa9037803f3c4d3e94fbb677abac4d",
+      "owner": "geosmart",
+      "repository": "geosmart.github.io"
+    },
+    "showComment": true
+  }
+}

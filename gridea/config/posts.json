@@ -1,0 +1,143 @@
+{
+  "posts": [
+    {
+      "content": "记录性能测试的相关知识与实践：测试指标，测试工具，性能调优点\n<!-- more -->\n\n# 关于性能测试\n>性能测试是通过自动化的测试工具模拟多种`正常`、`峰值`以及`异常`负载条件来对系统的各项性能指标进行测试。  \n>负载测试和压力测试都属于性能测试，两者可以结合进行。  \n* 通过`负载测试`，确定在各种工作负载下系统的性能，目标是测试当`负载逐渐增加`时，系统各项性能指标的变化情况。  \n* `压力测试`是通过确定一个系统的`瓶颈`或者不能接受的`性能点`，来获得系统能提供的`最大服务级别`的测试。  \n# 测试指标\n主要是从以下三个维度来衡量\n1. 响应时间：从用户角度\n    * Average (ms)：服务平均响应时长\n    * Min (ms)：服务最小响应时长\n    * Max(ms)：服务最大响应时长\n2. 服务器资源：从系统角度\n    * 内存使用率：内存泄漏，内存溢出\n    * CPU负载\n    * 磁盘IO\n    * 网络IO\n3. 吞吐量：从业务角度\n    * Request：总请求数\n    * RPS（并发数/平均响应时间）：服务每秒处理请求数\n# 测试准备工作\n>工欲善其事必先利其器\n## 服务器监控工具\n* `prometheus`.node_exporter系统监控，或者`zabbix`\n* `grafana`可视化\n### 监控指标\n* 可用内存\n* 可用磁盘\n* CPU负载\n* 网络流量\n### JVM监控工具\n#### jps -lvm\n查看java进程情况\n#### Java VisualVM\n在服务端启动j`statd`后，在本地用jdk自带的`jvisualvm`连接：\n* 监控Heap使用情况\n* 监控线程情况\n## 测试框架\n`Locust`分布式性能测试框架\n* master：1个\n* slave：4个\n### Locust的关键配置\n>压测Web界面配置\n* Number of users to simulate：模拟的用户数，即压测的用户总数\n* Hatch rate：压测时，每秒并发/启动的用户数\n>TaskSet脚本配置\n* min_wait：模拟用户在执行任务之间等待的最小时间，单位是毫秒；\n* max_wait：模拟用户在执行任务之间等待的最大时间，单位是毫秒；\n默认1000，即locust在执行每个任务之间总是会等待1秒\n\n# 测试环境搭建\n## 服务器准备\n* API服务器\n* 缓存服务器\n* 数据库服务器\n* Web服务器\n### 服务部署\nJenkins编写服务部署脚本\n\n# 测试数据准备\n小样本数据采用Junit单元测试调用API接口生成，\n大样本数据用locust脚本生成\n* 用户数据：100\n* 人员数据：10000\n* 设备数据：10000\n* 设备人员关系数据：100000000\n\n## 参数化\n* 为尽量模拟压测的真实性，测试数据应从测试数据源中随机抽样生成；  \nlocust测试脚本中可采用python的random从list中抽样；  \n或者用pandas的sample生成采样数据；\n\n# 测试脚本\n## locust测试脚本示例\n```python\n# coding:utf-8\n\nimport pandas as pd\nimport json\nimport random\nimport uuid\n\nfrom locust import HttpLocust, TaskSet, task\n\nclass OpenPersonBackendApi(TaskSet):\n    __PERSON_LIBS = None\n    # @task(1)\n    def person_query(self):\n        \"\"\"\n        人员列表查询\n        :return:\n        \"\"\"\n        ysk_id, person_lib_id = self._get_person_lib()\n        payload = {\n            \"ysk_id\": ysk_id,\n            \"person_lib_id\": person_lib_id,\n            \"limit\": random.randint(10, 500)\n        }\n        headers = {'content-type': 'application/json'}\n        r = self.client.post(\"/person_create\", data=json.dumps(payload), headers=headers, verify=False)\n        assert r.status_code == 200\n        rData = json.loads(r.text, encoding=\"utf-8\")\n        if rData[\"success\"]:\n            print(\"person_lib_id {},time {},person_id:{}\".format(person_lib_id, time, rData[\"data\"][\"person_id\"]))\n        else:\n            print(rData)\n\n    def _get_person_lib(self):\n        if self.__PERSON_LIBS is None:\n            self.__PERSON_LIBS = pd.read_csv(\"data/person_libs.txt\").values.tolist()\n        person_lib = random.choice(self.__PERSON_LIBS)\n        ysk_id = person_lib[0]\n        person_lib_id = person_lib[1]\n        return ysk_id, person_lib_id\n\nclass OpenPersonLocust(HttpLocust):\n    task_set = OpenPersonBackendApi\n    host = \"http://172.26.12.191:9881/open-person-backend/1.0\"\n    min_wait = 1000\n    max_wait = 1000\n\nif __name__ == \"__main__\":\n    \"\"\"\n    master启动脚本：export node=master && python open_person_backend.py \n    slave启动脚本：export node=salve && python open_person_backend.py\n    \"\"\"\n    import os\n\n    # ps -ef|grep locust |grep -v grep|awk '{print $2}'|xargs kill\n    node = os.environ.get(\"node\", \"slave\")\n    if node == \"master\":\n        os.system(\"nohup locust -f open_person_backend.py --master -P 9090 >>master.log &\")\n    else:\n        os.system(\"nohup locust -f open_person_backend.py --slave --master-host=172.26.12.128 >>slave.log &\")\n        os.system(\"nohup locust -f open_person_backend.py --slave --master-host=172.26.12.128 >>slave.log &\")\n\n```\n\n# 性能调优\n## 系统优化\n* 连接数\n* TCP连接快速回收\n## 数据库优化\n* 数据库连接\n* 索引命中\n* 字段类型\n* 读写分离\n## 应用程序优化\n* 业务流程优化：异步处理\n* JVM优化：内存泄漏、内存溢出",
+      "data": {
+        "title": "怎么做好性能测试？",
+        "date": "2019-07-06 11:14:32",
+        "tags": [
+          "技术方案"
+        ],
+        "published": true,
+        "hideInList": false,
+        "feature": null
+      },
+      "isEmpty": false,
+      "excerpt": "",
+      "abstract": "记录性能测试的相关知识与实践：测试指标，测试工具，性能调优点",
+      "fileName": "benchmark"
+    },
+    {
+      "content": "记录一次系统重构升级时涉及数据迁移的注意事项；\n<!-- more -->\n# 问题描述\n主要核心服务有用户、设备、机构、人员和人脸；\n1. 系统分层问题，由于刚开始系统开发由业务驱动，机构、设备和人员服务是在业务平台中实现；\n2. 为满足市场变化，新产品不断推出时，技术架构也要做响应调整：提取公共业务组件作为基础服务，甚至将所有基础服务提取出来做成一个独立的系统（开放平台->云服务）;\n3. 由于初期设计的局限性，导致重构时动作特别大，业务流程，数据结构都发生了很大变动，于是问题来了，现在线上新老系统双轨运行，要废弃老系统前，必须得完成数据迁移工作。\n\n#  注意事项\n* 迁移前编写完整的数据迁移实施流程，并和相关业务负责人确认影响范围；\n* 迁移工具的触发要自动化，做到用户无感知迁移：比如在App升级到特定版本时完成数据迁移；\n* 迁移触发方式可以用异步任务的形式实现，收到迁移信号后push到mq，然后消费者pull迁移任务异步完成迁移；\n* 迁移的系统架构可参考如下步骤：* context（基础数据准备）、before（迁移前数据统计）、execute（执行迁移）、after（迁移后数据统计、释放资源）\n* 允许重复执行迁移：用`ON DUPLICATE KEY UPDATE`实现；\n* 针对数据库的新字段要set default；\n* 针对更新/删除的数据要delete缓存；\n* 用户的部分设备数据迁移后，用户的报表服务需要从同时从新&老系统中读取数据，合并后生成报表；\n* 迁移结果要持久化存储，方便问题回溯；\n",
+      "data": {
+        "title": "记一次不可回滚的数据迁移",
+        "date": "2019-07-02 20:16:40",
+        "tags": [
+          "技术流程"
+        ],
+        "published": true,
+        "hideInList": false,
+        "feature": null
+      },
+      "isEmpty": false,
+      "excerpt": "",
+      "abstract": "记录一次系统重构升级时涉及数据迁移的注意事项；",
+      "fileName": "migration"
+    },
+    {
+      "content": "微信的扫码登陆风行，几乎所有的web端应用都给出了让用户从移动端扫码登入的口子；  \n本文主要描述如何用扫码形式在云端绑定硬件设备；\n<!-- more -->\n# 问题描述\n1. 有一台设备，通过序列号确保唯一；\n2. 设备需要从云端获取token（长期有效，可重置）后才能与云端通信；\n3. 如何让设备获取这个token？\n\n# 常用方案\n## 方案1(手动绑定)\n1. 用户登陆云端；\n2. 用户在云端输入序列号完成设备添加后，获得token；\n2. 在设备上手输token，完成云端接入；\n3. token变化后，设备需重新接入；\n\n## 方案2(扫描绑定)\n1. 设备从服务端获取授权sessionId，并以二维码形式展示；\n2. 设备等待授权动作（60s超时）；\n3. 用户登陆云端；\n4. 用户扫描设备二维码，完成绑定设备；\n5. 设备收到绑定信号，完成设备绑定；\n\n## 方案比较\n1. 方案1的比较原始，设备情况比较复杂，输入困难，不适合手动操作；\n2. 方案2将复杂度交给服务端，用户体验上易于接受；\n\n# 实现方案\n## 业务流程\n![扫描绑定-时序图](http://geosmart.github.io//post-images/1561895773238.png) \n要完成扫描绑定，服务端需要实现3个接口：\n1. 获取二维码接口；\n2. 等待二维码授权接口；\n3. 二维码授权接口；\n前2个接口成对使用，供应用入口调用；\n第3个接口给授权端使用；\n## 技术方案\n1. 等待二维码授权的长连接，采用`redis blocking queue`实现（非轮询）；\n2. 注意blpop会阻塞占用连接资源，在新的二维码生成时要主动释放；\n3.  每个接口的调用要注意防攻击，需对session规则校验，缓存命中校验；\n\n# 思考\n1. 扫描授权本质上是一个`以临时token换区长期token`的技术方案；\n2. 授权终端一般是微信小程序或者手机App，比PC端更为安全；同时也降低PC端授权开发的复杂度；",
+      "data": {
+        "title": "如何实现扫描登陆/授权？",
+        "date": "2019-06-24 11:42:57",
+        "tags": [
+          "技术方案"
+        ],
+        "published": true,
+        "hideInList": false,
+        "feature": null
+      },
+      "isEmpty": false,
+      "excerpt": "",
+      "abstract": "微信的扫码登陆风行，几乎所有的web端应用都给出了让用户从移动端扫码登入的口子；  \n本文主要描述如何用扫码形式在云端绑定硬件设备；",
+      "fileName": "qrcode_auth"
+    },
+    {
+      "content": "为什么做笔记?\n好记性不如烂笔头；将脑中的信息以笔记形式输出，有益于放空大脑，在潜意识层面减少消耗；  \n积硅步，至千里；普通人创造奇迹的唯一路径就是长期主义；  \n做笔记一定也有方法论...\n <!-- more --> \n# 怎么做笔记？\n笔记能够起到整理脑袋里杂乱无章、无体系的信息，让知识点串联，连线成面，乃至逐步构建个人知识体系；  \n1. 日常工作/学习中做好记录：Evernote\n2. 定期（每周）输出成文：Gridea\n\n## 笔记类型\n* 基础知识：课程学习笔记\n* 操作流程：软件安装流程、使用技巧\n* 经验总结：方法论\n* 思考感悟：创新、思维风暴\n\n## 笔记模板\n* 问题描述\n* 常用方案\n* 我的方案\n* 应用场景\n* 方法优劣\n* 总结\n\n```java\n```",
+      "data": {
+        "title": "如何做好笔记？",
+        "date": "2019-06-23 16:00:57",
+        "tags": [],
+        "published": true,
+        "hideInList": false,
+        "feature": null
+      },
+      "isEmpty": false,
+      "excerpt": "",
+      "abstract": "为什么做笔记?\n好记性不如烂笔头；将脑中的信息以笔记形式输出，有益于放空大脑，在潜意识层面减少消耗；  \n积硅步，至千里；普通人创造奇迹的唯一路径就是长期主义；  \n做笔记一定也有方法论...",
+      "fileName": "about_note"
+    },
+    {
+      "content": "这是关于的页面，可以在这里向世界介绍你！\n",
+      "data": {
+        "title": "关于",
+        "date": "2019-01-25 19:09:48",
+        "tags": [],
+        "published": true,
+        "hideInList": true,
+        "feature": null
+      },
+      "isEmpty": false,
+      "excerpt": "",
+      "abstract": "",
+      "fileName": "about"
+    },
+    {
+      "content": "👏  欢迎使用 **Gridea** ！  \n✍️  **Gridea** 一个静态博客写作客户端。你可以用它来记录你的生活、心情、知识、笔记、创意... ... \n\n<!-- more -->\n\n[Github](https://github.com/getgridea/gridea)  \n[Gridea 主页](http://hvenotes.fehey.com/)  \n[示例网站](http://fehey.com/)\n\n## 特性👇\n📝  你可以使用最酷的 **Markdown** 语法，进行快速创作  \n\n🌉  你可以给文章配上精美的封面图和在文章任意位置插入图片  \n\n🏷️  你可以对文章进行标签分组  \n\n📋  你可以自定义菜单，甚至可以创建外部链接菜单  \n\n💻  你可以在 **𝖶𝗂𝗇𝖽𝗈𝗐𝗌** 或 **𝖬𝖺𝖼𝖮𝖲** 设备上使用此客户端  \n\n🌎  你可以使用 **𝖦𝗂𝗍𝗁𝗎𝖻 𝖯𝖺𝗀𝖾𝗌** 或 **Coding Pages** 向世界展示，未来将支持更多平台  \n\n💬  你可以进行简单的配置，接入 [Gitalk](https://github.com/gitalk/gitalk) 或 [DisqusJS](https://github.com/SukkaW/DisqusJS) 评论系统  \n\n🇬🇧  你可以使用**中文简体**或**英语**  \n\n🌁  你可以任意使用应用内默认主题或任意第三方主题，强大的主题自定义能力  \n\n🖥  你可以自定义源文件夹，利用 OneDrive、百度网盘、iCloud、Dropbox 等进行多设备同步  \n\n🌱 当然 **Gridea** 还很年轻，有很多不足，但请相信，它会不停向前🏃\n\n未来，它一定会成为你离不开的伙伴\n\n尽情发挥你的才华吧！\n\n😘 Enjoy~\n",
+      "data": {
+        "title": "Hello Gridea",
+        "date": "2018-12-12 00:00:00",
+        "tags": [
+          "Gridea"
+        ],
+        "published": true,
+        "hideInList": false,
+        "feature": "/post-images/hello-gridea.png"
+      },
+      "isEmpty": false,
+      "excerpt": "",
+      "abstract": "👏  欢迎使用 **Gridea** ！  \n✍️  **Gridea** 一个静态博客写作客户端。你可以用它来记录你的生活、心情、知识、笔记、创意... ... ",
+      "fileName": "hello-gridea"
+    }
+  ],
+  "tags": [
+    {
+      "index": 1,
+      "name": "技术方案",
+      "slug": "architecture",
+      "used": true
+    },
+    {
+      "index": 2,
+      "name": "技术流程",
+      "slug": "workflow",
+      "used": true
+    },
+    {
+      "name": "Gridea",
+      "slug": "gridea",
+      "used": true
+    }
+  ],
+  "menus": [
+    {
+      "link": "/",
+      "name": "首页",
+      "openType": "Internal"
+    },
+    {
+      "link": "/archives",
+      "name": "归档",
+      "openType": "Internal"
+    },
+    {
+      "link": "/tags",
+      "name": "标签",
+      "openType": "Internal"
+    },
+    {
+      "link": "/post/about",
+      "name": "关于",
+      "openType": "Internal"
+    }
+  ]
+}
