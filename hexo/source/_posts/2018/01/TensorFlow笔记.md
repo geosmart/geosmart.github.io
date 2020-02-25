@@ -63,7 +63,7 @@ We recommend TensorFlow Core for machine learning researchers and others who req
 
 这些性质，也正是我们使用激活函数的原因。
 ## 激活函数比较
-![激活函数比较](激活函数比较.png)
+![激活函数比较](CNN卷积神经网络/激活函数比较.png)
 * sigmoid 缺点
 	* 两头过于平坦
 	* 输出值域不对称（非0均值）

@@ -5,11 +5,6 @@ tags: []
 categories: 04数据结构
 ---
 
-
-
-
-
-# AVL
 >The AVL tree is named after its two Soviet inventors, Georgy `A`delson-`V`elsky and Evgenii `L`andis, who published it in their 1962 paper "`An algorithm for the organization of information`".
 
 > An AVL tree is a `self-balancing binary search tree`, and it was the `first` such data structure to be invented. 
@@ -17,6 +12,7 @@ categories: 04数据结构
 > AVL trees are often compared with red-black trees because they support the same set of operations and because `red-black trees` also take `O(log n)` time for the basic operations. Because AVL trees are more `rigidly balanced`, they are `faster than red-black trees for lookup intensive applications`. 
 > However, `red-black trees are faster for insertion and removal`.
 
+<!-- more --> 
 ## AVL Tree的性质
 * 任意一个结点的key，比它的lesserChild的key大，比它的greaterChild的key小；
 * 任意结点的孩子结点之间高度差距最大为1；

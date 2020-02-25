@@ -1,35 +1,46 @@
-title: about me
+title: About Me
 date: 2015-06-29 15:33:38
 tags:
 categories:
 ---
 
-![avatars](https://avatars1.githubusercontent.com/u/3156608?v=3&s=128)  
+# 🐒Geosmart
 
-# 个人信息
-Geosmart/男/85后  
-所在城市：杭州
-技术博客：[http://geosmart.github.io](http://geosmart.github.io)   
-Github:：[http://github.com/geosmart](http://github.com/geosmart)
+# 👨🏻‍💻大数据研发
 
-#技术栈
-后端语言：Java/C#/NodeJS/Python
-后端框架：Hibernate/Spring/Jersey/Jackson  
-前端框架：JQuery/Requirejs/Backbone/Bootstrap/EasyUI/DWZ  
-写作工具：Evernote/SublimeText/Hexo  
-数据库：MySQL/Oracle/SQLite  
-大数据：Hadoop/Spark/MongoDB       
-地理信息：ArcGIS/Openlayers  
-自然语言处理：GATE  
-机器学习：pandas/sk-learn     
-服务器：Tomcat/Jetty/Nginx/IIS   
-版本管理：Git
-运维实施：CentOS/Zabbix   
-开放平台：微信应用开发  
-单元测试：Junit
+>5年**Java**，3年**AI**领域开发经验，相信技术改变世界，终身学习践行者。
 
+---
 
-//待补充MindManager技术栈图
+* 岗位：大数据相关的后端开发/研发岗
+* 地址：杭州.滨江
+* 电话：17328853912
+* 邮箱：geosmart@hotmail.com   
+* 博客：[geosmart.io](https://github.com/geosmart/geosmart.io/issues)
 
-# 联系方式
-Email: geosmart@foxmail.com
+# 专业能力
+
+## 系统设计
+
+熟练掌握用UML进行系统设计，有2年的`UML系统设计`工作经验：
+
+* 以`用例图`确认需求边界，`时序图`，`数据流向图`、`状态图`梳理核心业务流程；
+* 以`组件图`梳理业务逻辑架构，
+* 以`部署图`设计系统物理架构，
+* 以`E-R图`设计领域数据模型，
+* 以`时序图`设计具体的技术实现流程；
+
+## 系统开发
+
+* **编程语言**：Java、Python、Javascript
+* **开发工具**：Linux、Git、IDEA、Pycharm、CLion
+* **数据存储**：**RDBMS**：MySQL、SQLite；**NOSQL**：Hbase、Cassandra、Neo4j
+* **离线计算**：Hive、Spark、Pandas
+* **中间件**：RabbitMQ、Redis、Drools、Activiti
+
+## 领域技能
+
+* **IOT**：熟悉基于`人脸识别`的智能门禁产品，曾开发人脸识别开放平台的底层`基础服务`，为各类终端提供实时服务，为门禁管理平台提供基础服务；
+* **指标计算**：熟悉`数据清洗`技术流程和常用`特征工程`方法，曾开发离线指标计算系统，为机器学习算法/深度学习算法提供模型训练的数据集；
+* **互联网风控**：熟悉互联网身份欺诈风控产品，曾独立开发维护设备指纹、身份证OCR识别、活体检测和人脸比对应用，并在其中负责产品需求确认、开发任务分解以及具体的后端开发和日常部署上线；
+* **数据整合**：创业期间专注于通用`地名地址检索`服务平台产品研发，熟悉通用地址树模型，掌握空间信息`聚合>整合>匹配>检索`的系列工艺流程，熟悉Python平台的数据聚合技术 ，掌握以 Hadoop 进行`ETL`的技术流程，以GATE`自然语言处理`框架进行知识提取，Neo4j图数据库进行实体链接的技术路线；

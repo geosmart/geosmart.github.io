@@ -3,12 +3,12 @@
 ## Source: https://github.com/hexojs/hexo/ 
 # Site
 title:  Geosmart's Notes
-subtitle: 追求心智成长，记录技术点滴 
+subtitle: 勿助勿忘，深造自得
 author: geosmart
 language: zh-Hans
 timezone: Asia/Shanghai
 # 博客关键字
-keywords: 全栈工程师,大数据工程师,J2EE,GIS 
+keywords: 大数据,AI,IOT,JAVA,PYTHON
 
 # URL
 ## If your site is put in a subdirectory, set url as 'http://yoursite.com/child' and root as '/child/'
@@ -100,6 +100,18 @@ baidusitemap:
 ## Plugins: https://hexo.io/plugins/
 ## Themes: https://hexo.io/themes/
 theme: next
+# scheme: Muse
+# scheme: Mist
+# scheme: Pisces
+# Math Equations Render Support
+math:
+  enable: true
+  # Default(true) will load mathjax/katex script on demand
+  # That is it only render those page who has 'mathjax: true' in Front Matter.
+  # If you set it to false, it will load mathjax/katex srcipt EVERY PAGE.
+  per_page: true
+  engine: mathjax
+
 # theme: jekyll
 
 # Minify HTML files with HTMLMinifier
