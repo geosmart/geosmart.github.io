@@ -1,0 +1,464 @@
+<!DOCTYPE html>
+<html lang="zh-Hans">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 4.2.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css">
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"geosmart.github.io","root":"/","scheme":"Pisces","version":"7.7.1","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.xml"};
+  </script>
+
+  <meta name="description" content="@(A0机器学习)[AI, Machine Leaning] 记录机器学习数学概念&#x2F;公式">
+<meta property="og:type" content="article">
+<meta property="og:title" content="机器学习数学基础">
+<meta property="og:url" content="http://geosmart.github.io/2017/10/03/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0%E6%95%B0%E5%AD%A6%E5%9F%BA%E7%A1%80/index.html">
+<meta property="og:site_name" content="Geosmart&#39;s Notes">
+<meta property="og:description" content="@(A0机器学习)[AI, Machine Leaning] 记录机器学习数学概念&#x2F;公式">
+<meta property="og:image" content="http://geosmart.github.io/2017/10/03/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0%E6%95%B0%E5%AD%A6%E5%9F%BA%E7%A1%80/%E6%A0%87%E5%87%86%E5%B7%AE%E5%85%AC%E5%BC%8F.png">
+<meta property="article:published_time" content="2017-10-02T16:00:00.000Z">
+<meta property="article:modified_time" content="2020-02-25T12:27:18.759Z">
+<meta property="article:author" content="geosmart">
+<meta property="article:tag" content="Machine Leaning">
+<meta property="article:tag" content="AI">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://geosmart.github.io/2017/10/03/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0%E6%95%B0%E5%AD%A6%E5%9F%BA%E7%A1%80/%E6%A0%87%E5%87%86%E5%B7%AE%E5%85%AC%E5%BC%8F.png">
+
+<link rel="canonical" href="http://geosmart.github.io/2017/10/03/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0%E6%95%B0%E5%AD%A6%E5%9F%BA%E7%A1%80/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome: false,
+    isPost: true
+  };
+</script>
+
+  <title>机器学习数学基础 | Geosmart's Notes</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="Navigationsleiste an/ausschalten">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <div>
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Geosmart's Notes</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+        <p class="site-subtitle">勿助勿忘，深造自得</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+    </div>
+  </div>
+</div>
+
+
+<nav class="site-nav">
+  
+  <ul id="menu" class="menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-fw fa-home"></i>Startseite</a>
+
+  </li>
+        <li class="menu-item menu-item-about">
+
+    <a href="/about/" rel="section"><i class="fa fa-fw fa-user"></i>Über</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="fa fa-fw fa-tags"></i>Schlagwörter</a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/categories/" rel="section"><i class="fa fa-fw fa-th"></i>Kategorien</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-fw fa-archive"></i>Archiv</a>
+
+  </li>
+  </ul>
+
+</nav>
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content">
+            
+
+  <div class="posts-expand">
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block " lang="zh-Hans">
+    <link itemprop="mainEntityOfPage" href="http://geosmart.github.io/2017/10/03/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0%E6%95%B0%E5%AD%A6%E5%9F%BA%E7%A1%80/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="geosmart">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Geosmart's Notes">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          机器学习数学基础
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">Veröffentlicht am</span>
+
+              <time title="Erstellt: 3   October   2017 0:00:00" itemprop="dateCreated datePublished" datetime="2017-10-03T00:00:00+08:00">3   October   2017</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                <span class="post-meta-item-text">Bearbeitet am</span>
+                <time title="Geändert am: 25   February   2020 20:27:18" itemprop="dateModified" datetime="2020-02-25T20:27:18+08:00">25   February   2020</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">in</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/A0%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/" itemprop="url" rel="index"><span itemprop="name">A0机器学习</span></a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <p>@(A0机器学习)[AI, Machine Leaning]</p>
+<p>记录机器学习数学概念/公式</p>
+<hr>
+<a id="more"></a> 
+<h2 id="机器学习数学基础"><a href="#机器学习数学基础" class="headerlink" title="机器学习数学基础"></a>机器学习数学基础</h2><h1 id="线性代数"><a href="#线性代数" class="headerlink" title="线性代数"></a>线性代数</h1><h2 id="Variance-方差"><a href="#Variance-方差" class="headerlink" title="Variance(方差)"></a>Variance(方差)</h2><blockquote>
+<p>方差（Variance），应用数学里的专有名词。<br>在概率论和统计学中，一个随机变量的方差描述的是它的离散程度，也就是该变量离其期望值的距离。方差越大，数据的分布越分散。<br>一个实随机变量的方差也称为它的二阶矩或二阶中心动差，恰巧也是它的二阶累积量。<br>说白了，就是将各个误差将之平方（而非取绝对值），使之肯定为正数，相加之后再除以总数，透过这样的方式来算出各个数据分布、零散（相对中心点）的程度。<br>继续延伸的话，方差的算术平方根称为该随机变量的标准差（此为相对各个数据点间）。</p>
+</blockquote>
+<p>总体方差计算公式：  </p>
+<h2 id="Bias-偏差"><a href="#Bias-偏差" class="headerlink" title="Bias(偏差)"></a>Bias(偏差)</h2><p>偏差：描述的是预测值（估计值）的期望与真实值之间的差距。偏差越大，越偏离真实数据，<br>方差，是形容数据分散程度的，算是“无监督的”，客观的指标，<br>偏差，形容数据跟我们期望的中心差得有多远，算是“有监督的”，有人的知识参与的指标。</p>
+<h2 id="Standard-Deviation-标准差"><a href="#Standard-Deviation-标准差" class="headerlink" title="Standard Deviation(标准差)"></a>Standard Deviation(标准差)</h2><blockquote>
+<p>标准差（Standard Deviation，SD）又常称均方差，数学符号 σ（sigma），在概率统计中最常使用作为测量一组数值的离散程度之用。<br>标准差定义：标准差是方差的算术平方根。标准差能反映一个数据集的离散程度。平均数相同的两组数据，标准差未必相同。  </p>
+</blockquote>
+<p>标准差也被称为标准偏差，或者实验标准差，公式为<br><img src="标准差公式.png" alt="标准差公式"></p>
+<h2 id="正态分布"><a href="#正态分布" class="headerlink" title="正态分布"></a>正态分布</h2><h2 id="矩阵"><a href="#矩阵" class="headerlink" title="矩阵"></a>矩阵</h2><h3 id="矩阵的性质"><a href="#矩阵的性质" class="headerlink" title="矩阵的性质"></a>矩阵的性质</h3><ul>
+<li>不满足交换律</li>
+<li>方阵：行列相等</li>
+<li>单位矩阵：xx对角线都为1</li>
+<li>逆矩阵：I<em>A=A</em>I=A</li>
+<li>奇异矩阵/退化矩阵（singular/degenerate）：没有逆矩阵，如零矩阵（矩阵元素都为0）<h3 id="矩阵的乘法"><a href="#矩阵的乘法" class="headerlink" title="矩阵的乘法"></a>矩阵的乘法</h3><h3 id="矩阵的转置（transpose）"><a href="#矩阵的转置（transpose）" class="headerlink" title="矩阵的转置（transpose）"></a>矩阵的转置（transpose）</h3></li>
+</ul>
+<h1 id="微积分"><a href="#微积分" class="headerlink" title="微积分"></a>微积分</h1><h2 id="导数"><a href="#导数" class="headerlink" title="导数"></a>导数</h2><h2 id="偏导数"><a href="#偏导数" class="headerlink" title="偏导数"></a>偏导数</h2><h2 id="梯度"><a href="#梯度" class="headerlink" title="梯度"></a>梯度</h2><h2 id="微分"><a href="#微分" class="headerlink" title="微分"></a>微分</h2><h1 id="常用公式"><a href="#常用公式" class="headerlink" title="常用公式"></a>常用公式</h1><ul>
+<li><p>假定函數（Hypothesis）：<script type="math/tex">h_    heta(x)=    heta_0+    heta_1x</script><br>参数：$    heta_0{,}    heta_1$</p>
+</li>
+<li><p>损失函数（Cost Function）：<script type="math/tex">J(    heta_0,    heta_1) = rac{1}{2m} \sum_{i=1}^m (h_    heta(x^{(i)})-y^{(i)})^2</script><br>目标：$ argmin $ $ J(    heta_0,    heta_1) $ </p>
+</li>
+<li><p>多元梯度下降算法</p>
+<ul>
+<li>假设函数：<script type="math/tex">h_    heta(x)=    heta^Tx=     heta_0x_0+    heta_1x_1+    heta_2x_2 +...+    heta_0x_n</script></li>
+<li>参数：<script type="math/tex">heta_0{,}    heta_1,...,    heta_n</script></li>
+<li>代价函数：<script type="math/tex">J_(    heta)=J(    heta_0,    heta_1,...,    heta_n)=rac{1}{2m} \sum_{i=1}^m (h_    heta(x^{(i)})-y^{(i)})^2</script>，<br>一元时，$x_j^{(i)}=x_0^{(1)}=1$</li>
+<li>梯度下降：Repeat { <script type="math/tex">heta_j :=    heta_j - lpha rac{\partial}{\partial    heta_j}J(    heta) =
+lpha  rac{1}{m} \sum_{i=1}^m (h_    heta(x^{(i)})-y^{(i)})⋅x_j^{(i)}</script> } ，同步更新每个$j=0,…m$<br>$lpha$为学习率，定义了每次参数更新的幅度；</li>
+</ul>
+</li>
+</ul>
+<blockquote>
+<p>Learning Rate:<br>If α is too small: slow convergence.<br>If α is too large: ￼may not decrease on every iteration and thus may not converge.</p>
+</blockquote>
+
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/Machine-Leaning/" rel="tag"># Machine Leaning</a>
+              <a href="/tags/AI/" rel="tag"># AI</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2017/10/02/JMS%E6%B6%88%E6%81%AF%E4%B8%AD%E9%97%B4%E4%BB%B6/" rel="prev" title="JMS消息中间件">
+      <i class="fa fa-chevron-left"></i> JMS消息中间件
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/2017/10/03/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0%E6%96%B9%E6%B3%95%E8%AE%BA/" rel="next" title="机器学习方法论">
+      机器学习方法论 <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+  </div>
+
+
+          </div>
+          
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let activeClass = CONFIG.comments.activeClass;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          Inhaltsverzeichnis
+        </li>
+        <li class="sidebar-nav-overview">
+          Übersicht
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#机器学习数学基础"><span class="nav-number">1.</span> <span class="nav-text">机器学习数学基础</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#线性代数"><span class="nav-number"></span> <span class="nav-text">线性代数</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#Variance-方差"><span class="nav-number">1.</span> <span class="nav-text">Variance(方差)</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Bias-偏差"><span class="nav-number">2.</span> <span class="nav-text">Bias(偏差)</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Standard-Deviation-标准差"><span class="nav-number">3.</span> <span class="nav-text">Standard Deviation(标准差)</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#正态分布"><span class="nav-number">4.</span> <span class="nav-text">正态分布</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#矩阵"><span class="nav-number">5.</span> <span class="nav-text">矩阵</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#矩阵的性质"><span class="nav-number">5.1.</span> <span class="nav-text">矩阵的性质</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#矩阵的乘法"><span class="nav-number">5.2.</span> <span class="nav-text">矩阵的乘法</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#矩阵的转置（transpose）"><span class="nav-number">5.3.</span> <span class="nav-text">矩阵的转置（transpose）</span></a></li></ol></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#微积分"><span class="nav-number"></span> <span class="nav-text">微积分</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#导数"><span class="nav-number">1.</span> <span class="nav-text">导数</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#偏导数"><span class="nav-number">2.</span> <span class="nav-text">偏导数</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#梯度"><span class="nav-number">3.</span> <span class="nav-text">梯度</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#微分"><span class="nav-number">4.</span> <span class="nav-text">微分</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#常用公式"><span class="nav-number"></span> <span class="nav-text">常用公式</span></a></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">geosmart</p>
+  <div class="site-description" itemprop="description"></div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">117</span>
+          <span class="site-state-item-name">Artikel</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+          
+        <span class="site-state-item-count">23</span>
+        <span class="site-state-item-name">Kategorien</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">83</span>
+        <span class="site-state-item-name">schlagwörter</span></a>
+      </div>
+  </nav>
+</div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2020</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">geosmart</span>
+</div>
+  <div class="powered-by">Erstellt mit  <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> v4.2.0
+  </div>
+  <span class="post-meta-divider">|</span>
+  <div class="theme-info">Design – <a href="https://pisces.theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Pisces</a> v7.7.1
+  </div>
+
+        
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/pisces.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+  
+
+</body>
+</html>
