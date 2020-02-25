@@ -27,7 +27,7 @@
 <meta property="og:site_name" content="Geosmart&#39;s Notes">
 <meta property="og:description" content="hexo环境搭建123456789npm install -g hexo-clihexo initnpm installnpm install hexo-deployer-git --savenpm install hexo-server --savenpm install hexo-generator-sitemap --savenpm install hexo-generator-feed -">
 <meta property="article:published_time" content="2015-06-30T04:58:32.000Z">
-<meta property="article:modified_time" content="2020-02-25T12:27:18.472Z">
+<meta property="article:modified_time" content="2020-02-25T14:49:18.511Z">
 <meta property="article:author" content="geosmart">
 <meta property="article:tag" content="博客">
 <meta name="twitter:card" content="summary">
@@ -84,7 +84,7 @@
     <header class="header" itemscope itemtype="http://schema.org/WPHeader">
       <div class="header-inner"><div class="site-brand-container">
   <div class="site-nav-toggle">
-    <div class="toggle" aria-label="Navigationsleiste an/ausschalten">
+    <div class="toggle" aria-label="Toggle navigation bar">
       <span class="toggle-line toggle-line-first"></span>
       <span class="toggle-line toggle-line-middle"></span>
       <span class="toggle-line toggle-line-last"></span>
@@ -115,27 +115,27 @@
   <ul id="menu" class="menu">
         <li class="menu-item menu-item-home">
 
-    <a href="/" rel="section"><i class="fa fa-fw fa-home"></i>Startseite</a>
+    <a href="/" rel="section"><i class="fa fa-fw fa-home"></i>Home</a>
 
   </li>
         <li class="menu-item menu-item-about">
 
-    <a href="/about/" rel="section"><i class="fa fa-fw fa-user"></i>Über</a>
+    <a href="/about/" rel="section"><i class="fa fa-fw fa-user"></i>About</a>
 
   </li>
         <li class="menu-item menu-item-tags">
 
-    <a href="/tags/" rel="section"><i class="fa fa-fw fa-tags"></i>Schlagwörter</a>
+    <a href="/tags/" rel="section"><i class="fa fa-fw fa-tags"></i>Tags</a>
 
   </li>
         <li class="menu-item menu-item-categories">
 
-    <a href="/categories/" rel="section"><i class="fa fa-fw fa-th"></i>Kategorien</a>
+    <a href="/categories/" rel="section"><i class="fa fa-fw fa-th"></i>Categories</a>
 
   </li>
         <li class="menu-item menu-item-archives">
 
-    <a href="/archives/" rel="section"><i class="fa fa-fw fa-archive"></i>Archiv</a>
+    <a href="/archives/" rel="section"><i class="fa fa-fw fa-archive"></i>Archives</a>
 
   </li>
   </ul>
@@ -185,22 +185,22 @@
               <span class="post-meta-item-icon">
                 <i class="fa fa-calendar-o"></i>
               </span>
-              <span class="post-meta-item-text">Veröffentlicht am</span>
+              <span class="post-meta-item-text">Posted on</span>
 
-              <time title="Erstellt: 30   June   2015 12:58:32" itemprop="dateCreated datePublished" datetime="2015-06-30T12:58:32+08:00">30   June   2015</time>
+              <time title="Created: 30   June   2015 12:58:32" itemprop="dateCreated datePublished" datetime="2015-06-30T12:58:32+08:00">30   June   2015</time>
             </span>
               <span class="post-meta-item">
                 <span class="post-meta-item-icon">
                   <i class="fa fa-calendar-check-o"></i>
                 </span>
-                <span class="post-meta-item-text">Bearbeitet am</span>
-                <time title="Geändert am: 25   February   2020 20:27:18" itemprop="dateModified" datetime="2020-02-25T20:27:18+08:00">25   February   2020</time>
+                <span class="post-meta-item-text">Edited on</span>
+                <time title="Modified: 25   February   2020 22:49:18" itemprop="dateModified" datetime="2020-02-25T22:49:18+08:00">25   February   2020</time>
               </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
                 <i class="fa fa-folder-o"></i>
               </span>
-              <span class="post-meta-item-text">in</span>
+              <span class="post-meta-item-text">In</span>
                 <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
                   <a href="/categories/%E5%B7%A5%E5%85%B7/" itemprop="url" rel="index"><span itemprop="name">工具</span></a>
                 </span>
@@ -219,6 +219,7 @@
       
         <h1 id="hexo环境搭建"><a href="#hexo环境搭建" class="headerlink" title="hexo环境搭建"></a>hexo环境搭建</h1><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">npm install -g hexo-cli</span><br><span class="line">hexo init</span><br><span class="line">npm install</span><br><span class="line">npm install hexo-deployer-git --save</span><br><span class="line">npm install hexo-server --save</span><br><span class="line">npm install hexo-generator-sitemap --save</span><br><span class="line">npm install hexo-generator-feed --save</span><br><span class="line">npm install hexo-toc --save</span><br><span class="line">npm install hexo-html-minifier --save</span><br></pre></td></tr></table></figure>
 <h1 id="可选插件"><a href="#可选插件" class="headerlink" title="可选插件"></a>可选插件</h1><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">npm un hexo-renderer-marked --save</span><br><span class="line">npm i hexo-renderer-markdown-it --save</span><br></pre></td></tr></table></figure>
+<h1 id="next主题的数学公式配置"><a href="#next主题的数学公式配置" class="headerlink" title="next主题的数学公式配置"></a>next主题的数学公式配置</h1><figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># Math Formulas Render Support</span></span><br><span class="line"><span class="attr">math:</span></span><br><span class="line">  <span class="attr">per_page:</span> <span class="literal">false</span></span><br><span class="line">  <span class="attr">mathjax:</span></span><br><span class="line">    <span class="attr">enable:</span> <span class="literal">true</span></span><br><span class="line">    <span class="attr">cdn:</span> <span class="string">//cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML</span></span><br><span class="line">    <span class="attr">mhchem:</span> <span class="literal">false</span></span><br></pre></td></tr></table></figure>
 <h1 id="常用命令"><a href="#常用命令" class="headerlink" title="常用命令"></a>常用命令</h1><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">hexo g (generate)</span><br><span class="line">hexo s (server)</span><br><span class="line">hexo clean (clear public)</span><br><span class="line">hexo n  [layout] &lt;title &gt;(new post)</span><br><span class="line">eg:hexo n draft title</span><br><span class="line">hexo publish [layout] &lt;title&gt;</span><br><span class="line">eg:hexo publish draft title</span><br><span class="line">hexo d (deploy)</span><br><span class="line">hexo d -g (generate and deploy)</span><br><span class="line"></span><br><span class="line">hexo g</span><br><span class="line">hexo s</span><br></pre></td></tr></table></figure>
 <h1 id="配置评论插件"><a href="#配置评论插件" class="headerlink" title="配置评论插件"></a>配置评论插件</h1><p>多说挂了，换gitment,参考</p>
 <ul>
@@ -301,16 +302,16 @@
 
       <ul class="sidebar-nav motion-element">
         <li class="sidebar-nav-toc">
-          Inhaltsverzeichnis
+          Table of Contents
         </li>
         <li class="sidebar-nav-overview">
-          Übersicht
+          Overview
         </li>
       </ul>
 
       <!--noindex-->
       <div class="post-toc-wrap sidebar-panel">
-          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#hexo环境搭建"><span class="nav-number">1.</span> <span class="nav-text">hexo环境搭建</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#可选插件"><span class="nav-number">2.</span> <span class="nav-text">可选插件</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#常用命令"><span class="nav-number">3.</span> <span class="nav-text">常用命令</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#配置评论插件"><span class="nav-number">4.</span> <span class="nav-text">配置评论插件</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#常见问题"><span class="nav-number">5.</span> <span class="nav-text">常见问题</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#hexo部署错误"><span class="nav-number">5.1.</span> <span class="nav-text">hexo部署错误</span></a></li></ol></li></ol></div>
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#hexo环境搭建"><span class="nav-number">1.</span> <span class="nav-text">hexo环境搭建</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#可选插件"><span class="nav-number">2.</span> <span class="nav-text">可选插件</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#next主题的数学公式配置"><span class="nav-number">3.</span> <span class="nav-text">next主题的数学公式配置</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#常用命令"><span class="nav-number">4.</span> <span class="nav-text">常用命令</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#配置评论插件"><span class="nav-number">5.</span> <span class="nav-text">配置评论插件</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#常见问题"><span class="nav-number">6.</span> <span class="nav-text">常见问题</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#hexo部署错误"><span class="nav-number">6.1.</span> <span class="nav-text">hexo部署错误</span></a></li></ol></li></ol></div>
       </div>
       <!--/noindex-->
 
@@ -325,20 +326,20 @@
           <a href="/archives/">
         
           <span class="site-state-item-count">117</span>
-          <span class="site-state-item-name">Artikel</span>
+          <span class="site-state-item-name">posts</span>
         </a>
       </div>
       <div class="site-state-item site-state-categories">
             <a href="/categories/">
           
         <span class="site-state-item-count">23</span>
-        <span class="site-state-item-name">Kategorien</span></a>
+        <span class="site-state-item-name">categories</span></a>
       </div>
       <div class="site-state-item site-state-tags">
             <a href="/tags/">
           
         <span class="site-state-item-count">83</span>
-        <span class="site-state-item-name">schlagwörter</span></a>
+        <span class="site-state-item-name">tags</span></a>
       </div>
   </nav>
 </div>
@@ -368,10 +369,10 @@
   </span>
   <span class="author" itemprop="copyrightHolder">geosmart</span>
 </div>
-  <div class="powered-by">Erstellt mit  <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> v4.2.0
+  <div class="powered-by">Powered by <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> v4.2.0
   </div>
   <span class="post-meta-divider">|</span>
-  <div class="theme-info">Design – <a href="https://pisces.theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Pisces</a> v7.7.1
+  <div class="theme-info">Theme – <a href="https://pisces.theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Pisces</a> v7.7.1
   </div>
 
         
