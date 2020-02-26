@@ -24,7 +24,7 @@
 <meta property="og:type" content="article">
 <meta property="og:title" content="BinaryHeap的实现原理">
 <meta property="og:url" content="http://geosmart.github.io/2019/10/20/BinaryHeap%E7%9A%84%E5%AE%9E%E7%8E%B0%E5%8E%9F%E7%90%86/index.html">
-<meta property="og:site_name" content="Geosmart&#39;s Notes">
+<meta property="og:site_name" content="geosmart.io">
 <meta property="og:description" content="前段时间折腾RabbitMQ踩了个坑，  队列中对每个消息设置TTL时，如果队头有消息阻塞会导致TTL已过期的消息不能准时送达，优先队列也同样适用； 由于存储方式的原因，RabbitMQ中PriorityQueue一但定义了就不能更改队列的类型；  其中关于PriorityQueue的机制不太清楚，于是有了这篇关于二叉堆的文章，下一步研究下JDK中PriorityQueue的源码如何实现；  关键">
 <meta property="og:locale" content="zh_CN">
 <meta property="og:image" content="https://raw.githubusercontent.com/geosmart/geosmart.io/master/blog/img/heap.gif">
@@ -49,7 +49,7 @@
   };
 </script>
 
-  <title>BinaryHeap的实现原理 | Geosmart's Notes</title>
+  <title>BinaryHeap的实现原理 | geosmart.io</title>
   
 
 
@@ -101,7 +101,7 @@
     <div>
       <a href="/" class="brand" rel="start">
         <span class="logo-line-before"><i></i></span>
-        <span class="site-title">Geosmart's Notes</span>
+        <span class="site-title">geosmart.io</span>
         <span class="logo-line-after"><i></i></span>
       </a>
     </div>
@@ -204,7 +204,7 @@
     </span>
 
     <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Geosmart's Notes">
+      <meta itemprop="name" content="geosmart.io">
     </span>
       <header class="post-header">
         <h1 class="post-title" itemprop="name headline">
