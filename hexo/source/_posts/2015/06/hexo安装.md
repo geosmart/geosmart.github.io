@@ -16,12 +16,25 @@ npm install hexo-generator-sitemap --save
 npm install hexo-generator-feed --save
 npm install hexo-toc --save
 npm install hexo-html-minifier --save
+npm install --save hexo-filter-sequence
+
 ```
 
 # 可选插件
 ``` bash  
 npm un hexo-renderer-marked --save
 npm i hexo-renderer-markdown-it --save
+```
+
+# next主题的数学公式配置
+```yaml
+# Math Formulas Render Support
+math:
+  per_page: false
+  mathjax:
+    enable: true
+    cdn: //cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML
+    mhchem: false
 ```
 
 # 常用命令

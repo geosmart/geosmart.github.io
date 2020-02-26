@@ -2,10 +2,8 @@
 title: 数据结构之B-Tree
 date: 2017-10-09
 tags: [B-Tree]
-categories: 04数据结构
+categories: 数据结构
 ---
-
-@(04数据结构)[B-Tree]
 
 B-tree is a tree data structure that keeps data sorted and allows `searches,sequential access, insertions, and deletions in logarithmic time`. The B-tree is a generalization of a binary search tree in that a node can have more than two children. Unlike self-balancing binary search trees, the B-tree is optimized for systems that `read and write large blocks of data`. It is commonly used in `databases` and `file-systems`
 

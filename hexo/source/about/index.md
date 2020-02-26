@@ -16,7 +16,7 @@ categories:
 * 地址：杭州.滨江
 * 电话：17328853912
 * 邮箱：geosmart@hotmail.com   
-* 博客：[geosmart.io](https://github.com/geosmart/geosmart.io/issues)
+* 博客：[geosmart.github.io](https://geosmart.github.io/)
 
 # 专业能力
 

@@ -2,11 +2,8 @@
 title: python高级特性
 date: 2017-10-05
 tags: [python]
-categories: 01后端技术
+categories: 后端技术
 ---
-
-@(01后端技术)[python]
-
 
 python高级特性之GIL全局解释锁，concurrent多线程
 

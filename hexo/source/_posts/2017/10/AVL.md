@@ -2,7 +2,7 @@
 title: AVL
 date: 2017-10-11
 tags: []
-categories: 04数据结构
+categories: 数据结构
 ---
 
 >The AVL tree is named after its two Soviet inventors, Georgy `A`delson-`V`elsky and Evgenii `L`andis, who published it in their 1962 paper "`An algorithm for the organization of information`".

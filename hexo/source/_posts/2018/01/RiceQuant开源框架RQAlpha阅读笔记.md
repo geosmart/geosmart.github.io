@@ -2,7 +2,7 @@
 title: RiceQuant开源框架RQAlpha阅读笔记
 date: 2018-01-26
 tags: [量化投资]
-categories: W1量化投资
+categories: 量化投资
 ---
 
 从RQAlpha开源量化投资框架的`代码结构`、`技术选型`、`回测流程`、`撮合机制`等多个方面分析。

@@ -2,15 +2,10 @@
 title: HashMap深入解析
 date: 2017-09-27
 tags: [JDK]
-categories: 01后端技术
+categories: 后端技术
 ---
 
-
-@(01后端技术)[JDK]
-
 从HashMap的`概念，结构，参数，性能，线程安全性，源码解析（put,get,resize），使用场景，常见问题`8个方面进行分析。
-
-- - -
 <!-- more --> 
 
 # HashMap深入解析

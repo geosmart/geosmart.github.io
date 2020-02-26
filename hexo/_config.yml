@@ -2,10 +2,10 @@
 ## Docs: https://hexo.io/docs/configuration.html
 ## Source: https://github.com/hexojs/hexo/ 
 # Site
-title:  Geosmart's Notes
+title:  geosmart.io
 subtitle: 勿助勿忘，深造自得
 author: geosmart
-language: zh-Hans
+language: zh-CN
 timezone: Asia/Shanghai
 # 博客关键字
 keywords: 大数据,AI,IOT,JAVA,PYTHON

@@ -2,10 +2,8 @@
 title: Golang学习笔记
 date: 2017-10-23
 tags: [Go]
-categories: 01后端技术
+categories: 后端技术
 ---
-
-@(01后端技术)[Go]
 
 Go is not meant to innovate `programming theory`. It’s 
 meant to innovate `programming practice`.  -- Samuel Tesla

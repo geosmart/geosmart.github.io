@@ -2,10 +2,8 @@
 title: Nodejs入门笔记
 date: 2017-10-03
 tags: [Nodejs]
-categories: 02前端技术
+categories: 前端技术
 ---
-
-@(02前端技术)[Nodejs]
 
  Everything runs in parallel except your code!
 

@@ -2,16 +2,12 @@
 title: TensorFlow笔记
 date: 2018-01-12
 tags: [TensorFlow]
-categories: A1深度学习
+categories: AI
 ---
-
-@(A1深度学习)[TensorFlow]
 
 整理TensorFlow学习笔记
 - - -
 <!--more-->
-TensorFlow笔记
----
 
 # TensorFlow 安装
 pip install tensorflow -i http://mirrors.aliyun.com/pypi/simple/ --trusted-host mirrors.aliyun.com

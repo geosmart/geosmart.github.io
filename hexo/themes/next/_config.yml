@@ -758,7 +758,7 @@ algolia_search:
 # Local Search
 # Dependencies: https://github.com/theme-next/hexo-generator-searchdb
 local_search:
-  enable: false
+  enable: true
   # If auto, trigger search by changing input.
   # If manual, trigger search by pressing enter key or search button.
   trigger: auto
@@ -1037,3 +1037,17 @@ vendors:
 css: css
 js: js
 images: images
+
+# Gitment
+ # Introduction: https://imsun.net/posts/gitment-introduction/
+gitment:
+  enable: true
+  mint: true 		# RECOMMEND, A mint on Gitment, to support count, language and proxy_gateway
+  count: true 		# Show comments count in post meta area
+  lazy: false 		# Comments lazy loading with a button
+  cleanly: false 	# Hide 'Powered by ...' on footer, and more
+  language: 	
+  githubID: geosmart
+  repo: geosmart.github.io
+  ClientID: 8a29a27c357a64ed79fd
+  ClientSecret: fe1b781c49fa9037803f3c4d3e94fbb677abac4d

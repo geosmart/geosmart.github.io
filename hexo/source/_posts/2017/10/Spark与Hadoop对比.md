@@ -2,10 +2,8 @@
 title: Spark与Hadoop对比
 date: 2017-10-12
 tags: [Spark]
-categories: 00系统设计
+categories: 系统设计
 ---
-
-@(00系统设计)[Spark]
 
 整理Hadoop和Spark的设计理念，组成模块，集群架构，应用场景；
 Spark生态齐全，从数据系统Lambda架构的角度，更具优势

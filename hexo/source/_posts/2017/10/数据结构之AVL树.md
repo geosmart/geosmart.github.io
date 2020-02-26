@@ -2,18 +2,11 @@
 title: 数据结构之AVL树
 date: 2017-10-11
 tags: [AVL]
-categories: 04数据结构
+categories: 数据结构
 ---
-
-
-@(04数据结构)[AVL]
 
  An AVL tree is a `self-balancing binary search tree`, and it was the `first` such data structure to be invented. 
-- - -
 <!--more-->
-
-数据结构之AVL树
----
 
 # AVL
 >The AVL tree is named after its two Soviet inventors, Georgy `A`delson-`V`elsky and Evgenii `L`andis, who published it in their 1962 paper "`An algorithm for the organization of information`".
