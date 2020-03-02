@@ -1,6 +1,6 @@
 ---
-title: HashMap深入解析
-date: 2017-09-27
+title: JDK-HashMap原理
+date: 2019-10-27
 tags: [JDK]
 categories: 后端技术
 ---
@@ -60,20 +60,22 @@ Spliterator、EntrySpliterator、HashMapSpliterator、KeySpliterator、ValueSpli
 # HashMap性能
 当前实现的HashMap实现提供了`constant-time`的方法来进行get, put 等基本操作。
 * 如果key经过hash算法得出的数组索引位置全部不相同，即Hash算法非常好，那样的话，getKey方法的时间复杂度就是`O(1)`，
-* 如果Hash算法技术的结果碰撞非常多，假如Hash算极其差，所有的Hash算法结果得出的索引位置一样，那样所有的键值对都集中到一个桶中，或者在一个链表中，或者在一个红黑树中，时间复杂度分别为`O(n)`和`O(lgn)`。
+* 如果Hash算法技术的结果碰撞非常多，假如Hash算法极其差，所有的Hash算法结果得出的索引位置一样，那样所有的键值对都集中到一个桶中，或者在一个链表中，或者在一个红黑树中，时间复杂度分别为`O(n)`和`O(lgn)`。
 
 ## 几个要注意的性能点（空间/时间的tradeoff）
 1. 假如哈希函数能够将元素分散到所有的buckets里。从Collection的角度来说，遍历HashMap需要的时间为`count(buckets)+count(bucket.entrySize)`。如果遍历频繁/对迭代性能要求很高，不要把`capacity`设置过大，也不要把`load factor`设置过小；`load factor`更大会减少空间消耗，更小会增加时间消耗（查找更费时）。
 2. 扩容是一个特别耗性能的操作，如果很多key-values对存储在 HashMap 实例中，给他`初始化一个足够大的capacity` ，避免map进行频繁的resize扩容。这样更有效率。
-3. 默认的`load factor=0.75`是对空间和时间效率的一个`平衡选择`，建议不要修改，除非在时间和空间比较特殊的情况下，如果内存空间很多而又对时间效率要求很高，可以降低负载因子Load factor的值；相反，如果内存空间紧张而对时间效率要求不高，可以增加负载因子loadFactor的值，这个值可以大于1。
+3. 默认的`load factor=0.75`是对空间和时间效率的一个`平衡选择`，建议不要修改，除非在时间和空间比较特殊的情况下：
+   * 如果内存空间很多而又对时间效率要求很高，可以降低负载因子Load factor的值；
+   * 如果内存空间紧张而对时间效率要求不高，可以增加负载因子loadFactor的值，这个值可以大于1。
 
 # HashMap线程安全性
 
 ## HashMap为什么线程不安全
 为什么HashMap是线程不安全的？
-1. `多线程put-哈希碰撞问题`：如果多个线程同时使用put方法添加元素，而且假设正好存在两个 put 的 key 发生了碰撞(根据 hash 值计算的 bucket 一样)，那么根据 HashMap 的实现，这两个 key 会添加到数组的同一个位置，这样最终就会发生其中一个线程的 put 的数据被覆盖；
-2. `多线程put-死循环问题`：ashMap 在并发执行 put 操作时会引起死循环，导致 CPU 利用率接近100%。因为多线程会导致 HashMap 的 Node 链表形成环形数据结构，一旦形成环形数据结构，Node 的 next 节点永远不为空，就会在获取 Node 时产生死循环。-《Java并发编程的艺术》
-3. `多线程resize-数据丢失问题`：如果多个线程同时检测到元素个数超过`table size* loadFactor` ，这样就会发生多个线程同时对 Node 数组进行扩容，都在重新计算元素位置以及复制数据，但是最终只有一个线程扩容后的数组会赋给 table，也就是说其他线程的都会丢失，并且各自线程 put 的数据也丢失；
+1. `多线程put-哈希碰撞问题`：如果多个线程同时使用put方法添加元素，而且假设正好存在两个 put 的 key 发生了碰撞(根据 hash 值计算的 bucket 一样)，那么根据 HashMap 的实现，这两个 key 会添加到数组的同一个位置，这样最终就会发生其中一个线程的 put 的`数据被覆盖`；
+2. `多线程put-死循环问题`：HashMap在并发执行put操作时会引起死循环，导致CPU利用率接近100%。因为多线程会导致 HashMap 的 Node 链表形成环形数据结构，一旦形成环形数据结构，Node 的 next 节点永远不为空，就会在获取 Node 时产生死循环。-《Java并发编程的艺术》
+3. `多线程resize-数据丢失问题`：如果多个线程同时检测到元素个数超过`table size* loadFactor` ，这样就会发生多个线程`同时对Node数组进行扩容`，都在重新计算元素位置以及复制数据，但是最终只有一个线程扩容后的数组会赋给 table，也就是说其他线程的都会丢失，并且各自线程 put 的数据也丢失；
 
 ## HashMap线程安全初始化
 在多线程使用场景中，应该尽量避免使用线程不安全的`HashMap`，可用以下2种方式实现线程安全：
@@ -98,9 +100,9 @@ static final int hash(Object key) {
 ```java
 (n - 1) & hash
 ```
-设计者认为这方法很容易发生碰撞。为什么这么说呢？不妨思考一下，在n - 1为15(`0000000000000000 0000000000001111`)时，其实散列真正生效的只是低4bit的有效位，当然容易碰撞了。
- 
-因此，设计者想了一个顾全大局的方法(综合考虑了`速度、作用、质量`)，就是把高16bit和低16bit进行异或运算。设计者还解释到因为现在大多数的hashCode的分布已经很不错了，就算是发生了碰撞也用`O(log_n)`的tree去做了。
+设计者认为这方法很容易发生碰撞。为什么这么说呢？不妨思考一下，在`n-1`为15(`0000000000000000 0000000000001111`)时，其实散列真正生效的只是低4bit的有效位，当然容易碰撞了。 
+因此，设计者想了一个顾全大局的方法(综合考虑了`速度、作用、质量`)，就是把高16bit和低16bit进行异或运算。
+设计者还解释到因为现在大多数的hashCode的分布已经很不错了，就算是发生了碰撞也用`O(log_n)`的tree去做了。
 仅仅异或运算，既减少了系统的开销，也不会造成的因为高位没有参与下标的计算(table长度比较小时)，从而引起的碰撞。
 
 ## put方法
@@ -161,7 +163,7 @@ static final int hash(Object key) {
             }
         }
         ++modCount;
-        //超过最大容量（load factor*current capacity），就扩容
+        //超过最大容量（load factor*current capacity），扩容
         if (++size > threshold)
             resize();
         afterNodeInsertion(evict);
@@ -189,18 +191,18 @@ get大致思路如下：
         Node<K,V>[] tab; Node<K,V> first, e; int n; K k;
         if ((tab = table) != null && (n = tab.length) > 0 &&
             (first = tab[(n - 1) & hash]) != null) {
-            if (first.hash == hash && // always check first node
-                ((k = first.key) == key || (key != null && key.equals(k))))
-                return first;
-            if ((e = first.next) != null) {
-                if (first instanceof TreeNode)
-                    return ((TreeNode<K,V>)first).getTreeNode(hash, key);
-                do {
-                    if (e.hash == hash &&
-                        ((k = e.key) == key || (key != null && key.equals(k))))
-                        return e;
-                } while ((e = e.next) != null);
-            }
+                if (first.hash == hash && // always check first node
+                    ((k = first.key) == key || (key != null && key.equals(k))))
+                    return first;
+                if ((e = first.next) != null) {
+                    if (first instanceof TreeNode)
+                        return ((TreeNode<K,V>)first).getTreeNode(hash, key);
+                    do {
+                        if (e.hash == hash &&
+                            ((k = e.key) == key || (key != null && key.equals(k))))
+                            return e;
+                    } while ((e = e.next) != null);
+                }
         }
         return null;
     }
