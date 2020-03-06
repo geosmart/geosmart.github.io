@@ -30,7 +30,7 @@
 <meta property="og:image" content="http://geosmart.github.io/2020/02/06/2020-2-%E4%B8%80%E6%96%87%E6%90%9E%E6%87%82Java%E4%B8%AD%E7%9A%84%E9%94%81/JMM.png">
 <meta property="og:image" content="http://geosmart.github.io/2020/02/06/2020-2-%E4%B8%80%E6%96%87%E6%90%9E%E6%87%82Java%E4%B8%AD%E7%9A%84%E9%94%81/markword.png">
 <meta property="article:published_time" content="2020-02-05T16:00:00.000Z">
-<meta property="article:modified_time" content="2020-03-06T12:02:58.716Z">
+<meta property="article:modified_time" content="2020-03-06T12:09:51.318Z">
 <meta property="article:author" content="geosmart">
 <meta property="article:tag" content="Java">
 <meta name="twitter:card" content="summary">
@@ -224,7 +224,7 @@
                   <i class="fa fa-calendar-check-o"></i>
                 </span>
                 <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：6   三月   2020 20:02:58" itemprop="dateModified" datetime="2020-03-06T20:02:58+08:00">6   三月   2020</time>
+                <time title="修改时间：6   三月   2020 20:09:51" itemprop="dateModified" datetime="2020-03-06T20:09:51+08:00">6   三月   2020</time>
               </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -251,12 +251,12 @@
 <p>锁是什么？为什么要有锁？有哪些锁？这些锁各自的实现原理、优缺点、适用场景是什么？有哪些使用案例？<br>乐观锁/悲观锁；<br>共享锁/互斥锁；<br>读锁/写锁；<br>轻量级锁/重量级锁；<br>偏向锁/可重入锁；<br>非公平锁/公平锁；</p>
 </blockquote>
 <a id="more"></a>
-<h1 id="锁是什么？"><a href="#锁是什么？" class="headerlink" title="锁是什么？"></a>锁是什么？</h1><h2 id="日常生活中的锁"><a href="#日常生活中的锁" class="headerlink" title="日常生活中的锁"></a>日常生活中的锁</h2><p>日常生活中的锁几乎与私有制同时诞生，目的都是为了保护私有资源的安全性，只能授权后的人才能解锁；</p>
+<h1 id="日常生活中的锁"><a href="#日常生活中的锁" class="headerlink" title="日常生活中的锁"></a>日常生活中的锁</h1><p>日常生活中的锁几乎与私有制同时诞生，目的都是为了保护私有资源的安全性，只能授权后的人才能解锁；</p>
 <ul>
 <li>比如家里的大门的锁，只有一家人有钥匙才能进入；当然特殊情况，比如钥匙都丢了，可以找师傅开锁（锁中断）；</li>
 <li>比如公共卫生间，大门外部无锁，内部隔间有锁；</li>
 </ul>
-<h2 id="硬件中的锁"><a href="#硬件中的锁" class="headerlink" title="硬件中的锁"></a>硬件中的锁</h2><p>在硬件层面，CPU提供了基本的原子操作，以及内存总线锁、缓存锁定等机制来保证复杂内存操作的原子性；</p>
+<h1 id="硬件中的锁"><a href="#硬件中的锁" class="headerlink" title="硬件中的锁"></a>硬件中的锁</h1><p>在硬件层面，CPU提供了基本的原子操作，以及内存总线锁、缓存锁定等机制来保证复杂内存操作的原子性；</p>
 <ol>
 <li><p>CPU自动保证基本内存操作的原子性</p>
 <ul>
@@ -284,7 +284,7 @@
 </ul>
 </li>
 </ol>
-<h2 id="操作系统中的锁"><a href="#操作系统中的锁" class="headerlink" title="操作系统中的锁"></a>操作系统中的锁</h2><p>操作系统内核像多进程多线程编程一样也需要一些<code>同步机制</code>来同步各执行单元对共享数据的访问。<br>尤其是在<code>多处理器系统</code>上，更需要一些同步机制来同步不同处理器上的执行单元对<code>共享数据</code>的访问。<br>基于CPU硬件原子性的机制，在主流的Linux内核中包含了几乎所有现代的操作系统具有的同步机制，这些同步机制包括：</p>
+<h1 id="操作系统中的锁"><a href="#操作系统中的锁" class="headerlink" title="操作系统中的锁"></a>操作系统中的锁</h1><p>操作系统内核像多进程多线程编程一样也需要一些<code>同步机制</code>来同步各执行单元对共享数据的访问。<br>尤其是在<code>多处理器系统</code>上，更需要一些同步机制来同步不同处理器上的执行单元对<code>共享数据</code>的访问。<br>基于CPU硬件原子性的机制，在主流的Linux内核中包含了几乎所有现代的操作系统具有的同步机制，这些同步机制包括：</p>
 <ol>
 <li>原子操作</li>
 <li>信号量（semaphore）</li>
@@ -296,8 +296,8 @@
 <li>RCU，Read-Copy Update，在开发内核2.5.43中引入该技术的并正式包含在2.6内核中</li>
 <li>顺序锁seqlock（只包含在2.6以后内核中）。</li>
 </ol>
-<h2 id="Java中的锁"><a href="#Java中的锁" class="headerlink" title="Java中的锁"></a>Java中的锁</h2><p>在说Java的锁之前，得先说Java内存模型JMM，JMM的规定导致需要通过各种锁来实现同步，保证多线程环境下变量操作的安全性（原子性，可见性，有序性）；</p>
-<h3 id="Java内存模型"><a href="#Java内存模型" class="headerlink" title="Java内存模型"></a>Java内存模型</h3><p>Java虚拟机规范中试图定义一种Java内存模型（Java Memory Model,JMM）来屏蔽掉各种硬件和操作系统的内存访问差异，以实现让Java程序在各种平台下都能达到一致的内存访问效果。</p>
+<h1 id="Java中的锁"><a href="#Java中的锁" class="headerlink" title="Java中的锁"></a>Java中的锁</h1><p>在说Java的锁之前，得先说Java内存模型JMM，JMM的规定导致需要通过各种锁来实现同步，保证多线程环境下变量操作的安全性（原子性，可见性，有序性）；</p>
+<h2 id="Java内存模型"><a href="#Java内存模型" class="headerlink" title="Java内存模型"></a>Java内存模型</h2><p>Java虚拟机规范中试图定义一种Java内存模型（Java Memory Model,JMM）来屏蔽掉各种硬件和操作系统的内存访问差异，以实现让Java程序在各种平台下都能达到一致的内存访问效果。</p>
 <blockquote>
 <p>在此之前，主流程序语言（如C/C++等）直接使用物理硬件和操作系统的内存模型，因此，会由于不同平台上内存模型的差异，有可能导致程序在一套平台上并发完全正常，而在另外一套平台上并发访问却经常出错，因此在某些场景就必须针对不同的平台来编写程序。</p>
 </blockquote>
@@ -311,7 +311,7 @@
 <blockquote>
 <p>JMM的实现与CPU、CPU高速缓存、主内存之间的交互是类似的，因此也要参考操作系统一样实现自己的同步机制，而且Java为了要实现<code>WORA</code>，需要跨平台去针对不同的操作系统做适配；</p>
 </blockquote>
-<h3 id="sychronized关键字"><a href="#sychronized关键字" class="headerlink" title="sychronized关键字"></a>sychronized关键字</h3><h4 id="实现原理"><a href="#实现原理" class="headerlink" title="实现原理"></a>实现原理</h4><p>在java语言中存在两种内建的synchronized语法：</p>
+<h1 id="sychronized关键字"><a href="#sychronized关键字" class="headerlink" title="sychronized关键字"></a>sychronized关键字</h1><h2 id="实现原理"><a href="#实现原理" class="headerlink" title="实现原理"></a>实现原理</h2><p>在java语言中存在两种内建的synchronized语法：</p>
 <ol>
 <li><code>synchronized语句</code>:当Java源代码被javac编译成bytecode的时候，会在同步块的入口位置和退出位置分别插入<code>monitorenter</code>和<code>monitorexit</code>字节码指令。</li>
 <li><code>synchronized方法</code>:会被翻译成普通的方法调用和返回指令如:<code>invokevirtual</code>、<code>areturn</code>指令，在VM字节码层面并没有任何特别的指令来实现被synchronized修饰的方法，而是在Class文件的方法表中将该方法的<code>access_flags</code>字段中的synchronized标志位置1，表示该方法是同步方法，并使用调用该方法的对象或该方法所属的Class在JVM的内部对象表示Klass做为锁对象。</li>
@@ -359,10 +359,7 @@
 </table>
 </div>
 <p>在JDK1.5之前，多线程并发中，synchronized一直都是重量级锁，在JDK1.6之后，这个关键字被做了很多的优化，从而让以往的<code>重量级锁</code>变得不再那么重。<br>为了减少获得锁和释放锁带来的性能开销，引入了偏向锁、轻量级锁的概念。<br>因此在synchronized中，锁存在4种状态，分别是:<code>无锁、偏向锁、轻量级锁、重量级锁</code>; 锁的状态根据竞争激烈的程度从低到高不断升级。</p>
-<blockquote>
-<p>对象头</p>
-</blockquote>
-<ul>
+<h3 id="对象头"><a href="#对象头" class="headerlink" title="对象头"></a>对象头</h3><ul>
 <li>对象头（Object Header）的对象运行时数据（Mark Word）中存储了对象的锁状态信息，栈帧中存储了Mark Word的副本称之为<code>Lock Record</code>；</li>
 <li>MarkWord记录了对象和锁有关的信息，当对象被synchronized加同步锁时，那么围绕这个锁的一系列操作都和MarkWord有关系。MarkWord 在32位虚拟机的长度是32bit、在64位虚拟机的长度是64bit。 MarkWord里面存储的数据会随着锁标志位的变化而变化；</li>
 </ul>
@@ -401,10 +398,7 @@
 </tbody>
 </table>
 </div>
-<blockquote>
-<p>sychronized锁的升级过程</p>
-</blockquote>
-<h5 id="无锁"><a href="#无锁" class="headerlink" title="无锁"></a>无锁</h5><ul>
+<h3 id="sychronized锁的升级过程"><a href="#sychronized锁的升级过程" class="headerlink" title="sychronized锁的升级过程"></a>sychronized锁的升级过程</h3><h4 id="无锁"><a href="#无锁" class="headerlink" title="无锁"></a>无锁</h4><ul>
 <li>sychronized修饰的代码块/类/方法默认是无锁状态；</li>
 <li>无锁没有对资源进行锁定，所有的线程都能访问并修改同一个资源，但同时只有一个线程能修改成功。</li>
 <li>无锁的特点就是修改操作在循环内进行，线程会不断的尝试修改共享资源。如果没有冲突就修改成功并退出，否则就会继续循环尝试。如果有多个线程修改同一个值，必定会有一个线程能修改成功，而其他修改失败的线程会不断重试直到修改成功。</li>
@@ -412,7 +406,7 @@
 <blockquote>
 <p>CAS原理及应用即是无锁的实现。无锁无法全面代替有锁，但无锁在某些场合下的性能是非常高的。</p>
 </blockquote>
-<h5 id="偏向锁"><a href="#偏向锁" class="headerlink" title="偏向锁"></a>偏向锁</h5><ul>
+<h4 id="偏向锁"><a href="#偏向锁" class="headerlink" title="偏向锁"></a>偏向锁</h4><ul>
 <li><p>偏向锁是指一段同步代码一直被一个线程所访问，那么该线程会自动获取锁，降低获取锁的代价。</p>
 <blockquote>
 <p>当1个线程执行到同步代码时，会执行一次CAS操作（比较MarkWord和LockRecord）来尝试获取锁，获取成功时会把ThreadId写入MarkWord。后续这个线程进入和退出这段加了同步锁的代码块时，<code>不需要再次加锁和释放锁</code>,而是直接比较对象头里面是否存储了指向当前线程的偏向锁。如果相等表示偏向锁是偏向于当前线程的，就不需要再尝试获得锁了。</p>
@@ -431,7 +425,7 @@
 </ul>
 </li>
 </ul>
-<h5 id="轻量级锁"><a href="#轻量级锁" class="headerlink" title="轻量级锁"></a>轻量级锁</h5><p>第2个线程获取锁时，CAS<code>自旋</code>等锁，升级为轻量级锁;</p>
+<h4 id="轻量级锁"><a href="#轻量级锁" class="headerlink" title="轻量级锁"></a>轻量级锁</h4><p>第2个线程获取锁时，CAS<code>自旋</code>等锁，升级为轻量级锁;</p>
 <blockquote>
 <p>自旋锁</p>
 </blockquote>
@@ -460,7 +454,7 @@
 </blockquote>
 <p>eg：如果在同一个锁对象上，刚刚自旋等待成功获得过锁，并且持有锁的线程正在运行中，那么虚拟机就会认为这次自旋也是很有可能再次成功，进而它将允许自旋等待持续相对更长的时间。<br>如果对于某个锁，自旋很少成功获得过，那在以后尝试获取这个锁时将可能省略掉自旋过程，直接阻塞线程，避免浪费处理器资源。</p>
 <p>轻量级锁的锁释放逻辑其实就是获得锁的逆向逻辑，通过 CAS 操作把线程栈帧中的 LockRecord 替换回到锁对象的 MarkWord 中，如果成功表示没有竞争。如果失败，表示当前锁存在竞争(3个线程)，那么轻量级锁就会膨胀成为重量级锁。</p>
-<h5 id="重量级锁"><a href="#重量级锁" class="headerlink" title="重量级锁"></a>重量级锁</h5><p>升级为重量级锁时，锁标志的状态值变为“10”，此时Mark Word中存储的是指向重量级锁的指针，此时等待锁的线程都会进入阻塞状态。</p>
+<h4 id="重量级锁"><a href="#重量级锁" class="headerlink" title="重量级锁"></a>重量级锁</h4><p>升级为重量级锁时，锁标志的状态值变为“10”，此时Mark Word中存储的是指向重量级锁的指针，此时等待锁的线程都会进入阻塞状态。</p>
 <blockquote>
 <p>sychronized总结</p>
 <ol>
@@ -470,22 +464,21 @@
 <li>重量级锁是将除了拥有锁的线程以外的线程都<code>阻塞</code>。</li>
 </ol>
 </blockquote>
-<h4 id="优缺点"><a href="#优缺点" class="headerlink" title="优缺点"></a>优缺点</h4><p>主要与ReentrantLock比较</p>
-<h6 id="优点"><a href="#优点" class="headerlink" title="优点"></a>优点</h6><ul>
+<h2 id="优缺点"><a href="#优缺点" class="headerlink" title="优缺点"></a>优缺点</h2><p>主要与ReentrantLock比较</p>
+<h3 id="优点"><a href="#优点" class="headerlink" title="优点"></a>优点</h3><ul>
 <li>默认为非公平是锁，性能好；</li>
 <li>关键词形式使用简单，不需要手动释放锁；</li>
-<li>支持可重入；</li>
-</ul>
-<h6 id="缺点"><a href="#缺点" class="headerlink" title="缺点"></a>缺点</h6><ul>
+<li>支持可重入；<h3 id="缺点"><a href="#缺点" class="headerlink" title="缺点"></a>缺点</h3></li>
 <li>不支持公平锁；</li>
 <li>当多个线程尝试获取锁时，未获取到锁的线程不能外部中断，造成性能消耗；</li>
 <li>在资源竞争不是很激烈的情况下，Synchronized的性能要优于ReetrantLock，但是在资源竞争很激烈的情况下，Synchronized的性能会下降几十倍，但是ReetrantLock的性能能维持常态；</li>
 </ul>
-<h4 id="适用场景"><a href="#适用场景" class="headerlink" title="适用场景"></a>适用场景</h4><p>sychronized是悲观锁，悲观锁适合写操作多的场景，先加锁可以保证写操作时数据正确。</p>
-<h4 id="使用案例"><a href="#使用案例" class="headerlink" title="使用案例"></a>使用案例</h4><ul>
+<h2 id="适用场景"><a href="#适用场景" class="headerlink" title="适用场景"></a>适用场景</h2><p>sychronized是悲观锁，悲观锁适合写操作多的场景，先加锁可以保证写操作时数据正确。</p>
+<h2 id="使用案例"><a href="#使用案例" class="headerlink" title="使用案例"></a>使用案例</h2><ul>
 <li>HashTable,Vector都是直接使用sychronized关键词实现线程安全；</li>
+<li></li>
 </ul>
-<h3 id="volatile关键字"><a href="#volatile关键字" class="headerlink" title="volatile关键字"></a>volatile关键字</h3><h4 id="实现原理-1"><a href="#实现原理-1" class="headerlink" title="实现原理"></a>实现原理</h4><h4 id="优缺点-1"><a href="#优缺点-1" class="headerlink" title="优缺点"></a>优缺点</h4><h4 id="适用场景-1"><a href="#适用场景-1" class="headerlink" title="适用场景"></a>适用场景</h4><h4 id="使用案例-1"><a href="#使用案例-1" class="headerlink" title="使用案例"></a>使用案例</h4><h3 id="ReentranLock可重入锁"><a href="#ReentranLock可重入锁" class="headerlink" title="ReentranLock可重入锁"></a>ReentranLock可重入锁</h3><h3 id="ReentranReadWriteLock可重入读写锁"><a href="#ReentranReadWriteLock可重入读写锁" class="headerlink" title="ReentranReadWriteLock可重入读写锁"></a>ReentranReadWriteLock可重入读写锁</h3><h3 id="CountDownLatch-递减锁"><a href="#CountDownLatch-递减锁" class="headerlink" title="CountDownLatch 递减锁"></a>CountDownLatch 递减锁</h3><h3 id="CyclicBarrier-递增锁"><a href="#CyclicBarrier-递增锁" class="headerlink" title="CyclicBarrier 递增锁"></a>CyclicBarrier 递增锁</h3><h3 id="Semaphoe-信号量"><a href="#Semaphoe-信号量" class="headerlink" title="Semaphoe 信号量"></a>Semaphoe 信号量</h3><h3 id="SpinLock自旋锁"><a href="#SpinLock自旋锁" class="headerlink" title="SpinLock自旋锁"></a>SpinLock自旋锁</h3><h1 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h1><ul>
+<h1 id="volatile关键字"><a href="#volatile关键字" class="headerlink" title="volatile关键字"></a>volatile关键字</h1><h2 id="实现原理-1"><a href="#实现原理-1" class="headerlink" title="实现原理"></a>实现原理</h2><h2 id="优缺点-1"><a href="#优缺点-1" class="headerlink" title="优缺点"></a>优缺点</h2><h2 id="适用场景-1"><a href="#适用场景-1" class="headerlink" title="适用场景"></a>适用场景</h2><h2 id="使用案例-1"><a href="#使用案例-1" class="headerlink" title="使用案例"></a>使用案例</h2><h1 id="ReentranLock可重入锁"><a href="#ReentranLock可重入锁" class="headerlink" title="ReentranLock可重入锁"></a>ReentranLock可重入锁</h1><h1 id="ReentranReadWriteLock可重入读写锁"><a href="#ReentranReadWriteLock可重入读写锁" class="headerlink" title="ReentranReadWriteLock可重入读写锁"></a>ReentranReadWriteLock可重入读写锁</h1><h1 id="CountDownLatch-递减锁"><a href="#CountDownLatch-递减锁" class="headerlink" title="CountDownLatch 递减锁"></a>CountDownLatch 递减锁</h1><h1 id="CyclicBarrier-递增锁"><a href="#CyclicBarrier-递增锁" class="headerlink" title="CyclicBarrier 递增锁"></a>CyclicBarrier 递增锁</h1><h1 id="Semaphoe-信号量"><a href="#Semaphoe-信号量" class="headerlink" title="Semaphoe 信号量"></a>Semaphoe 信号量</h1><h1 id="SpinLock自旋锁"><a href="#SpinLock自旋锁" class="headerlink" title="SpinLock自旋锁"></a>SpinLock自旋锁</h1><h1 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h1><ul>
 <li><a href="">《深入理解Java虚拟机-JVM高级特性与最佳实践》</a></li>
 <li><a href="https://blog.csdn.net/godleading/article/details/78259842">Linux内核中的各种锁</a></li>
 </ul>
@@ -570,7 +563,7 @@
 
       <!--noindex-->
       <div class="post-toc-wrap sidebar-panel">
-          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#锁是什么？"><span class="nav-number">1.</span> <span class="nav-text">锁是什么？</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#日常生活中的锁"><span class="nav-number">1.1.</span> <span class="nav-text">日常生活中的锁</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#硬件中的锁"><span class="nav-number">1.2.</span> <span class="nav-text">硬件中的锁</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#操作系统中的锁"><span class="nav-number">1.3.</span> <span class="nav-text">操作系统中的锁</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Java中的锁"><span class="nav-number">1.4.</span> <span class="nav-text">Java中的锁</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Java内存模型"><span class="nav-number">1.4.1.</span> <span class="nav-text">Java内存模型</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#sychronized关键字"><span class="nav-number">1.4.2.</span> <span class="nav-text">sychronized关键字</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#实现原理"><span class="nav-number">1.4.2.1.</span> <span class="nav-text">实现原理</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#无锁"><span class="nav-number">1.4.2.1.1.</span> <span class="nav-text">无锁</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#偏向锁"><span class="nav-number">1.4.2.1.2.</span> <span class="nav-text">偏向锁</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#轻量级锁"><span class="nav-number">1.4.2.1.3.</span> <span class="nav-text">轻量级锁</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#重量级锁"><span class="nav-number">1.4.2.1.4.</span> <span class="nav-text">重量级锁</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#优缺点"><span class="nav-number">1.4.2.2.</span> <span class="nav-text">优缺点</span></a><ol class="nav-child"><li class="nav-item nav-level-6"><a class="nav-link" href="#优点"><span class="nav-number">1.4.2.2.0.1.</span> <span class="nav-text">优点</span></a></li><li class="nav-item nav-level-6"><a class="nav-link" href="#缺点"><span class="nav-number">1.4.2.2.0.2.</span> <span class="nav-text">缺点</span></a></li></ol></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#适用场景"><span class="nav-number">1.4.2.3.</span> <span class="nav-text">适用场景</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#使用案例"><span class="nav-number">1.4.2.4.</span> <span class="nav-text">使用案例</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#volatile关键字"><span class="nav-number">1.4.3.</span> <span class="nav-text">volatile关键字</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#实现原理-1"><span class="nav-number">1.4.3.1.</span> <span class="nav-text">实现原理</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#优缺点-1"><span class="nav-number">1.4.3.2.</span> <span class="nav-text">优缺点</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#适用场景-1"><span class="nav-number">1.4.3.3.</span> <span class="nav-text">适用场景</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#使用案例-1"><span class="nav-number">1.4.3.4.</span> <span class="nav-text">使用案例</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#ReentranLock可重入锁"><span class="nav-number">1.4.4.</span> <span class="nav-text">ReentranLock可重入锁</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#ReentranReadWriteLock可重入读写锁"><span class="nav-number">1.4.5.</span> <span class="nav-text">ReentranReadWriteLock可重入读写锁</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#CountDownLatch-递减锁"><span class="nav-number">1.4.6.</span> <span class="nav-text">CountDownLatch 递减锁</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#CyclicBarrier-递增锁"><span class="nav-number">1.4.7.</span> <span class="nav-text">CyclicBarrier 递增锁</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Semaphoe-信号量"><span class="nav-number">1.4.8.</span> <span class="nav-text">Semaphoe 信号量</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#SpinLock自旋锁"><span class="nav-number">1.4.9.</span> <span class="nav-text">SpinLock自旋锁</span></a></li></ol></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#参考"><span class="nav-number">2.</span> <span class="nav-text">参考</span></a></li></ol></div>
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#日常生活中的锁"><span class="nav-number">1.</span> <span class="nav-text">日常生活中的锁</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#硬件中的锁"><span class="nav-number">2.</span> <span class="nav-text">硬件中的锁</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#操作系统中的锁"><span class="nav-number">3.</span> <span class="nav-text">操作系统中的锁</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Java中的锁"><span class="nav-number">4.</span> <span class="nav-text">Java中的锁</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#Java内存模型"><span class="nav-number">4.1.</span> <span class="nav-text">Java内存模型</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#sychronized关键字"><span class="nav-number">5.</span> <span class="nav-text">sychronized关键字</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#实现原理"><span class="nav-number">5.1.</span> <span class="nav-text">实现原理</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#对象头"><span class="nav-number">5.1.1.</span> <span class="nav-text">对象头</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#sychronized锁的升级过程"><span class="nav-number">5.1.2.</span> <span class="nav-text">sychronized锁的升级过程</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#无锁"><span class="nav-number">5.1.2.1.</span> <span class="nav-text">无锁</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#偏向锁"><span class="nav-number">5.1.2.2.</span> <span class="nav-text">偏向锁</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#轻量级锁"><span class="nav-number">5.1.2.3.</span> <span class="nav-text">轻量级锁</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#重量级锁"><span class="nav-number">5.1.2.4.</span> <span class="nav-text">重量级锁</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#优缺点"><span class="nav-number">5.2.</span> <span class="nav-text">优缺点</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#优点"><span class="nav-number">5.2.1.</span> <span class="nav-text">优点</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#缺点"><span class="nav-number">5.2.2.</span> <span class="nav-text">缺点</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#适用场景"><span class="nav-number">5.3.</span> <span class="nav-text">适用场景</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#使用案例"><span class="nav-number">5.4.</span> <span class="nav-text">使用案例</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#volatile关键字"><span class="nav-number">6.</span> <span class="nav-text">volatile关键字</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#实现原理-1"><span class="nav-number">6.1.</span> <span class="nav-text">实现原理</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#优缺点-1"><span class="nav-number">6.2.</span> <span class="nav-text">优缺点</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#适用场景-1"><span class="nav-number">6.3.</span> <span class="nav-text">适用场景</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#使用案例-1"><span class="nav-number">6.4.</span> <span class="nav-text">使用案例</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#ReentranLock可重入锁"><span class="nav-number">7.</span> <span class="nav-text">ReentranLock可重入锁</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#ReentranReadWriteLock可重入读写锁"><span class="nav-number">8.</span> <span class="nav-text">ReentranReadWriteLock可重入读写锁</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#CountDownLatch-递减锁"><span class="nav-number">9.</span> <span class="nav-text">CountDownLatch 递减锁</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#CyclicBarrier-递增锁"><span class="nav-number">10.</span> <span class="nav-text">CyclicBarrier 递增锁</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Semaphoe-信号量"><span class="nav-number">11.</span> <span class="nav-text">Semaphoe 信号量</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#SpinLock自旋锁"><span class="nav-number">12.</span> <span class="nav-text">SpinLock自旋锁</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#参考"><span class="nav-number">13.</span> <span class="nav-text">参考</span></a></li></ol></div>
       </div>
       <!--/noindex-->
 
