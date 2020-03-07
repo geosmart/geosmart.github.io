@@ -20,23 +20,25 @@
     var CONFIG = {"hostname":"geosmart.github.io","root":"/","scheme":"Pisces","version":"7.7.1","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.xml"};
   </script>
 
-  <meta name="description" content="锁是什么？为什么要有锁？有哪些锁？这些锁各自的实现原理、优缺点、适用场景是什么？有哪些使用案例？乐观锁&#x2F;悲观锁；共享锁&#x2F;互斥锁；读锁&#x2F;写锁；轻量级锁&#x2F;重量级锁；偏向锁&#x2F;可重入锁；非公平锁&#x2F;公平锁；">
+  <meta name="description" content="锁是什么？为什么要有锁？有哪些锁？这些锁各自的实现原理、优缺点、适用场景是什么？有哪些使用案例？  乐观锁&#x2F;悲观锁； 共享锁&#x2F;互斥锁； 读锁&#x2F;写锁； 轻量级锁&#x2F;重量级锁； 偏向锁&#x2F;可重入锁； 非公平锁&#x2F;公平锁；">
 <meta property="og:type" content="article">
 <meta property="og:title" content="一文搞懂Java中的锁">
-<meta property="og:url" content="http://geosmart.github.io/2020/02/06/2020-2-%E4%B8%80%E6%96%87%E6%90%9E%E6%87%82Java%E4%B8%AD%E7%9A%84%E9%94%81/index.html">
+<meta property="og:url" content="http://geosmart.github.io/2020/02/06/2020-2-%E6%B5%85%E6%9E%90Java%E4%B8%AD%E7%9A%84%E9%94%81/index.html">
 <meta property="og:site_name" content="geosmart.io">
-<meta property="og:description" content="锁是什么？为什么要有锁？有哪些锁？这些锁各自的实现原理、优缺点、适用场景是什么？有哪些使用案例？乐观锁&#x2F;悲观锁；共享锁&#x2F;互斥锁；读锁&#x2F;写锁；轻量级锁&#x2F;重量级锁；偏向锁&#x2F;可重入锁；非公平锁&#x2F;公平锁；">
+<meta property="og:description" content="锁是什么？为什么要有锁？有哪些锁？这些锁各自的实现原理、优缺点、适用场景是什么？有哪些使用案例？  乐观锁&#x2F;悲观锁； 共享锁&#x2F;互斥锁； 读锁&#x2F;写锁； 轻量级锁&#x2F;重量级锁； 偏向锁&#x2F;可重入锁； 非公平锁&#x2F;公平锁；">
 <meta property="og:locale" content="zh_CN">
-<meta property="og:image" content="http://geosmart.github.io/2020/02/06/2020-2-%E4%B8%80%E6%96%87%E6%90%9E%E6%87%82Java%E4%B8%AD%E7%9A%84%E9%94%81/JMM.png">
-<meta property="og:image" content="http://geosmart.github.io/2020/02/06/2020-2-%E4%B8%80%E6%96%87%E6%90%9E%E6%87%82Java%E4%B8%AD%E7%9A%84%E9%94%81/markword.png">
+<meta property="og:image" content="http://geosmart.github.io/2020/02/06/2020-2-%E6%B5%85%E6%9E%90Java%E4%B8%AD%E7%9A%84%E9%94%81/JMM.png">
+<meta property="og:image" content="http://geosmart.github.io/2020/02/06/2020-2-%E6%B5%85%E6%9E%90Java%E4%B8%AD%E7%9A%84%E9%94%81/markword.png">
+<meta property="og:image" content="http://geosmart.github.io/2020/02/06/2020-2-%E6%B5%85%E6%9E%90Java%E4%B8%AD%E7%9A%84%E9%94%81/ReentrantLock_classmap.jpg">
+<meta property="og:image" content="http://geosmart.github.io/2020/02/06/2020-2-%E6%B5%85%E6%9E%90Java%E4%B8%AD%E7%9A%84%E9%94%81/ReentrantLock_classmap.jpg">
 <meta property="article:published_time" content="2020-02-05T16:00:00.000Z">
-<meta property="article:modified_time" content="2020-03-06T12:09:51.318Z">
+<meta property="article:modified_time" content="2020-03-07T12:50:36.308Z">
 <meta property="article:author" content="geosmart">
 <meta property="article:tag" content="Java">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:image" content="http://geosmart.github.io/2020/02/06/2020-2-%E4%B8%80%E6%96%87%E6%90%9E%E6%87%82Java%E4%B8%AD%E7%9A%84%E9%94%81/JMM.png">
+<meta name="twitter:image" content="http://geosmart.github.io/2020/02/06/2020-2-%E6%B5%85%E6%9E%90Java%E4%B8%AD%E7%9A%84%E9%94%81/JMM.png">
 
-<link rel="canonical" href="http://geosmart.github.io/2020/02/06/2020-2-%E4%B8%80%E6%96%87%E6%90%9E%E6%87%82Java%E4%B8%AD%E7%9A%84%E9%94%81/">
+<link rel="canonical" href="http://geosmart.github.io/2020/02/06/2020-2-%E6%B5%85%E6%9E%90Java%E4%B8%AD%E7%9A%84%E9%94%81/">
 
 
 <script id="page-configurations">
@@ -194,7 +196,7 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block " lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="http://geosmart.github.io/2020/02/06/2020-2-%E4%B8%80%E6%96%87%E6%90%9E%E6%87%82Java%E4%B8%AD%E7%9A%84%E9%94%81/">
+    <link itemprop="mainEntityOfPage" href="http://geosmart.github.io/2020/02/06/2020-2-%E6%B5%85%E6%9E%90Java%E4%B8%AD%E7%9A%84%E9%94%81/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="image" content="/images/avatar.gif">
@@ -224,7 +226,7 @@
                   <i class="fa fa-calendar-check-o"></i>
                 </span>
                 <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：6   三月   2020 20:09:51" itemprop="dateModified" datetime="2020-03-06T20:09:51+08:00">6   三月   2020</time>
+                <time title="修改时间：7   三月   2020 20:50:36" itemprop="dateModified" datetime="2020-03-07T20:50:36+08:00">7   三月   2020</time>
               </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -248,15 +250,23 @@
 
       
         <blockquote>
-<p>锁是什么？为什么要有锁？有哪些锁？这些锁各自的实现原理、优缺点、适用场景是什么？有哪些使用案例？<br>乐观锁/悲观锁；<br>共享锁/互斥锁；<br>读锁/写锁；<br>轻量级锁/重量级锁；<br>偏向锁/可重入锁；<br>非公平锁/公平锁；</p>
+<p>锁是什么？为什么要有锁？有哪些锁？这些锁各自的实现原理、优缺点、适用场景是什么？有哪些使用案例？</p>
+<ul>
+<li>乐观锁/悲观锁；</li>
+<li>共享锁/互斥锁；</li>
+<li>读锁/写锁；</li>
+<li>轻量级锁/重量级锁；</li>
+<li>偏向锁/可重入锁；</li>
+<li>非公平锁/公平锁；</li>
+</ul>
 </blockquote>
 <a id="more"></a>
 <h1 id="日常生活中的锁"><a href="#日常生活中的锁" class="headerlink" title="日常生活中的锁"></a>日常生活中的锁</h1><p>日常生活中的锁几乎与私有制同时诞生，目的都是为了保护私有资源的安全性，只能授权后的人才能解锁；</p>
 <ul>
-<li>比如家里的大门的锁，只有一家人有钥匙才能进入；当然特殊情况，比如钥匙都丢了，可以找师傅开锁（锁中断）；</li>
-<li>比如公共卫生间，大门外部无锁，内部隔间有锁；</li>
+<li>比如家里的大门的锁，只有一家人有钥匙才能进入；当然特殊情况，比如钥匙都丢了，可以找师傅开锁（<code>锁中断</code>）；</li>
+<li>比如公共卫生间，大门外部无锁，内部隔间有锁（<code>读写锁</code>）；</li>
 </ul>
-<h1 id="硬件中的锁"><a href="#硬件中的锁" class="headerlink" title="硬件中的锁"></a>硬件中的锁</h1><p>在硬件层面，CPU提供了基本的原子操作，以及内存总线锁、缓存锁定等机制来保证复杂内存操作的原子性；</p>
+<h1 id="硬件中的锁"><a href="#硬件中的锁" class="headerlink" title="硬件中的锁"></a>硬件中的锁</h1><p>在硬件层面，CPU提供了<code>基本的原子操作</code>，以及<code>内存总线锁</code>、<code>缓存锁定</code>等机制来保证复杂内存操作的原子性；</p>
 <ol>
 <li><p>CPU自动保证基本内存操作的原子性</p>
 <ul>
@@ -284,7 +294,8 @@
 </ul>
 </li>
 </ol>
-<h1 id="操作系统中的锁"><a href="#操作系统中的锁" class="headerlink" title="操作系统中的锁"></a>操作系统中的锁</h1><p>操作系统内核像多进程多线程编程一样也需要一些<code>同步机制</code>来同步各执行单元对共享数据的访问。<br>尤其是在<code>多处理器系统</code>上，更需要一些同步机制来同步不同处理器上的执行单元对<code>共享数据</code>的访问。<br>基于CPU硬件原子性的机制，在主流的Linux内核中包含了几乎所有现代的操作系统具有的同步机制，这些同步机制包括：</p>
+<h1 id="操作系统中的锁"><a href="#操作系统中的锁" class="headerlink" title="操作系统中的锁"></a>操作系统中的锁</h1><p>操作系统内核像多进程多线程编程一样也需要一些<code>同步机制</code>来同步各执行单元对共享数据的访问。<br>尤其是在<code>多处理器系统</code>上，更需要一些同步机制来同步不同处理器上的执行单元对<code>共享数据</code>的访问。<br>基于CPU硬件原子性的机制，在主流的Linux内核中包含了几乎所有现代的操作系统具有的同步机制，</p>
+<p>这些同步机制包括：</p>
 <ol>
 <li>原子操作</li>
 <li>信号量（semaphore）</li>
@@ -311,7 +322,10 @@
 <blockquote>
 <p>JMM的实现与CPU、CPU高速缓存、主内存之间的交互是类似的，因此也要参考操作系统一样实现自己的同步机制，而且Java为了要实现<code>WORA</code>，需要跨平台去针对不同的操作系统做适配；</p>
 </blockquote>
-<h1 id="sychronized关键字"><a href="#sychronized关键字" class="headerlink" title="sychronized关键字"></a>sychronized关键字</h1><h2 id="实现原理"><a href="#实现原理" class="headerlink" title="实现原理"></a>实现原理</h2><p>在java语言中存在两种内建的synchronized语法：</p>
+<h1 id="sychronized关键字"><a href="#sychronized关键字" class="headerlink" title="sychronized关键字"></a>sychronized关键字</h1><blockquote>
+<p>关键词：互斥锁、CAS、偏向锁、自旋锁、轻量级锁、重量级锁</p>
+</blockquote>
+<h2 id="实现原理"><a href="#实现原理" class="headerlink" title="实现原理"></a>实现原理</h2><p>在java语言中存在两种内建的synchronized语法：</p>
 <ol>
 <li><code>synchronized语句</code>:当Java源代码被javac编译成bytecode的时候，会在同步块的入口位置和退出位置分别插入<code>monitorenter</code>和<code>monitorexit</code>字节码指令。</li>
 <li><code>synchronized方法</code>:会被翻译成普通的方法调用和返回指令如:<code>invokevirtual</code>、<code>areturn</code>指令，在VM字节码层面并没有任何特别的指令来实现被synchronized修饰的方法，而是在Class文件的方法表中将该方法的<code>access_flags</code>字段中的synchronized标志位置1，表示该方法是同步方法，并使用调用该方法的对象或该方法所属的Class在JVM的内部对象表示Klass做为锁对象。</li>
@@ -321,7 +335,7 @@
 <li>在JVM中monitorenter和monitorexit字节码依赖于底层的操作系统的<code>Mutex Lock</code>来实现的，但是由于使用<code>Mutex Lock</code>需要将当前线程挂起并从<code>用户态</code>切换到<code>内核态</code>来执行，这种切换的代价是非常昂贵的；</li>
 <li>在linux的内核中互斥锁是通过<code>spinlock自旋锁</code>实现的；</li>
 <li><p>而spinlock是依靠cpu硬件的锁机制（内存总线锁/缓存锁）实现的原子操作；</p>
-<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/* /linux/include/linux/mutex.h */</span> </span><br><span class="line"><span class="class"><span class="keyword">struct</span> <span class="title">mutex</span> &#123;</span></span><br><span class="line">         <span class="comment">/* 1: unlocked, 0: locked, negative: locked, possible waiters */</span></span><br><span class="line">  <span class="keyword">atomic_t</span>                count;<span class="comment">//指示互斥锁的状态,1没有上锁，可以获得，0/负数 被锁定，默认为1</span></span><br><span class="line">  <span class="keyword">spinlock_t</span>              wait_lock;<span class="comment">//等待获取互斥锁中使用的自旋锁。在获取互斥锁的过程中，操作会在自旋锁的保护中进行。初始化为为锁定。</span></span><br><span class="line">  <span class="class"><span class="keyword">struct</span> <span class="title">list_head</span>        <span class="title">wait_list</span>;</span><span class="comment">//等待互斥锁的进程队列</span></span><br><span class="line"></span><br><span class="line">  <span class="meta">#<span class="meta-keyword">ifdef</span> CONFIG_DEBUG_MUTEXES</span></span><br><span class="line">      <span class="class"><span class="keyword">struct</span> <span class="title">thread_info</span>      *<span class="title">owner</span>;</span></span><br><span class="line">      <span class="keyword">const</span> <span class="keyword">char</span>              *name;</span><br><span class="line">      <span class="keyword">void</span>                    *magic;</span><br><span class="line">  <span class="meta">#<span class="meta-keyword">endif</span></span></span><br><span class="line">  <span class="meta">#<span class="meta-keyword">ifdef</span> CONFIG_DEBUG_LOCK_ALLOC</span></span><br><span class="line">      <span class="class"><span class="keyword">struct</span> <span class="title">lockdep_map</span>      <span class="title">dep_map</span>;</span></span><br><span class="line"> <span class="meta">#<span class="meta-keyword">endif</span></span></span><br><span class="line"> &#125;;</span><br></pre></td></tr></table></figure>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/* /linux/include/linux/mutex.h */</span> </span><br><span class="line"><span class="class"><span class="keyword">struct</span> <span class="title">mutex</span> &#123;</span></span><br><span class="line">  <span class="comment">/* 1: unlocked, 0: locked, negative: locked, possible waiters */</span></span><br><span class="line">    </span><br><span class="line">  <span class="comment">//指示互斥锁的状态,1没有上锁，可以获得，0/负数 被锁定，默认为1</span></span><br><span class="line">  <span class="keyword">atomic_t</span>                count;</span><br><span class="line">  <span class="comment">//等待获取互斥锁中使用的自旋锁。在获取互斥锁的过程中，操作会在自旋锁的保护中进行。初始化为为锁定。</span></span><br><span class="line">  <span class="keyword">spinlock_t</span>              wait_lock;</span><br><span class="line">  <span class="comment">//等待互斥锁的进程队列</span></span><br><span class="line">  <span class="class"><span class="keyword">struct</span> <span class="title">list_head</span>        <span class="title">wait_list</span>;</span></span><br><span class="line"></span><br><span class="line">  <span class="meta">#<span class="meta-keyword">ifdef</span> CONFIG_DEBUG_MUTEXES</span></span><br><span class="line">      <span class="class"><span class="keyword">struct</span> <span class="title">thread_info</span>      *<span class="title">owner</span>;</span></span><br><span class="line">      <span class="keyword">const</span> <span class="keyword">char</span>              *name;</span><br><span class="line">      <span class="keyword">void</span>                    *magic;</span><br><span class="line">  <span class="meta">#<span class="meta-keyword">endif</span></span></span><br><span class="line">  <span class="meta">#<span class="meta-keyword">ifdef</span> CONFIG_DEBUG_LOCK_ALLOC</span></span><br><span class="line">      <span class="class"><span class="keyword">struct</span> <span class="title">lockdep_map</span>      <span class="title">dep_map</span>;</span></span><br><span class="line"> <span class="meta">#<span class="meta-keyword">endif</span></span></span><br><span class="line"> &#125;;</span><br></pre></td></tr></table></figure>
 </li>
 <li><p>synchronized有三种方式来加锁</p>
 </li>
@@ -407,12 +421,13 @@
 <p>CAS原理及应用即是无锁的实现。无锁无法全面代替有锁，但无锁在某些场合下的性能是非常高的。</p>
 </blockquote>
 <h4 id="偏向锁"><a href="#偏向锁" class="headerlink" title="偏向锁"></a>偏向锁</h4><ul>
-<li><p>偏向锁是指一段同步代码一直被一个线程所访问，那么该线程会自动获取锁，降低获取锁的代价。</p>
+<li>偏向锁是指一段同步代码一直被一个线程所访问，那么该线程会自动获取锁，降低获取锁的代价。</li>
+</ul>
 <blockquote>
 <p>当1个线程执行到同步代码时，会执行一次CAS操作（比较MarkWord和LockRecord）来尝试获取锁，获取成功时会把ThreadId写入MarkWord。后续这个线程进入和退出这段加了同步锁的代码块时，<code>不需要再次加锁和释放锁</code>,而是直接比较对象头里面是否存储了指向当前线程的偏向锁。如果相等表示偏向锁是偏向于当前线程的，就不需要再尝试获得锁了。</p>
 </blockquote>
-</li>
-<li><p>引入偏向锁是为了在无多线程竞争的情况下尽量<code>减少不必要的轻量级锁执行路径</code>，因为轻量级锁的获取及释放依赖多次CAS原子指令，而偏向锁只需要在置换ThreadID的时候依赖<code>一次CAS原子指令</code>即可。</p>
+<ul>
+<li><p>引入偏向锁是为了在无多线程竞争的情况下尽量<code>减少不必要的轻量级锁执行路径</code>，因为轻量级锁的获取及释放依赖多次CAS原子指令，而偏向锁只需要在置换ThreadId的时候依赖<code>一次CAS原子指令</code>即可。</p>
 </li>
 <li><p>偏向锁只有遇到其他线程尝试竞争偏向锁时，持有偏向锁的线程才会释放锁，线程不会主动释放偏向锁。</p>
 </li>
@@ -468,7 +483,9 @@
 <h3 id="优点"><a href="#优点" class="headerlink" title="优点"></a>优点</h3><ul>
 <li>默认为非公平是锁，性能好；</li>
 <li>关键词形式使用简单，不需要手动释放锁；</li>
-<li>支持可重入；<h3 id="缺点"><a href="#缺点" class="headerlink" title="缺点"></a>缺点</h3></li>
+<li>支持可重入；</li>
+</ul>
+<h3 id="缺点"><a href="#缺点" class="headerlink" title="缺点"></a>缺点</h3><ul>
 <li>不支持公平锁；</li>
 <li>当多个线程尝试获取锁时，未获取到锁的线程不能外部中断，造成性能消耗；</li>
 <li>在资源竞争不是很激烈的情况下，Synchronized的性能要优于ReetrantLock，但是在资源竞争很激烈的情况下，Synchronized的性能会下降几十倍，但是ReetrantLock的性能能维持常态；</li>
@@ -476,9 +493,111 @@
 <h2 id="适用场景"><a href="#适用场景" class="headerlink" title="适用场景"></a>适用场景</h2><p>sychronized是悲观锁，悲观锁适合写操作多的场景，先加锁可以保证写操作时数据正确。</p>
 <h2 id="使用案例"><a href="#使用案例" class="headerlink" title="使用案例"></a>使用案例</h2><ul>
 <li>HashTable,Vector都是直接使用sychronized关键词实现线程安全；</li>
-<li></li>
 </ul>
-<h1 id="volatile关键字"><a href="#volatile关键字" class="headerlink" title="volatile关键字"></a>volatile关键字</h1><h2 id="实现原理-1"><a href="#实现原理-1" class="headerlink" title="实现原理"></a>实现原理</h2><h2 id="优缺点-1"><a href="#优缺点-1" class="headerlink" title="优缺点"></a>优缺点</h2><h2 id="适用场景-1"><a href="#适用场景-1" class="headerlink" title="适用场景"></a>适用场景</h2><h2 id="使用案例-1"><a href="#使用案例-1" class="headerlink" title="使用案例"></a>使用案例</h2><h1 id="ReentranLock可重入锁"><a href="#ReentranLock可重入锁" class="headerlink" title="ReentranLock可重入锁"></a>ReentranLock可重入锁</h1><h1 id="ReentranReadWriteLock可重入读写锁"><a href="#ReentranReadWriteLock可重入读写锁" class="headerlink" title="ReentranReadWriteLock可重入读写锁"></a>ReentranReadWriteLock可重入读写锁</h1><h1 id="CountDownLatch-递减锁"><a href="#CountDownLatch-递减锁" class="headerlink" title="CountDownLatch 递减锁"></a>CountDownLatch 递减锁</h1><h1 id="CyclicBarrier-递增锁"><a href="#CyclicBarrier-递增锁" class="headerlink" title="CyclicBarrier 递增锁"></a>CyclicBarrier 递增锁</h1><h1 id="Semaphoe-信号量"><a href="#Semaphoe-信号量" class="headerlink" title="Semaphoe 信号量"></a>Semaphoe 信号量</h1><h1 id="SpinLock自旋锁"><a href="#SpinLock自旋锁" class="headerlink" title="SpinLock自旋锁"></a>SpinLock自旋锁</h1><h1 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h1><ul>
+<h1 id="volatile关键字"><a href="#volatile关键字" class="headerlink" title="volatile关键字"></a>volatile关键字</h1><p>volatile是Java虚拟机提供的轻量级同步机制</p>
+<h2 id="实现原理-1"><a href="#实现原理-1" class="headerlink" title="实现原理"></a>实现原理</h2><ol>
+<li>保证可见性<br>一种通知机制，一个线程修改工作内存并同步到主内存后，同时确保其他线程的工作内存也修改完成；<br>volatile实现内存可见性是通过store和load指令完成的；</li>
+</ol>
+<ul>
+<li>volatile变量进行写操作时：在写操作后加入一条store命令， 将工作内存中的共享变量值刷回到主内存；</li>
+<li>volatile变量进行读操作时：在读操作前加入一条load命令， 从主内存中读取共享变量；</li>
+</ul>
+<ol>
+<li>不保证原子性<br>volatile不保证原子性和JMM的实现原理有关。</li>
+</ol>
+<p>在多线程运行环境下，因为存在线程切换，如果volatile变量不上锁，变量的工作内存和主内存的值是不能保证是一致的，<br>可能在当前线程执行store操作的时候，别的线程已经执行过load&amp;store了，那么这个时候就会发生值值覆盖（线程不安全）；</p>
+<ol>
+<li>禁止指令重排<br>内存屏障（Memory Barrier），一种CPU指令；<br>通过插入内存屏障<code>禁止在内存屏障的前后执行指令重排优化</code>，保证特定操作的执行顺序，保证某些变量的内存可见性；</li>
+</ol>
+<h2 id="优缺点-1"><a href="#优缺点-1" class="headerlink" title="优缺点"></a>优缺点</h2><h3 id="优点-1"><a href="#优点-1" class="headerlink" title="优点"></a>优点</h3><ul>
+<li>轻量级锁，损耗低</li>
+<li>保证可见性和有序性</li>
+</ul>
+<h3 id="缺点-1"><a href="#缺点-1" class="headerlink" title="缺点"></a>缺点</h3><ul>
+<li>volatile只能作用于变量层次，无法作用语句层次（加锁等确保）</li>
+<li>不能保证原子性（线程安全）</li>
+<li>频繁更改、改变或写入volatile字段有可能导致性能为题。（volatile字段未修改时，读取没有性能问题的）</li>
+</ul>
+<h2 id="适用场景-1"><a href="#适用场景-1" class="headerlink" title="适用场景"></a>适用场景</h2><ul>
+<li>volatile不能修饰<code>写入操作依赖当前值的变量</code>。声明为volatile的简单变量如果当前值与该变量以前的值相关，那么volatile关键字不起作用，也就是说如下的表达式都不是原子操作：“count++”、“count = count+1”;</li>
+<li>状态标识：volatile适合幂等操作，比如设置状态，不管别的线程设置为多少，以当前线程设置的值为准，覆盖不影响业务逻辑;</li>
+<li>一次性安全发布：在缺乏同步的情况下，可能会遇到某个对象引用的更新值（由另一个线程写入）和该对象状态的旧值同时存在。这就是造成著名的<code>双重检查锁定</code>（double-checked-locking）问题的根源，其中对象引用在没有同步的情况下进行<code>读</code>操作，产生的问题是可能会看到一个更新的引用，但是仍然会通过该引用看到不完全构造的对象。</li>
+</ul>
+<blockquote>
+<p>Lazy单例模式的DCL实现<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">VolatileTest</span> </span>&#123;</span><br><span class="line">    <span class="comment">//volatile标识可见性</span></span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">volatile</span> VolatileTest instance = <span class="keyword">null</span>;</span><br><span class="line"></span><br><span class="line">    <span class="comment">//DLC双重检查加锁实现</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> VolatileTest <span class="title">getInstance</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="comment">//其他线程可能更改instance</span></span><br><span class="line">        <span class="keyword">if</span> (instance == <span class="keyword">null</span>) &#123;</span><br><span class="line">            <span class="keyword">synchronized</span> (VolatileTest<span class="class">.<span class="keyword">class</span>) </span>&#123;</span><br><span class="line">                <span class="comment">//其他线程可能在上锁前更改instance</span></span><br><span class="line">                <span class="keyword">if</span> (instance == <span class="keyword">null</span>) &#123;</span><br><span class="line">                    instance = <span class="keyword">new</span> VolatileTest();</span><br><span class="line">                    <span class="comment">//此时如果instance没有设置volatile保证有序性，其他线程可能读取到一个部分构造的对象</span></span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> instance;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>DLC代码过于复杂，可以采用延迟初始化占位（Holder）类模式实现<code>final class InstanceHolder</code>解决单例初始化问题更优，且不需要同步锁的损耗；<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">VolatileTest</span> </span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">private</span> <span class="title">VolatileTest</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="comment">//延迟初始化实现:内部静态类只有在调用时才会加载</span></span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">final</span> <span class="class"><span class="keyword">class</span> <span class="title">InstanceHolder</span> </span>&#123;</span><br><span class="line">        <span class="function"><span class="keyword">private</span> <span class="title">InstanceHolder</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="comment">//JVM在类的初始化阶段给出的线程安全性保证</span></span><br><span class="line">        <span class="keyword">static</span> <span class="keyword">final</span> VolatileTest instance = <span class="keyword">new</span> VolatileTest();</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="comment">//公有实例化方法</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> VolatileTest <span class="title">getInstance</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> InstanceHolder.instance;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+</blockquote>
+<h2 id="使用案例-1"><a href="#使用案例-1" class="headerlink" title="使用案例"></a>使用案例</h2><ul>
+<li>volatile可配合Unsafe类实现CAS后保证当前工作内存的变量的实时性;</li>
+<li>ConcurrentHashMap中通过<code>volatile</code>来保证hash表数据的可见性：<code>transient volatile Node&lt;K,V&gt;[] table</code>；</li>
+</ul>
+<h1 id="ReentranLock可重入锁"><a href="#ReentranLock可重入锁" class="headerlink" title="ReentranLock可重入锁"></a>ReentranLock可重入锁</h1><blockquote>
+<p>关键词：互斥锁、可重入锁、公平锁/非公平锁<br>ReentrantLock意思为可重入锁，指的是一个线程能够对一个临界资源重复加锁。</p>
+</blockquote>
+<h2 id="实现原理-2"><a href="#实现原理-2" class="headerlink" title="实现原理"></a>实现原理</h2><p><img src="ReentrantLock_classmap.jpg" alt="ReentrantLock_类图"><br>ReentrantLock基于AQS中的互斥锁实现;</p>
+<blockquote>
+<p>Java中的大部分同步类（Lock、Semaphore、ReentrantLock等）都是基于AbstractQueuedSynchronizer（简称为AQS）实现的。<br>AQS是一种提供了原子式管理同步状态、阻塞和唤醒线程功能以及队列模型的简单框架。</p>
+<p>todo 后面另起章节解说juc.locks源码</p>
+</blockquote>
+<h2 id="优缺点-2"><a href="#优缺点-2" class="headerlink" title="优缺点"></a>优缺点</h2><h3 id="优点-2"><a href="#优点-2" class="headerlink" title="优点"></a>优点</h3><ul>
+<li>ReentrantLock支持可重入；</li>
+<li>ReentrantLock支持指定时间中断/外部中断；</li>
+<li>ReentrantLock支持非公平/公平锁（构造函数）；</li>
+<li>ReentrantLock支持线程的精确唤醒（Condtion）；</li>
+<li>ReentrantLock支持查看锁的状态，锁是否被锁上了；</li>
+<li>ReentrantLock支持查看当前有多少线程在等待锁；</li>
+</ul>
+<h3 id="缺点-2"><a href="#缺点-2" class="headerlink" title="缺点"></a>缺点</h3><ul>
+<li><p>ReentrantLock语法比sychronized繁琐，相比synchronized可以减少嵌套；</p>
+<p>ReentrantLock使用比sychronized繁琐，不能像sychronized可以直接修饰方法来加锁；</p>
+</li>
+<li><p>ReentrantLock需要手动释放锁；</p>
+</li>
+</ul>
+<h2 id="适用场景-2"><a href="#适用场景-2" class="headerlink" title="适用场景"></a>适用场景</h2><ul>
+<li><p>在需要时间锁等候、可中断锁等候、无块结构锁、多个条件变量或者轮询锁时，采用ReentrantLock ；</p>
+</li>
+<li><p>在资源竞争非常激烈的情况下，synchronized的性能一下子能下降好几十倍，而ReentrantLock确还能维持常态；在资源竞争不是很激烈的情况下，偶尔会有同步的情形下，synchronized是很合适的，因为在资源竞争不激烈的情形下，ReentrantLock性能稍微比synchronized差点点；</p>
+</li>
+<li><p>ReentrantLock 具有可伸缩性的好处，应当在高度竞争的情况下使用它，但是大多数 synchronized 块几乎从来没有出现过争用，所以可以把高度争用放在一边。</p>
+<blockquote>
+<p>建议首先考虑 synchronized ，直到确实证明 synchronized 不合适再考虑ReentrantLock。</p>
+</blockquote>
+</li>
+</ul>
+<h2 id="使用案例-2"><a href="#使用案例-2" class="headerlink" title="使用案例"></a>使用案例</h2><ul>
+<li><code>ArrayBlockingQueue</code>中用ReentrantLock来控制队列的读写安全；</li>
+<li><code>LinkedBlockingQueue</code>中用ReentrantLock来控制队列的读写安全，有takeLock，putLock2把锁，notEmpty，notFull2个Condition来实现队列put和take的阻塞；</li>
+<li><code>CopyOnWriteArrayList</code>利于ReentrantLock来包含数组的更新操作；</li>
+</ul>
+<h1 id="ReentranReadWriteLock可重入读写锁"><a href="#ReentranReadWriteLock可重入读写锁" class="headerlink" title="ReentranReadWriteLock可重入读写锁"></a>ReentranReadWriteLock可重入读写锁</h1><p>ReentranReadWriteLock提供了readLock和writeLock两种锁的操作机制，一个资源可以被多个线程同时读，或者被一个线程写，但是不能同时存在读和写线程。</p>
+<p><code>读锁</code>可以共享，多个线程可以同时拥有读锁，类似于MySQL的共享锁（S锁）；</p>
+<p><code>写锁</code>却只能只有一个线程拥有，而且获取写锁的时候，其他线程都已经释放了读锁，而且在该线程获取写锁之后，其他线程不能再获取读锁，类似于MySQL的互斥锁（X锁）。</p>
+<h2 id="实现原理-3"><a href="#实现原理-3" class="headerlink" title="实现原理"></a>实现原理</h2><p><img src="ReentrantLock_classmap.jpg" alt="ReentranReadWriteLock_类图"></p>
+<p>实现原理与ReentrantLock一样，都是基于AQS实现；</p>
+<blockquote>
+<p>todo 后续补充源码解析</p>
+<p>注意点</p>
+</blockquote>
+<ul>
+<li><code>读锁离开了写锁就没有了意义</code>：如果有一线程在读取数据时，此时恰好有另一线程，正以写锁的方式在修改该数据，此时读取数据的线程如果加了读锁，将被阻塞，直到另一线程的写锁被释放才能继续读，而如果读取数据的线程未加读锁，那么它的读将不被阻塞，就有可能读入被修改前的数据；</li>
+<li><code>重入</code>：此锁允许 reader 和 writer 按照 ReentrantLock的方式重新获取读取锁或写入锁。在写入线程保持的所有写入锁都已经释放后，才允许重入 reader 使用它们。此外，writer 可以获取读取锁，但反过来则不成立；</li>
+<li><code>锁降级</code>：重入还允许从写锁降级为读锁，其实现方式是：先获取写锁，然后获取读锁，最后释放写锁。但<code>从读锁升级到写锁是不可能的</code>；</li>
+</ul>
+<h2 id="优缺点-3"><a href="#优缺点-3" class="headerlink" title="优缺点"></a>优缺点</h2><h3 id="优点-3"><a href="#优点-3" class="headerlink" title="优点"></a>优点</h3><ul>
+<li>在某些读远远大于写的场景中，读写锁能够提供比排它锁<code>更好的并发量和吞吐量</code>：与之前的互斥锁（同一时刻只允许一个线程进行访问）相比，读写锁维护了一对锁，一个读锁，一个写锁。读写锁在同一时刻允许多个线程进行读操作，但是写线程访问过程中，所有的读线程和其他写线程均被阻塞。如此，并发性有了很大的提升。</li>
+<li><strong>公平性选择</strong>：支持非公平性（默认）和公平的锁获取方式，吞吐量还是非公平优于公平；</li>
+<li><strong>重入性</strong>：支持重入，读锁获取后能再次获取，写锁获取之后能够再次获取写锁，同时也能够获取读锁；</li>
+<li><strong>锁降级</strong>：遵循获取写锁，获取读锁再释放写锁的次序，写锁能够降级成为读锁；</li>
+</ul>
+<h3 id="缺点-3"><a href="#缺点-3" class="headerlink" title="缺点"></a>缺点</h3><p>同ReentranLock的缺点</p>
+<h2 id="适用场景-3"><a href="#适用场景-3" class="headerlink" title="适用场景"></a>适用场景</h2><ul>
+<li>读多写少的情况下可以使用ReentrantReadWriteLock获得比更高的并发性能；</li>
+</ul>
+<h2 id="使用案例-3"><a href="#使用案例-3" class="headerlink" title="使用案例"></a>使用案例</h2><ul>
+<li><code>javax.swing.plaf.nimbus.ImageCache</code>使用<code>ReentrantReadWriteLock</code>来控制缓存<code>LinkedHashMap</code>对象的并发访问；</li>
+</ul>
+<h1 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h1><ul>
 <li><a href="">《深入理解Java虚拟机-JVM高级特性与最佳实践》</a></li>
 <li><a href="https://blog.csdn.net/godleading/article/details/78259842">Linux内核中的各种锁</a></li>
 </ul>
@@ -563,7 +682,7 @@
 
       <!--noindex-->
       <div class="post-toc-wrap sidebar-panel">
-          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#日常生活中的锁"><span class="nav-number">1.</span> <span class="nav-text">日常生活中的锁</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#硬件中的锁"><span class="nav-number">2.</span> <span class="nav-text">硬件中的锁</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#操作系统中的锁"><span class="nav-number">3.</span> <span class="nav-text">操作系统中的锁</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Java中的锁"><span class="nav-number">4.</span> <span class="nav-text">Java中的锁</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#Java内存模型"><span class="nav-number">4.1.</span> <span class="nav-text">Java内存模型</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#sychronized关键字"><span class="nav-number">5.</span> <span class="nav-text">sychronized关键字</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#实现原理"><span class="nav-number">5.1.</span> <span class="nav-text">实现原理</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#对象头"><span class="nav-number">5.1.1.</span> <span class="nav-text">对象头</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#sychronized锁的升级过程"><span class="nav-number">5.1.2.</span> <span class="nav-text">sychronized锁的升级过程</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#无锁"><span class="nav-number">5.1.2.1.</span> <span class="nav-text">无锁</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#偏向锁"><span class="nav-number">5.1.2.2.</span> <span class="nav-text">偏向锁</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#轻量级锁"><span class="nav-number">5.1.2.3.</span> <span class="nav-text">轻量级锁</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#重量级锁"><span class="nav-number">5.1.2.4.</span> <span class="nav-text">重量级锁</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#优缺点"><span class="nav-number">5.2.</span> <span class="nav-text">优缺点</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#优点"><span class="nav-number">5.2.1.</span> <span class="nav-text">优点</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#缺点"><span class="nav-number">5.2.2.</span> <span class="nav-text">缺点</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#适用场景"><span class="nav-number">5.3.</span> <span class="nav-text">适用场景</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#使用案例"><span class="nav-number">5.4.</span> <span class="nav-text">使用案例</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#volatile关键字"><span class="nav-number">6.</span> <span class="nav-text">volatile关键字</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#实现原理-1"><span class="nav-number">6.1.</span> <span class="nav-text">实现原理</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#优缺点-1"><span class="nav-number">6.2.</span> <span class="nav-text">优缺点</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#适用场景-1"><span class="nav-number">6.3.</span> <span class="nav-text">适用场景</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#使用案例-1"><span class="nav-number">6.4.</span> <span class="nav-text">使用案例</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#ReentranLock可重入锁"><span class="nav-number">7.</span> <span class="nav-text">ReentranLock可重入锁</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#ReentranReadWriteLock可重入读写锁"><span class="nav-number">8.</span> <span class="nav-text">ReentranReadWriteLock可重入读写锁</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#CountDownLatch-递减锁"><span class="nav-number">9.</span> <span class="nav-text">CountDownLatch 递减锁</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#CyclicBarrier-递增锁"><span class="nav-number">10.</span> <span class="nav-text">CyclicBarrier 递增锁</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Semaphoe-信号量"><span class="nav-number">11.</span> <span class="nav-text">Semaphoe 信号量</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#SpinLock自旋锁"><span class="nav-number">12.</span> <span class="nav-text">SpinLock自旋锁</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#参考"><span class="nav-number">13.</span> <span class="nav-text">参考</span></a></li></ol></div>
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#日常生活中的锁"><span class="nav-number">1.</span> <span class="nav-text">日常生活中的锁</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#硬件中的锁"><span class="nav-number">2.</span> <span class="nav-text">硬件中的锁</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#操作系统中的锁"><span class="nav-number">3.</span> <span class="nav-text">操作系统中的锁</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Java中的锁"><span class="nav-number">4.</span> <span class="nav-text">Java中的锁</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#Java内存模型"><span class="nav-number">4.1.</span> <span class="nav-text">Java内存模型</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#sychronized关键字"><span class="nav-number">5.</span> <span class="nav-text">sychronized关键字</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#实现原理"><span class="nav-number">5.1.</span> <span class="nav-text">实现原理</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#对象头"><span class="nav-number">5.1.1.</span> <span class="nav-text">对象头</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#sychronized锁的升级过程"><span class="nav-number">5.1.2.</span> <span class="nav-text">sychronized锁的升级过程</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#无锁"><span class="nav-number">5.1.2.1.</span> <span class="nav-text">无锁</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#偏向锁"><span class="nav-number">5.1.2.2.</span> <span class="nav-text">偏向锁</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#轻量级锁"><span class="nav-number">5.1.2.3.</span> <span class="nav-text">轻量级锁</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#重量级锁"><span class="nav-number">5.1.2.4.</span> <span class="nav-text">重量级锁</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#优缺点"><span class="nav-number">5.2.</span> <span class="nav-text">优缺点</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#优点"><span class="nav-number">5.2.1.</span> <span class="nav-text">优点</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#缺点"><span class="nav-number">5.2.2.</span> <span class="nav-text">缺点</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#适用场景"><span class="nav-number">5.3.</span> <span class="nav-text">适用场景</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#使用案例"><span class="nav-number">5.4.</span> <span class="nav-text">使用案例</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#volatile关键字"><span class="nav-number">6.</span> <span class="nav-text">volatile关键字</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#实现原理-1"><span class="nav-number">6.1.</span> <span class="nav-text">实现原理</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#优缺点-1"><span class="nav-number">6.2.</span> <span class="nav-text">优缺点</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#优点-1"><span class="nav-number">6.2.1.</span> <span class="nav-text">优点</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#缺点-1"><span class="nav-number">6.2.2.</span> <span class="nav-text">缺点</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#适用场景-1"><span class="nav-number">6.3.</span> <span class="nav-text">适用场景</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#使用案例-1"><span class="nav-number">6.4.</span> <span class="nav-text">使用案例</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#ReentranLock可重入锁"><span class="nav-number">7.</span> <span class="nav-text">ReentranLock可重入锁</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#实现原理-2"><span class="nav-number">7.1.</span> <span class="nav-text">实现原理</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#优缺点-2"><span class="nav-number">7.2.</span> <span class="nav-text">优缺点</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#优点-2"><span class="nav-number">7.2.1.</span> <span class="nav-text">优点</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#缺点-2"><span class="nav-number">7.2.2.</span> <span class="nav-text">缺点</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#适用场景-2"><span class="nav-number">7.3.</span> <span class="nav-text">适用场景</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#使用案例-2"><span class="nav-number">7.4.</span> <span class="nav-text">使用案例</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#ReentranReadWriteLock可重入读写锁"><span class="nav-number">8.</span> <span class="nav-text">ReentranReadWriteLock可重入读写锁</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#实现原理-3"><span class="nav-number">8.1.</span> <span class="nav-text">实现原理</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#优缺点-3"><span class="nav-number">8.2.</span> <span class="nav-text">优缺点</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#优点-3"><span class="nav-number">8.2.1.</span> <span class="nav-text">优点</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#缺点-3"><span class="nav-number">8.2.2.</span> <span class="nav-text">缺点</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#适用场景-3"><span class="nav-number">8.3.</span> <span class="nav-text">适用场景</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#使用案例-3"><span class="nav-number">8.4.</span> <span class="nav-text">使用案例</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#参考"><span class="nav-number">9.</span> <span class="nav-text">参考</span></a></li></ol></div>
       </div>
       <!--/noindex-->
 
