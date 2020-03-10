@@ -5,7 +5,7 @@
     
   <url>
     <loc>http://geosmart.github.io/2019/10/10/JDK-PriorityBlockingQueue%E5%8E%9F%E7%90%86/</loc>
-    <lastmod>2020-03-10T00:46:13.045Z</lastmod>
+    <lastmod>2020-03-10T09:59:25.327Z</lastmod>
     <data>
         <display>
         <title>JDK-PriorityBlockingQueue原理</title>
@@ -25,10 +25,10 @@
     
   <url>
     <loc>http://geosmart.github.io/2020/02/06/2020-2-%E6%B5%85%E6%9E%90Java%E4%B8%AD%E7%9A%84%E9%94%81/</loc>
-    <lastmod>2020-03-09T14:42:10.352Z</lastmod>
+    <lastmod>2020-03-10T09:59:01.831Z</lastmod>
     <data>
         <display>
-        <title>一文搞懂Java中的锁</title>
+        <title>浅析Java中的锁</title>
         <pubTime>2020-02-05T16:00:00.000Z</pubTime>
         
         <tag>Java</tag>
