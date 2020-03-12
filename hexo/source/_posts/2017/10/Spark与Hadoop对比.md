@@ -1,8 +1,8 @@
 ---
 title: Spark与Hadoop对比
 date: 2017-10-12
-tags: [Spark]
-categories: 系统设计
+tags: [Spark,Hadoop]
+categories: 大数据
 ---
 
 整理Hadoop和Spark的设计理念，组成模块，集群架构，应用场景；
@@ -10,12 +10,10 @@ Spark生态齐全，从数据系统Lambda架构的角度，更具优势
 - - -
 <!--more-->
 
-Spark与Hadoop对比
----
-
 # Hadoop
-Hadoop解决了什么问题？
-Hadoop解决了大数据（大到一台计算机无法进行存储，一台计算机无法在要求的时间内进行处理）的可靠存储和处理。
+>Hadoop解决了什么问题？
+
+Hadoop解决了大数据（大到一台计算机无法进行存储，一台计算机无法在要求的时间内完成处理）的可靠存储和计算问题。
 
 ## Hadoop组件
 ![Hadoop-Ecosystem](Hadoop-Ecosystem.png)
@@ -59,17 +57,20 @@ Apache Spark是一个新兴的大数据处理的引擎，主要特点是提供�
 ![Spark-Stack](Spark-Stack.png)
 
 ## RDD（Resilient Distributed Datasets）
-Spark提供了RDD上的两类操作，转换和动作。
-* 转换是用来定义一个新的RDD，包括map, flatMap, filter, union, sample, join, groupByKey, cogroup, ReduceByKey, cros, sortByKey, mapValues等，
-* 动作是返回一个结果，包括collect, reduce, count, save, lookupKey。
+Spark提供了RDD上的两类操作，转换（transformation）和动作（action）。
+* 转换：用来定义一个新的RDD，包括map, flatMap, filter, union, sample, join, groupByKey, cogroup, ReduceByKey, cros, sortByKey, mapValues等，
+* 动作：返回一个结果，包括collect, reduce, count, save, lookupKey。
 
 RDD就是一个分布式的数据集合（Collection），对这个集合的任何操作都可以像函数式编程中操作内存中的集合一样直观、简便，但集合操作的实现确是在后台分解成一系列Task发送到几十台上百台服务器组成的集群上完成的。
+
+>RDD（弹性分布式数据集）如何理解？
+
 
 >如果说，`MapReduce`是公认的分布式数据处理的低层次抽象，类似逻辑门电路中的与门，或门和非门；
 那么Spark的`RDD`就是分布式大数据处理的高层次抽象，类似逻辑电路中的编码器或译码器等。
 
 ## DAG（Directed Acyclic Graph）
-在Spark中，所有RDD的转换都是是`惰性`求值的。
+在Spark中，所有RDD的转换都是是`Lazy（惰性）`求值的。
 RDD的转换操作会生成新的RDD，新的RDD的数据依赖于原来的RDD的数据，每个RDD又包含多个分区。
 那么一段程序实际上就构造了一个由相互依赖的多个RDD组成的有向无环图（DAG），并通过在RDD上执行动作将这个`有向无环图作为一个Job`提交给Spark执行。
 Spark对于有向无环图Job进行调度，确定`阶段（Stage），分区（Partition），流水线（Pipeline），任务（Task）和缓存（Cache）`，进行优化，并在Spark集群上运行Job。
@@ -115,6 +116,7 @@ Lambda Architecture是一个大数据处理平台的参考模型，如下图所�
 [Spark Lambda Architecture](https://mapr.com/developercentral/lambda-architecture/)
 其中包含3层，Batch Layer，Speed Layer和Serving Layer，由于Batch Layer和Speed Layer的数据处理逻辑是一致的，如果用Hadoop作为Batch Layer，而用Storm作为Speed Layer，你需要维护两份使用不同技术的代码。
 而Spark可以作为Lambda Architecture一体化的解决方案,大致如下：
+
 * Batch Layer批处理层，`HDFS+Spark Core`，将实时的增量数据追加到HDFS中，使用Spark Core批量处理全量数据，生成全量数据的视图；
 * Speed Layer实时处理层，`Spark Streaming`来处理实时的增量数据，以较低的时延生成实时数据的视图；
 * Serving Layer服务层，`HDFS+Spark SQL`（也许还有BlinkDB），存储Batch Layer和Speed Layer输出的视图，提供低时延的即席查询功能，将批量数据的视图与实时数据的视图合并；

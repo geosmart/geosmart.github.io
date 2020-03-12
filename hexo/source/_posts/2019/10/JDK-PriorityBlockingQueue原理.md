@@ -5,15 +5,17 @@ tags: [JVM]
 categories: 后端技术
 ---
 
->研究了[PriorityQueue原理](https://github.com/geosmart/geosmart.io/issues/12)，知道JDK源码怎么实现的优先队列，这次是要搞清`PriorityBlockingQueue`阻塞优先队列如何实现；
+研究了[PriorityQueue原理](https://github.com/geosmart/geosmart.io/issues/12)，知道JDK源码怎么实现的优先队列，这次是要搞清`PriorityBlockingQueue`阻塞优先队列是如何实现的；
 
-> 从PriorityBlockingQueue的`概念，结构，参数，源码解析（offer,poll,remove,add,grow），性能，线程安全性，使用场景，常见问题`8个方面进行分析。
+本文从PriorityBlockingQueue的`概念，结构，参数，源码解析（offer,poll,remove,add,grow），性能，线程安全性，使用场景，常见问题`8个方面进行分析。
 
->关键点：与PriorityQueue一样的排序规则，无界队列，实现Queue,Collection,Iterator接口、不允许null键/值、提供阻塞操作、线程安全、不保证队列内元素的顺序；
+关键点：与PriorityQueue一样的排序规则，无界队列，实现Queue,Collection,Iterator接口、不允许null键/值、提供阻塞操作、线程安全、不保证队列内元素的顺序；
 
 <!-- more --> 
+
 # 概念
-> An unbounded BlockingQueue blocking queue that uses the `same ordering rules as class PriorityQueue` and supplies `blocking retrieval operations`.  
+An unbounded BlockingQueue blocking queue that uses the `same ordering rules as class PriorityQueue` and supplies `blocking retrieval operations`.  
+
 * While this queue is logically unbounded, attempted additions may fail due to resource exhaustion (causing OutOfMemoryError). 
 * This class does not permit null elements.  
 * A priority queue relying on `Comparable natural ordering` also does not permit insertion of `non-comparable` objects (doing so results in ClassCastException).
@@ -22,8 +24,7 @@ categories: 后端技术
 * Operations on this class make `no guarantees` about the `ordering` of elements with `equal priority`. 
 If you need to enforce an ordering, you can define custom classes or comparators that use a secondary key to break ties in primary priority values. 
 
-For example, here is a class that applies `first-in-first-out` tie-breaking to comparable elements. To use it, you would insert a
- `new FIFOEntry(anEntry)` instead of a plain entry object.
+For example, here is a class that applies `first-in-first-out` tie-breaking to comparable elements. To use it, you would insert a  `new FIFOEntry(anEntry)` instead of a plain entry object.
 
  ```java
  class FIFOEntry<E extends Comparable<? super E>>  implements Comparable<FIFOEntry<E>> {
@@ -45,19 +46,18 @@ For example, here is a class that applies `first-in-first-out` tie-breaking to c
     }
  }}
  ```
- * This class is a member of the Java Collections Framework
+* This class is a member of the Java Collections Framework
 
+# 结构
+基于二叉堆实现，参考[JDK-PriorityQueue原理]()
 
 >PriorityQueue的类关系
 
-![priority_queue_hier](https://raw.githubusercontent.com/geosmart/geosmart.io/master/blog/img/priority_blocking_queue_hier.png)
+![priority_queue_hier](priority_blocking_queue_hier.png)
 
 >PriorityQueue的类成员
 
-![priority_queue_class](https://raw.githubusercontent.com/geosmart/geosmart.io/master/blog/img/priority_blocking_queue_class.png)
-
-# 结构
-二叉堆实现，参考[PriorityQueue](https://github.com/geosmart/geosmart.io/blob/master/blog/JDK-PriorityQueue%E5%8E%9F%E7%90%86.md)
+![priority_queue_class](priority_blocking_queue_class.png)
 
 # 参数
 * `int.initialCapacity`：初始化容量，默认为`11`；
@@ -66,11 +66,10 @@ For example, here is a class that applies `first-in-first-out` tie-breaking to c
 * `ReentrantLock.lock`:用于所有public方法操作的加锁；
 * `Condition.notEmpty`:用于阻塞对空队列的操作；
 * `int.allocationSpinLock`: 队列扩容时用于CAS；
-* `PriorityQueue.q`：用PriorityQueue进行序列化和反序列化；
-
+* `PriorityQueue.queue`：用PriorityQueue进行序列化和反序列化；
 * 构造函数：新建1个空的队列；
-```java
 
+```java
     public PriorityBlockingQueue(int initialCapacity,Comparator<? super E> comparator) {
         if (initialCapacity < 1)
             throw new IllegalArgumentException();
@@ -79,7 +78,8 @@ For example, here is a class that applies `first-in-first-out` tie-breaking to c
         this.comparator = comparator;
         this.queue = new Object[initialCapacity];
     }
-``` 
+```
+
 # 源码解析 
 >*  The implementation uses an `array-based binary heap`, with public operations protected with a `single lock`. 
 >* However, allocation during resizing uses a simple `spinlock` (used only while not holding main lock) in order to allow takes to operate concurrently with allocation.  
@@ -150,7 +150,7 @@ This avoids repeated postponement of waiting consumers and consequent element bu
 ```
 >siftUp参考[JDK-PriorityQueue原理](https://github.com/geosmart/geosmart.io/issues/12)
 
->tryGrow扩容要点
+`tryGrow`扩容要点
 * lock是全局锁，如果在扩容时加锁会导致其他线程出队时会阻塞；
 * 而队列很大时，扩容操作（arraycopy）是比较费时的，如果此时占用锁，那么其他线程在这个时候是不能进行出队操作，这样会`降低并发处理能力`；
 * 所以为了更好的性能，扩容时先释放锁；
@@ -172,13 +172,13 @@ This avoids repeated postponement of waiting consumers and consequent element bu
     private void tryGrow(Object[] array, int oldCap) {
         // must release and then re-acquire main lock
         //1. lock是全局锁，为了更好的性能，扩容时先释放锁，避免其他线程出/入队时造成阻塞
-        //队列很大时，扩容操作（arraycopy）是比较费时的，如果此时占用锁，那么其他线程在这个时候是不能进行出/入队操作，这样会降低并发处理能力。
-        //释放锁，会导致多个线程同时进行扩容，此时用spinLock以CAS控制只有1个线程可以执行扩容
+        //队列很大时，扩容操作（arraycopy）是比较费时的，
+        //如果此时占用锁，那么其他线程在这个时候是不能进行出/入队操作，这样会降低并发处理能力。
+        //但释放锁，会导致多个线程同时进行扩容，此时用spinLock以CAS控制只有1个线程可以执行扩容
         lock.unlock();
         Object[] newArray = null;
-        //2. 并发通过乐观锁CAS控制扩容，只有1个线程会CAS成功并扩容，其他CAS失败的则跳过（newArray=null）
-        if (allocationSpinLock == 0 &&
-                UNSAFE.compareAndSwapInt(this, allocationSpinLockOffset, 0, 1)) {
+        //2. 并发通过执行一次CAS控制扩容，只有1个线程会CAS成功并扩容，其他CAS失败的则跳过（newArray=null）
+        if (allocationSpinLock == 0 && UNSAFE.compareAndSwapInt(this, allocationSpinLockOffset, 0, 1)) {
             try {
                 //设置扩容比例，小于64时2倍，大于64后1.5倍, grow faster if small
                 int newCap = oldCap + ((oldCap < 64) ?
@@ -193,7 +193,8 @@ This avoids repeated postponement of waiting consumers and consequent element bu
                     }
                     newCap = MAX_ARRAY_SIZE;
                 }
-                //3. 如果其他线程没有对队列进行改变，直接新建数组；如果其他线程可能执行了出/入队操作，则当前线程不需要扩容，所以要加上queue == array判断
+                //3. 如果其他线程没有对队列进行改变，直接新建数组；
+                //如果其他线程可能执行了出/入队操作，则当前线程不需要扩容，所以要加上queue == array判断
                 if (newCap > oldCap && queue == array) {
                     newArray = new Object[newCap];
                 }
@@ -203,17 +204,18 @@ This avoids repeated postponement of waiting consumers and consequent element bu
             }
         }
         // back off if another thread is allocating
-        //4. CAS失败的线程调用Thread.yield()让出CPU时间，目的是让CAS成功的线程扩容后优先调用lock.lock重新获取锁，但是这得不到一定的保证，有可能调用Thread.yield()的线程先获取了锁。
+        //4. CAS失败的线程调用Thread.yield()让出CPU时间，目的是让CAS成功的线程扩容后优先调用lock.lock重新获取锁，
+        //但是这得不到一定的保证，有可能调用Thread.yield()的线程先获取了锁。
         if (newArray == null) {
             Thread.yield();
         }
         //5. 在扩容时，若其他线程在执行出/入队操作，直接copy会导致copy的不是最新的数据，所以此时要加锁后再copy
         lock.lock();
-        //6. 加锁时，如果其他线程执行出/入队操作，队列发生了变化（queue!= array），当前扩容操作要取消；如果成功加锁且队列没发生改变，则可执行扩容操作
+        //6. 加锁时，如果其他线程执行出/入队操作，队列发生了变化（queue!= array），当前扩容操作要取消；
+        //如果成功加锁且队列没发生改变，则可执行扩容操作
         if (newArray != null && queue == array) {
             queue = newArray;
             System.arraycopy(array, 0, newArray, 0, oldCap);
-            System.out.println(String.format("%s newCap[%s],oldCap[%s] ", Thread.currentThread().getName(), newArray.length, oldCap));
         }
     }
 ```
@@ -353,7 +355,6 @@ condition关联的lock会被原子释放，当前线程将不可调度直到以�
 在所有情况中，在当前method能返回前，当前线程必须重新获取condition关联的锁；
 在线程返回时await会保证一直持有condition关联的锁；
 
->todo 后面要整理一篇专门搞清楚`AQS`里面的Lock
 ## remove
 加锁后，删除节点
 ```java

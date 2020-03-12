@@ -1,11 +1,12 @@
+---
 title: Hive学习笔记
 date: 2015-12-06 21:03:50
 tags: [分布式,Hadoop,Hive]
 categories: [大数据]
 ---
 
+
 最近处理一个ETL的项目，技术选型是CDH的Hadoop方案，理所当然离不了Hive数据仓库，记录下Hive学习路上的点滴。
-- - -
 <!-- more -->
 
 # Hive简介
@@ -127,7 +128,7 @@ HiveServer和HiveServer2都有两种模式，分别为嵌入式和单机服务�
 1. 更新权限hdfs目录权限：`hadoop fs -chmod 777 /tmp/hive`
 2. hdfs执行：`hadoop fs -rm -r /tmp/hive;  `
 3. local执行：`rm -rf /tmp/hive`
- 
+
 ## hive query can't generate result set via jdbc
 解决：Use stmt.execute() for a query that makes a new table. of executeQuery. The executeQuery() is now only for select queries (DML) while execute is probably for DDL (data definition).
 * DDL（Data Definition Language 数据定义语言）用于操作对象和对象的属性，这种对象包括数据库本身，以及数据库对象，像：表、视图等等，DDL对这些对象和属性的管理和定义具体表现在Create、Drop和Alter上；  

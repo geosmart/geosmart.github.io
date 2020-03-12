@@ -184,7 +184,7 @@ site_state: true
 # Key is the link label showing to end users.
 # Value before `||` delimiter is the target permalink, value after `||` delimiter is the name of Font Awesome icon.
 social:
-  #GitHub: https://github.com/yourname || github
+  GitHub: https://github.com/geosmart || github
   #E-Mail: mailto:yourname@gmail.com || envelope
   #Weibo: https://weibo.com/yourname || weibo
   #Google: https://plus.google.com/yourname || google
@@ -401,10 +401,9 @@ bookmark:
 
 # `Follow me on GitHub` banner in the top-right corner.
 github_banner:
-  enable: false
-  permalink: https://github.com/yourname
+  enable: true
+  permalink: https://github.com/geosmart
   title: Follow me on GitHub
-
 
 # ---------------------------------------------------------------
 # Font Settings
@@ -653,18 +652,17 @@ livere_uid: # <your_uid>
 # Gitalk
 # For more information: https://gitalk.github.io, https://github.com/gitalk/gitalk
 gitalk:
-  enable: false
-  github_id: # GitHub repo owner
-  repo: # Repository name to store issues
-  client_id: # GitHub Application Client ID
-  client_secret: # GitHub Application Client Secret
-  admin_user: # GitHub repo owner and collaborators, only these guys can initialize gitHub issues
+  enable: true
+  github_id: geosmart
+  repo: geosmart.github.io
+  client_id: 8a29a27c357a64ed79fd
+  client_secret: fe1b781c49fa9037803f3c4d3e94fbb677abac4d
+  admin_user: geosmart
   distraction_free_mode: true # Facebook-like distraction free mode
   # Gitalk's display language depends on user's browser or system environment
   # If you want everyone visiting your site to see a uniform language, you can set a force language value
   # Available values: en | es-ES | fr | ru | zh-CN | zh-TW
   language: zh-CN
-
 
 # ---------------------------------------------------------------
 # Post Widgets & Content Sharing Services
@@ -1037,17 +1035,3 @@ vendors:
 css: css
 js: js
 images: images
-
-# Gitment
- # Introduction: https://imsun.net/posts/gitment-introduction/
-gitment:
-  enable: true
-  mint: true 		# RECOMMEND, A mint on Gitment, to support count, language and proxy_gateway
-  count: true 		# Show comments count in post meta area
-  lazy: false 		# Comments lazy loading with a button
-  cleanly: false 	# Hide 'Powered by ...' on footer, and more
-  language: 	
-  githubID: geosmart
-  repo: geosmart.github.io
-  ClientID: 8a29a27c357a64ed79fd
-  ClientSecret: fe1b781c49fa9037803f3c4d3e94fbb677abac4d

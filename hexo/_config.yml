@@ -48,7 +48,7 @@ external_link: false # Open external links in new tab
 filename_case: 0
 render_drafts: false
 post_asset_folder: true
-relative_link: false
+relative_link: true
 future: true
 highlight:
   enable: true
@@ -56,7 +56,7 @@ highlight:
   auto_detect: false
   tab_replace: true
 toc:
-  maxDepth: 3
+  maxDepth: 4
 
 # Category & Tag
 default_category: uncategorized
@@ -85,7 +85,7 @@ time_format: H:mm:ss
 
 # Pagination
 ## Set per_page to 0 to disable pagination
-per_page: 15
+per_page: 20
 pagination_dir: page
 
 #sitemap
@@ -148,4 +148,15 @@ deploy:
   type: git
   repo: https://github.com/geosmart/geosmart.github.io.git
   branch: master
-  message: update posts-auto deploy 
+  message: update posts-auto deploy
+
+sequence:
+  raphael: https://cdn.bootcss.com/raphael/2.2.8/raphael.min.js
+  webfont: https://cdn.bootcss.com/webfont/1.6.28/webfontloader.js
+  snap: https://cdn.bootcss.com/snap.svg/0.5.1/snap.svg-min.js
+  underscore: https://cdn.bootcss.com/underscore.js/1.9.1/underscore-min.js
+  sequence: https://cdn.bootcss.com/js-sequence-diagrams/1.0.6/sequence-diagram-min.js
+  # css: # optional, the url for css, such as hand drawn theme 
+  options: 
+    theme: 
+    css_class: 
