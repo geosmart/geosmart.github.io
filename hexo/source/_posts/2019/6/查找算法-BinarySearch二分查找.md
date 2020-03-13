@@ -1,7 +1,7 @@
 ---
 title: 查找算法-BinarySearch二分查找
 date: 2019-06-01
-tags: []
+tags: [Array]
 categories: 算法
 ---
 

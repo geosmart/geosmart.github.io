@@ -34,7 +34,7 @@ for(Entry<String, Integer> entry : map.entrySet()) {
 从结构实现来讲，HashMap是数组+链表+红黑树（JDK1.8增加了红黑树部分）实现的，如下如所示。
 ![HashMap结构](HashMap结构.png)
 * HashMap类中有一个非常重要的字段，就是 `Node[] table`，即哈希桶数组。Node是HashMap的一个内部类，实现了Map.Entry接口，本质是就是一个映射(键值对)。上图中的每个黑色圆点就是一个Node对象。
- 
+
  ![Java-Collections_Map-API](Java-Collections_Map-API.jpg) 
 * 抽象类：AbstractMap
 * 接口：Map
@@ -316,9 +316,17 @@ HashMap存储着Entry(hash, key, value, next)对象。
 内存缓存
 
 # 常见问题
+
+## 你知道HashMap的工作原理吗？
+
+通过hash的方法，通过put和get存储和获取对象。
+
+* 存储对象时(`put`)，我们将K/V传给put方法，它调用hashCode计算hash从而得到bucket位置，进一步存储，HashMap会根据当前bucket的占用情况自动调整容量(超过Load Facotr则resize为原来的2倍)。
+* 获取对象时(`get`)，我们将K传给get方法，它调用hashCode计算hash从而得到bucket位置，并进一步调用equals()方法确定键值对。如果发生碰撞的时候，Hashmap通过链表将产生碰撞冲突的元素组织起来，在Java 8中，如果一个bucket中碰撞冲突的元素超过某个限制(默认是8)，则使用红黑树来替换链表，从而提高速度。
+
 ## HashMap与Hashtable的区别
  Hashtable：Hashtable是遗留类，很多映射的常用功能与HashMap类似，不同的是它承自Dictionary类，并且是线程安全的，任一时间只有一个线程能写Hashtable，并发性不如ConcurrentHashMap，因为ConcurrentHashMap引入了分段锁。Hashtable不建议在新代码中使用，不需要线程安全的场合可以用HashMap替换，需要线程安全的场合可以用ConcurrentHashMap替换。
- 
+
 HashMap 实现了所有map类的方法。并允许使用 null 作为 key 和 value。
 HashMap和HashTable大致相同。 
 区别在于HashMap不是同步的，并允许null值，HashTable是同步，并且不允许null值。 
@@ -331,7 +339,29 @@ HashMap不保证放入的元素按序存储。同时它也不保证当前的存�
 HashMap采用这种非常规设计，主要是`为了在取模和扩容时做优化，同时为了减少冲突`，
 HashMap定位哈希桶索引位置时，也加入了`高位参与运算`的过程。
 
-## HashMap出现哈希碰撞怎么处理吗？
+## 为什么HashMap的负载因子是0.75？
+
+
+
+## 如果HashMap的大小超过了负载因子(load factor)定义的容量，怎么办？
+
+如果超过了负载因子(默认0.75)，则会重新resize一个原来长度两倍的HashMap，并且重新调用hash方法。
+
+## HashMap查询时复杂度一直是O(1)吗？
+
+Java8之前，最差是`O(1)+O(n/backetSize)`
+Java8，复杂度为`O(1)+O(log(backetSize))`
+
+## 你知道get和put的原理吗？equals()和hashCode()的都有什么作用？
+
+通过对key的hashCode()进行hashing，并计算下标`( n-1 & hash)`，从而获得buckets的位置。
+如果产生碰撞，则利用key.equals()方法去链表或树中去查找对应的节点
+
+## 你知道hash的实现吗？为什么要这样实现？
+
+在Java 1.8的实现中，是通过hashCode()的高16位`异或`低16位实现的：`(h = k.hashCode()) ^ (h >>> 16)`，主要是从speed、utility、quality来考虑的，这么做可以在bucket的n比较小的时候，也能保证考虑到高低bit都参与到hash的计算中，同时不会有太大的开销。
+
+## HashMap出现hash碰撞怎么处理？
 为解决哈希表hash碰撞，可以采用`开放地址法`和`链地址法`等来解决问题，Java中HashMap采用了链地址法。
 ### 链地址法
 简单来说，就是`数组`加`链表`的结合。在每个数组元素上都一个链表结构，当数据被Hash后，得到数组下标，把数据放在对应下标元素的链表上。
@@ -355,25 +385,6 @@ HashMap定位哈希桶索引位置时，也加入了`高位参与运算`的过�
 在`Java 8之前`的实现中是用链表解决冲突的，在产生碰撞的情况下，进行get时，两步的时间复杂度是`O(1)+O(n)`，n为bucket.size。因此，当碰撞很厉害的时候n很大，O(n)的速度显然是影响速度的。
 
 因此在`Java 8`中，利用`红黑树`替换链表，这样复杂度就变成了`O(1)+O(logn)`了，这样在n很大的时候，能够比较理想的解决这个问题，在Java 8：HashMap的性能提升一文中有性能测试的结果。
-
-## HashMap查询时复杂度一直是O(1)吗？
-Java8之前，最差是`O(1)+O(n/backetSize)`
-Java8，复杂度为`O(1)+O(log(backetSize))`
-
-## 你知道HashMap的工作原理吗？
-通过hash的方法，通过put和get存储和获取对象。
-* 存储对象时(`put`)，我们将K/V传给put方法，它调用hashCode计算hash从而得到bucket位置，进一步存储，HashMap会根据当前bucket的占用情况自动调整容量(超过Load Facotr则resize为原来的2倍)。
-* 获取对象时(`get`)，我们将K传给get方法，它调用hashCode计算hash从而得到bucket位置，并进一步调用equals()方法确定键值对。如果发生碰撞的时候，Hashmap通过链表将产生碰撞冲突的元素组织起来，在Java 8中，如果一个bucket中碰撞冲突的元素超过某个限制(默认是8)，则使用红黑树来替换链表，从而提高速度。
-
-## 你知道get和put的原理吗？equals()和hashCode()的都有什么作用？
-通过对key的hashCode()进行hashing，并计算下标`( n-1 & hash)`，从而获得buckets的位置。
-如果产生碰撞，则利用key.equals()方法去链表或树中去查找对应的节点
-
-## 你知道hash的实现吗？为什么要这样实现？
-在Java 1.8的实现中，是通过hashCode()的高16位`异或`低16位实现的：`(h = k.hashCode()) ^ (h >>> 16)`，主要是从speed、utility、quality来考虑的，这么做可以在bucket的n比较小的时候，也能保证考虑到高低bit都参与到hash的计算中，同时不会有太大的开销。
-
-## 如果HashMap的大小超过了负载因子(load factor)定义的容量，怎么办？
-如果超过了负载因子(默认0.75)，则会重新resize一个原来长度两倍的HashMap，并且重新调用hash方法。
 
 # 基础知识
 ##  Java运算符

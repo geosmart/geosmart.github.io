@@ -1,7 +1,7 @@
 ---
 title: 删除链表的倒数第N个元素
 date: 2019-06-01
-tags: []
+tags: [LinkedList]
 categories: 数据结构
 ---
 

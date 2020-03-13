@@ -1,7 +1,7 @@
 ---
 title: Hash算法-两数之和O(n)
 date: 2019-06-01
-tags: []
+tags: [Hash]
 categories: 数据结构
 ---
 
