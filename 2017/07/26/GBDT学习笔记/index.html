@@ -20,12 +20,12 @@
     var CONFIG = {"hostname":"geosmart.github.io","root":"/","scheme":"Pisces","version":"7.7.1","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.xml"};
   </script>
 
-  <meta name="description" content="GBDT学习笔记@(A1 人工智能) 学习任何东西都可以按照3W的框架进行，容器技术也是一样，先回答 What、Why 和 How 这三个问题。 参考：video：https:&#x2F;&#x2F;www.youtube.com&#x2F;watch?v&#x3D;IXZKgIsZRm0&amp;ab_channel&#x3D;PyData 在说GBDT前，我们先说下它的俩前缀Gradient Boosting：  Boosting: 这是一种">
+  <meta name="description" content="GBDT学习笔记学习任何东西都可以按照3W的框架进行，容器技术也是一样，先回答 What、Why 和 How 这三个问题。 参考：video：https:&#x2F;&#x2F;www.youtube.com&#x2F;watch?v&#x3D;IXZKgIsZRm0&amp;ab_channel&#x3D;PyData 在说GBDT前，我们先说下它的俩前缀Gradient Boosting：  Boosting: 这是一种迭代算法，每一次训练都">
 <meta property="og:type" content="article">
 <meta property="og:title" content="GBDT学习笔记">
 <meta property="og:url" content="http://geosmart.github.io/2017/07/26/GBDT%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/index.html">
 <meta property="og:site_name" content="geosmart.io">
-<meta property="og:description" content="GBDT学习笔记@(A1 人工智能) 学习任何东西都可以按照3W的框架进行，容器技术也是一样，先回答 What、Why 和 How 这三个问题。 参考：video：https:&#x2F;&#x2F;www.youtube.com&#x2F;watch?v&#x3D;IXZKgIsZRm0&amp;ab_channel&#x3D;PyData 在说GBDT前，我们先说下它的俩前缀Gradient Boosting：  Boosting: 这是一种">
+<meta property="og:description" content="GBDT学习笔记学习任何东西都可以按照3W的框架进行，容器技术也是一样，先回答 What、Why 和 How 这三个问题。 参考：video：https:&#x2F;&#x2F;www.youtube.com&#x2F;watch?v&#x3D;IXZKgIsZRm0&amp;ab_channel&#x3D;PyData 在说GBDT前，我们先说下它的俩前缀Gradient Boosting：  Boosting: 这是一种迭代算法，每一次训练都">
 <meta property="og:locale" content="zh_CN">
 <meta property="og:image" content="http://geosmart.github.io/2017/07/26/GBDT%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/ensemble%20learning%EF%BC%88%E9%9B%86%E6%88%90%E5%AD%A6%E4%B9%A0%EF%BC%89.png">
 <meta property="og:image" content="http://geosmart.github.io/2017/07/26/GBDT%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/Boosting%E7%AE%97%E6%B3%95%E7%9A%84%E5%B7%A5%E4%BD%9C%E6%9C%BA%E5%88%B6.png">
@@ -44,13 +44,9 @@
 <meta property="og:image" content="http://geosmart.github.io/2017/07/26/GBDT%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/%E5%9B%9E%E5%BD%92%E9%97%AE%E9%A2%98%E7%9A%84%E6%8F%90%E5%8D%87%E6%A0%91%E7%AE%97%E6%B3%95%E6%B5%81%E7%A8%8B.png">
 <meta property="og:image" content="http://geosmart.github.io/2017/07/26/GBDT%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/%E6%A8%A1%E5%9E%8B%E5%A4%8D%E6%9D%82%E5%BA%A6%E4%B8%8E%E5%81%8F%E5%B7%AE%E6%96%B9%E5%B7%AE%E7%9A%84%E5%85%B3%E7%B3%BB%E5%9B%BE.png">
 <meta property="article:published_time" content="2017-07-25T16:00:00.000Z">
-<meta property="article:modified_time" content="2020-02-25T12:27:18.601Z">
+<meta property="article:modified_time" content="2020-03-20T08:09:55.118Z">
 <meta property="article:author" content="geosmart">
-<meta property="article:tag" content="大数据">
 <meta property="article:tag" content="AI">
-<meta property="article:tag" content="IOT">
-<meta property="article:tag" content="JAVA">
-<meta property="article:tag" content="PYTHON">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:image" content="http://geosmart.github.io/2017/07/26/GBDT%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/ensemble%20learning%EF%BC%88%E9%9B%86%E6%88%90%E5%AD%A6%E4%B9%A0%EF%BC%89.png">
 
@@ -244,7 +240,7 @@
                   <i class="fa fa-calendar-check-o"></i>
                 </span>
                 <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：25   二月   2020 20:27:18" itemprop="dateModified" datetime="2020-02-25T20:27:18+08:00">25   二月   2020</time>
+                <time title="修改时间：20   三月   2020 16:09:55" itemprop="dateModified" datetime="2020-03-20T16:09:55+08:00">20   三月   2020</time>
               </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -252,7 +248,7 @@
               </span>
               <span class="post-meta-item-text">分类于</span>
                 <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/A0%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/" itemprop="url" rel="index"><span itemprop="name">A0机器学习</span></a>
+                  <a href="/categories/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/" itemprop="url" rel="index"><span itemprop="name">机器学习</span></a>
                 </span>
             </span>
 
@@ -267,8 +263,7 @@
     <div class="post-body" itemprop="articleBody">
 
       
-        <h1 id="GBDT学习笔记"><a href="#GBDT学习笔记" class="headerlink" title="GBDT学习笔记"></a>GBDT学习笔记</h1><p>@(A1 人工智能)</p>
-<p>学习任何东西都可以按照3W的框架进行，容器技术也是一样，先回答 What、Why 和 How 这三个问题。</p>
+        <h1 id="GBDT学习笔记"><a href="#GBDT学习笔记" class="headerlink" title="GBDT学习笔记"></a>GBDT学习笔记</h1><p>学习任何东西都可以按照3W的框架进行，容器技术也是一样，先回答 What、Why 和 How 这三个问题。</p>
 <p>参考：<br>video：<a href="https://www.youtube.com/watch?v=IXZKgIsZRm0&amp;ab_channel=PyData">https://www.youtube.com/watch?v=IXZKgIsZRm0&amp;ab_channel=PyData</a></p>
 <p>在说GBDT前，我们先说下它的俩前缀Gradient Boosting：</p>
 <ul>
@@ -473,6 +468,9 @@
     
 
       <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/AI/" rel="tag"># AI</a>
+          </div>
 
         
 
@@ -568,13 +566,13 @@
       <div class="site-state-item site-state-categories">
             <a href="/categories/">
           
-        <span class="site-state-item-count">25</span>
+        <span class="site-state-item-count">15</span>
         <span class="site-state-item-name">分类</span></a>
       </div>
       <div class="site-state-item site-state-tags">
             <a href="/tags/">
           
-        <span class="site-state-item-count">91</span>
+        <span class="site-state-item-count">89</span>
         <span class="site-state-item-name">标签</span></a>
       </div>
   </nav>
