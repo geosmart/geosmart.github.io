@@ -1,7 +1,7 @@
 title: NLP学习笔记
 date: 2015-09-11 21:51:49 
-tags: [大数据,NLP]
-categories: [NLP]
+tags: [NLP]
+categories: [机器学习]
 ---
 
 记录一些NLP学习过程中的专业名词

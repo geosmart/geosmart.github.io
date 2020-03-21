@@ -1,7 +1,7 @@
 title: HDFS使用笔记
 date: 2016-03-03 10:42:57
 tags: [Hadoop,HDFS]
-categories: [数据库]
+categories: [存储层]
 ---
 
 Hadoop框架中最核心的设计就是：MapReduce和HDFS。MapReduce的思想是分而治之（任务的分解与结果的汇总）。HDFS是Hadoop分布式文件系统（Hadoop Distributed File System）的缩写，为分布式计算存储提供了底层支持。

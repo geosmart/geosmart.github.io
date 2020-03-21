@@ -1,6 +1,6 @@
 title: jdk安装脚本
 date: 2015-06-28 16:03
-tags: [CentOS,运维,J2EE]
+tags: [CentOS,J2EE]
 categories: [运维] 
 ---
 

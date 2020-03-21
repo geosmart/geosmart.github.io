@@ -1,7 +1,7 @@
 title: MongoDB权限配置
 date: 2015-12-28 21:03:12
 tags: [MongoDB]
-categories: [数据库]
+categories: [存储层]
 ---
 
 - - -

@@ -1,7 +1,7 @@
 title: Hadoop集群部署
 date: 2015-08-08 11:38:22
 tags: [分布式,CDH,Hadoop]
-categories: [大数据,运维]
+categories: [运维]
 ---
 
 # Hadoop版本区别

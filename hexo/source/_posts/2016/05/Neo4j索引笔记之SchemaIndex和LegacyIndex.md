@@ -1,13 +1,11 @@
 ---
 title: Neo4j索引笔记之SchemaIndex和LegacyIndex
 tags: [Neo4j,Lucene]
-notebook: N02 数据库
-categories: 数据库
+categories: [存储层]
 date: 2016-05-01 09:57:20
 ---
 
 neo4j包含schema indexes 和 legacy indexes两种类型，两者理念不同且不可互换或兼容，实际应用中应明确检索需求后采用合适的索引。
-- - -
 <!-- more -->
 
 # schema index vs legacy index

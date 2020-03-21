@@ -1,7 +1,7 @@
 title: MongoDB常用脚本
 date: 2015-12-28 20:47:12
 tags: [MongoDB]
-categories: [数据库]
+categories: [存储层]
 ---
 
 记录一些工作过程中常用的MongoDB脚本。

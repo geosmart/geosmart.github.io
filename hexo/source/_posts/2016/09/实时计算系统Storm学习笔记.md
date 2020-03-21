@@ -1,8 +1,8 @@
 ---
 title: 实时计算系统Storm学习笔记
 date: 2016-09-13 10:17:33
-tags: Storm
-categories: 后端技术
+tags: [Storm]
+categories: [后端技术]
 ---
 
 

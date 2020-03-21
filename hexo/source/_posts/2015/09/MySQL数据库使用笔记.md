@@ -1,7 +1,7 @@
 title: MySQL数据库使用笔记
 date: 2015-09-21 11:57:27
 tags: [MySQL]
-categories: [数据库]
+categories: [存储层]
 ---
 
 记录一些常用的MysQL运维脚本和常见问题

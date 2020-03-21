@@ -1,7 +1,7 @@
 title: MongoDB与Neo4j数据同步
 date: 2016-03-23 17:18:13
 tags: [Neo4j,MongoDB]
-categories: [数据库]
+categories: [存储层]
 ---
 
 采用mongo-connector及Neo4j Doc Manager将MongoDB中数据导入Neo4j（嵌套结构形成关系）

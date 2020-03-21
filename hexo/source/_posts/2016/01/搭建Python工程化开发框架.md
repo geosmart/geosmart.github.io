@@ -1,7 +1,7 @@
 title: 搭建Python工程化开发框架
 date: 2016-01-20 14:40:10
 tags: [Python]
-categories: [脚本工具]
+categories: [工具]
 ---
 
 2016的元月以python作为开端。  

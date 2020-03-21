@@ -1,7 +1,7 @@
 title: MongoDB集群学习笔记
 date: 2015-12-29 17:37:01
 tags: [MongoDB]
-categories: [数据库]
+categories: [存储层]
 ---
 考虑部署实施的复杂度，一直没上MongoDB集群，但现在海量数据一来，单机性能就扛不住了，本文记录MongoDB集群的基础知识。
 - - -

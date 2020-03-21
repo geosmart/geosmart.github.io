@@ -2,7 +2,7 @@
 title: 查找算法-BinarySearch二分查找
 date: 2019-06-01
 tags: [Array]
-categories: 算法
+categories: [数据结构]
 ---
 
 二分查找利用已排好序的数组，每一次查找都可以将查找范围减半。查找范围内只剩一个数据时查找结束。 

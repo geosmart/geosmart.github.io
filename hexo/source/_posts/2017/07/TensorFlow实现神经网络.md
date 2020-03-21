@@ -2,7 +2,7 @@
 title: TensorFlow实现神经网络
 date: 2017-07-03 20:42:25
 tags: [TensorFlow]
-categories: 人工智能
+categories: [机器学习]
 ---
 
 

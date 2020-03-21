@@ -1,8 +1,8 @@
 ---
 title: Hbase背景知识
 date: 2020-01-03
-tags: []
-categories: 数据库
+tags: [Hbase]
+categories: [存储层]
 ---
 
 介绍Hbase出场背景、解决问题、应用场景

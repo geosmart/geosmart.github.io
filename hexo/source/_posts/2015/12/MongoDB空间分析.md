@@ -1,7 +1,7 @@
 title: MongoDB空间分析
 date: 2015-12-28 21:02:12
 tags: [MongoDB]
-categories: [数据库]
+categories: [存储层]
 ---
 
 用MongoDB与其他NoSQL数据库之间一个大的差别就是她的空间数据存储，2dsphere空间索引（WGS84），用于通用的空间分析（如缓冲区）会很方便。

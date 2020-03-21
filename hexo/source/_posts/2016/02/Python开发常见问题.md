@@ -1,7 +1,7 @@
 title: Python开发常见问题
 date: 2016-02-24 15:30:20
 tags: [Python]
-categories: [脚本工具]
+categories: [工具]
 ---
 
 记录Python开发过程中的遇到的问题

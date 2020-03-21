@@ -2,7 +2,7 @@
 title: 记一次MySQL死锁问题排查
 date: 2019-12-12
 tags: [MySQL]
-categories: 数据库
+categories: [存储层]
 ---
 
 记录一次线上MySQL数据库的死锁问题和相关知识：

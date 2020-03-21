@@ -1,7 +1,7 @@
 title: GATE中文自然语言处理学习笔记
 date: 2015-09-17 11:28:20
-tags: [大数据,NLP,GATE]
-categories: [NLP]
+tags: [NLP,GATE]
+categories: [机器学习]
 ---
 
 ![](https://gate.ac.uk/plugins/gau-0.1/images/logo-gate.png)

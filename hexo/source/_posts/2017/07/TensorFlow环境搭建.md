@@ -1,8 +1,8 @@
 ---
 title: TensorFlow环境搭建
 date: 2017-07-01 11:46:21
-tags: [TensorFlow,Python,Anaconda,Jupyter]
-categories: 人工智能
+tags: [AI,Python]
+categories: 机器学习
 ---
 
 

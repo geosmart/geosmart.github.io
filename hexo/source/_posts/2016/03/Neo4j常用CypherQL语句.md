@@ -1,7 +1,7 @@
 title: Neo4j常用CypherQL语句
 date: 2016-03-30 20:22:09
 tags: [Neo4j]
-categories: [数据库]
+categories: [存储层]
 ---
 记录常用Cypher语句
 - - -

@@ -2,7 +2,7 @@
 title: CNN卷积神经网络
 date: 2018-01-29
 tags: [CNN]
-categories: AI
+categories: [机器学习]
 ---
 
 卷积神经网络(Convolutional Neural Networks, ConvNets or CNNs)是一种在图像识别与分类领域被证明特别有效的神经网络。卷积网络已经成功地识别人脸、物体、交通标志，应用在机器人和无人车等载具。

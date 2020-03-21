@@ -1,7 +1,7 @@
 title: MongoDB3离线部署
 date: 2015-12-28 21:03:12
 tags: [MongoDB]
-categories: [数据库]
+categories: [存储层]
 ---
 
 基于Ops Manager的MongoDB 3.2集群离线部署笔记

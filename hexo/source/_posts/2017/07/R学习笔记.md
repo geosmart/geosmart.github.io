@@ -2,7 +2,7 @@
 title: R学习笔记
 date: 2017-07-04 08:13:38
 tags: [R]
-categories: 人工智能
+categories: [机器学习]
 ---
 
 >R is a tool for statistics and data modeling. The R programming language is elegant, versatile, and has a highly expressive syntax designed around working with data. R is more than that, though — it also includes extremely powerful graphics capabilities.

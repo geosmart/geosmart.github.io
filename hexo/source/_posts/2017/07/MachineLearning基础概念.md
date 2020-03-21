@@ -1,8 +1,8 @@
 ---
 title: 机器学习基础概念
 date: 2017-07-11 09:07:02
-tags: [Machine Leaning]
-categories: 人工智能
+tags: [AI]
+categories: 机器学习
 ---
 
 监督学习、非监督学习、神经网络......

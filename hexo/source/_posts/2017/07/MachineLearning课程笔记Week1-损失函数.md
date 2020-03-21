@@ -1,8 +1,8 @@
 ---
 title: MachineLearning课程笔记Week1-损失函数
 date: 2017-07-08 11:09:14
-tags: [Machine Leaning]
-categories: 人工智能
+tags: [AI]
+categories: 机器学习
 ---
 
 [Coursera斯坦福大学机器学习（Machine Leaning）课程第一周](https://www.coursera.org/learn/machine-learning/supplement/cRa2m/model-representation)课程笔记

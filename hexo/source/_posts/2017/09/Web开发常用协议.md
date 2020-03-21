@@ -2,10 +2,9 @@
 title: Web开发常用协议
 date: 2017-09-17
 tags: [TCP]
-categories: 05网络技术
+categories: 网络技术
 ---
 
-@(05网络技术)[TCP]
 
 整理常用网络协议OSI七层协议，TCP-IP协议组，UDP，Socket，WebSocket，Http，Https，三次握手，长连接
 - - -

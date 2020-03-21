@@ -1,8 +1,8 @@
 ---
 title: Android集成bugly异常监控插件
 date: 2020-01-01
-tags: []
-categories: 安卓开发
+tags: [Android]
+categories: [移动端]
 ---
 
 安卓开发中的异常监控方案-Bugly

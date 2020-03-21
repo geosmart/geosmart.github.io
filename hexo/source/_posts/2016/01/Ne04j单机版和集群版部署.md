@@ -1,7 +1,7 @@
 title: Ne04j单机版和集群版部署
 date: 2016-01-25 17:28:24
 tags: [Neo4j]
-categories: [数据库]
+categories: [存储层]
 ---
 
 Neo4j HA(Neo4j High Availability)，高可用性主要指其包含容错机制和可进行水平扩展，即Neo4j Cluster

@@ -1,7 +1,7 @@
 title: SQLite数据库使用笔记
 date: 2015-09-15 10:24:33
 tags: [J2EE,SQLite] 
-categories: [数据库] 
+categories: [存储层]
 ---
 
 # SQLite特点

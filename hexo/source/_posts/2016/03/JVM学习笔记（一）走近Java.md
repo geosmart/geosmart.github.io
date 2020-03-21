@@ -1,7 +1,7 @@
 title: JVM学习笔记（一）走近Java
 date: 2016-02-22 20:23:37
 tags: [Java,JVM]
-categories: [读书笔记]
+categories: [后端技术]
 ---
 
 2016上半年花点时间深入了解JVM，读《《深入理解Java虚拟机 JVM高级特性与最佳实践》，整理遇到过的内存泄漏，性能优化问题

@@ -2,7 +2,7 @@
 title: TensorFlow笔记
 date: 2018-01-12
 tags: [TensorFlow]
-categories: AI
+categories: [机器学习]
 ---
 
 整理TensorFlow学习笔记

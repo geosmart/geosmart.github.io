@@ -1,7 +1,7 @@
 title: MyEclipse常用插件
 date: 2016-01-27 20:19:06
 tags: [J2EE,Eclipse]
-categories: [IDE]
+categories: [工具]
 ---
 记录以J2EE开发采用MyEclipse IDE的常用插件
 - - -

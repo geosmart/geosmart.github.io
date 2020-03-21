@@ -1,7 +1,7 @@
 title: MySQL存储过程学习笔记
 date: 2016-03-08 19:31:39
 tags: [Stored Procedure,MySQL]
-categories: [数据库]
+categories: [存储层]
 ---
 
 团队一直有小伙伴顶着数据库相关的工作，ETL数据整合分析事情多了，研发开发工作相应减少，终于有机会也来写写存储过程了。  

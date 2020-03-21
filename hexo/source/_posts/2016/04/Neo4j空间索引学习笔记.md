@@ -3,7 +3,7 @@ title: Neo4j空间索引学习笔记
 tags: Neo4j
 notebook: N02 数据库
 date: 2016-04-03 11:18:18
-categories: [数据库]
+categories: [存储层]
 ---
 
 Neo4j采用Neo4j Spatial插件实现空间索引，Neo4j Spatial可使用API或Cypher执行空间查询操作，另作为插件可部署于GeoServer与uDig；与Oracle/MySQL Spatial Extention/MongoDB 2dSphere等空间模块相比，这种结合关系与空间的分析更值得尝试！

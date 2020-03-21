@@ -1,8 +1,8 @@
 ---
 title: Machine Learning课程笔记Week1-基础概念
 date: 2017-07-03 20:44:47
-tags: [Machine Leaning]
-categories: 人工智能
+tags: [AI]
+categories: [机器学习]
 ---
 
 [Coursera斯坦福大学机器学习（Machine Leaning）课程第一周](https://www.coursera.org/learn/machine-learning/home/week/1)课程笔记

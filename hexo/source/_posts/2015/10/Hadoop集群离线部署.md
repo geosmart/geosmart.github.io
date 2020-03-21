@@ -1,7 +1,7 @@
 title: Hadoop集群离线部署
 date: 2015-10-20 11:04:32
 tags: [分布式,CDH,Hadoop] 
-categories: [大数据,运维] 
+categories: [运维] 
 ---
 
 GFW墙的没人性，只能费时费力搞个离线安装教程，一路遇到很多问题，稍微深入了解了一些ClouderaManager的内部实现，步骤概要：

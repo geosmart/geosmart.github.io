@@ -1,7 +1,7 @@
 title: Sqoop使用笔记
 date: 2016-02-24 09:43:28
 tags: [Hadoop,Sqoop,Hive]
-categories: [数据库]
+categories: [存储层]
 ---
 
 Sqoop是Apache顶级项目，主要用来在Hadoop和关系数据库中传递数据。通过sqoop，可以方便的将数据从关系数据库导入到HDFS，或将数据从HDFS导出到关系数据库。

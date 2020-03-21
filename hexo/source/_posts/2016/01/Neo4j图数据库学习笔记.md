@@ -1,7 +1,7 @@
 title: Neo4j图数据库学习笔记
 date: 2016-01-25 10:38:49
 tags: [Neo4j]
-categories: [数据库]
+categories: [存储层]
 ---
 
 Explore the World of Graphs – From Query Efficiency to Business Performance

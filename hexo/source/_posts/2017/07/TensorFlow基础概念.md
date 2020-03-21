@@ -2,7 +2,7 @@
 title: TensorFlow基础概念
 date: 2017-07-03 20:41:50
 tags: [TensorFlow]
-categories: 人工智能
+categories: [机器学习]
 ---
 
 TensorFlow最重要的两个概念-Tensor和Flow；  

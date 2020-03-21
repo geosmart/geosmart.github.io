@@ -1,7 +1,7 @@
 title: mongodb手动安装脚本
 date: 2015-06-28 20:26
 tags: [CentOS,MongoDB]
-categories: [数据库]
+categories: [存储层]
 ---
 
 ![nosql](nosql.png)   

@@ -1,7 +1,7 @@
 title: Lucene学习笔记
 date: 2016-04-29 21:49:36
 tags: [Lucene]
-categories: [数据库]
+categories: [存储层]
 ---
 
 Neo4j图数据库的索引采用的是Lucene全文索引，特别是LegacyIndex部分，需要深入了解Lucene进行索引定制，之前以IK分词在Solr中建索引和检索浅尝辄止，对Lucene也是停留在概念层。  

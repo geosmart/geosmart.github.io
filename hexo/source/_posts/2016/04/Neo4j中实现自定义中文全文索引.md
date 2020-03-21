@@ -1,8 +1,10 @@
+---
 title: Neo4j中实现自定义中文全文索引
 date: 2016-04-21 21:17:53
 tags: [Neo4j,Lucene]
-categories: 数据库
+categories: [存储层]
 ---
+
 数据库检索效率时，一般首要优化途径是从索引入手，然后根据需求再考虑更复杂的负载均衡、读写分离和分布式水平/垂直分库/表等手段；
 索引通过信息冗余来提高检索效率，其以空间换时间并会降低数据写入的效率；因此对索引字段的选择非常重要。
 * Neo4j可对指定Label的Node Create Index，当新增/更新符合条件的Node属性时，Index会自动更新。Neo4j Index默认采用Lucene实现（可定制，如Spatial Index自定义实现的RTree索引），但默认新建的索引只支持精确匹配（get），模糊查询（query）的话需要以全文索引，控制Lucene后台的分词行为。  

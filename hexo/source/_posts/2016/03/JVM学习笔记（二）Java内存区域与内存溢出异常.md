@@ -1,7 +1,7 @@
 title: JVM学习笔记（二）Java内存区域与内存溢出异常
 date: 2016-03-07 21:42:44
 tags: [Java,JVM]
-categories: [读书笔记]
+categories: [后端技术]
 ---
 《深入理解Java虚拟机 JVM高级特性与最佳实践》 第二章 Java内存区域与内存溢出异常
 - - -

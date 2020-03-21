@@ -1,8 +1,8 @@
 ---
 title: Android平台的串口通信技术
 date: 2020-01-02
-tags: []
-categories: 安卓开发
+tags: [Android]
+categories: [移动端]
 ---
 
 安卓开发中的串口通信技术

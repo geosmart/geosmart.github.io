@@ -2,10 +2,9 @@
 title: MySQL数据库优化
 date: 2017-10-03
 tags: [MySQL]
-categories: 03数据库
+categories: 存储层
 ---
 
-@(03数据库)[MySQL]
 
 MySQL优化技术：负载均衡，读写分类，分库分表，索引优化...
 - - -

@@ -1,7 +1,7 @@
 title: 常用git命令
 date: 2015-06-30 13:18:03
 tags: [Git]
-categories: [版本控制]
+categories: [工具]
 ---
 
 用github来搭建个人技术笔记，少不了记录一些常用的git命令

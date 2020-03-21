@@ -1,12 +1,11 @@
 ---
 title: GBDT学习笔记
 date: 2017-07-26
-tags: []
-categories: A0机器学习
+tags: [AI]
+categories: 机器学习
 ---
 
-# GBDT学习笔记
-@(A1 人工智能)
+# GBDT学习笔记 
 
 学习任何东西都可以按照3W的框架进行，容器技术也是一样，先回答 What、Why 和 How 这三个问题。
 
