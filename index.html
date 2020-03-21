@@ -193,6 +193,87 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://geosmart.github.io/2020/03/21/2020-3-Java%E4%B8%AD%E7%9A%84NIO%E6%A8%A1%E5%9E%8B/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="geosmart">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="geosmart.io">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          
+            <a href="/2020/03/21/2020-3-Java%E4%B8%AD%E7%9A%84NIO%E6%A8%A1%E5%9E%8B/" class="post-title-link" itemprop="url">Java中的NIO</a>
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+              
+
+              <time title="创建时间：21   三月   2020 0:00:00 / 修改时间：23:46:07" itemprop="dateCreated datePublished" datetime="2020-03-21T00:00:00+08:00">21   三月   2020</time>
+            </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/%E5%90%8E%E7%AB%AF%E6%8A%80%E6%9C%AF/" itemprop="url" rel="index"><span itemprop="name">后端技术</span></a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <p>一个使用传统阻塞I/O的系统，如果使用一个请求对应一个线程这种模式，一旦有<code>高并发</code>的大量请求，就会有如下问题： </p>
+<ol>
+<li>线程不够用, 就算使用了<code>线程池</code>复用线程也无济于事; </li>
+<li>阻塞I/O模式下,会有大量的线程被阻塞，一直在等待数据,这个时候的线程被挂起，只能干等，<code>CPU利用率很低</code>，换句话说，系统的<code>吞吐量低</code>; </li>
+<li>如果<code>网络I/O堵塞</code>或者有网络抖动或者网络故障等，线程的阻塞时间可能很长，整个系统也变的不可靠;</li>
+</ol>
+<p>怎么办？<code>NIO</code>闪亮登场！<br>
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/2020/03/21/2020-3-Java%E4%B8%AD%E7%9A%84NIO%E6%A8%A1%E5%9E%8B/#more" rel="contents">
+                阅读全文 &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+        
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
     <link itemprop="mainEntityOfPage" href="http://geosmart.github.io/2020/03/19/2020-3-%E9%87%8D%E5%AD%A6%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F%EF%BC%88%E4%B8%80%EF%BC%89/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -1749,87 +1830,6 @@
   
   
 
-        
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="http://geosmart.github.io/2019/11/05/RabbitMQ%E7%B3%BB%E7%BB%9F%E6%9E%B6%E6%9E%84/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.gif">
-      <meta itemprop="name" content="geosmart">
-      <meta itemprop="description" content="">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="geosmart.io">
-    </span>
-      <header class="post-header">
-        <h1 class="post-title" itemprop="name headline">
-          
-            <a href="/2019/11/05/RabbitMQ%E7%B3%BB%E7%BB%9F%E6%9E%B6%E6%9E%84/" class="post-title-link" itemprop="url">RabbitMQ系统架构</a>
-        </h1>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-
-              <time title="创建时间：5   十一月   2019 8:09:00" itemprop="dateCreated datePublished" datetime="2019-11-05T08:09:00+08:00">5   十一月   2019</time>
-            </span>
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-calendar-check-o"></i>
-                </span>
-                <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：26   二月   2020 10:37:21" itemprop="dateModified" datetime="2020-02-26T10:37:21+08:00">26   二月   2020</time>
-              </span>
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/%E4%B8%AD%E9%97%B4%E4%BB%B6/" itemprop="url" rel="index"><span itemprop="name">中间件</span></a>
-                </span>
-            </span>
-
-          
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <p>rabbitmq采用什么系统架构，有哪些常规使用模式？</p>
-          <!--noindex-->
-            <div class="post-button">
-              <a class="btn" href="/2019/11/05/RabbitMQ%E7%B3%BB%E7%BB%9F%E6%9E%B6%E6%9E%84/#more" rel="contents">
-                阅读全文 &raquo;
-              </a>
-            </div>
-          <!--/noindex-->
-        
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
   </div>
 
   
@@ -1900,7 +1900,7 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">152</span>
+          <span class="site-state-item-count">153</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
