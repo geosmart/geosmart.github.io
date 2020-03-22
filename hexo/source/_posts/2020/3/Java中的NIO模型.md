@@ -1,6 +1,6 @@
 ---
-title: Java中的NIO
-date: 2020-03-21
+title: Java中的NIO模型
+date: 2020-03-22
 tags: [Java]
 categories: [后端技术]
 ---
@@ -24,11 +24,11 @@ NIO是面向缓冲区的、非阻塞的；
 
 ## 阻塞I/O模型
 * jdk1.4以前的IO模型，一连接对一个线程。
-* 原始的IO是面向流的，不存在缓存的概念。Java IO面向流意味着每次从流中读一个或多个字节，直至读取所有字节，它们没有被缓存在任何地方。此外，它不能前后移动流中的数据。如果需要前后移动从流中读取的数据，需要先将它缓存到一个缓冲区；
-* 原始的IO的各种流是阻塞的，这意味着当一个线程调用`read`或`write`方法时，该线程被阻塞，直到有一些数据被读取，或数据完全写入，该线程在此期间不能再干任何事情了。
+* 原始的IO是`面向流`的，不存在缓存的概念。Java IO面向流意味着每次从流中读一个或多个字节，直至读取所有字节，它们没有被缓存在任何地方。此外，它不能前后移动流中的数据。如果需要前后移动从流中读取的数据，需要先将它缓存到一个缓冲区；
+* 原始的IO的各种流是`阻塞`的，这意味着当一个线程调用`read`或`write`方法时，该线程被阻塞，直到有一些数据被读取，或数据完全写入，该线程在此期间不能再干任何事情了。
 
 ## 非阻塞I/O模型
-* NIO是面向缓冲区的：数据读取到一个它稍后处理的缓冲区，需要时可在缓冲区中前后移动，这就增加了处理过程中的灵活性。
+* NIO是`面向缓冲区`的：数据读取到一个它稍后处理的缓冲区，需要时可在缓冲区中前后移动，这就增加了处理过程中的灵活性。
 * NIO的非阻塞模式
   * 非阻塞读：一个线程从某通道发送请求读取数据，但是它仅能得到目前可用的数据，如果目前没有数据可用时，就什么都不会获取，而不是保持线程阻塞，所以直至数据变的可以读取之前，该线程可以继续做其他的事情。 
   * 非阻塞写：一个线程请求写入一些数据到某通道，但不需要等待它完全写入，这个线程同时可以去做别的事情。
@@ -58,6 +58,7 @@ NIO是面向缓冲区的、非阻塞的；
 * get(dst,offset,len) ：获取数据
 
 ## Buffer核心属性
+![Buffer_model](Buffer_model.png)
 * capacity,容量，表示缓冲区中最大存储数据的容量；
 * limit,界限：表示缓冲区可以操作数据的大小；
   * 在写模式下，缓冲区的limit表示你最多能往Buffer里写多少数据；
@@ -94,6 +95,18 @@ NIO是面向缓冲区的、非阻塞的；
 
 >直接缓冲区适合与数据长时间存在于内存，或者大数据量的操作时更加适合。
 
+## Buffer的选择
+通常情况下，操作系统的一次写操作分为两步： 
+1. 将数据从用户空间拷贝到系统空间。 
+2. 从系统空间往网卡写。
+
+同理，读操作也分为两步： 
+1. 将数据从网卡拷贝到系统空间； 
+2. 将数据从系统空间拷贝到用户空间。
+
+对于NIO来说，缓存的使用可以使用DirectByteBuffer和HeapByteBuffer。
+* 如果使用了DirectByteBuffer，一般来说可以减少一次系统空间到用户空间的拷贝。但Buffer创建和销毁的成本更高，更不宜维护，通常会用内存池来提高性能。
+* 如果数据量比较小的中小应用情况下，可以考虑使用heapBuffer；反之可以用directBuffer。
 
 # Channel通道
 * Channel由java.nio.channels包定义；
@@ -102,10 +115,10 @@ NIO是面向缓冲区的、非阻塞的；
 
 ## Channel的主要实现类
 java.io.channels.Channels接口，常用的有
-* FileChannel：file（阻塞模式）
-* SocketChannel：tcp
-* ServerSocketChannel：tcp
-* DatagramChannel：udp
+* FileChannel：文件通道（阻塞模式），用于对文件进行读写；
+* SocketChannel：TCP通道，用户TCP数据传输；
+* ServerSocketChannel：用于服务端监听外部过来的TCP请求；
+* DatagramChannel：UDP通道，用于监听UDP请求和发送UDP请求；
 
 ![Channel_class](Channel_class.jpg)
 
@@ -121,6 +134,10 @@ java.io.channels.Channels接口，常用的有
      * DatagramSocket
 2. JDK1.7中的NIO.2针对各个通道提供了一个`open()`方法获取通道；
 3. JDK1.7中的NIO.2的`Files#newByteChannel()`获取通道；
+
+## 通道的读写操作
+* 读操作：将数据从Channel读取到Buffer中，进行后续处理，方法：`channel.read(buffer)`；
+* 写操作：将数据从Buffer写入到Channel中，方法：`channel.write(buffer)`;
 
 ## 通道之间的数据传输
 1. 非直接缓冲区：读取`Channel`进行复制（速度和缓冲区大小相关）；
@@ -200,15 +217,24 @@ java.io.channels.Channels接口，常用的有
 ```
 
 # Selector选择器
+Selector建立在非阻塞的基础之上，经常说的的`多路复用`在java中指的就是selector，用于实现一个线程管理多个Channel。
+
 ## 选择器(Selector)
 将通道注册到选择器上,并指定监听事件
+* Selector.open()：开启Selector；
+* channel.configureBlocking(false)：将通道设置为非阻塞模式，因为默认都是阻塞模式的；
+* channel.register(selector,SelectionKeys)：注册方法返回值是 SelectionKey 实例，它包含了 Channel 和 Selector 信息，也包括了一个叫做`Interest Set` 的信息，即我们设置的我们感兴趣的正在监听的事件集合；
+* selector.select()：调用 select() 方法获取通道信息。用于判断是否有我们感兴趣的事件已经发生了。
 
 ## 选择键(SelectionKey)
-* OP_ACCEPT
-* OP_READ
-* OP_WRITE
-* OP_CONNECT
+* OP_ACCEPT：对应 00010000，接受 TCP 连接；
+* OP_READ：对应 00000001，通道中有数据可以进行读取；
+* OP_WRITE：对应 00000100，可以往通道中写入数据；
+* OP_CONNECT：对应 00001000，成功建立 TCP 连接；
 
+可以同时监听一个 Channel 中的发生的多个事件，比如我们要监听 ACCEPT 和 READ 事件，那么指定参数为二进制的 00010001 即十进制数值 17 即可。
+
+## Selector示例
 服务端选择器绑定通道，根据选择键区分处理逻辑示例
 ```java
   /**
@@ -263,6 +289,11 @@ java.io.channels.Channels接口，常用的有
     }
 ```
 
+# 注意
+* 使用NIO != 高性能，当连接数<1000，并发程度不高或者局域网环境下NIO并没有显著的性能优势。
+* NIO并没有完全屏蔽平台差异，它仍然是基于各个操作系统的I/O系统实现的，差异仍然存在。使用NIO做网络编程构建事件驱动模型并不容易，陷阱重重。
+* 推荐使用成熟的NIO框架，如Netty，MINA等。解决了很多NIO的陷阱，并屏蔽了操作系统的差异，有较好的性能和编程模型。
+
 # 参考
-
-
+* [Java NIO浅析](https://tech.meituan.com/2016/11/04/nio.html)
+* 
