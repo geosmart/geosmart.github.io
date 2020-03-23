@@ -4,8 +4,30 @@
 
     
   <url>
-    <loc>http://geosmart.github.io/2020/03/21/2020-3-Java%E4%B8%AD%E7%9A%84IO%E6%A8%A1%E5%9E%8B/</loc>
-    <lastmod>2020-03-22T15:15:40.059Z</lastmod>
+    <loc>http://geosmart.github.io/2020/03/21/2020-3-Unix%E4%B8%AD%E7%9A%845%E7%A7%8DIO%E6%A8%A1%E5%9E%8B/</loc>
+    <lastmod>2020-03-23T13:09:56.188Z</lastmod>
+    <data>
+        <display>
+        <title>Unix中的5种IO模型</title>
+        <pubTime>2020-03-20T16:00:00.000Z</pubTime>
+        
+        <tag>IO</tag>
+         
+        <tag>Linux</tag>
+         
+         
+           
+             
+              <breadCrumb title="后端技术" url="http://geosmart.github.io/categories/%E5%90%8E%E7%AB%AF%E6%8A%80%E6%9C%AF/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
+    <loc>http://geosmart.github.io/2020/03/21/2020-3-Java%E4%B8%AD%E7%9A%843%E7%A7%8DIO%E6%A8%A1%E5%9E%8B/</loc>
+    <lastmod>2020-03-23T01:08:50.834Z</lastmod>
     <data>
         <display>
         <title>Java中的IO模型</title>
@@ -2439,12 +2461,12 @@
 
     
   <url>
-    <loc>http://geosmart.github.io/2016/07/22/Elasticsearch%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/</loc>
+    <loc>http://geosmart.github.io/2016/07/30/Elasticsearch%E5%B8%B8%E7%94%A8API/</loc>
     <lastmod>2020-02-25T12:27:18.583Z</lastmod>
     <data>
         <display>
-        <title>Elasticsearch学习笔记</title>
-        <pubTime>2016-07-22T02:23:27.000Z</pubTime>
+        <title>Elasticsearch常用API</title>
+        <pubTime>2016-07-30T00:52:39.000Z</pubTime>
         
         <tag>Elasticsearch</tag>
          
@@ -2459,12 +2481,12 @@
 
     
   <url>
-    <loc>http://geosmart.github.io/2016/07/30/Elasticsearch%E5%B8%B8%E7%94%A8API/</loc>
+    <loc>http://geosmart.github.io/2016/07/22/Elasticsearch%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/</loc>
     <lastmod>2020-02-25T12:27:18.583Z</lastmod>
     <data>
         <display>
-        <title>Elasticsearch常用API</title>
-        <pubTime>2016-07-30T00:52:39.000Z</pubTime>
+        <title>Elasticsearch学习笔记</title>
+        <pubTime>2016-07-22T02:23:27.000Z</pubTime>
         
         <tag>Elasticsearch</tag>
          
