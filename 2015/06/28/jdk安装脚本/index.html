@@ -237,6 +237,27 @@
             </span>
 
           
+            <span id="/2015/06/28/jdk%E5%AE%89%E8%A3%85%E8%84%9A%E6%9C%AC/" class="post-meta-item leancloud_visitors" data-flag-title="jdk安装脚本" title="阅读次数">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-eye"></i>
+              </span>
+              <span class="post-meta-item-text">阅读次数：</span>
+              <span class="leancloud-visitors-count"></span>
+            </span>
+  
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="fa fa-comment-o"></i>
+      </span>
+      <span class="post-meta-item-text">Valine：</span>
+    
+    <a title="valine" href="/2015/06/28/jdk%E5%AE%89%E8%A3%85%E8%84%9A%E6%9C%AC/#valine-comments" itemprop="discussionUrl">
+      <span class="post-comments-count valine-comment-count" data-xid="/2015/06/28/jdk%E5%AE%89%E8%A3%85%E8%84%9A%E6%9C%AC/" itemprop="commentCount"></span>
+    </a>
+  </span>
+  
+  
 
         </div>
       </header>
@@ -284,8 +305,8 @@
         
     <div class="post-nav">
       <div class="post-nav-item">
-    <a href="/2015/06/28/jetty%E6%89%8B%E5%8A%A8%E5%AE%89%E8%A3%85%E8%84%9A%E6%9C%AC/" rel="prev" title="jetty手动安装脚本">
-      <i class="fa fa-chevron-left"></i> jetty手动安装脚本
+    <a href="/2015/06/28/jetty%E4%B8%80%E9%94%AE%E5%AE%89%E8%A3%85%E8%84%9A%E6%9C%AC/" rel="prev" title="jetty一键安装脚本">
+      <i class="fa fa-chevron-left"></i> jetty一键安装脚本
     </a></div>
       <div class="post-nav-item">
     <a href="/2015/06/28/mongodb%E6%89%8B%E5%8A%A8%E5%AE%89%E8%A3%85%E8%84%9A%E6%9C%AC/" rel="next" title="mongodb手动安装脚本">
@@ -304,7 +325,7 @@
 
           </div>
           
-    <div class="comments" id="gitalk-container"></div>
+    <div class="comments" id="valine-comments"></div>
 
 <script>
   window.addEventListener('tabs:register', () => {
@@ -414,11 +435,6 @@
   </span>
   <span class="author" itemprop="copyrightHolder">geosmart</span>
 </div>
-  <div class="powered-by">由 <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> 强力驱动 v4.2.0
-  </div>
-  <span class="post-meta-divider">|</span>
-  <div class="theme-info">主题 – <a href="https://pisces.theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Pisces</a> v7.7.1
-  </div>
 
         
 
@@ -524,23 +540,32 @@
 
   
 
-<link rel="stylesheet" href="//cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.min.css">
 
 <script>
-NexT.utils.loadComments(document.querySelector('#gitalk-container'), () => {
-  NexT.utils.getScript('//cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.min.js', () => {
-    var gitalk = new Gitalk({
-      clientID    : '8a29a27c357a64ed79fd',
-      clientSecret: 'fe1b781c49fa9037803f3c4d3e94fbb677abac4d',
-      repo        : 'geosmart.github.io',
-      owner       : 'geosmart',
-      admin       : ['geosmart'],
-      id          : '318bcf32c04211741ebd13e469d97d22',
-        language: 'zh-CN',
-      distractionFreeMode: true
+NexT.utils.loadComments(document.querySelector('#valine-comments'), () => {
+  NexT.utils.getScript('//unpkg.com/valine/dist/Valine.min.js', () => {
+    var GUEST = ['nick', 'mail', 'link'];
+    var guest = 'nick,mail,link';
+    guest = guest.split(',').filter(item => {
+      return GUEST.includes(item);
     });
-    gitalk.render('gitalk-container');
-  }, window.Gitalk);
+    new Valine({
+      el         : '#valine-comments',
+      verify     : false,
+      notify     : false,
+      appId      : 'IEUNK8t5XWOrVro56K7v5dNk-gzGzoHsz',
+      appKey     : 'lyBPIcn03kBgwjQo6Yf3R7w9',
+      placeholder: "求吐槽",
+      avatar     : 'mm',
+      meta       : guest,
+      pageSize   : '10' || 10,
+      visitor    : true,
+      lang       : 'zh-CN' || 'zh-cn',
+      path       : location.pathname,
+      recordIP   : true,
+      serverURLs : 'geosmart.top'
+    });
+  }, window.Valine);
 });
 </script>
 
