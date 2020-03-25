@@ -236,27 +236,6 @@
             </span>
 
           
-            <span id="/2017/07/03/MachineLeaning%E8%AF%BE%E7%A8%8B%E7%AC%94%E8%AE%B0Week1-%E5%9F%BA%E7%A1%80%E6%A6%82%E5%BF%B5/" class="post-meta-item leancloud_visitors" data-flag-title="Machine Learning课程笔记Week1-基础概念" title="阅读次数">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-eye"></i>
-              </span>
-              <span class="post-meta-item-text">阅读次数：</span>
-              <span class="leancloud-visitors-count"></span>
-            </span>
-  
-  <span class="post-meta-item">
-    
-      <span class="post-meta-item-icon">
-        <i class="fa fa-comment-o"></i>
-      </span>
-      <span class="post-meta-item-text">Valine：</span>
-    
-    <a title="valine" href="/2017/07/03/MachineLeaning%E8%AF%BE%E7%A8%8B%E7%AC%94%E8%AE%B0Week1-%E5%9F%BA%E7%A1%80%E6%A6%82%E5%BF%B5/#valine-comments" itemprop="discussionUrl">
-      <span class="post-comments-count valine-comment-count" data-xid="/2017/07/03/MachineLeaning%E8%AF%BE%E7%A8%8B%E7%AC%94%E8%AE%B0Week1-%E5%9F%BA%E7%A1%80%E6%A6%82%E5%BF%B5/" itemprop="commentCount"></span>
-    </a>
-  </span>
-  
-  
 
         </div>
       </header>
@@ -339,7 +318,7 @@
 
           </div>
           
-    <div class="comments" id="valine-comments"></div>
+    <div class="comments" id="gitalk-container"></div>
 
 <script>
   window.addEventListener('tabs:register', () => {
@@ -554,32 +533,23 @@
 
   
 
+<link rel="stylesheet" href="//cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.min.css">
 
 <script>
-NexT.utils.loadComments(document.querySelector('#valine-comments'), () => {
-  NexT.utils.getScript('//unpkg.com/valine/dist/Valine.min.js', () => {
-    var GUEST = ['nick', 'mail', 'link'];
-    var guest = 'nick,mail,link';
-    guest = guest.split(',').filter(item => {
-      return GUEST.includes(item);
+NexT.utils.loadComments(document.querySelector('#gitalk-container'), () => {
+  NexT.utils.getScript('//cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.min.js', () => {
+    var gitalk = new Gitalk({
+      clientID    : '8a29a27c357a64ed79fd',
+      clientSecret: 'fe1b781c49fa9037803f3c4d3e94fbb677abac4d',
+      repo        : 'geosmart.github.io',
+      owner       : 'geosmart',
+      admin       : ['geosmart'],
+      id          : 'b6f2a6e98d57133c2a00c56d679cd929',
+        language: 'zh-CN',
+      distractionFreeMode: true
     });
-    new Valine({
-      el         : '#valine-comments',
-      verify     : false,
-      notify     : false,
-      appId      : 'IEUNK8t5XWOrVro56K7v5dNk-gzGzoHsz',
-      appKey     : 'lyBPIcn03kBgwjQo6Yf3R7w9',
-      placeholder: "求吐槽",
-      avatar     : 'mm',
-      meta       : guest,
-      pageSize   : '10' || 10,
-      visitor    : true,
-      lang       : 'zh-CN' || 'zh-cn',
-      path       : location.pathname,
-      recordIP   : true,
-      serverURLs : 'geosmart.top'
-    });
-  }, window.Valine);
+    gitalk.render('gitalk-container');
+  }, window.Gitalk);
 });
 </script>
 
