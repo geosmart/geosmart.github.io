@@ -5,10 +5,10 @@ tags: [HEXO]
 categories: [工具]
 ---
 
+如何在ECS上部署Hexo博客，实现git提交markdown文档，静态博客自动刷新
+<!-- more -->
 
-<!-- more -->  
 # ECS购买
-
 阿里云买3年套餐，
 
 * 开通80端口

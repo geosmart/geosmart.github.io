@@ -144,17 +144,17 @@ server:
   ip: 127.0.0.1
 
 ## Docs: http://hexo.io/docs/deployment.html
-# deploy:
-#   type: git
-#   repo: https://github.com/geosmart/geosmart.github.io.git
-#   branch: master
-#   message: update posts-auto deploy
-
 deploy:
-    type: git
-    repo: git@47.114.57.4:/home/git/blog.git
-    branch: master
-    message: u
+  type: git
+  repo: https://github.com/geosmart/geosmart.github.io.git
+  branch: master
+  message: update posts-auto deploy
+
+# deploy:
+#     type: git
+#     repo: git@47.114.57.4:/home/git/blog.git
+#     branch: master
+#     message: u
 
 sequence:
   raphael: https://cdn.bootcss.com/raphael/2.2.8/raphael.min.js
