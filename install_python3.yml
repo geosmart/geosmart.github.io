@@ -1,0 +1,6 @@
+- name: install python3
+  hosts: blog
+  roles:
+    - name: mdklatt.python3
+      python3_pyenv: "3.6.4"
+      python3_local: "/opt/python3"

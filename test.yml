@@ -1,0 +1,10 @@
+---
+- hosts: blog
+  user: root
+  tasks:
+    - name: clean exist blog files
+      shell: rm -rf /home/geosmart.top/*
+    - name: copy new blog files
+      copy:
+        src: /mnt/hgfs/WorkSpace/NoteSpace/geosmart.github.io/hexo/public/
+        dest: /home/geosmart.top/
