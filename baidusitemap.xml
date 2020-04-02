@@ -4,34 +4,16 @@
 
     
   <url>
-    <loc>http://geosmart.github.io/2020/03/26/2020-3-%E5%A6%82%E4%BD%95%E5%9C%A8ECS%E4%B8%8A%E5%8A%A8%E6%80%81%E9%83%A8%E7%BD%B2Hexo%E5%8D%9A%E5%AE%A2/</loc>
-    <lastmod>2020-03-28T15:13:40.973Z</lastmod>
+    <loc>http://geosmart.github.io/2020/04/01/Ansible%E8%87%AA%E5%8A%A8%E5%8C%96%E8%BF%90%E7%BB%B4%E7%AC%94%E8%AE%B0/</loc>
+    <lastmod>2020-04-02T02:42:38.798Z</lastmod>
     <data>
         <display>
-        <title>如何在ECS上动态部署Hexo博客</title>
-        <pubTime>2020-03-25T16:00:00.000Z</pubTime>
+        <title>Ansible自动化运维笔记</title>
+        <pubTime>2020-04-01T06:36:33.000Z</pubTime>
         
-        <tag>HEXO</tag>
+        <tag>DevOps</tag>
          
-         
-           
-             
-              <breadCrumb title="工具" url="http://geosmart.github.io/categories/%E5%B7%A5%E5%85%B7/"/>
-          
-        </display>
-    </data>
-    </url>
-
-    
-  <url>
-    <loc>http://geosmart.github.io/2020/03/27/2020-3-Docker%E7%9A%84%E5%AE%89%E8%A3%85%E4%B8%8E%E4%BD%BF%E7%94%A8/</loc>
-    <lastmod>2020-03-28T15:12:42.904Z</lastmod>
-    <data>
-        <display>
-        <title>Docker的安装与使用</title>
-        <pubTime>2020-03-26T16:00:00.000Z</pubTime>
-        
-        <tag>Docker</tag>
+        <tag>Ansible</tag>
          
          
            
@@ -44,8 +26,28 @@
 
     
   <url>
-    <loc>http://geosmart.github.io/2020/03/28/2020-3-Docker%E5%AE%89%E8%A3%85ETCD%E6%9C%8D%E5%8A%A1/</loc>
-    <lastmod>2020-03-28T15:06:50.379Z</lastmod>
+    <loc>http://geosmart.github.io/2020/03/22/git%E6%8F%90%E4%BA%A4%E6%97%A5%E5%BF%97%E8%A7%84%E8%8C%83/</loc>
+    <lastmod>2020-03-31T11:29:17.971Z</lastmod>
+    <data>
+        <display>
+        <title>git提交日志规范</title>
+        <pubTime>2020-03-21T16:00:00.000Z</pubTime>
+        
+        <tag>git</tag>
+         
+         
+           
+             
+              <breadCrumb title="方法论" url="http://geosmart.github.io/categories/%E6%96%B9%E6%B3%95%E8%AE%BA/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
+    <loc>http://geosmart.github.io/2020/03/28/Docker%E5%AE%89%E8%A3%85ETCD%E6%9C%8D%E5%8A%A1/</loc>
+    <lastmod>2020-03-28T15:14:10.508Z</lastmod>
     <data>
         <display>
         <title>Docker安装ETCD服务</title>
@@ -66,8 +68,48 @@
 
     
   <url>
-    <loc>http://geosmart.github.io/2020/03/24/2020-3-Netty%E7%9A%84IO%E6%A8%A1%E5%9E%8B/</loc>
-    <lastmod>2020-03-25T08:51:55.799Z</lastmod>
+    <loc>http://geosmart.github.io/2020/03/26/%E5%A6%82%E4%BD%95%E5%9C%A8ECS%E4%B8%8A%E5%8A%A8%E6%80%81%E9%83%A8%E7%BD%B2Hexo%E5%8D%9A%E5%AE%A2/</loc>
+    <lastmod>2020-03-28T15:13:40.973Z</lastmod>
+    <data>
+        <display>
+        <title>如何在ECS上动态部署Hexo博客</title>
+        <pubTime>2020-03-25T16:00:00.000Z</pubTime>
+        
+        <tag>HEXO</tag>
+         
+         
+           
+             
+              <breadCrumb title="工具" url="http://geosmart.github.io/categories/%E5%B7%A5%E5%85%B7/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
+    <loc>http://geosmart.github.io/2020/03/27/Docker%E7%9A%84%E5%AE%89%E8%A3%85%E4%B8%8E%E4%BD%BF%E7%94%A8/</loc>
+    <lastmod>2020-03-28T15:12:42.904Z</lastmod>
+    <data>
+        <display>
+        <title>Docker的安装与使用</title>
+        <pubTime>2020-03-26T16:00:00.000Z</pubTime>
+        
+        <tag>Docker</tag>
+         
+         
+           
+             
+              <breadCrumb title="运维" url="http://geosmart.github.io/categories/%E8%BF%90%E7%BB%B4/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
+    <loc>http://geosmart.github.io/2020/03/24/Netty%E7%9A%84IO%E6%A8%A1%E5%9E%8B/</loc>
+    <lastmod>2020-03-28T02:32:49.665Z</lastmod>
     <data>
         <display>
         <title>Netty的IO模型</title>
@@ -88,7 +130,7 @@
 
     
   <url>
-    <loc>http://geosmart.github.io/2020/03/24/2020-3-IO%E5%A4%8D%E7%94%A8%E6%A8%A1%E5%9E%8B%E4%B9%8BReactor/</loc>
+    <loc>http://geosmart.github.io/2020/03/24/IO%E5%A4%8D%E7%94%A8%E6%A8%A1%E5%9E%8B%E4%B9%8BReactor/</loc>
     <lastmod>2020-03-24T15:07:32.275Z</lastmod>
     <data>
         <display>
@@ -108,7 +150,7 @@
 
     
   <url>
-    <loc>http://geosmart.github.io/2020/03/23/2020-3-Java%E4%B8%AD%E7%9A%84NIO%E6%A8%A1%E5%9E%8B/</loc>
+    <loc>http://geosmart.github.io/2020/03/23/Java%E4%B8%AD%E7%9A%84NIO%E6%A8%A1%E5%9E%8B/</loc>
     <lastmod>2020-03-24T02:19:37.003Z</lastmod>
     <data>
         <display>
@@ -130,7 +172,7 @@
 
     
   <url>
-    <loc>http://geosmart.github.io/2020/03/22/2020-3-Java%E4%B8%AD%E7%9A%843%E7%A7%8DIO%E6%A8%A1%E5%9E%8B/</loc>
+    <loc>http://geosmart.github.io/2020/03/22/Java%E4%B8%AD%E7%9A%843%E7%A7%8DIO%E6%A8%A1%E5%9E%8B/</loc>
     <lastmod>2020-03-24T02:19:32.477Z</lastmod>
     <data>
         <display>
@@ -152,7 +194,7 @@
 
     
   <url>
-    <loc>http://geosmart.github.io/2020/03/21/2020-3-Unix%E4%B8%AD%E7%9A%845%E7%A7%8DIO%E6%A8%A1%E5%9E%8B/</loc>
+    <loc>http://geosmart.github.io/2020/03/21/Unix%E4%B8%AD%E7%9A%845%E7%A7%8DIO%E6%A8%A1%E5%9E%8B/</loc>
     <lastmod>2020-03-23T13:14:32.784Z</lastmod>
     <data>
         <display>
@@ -530,7 +572,7 @@
 
     
   <url>
-    <loc>http://geosmart.github.io/2020/01/02/2020-1-Android%E5%B9%B3%E5%8F%B0%E7%9A%84%E4%B8%B2%E5%8F%A3%E9%80%9A%E4%BF%A1%E6%8A%80%E6%9C%AF/</loc>
+    <loc>http://geosmart.github.io/2020/01/02/Android%E5%B9%B3%E5%8F%B0%E7%9A%84%E4%B8%B2%E5%8F%A3%E9%80%9A%E4%BF%A1%E6%8A%80%E6%9C%AF/</loc>
     <lastmod>2020-03-20T08:14:17.809Z</lastmod>
     <data>
         <display>
@@ -550,7 +592,7 @@
 
     
   <url>
-    <loc>http://geosmart.github.io/2020/01/01/2020-1-Android%E9%9B%86%E6%88%90bugly%E5%BC%82%E5%B8%B8%E7%9B%91%E6%8E%A7%E6%8F%92%E4%BB%B6/</loc>
+    <loc>http://geosmart.github.io/2020/01/01/Android%E9%9B%86%E6%88%90bugly%E5%BC%82%E5%B8%B8%E7%9B%91%E6%8E%A7%E6%8F%92%E4%BB%B6/</loc>
     <lastmod>2020-03-20T08:14:15.360Z</lastmod>
     <data>
         <display>
@@ -570,7 +612,7 @@
 
     
   <url>
-    <loc>http://geosmart.github.io/2020/01/03/2020-1-Hbase%E7%9A%84%E8%83%8C%E6%99%AF%E7%9F%A5%E8%AF%86/</loc>
+    <loc>http://geosmart.github.io/2020/01/03/Hbase%E7%9A%84%E8%83%8C%E6%99%AF%E7%9F%A5%E8%AF%86/</loc>
     <lastmod>2020-03-20T08:13:47.059Z</lastmod>
     <data>
         <display>
@@ -1523,7 +1565,7 @@
 
     
   <url>
-    <loc>http://geosmart.github.io/2020/01/04/2020-1-Redis%E6%8C%81%E4%B9%85%E5%8C%96/</loc>
+    <loc>http://geosmart.github.io/2020/01/04/Redis%E6%8C%81%E4%B9%85%E5%8C%96/</loc>
     <lastmod>2020-03-20T07:29:05.900Z</lastmod>
     <data>
         <display>
@@ -1543,7 +1585,7 @@
 
     
   <url>
-    <loc>http://geosmart.github.io/2020/03/08/2020-3-%E5%A6%82%E4%BD%95%E7%94%A8%E9%87%91%E5%AD%97%E5%A1%94%E6%80%9D%E7%BB%B4%E6%9D%A5%E5%86%99%E6%8A%80%E6%9C%AF%E7%AC%94%E8%AE%B0/</loc>
+    <loc>http://geosmart.github.io/2020/03/08/%E5%A6%82%E4%BD%95%E7%94%A8%E9%87%91%E5%AD%97%E5%A1%94%E6%80%9D%E7%BB%B4%E6%9D%A5%E5%86%99%E6%8A%80%E6%9C%AF%E7%AC%94%E8%AE%B0/</loc>
     <lastmod>2020-03-20T07:28:54.999Z</lastmod>
     <data>
         <display>
@@ -1563,7 +1605,7 @@
 
     
   <url>
-    <loc>http://geosmart.github.io/2020/03/19/2020-3-%E9%87%8D%E5%AD%A6%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F%EF%BC%88%E4%B8%80%EF%BC%89/</loc>
+    <loc>http://geosmart.github.io/2020/03/19/%E9%87%8D%E5%AD%A6%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F%EF%BC%88%E4%B8%80%EF%BC%89/</loc>
     <lastmod>2020-03-20T07:28:49.805Z</lastmod>
     <data>
         <display>
@@ -1823,7 +1865,7 @@
 
     
   <url>
-    <loc>http://geosmart.github.io/2020/03/12/2020-3-Spark%E4%BD%9C%E4%B8%9A%E7%9A%84%E6%89%A7%E8%A1%8C%E8%BF%87%E7%A8%8B/</loc>
+    <loc>http://geosmart.github.io/2020/03/12/Spark%E4%BD%9C%E4%B8%9A%E7%9A%84%E6%89%A7%E8%A1%8C%E8%BF%87%E7%A8%8B/</loc>
     <lastmod>2020-03-12T12:04:43.237Z</lastmod>
     <data>
         <display>
@@ -1907,7 +1949,7 @@
 
     
   <url>
-    <loc>http://geosmart.github.io/2020/03/11/2020-3-JVM%E4%B8%AD%E7%B1%BB%E7%9A%84%E5%8A%A0%E8%BD%BD%E8%BF%87%E7%A8%8B/</loc>
+    <loc>http://geosmart.github.io/2020/03/11/JVM%E4%B8%AD%E7%B1%BB%E7%9A%84%E5%8A%A0%E8%BD%BD%E8%BF%87%E7%A8%8B/</loc>
     <lastmod>2020-03-11T02:26:26.126Z</lastmod>
     <data>
         <display>
@@ -1971,7 +2013,7 @@
 
     
   <url>
-    <loc>http://geosmart.github.io/2020/02/06/2020-2-%E6%B5%85%E6%9E%90Java%E4%B8%AD%E7%9A%84%E9%94%81/</loc>
+    <loc>http://geosmart.github.io/2020/02/06/%E6%B5%85%E6%9E%90Java%E4%B8%AD%E7%9A%84%E9%94%81/</loc>
     <lastmod>2020-03-10T09:59:01.831Z</lastmod>
     <data>
         <display>
@@ -2527,26 +2569,6 @@
 
     
   <url>
-    <loc>http://geosmart.github.io/2016/07/25/Elasticsearch%E6%89%B9%E9%87%8F%E6%8F%92%E5%85%A5%E6%B5%8B%E8%AF%95/</loc>
-    <lastmod>2020-02-25T12:27:18.584Z</lastmod>
-    <data>
-        <display>
-        <title>Elasticsearch批量插入测试</title>
-        <pubTime>2016-07-25T02:30:57.000Z</pubTime>
-        
-        <tag>Elasticsearch</tag>
-         
-         
-           
-             
-              <breadCrumb title="后端技术" url="http://geosmart.github.io/categories/%E5%90%8E%E7%AB%AF%E6%8A%80%E6%9C%AF/"/>
-          
-        </display>
-    </data>
-    </url>
-
-    
-  <url>
     <loc>http://geosmart.github.io/2016/07/23/Elasticsearch%E9%9B%86%E7%BE%A4%E9%83%A8%E7%BD%B2/</loc>
     <lastmod>2020-02-25T12:27:18.584Z</lastmod>
     <data>
@@ -2567,12 +2589,12 @@
 
     
   <url>
-    <loc>http://geosmart.github.io/2016/07/22/Elasticsearch%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/</loc>
-    <lastmod>2020-02-25T12:27:18.583Z</lastmod>
+    <loc>http://geosmart.github.io/2016/07/25/Elasticsearch%E6%89%B9%E9%87%8F%E6%8F%92%E5%85%A5%E6%B5%8B%E8%AF%95/</loc>
+    <lastmod>2020-02-25T12:27:18.584Z</lastmod>
     <data>
         <display>
-        <title>Elasticsearch学习笔记</title>
-        <pubTime>2016-07-22T02:23:27.000Z</pubTime>
+        <title>Elasticsearch批量插入测试</title>
+        <pubTime>2016-07-25T02:30:57.000Z</pubTime>
         
         <tag>Elasticsearch</tag>
          
@@ -2593,6 +2615,26 @@
         <display>
         <title>Elasticsearch常用API</title>
         <pubTime>2016-07-30T00:52:39.000Z</pubTime>
+        
+        <tag>Elasticsearch</tag>
+         
+         
+           
+             
+              <breadCrumb title="后端技术" url="http://geosmart.github.io/categories/%E5%90%8E%E7%AB%AF%E6%8A%80%E6%9C%AF/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
+    <loc>http://geosmart.github.io/2016/07/22/Elasticsearch%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/</loc>
+    <lastmod>2020-02-25T12:27:18.583Z</lastmod>
+    <data>
+        <display>
+        <title>Elasticsearch学习笔记</title>
+        <pubTime>2016-07-22T02:23:27.000Z</pubTime>
         
         <tag>Elasticsearch</tag>
          
@@ -2737,26 +2779,6 @@
 
     
   <url>
-    <loc>http://geosmart.github.io/2015/10/03/Docker%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/</loc>
-    <lastmod>2020-02-25T12:27:18.512Z</lastmod>
-    <data>
-        <display>
-        <title>Docker学习笔记</title>
-        <pubTime>2015-10-03T09:58:26.000Z</pubTime>
-        
-        <tag>Docker</tag>
-         
-         
-           
-             
-              <breadCrumb title="运维" url="http://geosmart.github.io/categories/%E8%BF%90%E7%BB%B4/"/>
-          
-        </display>
-    </data>
-    </url>
-
-    
-  <url>
     <loc>http://geosmart.github.io/2015/10/27/CDH%E4%BD%BF%E7%94%A8%E9%97%AE%E9%A2%98%E8%AE%B0%E5%BD%95/</loc>
     <lastmod>2020-02-25T12:27:18.512Z</lastmod>
     <data>
@@ -2774,6 +2796,26 @@
            
              
               <breadCrumb title="大数据" url="http://geosmart.github.io/categories/%E5%A4%A7%E6%95%B0%E6%8D%AE/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
+    <loc>http://geosmart.github.io/2015/10/03/Docker%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/</loc>
+    <lastmod>2020-02-25T12:27:18.512Z</lastmod>
+    <data>
+        <display>
+        <title>Docker学习笔记</title>
+        <pubTime>2015-10-03T09:58:26.000Z</pubTime>
+        
+        <tag>Docker</tag>
+         
+         
+           
+             
+              <breadCrumb title="运维" url="http://geosmart.github.io/categories/%E8%BF%90%E7%BB%B4/"/>
           
         </display>
     </data>
@@ -2893,28 +2935,6 @@
 
     
   <url>
-    <loc>http://geosmart.github.io/2015/08/05/Python%E5%AE%89%E8%A3%85%E5%8D%87%E7%BA%A7%E6%95%99%E7%A8%8B/</loc>
-    <lastmod>2020-02-25T12:27:18.501Z</lastmod>
-    <data>
-        <display>
-        <title>Python安装升级教程</title>
-        <pubTime>2015-08-05T12:32:44.000Z</pubTime>
-        
-        <tag>CentOS</tag>
-         
-        <tag>Python</tag>
-         
-         
-           
-             
-              <breadCrumb title="运维" url="http://geosmart.github.io/categories/%E8%BF%90%E7%BB%B4/"/>
-          
-        </display>
-    </data>
-    </url>
-
-    
-  <url>
     <loc>http://geosmart.github.io/2015/08/03/IIS%E4%B8%8ETomcat%E5%85%B1%E4%BA%AB80%E7%AB%AF%E5%8F%A3/</loc>
     <lastmod>2020-02-25T12:27:18.501Z</lastmod>
     <data>
@@ -2922,9 +2942,9 @@
         <title>IIS与Tomcat共享80端口</title>
         <pubTime>2015-08-03T08:27:21.000Z</pubTime>
         
-        <tag>J2EE</tag>
-         
         <tag>Web服务器</tag>
+         
+        <tag>J2EE</tag>
          
         <tag>IIS</tag>
          
@@ -2954,6 +2974,28 @@
            
              
               <breadCrumb title="读书笔记" url="http://geosmart.github.io/categories/%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B0/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
+    <loc>http://geosmart.github.io/2015/08/05/Python%E5%AE%89%E8%A3%85%E5%8D%87%E7%BA%A7%E6%95%99%E7%A8%8B/</loc>
+    <lastmod>2020-02-25T12:27:18.501Z</lastmod>
+    <data>
+        <display>
+        <title>Python安装升级教程</title>
+        <pubTime>2015-08-05T12:32:44.000Z</pubTime>
+        
+        <tag>CentOS</tag>
+         
+        <tag>Python</tag>
+         
+         
+           
+             
+              <breadCrumb title="运维" url="http://geosmart.github.io/categories/%E8%BF%90%E7%BB%B4/"/>
           
         </display>
     </data>
@@ -3249,30 +3291,6 @@
 
     
   <url>
-    <loc>http://geosmart.github.io/2015/06/28/jetty%E6%89%8B%E5%8A%A8%E5%AE%89%E8%A3%85%E8%84%9A%E6%9C%AC/</loc>
-    <lastmod>2020-02-25T12:27:18.474Z</lastmod>
-    <data>
-        <display>
-        <title>jetty手动安装脚本</title>
-        <pubTime>2015-06-28T05:39:00.000Z</pubTime>
-        
-        <tag>CentOS</tag>
-         
-        <tag>Web服务器</tag>
-         
-        <tag>Jetty</tag>
-         
-         
-           
-             
-              <breadCrumb title="运维" url="http://geosmart.github.io/categories/%E8%BF%90%E7%BB%B4/"/>
-          
-        </display>
-    </data>
-    </url>
-
-    
-  <url>
     <loc>http://geosmart.github.io/2015/06/30/lnmp%E5%AE%89%E8%A3%85/</loc>
     <lastmod>2020-02-25T12:27:18.474Z</lastmod>
     <data>
@@ -3285,6 +3303,30 @@
         <tag>Web服务器</tag>
          
         <tag>LNMP</tag>
+         
+         
+           
+             
+              <breadCrumb title="运维" url="http://geosmart.github.io/categories/%E8%BF%90%E7%BB%B4/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
+    <loc>http://geosmart.github.io/2015/06/28/jetty%E6%89%8B%E5%8A%A8%E5%AE%89%E8%A3%85%E8%84%9A%E6%9C%AC/</loc>
+    <lastmod>2020-02-25T12:27:18.474Z</lastmod>
+    <data>
+        <display>
+        <title>jetty手动安装脚本</title>
+        <pubTime>2015-06-28T05:39:00.000Z</pubTime>
+        
+        <tag>CentOS</tag>
+         
+        <tag>Web服务器</tag>
+         
+        <tag>Jetty</tag>
          
          
            
