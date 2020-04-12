@@ -1,0 +1,12 @@
+{
+  "1": "commitizen init cz-conventional-changelog --save --save-exact",
+  "2": "git cz",
+  "devDependencies": {
+    "cz-conventional-changelog": "^3.1.0"
+  },
+  "config": {
+    "commitizen": {
+      "path": "./node_modules/cz-conventional-changelog"
+    }
+  }
+}
