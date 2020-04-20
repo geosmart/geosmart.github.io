@@ -2,7 +2,7 @@
 title: Kuboard安装K8S集群
 date: 2020-04-01 14:36:33
 tags: [DevOps,Kuboard,Kubernetes]
-categories: [运维]
+categories: [OPS]
 ---
 
 记录如何用kuboard工具安装k8s集群

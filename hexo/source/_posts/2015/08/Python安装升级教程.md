@@ -1,7 +1,7 @@
 title: Python安装升级教程
 date: 2015-08-05 20:32:44
 tags: [CentOS,Python]
-categories: [运维] 
+categories: [OPS] 
 ---
 
 # 升级前安装依赖

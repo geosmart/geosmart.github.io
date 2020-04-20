@@ -1,6 +1,6 @@
 ---
-title: git提交日志规范
-date: 2020-03-22
+title: Git提交日志规范
+date: 2020-03-30
 tags: [git]
 categories: [方法论]
 

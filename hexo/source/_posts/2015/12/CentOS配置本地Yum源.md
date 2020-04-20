@@ -1,7 +1,7 @@
 title: CentOS配置本地Yum源
 date: 2015-12-07 18:59:18
 tags: [yum,CentOS]
-categories: [运维]
+categories: [OPS]
 ---
 
 现场环境没有网络，有些软件安装简直太痛苦，和maven的依赖链一样，最终耗时耗力不一定能安装好，此时制作本地yum只读光盘就是一个好主意，此文主要介绍如何配置本地yum。

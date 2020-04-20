@@ -1,7 +1,7 @@
 ﻿title: mongodb一键安装脚本
 date: 2015-07-01 20:26
 tags: [CentOS,数据库,MongoDB] 
-categories: [运维] 
+categories: [OPS] 
 ---
  
 ![](logo-mongodb.png)   

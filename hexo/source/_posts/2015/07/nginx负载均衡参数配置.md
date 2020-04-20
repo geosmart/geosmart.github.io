@@ -1,7 +1,7 @@
 title: nginx负载均衡参数配置
 date: 2015-07-12 21:30:47
 tags: [CentOS,Web服务器,Nginx] 
-categories: [运维] 
+categories: [OPS] 
 ---
 
 # 问题描述

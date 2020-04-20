@@ -1,7 +1,7 @@
 title: Samba安装配置笔记
 date: 2015-12-07 18:18:18
 tags: [Samba,CentOS]
-categories: [运维]
+categories: [OPS]
 ---
 
 一个局域网的项目，需要在Linux上进行文件共享，最终选型samba，即通过jcifs实现java读写共享文件。

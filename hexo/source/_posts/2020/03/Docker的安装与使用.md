@@ -2,7 +2,7 @@
 title: Docker的安装与使用
 date: 2020-03-27
 tags: [Docker]
-categories: [运维]
+categories: [OPS]
 ---
 
 记录docker的安装部署和日常使用命令

@@ -2,7 +2,7 @@
 title: Ansible自动化运维笔记
 date: 2020-04-01 14:36:33
 tags: [DevOps,Ansible]
-categories: [运维]
+categories: [OPS]
 ---
 
 Ansible自动化运维工具学习笔记，告别乱糟糟的shell脚本

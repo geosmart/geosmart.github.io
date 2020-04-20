@@ -1,7 +1,7 @@
 title: Tomcat服务器运维
 date: 2015-10-03 17:44:53
 tags: [Tomcat]
-categories: [运维]
+categories: [OPS]
 ---
 
 记录Tomcat服务器的配置安装脚本

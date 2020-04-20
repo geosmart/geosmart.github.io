@@ -2,7 +2,7 @@
 title: Kubeadm安装K8S集群
 date: 2020-04-08 14:36:33
 tags: [DevOps,Kubeadm,Kubernetes]
-categories: [运维]
+categories: [OPS]
 ---
 
 记录如何用kubernetes官方提供的kubeadm工具安装k8s集群

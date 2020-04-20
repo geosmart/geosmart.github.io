@@ -1,7 +1,7 @@
 title: zabbix-server安装脚本
 date: 2015-06-30 10:47:59
 tags: [CentOS,监控,Zabbix] 
-categories: [运维] 
+categories: [OPS] 
 ---
 
 

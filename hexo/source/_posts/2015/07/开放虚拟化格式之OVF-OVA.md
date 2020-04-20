@@ -1,7 +1,7 @@
 title: 开放虚拟化格式之OVF-OVA
 date: 2015-07-12 22:05:44
 tags: [EXSI] 
-categories: [运维] 
+categories: [OPS] 
 ---
 遇到Sphere6.0 (esxi6 )导出的OVF虚拟机模板在Vmware WorkStation 9和VmWare WorkStation11中导入报错的问题，暂改成OVA格式进行数据交换。
 

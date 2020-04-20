@@ -1,7 +1,7 @@
 title: IIS与Tomcat共享80端口
 date: 2015-08-03 16:27:21 
 tags: [Web服务器,J2EE,IIS,Tomcat]
-categories: [运维] 
+categories: [OPS] 
 ---
 
 微信公众号有80端口要求，但是80端口已运行了一个项目，如何将后端J2EE实现的服务集成到80端口，即Tomcat集成进IIS。

@@ -1,7 +1,7 @@
 title: jetty手动安装脚本
 date: 2015-06-28 13:39
 tags: [CentOS,Web服务器,Jetty]
-categories: [运维] 
+categories: [OPS] 
 ---
 
 ##安装步骤

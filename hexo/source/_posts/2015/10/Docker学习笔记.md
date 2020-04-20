@@ -1,7 +1,7 @@
 title: Docker学习笔记
 date: 2015-10-03 17:58:26
 tags: [Docker]
-categories: [运维]
+categories: [OPS]
 ---
 
 dockerfile就像人体的DNA，提供自动构建一切的元数据。

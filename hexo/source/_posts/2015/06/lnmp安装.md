@@ -1,7 +1,7 @@
 title: LNMP安装
 date: 2015-06-30 13:11:58
 tags: [CentOS,Web服务器,LNMP]
-categories: [运维] 
+categories: [OPS] 
 ---
 
 具体参考[LNMP一键安装官网](http://lnmp.org/)

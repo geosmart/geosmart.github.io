@@ -1,7 +1,7 @@
 title: zabbix-agent安装脚本
 date: 2015-06-29 15:33:38
 tags: [CentOS,监控,Zabbix] 
-categories: [运维] 
+categories: [OPS] 
 ---
 
 

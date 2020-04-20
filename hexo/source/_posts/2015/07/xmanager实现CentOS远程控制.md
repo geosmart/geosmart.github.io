@@ -1,7 +1,7 @@
 title: xmanager实现CentOS远程控制
 date: 2015-07-15 09:34:10
 tags: [CentOS,Xmanager] 
-categories: [运维] 
+categories: [OPS] 
 ---
 
 本文主要介绍通过Xmanager连接CentOS远程桌面时，在CentOS远程机器和Windows客户端需要做的一些配置。

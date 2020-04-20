@@ -2,7 +2,7 @@
 title: Jenkins自动化发布
 date: 2020-04-02 14:36:33
 tags: [Jenkins,Ansible]
-categories: [运维]
+categories: [OPS]
 ---
 
 Ansible自动化运维工具学习笔记，告别手动发布，保证代码质量。

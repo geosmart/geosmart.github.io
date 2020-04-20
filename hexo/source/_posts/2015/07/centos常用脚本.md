@@ -1,7 +1,7 @@
 title: CentOS常用脚本
 date: 2015-07-06 16:41:15
 tags: [CentOS,Shell]
-categories: [运维]
+categories: [OPS]
 ---
 
 CentOS日常使用过程中积累的Shell脚本或Linux命令，持续维护更新  

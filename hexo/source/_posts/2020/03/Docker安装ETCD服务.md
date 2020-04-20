@@ -2,7 +2,7 @@
 title: Docker安装ETCD服务
 date: 2020-03-28
 tags: [Docker,ETCD]
-categories: [运维]
+categories: [OPS]
 ---
 
 记录docker容器安装etcd，以及etcd的日常使用命令
