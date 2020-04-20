@@ -4,6 +4,629 @@
 
     
   <url>
+    <loc>http://geosmart.github.io/2020/04/19/%E7%94%A8DataHub%E5%AE%9E%E8%B7%B5%E5%85%83%E6%95%B0%E6%8D%AE%E7%AE%A1%E7%90%86/</loc>
+    <lastmod>2020-04-20T01:05:13.058Z</lastmod>
+    <data>
+        <display>
+        <title>用DataHub实践元数据管理</title>
+        <pubTime>2020-04-19T12:49:13.000Z</pubTime>
+        
+        <tag>DataHub</tag>
+         
+         
+           
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
+    <loc>http://geosmart.github.io/2020/04/19/CentOS%E5%8D%87%E7%BA%A7Python3/</loc>
+    <lastmod>2020-04-19T02:53:07.400Z</lastmod>
+    <data>
+        <display>
+        <title>CentOS升级Python3</title>
+        <pubTime>2020-04-19T02:50:45.000Z</pubTime>
+        
+         
+           
+             
+              <breadCrumb title="OPS" url="http://geosmart.github.io/categories/OPS/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
+    <loc>http://geosmart.github.io/2020/04/01/Kuboard%E5%AE%89%E8%A3%85K8S%E9%9B%86%E7%BE%A4/</loc>
+    <lastmod>2020-04-19T02:52:37.854Z</lastmod>
+    <data>
+        <display>
+        <title>Kuboard安装K8S集群</title>
+        <pubTime>2020-04-01T06:36:33.000Z</pubTime>
+        
+        <tag>DevOps</tag>
+         
+        <tag>Kuboard</tag>
+         
+        <tag>Kubernetes</tag>
+         
+         
+           
+             
+              <breadCrumb title="OPS" url="http://geosmart.github.io/categories/OPS/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
+    <loc>http://geosmart.github.io/2015/07/12/%E7%A3%81%E7%9B%98%E9%98%B5%E5%88%97%E9%85%8D%E7%BD%AE/</loc>
+    <lastmod>2020-04-19T02:52:36.343Z</lastmod>
+    <data>
+        <display>
+        <title>磁盘阵列配置</title>
+        <pubTime>2015-07-12T14:04:48.000Z</pubTime>
+        
+        <tag>RAID</tag>
+         
+        <tag>硬件</tag>
+         
+         
+           
+             
+              <breadCrumb title="OPS" url="http://geosmart.github.io/categories/OPS/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
+    <loc>http://geosmart.github.io/2015/12/07/Samba%E5%AE%89%E8%A3%85%E9%85%8D%E7%BD%AE%E7%AC%94%E8%AE%B0/</loc>
+    <lastmod>2020-04-19T02:52:36.339Z</lastmod>
+    <data>
+        <display>
+        <title>Samba安装配置笔记</title>
+        <pubTime>2015-12-07T10:18:18.000Z</pubTime>
+        
+        <tag>CentOS</tag>
+         
+        <tag>Samba</tag>
+         
+         
+           
+             
+              <breadCrumb title="OPS" url="http://geosmart.github.io/categories/OPS/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
+    <loc>http://geosmart.github.io/2020/03/27/Docker%E7%9A%84%E5%AE%89%E8%A3%85%E4%B8%8E%E4%BD%BF%E7%94%A8/</loc>
+    <lastmod>2020-04-19T02:52:36.339Z</lastmod>
+    <data>
+        <display>
+        <title>Docker的安装与使用</title>
+        <pubTime>2020-03-26T16:00:00.000Z</pubTime>
+        
+        <tag>Docker</tag>
+         
+         
+           
+             
+              <breadCrumb title="OPS" url="http://geosmart.github.io/categories/OPS/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
+    <loc>http://geosmart.github.io/2020/04/01/Ansible%E8%87%AA%E5%8A%A8%E5%8C%96%E8%BF%90%E7%BB%B4%E7%AC%94%E8%AE%B0/</loc>
+    <lastmod>2020-04-19T02:52:36.337Z</lastmod>
+    <data>
+        <display>
+        <title>Ansible自动化运维笔记</title>
+        <pubTime>2020-04-01T06:36:33.000Z</pubTime>
+        
+        <tag>DevOps</tag>
+         
+        <tag>Ansible</tag>
+         
+         
+           
+             
+              <breadCrumb title="OPS" url="http://geosmart.github.io/categories/OPS/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
+    <loc>http://geosmart.github.io/2020/04/08/Kubeadm%E5%AE%89%E8%A3%85K8S%E9%9B%86%E7%BE%A4/</loc>
+    <lastmod>2020-04-19T02:52:36.337Z</lastmod>
+    <data>
+        <display>
+        <title>Kubeadm安装K8S集群</title>
+        <pubTime>2020-04-08T06:36:33.000Z</pubTime>
+        
+        <tag>DevOps</tag>
+         
+        <tag>Kubeadm</tag>
+         
+        <tag>Kubernetes</tag>
+         
+         
+           
+             
+              <breadCrumb title="OPS" url="http://geosmart.github.io/categories/OPS/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
+    <loc>http://geosmart.github.io/2015/07/15/xmanager%E5%AE%9E%E7%8E%B0CentOS%E8%BF%9C%E7%A8%8B%E6%8E%A7%E5%88%B6/</loc>
+    <lastmod>2020-04-19T02:52:36.336Z</lastmod>
+    <data>
+        <display>
+        <title>xmanager实现CentOS远程控制</title>
+        <pubTime>2015-07-15T01:34:10.000Z</pubTime>
+        
+        <tag>CentOS</tag>
+         
+        <tag>Xmanager</tag>
+         
+         
+           
+             
+              <breadCrumb title="OPS" url="http://geosmart.github.io/categories/OPS/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
+    <loc>http://geosmart.github.io/2015/06/30/zabbix-server%E5%AE%89%E8%A3%85%E8%84%9A%E6%9C%AC/</loc>
+    <lastmod>2020-04-19T02:52:36.336Z</lastmod>
+    <data>
+        <display>
+        <title>zabbix-server安装脚本</title>
+        <pubTime>2015-06-30T02:47:59.000Z</pubTime>
+        
+        <tag>CentOS</tag>
+         
+        <tag>监控</tag>
+         
+        <tag>Zabbix</tag>
+         
+         
+           
+             
+              <breadCrumb title="OPS" url="http://geosmart.github.io/categories/OPS/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
+    <loc>http://geosmart.github.io/2015/12/07/CentOS%E9%85%8D%E7%BD%AE%E6%9C%AC%E5%9C%B0Yum%E6%BA%90/</loc>
+    <lastmod>2020-04-19T02:52:36.336Z</lastmod>
+    <data>
+        <display>
+        <title>CentOS配置本地Yum源</title>
+        <pubTime>2015-12-07T10:59:18.000Z</pubTime>
+        
+        <tag>CentOS</tag>
+         
+        <tag>yum</tag>
+         
+         
+           
+             
+              <breadCrumb title="OPS" url="http://geosmart.github.io/categories/OPS/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
+    <loc>http://geosmart.github.io/2015/07/12/%E5%BC%80%E6%94%BE%E8%99%9A%E6%8B%9F%E5%8C%96%E6%A0%BC%E5%BC%8F%E4%B9%8BOVF-OVA/</loc>
+    <lastmod>2020-04-19T02:52:36.336Z</lastmod>
+    <data>
+        <display>
+        <title>开放虚拟化格式之OVF-OVA</title>
+        <pubTime>2015-07-12T14:05:44.000Z</pubTime>
+        
+        <tag>EXSI</tag>
+         
+         
+           
+             
+              <breadCrumb title="OPS" url="http://geosmart.github.io/categories/OPS/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
+    <loc>http://geosmart.github.io/2015/10/03/Tomcat%E6%9C%8D%E5%8A%A1%E5%99%A8%E8%BF%90%E7%BB%B4/</loc>
+    <lastmod>2020-04-19T02:52:36.336Z</lastmod>
+    <data>
+        <display>
+        <title>Tomcat服务器运维</title>
+        <pubTime>2015-10-03T09:44:53.000Z</pubTime>
+        
+        <tag>Tomcat</tag>
+         
+         
+           
+             
+              <breadCrumb title="OPS" url="http://geosmart.github.io/categories/OPS/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
+    <loc>http://geosmart.github.io/2015/06/30/lnmp%E5%AE%89%E8%A3%85/</loc>
+    <lastmod>2020-04-19T02:52:36.336Z</lastmod>
+    <data>
+        <display>
+        <title>LNMP安装</title>
+        <pubTime>2015-06-30T05:11:58.000Z</pubTime>
+        
+        <tag>CentOS</tag>
+         
+        <tag>Web服务器</tag>
+         
+        <tag>LNMP</tag>
+         
+         
+           
+             
+              <breadCrumb title="OPS" url="http://geosmart.github.io/categories/OPS/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
+    <loc>http://geosmart.github.io/2015/07/12/nginx%E8%B4%9F%E8%BD%BD%E5%9D%87%E8%A1%A1%E5%8F%82%E6%95%B0%E9%85%8D%E7%BD%AE/</loc>
+    <lastmod>2020-04-19T02:52:36.336Z</lastmod>
+    <data>
+        <display>
+        <title>nginx负载均衡参数配置</title>
+        <pubTime>2015-07-12T13:30:47.000Z</pubTime>
+        
+        <tag>CentOS</tag>
+         
+        <tag>Web服务器</tag>
+         
+        <tag>Nginx</tag>
+         
+         
+           
+             
+              <breadCrumb title="OPS" url="http://geosmart.github.io/categories/OPS/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
+    <loc>http://geosmart.github.io/2015/06/30/%E6%97%A5%E5%BF%97%E5%88%86%E6%9E%90%E5%B7%A5%E5%85%B7/</loc>
+    <lastmod>2020-04-19T02:52:36.336Z</lastmod>
+    <data>
+        <display>
+        <title>日志分析工具</title>
+        <pubTime>2015-06-30T06:47:50.000Z</pubTime>
+        
+        <tag>日志分析</tag>
+         
+         
+           
+             
+              <breadCrumb title="OPS" url="http://geosmart.github.io/categories/OPS/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
+    <loc>http://geosmart.github.io/2020/03/28/Docker%E5%AE%89%E8%A3%85ETCD%E6%9C%8D%E5%8A%A1/</loc>
+    <lastmod>2020-04-19T02:52:36.336Z</lastmod>
+    <data>
+        <display>
+        <title>Docker安装ETCD服务</title>
+        <pubTime>2020-03-27T16:00:00.000Z</pubTime>
+        
+        <tag>ETCD</tag>
+         
+        <tag>Docker</tag>
+         
+         
+           
+             
+              <breadCrumb title="OPS" url="http://geosmart.github.io/categories/OPS/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
+    <loc>http://geosmart.github.io/2015/06/29/zabbix-agent%E5%AE%89%E8%A3%85%E8%84%9A%E6%9C%AC/</loc>
+    <lastmod>2020-04-19T02:52:36.335Z</lastmod>
+    <data>
+        <display>
+        <title>zabbix-agent安装脚本</title>
+        <pubTime>2015-06-29T07:33:38.000Z</pubTime>
+        
+        <tag>CentOS</tag>
+         
+        <tag>监控</tag>
+         
+        <tag>Zabbix</tag>
+         
+         
+           
+             
+              <breadCrumb title="OPS" url="http://geosmart.github.io/categories/OPS/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
+    <loc>http://geosmart.github.io/2015/10/20/Hadoop%E9%9B%86%E7%BE%A4%E7%A6%BB%E7%BA%BF%E9%83%A8%E7%BD%B2/</loc>
+    <lastmod>2020-04-19T02:52:36.335Z</lastmod>
+    <data>
+        <display>
+        <title>Hadoop集群离线部署</title>
+        <pubTime>2015-10-20T03:04:32.000Z</pubTime>
+        
+        <tag>分布式</tag>
+         
+        <tag>CDH</tag>
+         
+        <tag>Hadoop</tag>
+         
+         
+           
+             
+              <breadCrumb title="OPS" url="http://geosmart.github.io/categories/OPS/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
+    <loc>http://geosmart.github.io/2015/06/28/jetty%E6%89%8B%E5%8A%A8%E5%AE%89%E8%A3%85%E8%84%9A%E6%9C%AC/</loc>
+    <lastmod>2020-04-19T02:52:36.334Z</lastmod>
+    <data>
+        <display>
+        <title>jetty手动安装脚本</title>
+        <pubTime>2015-06-28T05:39:00.000Z</pubTime>
+        
+        <tag>CentOS</tag>
+         
+        <tag>Web服务器</tag>
+         
+        <tag>Jetty</tag>
+         
+         
+           
+             
+              <breadCrumb title="OPS" url="http://geosmart.github.io/categories/OPS/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
+    <loc>http://geosmart.github.io/2015/06/28/jdk%E5%AE%89%E8%A3%85%E8%84%9A%E6%9C%AC/</loc>
+    <lastmod>2020-04-19T02:52:36.334Z</lastmod>
+    <data>
+        <display>
+        <title>jdk安装脚本</title>
+        <pubTime>2015-06-28T08:03:00.000Z</pubTime>
+        
+        <tag>CentOS</tag>
+         
+        <tag>J2EE</tag>
+         
+         
+           
+             
+              <breadCrumb title="OPS" url="http://geosmart.github.io/categories/OPS/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
+    <loc>http://geosmart.github.io/2015/08/03/IIS%E4%B8%8ETomcat%E5%85%B1%E4%BA%AB80%E7%AB%AF%E5%8F%A3/</loc>
+    <lastmod>2020-04-19T02:52:36.334Z</lastmod>
+    <data>
+        <display>
+        <title>IIS与Tomcat共享80端口</title>
+        <pubTime>2015-08-03T08:27:21.000Z</pubTime>
+        
+        <tag>Web服务器</tag>
+         
+        <tag>J2EE</tag>
+         
+        <tag>IIS</tag>
+         
+        <tag>Tomcat</tag>
+         
+         
+           
+             
+              <breadCrumb title="OPS" url="http://geosmart.github.io/categories/OPS/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
+    <loc>http://geosmart.github.io/2015/07/06/centos%E5%B8%B8%E7%94%A8%E8%84%9A%E6%9C%AC/</loc>
+    <lastmod>2020-04-19T02:52:36.334Z</lastmod>
+    <data>
+        <display>
+        <title>CentOS常用脚本</title>
+        <pubTime>2015-07-06T08:41:15.000Z</pubTime>
+        
+        <tag>CentOS</tag>
+         
+        <tag>Shell</tag>
+         
+         
+           
+             
+              <breadCrumb title="OPS" url="http://geosmart.github.io/categories/OPS/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
+    <loc>http://geosmart.github.io/2015/08/05/Python%E5%AE%89%E8%A3%85%E5%8D%87%E7%BA%A7%E6%95%99%E7%A8%8B/</loc>
+    <lastmod>2020-04-19T02:52:36.334Z</lastmod>
+    <data>
+        <display>
+        <title>Python安装升级教程</title>
+        <pubTime>2015-08-05T12:32:44.000Z</pubTime>
+        
+        <tag>CentOS</tag>
+         
+        <tag>Python</tag>
+         
+         
+           
+             
+              <breadCrumb title="OPS" url="http://geosmart.github.io/categories/OPS/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
+    <loc>http://geosmart.github.io/2015/08/08/Hadoop%E9%9B%86%E7%BE%A4%E9%83%A8%E7%BD%B2/</loc>
+    <lastmod>2020-04-19T02:52:36.334Z</lastmod>
+    <data>
+        <display>
+        <title>Hadoop集群部署</title>
+        <pubTime>2015-08-08T03:38:22.000Z</pubTime>
+        
+        <tag>分布式</tag>
+         
+        <tag>CDH</tag>
+         
+        <tag>Hadoop</tag>
+         
+         
+           
+             
+              <breadCrumb title="OPS" url="http://geosmart.github.io/categories/OPS/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
+    <loc>http://geosmart.github.io/2015/10/03/Docker%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/</loc>
+    <lastmod>2020-04-19T02:52:36.334Z</lastmod>
+    <data>
+        <display>
+        <title>Docker学习笔记</title>
+        <pubTime>2015-10-03T09:58:26.000Z</pubTime>
+        
+        <tag>Docker</tag>
+         
+         
+           
+             
+              <breadCrumb title="OPS" url="http://geosmart.github.io/categories/OPS/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
+    <loc>http://geosmart.github.io/2015/06/28/jetty%E4%B8%80%E9%94%AE%E5%AE%89%E8%A3%85%E8%84%9A%E6%9C%AC/</loc>
+    <lastmod>2020-04-19T02:52:36.334Z</lastmod>
+    <data>
+        <display>
+        <title>jetty一键安装脚本</title>
+        <pubTime>2015-06-28T05:39:00.000Z</pubTime>
+        
+        <tag>CentOS</tag>
+         
+        <tag>Web服务器</tag>
+         
+        <tag>Jetty</tag>
+         
+         
+           
+             
+              <breadCrumb title="OPS" url="http://geosmart.github.io/categories/OPS/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
+    <loc>http://geosmart.github.io/2015/07/01/mongodb%E4%B8%80%E9%94%AE%E5%AE%89%E8%A3%85%E8%84%9A%E6%9C%AC/</loc>
+    <lastmod>2020-04-19T02:52:36.324Z</lastmod>
+    <data>
+        <display>
+        <title>mongodb一键安装脚本</title>
+        <pubTime>2015-07-01T12:26:00.000Z</pubTime>
+        
+        <tag>CentOS</tag>
+         
+        <tag>MongoDB</tag>
+         
+        <tag>数据库</tag>
+         
+         
+           
+             
+              <breadCrumb title="OPS" url="http://geosmart.github.io/categories/OPS/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
     <loc>http://geosmart.github.io/2020/04/12/MySQL%E6%95%B0%E6%8D%AE%E5%BA%93%E5%BC%80%E5%8F%91%E8%A7%84%E8%8C%83/</loc>
     <lastmod>2020-04-13T02:15:35.495Z</lastmod>
     <data>
@@ -43,98 +666,6 @@
 
     
   <url>
-    <loc>http://geosmart.github.io/2020/04/08/Kubeadm%E5%AE%89%E8%A3%85K8S%E9%9B%86%E7%BE%A4/</loc>
-    <lastmod>2020-04-12T07:26:27.275Z</lastmod>
-    <data>
-        <display>
-        <title>Kubeadm安装K8S集群</title>
-        <pubTime>2020-04-08T06:36:33.000Z</pubTime>
-        
-        <tag>DevOps</tag>
-         
-        <tag>Kubeadm</tag>
-         
-        <tag>Kubernetes</tag>
-         
-         
-           
-             
-              <breadCrumb title="运维" url="http://geosmart.github.io/categories/%E8%BF%90%E7%BB%B4/"/>
-          
-        </display>
-    </data>
-    </url>
-
-    
-  <url>
-    <loc>http://geosmart.github.io/2020/04/01/Kuboard%E5%AE%89%E8%A3%85K8S%E9%9B%86%E7%BE%A4/</loc>
-    <lastmod>2020-04-12T07:21:53.069Z</lastmod>
-    <data>
-        <display>
-        <title>Kuboard安装K8S集群</title>
-        <pubTime>2020-04-01T06:36:33.000Z</pubTime>
-        
-        <tag>DevOps</tag>
-         
-        <tag>Kuboard</tag>
-         
-        <tag>Kubernetes</tag>
-         
-         
-           
-             
-              <breadCrumb title="运维" url="http://geosmart.github.io/categories/%E8%BF%90%E7%BB%B4/"/>
-          
-        </display>
-    </data>
-    </url>
-
-    
-  <url>
-    <loc>http://geosmart.github.io/2020/04/01/Ansible%E8%87%AA%E5%8A%A8%E5%8C%96%E8%BF%90%E7%BB%B4%E7%AC%94%E8%AE%B0/</loc>
-    <lastmod>2020-04-02T02:42:38.798Z</lastmod>
-    <data>
-        <display>
-        <title>Ansible自动化运维笔记</title>
-        <pubTime>2020-04-01T06:36:33.000Z</pubTime>
-        
-        <tag>DevOps</tag>
-         
-        <tag>Ansible</tag>
-         
-         
-           
-             
-              <breadCrumb title="运维" url="http://geosmart.github.io/categories/%E8%BF%90%E7%BB%B4/"/>
-          
-        </display>
-    </data>
-    </url>
-
-    
-  <url>
-    <loc>http://geosmart.github.io/2020/03/28/Docker%E5%AE%89%E8%A3%85ETCD%E6%9C%8D%E5%8A%A1/</loc>
-    <lastmod>2020-03-28T15:14:10.508Z</lastmod>
-    <data>
-        <display>
-        <title>Docker安装ETCD服务</title>
-        <pubTime>2020-03-27T16:00:00.000Z</pubTime>
-        
-        <tag>ETCD</tag>
-         
-        <tag>Docker</tag>
-         
-         
-           
-             
-              <breadCrumb title="运维" url="http://geosmart.github.io/categories/%E8%BF%90%E7%BB%B4/"/>
-          
-        </display>
-    </data>
-    </url>
-
-    
-  <url>
     <loc>http://geosmart.github.io/2020/03/26/%E5%A6%82%E4%BD%95%E5%9C%A8ECS%E4%B8%8A%E5%8A%A8%E6%80%81%E9%83%A8%E7%BD%B2Hexo%E5%8D%9A%E5%AE%A2/</loc>
     <lastmod>2020-03-28T15:13:40.973Z</lastmod>
     <data>
@@ -148,26 +679,6 @@
            
              
               <breadCrumb title="工具" url="http://geosmart.github.io/categories/%E5%B7%A5%E5%85%B7/"/>
-          
-        </display>
-    </data>
-    </url>
-
-    
-  <url>
-    <loc>http://geosmart.github.io/2020/03/27/Docker%E7%9A%84%E5%AE%89%E8%A3%85%E4%B8%8E%E4%BD%BF%E7%94%A8/</loc>
-    <lastmod>2020-03-28T15:12:42.904Z</lastmod>
-    <data>
-        <display>
-        <title>Docker的安装与使用</title>
-        <pubTime>2020-03-26T16:00:00.000Z</pubTime>
-        
-        <tag>Docker</tag>
-         
-         
-           
-             
-              <breadCrumb title="运维" url="http://geosmart.github.io/categories/%E8%BF%90%E7%BB%B4/"/>
           
         </display>
     </data>
@@ -985,30 +1496,6 @@
 
     
   <url>
-    <loc>http://geosmart.github.io/2015/10/20/Hadoop%E9%9B%86%E7%BE%A4%E7%A6%BB%E7%BA%BF%E9%83%A8%E7%BD%B2/</loc>
-    <lastmod>2020-03-20T08:04:56.260Z</lastmod>
-    <data>
-        <display>
-        <title>Hadoop集群离线部署</title>
-        <pubTime>2015-10-20T03:04:32.000Z</pubTime>
-        
-        <tag>分布式</tag>
-         
-        <tag>CDH</tag>
-         
-        <tag>Hadoop</tag>
-         
-         
-           
-             
-              <breadCrumb title="运维" url="http://geosmart.github.io/categories/%E8%BF%90%E7%BB%B4/"/>
-          
-        </display>
-    </data>
-    </url>
-
-    
-  <url>
     <loc>http://geosmart.github.io/2017/10/12/Spark%E4%B8%8EHadoop%E5%AF%B9%E6%AF%94/</loc>
     <lastmod>2020-03-20T08:04:33.528Z</lastmod>
     <data>
@@ -1044,30 +1531,6 @@
            
              
               <breadCrumb title="后端技术" url="http://geosmart.github.io/categories/%E5%90%8E%E7%AB%AF%E6%8A%80%E6%9C%AF/"/>
-          
-        </display>
-    </data>
-    </url>
-
-    
-  <url>
-    <loc>http://geosmart.github.io/2015/08/08/Hadoop%E9%9B%86%E7%BE%A4%E9%83%A8%E7%BD%B2/</loc>
-    <lastmod>2020-03-20T08:02:57.595Z</lastmod>
-    <data>
-        <display>
-        <title>Hadoop集群部署</title>
-        <pubTime>2015-08-08T03:38:22.000Z</pubTime>
-        
-        <tag>分布式</tag>
-         
-        <tag>CDH</tag>
-         
-        <tag>Hadoop</tag>
-         
-         
-           
-             
-              <breadCrumb title="运维" url="http://geosmart.github.io/categories/%E8%BF%90%E7%BB%B4/"/>
           
         </display>
     </data>
@@ -1128,28 +1591,6 @@
            
              
               <breadCrumb title="机器学习" url="http://geosmart.github.io/categories/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/"/>
-          
-        </display>
-    </data>
-    </url>
-
-    
-  <url>
-    <loc>http://geosmart.github.io/2015/06/28/jdk%E5%AE%89%E8%A3%85%E8%84%9A%E6%9C%AC/</loc>
-    <lastmod>2020-03-20T08:02:24.983Z</lastmod>
-    <data>
-        <display>
-        <title>jdk安装脚本</title>
-        <pubTime>2015-06-28T08:03:00.000Z</pubTime>
-        
-        <tag>CentOS</tag>
-         
-        <tag>J2EE</tag>
-         
-         
-           
-             
-              <breadCrumb title="运维" url="http://geosmart.github.io/categories/%E8%BF%90%E7%BB%B4/"/>
           
         </display>
     </data>
@@ -2636,12 +3077,12 @@
 
     
   <url>
-    <loc>http://geosmart.github.io/2016/07/25/Elasticsearch%E6%89%B9%E9%87%8F%E6%8F%92%E5%85%A5%E6%B5%8B%E8%AF%95/</loc>
+    <loc>http://geosmart.github.io/2016/07/23/Elasticsearch%E9%9B%86%E7%BE%A4%E9%83%A8%E7%BD%B2/</loc>
     <lastmod>2020-02-25T12:27:18.584Z</lastmod>
     <data>
         <display>
-        <title>Elasticsearch批量插入测试</title>
-        <pubTime>2016-07-25T02:30:57.000Z</pubTime>
+        <title>Elasticsearch集群部署</title>
+        <pubTime>2016-07-22T23:54:33.000Z</pubTime>
         
         <tag>Elasticsearch</tag>
          
@@ -2656,12 +3097,12 @@
 
     
   <url>
-    <loc>http://geosmart.github.io/2016/07/23/Elasticsearch%E9%9B%86%E7%BE%A4%E9%83%A8%E7%BD%B2/</loc>
+    <loc>http://geosmart.github.io/2016/07/25/Elasticsearch%E6%89%B9%E9%87%8F%E6%8F%92%E5%85%A5%E6%B5%8B%E8%AF%95/</loc>
     <lastmod>2020-02-25T12:27:18.584Z</lastmod>
     <data>
         <display>
-        <title>Elasticsearch集群部署</title>
-        <pubTime>2016-07-22T23:54:33.000Z</pubTime>
+        <title>Elasticsearch批量插入测试</title>
+        <pubTime>2016-07-25T02:30:57.000Z</pubTime>
         
         <tag>Elasticsearch</tag>
          
@@ -2736,50 +3177,6 @@
 
     
   <url>
-    <loc>http://geosmart.github.io/2015/12/07/Samba%E5%AE%89%E8%A3%85%E9%85%8D%E7%BD%AE%E7%AC%94%E8%AE%B0/</loc>
-    <lastmod>2020-02-25T12:27:18.525Z</lastmod>
-    <data>
-        <display>
-        <title>Samba安装配置笔记</title>
-        <pubTime>2015-12-07T10:18:18.000Z</pubTime>
-        
-        <tag>CentOS</tag>
-         
-        <tag>Samba</tag>
-         
-         
-           
-             
-              <breadCrumb title="运维" url="http://geosmart.github.io/categories/%E8%BF%90%E7%BB%B4/"/>
-          
-        </display>
-    </data>
-    </url>
-
-    
-  <url>
-    <loc>http://geosmart.github.io/2015/12/07/CentOS%E9%85%8D%E7%BD%AE%E6%9C%AC%E5%9C%B0Yum%E6%BA%90/</loc>
-    <lastmod>2020-02-25T12:27:18.515Z</lastmod>
-    <data>
-        <display>
-        <title>CentOS配置本地Yum源</title>
-        <pubTime>2015-12-07T10:59:18.000Z</pubTime>
-        
-        <tag>CentOS</tag>
-         
-        <tag>yum</tag>
-         
-         
-           
-             
-              <breadCrumb title="运维" url="http://geosmart.github.io/categories/%E8%BF%90%E7%BB%B4/"/>
-          
-        </display>
-    </data>
-    </url>
-
-    
-  <url>
     <loc>http://geosmart.github.io/2015/11/20/MyEclipse%E5%AE%89%E8%A3%85MapReduceTools%E6%8F%92%E4%BB%B6/</loc>
     <lastmod>2020-02-25T12:27:18.514Z</lastmod>
     <data>
@@ -2819,46 +3216,6 @@
            
              
               <breadCrumb title="大数据" url="http://geosmart.github.io/categories/%E5%A4%A7%E6%95%B0%E6%8D%AE/"/>
-          
-        </display>
-    </data>
-    </url>
-
-    
-  <url>
-    <loc>http://geosmart.github.io/2015/10/03/Tomcat%E6%9C%8D%E5%8A%A1%E5%99%A8%E8%BF%90%E7%BB%B4/</loc>
-    <lastmod>2020-02-25T12:27:18.513Z</lastmod>
-    <data>
-        <display>
-        <title>Tomcat服务器运维</title>
-        <pubTime>2015-10-03T09:44:53.000Z</pubTime>
-        
-        <tag>Tomcat</tag>
-         
-         
-           
-             
-              <breadCrumb title="运维" url="http://geosmart.github.io/categories/%E8%BF%90%E7%BB%B4/"/>
-          
-        </display>
-    </data>
-    </url>
-
-    
-  <url>
-    <loc>http://geosmart.github.io/2015/10/03/Docker%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/</loc>
-    <lastmod>2020-02-25T12:27:18.512Z</lastmod>
-    <data>
-        <display>
-        <title>Docker学习笔记</title>
-        <pubTime>2015-10-03T09:58:26.000Z</pubTime>
-        
-        <tag>Docker</tag>
-         
-         
-           
-             
-              <breadCrumb title="运维" url="http://geosmart.github.io/categories/%E8%BF%90%E7%BB%B4/"/>
           
         </display>
     </data>
@@ -3002,32 +3359,6 @@
 
     
   <url>
-    <loc>http://geosmart.github.io/2015/08/03/IIS%E4%B8%8ETomcat%E5%85%B1%E4%BA%AB80%E7%AB%AF%E5%8F%A3/</loc>
-    <lastmod>2020-02-25T12:27:18.501Z</lastmod>
-    <data>
-        <display>
-        <title>IIS与Tomcat共享80端口</title>
-        <pubTime>2015-08-03T08:27:21.000Z</pubTime>
-        
-        <tag>Web服务器</tag>
-         
-        <tag>J2EE</tag>
-         
-        <tag>IIS</tag>
-         
-        <tag>Tomcat</tag>
-         
-         
-           
-             
-              <breadCrumb title="运维" url="http://geosmart.github.io/categories/%E8%BF%90%E7%BB%B4/"/>
-          
-        </display>
-    </data>
-    </url>
-
-    
-  <url>
     <loc>http://geosmart.github.io/2015/07/21/%E3%80%8A%E8%B0%9C%E8%B8%AA%E4%B9%8B%E5%9B%BD%E3%80%8B%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B0/</loc>
     <lastmod>2020-02-25T12:27:18.501Z</lastmod>
     <data>
@@ -3041,28 +3372,6 @@
            
              
               <breadCrumb title="读书笔记" url="http://geosmart.github.io/categories/%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B0/"/>
-          
-        </display>
-    </data>
-    </url>
-
-    
-  <url>
-    <loc>http://geosmart.github.io/2015/08/05/Python%E5%AE%89%E8%A3%85%E5%8D%87%E7%BA%A7%E6%95%99%E7%A8%8B/</loc>
-    <lastmod>2020-02-25T12:27:18.501Z</lastmod>
-    <data>
-        <display>
-        <title>Python安装升级教程</title>
-        <pubTime>2015-08-05T12:32:44.000Z</pubTime>
-        
-        <tag>CentOS</tag>
-         
-        <tag>Python</tag>
-         
-         
-           
-             
-              <breadCrumb title="运维" url="http://geosmart.github.io/categories/%E8%BF%90%E7%BB%B4/"/>
           
         </display>
     </data>
@@ -3087,48 +3396,6 @@
            
              
               <breadCrumb title="大数据" url="http://geosmart.github.io/categories/%E5%A4%A7%E6%95%B0%E6%8D%AE/"/>
-          
-        </display>
-    </data>
-    </url>
-
-    
-  <url>
-    <loc>http://geosmart.github.io/2015/07/12/%E7%A3%81%E7%9B%98%E9%98%B5%E5%88%97%E9%85%8D%E7%BD%AE/</loc>
-    <lastmod>2020-02-25T12:27:18.495Z</lastmod>
-    <data>
-        <display>
-        <title>磁盘阵列配置</title>
-        <pubTime>2015-07-12T14:04:48.000Z</pubTime>
-        
-        <tag>RAID</tag>
-         
-        <tag>硬件</tag>
-         
-         
-           
-             
-              <breadCrumb title="运维" url="http://geosmart.github.io/categories/%E8%BF%90%E7%BB%B4/"/>
-          
-        </display>
-    </data>
-    </url>
-
-    
-  <url>
-    <loc>http://geosmart.github.io/2015/07/12/%E5%BC%80%E6%94%BE%E8%99%9A%E6%8B%9F%E5%8C%96%E6%A0%BC%E5%BC%8F%E4%B9%8BOVF-OVA/</loc>
-    <lastmod>2020-02-25T12:27:18.494Z</lastmod>
-    <data>
-        <display>
-        <title>开放虚拟化格式之OVF-OVA</title>
-        <pubTime>2015-07-12T14:05:44.000Z</pubTime>
-        
-        <tag>EXSI</tag>
-         
-         
-           
-             
-              <breadCrumb title="运维" url="http://geosmart.github.io/categories/%E8%BF%90%E7%BB%B4/"/>
           
         </display>
     </data>
@@ -3176,98 +3443,6 @@
 
     
   <url>
-    <loc>http://geosmart.github.io/2015/07/15/xmanager%E5%AE%9E%E7%8E%B0CentOS%E8%BF%9C%E7%A8%8B%E6%8E%A7%E5%88%B6/</loc>
-    <lastmod>2020-02-25T12:27:18.492Z</lastmod>
-    <data>
-        <display>
-        <title>xmanager实现CentOS远程控制</title>
-        <pubTime>2015-07-15T01:34:10.000Z</pubTime>
-        
-        <tag>CentOS</tag>
-         
-        <tag>Xmanager</tag>
-         
-         
-           
-             
-              <breadCrumb title="运维" url="http://geosmart.github.io/categories/%E8%BF%90%E7%BB%B4/"/>
-          
-        </display>
-    </data>
-    </url>
-
-    
-  <url>
-    <loc>http://geosmart.github.io/2015/07/12/nginx%E8%B4%9F%E8%BD%BD%E5%9D%87%E8%A1%A1%E5%8F%82%E6%95%B0%E9%85%8D%E7%BD%AE/</loc>
-    <lastmod>2020-02-25T12:27:18.489Z</lastmod>
-    <data>
-        <display>
-        <title>nginx负载均衡参数配置</title>
-        <pubTime>2015-07-12T13:30:47.000Z</pubTime>
-        
-        <tag>CentOS</tag>
-         
-        <tag>Web服务器</tag>
-         
-        <tag>Nginx</tag>
-         
-         
-           
-             
-              <breadCrumb title="运维" url="http://geosmart.github.io/categories/%E8%BF%90%E7%BB%B4/"/>
-          
-        </display>
-    </data>
-    </url>
-
-    
-  <url>
-    <loc>http://geosmart.github.io/2015/07/01/mongodb%E4%B8%80%E9%94%AE%E5%AE%89%E8%A3%85%E8%84%9A%E6%9C%AC/</loc>
-    <lastmod>2020-02-25T12:27:18.488Z</lastmod>
-    <data>
-        <display>
-        <title>mongodb一键安装脚本</title>
-        <pubTime>2015-07-01T12:26:00.000Z</pubTime>
-        
-        <tag>CentOS</tag>
-         
-        <tag>MongoDB</tag>
-         
-        <tag>数据库</tag>
-         
-         
-           
-             
-              <breadCrumb title="运维" url="http://geosmart.github.io/categories/%E8%BF%90%E7%BB%B4/"/>
-          
-        </display>
-    </data>
-    </url>
-
-    
-  <url>
-    <loc>http://geosmart.github.io/2015/07/06/centos%E5%B8%B8%E7%94%A8%E8%84%9A%E6%9C%AC/</loc>
-    <lastmod>2020-02-25T12:27:18.486Z</lastmod>
-    <data>
-        <display>
-        <title>CentOS常用脚本</title>
-        <pubTime>2015-07-06T08:41:15.000Z</pubTime>
-        
-        <tag>CentOS</tag>
-         
-        <tag>Shell</tag>
-         
-         
-           
-             
-              <breadCrumb title="运维" url="http://geosmart.github.io/categories/%E8%BF%90%E7%BB%B4/"/>
-          
-        </display>
-    </data>
-    </url>
-
-    
-  <url>
     <loc>http://geosmart.github.io/2015/07/28/backbone-marionette%E5%AD%A6%E4%B9%A0%E8%A6%81%E7%82%B9/</loc>
     <lastmod>2020-02-25T12:27:18.483Z</lastmod>
     <data>
@@ -3283,146 +3458,6 @@
            
              
               <breadCrumb title="前端技术" url="http://geosmart.github.io/categories/%E5%89%8D%E7%AB%AF%E6%8A%80%E6%9C%AF/"/>
-          
-        </display>
-    </data>
-    </url>
-
-    
-  <url>
-    <loc>http://geosmart.github.io/2015/06/30/%E6%97%A5%E5%BF%97%E5%88%86%E6%9E%90%E5%B7%A5%E5%85%B7/</loc>
-    <lastmod>2020-02-25T12:27:18.483Z</lastmod>
-    <data>
-        <display>
-        <title>日志分析工具</title>
-        <pubTime>2015-06-30T06:47:50.000Z</pubTime>
-        
-        <tag>日志分析</tag>
-         
-         
-           
-             
-              <breadCrumb title="运维" url="http://geosmart.github.io/categories/%E8%BF%90%E7%BB%B4/"/>
-          
-        </display>
-    </data>
-    </url>
-
-    
-  <url>
-    <loc>http://geosmart.github.io/2015/06/30/zabbix-server%E5%AE%89%E8%A3%85%E8%84%9A%E6%9C%AC/</loc>
-    <lastmod>2020-02-25T12:27:18.478Z</lastmod>
-    <data>
-        <display>
-        <title>zabbix-server安装脚本</title>
-        <pubTime>2015-06-30T02:47:59.000Z</pubTime>
-        
-        <tag>CentOS</tag>
-         
-        <tag>监控</tag>
-         
-        <tag>Zabbix</tag>
-         
-         
-           
-             
-              <breadCrumb title="运维" url="http://geosmart.github.io/categories/%E8%BF%90%E7%BB%B4/"/>
-          
-        </display>
-    </data>
-    </url>
-
-    
-  <url>
-    <loc>http://geosmart.github.io/2015/06/29/zabbix-agent%E5%AE%89%E8%A3%85%E8%84%9A%E6%9C%AC/</loc>
-    <lastmod>2020-02-25T12:27:18.476Z</lastmod>
-    <data>
-        <display>
-        <title>zabbix-agent安装脚本</title>
-        <pubTime>2015-06-29T07:33:38.000Z</pubTime>
-        
-        <tag>CentOS</tag>
-         
-        <tag>监控</tag>
-         
-        <tag>Zabbix</tag>
-         
-         
-           
-             
-              <breadCrumb title="运维" url="http://geosmart.github.io/categories/%E8%BF%90%E7%BB%B4/"/>
-          
-        </display>
-    </data>
-    </url>
-
-    
-  <url>
-    <loc>http://geosmart.github.io/2015/06/30/lnmp%E5%AE%89%E8%A3%85/</loc>
-    <lastmod>2020-02-25T12:27:18.474Z</lastmod>
-    <data>
-        <display>
-        <title>LNMP安装</title>
-        <pubTime>2015-06-30T05:11:58.000Z</pubTime>
-        
-        <tag>CentOS</tag>
-         
-        <tag>Web服务器</tag>
-         
-        <tag>LNMP</tag>
-         
-         
-           
-             
-              <breadCrumb title="运维" url="http://geosmart.github.io/categories/%E8%BF%90%E7%BB%B4/"/>
-          
-        </display>
-    </data>
-    </url>
-
-    
-  <url>
-    <loc>http://geosmart.github.io/2015/06/28/jetty%E6%89%8B%E5%8A%A8%E5%AE%89%E8%A3%85%E8%84%9A%E6%9C%AC/</loc>
-    <lastmod>2020-02-25T12:27:18.474Z</lastmod>
-    <data>
-        <display>
-        <title>jetty手动安装脚本</title>
-        <pubTime>2015-06-28T05:39:00.000Z</pubTime>
-        
-        <tag>CentOS</tag>
-         
-        <tag>Web服务器</tag>
-         
-        <tag>Jetty</tag>
-         
-         
-           
-             
-              <breadCrumb title="运维" url="http://geosmart.github.io/categories/%E8%BF%90%E7%BB%B4/"/>
-          
-        </display>
-    </data>
-    </url>
-
-    
-  <url>
-    <loc>http://geosmart.github.io/2015/06/28/jetty%E4%B8%80%E9%94%AE%E5%AE%89%E8%A3%85%E8%84%9A%E6%9C%AC/</loc>
-    <lastmod>2020-02-25T12:27:18.473Z</lastmod>
-    <data>
-        <display>
-        <title>jetty一键安装脚本</title>
-        <pubTime>2015-06-28T05:39:00.000Z</pubTime>
-        
-        <tag>CentOS</tag>
-         
-        <tag>Web服务器</tag>
-         
-        <tag>Jetty</tag>
-         
-         
-           
-             
-              <breadCrumb title="运维" url="http://geosmart.github.io/categories/%E8%BF%90%E7%BB%B4/"/>
           
         </display>
     </data>
