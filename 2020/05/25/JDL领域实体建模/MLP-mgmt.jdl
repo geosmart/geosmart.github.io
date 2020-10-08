@@ -1,0 +1,31 @@
+entity AuthRole {
+    roleId String
+}
+
+entity AuthUser {
+    userId String
+}
+
+entity AuthUserRole {
+    roleId String
+    userId String
+}
+
+entity AuthDetail {
+    authId String
+    roleId String
+    assetId String
+}
+
+entity PlatformUser {
+    userId String
+}
+
+relationship OneToMany {
+    AuthRole to AuthDetail
+}
+
+relationship ManyToMany {
+    AuthUser to AuthUserRole
+    AuthRole to AuthUserRole
+}

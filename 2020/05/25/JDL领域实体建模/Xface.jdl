@@ -1,0 +1,68 @@
+application {
+    config {
+        baseName xface
+        applicationType microservice
+        databaseType sql
+        devDatabaseType mysql
+        prodDatabaseType mysql
+        buildTool gradle
+        packageName ai.xface
+        dtoSuffix DTO
+        cacheProvider no
+        enableHibernateCache false
+
+    }
+    entities XfaceUser,XfacePerson,XfaceDevice,XfacePersonDeviceRelation
+}
+
+/**
+ * user
+ */
+entity XfaceUser {
+    /** fieldName */
+    userId String required
+    userName String required
+    userType UserType required
+}
+
+/**
+ * person
+ */
+entity XfacePerson {
+    /** fieldName */
+    personId String
+    personName String
+}
+
+/**
+ * device
+ */
+entity XfaceDevice {
+    /** fieldName */
+    userId String
+    deviceId String
+    deviceName String
+}
+
+/**
+ * device
+ */
+entity XfacePersonDeviceRelation {
+    devicePersonRelationId String
+    deviceId String
+    personId String
+}
+
+enum UserType {
+    ADMIN,NORMAL
+}
+
+relationship OneToMany {
+  XfaceUser{userId} to XfaceDevice
+  XfaceUser{userId} to XfacePerson
+}
+
+relationship ManyToMany {
+    XfacePerson{personId} to XfacePersonDeviceRelation{personId}
+    XfaceDevice{deviceId} to XfacePersonDeviceRelation{deviceId}
+}

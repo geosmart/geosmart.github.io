@@ -193,6 +193,888 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://geosmart.github.io/2020/08/04/%E4%BB%BB%E5%8A%A1%E8%B0%83%E5%BA%A6%E7%B3%BB%E7%BB%9F%E4%B9%8BDolphinScheduler/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="geosmart">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="geosmart.io">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          
+            <a href="/2020/08/04/%E4%BB%BB%E5%8A%A1%E8%B0%83%E5%BA%A6%E7%B3%BB%E7%BB%9F%E4%B9%8BDolphinScheduler/" class="post-title-link" itemprop="url">任务调度系统之DolphinScheduler</a>
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：4   八月   2020 0:00:00" itemprop="dateCreated datePublished" datetime="2020-08-04T00:00:00+08:00">4   八月   2020</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：8   十月   2020 10:52:59" itemprop="dateModified" datetime="2020-10-08T10:52:59+08:00">8   十月   2020</time>
+              </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <p>airflow要投入生产，定制成本太高，国产apache dolphinScheduler真香，只是可惜airflow使用python代码对dag进行版本控制的思路没有采用，得自己实现版本控制。<br>
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/2020/08/04/%E4%BB%BB%E5%8A%A1%E8%B0%83%E5%BA%A6%E7%B3%BB%E7%BB%9F%E4%B9%8BDolphinScheduler/#more" rel="contents">
+                阅读全文 &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+        
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://geosmart.github.io/2020/07/29/%E5%88%86%E5%B8%83%E5%BC%8F%E4%BB%BB%E5%8A%A1%E8%B0%83%E5%BA%A6%E7%B3%BB%E7%BB%9F%E7%9A%84%E6%8A%80%E6%9C%AF%E9%80%89%E5%9E%8B/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="geosmart">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="geosmart.io">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          
+            <a href="/2020/07/29/%E5%88%86%E5%B8%83%E5%BC%8F%E4%BB%BB%E5%8A%A1%E8%B0%83%E5%BA%A6%E7%B3%BB%E7%BB%9F%E7%9A%84%E6%8A%80%E6%9C%AF%E9%80%89%E5%9E%8B/" class="post-title-link" itemprop="url">分布式任务调度系统的技术选型</a>
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：29   七月   2020 0:00:00" itemprop="dateCreated datePublished" datetime="2020-07-29T00:00:00+08:00">29   七月   2020</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：4   八月   2020 16:32:39" itemprop="dateModified" datetime="2020-08-04T16:32:39+08:00">4   八月   2020</time>
+              </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <p>一个调度系统，涉及的功能可按任务执行周期分为3部分：</p>
+<ul>
+<li><strong>执行前：</strong><ul>
+<li>任务定义，如任务关系可以用DAG定义；</li>
+<li>任务调度，如按cron调度；</li>
+<li>任务分发，如通过mq分发任务；</li>
+</ul>
+</li>
+<li><strong>执行中：</strong><ul>
+<li>任务执行资源隔离：不同作业可在不同的机器上执行；</li>
+<li>任务执行并发控制：同一类型的作业可控制并发数；</li>
+<li>任务执行进度查询：可查询作业中每个任务的执行情况；</li>
+</ul>
+</li>
+<li><strong>任务后：</strong><ul>
+<li>任务执行异常通知：任务执行异常有邮件/消息通知机制；</li>
+<li>任务执行情况统计：可以分析历史执行情况，评估SLA；</li>
+</ul>
+</li>
+</ul>
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/2020/07/29/%E5%88%86%E5%B8%83%E5%BC%8F%E4%BB%BB%E5%8A%A1%E8%B0%83%E5%BA%A6%E7%B3%BB%E7%BB%9F%E7%9A%84%E6%8A%80%E6%9C%AF%E9%80%89%E5%9E%8B/#more" rel="contents">
+                阅读全文 &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+        
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://geosmart.github.io/2020/07/29/%E4%BB%80%E4%B9%88%E6%98%AF%E6%95%B0%E6%8D%AE%E6%B9%96/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="geosmart">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="geosmart.io">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          
+            <a href="/2020/07/29/%E4%BB%80%E4%B9%88%E6%98%AF%E6%95%B0%E6%8D%AE%E6%B9%96/" class="post-title-link" itemprop="url">什么是数据湖</a>
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+              
+
+              <time title="创建时间：29   七月   2020 0:00:00 / 修改时间：19:52:46" itemprop="dateCreated datePublished" datetime="2020-07-29T00:00:00+08:00">29   七月   2020</time>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <h1 id="什么是数据湖？"><a href="#什么是数据湖？" class="headerlink" title="什么是数据湖？"></a>什么是数据湖？</h1><p>数据湖是一个集中式存储库，允许您以任意规模存储所有结构化和非结构化数据。您可以按原样存储数据（无需先对数据进行结构化处理），并运行不同类型的分析 – 从控制面板和可视化到大数据处理、实时分析和机器学习，以指导做出更好的决策。</p>
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/2020/07/29/%E4%BB%80%E4%B9%88%E6%98%AF%E6%95%B0%E6%8D%AE%E6%B9%96/#more" rel="contents">
+                阅读全文 &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+        
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://geosmart.github.io/2020/07/29/%E4%BB%BB%E5%8A%A1%E8%B0%83%E5%BA%A6%E7%B3%BB%E7%BB%9F%E4%B9%8BAirflow/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="geosmart">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="geosmart.io">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          
+            <a href="/2020/07/29/%E4%BB%BB%E5%8A%A1%E8%B0%83%E5%BA%A6%E7%B3%BB%E7%BB%9F%E4%B9%8BAirflow/" class="post-title-link" itemprop="url">任务调度系统之Airflow</a>
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：29   七月   2020 0:00:00" itemprop="dateCreated datePublished" datetime="2020-07-29T00:00:00+08:00">29   七月   2020</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：4   八月   2020 17:04:32" itemprop="dateModified" datetime="2020-08-04T17:04:32+08:00">4   八月   2020</time>
+              </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <a id="more"></a>  
+<h1 id="airflow核心概念"><a href="#airflow核心概念" class="headerlink" title="airflow核心概念"></a>airflow核心概念</h1><ul>
+<li>queue：任务执行环境依赖，按queue隔离执行机器</li>
+<li>pool：任务执行资源依赖，限制任务并发数</li>
+<li>dag：任务关系依赖</li>
+<li>cron：任务时间依赖</li>
+<li>hook：外部系统依赖</li>
+</ul>
+<h1 id="airflow架构"><a href="#airflow架构" class="headerlink" title="airflow架构"></a>airflow架构</h1><p>中心化思想的实现，master(scheduler)分发任务，worker执行工作。</p>
+<ul>
+<li>airflow-scheduler：调度器，轮询元数据库（Metastore）已注册的DAG是否需要被执行，如果DAG需要被执行，scheduler守护进程就会先在元数据库创建一个DagRun实例，并触发DAG内部的task，即推送task消息到消息队列；</li>
+<li>airflow-webserver：dag管理；</li>
+<li>rabbitmq：celery broker，存储task消息，每一个task消息都包含此task的DAGID、taskID及具体需要被执行的函数；</li>
+<li>airflow-worker：任务执行，监听消息队列，如果有消息，就从消息队列中取出消息，当取出任务消息时，它会更新元数据中DagRun实例的状态为正在运行，并尝试执行DAG中的task。如果DAG执行成功，则更新DagRun实例的状态为成功，否则更新状态为失败。</li>
+<li>airflow-flower：worker监控</li>
+<li>airflow-metastore：调度数据存储</li>
+</ul>
+<h1 id="airflow选型考虑"><a href="#airflow选型考虑" class="headerlink" title="airflow选型考虑"></a>airflow选型考虑</h1><blockquote>
+<p><strong>pros</strong></p>
+<ul>
+<li><code>code as workflow</code>的最佳实践，配置即代码，且提供dag管道可视化；</li>
+<li>架构偏数据科学风格，插件化设计，可扩展性强；</li>
+<li>代码少，简洁，易维护，适合深度定制；</li>
+<li>丰富的任务类型，自定义任务类型非常简单；</li>
+<li>丰富的告警/通知机制，提供sentry/dingtalk/email等集成；</li>
+<li>可基于queue和pool实现任务隔离和资源限制；</li>
+<li>提供backfill机制补数据；</li>
+<li>可采集数据血缘与元数据系统集成；</li>
+<li>slack和github社区活跃；</li>
+</ul>
+<p><strong>cons</strong></p>
+<ul>
+<li>功能定制成本高：弱类型的python源码，理解维护成本较高；</li>
+<li>REST接口不成熟：目前处于experiment阶段，存在变动的；</li>
+<li>流程定义方式工程化：dag文件定义需要依赖git或者分布式文件系统，没有使用数据库进行管理，不便于系统集成；</li>
+<li>系统部署复杂：依赖组件多，与其他调度系统相比，需额外部署一个MQ集群；</li>
+</ul>
+</blockquote>
+<h1 id="airflow调度规则"><a href="#airflow调度规则" class="headerlink" title="airflow调度规则"></a>airflow调度规则</h1><ul>
+<li>cron：通过<code>croniter</code>实现<ul>
+<li>每5分钟：<em>/5 </em> <em> </em> *</li>
+</ul>
+</li>
+<li>预定义presets调度周期：<code>@once,@hourly,@daily,@weekly,@monthly,@quarterly,@yearly</code><ul>
+<li>会转换为cron表达式执行（normalized_schedule_interval）</li>
+</ul>
+</li>
+<li>timedelta:</li>
+</ul>
+<h1 id="airflow的job状态"><a href="#airflow的job状态" class="headerlink" title="airflow的job状态"></a>airflow的job状态</h1><p>对应<code>dag_run</code>表的state字段</p>
+<ul>
+<li>默认为running</li>
+<li>执行成功：success</li>
+<li>执行失败/超时：failed</li>
+</ul>
+<h1 id="airflow的task状态"><a href="#airflow的task状态" class="headerlink" title="airflow的task状态"></a>airflow的task状态</h1><p>对应<code>task_instance</code>表的state字段</p>
+<ul>
+<li>no_status：scheduler调度ti，初始化状态：</li>
+<li>queued：scheduler将ti发送到队列后，等待pool的slot资源：</li>
+<li>running：worker任务执行开始：</li>
+<li>retry：worker任务执行失败后按配置的重试次数进行重试；</li>
+<li>success：worker任务执行成功；</li>
+<li>failed：worker任务执行失败/超时：</li>
+<li>skipped：一般分支节点下游的某个分支会存在跳过的情况；</li>
+<li>up_for_retry：task已failed但尚未进入retry状态；</li>
+<li>up_for_reschedule：主要针对sensor，等待被再次调度，避免直接执行占用worker的slot；</li>
+<li>upstream_failed：依赖的上游task执行失败后，下游task都标记为upstream_failed；</li>
+</ul>
+<blockquote>
+<p>调度器处理的状态：NONE, SCHEDULED, QUEUED, UP_FOR_RETRY<br>任务运行状态：RETRY，RUNNING<br>任务终止状态：SUCCESS，FAILED，SKIPPED，UPSTREAM_FAILED</p>
+</blockquote>
+<h1 id="airflow任务触发规则"><a href="#airflow任务触发规则" class="headerlink" title="airflow任务触发规则"></a>airflow任务触发规则</h1><ul>
+<li>all_success: 所有父节点都是success状态；</li>
+<li>all_failed: 所有父节点都是failed或upstream_failed状态；</li>
+<li>all_done: 所有父节点都是是终止状态状态；</li>
+<li>one_failed: 至少有1个父节点状态为failed，不需要等待所有父节点执行完成；</li>
+<li>one_failed: 至少有1个父节点状态为success，不需要等待所有父节点执行完成；</li>
+<li>one_failed: 所有父节点状态都不是failed或upstream_failed状态，即所有父节点执行完成（succeeded或skipped）；</li>
+<li>none_failed: 所有父节点状态都不是failed或upstream_failed状态，即所有父节点执行完成（succeeded或skipped）；</li>
+<li>none_failed_or_skipped: 所有父节点状态都不是failed或upstream_failed状态，至少1个父节点是success状态；</li>
+<li>none_skipped: 所有父节点都不是skipped状态；如所有父节点都是success, failed, 或 upstream_failed状态；</li>
+<li>dummy: 演示用的节点状态，可随意触发</li>
+</ul>
+<h1 id="airflow核心参数"><a href="#airflow核心参数" class="headerlink" title="airflow核心参数"></a>airflow核心参数</h1><h2 id="dag调度参数"><a href="#dag调度参数" class="headerlink" title="dag调度参数"></a>dag调度参数</h2><ul>
+<li>start_date：task调度起始日期</li>
+<li>end_date：task调度截止日期</li>
+<li>execution_date：task逻辑时间执行<pre><code>  * 逻辑执行时间：task理论上应该执行的时间
+  * 物理执行时间：task执行时间可能由于服务阻塞而延迟
+</code></pre></li>
+<li>schedule_interval：任务调度周期，timedelta或cron表达式</li>
+<li>execution_timeout: task执行超时时间</li>
+<li>retries：task失败后最大重试次数</li>
+<li>retry_delay: task失败后重试间隔</li>
+</ul>
+<h2 id="dag执行参数"><a href="#dag执行参数" class="headerlink" title="dag执行参数"></a>dag执行参数</h2><ul>
+<li>parallelism：同时运行的最大task实例数，全局配置参数，默认32</li>
+<li>max_active_runs：单个dag同时运行最大dag实例数，可在dag定义时传入</li>
+<li>dag_concurrency：单个dag同时运行最大task数，可在dag定义时传入</li>
+<li>pool：通过pool的slo大小限制task的并行执行数，超过容量后任务将会按priority_weight排队，直到有任务完成空出solt</li>
+</ul>
+<h1 id="airflow的数据结构"><a href="#airflow的数据结构" class="headerlink" title="airflow的数据结构"></a>airflow的数据结构</h1><h1 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h1><p>* </p>
+
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+        
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://geosmart.github.io/2020/06/02/%E6%95%B0%E6%8D%AE%E4%BB%93%E5%BA%93%E6%9C%AF%E8%AF%AD/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="geosmart">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="geosmart.io">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          
+            <a href="/2020/06/02/%E6%95%B0%E6%8D%AE%E4%BB%93%E5%BA%93%E6%9C%AF%E8%AF%AD/" class="post-title-link" itemprop="url">数据仓库术语</a>
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+              
+
+              <time title="创建时间：2   六月   2020 0:00:00 / 修改时间：15:12:19" itemprop="dateCreated datePublished" datetime="2020-06-02T00:00:00+08:00">2   六月   2020</time>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <p>本文记录数据仓库的术语<br>
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/2020/06/02/%E6%95%B0%E6%8D%AE%E4%BB%93%E5%BA%93%E6%9C%AF%E8%AF%AD/#more" rel="contents">
+                阅读全文 &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+        
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://geosmart.github.io/2020/05/26/VUE%E5%9F%BA%E7%A1%80%E7%9F%A5%E8%AF%86/vue/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="geosmart">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="geosmart.io">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          
+            <a href="/2020/05/26/VUE%E5%9F%BA%E7%A1%80%E7%9F%A5%E8%AF%86/vue/" class="post-title-link" itemprop="url">VUE基础知识/vue</a>
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+              
+
+              <time title="创建时间：26   五月   2020 10:24:14 / 修改时间：10:24:34" itemprop="dateCreated datePublished" datetime="2020-05-26T10:24:14+08:00">26   五月   2020</time>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <html>
+    <body>
+        
+    </body>
+</html>
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+        
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://geosmart.github.io/2020/05/25/JDL%E9%A2%86%E5%9F%9F%E5%AE%9E%E4%BD%93%E5%BB%BA%E6%A8%A1/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="geosmart">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="geosmart.io">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          
+            <a href="/2020/05/25/JDL%E9%A2%86%E5%9F%9F%E5%AE%9E%E4%BD%93%E5%BB%BA%E6%A8%A1/" class="post-title-link" itemprop="url">JDL领域实体建模</a>
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：25   五月   2020 13:47:07" itemprop="dateCreated datePublished" datetime="2020-05-25T13:47:07+08:00">25   五月   2020</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：29   七月   2020 19:54:17" itemprop="dateModified" datetime="2020-07-29T19:54:17+08:00">29   七月   2020</time>
+              </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <p>传统领域实体建模一般采用PowerDesign等UML软件实现，设计更新没有版本控制，不易维护和团队分享；<br>可采用JDL（Jhipster Domain Language）实现document as code，编写jdl文件并用git进行版本控制；<br>JDL建模IDE可采用online,visual studio code,atom等通用文本编辑器，可导出图片预览UML效果；<br>JDL编写好后，可用jhipster import-jdl工具生成entity层的java代码。<br>
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/2020/05/25/JDL%E9%A2%86%E5%9F%9F%E5%AE%9E%E4%BD%93%E5%BB%BA%E6%A8%A1/#more" rel="contents">
+                阅读全文 &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+        
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://geosmart.github.io/2020/05/25/VUE%E5%9F%BA%E7%A1%80%E7%9F%A5%E8%AF%86/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="geosmart">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="geosmart.io">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          
+            <a href="/2020/05/25/VUE%E5%9F%BA%E7%A1%80%E7%9F%A5%E8%AF%86/" class="post-title-link" itemprop="url">VUE基础知识</a>
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：25   五月   2020 13:47:07" itemprop="dateCreated datePublished" datetime="2020-05-25T13:47:07+08:00">25   五月   2020</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：29   七月   2020 19:52:55" itemprop="dateModified" datetime="2020-07-29T19:52:55+08:00">29   七月   2020</time>
+              </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <p>全栈之路必备springboot+vuejs，点亮vue</p>
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/2020/05/25/VUE%E5%9F%BA%E7%A1%80%E7%9F%A5%E8%AF%86/#more" rel="contents">
+                阅读全文 &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+        
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://geosmart.github.io/2020/04/25/%E5%A6%82%E4%BD%95%E4%BB%8E%E9%9B%B6%E6%90%AD%E5%BB%BA%E5%85%83%E6%95%B0%E6%8D%AE%E7%AE%A1%E7%90%86%E5%B9%B3%E5%8F%B0/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="geosmart">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="geosmart.io">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          
+            <a href="/2020/04/25/%E5%A6%82%E4%BD%95%E4%BB%8E%E9%9B%B6%E6%90%AD%E5%BB%BA%E5%85%83%E6%95%B0%E6%8D%AE%E7%AE%A1%E7%90%86%E5%B9%B3%E5%8F%B0/" class="post-title-link" itemprop="url">如何从零搭建元数据管理平台</a>
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：25   四月   2020 0:00:00" itemprop="dateCreated datePublished" datetime="2020-04-25T00:00:00+08:00">25   四月   2020</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：27   四月   2020 9:52:15" itemprop="dateModified" datetime="2020-04-27T09:52:15+08:00">27   四月   2020</time>
+              </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <p>关键词：数据血缘、元数据治理、metadata<br>
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/2020/04/25/%E5%A6%82%E4%BD%95%E4%BB%8E%E9%9B%B6%E6%90%AD%E5%BB%BA%E5%85%83%E6%95%B0%E6%8D%AE%E7%AE%A1%E7%90%86%E5%B9%B3%E5%8F%B0/#more" rel="contents">
+                阅读全文 &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+        
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://geosmart.github.io/2020/04/25/Ansible%E5%AE%89%E8%A3%85MySQL/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="geosmart">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="geosmart.io">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          
+            <a href="/2020/04/25/Ansible%E5%AE%89%E8%A3%85MySQL/" class="post-title-link" itemprop="url">Ansible安装MySQL</a>
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：25   四月   2020 0:00:00" itemprop="dateCreated datePublished" datetime="2020-04-25T00:00:00+08:00">25   四月   2020</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：25   五月   2020 13:46:03" itemprop="dateModified" datetime="2020-05-25T13:46:03+08:00">25   五月   2020</time>
+              </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <p>ansible自动化运维-mysql<br>
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/2020/04/25/Ansible%E5%AE%89%E8%A3%85MySQL/#more" rel="contents">
+                阅读全文 &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+        
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://geosmart.github.io/2020/04/19/REST%E6%8E%A5%E5%8F%A3%E5%AE%9A%E4%B9%89%E8%A7%84%E8%8C%83/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="geosmart">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="geosmart.io">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          
+            <a href="/2020/04/19/REST%E6%8E%A5%E5%8F%A3%E5%AE%9A%E4%B9%89%E8%A7%84%E8%8C%83/" class="post-title-link" itemprop="url">REST接口定义规范</a>
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：19   四月   2020 20:49:13" itemprop="dateCreated datePublished" datetime="2020-04-19T20:49:13+08:00">19   四月   2020</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：17   五月   2020 14:45:01" itemprop="dateModified" datetime="2020-05-17T14:45:01+08:00">17   五月   2020</time>
+              </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <p>团队REST接口定义规范<br>
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/2020/04/19/REST%E6%8E%A5%E5%8F%A3%E5%AE%9A%E4%B9%89%E8%A7%84%E8%8C%83/#more" rel="contents">
+                阅读全文 &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+        
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
     <link itemprop="mainEntityOfPage" href="http://geosmart.github.io/2020/04/19/%E7%94%A8DataHub%E5%AE%9E%E8%B7%B5%E5%85%83%E6%95%B0%E6%8D%AE%E7%AE%A1%E7%90%86/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -443,7 +1325,7 @@
                   <i class="fa fa-calendar-check-o"></i>
                 </span>
                 <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：19   四月   2020 10:52:36" itemprop="dateModified" datetime="2020-04-19T10:52:36+08:00">19   四月   2020</time>
+                <time title="修改时间：25   四月   2020 11:16:25" itemprop="dateModified" datetime="2020-04-25T11:16:25+08:00">25   四月   2020</time>
               </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -470,87 +1352,6 @@
           <!--noindex-->
             <div class="post-button">
               <a class="btn" href="/2020/04/08/Kubeadm%E5%AE%89%E8%A3%85K8S%E9%9B%86%E7%BE%A4/#more" rel="contents">
-                阅读全文 &raquo;
-              </a>
-            </div>
-          <!--/noindex-->
-        
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
-        
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="http://geosmart.github.io/2020/04/01/Kuboard%E5%AE%89%E8%A3%85K8S%E9%9B%86%E7%BE%A4/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.gif">
-      <meta itemprop="name" content="geosmart">
-      <meta itemprop="description" content="">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="geosmart.io">
-    </span>
-      <header class="post-header">
-        <h1 class="post-title" itemprop="name headline">
-          
-            <a href="/2020/04/01/Kuboard%E5%AE%89%E8%A3%85K8S%E9%9B%86%E7%BE%A4/" class="post-title-link" itemprop="url">Kuboard安装K8S集群</a>
-        </h1>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-
-              <time title="创建时间：1   四月   2020 14:36:33" itemprop="dateCreated datePublished" datetime="2020-04-01T14:36:33+08:00">1   四月   2020</time>
-            </span>
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-calendar-check-o"></i>
-                </span>
-                <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：19   四月   2020 10:52:37" itemprop="dateModified" datetime="2020-04-19T10:52:37+08:00">19   四月   2020</time>
-              </span>
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/OPS/" itemprop="url" rel="index"><span itemprop="name">OPS</span></a>
-                </span>
-            </span>
-
-          
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <p>记录如何用kuboard工具安装k8s集群<br>
-          <!--noindex-->
-            <div class="post-button">
-              <a class="btn" href="/2020/04/01/Kuboard%E5%AE%89%E8%A3%85K8S%E9%9B%86%E7%BE%A4/#more" rel="contents">
                 阅读全文 &raquo;
               </a>
             </div>
@@ -632,6 +1433,87 @@
           <!--noindex-->
             <div class="post-button">
               <a class="btn" href="/2020/04/01/Ansible%E8%87%AA%E5%8A%A8%E5%8C%96%E8%BF%90%E7%BB%B4%E7%AC%94%E8%AE%B0/#more" rel="contents">
+                阅读全文 &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+        
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://geosmart.github.io/2020/04/01/Kuboard%E5%AE%89%E8%A3%85K8S%E9%9B%86%E7%BE%A4/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="geosmart">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="geosmart.io">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          
+            <a href="/2020/04/01/Kuboard%E5%AE%89%E8%A3%85K8S%E9%9B%86%E7%BE%A4/" class="post-title-link" itemprop="url">Kuboard安装K8S集群</a>
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：1   四月   2020 14:36:33" itemprop="dateCreated datePublished" datetime="2020-04-01T14:36:33+08:00">1   四月   2020</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：25   四月   2020 10:00:34" itemprop="dateModified" datetime="2020-04-25T10:00:34+08:00">25   四月   2020</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/OPS/" itemprop="url" rel="index"><span itemprop="name">OPS</span></a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <p>记录如何用kuboard工具安装k8s集群<br>
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/2020/04/01/Kuboard%E5%AE%89%E8%A3%85K8S%E9%9B%86%E7%BE%A4/#more" rel="contents">
                 阅读全文 &raquo;
               </a>
             </div>
@@ -849,7 +1731,7 @@
                   <i class="fa fa-calendar-check-o"></i>
                 </span>
                 <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：19   四月   2020 10:52:36" itemprop="dateModified" datetime="2020-04-19T10:52:36+08:00">19   四月   2020</time>
+                <time title="修改时间：25   四月   2020 9:28:33" itemprop="dateModified" datetime="2020-04-25T09:28:33+08:00">25   四月   2020</time>
               </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -876,927 +1758,6 @@
           <!--noindex-->
             <div class="post-button">
               <a class="btn" href="/2020/03/27/Docker%E7%9A%84%E5%AE%89%E8%A3%85%E4%B8%8E%E4%BD%BF%E7%94%A8/#more" rel="contents">
-                阅读全文 &raquo;
-              </a>
-            </div>
-          <!--/noindex-->
-        
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
-        
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="http://geosmart.github.io/2020/03/26/%E5%A6%82%E4%BD%95%E5%9C%A8ECS%E4%B8%8A%E5%8A%A8%E6%80%81%E9%83%A8%E7%BD%B2Hexo%E5%8D%9A%E5%AE%A2/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.gif">
-      <meta itemprop="name" content="geosmart">
-      <meta itemprop="description" content="">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="geosmart.io">
-    </span>
-      <header class="post-header">
-        <h1 class="post-title" itemprop="name headline">
-          
-            <a href="/2020/03/26/%E5%A6%82%E4%BD%95%E5%9C%A8ECS%E4%B8%8A%E5%8A%A8%E6%80%81%E9%83%A8%E7%BD%B2Hexo%E5%8D%9A%E5%AE%A2/" class="post-title-link" itemprop="url">如何在ECS上动态部署Hexo博客</a>
-        </h1>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-
-              <time title="创建时间：26   三月   2020 0:00:00" itemprop="dateCreated datePublished" datetime="2020-03-26T00:00:00+08:00">26   三月   2020</time>
-            </span>
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-calendar-check-o"></i>
-                </span>
-                <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：28   三月   2020 23:13:40" itemprop="dateModified" datetime="2020-03-28T23:13:40+08:00">28   三月   2020</time>
-              </span>
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/%E5%B7%A5%E5%85%B7/" itemprop="url" rel="index"><span itemprop="name">工具</span></a>
-                </span>
-            </span>
-
-          
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <p>如何在ECS上部署Hexo博客，实现git提交markdown文档，静态博客自动刷新<br>
-          <!--noindex-->
-            <div class="post-button">
-              <a class="btn" href="/2020/03/26/%E5%A6%82%E4%BD%95%E5%9C%A8ECS%E4%B8%8A%E5%8A%A8%E6%80%81%E9%83%A8%E7%BD%B2Hexo%E5%8D%9A%E5%AE%A2/#more" rel="contents">
-                阅读全文 &raquo;
-              </a>
-            </div>
-          <!--/noindex-->
-        
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
-        
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="http://geosmart.github.io/2020/03/24/IO%E5%A4%8D%E7%94%A8%E6%A8%A1%E5%9E%8B%E4%B9%8BReactor/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.gif">
-      <meta itemprop="name" content="geosmart">
-      <meta itemprop="description" content="">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="geosmart.io">
-    </span>
-      <header class="post-header">
-        <h1 class="post-title" itemprop="name headline">
-          
-            <a href="/2020/03/24/IO%E5%A4%8D%E7%94%A8%E6%A8%A1%E5%9E%8B%E4%B9%8BReactor/" class="post-title-link" itemprop="url">IO复用模型之Reactor</a>
-        </h1>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-              
-
-              <time title="创建时间：24   三月   2020 0:00:00 / 修改时间：23:07:32" itemprop="dateCreated datePublished" datetime="2020-03-24T00:00:00+08:00">24   三月   2020</time>
-            </span>
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/%E5%90%8E%E7%AB%AF%E6%8A%80%E6%9C%AF/" itemprop="url" rel="index"><span itemprop="name">后端技术</span></a>
-                </span>
-            </span>
-
-          
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <p>要学Netty，得先从IO模型入手，一点点来。从Unix系统的5个IO模型，JDK的3种IO模型，Reactor模式的3种实现，最后到Netty事件模型的3种实现。</p>
-<p>本文主要搞清楚什么是Reactor模式？为什么要有Reactor模式？以及Reactor模式具体的3种实现方式是什么样的？</p>
-          <!--noindex-->
-            <div class="post-button">
-              <a class="btn" href="/2020/03/24/IO%E5%A4%8D%E7%94%A8%E6%A8%A1%E5%9E%8B%E4%B9%8BReactor/#more" rel="contents">
-                阅读全文 &raquo;
-              </a>
-            </div>
-          <!--/noindex-->
-        
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
-        
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="http://geosmart.github.io/2020/03/24/Netty%E7%9A%84IO%E6%A8%A1%E5%9E%8B/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.gif">
-      <meta itemprop="name" content="geosmart">
-      <meta itemprop="description" content="">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="geosmart.io">
-    </span>
-      <header class="post-header">
-        <h1 class="post-title" itemprop="name headline">
-          
-            <a href="/2020/03/24/Netty%E7%9A%84IO%E6%A8%A1%E5%9E%8B/" class="post-title-link" itemprop="url">Netty的IO模型</a>
-        </h1>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-
-              <time title="创建时间：24   三月   2020 0:00:00" itemprop="dateCreated datePublished" datetime="2020-03-24T00:00:00+08:00">24   三月   2020</time>
-            </span>
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-calendar-check-o"></i>
-                </span>
-                <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：28   三月   2020 10:32:49" itemprop="dateModified" datetime="2020-03-28T10:32:49+08:00">28   三月   2020</time>
-              </span>
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/%E5%90%8E%E7%AB%AF%E6%8A%80%E6%9C%AF/" itemprop="url" rel="index"><span itemprop="name">后端技术</span></a>
-                </span>
-            </span>
-
-          
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <p>要学Netty，得先从IO模型入手，一点点来。从Unix系统的5个IO模型，JDK的3种IO模型，Reactor模式的3种实现，最后到Netty事件模型的3种实现。</p>
-<p>补完课，终于到Netty的IO模型这一章，(╥﹏╥)，这一章主要从大颗粒度的了解下Netty的IO模型，Netty包含的组件，以及用Netty手写一个简单的RPC协议；</p>
-          <!--noindex-->
-            <div class="post-button">
-              <a class="btn" href="/2020/03/24/Netty%E7%9A%84IO%E6%A8%A1%E5%9E%8B/#more" rel="contents">
-                阅读全文 &raquo;
-              </a>
-            </div>
-          <!--/noindex-->
-        
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
-        
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="http://geosmart.github.io/2020/03/23/Java%E4%B8%AD%E7%9A%84NIO%E6%A8%A1%E5%9E%8B/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.gif">
-      <meta itemprop="name" content="geosmart">
-      <meta itemprop="description" content="">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="geosmart.io">
-    </span>
-      <header class="post-header">
-        <h1 class="post-title" itemprop="name headline">
-          
-            <a href="/2020/03/23/Java%E4%B8%AD%E7%9A%84NIO%E6%A8%A1%E5%9E%8B/" class="post-title-link" itemprop="url">Java中的NIO模型</a>
-        </h1>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-
-              <time title="创建时间：23   三月   2020 0:00:00" itemprop="dateCreated datePublished" datetime="2020-03-23T00:00:00+08:00">23   三月   2020</time>
-            </span>
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-calendar-check-o"></i>
-                </span>
-                <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：24   三月   2020 10:19:37" itemprop="dateModified" datetime="2020-03-24T10:19:37+08:00">24   三月   2020</time>
-              </span>
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/%E5%90%8E%E7%AB%AF%E6%8A%80%E6%9C%AF/" itemprop="url" rel="index"><span itemprop="name">后端技术</span></a>
-                </span>
-            </span>
-
-          
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <p>一个使用传统阻塞I/O的系统，如果使用一个请求对应一个线程这种模式，一旦有<code>高并发</code>的大量请求，就会有如下问题： </p>
-<ol>
-<li>线程不够用, 就算使用了<code>线程池</code>复用线程也无济于事; </li>
-<li>阻塞I/O模式下,会有大量的线程被阻塞，一直在等待数据,这个时候的线程被挂起，只能干等，<code>CPU利用率很低</code>，换句话说，系统的<code>吞吐量低</code>; </li>
-<li>如果<code>网络I/O堵塞</code>或者有网络抖动或者网络故障等，线程的阻塞时间可能很长，整个系统也变的不可靠;</li>
-</ol>
-<p>怎么办？<code>NIO</code>闪亮登场！<br>
-          <!--noindex-->
-            <div class="post-button">
-              <a class="btn" href="/2020/03/23/Java%E4%B8%AD%E7%9A%84NIO%E6%A8%A1%E5%9E%8B/#more" rel="contents">
-                阅读全文 &raquo;
-              </a>
-            </div>
-          <!--/noindex-->
-        
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
-        
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="http://geosmart.github.io/2020/03/22/Java%E4%B8%AD%E7%9A%843%E7%A7%8DIO%E6%A8%A1%E5%9E%8B/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.gif">
-      <meta itemprop="name" content="geosmart">
-      <meta itemprop="description" content="">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="geosmart.io">
-    </span>
-      <header class="post-header">
-        <h1 class="post-title" itemprop="name headline">
-          
-            <a href="/2020/03/22/Java%E4%B8%AD%E7%9A%843%E7%A7%8DIO%E6%A8%A1%E5%9E%8B/" class="post-title-link" itemprop="url">Java中的IO模型</a>
-        </h1>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-
-              <time title="创建时间：22   三月   2020 0:00:00" itemprop="dateCreated datePublished" datetime="2020-03-22T00:00:00+08:00">22   三月   2020</time>
-            </span>
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-calendar-check-o"></i>
-                </span>
-                <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：24   三月   2020 10:19:32" itemprop="dateModified" datetime="2020-03-24T10:19:32+08:00">24   三月   2020</time>
-              </span>
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/%E5%90%8E%E7%AB%AF%E6%8A%80%E6%9C%AF/" itemprop="url" rel="index"><span itemprop="name">后端技术</span></a>
-                </span>
-            </span>
-
-          
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <p>学Netty之前，得先了解Unix的5种IO模型，Java的3种IO模型；本文主要介绍Java中的3种IO模型（BIO,NIO,AIO）；</p>
-<ul>
-<li>BIO的优化版（线程池实现异步）适用于1000以内的并发场景；</li>
-<li>NIO多路复用适用于高并发网络场景（Netty基于NIO实现）；</li>
-<li>AIO暂时用的较少；</li>
-</ul>
-          <!--noindex-->
-            <div class="post-button">
-              <a class="btn" href="/2020/03/22/Java%E4%B8%AD%E7%9A%843%E7%A7%8DIO%E6%A8%A1%E5%9E%8B/#more" rel="contents">
-                阅读全文 &raquo;
-              </a>
-            </div>
-          <!--/noindex-->
-        
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
-        
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="http://geosmart.github.io/2020/03/21/Unix%E4%B8%AD%E7%9A%845%E7%A7%8DIO%E6%A8%A1%E5%9E%8B/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.gif">
-      <meta itemprop="name" content="geosmart">
-      <meta itemprop="description" content="">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="geosmart.io">
-    </span>
-      <header class="post-header">
-        <h1 class="post-title" itemprop="name headline">
-          
-            <a href="/2020/03/21/Unix%E4%B8%AD%E7%9A%845%E7%A7%8DIO%E6%A8%A1%E5%9E%8B/" class="post-title-link" itemprop="url">Unix中的5种IO模型</a>
-        </h1>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-
-              <time title="创建时间：21   三月   2020 0:00:00" itemprop="dateCreated datePublished" datetime="2020-03-21T00:00:00+08:00">21   三月   2020</time>
-            </span>
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-calendar-check-o"></i>
-                </span>
-                <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：23   三月   2020 21:14:32" itemprop="dateModified" datetime="2020-03-23T21:14:32+08:00">23   三月   2020</time>
-              </span>
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/%E5%90%8E%E7%AB%AF%E6%8A%80%E6%9C%AF/" itemprop="url" rel="index"><span itemprop="name">后端技术</span></a>
-                </span>
-            </span>
-
-          
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <p>学Netty之前，得先了解Uinux中的5种I/O模型，Java的3种I/O模型；</p>
-<p>本文主要介绍《UNIX网络编程.卷1#6.2节》一书中提到的Unix中的5种IO模型：</p>
-<ol>
-<li>阻塞式I/O（blocking I/O）</li>
-<li>非阻塞式I/O（non-blocking I/O）</li>
-<li>I/O复用（I/O multiplexing）</li>
-<li>信号驱动式I/O（signal driven I/O）</li>
-<li>异步I/O（asynchronous I/O）</li>
-</ol>
-<p>通常一个 socket 上的输入操作包含2个阶段：</p>
-<ol>
-<li>等待数据准备好：通常涉及等待数据从网络中到达，当所等待分组到达时，它被复制到内核中的某个缓冲区；</li>
-<li>从内核向进程复制数据：数据从内核缓冲区复制到应用进程缓冲区。</li>
-</ol>
-<p>上述5种IO模型就是在这2个阶段上各有不同的情况。</p>
-<p>通过本文，搞清楚什么是同步I/O，异步I/O，阻塞I/O，非阻塞I/O，他们之间有什么区别和联系？</p>
-          <!--noindex-->
-            <div class="post-button">
-              <a class="btn" href="/2020/03/21/Unix%E4%B8%AD%E7%9A%845%E7%A7%8DIO%E6%A8%A1%E5%9E%8B/#more" rel="contents">
-                阅读全文 &raquo;
-              </a>
-            </div>
-          <!--/noindex-->
-        
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
-        
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="http://geosmart.github.io/2020/03/19/%E9%87%8D%E5%AD%A6%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F%EF%BC%88%E4%B8%80%EF%BC%89/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.gif">
-      <meta itemprop="name" content="geosmart">
-      <meta itemprop="description" content="">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="geosmart.io">
-    </span>
-      <header class="post-header">
-        <h1 class="post-title" itemprop="name headline">
-          
-            <a href="/2020/03/19/%E9%87%8D%E5%AD%A6%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F%EF%BC%88%E4%B8%80%EF%BC%89/" class="post-title-link" itemprop="url">重学设计模式（一）</a>
-        </h1>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-
-              <time title="创建时间：19   三月   2020 0:00:00" itemprop="dateCreated datePublished" datetime="2020-03-19T00:00:00+08:00">19   三月   2020</time>
-            </span>
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-calendar-check-o"></i>
-                </span>
-                <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：20   三月   2020 15:28:49" itemprop="dateModified" datetime="2020-03-20T15:28:49+08:00">20   三月   2020</time>
-              </span>
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/%E6%96%B9%E6%B3%95%E8%AE%BA/" itemprop="url" rel="index"><span itemprop="name">方法论</span></a>
-                </span>
-            </span>
-
-          
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <p>GOF的设计模式，大话设计模式，Head First设计模式3本书之前都看过，但一聊起来总觉得描述不成体系，归根到底就是没彻底搞明白，书本上的看了只是当时明白，不实践，或是实践了但没回头和书本上的理论对照总结，那终归不是自己的知识；</p>
-<p>模式就是方法论/工具 ，一定要牢记在心，工具箱里有各种趁手的武器，设计时才能有比较和选择，站在巨人的肩膀上，可以看的更远；</p>
-<p>这次我再重新学一遍，不仅是要知道每个设计模式的分类/定义，更要结合JDK和开源框架中的应用来深入理解。本篇是第一篇，列举所有模式和应用场景，后续会对每个模式写一篇，包含的模式的概念，解决问题，适用场景，实现类图和示例代码；</p>
-          <!--noindex-->
-            <div class="post-button">
-              <a class="btn" href="/2020/03/19/%E9%87%8D%E5%AD%A6%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F%EF%BC%88%E4%B8%80%EF%BC%89/#more" rel="contents">
-                阅读全文 &raquo;
-              </a>
-            </div>
-          <!--/noindex-->
-        
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
-        
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="http://geosmart.github.io/2020/03/12/Spark%E4%BD%9C%E4%B8%9A%E7%9A%84%E6%89%A7%E8%A1%8C%E8%BF%87%E7%A8%8B/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.gif">
-      <meta itemprop="name" content="geosmart">
-      <meta itemprop="description" content="">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="geosmart.io">
-    </span>
-      <header class="post-header">
-        <h1 class="post-title" itemprop="name headline">
-          
-            <a href="/2020/03/12/Spark%E4%BD%9C%E4%B8%9A%E7%9A%84%E6%89%A7%E8%A1%8C%E8%BF%87%E7%A8%8B/" class="post-title-link" itemprop="url">Spark作业的执行过程</a>
-        </h1>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-              
-
-              <time title="创建时间：12   三月   2020 0:00:00 / 修改时间：20:04:43" itemprop="dateCreated datePublished" datetime="2020-03-12T00:00:00+08:00">12   三月   2020</time>
-            </span>
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/%E5%A4%A7%E6%95%B0%E6%8D%AE/" itemprop="url" rel="index"><span itemprop="name">大数据</span></a>
-                </span>
-            </span>
-
-          
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <p>一个数据处理过程一般可划分为3个大的阶段：获取数据源，执行数据预处理，执行指标计算，输出处理结果；</p>
-<p>那Spark的一个离线计算的作业执行流程是什么样的呢？</p>
-          <!--noindex-->
-            <div class="post-button">
-              <a class="btn" href="/2020/03/12/Spark%E4%BD%9C%E4%B8%9A%E7%9A%84%E6%89%A7%E8%A1%8C%E8%BF%87%E7%A8%8B/#more" rel="contents">
-                阅读全文 &raquo;
-              </a>
-            </div>
-          <!--/noindex-->
-        
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
-        
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="http://geosmart.github.io/2020/03/11/JVM%E4%B8%AD%E7%B1%BB%E7%9A%84%E5%8A%A0%E8%BD%BD%E8%BF%87%E7%A8%8B/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.gif">
-      <meta itemprop="name" content="geosmart">
-      <meta itemprop="description" content="">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="geosmart.io">
-    </span>
-      <header class="post-header">
-        <h1 class="post-title" itemprop="name headline">
-          
-            <a href="/2020/03/11/JVM%E4%B8%AD%E7%B1%BB%E7%9A%84%E5%8A%A0%E8%BD%BD%E8%BF%87%E7%A8%8B/" class="post-title-link" itemprop="url">JVM中类的加载过程</a>
-        </h1>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-              
-
-              <time title="创建时间：11   三月   2020 0:00:00 / 修改时间：10:26:26" itemprop="dateCreated datePublished" datetime="2020-03-11T00:00:00+08:00">11   三月   2020</time>
-            </span>
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/%E5%90%8E%E7%AB%AF%E6%8A%80%E6%9C%AF/" itemprop="url" rel="index"><span itemprop="name">后端技术</span></a>
-                </span>
-            </span>
-
-          
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <p> 在搞清楚JVM运行时数据区里面的堆/栈/GC这些原理之前，得先搞清楚JVM是如何把class文件加载到内存中的，这是一切开始的原点。</p>
-<p>本文就主要说明JVM如何把<code>Bytecode</code>加载到<code>Method Area</code>的全过程。</p>
-          <!--noindex-->
-            <div class="post-button">
-              <a class="btn" href="/2020/03/11/JVM%E4%B8%AD%E7%B1%BB%E7%9A%84%E5%8A%A0%E8%BD%BD%E8%BF%87%E7%A8%8B/#more" rel="contents">
-                阅读全文 &raquo;
-              </a>
-            </div>
-          <!--/noindex-->
-        
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
-        
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="http://geosmart.github.io/2020/03/08/%E5%A6%82%E4%BD%95%E7%94%A8%E9%87%91%E5%AD%97%E5%A1%94%E6%80%9D%E7%BB%B4%E6%9D%A5%E5%86%99%E6%8A%80%E6%9C%AF%E7%AC%94%E8%AE%B0/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.gif">
-      <meta itemprop="name" content="geosmart">
-      <meta itemprop="description" content="">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="geosmart.io">
-    </span>
-      <header class="post-header">
-        <h1 class="post-title" itemprop="name headline">
-          
-            <a href="/2020/03/08/%E5%A6%82%E4%BD%95%E7%94%A8%E9%87%91%E5%AD%97%E5%A1%94%E6%80%9D%E7%BB%B4%E6%9D%A5%E5%86%99%E6%8A%80%E6%9C%AF%E7%AC%94%E8%AE%B0/" class="post-title-link" itemprop="url">如何用金字塔思维来写技术笔记</a>
-        </h1>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-
-              <time title="创建时间：8   三月   2020 0:00:00" itemprop="dateCreated datePublished" datetime="2020-03-08T00:00:00+08:00">8   三月   2020</time>
-            </span>
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-calendar-check-o"></i>
-                </span>
-                <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：20   三月   2020 15:28:54" itemprop="dateModified" datetime="2020-03-20T15:28:54+08:00">20   三月   2020</time>
-              </span>
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/%E6%96%B9%E6%B3%95%E8%AE%BA/" itemprop="url" rel="index"><span itemprop="name">方法论</span></a>
-                </span>
-            </span>
-
-          
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <p>之前写笔记也有意识的遵循一些规范/套路，比如WWW（What-是什么问题，When-什么情况发生，Why-为什么会这样），但都是些零碎，不成系统的经验之谈；</p>
-<p>偶然了解到《金字塔原理》，和当初第一次阅读《高效能认识的七个习惯》一样的感觉，相见恨晚！<br>金字塔思维里阐述的表达技巧有别于文学创作，更注重的是<code>信息传播的效率</code>，以最少的语言，最简洁的形式让读者get到作者想表达的内容，写技术笔记真是再适合不过了；</p>
-<p>本文主要记录<code>如何运用金字塔思维来写技术笔记</code>，持续更新写笔记的方法论。</p>
-<blockquote>
-<p>注意一篇文章关注解决1个问题</p>
-</blockquote>
-          <!--noindex-->
-            <div class="post-button">
-              <a class="btn" href="/2020/03/08/%E5%A6%82%E4%BD%95%E7%94%A8%E9%87%91%E5%AD%97%E5%A1%94%E6%80%9D%E7%BB%B4%E6%9D%A5%E5%86%99%E6%8A%80%E6%9C%AF%E7%AC%94%E8%AE%B0/#more" rel="contents">
-                阅读全文 &raquo;
-              </a>
-            </div>
-          <!--/noindex-->
-        
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
-        
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="http://geosmart.github.io/2020/02/06/%E6%B5%85%E6%9E%90Java%E4%B8%AD%E7%9A%84%E9%94%81/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.gif">
-      <meta itemprop="name" content="geosmart">
-      <meta itemprop="description" content="">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="geosmart.io">
-    </span>
-      <header class="post-header">
-        <h1 class="post-title" itemprop="name headline">
-          
-            <a href="/2020/02/06/%E6%B5%85%E6%9E%90Java%E4%B8%AD%E7%9A%84%E9%94%81/" class="post-title-link" itemprop="url">浅析Java中的锁</a>
-        </h1>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-
-              <time title="创建时间：6   二月   2020 0:00:00" itemprop="dateCreated datePublished" datetime="2020-02-06T00:00:00+08:00">6   二月   2020</time>
-            </span>
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-calendar-check-o"></i>
-                </span>
-                <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：10   三月   2020 17:59:01" itemprop="dateModified" datetime="2020-03-10T17:59:01+08:00">10   三月   2020</time>
-              </span>
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/%E5%90%8E%E7%AB%AF%E6%8A%80%E6%9C%AF/" itemprop="url" rel="index"><span itemprop="name">后端技术</span></a>
-                </span>
-            </span>
-
-          
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <blockquote>
-<p>现如今程序大多运行在核多线程的硬件环境下，为了保证资源的读写安全，于是出现了各种各样的锁，那么锁是什么？为什么要有锁？有哪些锁？不同锁的实现原理、优缺点、适用场景是什么？有哪些使用案例？</p>
-<p>本文主要介绍Java中的锁，涉及到下面几种分类：</p>
-<ul>
-<li>乐观锁/悲观锁；</li>
-<li>共享锁/互斥锁；</li>
-<li>读锁/写锁；</li>
-<li>轻量级锁/重量级锁；</li>
-<li>偏向锁/可重入锁；</li>
-<li>非公平锁/公平锁；</li>
-</ul>
-</blockquote>
-          <!--noindex-->
-            <div class="post-button">
-              <a class="btn" href="/2020/02/06/%E6%B5%85%E6%9E%90Java%E4%B8%AD%E7%9A%84%E9%94%81/#more" rel="contents">
                 阅读全文 &raquo;
               </a>
             </div>
@@ -1886,7 +1847,7 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">167</span>
+          <span class="site-state-item-count">178</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
@@ -1899,7 +1860,7 @@
       <div class="site-state-item site-state-tags">
             <a href="/tags/">
           
-        <span class="site-state-item-count">101</span>
+        <span class="site-state-item-count">106</span>
         <span class="site-state-item-name">标签</span></a>
       </div>
   </nav>
