@@ -2,7 +2,7 @@
 title: Spark作业的执行过程
 date: 2020-03-12
 tags: [Spark]
-categories: 大数据
+categories: [大数据]
 ---
 
 

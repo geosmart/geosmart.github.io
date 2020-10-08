@@ -1,0 +1,183 @@
+application {
+    config {
+        baseName dolphineScheduler
+        applicationType microservice
+        databaseType sql
+        devDatabaseType mysql
+        prodDatabaseType mysql
+        buildTool gradle
+        cacheProvider no
+        enableHibernateCache false
+    }
+}
+// permission 
+entity User {
+    id Integer
+    ternantId Integer
+}
+entity Tenant {
+    id Integer
+}
+entity Session {
+    id Integer
+    userId Integer
+}
+entity AccessToken {
+    id Integer
+    userId Integer
+    token String
+}
+// resouces 
+entity Queue {
+    id Integer
+}
+entity UDfs {
+    id Integer
+    userId Integer
+}
+entity Resources {
+    id Integer
+    userId Integer
+}
+entity Datasource {
+    id Integer
+    userId Integer
+}
+entity Project {
+    id Integer
+    userId Integer
+}
+entity ProcessDefinition {
+    id Integer
+    ternantId Integer
+    userId Integer
+    projectId Integer
+    resourceIds String
+    version Integer
+}
+// relation
+entity RelationDatasourceUser {
+    id Integer
+    dataSourceId Integer
+    userId Integer
+}
+entity RelationProjectUser {
+    id Integer
+    projectId Integer
+    userId Integer
+}
+entity RelationUdfsUser {
+    id Integer
+    udfsId Integer
+    userId Integer
+}
+entity RelationResourcesUser {
+    id Integer
+    resoucesId Integer
+    userId Integer
+}
+//warn
+entity Alert {
+    id Integer
+    alertGroupId Integer
+}
+entity AlertGroup {
+    id Integer
+    userId Integer
+}
+entity RelationUserAlertGroup {
+    id Integer
+    alertGroupId Integer
+    userId Integer
+}
+//scheduler
+entity ProcessInstance {
+    id Integer
+    processDefinitionId Integer
+    ternantId Integer
+    workerGroup String
+    executorId Integer
+}
+entity RelationProcessInstance {
+    id Integer
+    processInstanceId Integer
+    parentProcessInstanceId Integer
+    parentTaskInstanceId String
+}
+entity TaskInstance {
+    id Integer
+    processDefinitionId Integer
+    processInstanceId Integer
+    workerGroup String
+    executorId Integer
+    pid Integer
+}
+entity Schedules {
+    id Integer
+    processDefinitionId Integer
+    wraningGroupId Integer
+    workerGroup String
+    userId Integer
+}
+entity Command {
+    id Integer
+    processDefinitionId Integer
+    workerGroup String
+    executorId Integer
+    wraningGroupId Integer
+}
+entity ErrorCommand {
+    id Integer
+    processDefinitionId Integer
+    workerGroup String
+    executorId Integer
+    wraningGroupId Integer
+}
+relationship OneToMany{
+    // permission
+    Tenant{id} to User{ternantId}
+    User{id} to Session{userId}
+    User{id} to ProcessDefinition{userId}
+    User{id} to AccessToken{userId}
+    
+    //resources
+    User{id} to UDfs{userId}
+    User{id}  to Resources{userId}
+    User{id} to Datasource{userId}
+    User{id} to Project{userId}
+    User{id} to AlertGroup{userId}
+    Project{id} to ProcessDefinition{projectId}
+    ProcessDefinition{resourceIds} to Resources{id}
+    
+    //alert
+    AlertGroup{id} to Alert{alertGroupId}
+    AlertGroup{id} to Command{wraningGroupId}
+    AlertGroup{id} to ErrorCommand{wraningGroupId}
+    
+    //schedule
+    ProcessDefinition{id} to Schedules{processDefinitionId}
+    ProcessDefinition{id} to ProcessInstance{processDefinitionId}
+    ProcessInstance{id} to TaskInstance{processInstanceId}
+    ProcessDefinition{id} to Command{processDefinitionId}
+}
+relationship ManyToMany{
+    // resources
+    RelationDatasourceUser{userId} to User{id}
+    RelationDatasourceUser{dataSourceId} to  Datasource{id}  
+    
+    RelationUdfsUser{userId} to User{id}
+    RelationUdfsUser{udfsId} to    UDfs{id} 
+    
+    RelationResourcesUser{userId} to User{id}
+    RelationResourcesUser{resoucesId}   to  Resources{id}
+
+    RelationProjectUser{userId} to User{id} 
+    RelationProjectUser{projectId} to Project{id} 
+    RelationUserAlertGroup{userId} to   User{id}
+    RelationUserAlertGroup{alertgroupid}    to AlertGroup{id}
+}
+relationship OneToOne{
+    RelationProcessInstance{processInstanceId} to ProcessInstance{id}
+    RelationProcessInstance{parentProcessInstanceId} to ProcessInstance{id}  
+    RelationProcessInstance{parentTaskInstanceId} to TaskInstance{id}
+}

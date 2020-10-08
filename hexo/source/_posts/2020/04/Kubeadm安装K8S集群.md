@@ -16,6 +16,7 @@ kubectl drain geolab.master --ignore-daemonsets
 kubectl delete node geolab.master
 kubeadm reset
 ```
+
 # 重新安装
 ## 设置国内阿里云镜像
 添加阿里云源,安装kubelet,kubeadm,kubectl
@@ -30,6 +31,17 @@ repo_gpgcheck=1
 gpgkey=https://mirrors.aliyun.com/kubernetes/yum/doc/yum-key.gpg https://mirrors.aliyun.com/kubernetes/yum/doc/rpm-package-key.gpg
 exclude=kube*
 EOF
+
+```bash
+sudo mkdir -p /etc/docker
+sudo tee /etc/docker/daemon.json <<-'EOF'
+{
+  "registry-mirrors": ["https://wx3i03p1.mirror.aliyuncs.com"]
+}
+EOF
+sudo systemctl daemon-reload
+sudo systemctl restart docker
+
 
 # Set SELinux in permissive mode (effectively disabling it)
 setenforce 0

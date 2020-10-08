@@ -21,6 +21,14 @@ curl -o /etc/yum.repos.d/CentOS-Base.repo http://mirrors.aliyun.com/repo/Centos-
 yum clean all
 yum makecache
 ```
+如果出现dns解析问题，在网卡配置加上dns服务器配置
+vi /etc/sysconfig/network-scripts/ifcfg-eth0
+文末添加
+```bash
+DNS1=8.8.8.8
+DNS2=8.8.4.4
+```
+service network restart
 
 # 安装Docker
 ```shell

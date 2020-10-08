@@ -11,7 +11,7 @@ categories: [OPS]
 # 检查网络
 ```shell
 # master  修改 hostname
-hostnamectl set-hostname geolab.demo
+hostnamectl set-hostname k8s.master
 
 # 查看修改结果
 hostnamectl status
@@ -30,7 +30,7 @@ echo "127.0.0.1   $(hostname)" >> /etc/hosts
 # export REGISTRY_MIRROR="https://05f073ad3c0010ea0f4bc00b7105ec20.mirror.swr.myhuaweicloud.com"
 # 阿里云 docker hub 镜像
 export REGISTRY_MIRROR=https://registry.cn-hangzhou.aliyuncs.com
-curl -sSL https://kuboard.cn/install-script/v1.18.x/install_kubelet.sh | sh -s 1.18.0
+curl -sSL https://kuboard.cn/install-script/v1.18.x/install_kubelet.sh | sh -s 1.18.2
 ```
 
 # master配置
@@ -39,13 +39,13 @@ curl -sSL https://kuboard.cn/install-script/v1.18.x/install_kubelet.sh | sh -s 1
 # 只在 master 节点执行
 # 替换 x.x.x.x 为 master 节点实际 IP（请使用内网 IP）
 # export 命令只在当前 shell 会话中有效，开启新的 shell 窗口后，如果要继续安装过程，请重新执行此处的 export 命令
-export MASTER_IP=192.168.135.3
+export MASTER_IP=192.168.135.130
 # 替换 apiserver.demo 为 您想要的 dnsName
-export APISERVER_NAME=geolab.demo
+export APISERVER_NAME=k8s.master
 # Kubernetes 容器组所在的网段，该网段安装完成后，由 kubernetes 创建，事先并不存在于您的物理网络中
 export POD_SUBNET=10.100.0.1/16
 echo "${MASTER_IP}    ${APISERVER_NAME}" >> /etc/hosts
-curl -sSL https://kuboard.cn/install-script/v1.18.x/init_master.sh | sh -s 1.18.0
+curl -sSL https://kuboard.cn/install-script/v1.18.x/init_master.sh | sh -s 1.18.2
 ```
 
 ## 检查 master 初始化结果
@@ -70,13 +70,13 @@ kubeadm token create --print-join-command
 ```shell
 # 只在 worker 节点执行
 # 替换 x.x.x.x 为 master 节点的内网 IP
-export MASTER_IP=192.168.135.3
+export MASTER_IP=192.168.135.130
 # 替换 apiserver.demo 为初始化 master 节点时所使用的 APISERVER_NAME
-export APISERVER_NAME=geolab.demo
+export APISERVER_NAME=k8s.master
 echo "${MASTER_IP}    ${APISERVER_NAME}" >> /etc/hosts
 
 # 替换为 master 节点上 kubeadm token create 命令的输出
-kubeadm join geolab.demo:6443 --token bekn32.5jf2ih9zo2qptfw9     --discovery-token-ca-cert-hash sha256:3c8e58572a57f14b8de1ca3368d2c6eae9831a1fb6b1fcc6d35fce334bfaf78f 
+kubeadm join k8s.master:6443 --token bekn32.5jf2ih9zo2qptfw9     --discovery-token-ca-cert-hash sha256:3c8e58572a57f14b8de1ca3368d2c6eae9831a1fb6b1fcc6d35fce334bfaf78f 
 ```
 // todo 重新加入master
 
@@ -98,7 +98,7 @@ kubectl -n kubernetes-dashboard describe secret $(kubectl -n kubernetes-dashboar
 # 启动kubernetes dashboard
 nohup kubectl proxy --address='0.0.0.0' --port=9090 --accept-hosts='^*$' &
 ```
-访问路径： http://192.168.135.3:9090/api/v1/namespaces/kubernetes-dashboard/services/https:kubernetes-dashboard:/proxy/
+访问路径： http://192.168.135.130:9090/api/v1/namespaces/kubernetes-dashboard/services/https:kubernetes-dashboard:/proxy/
 
 
 # Kuboard可视化工具
@@ -114,7 +114,7 @@ kubectl get pods -l k8s.eip.work/name=kuboard -n kube-system
 ```shell
 kubectl -n kube-system get secret $(kubectl -n kube-system get secret | grep kuboard-user | awk '{print $1}') -o go-template='{{.data.token}}' | base64 -d
 ```
-http://192.168.135.3:32567/dashboard?k8sToken=获取的Token
+http://192.168.135.130:32567/dashboard?k8sToken=获取的Token
 
 # 参考
 * [kuboard](https://kuboard.cn/)

@@ -1,0 +1,145 @@
+// app 
+entity AiApp {
+    appId String
+}
+
+entity AiAppMapperTag {
+    appId String
+    commonId String
+}
+
+entity AiTag {
+    tagId String
+}
+
+entity AiAppSort {
+    sortId String
+    appId String
+}
+
+//solution
+entity AiAppSolution {
+    appId String
+    solutionId String
+    dockerId String
+}
+
+entity AiAppSolutionHistory {
+    historyId String
+    appId String
+    solutionId String
+    solutionVersion Integer
+    batchJobId String
+    deployJobId String
+    serviceGroupId String
+}
+entity AiAppSolutionDebugHistory {
+    historyId String
+    solutionId String
+    solutionVersion Integer
+    debugJobId Integer
+}
+entity AiAppSolutionEtlHistory {
+    historyId String
+    solutionId String
+    etlVersion Integer
+    etlJobId String
+}
+entity AiAppSolutionDeployLog {
+    logId String
+    solutionId String
+    solutionVersion Integer
+}
+
+//serviceGroup
+entity ServiceGroupV2 {
+    serviceGroupId String
+    appId String
+}
+entity ServiceGroupLogV2 {
+    logId String
+    serviceGroupId String
+    appId String
+    solutionId String
+    solutionVersion Integer
+    deployJobId String
+}
+entity AiAbtest {
+    abtestId String
+    serviceGroupId String
+    appId String
+}
+entity AiAbtestScorerJob {
+    jobId String
+    appId String
+    serviceGroupId String
+    abtestId String
+    abtestVersion Integer
+}
+
+
+//job
+entity EtlJob {
+    jobId String
+}
+entity BatchJob {
+    jobId String
+    serviceGroupId String
+}
+entity DeployJob {
+    jobId String
+    serviceGroupId String
+}
+entity JupyterJob {
+    jobId String
+}
+
+//resource
+entity DockerImage {
+    dockerId String
+}
+entity DataSourceConfig {
+    sourceId String
+}
+entity SubscriptionInfo {
+    subscriber String
+}
+
+
+relationship OneToOne {
+    //app
+    AiApp to AiAppSort
+    
+    //solution
+    AiAppSolutionEtlHistory{etlJobId} to EtlJob{jobId}
+    AiAppSolutionDebugHistory{debugJobId} to BatchJob{jobId}
+    AiAppSolutionHistory{deployJobId} to DeployJob{jobId}
+    AiAppSolutionHistory{batchJobId} to BatchJob{jobId}
+    AiAppSolution to DockerImage
+
+    //abtest
+    AiAbtest to ServiceGroupV2
+}
+
+relationship OneToMany {
+    //app
+    AiApp to AiAppSolution
+
+    //solution
+    AiAppSolution to AiAppSolutionHistory
+    AiAppSolution to AiAppSolutionEtlHistory
+
+    //service group
+    ServiceGroupV2 to ServiceGroupLogV2
+    ServiceGroupV2 to AiAppSolution
+
+    //abtest
+    AiApp to ServiceGroupV2
+    AiAbtest to AiAbtestScorerJob
+    AiAppSolution to AiAppSolutionDeployLog
+}
+
+relationship ManyToMany {
+    AiApp to AiAppMapperTag{commonId}
+    AiTag to AiAppMapperTag{tagId}
+}
