@@ -4,17 +4,17 @@ date: 2020-11-22
 tags: [大数据]
 ---
 
-DSS(DataSphereStudio)的实现强依赖于Linkis计算中间件，dss包含6个，而底层linkis需要部署18个服务，所以一般基于dss二次开发，关键就是对linkis的hadoop版本做适配，以及超多的微服务导致的的部署非常繁琐。
+DSS(DataSphereStudio)的实现强依赖于Linkis计算中间件，dss包含6个，而底层linkis需要部署18个服务，所以一般基于dss二次开发，关键就是对linkis的hadoop集群做适配，以及超多的微服务导致部署的问题(工作量大，服务间存在依赖，容易出错)。
 
-本文主要的关注点是如何将dss应用于生产环境并采用`gerrit+jenkins+ansible+docker`实施cicd。
-实现对linkis和dss的自动化部署，封装每个微服务在不同运行环境的配置和启动脚本。
+本文主要的关注点是如何将dss应用于生产环境并采用`gerrit + jenkins + ansible + docker`实施`cicd`，实现对linkis和dss的自动化部署，封装每个微服务在不同运行环境的配置和启动脚本。
+
 <!-- more -->  
 # 关于DSS
 DSS(DataSphereStudio)是一个一站式数据应用开发管理门户，基于插拔式的集成框架设计，基于计算中间件`Linkis`实现。
 
-# linkis部署包结构说明
+# Linkis部署结构
 linkis总共18个微服务
-## 服务列表
+## Linkis服务列表
 * eureka：注册中心
 * linkis-gateway：网关
 * linkis-resourcemanager：资源管理服务
@@ -37,7 +37,7 @@ linkis总共18个微服务
 * linkis-ujes-spark-enginemanager
 * linkis-ujes-spark-entrance
 
-## 目录结构
+## Linkis部署包组成
 每个服务的目录结构都一致，ujes部分会多一些引擎相关的配置：
 * bin：服务启动/停止脚本
 	* pid文件：linkis.pid
@@ -57,7 +57,16 @@ linkis总共18个微服务
 	* linkis.out：jvm启动日志，每次启动覆盖
 	* linkis-gc.log：jvm gc日志，每次启动覆盖
 
-# 部署资源规划
+# DSS部署结构
+* dss-web：前端服务（可包含visualis-web）
+* dss-server：dss后端服务
+* dss-flow-execution-entrance：工作流执行入口
+* linkis-appjoint-entrance：linkis任务提交入口
+* dss-init-db：仅用于第一次初始化数据库
+
+由于linkis和dss都是微众开源的，dss部署包的目录结构和linkis类似；
+
+# DSS部署资源规划
 安装linkis+dss服务测试环境，采用4核8G*6台虚机：
 * Server1：linkis-gateway、linkis-publicservice、linkis-cs-server、linkis-dsm-server、linkis-bml、linkis-metadata、linkis-mdm-server
 * Server2：enginemanager（spark、python）、entrance（spark、python）
@@ -74,17 +83,10 @@ linkis总共18个微服务
 ![DataSphereStudio部署图](dss_deploy.png)
 实际生产环境，根据服务使用人数，具体可参考官方的文档[Linkis生产部署参考指南](https://github.com/WeBankFinTech/Linkis/wiki/Linkis生产部署参考指南)做容量规划。
 
-# dss部署包
-* dss-web：前端服务（可包含visualis-web）
-* dss-server：dss后端服务
-* dss-flow-execution-entrance：工作流执行入口
-* linkis-appjoint-entrance：linkis任务提交入口
-* dss-init-db：仅用于第一次初始化数据库
+# DSS的CICD流程
+主体CICD流程：代码提交到gerrit，review成功后，自动mvn打包，并通过ansible在测试环境发布重启docker容器，同时生成生产环境的部署包；
 
-由于linkis和dss都是微众开源的，dss部署包的目录结构和linkis类似；
-
-# 部署定制流程
-## 服务自定义编译
+## Linkis自定义编译
 自定义hadoop版本，修改linkis根目录和linkis-ujes-spark-engine项目的pom.xml文件
 比如修改hadoop到2.6
 ```xml 
@@ -93,34 +95,42 @@ linkis总共18个微服务
 <spark.version>2.3.0</spark.version>
 ```
 
-编译问题
->shell-enginemanager存在jackson包冲突会导致启动失败，保留2.10.0，其他版本exclude即可
->遇到Assembly is incorrectly configured问题，将useStrictFiltering属性改成false即可
+>编译问题
+>* shell-enginemanager存在jackson包冲突会导致启动失败，保留`2.10.0`，其他版本exclude即可;
+>* 遇到`Assembly is incorrectly configured`问题，将`useStrictFiltering`属性改成false即可;
+>* eureke需设置`instance-id`、`prefer-ip-address`和`ip-address`，不然显示的是docker内部ip，且服务间不能正常通信（使用的默认是docker内部ip）；
 
-## 部署包jenkins准备
-* mvn -N install
-* mvn -Pspark2.3 clean install
+## DSS的部署包准备
+* `mvn -N install`
+* `mvn -Pspark2.3 clean install`
 * 将assembly/target/wedatasphere-linkis-{version}-dist.tar.gz解压后挂载到docker中
 
-## 多环境自动部署
+上述流程可通过
+* `JJB(jenkins job builder)`实现`devops as code`，以yaml编写ci流程，ci流程更新后自动触发jenkins任务更新；
+* Jenkins中配置在`gerrit trigger`，配置不同的hook，让代码更新后自动触发对应的job构建；
+
+## DSS的多环境自动部署
 在官方的config目录下添加dev、test、prod等配置，按不同部署环境的环境变量配置config.sh和db.sh，并通过docker挂载到容器内；
 
 linkis和dss的目录结构比较规范，做容器化时，只需要参考install.sh中的脚本，拆分成多个entrypoint即可。
 
-## log4j运行日志挂载
+>注意
+* 官方的脚本针对的是一键部署，ansible集成时，所有的remote操作都可以简化为local操作
+
+## DSS的运行日志
 * 在`bin/start-{SERVICE_NAME}.sh`脚本然后将`SERVER_LOG_PATH`改为`/var/log/{SERVICE_NAME}`，`SERVER_LOG_PATH`并挂载到docker中，以便在容器重启后能够保持日志;
 * 将官方`log4j.properties`中的`logs/linkis.log`改为${env:SERVER_LOG_PATH}/linkis.log；
 * gc和jvm日志也可参考log4j日志路径修改;
 
-# docker镜像准备
+# DSS的Docker镜像
 * CDH环境配置：参考CDH Agent机器配置即可，配置好后需设置HADOOP_HOME，SPARK_HOME，HIVE_HOME等环境变量
 * 根据不同的运行环境，挂载不同的hadoop/yarn的核心site.xml文件;
 * 确保terminal能正常使用hdfs,spark-sql,hive,kinit等服务；
 
-## docker启动入口
+## DSS的Docker服务
 实现`startup.sh ${SERVICE_NAME}`,通过SERVICE_NAME参数实现启动指定的微服务；
 每个微服务的entrypoint脚本主要实现几个步骤：
-* 复制公共模块包
+* 复制公共模块包;
 * 复制服务压缩包；
 * 删除当前部署目录；
 * 解压服务压缩包；
@@ -128,10 +138,45 @@ linkis和dss的目录结构比较规范，做容器化时，只需要参考insta
 * 调用服务压缩包`bin/start-{SERVICE_NAME}.sh`启动服务；
 * 检查服务是否启动成功并打印启动日志；
 
->linkis-gateway的entrypoint示例
+>docker容器的entrypoint示例:startup.sh
+
 ```bash
-#!/bin/sh
-# linkis-gateway.sh
+# load config and init
+RUN_ENV=${DSS_RUN_ENV:=dev}
+
+# eg. /opt/dss/dss-dist
+shellDir=${DSS_INSTALL_HOME}/bin
+echo "shellDir:${shellDir}"
+# tar package path
+workDir=$(
+  cd ${shellDir}/..
+  pwd
+)
+export workDir=$workDir
+echo 'workDir' ${workDir}
+
+# eg. /opt/dss/dss-run
+DSS_WORK_HOME=${DSS_WORK_HOME:=${workDir}}
+export DSS_WORK_HOME=$DSS_WORK_HOME
+echo 'DSS_WORK_HOME' ${DSS_WORK_HOME}
+
+# init directories and log dir
+export LOG_DIR=/var/log/$1
+mkdir -p ${LOG_DIR}
+touch $LOG_DIR/linkis.out
+echo "LOGDIR:${LOG_DIR}"
+
+source ${workDir}/bin/common.sh
+
+source entrypoint/$1.sh
+
+echo "tail begin"
+exec bash -c "tail -n 1 -f $LOG_DIR/linkis.out"
+```
+
+>linkis-gateway的entrypoint示例:linkis-gateway.sh
+
+```bash
 source ${workDir}/bin/entrypoint/functions.sh
 EUREKA_URL=http://$EUREKA_INSTALL_IP:$EUREKA_PORT/eureka/
 
@@ -163,8 +208,18 @@ sleep 10
 checkServer
 ```
 
-# 其他部署踩坑
-## eureke配置
-需要设置instance-id和prefer-ip-address，不然显示的是docker内部ip，且服务间不能正常通信（使用的默认是docker内部ip）；
+# DSS的CICD建议
+>原则是尽量统一行为规范，便于实施约定由于配置，实现运维自动化。
 
-## todo
+* install脚本可以按微服务隔离成多个sh脚本，隔离关注点，方便容器化部署，方便社区参与&维护；
+* 项目命名规则不统一：有的驼峰有的全小写（contextservice，resourceManager），改版时可以统一风格；
+* eureka，dss-web和其他服务的install脚本不太一致，比如前缀，命名大小写把所有远程安装的脚本都删除，修改为本地操作即可；
+* dss-web可以添加frontend-maven-plugin插件，不依赖node环境完成前端自动化打包；
+* 可以加入flyway等数据库ddl的版本控制，不然后面数据结构的迭代升级会比较痛苦；
+
+# DSS相关术语
+* wds：WebDataSphere，套件名称，包含dss
+* dss：DataSphereStudio，数据平台
+* ujes，Unified Job Execution Services，通用作业执行服务
+* bml：Material Library ，物料库
+* dwc：DataWorkerCloud
