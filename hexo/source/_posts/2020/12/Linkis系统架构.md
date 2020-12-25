@@ -25,21 +25,23 @@ linkis计算中间件核心的是ujes统一作业执行服务，但同时也包�
 ## eureka 注册中心
 实现服务注册和发现，后续会替换为nacos；
 
-## linkis-gateway 网关
-服务路由，依赖eureka服务发现，基于`spring-cloud gateway`实现;
+## linkis-gateway 
+网关，负责服务路由，依赖eureka服务发现，基于`spring-cloud gateway`实现;
 
-## linkis-resourcemanager 资源管理服务
+## linkis-resourcemanager 
+资源管理服务
 ### 组件功能
 1. dss查询em和engine的资源使用情况
 2. em/engine资源的注册、锁定、注销
 
-## 组件相关表
+### 组件相关表
 * linkis_em_meta_data：EngineManager元数据
 * linkis_em_resource_meta_data：EngineManager的实例元数据
 * linkis_user_resource_meta_data：用户占用的em和engine实例
 * linkis_resource_lock：用户engine实例锁
 
-## ujes 统一作业执行服务
+## linkis-ujes 
+统一作业执行服务
 ![ujes](linkis-ujes.jpg)
 ### 组件功能
 包含entrance、enginemanager和engine三类服务
@@ -48,7 +50,8 @@ linkis计算中间件核心的是ujes统一作业执行服务，但同时也包�
 * enginemanager：执行引擎管理器，管理engine的生命周期：Starting,、Idle、Busy、ShuttingDown、Error、Dead、Success；
 * engine：执行引擎，提交任务和具体的执行着交互；
 
-## linkis-bml 物料库
+## linkis-bml 
+物料库
 1. 查询/更新/删除资源版本
 2. 查询/下载/更新/删除资源
 如：存储dag的历史版本
@@ -60,7 +63,8 @@ linkis计算中间件核心的是ujes统一作业执行服务，但同时也包�
 * linkis_resources_task：资源上传/更新日志
 * linkis_resources_permission：用户资源权限
 
-## linkis-metadata 元数据服务
+## linkis-metadata 
+元数据服务
 ### 组件功能
 * scriptis的hive数据库/表/字段查询
 * scriptis的表创建向导，支持从已有表导入，会生成血缘数据
@@ -73,7 +77,8 @@ linkis计算中间件核心的是ujes统一作业执行服务，但同时也包�
 * linkis_mdq_access：表/字段的访问记录
 * linkis_mdq_import：表导入记录
 
-## linkis-publicservice 公共服务
+## linkis-publicservice 
+公共服务
 ![publicservice](linkis-publicservice.jpg)
 包含函数管理、变量管理、配置管理、工作空间管理、用户注册、任务管理等6个子模块
 
@@ -88,7 +93,8 @@ udf和method定义
 * linkis_udf_shared_group：用户组共享udf（未用）
 * linkis_udf_manager：用udf列表（未用）
 
-### variable-manager 变量管理
+### variable-manager 
+变量管理
 #### 组件功能
 1. 定义变量
 
@@ -96,12 +102,14 @@ udf和method定义
 * linkis_var_key：全局变量
 * linkis_var_key_user：用户自定义变量
 
-### workspace-manager 工作空间管理
+### workspace-manager 
+工作空间管理
 #### 组件功能
 1. 打开/保存脚本：依赖bml服务
 2. IDE中日志/文件/目录的增删改查/下载：依赖mfs/hdfs
 
-### application-manager 应用管理
+### application-manager 
+应用管理
 #### 组件功能
 1. 用户注册
 
@@ -111,7 +119,8 @@ udf和method定义
 * linkis_project_user（弃用）
 * linkis_develop_application（弃用）
 
-### job-manager 任务管理
+### job-manager 
+任务管理
 #### 组件功能
 1. 脚本任务执行记录查询
 2. 任务新增、任务执行状态更新
