@@ -13,6 +13,8 @@ DSS(DataSphereStudio)的实现强依赖于Linkis计算中间件，dss包含6个�
 DSS(DataSphereStudio)是一个一站式数据应用开发管理门户，基于插拔式的集成框架设计，基于计算中间件`Linkis`实现。
 
 # Linkis部署结构
+![DataSphereStudio部署图](dss_deploy.png)
+
 linkis总共18个微服务
 ## Linkis服务列表
 * eureka：注册中心
@@ -80,7 +82,6 @@ linkis总共18个微服务
 >服务间存在依赖关系，需按顺序启动：比如需先启动eureka，gateway，resoucemanager等基础服务,再启动其他应用层服务；
 
 单机资源够的情况下，测试时可以将ujes都部署在一台服务器；
-![DataSphereStudio部署图](dss_deploy.png)
 实际生产环境，根据服务使用人数，具体可参考官方的文档[Linkis生产部署参考指南](https://github.com/WeBankFinTech/Linkis/wiki/Linkis生产部署参考指南)做容量规划。
 
 # DSS的CICD流程
