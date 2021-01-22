@@ -11,8 +11,8 @@ dolphinscheduler这个dag的任务类型就差flink就都玩个遍了.
 # Flink on Yarn执行流程
 ![flink on yarn](flink_on_yarn.jpg)
 
->流程和spark on yarn类似
->不过ui端口，saprk是启在driver，flink是启在jobManager
+>yarn任务提交流程和`spark on yarn`类似
+>不过ui端口，spark是启在driver，flink是启在jobManager
 
 # Flink on Yarn 部署模式
 ![flink deploy mode](flink_deploy_mode.png)
@@ -21,13 +21,13 @@ dolphinscheduler这个dag的任务类型就差flink就都玩个遍了.
 * Per-Job Mode：JobManager独立，flink main()在client中执行
 * Session Mode：JobManager共享，flink main()在client中执行
 
->数据加工时，由于采用flink定时跑批，所以采用第一种模式；
+>数据加工时，由于采用flink定时跑批，租户隔离保证互不影响，所以采用第一种模式；
 
 # flink版本
 * flink 1.10.2
 
 >1.11和1.12的spark on yarn的参数改动有点大，还是保守点用1.10了。
->其实是dolphinscheduler目前支持的是1.9...升级flink run的args拼起来太麻烦了。
+>其实是dolphinscheduler目前支持的是1.9...升级flink run的args拼起来太麻烦了-_-
 
 # 环境变量
 ```bash 
