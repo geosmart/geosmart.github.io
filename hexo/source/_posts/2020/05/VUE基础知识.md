@@ -27,9 +27,10 @@ VUE.js是一套构建用户界面的渐进式框架。目标是通过尽可能�
 
 # VUE项目的目录结构
 
-```sequence
-asd
-```
+# router
+
+# vuex
+
 
 # 参考
 * [vue2-guide](https://cn.vuejs.org/v2/guide/index.html)

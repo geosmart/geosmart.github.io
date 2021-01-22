@@ -128,3 +128,7 @@ udf和method定义
 
 #### 组件相关表
 * linkis_task：用户任务执行日志表
+
+
+# 参考
+* [DSS的CICD实践](https://github.com/WeBankFinTech/WeDataSphere/issues/29)
