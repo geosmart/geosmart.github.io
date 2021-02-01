@@ -218,7 +218,7 @@
               <span class="post-meta-item-text">发表于</span>
               
 
-              <time title="创建时间：1   二月   2021 16:59:32 / 修改时间：17:12:41" itemprop="dateCreated datePublished" datetime="2021-02-01T16:59:32+08:00">1   二月   2021</time>
+              <time title="创建时间：1   二月   2021 16:59:32 / 修改时间：17:22:35" itemprop="dateCreated datePublished" datetime="2021-02-01T16:59:32+08:00">1   二月   2021</time>
             </span>
 
           
@@ -232,20 +232,15 @@
     <div class="post-body" itemprop="articleBody">
 
       
-          <h1 id="flink-taskmanager日志地址"><a href="#flink-taskmanager日志地址" class="headerlink" title="flink taskmanager日志地址"></a>flink taskmanager日志地址</h1><p>运行时查询日志，显示正常<br><a href="http://ip:8088/proxy/application_1606889053812_25820/#/task-manager/container_e03_1606889053812_25891_01_000002/logs">http://ip:8088/proxy/application_1606889053812_25820/#/task-manager/container_e03_1606889053812_25891_01_000002/logs</a></p>
-<h1 id="yarn-container本地日志位置"><a href="#yarn-container本地日志位置" class="headerlink" title="yarn container本地日志位置"></a>yarn container本地日志位置</h1><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">ls -hl  /data02/yarn/container-logs/application_1606889053812_25820/container_e03_1606889053812_25891_01_000002/</span><br><span class="line">total 72K</span><br><span class="line">-rw-r----- 1 jrsyb yarn 740 Feb  1 15:46 taskmanager.err</span><br><span class="line">-rw-r----- 1 jrsyb yarn 62K Feb  1 15:47 taskmanager.log</span><br><span class="line">-rw-r----- 1 jrsyb yarn 442 Feb  1 15:47 taskmanager.out</span><br></pre></td></tr></table></figure>
-<h1 id="yarn已开启日志聚合"><a href="#yarn已开启日志聚合" class="headerlink" title="yarn已开启日志聚合"></a>yarn已开启日志聚合</h1><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">yarn.log-aggregation-enable=<span class="literal">true</span></span><br><span class="line">yarn.log-aggregation.retain-seconds=604800</span><br></pre></td></tr></table></figure>
-<h1 id="yarn查看hdfs-container日志"><a href="#yarn查看hdfs-container日志" class="headerlink" title="yarn查看hdfs container日志"></a>yarn查看hdfs container日志</h1><p>job执行结束后，taskmanager日志聚合到了hdfs目录：<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">hdfs dfs -ls /tmp/logs/jrsyb/logs/application_1606889053812_25820/</span><br><span class="line">Found 2 items</span><br><span class="line">-rw-r-----   3 jrsyb hadoop      75341 2021-02-01 16:11 /tmp/logs/jrsyb/logs/application_1606889053812_25820/ip_8041</span><br><span class="line">-rw-r-----   3 jrsyb hadoop      57557 2021-02-01 16:11 /tmp/logs/jrsyb/logs/application_1606889053812_25820/hz-hadoop-test-199-151-41_8041</span><br></pre></td></tr></table></figure></p>
-<h1 id="通过yarn-logs-查看container日志"><a href="#通过yarn-logs-查看container日志" class="headerlink" title="通过yarn logs 查看container日志"></a>通过yarn logs 查看container日志</h1><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">yarn logs  -appOwner jrsyb -applicationId application_1606889053812_25820  -show_container_log_info</span><br></pre></td></tr></table></figure>
-<h1 id="问题"><a href="#问题" class="headerlink" title="问题"></a>问题</h1><p>historyserver能正常查询jobmanager日志，查询taskmanager日志时报404，<br><a href="http://HistoryServer:8090/#/task-manager/container_e03_1606889053812_25891_01_000002/logs">http://HistoryServer:8090/#/task-manager/container_e03_1606889053812_25891_01_000002/logs</a></p>
-<blockquote>
-<p>todo 如何配置history server读取正确的container日志目录？</p>
-</blockquote>
-<h1 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h1><ul>
-<li><a href="https://ci.apache.org/projects/flink/flink-docs-release-1.10/ops/config.html#history-server">flink 1.10 history server配置</a></li>
-<li><a href="https://developer.aliyun.com/article/719703">Flink on YARN常见问题与排查思路</a></li>
-</ul>
-
+          <p>flink程序里面打印的日志会输出到taskmanager.log，job结束后，yarn日志会聚合到hdfs，<br>running的时候能看taskmanager日志，但是flink history server的界面上就是看不了，<br>找到了hdfs上taskmanager的位置，纠结要不要去看下flink history server源码读的哪儿…</p>
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/2021/02/01/FlinkOnYarn%E5%A6%82%E4%BD%95%E6%9F%A5%E7%9C%8Btaskmanager%E6%97%A5%E5%BF%97/#more" rel="contents">
+                阅读全文 &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
       
     </div>
 
