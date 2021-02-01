@@ -4,6 +4,9 @@ date: 2021-01-29 15:11:15
 tags: [大数据,flink]
 ---
 
+flink-1.10.2的fink-conf.yaml配置文件说明
+<!-- more -->  
+
 # Common
 常规配置参数
 ```bash

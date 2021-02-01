@@ -4,6 +4,9 @@ date: 2021-01-28 11:45:40
 tags:
 ---
 
+DSS工作流实现相关笔记
+<!-- more -->  
+
 # BML
 * 工作流的节点可以关联一个执行脚本，比如shell/python/sql
 * 脚本保存时（saveScriptToBML）,会为文件新增1个版本，实际实现是追加字节到hdfs的文件尾部，linkis会在`linkis_resources_version`表存储每个版本起始字节偏移量；

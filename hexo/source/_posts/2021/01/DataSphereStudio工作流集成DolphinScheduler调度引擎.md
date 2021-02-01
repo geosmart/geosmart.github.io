@@ -4,6 +4,9 @@ date: 2021-01-28 10:12:09
 tags: [大数据,Scheduler]
 ---
 
+DataSphereStudio工作流集成DolphinScheduler调度引擎的实现思路梳理，从鉴权、资源同步、任务执行等角度分析
+<!-- more -->  
+
 # DSS接入第三方应用（AppJoint）
 DSS(DataSphere Studio)从一开始就被设计成为一个开放的、具有强扩展能力的系统。
 DSS系统希望第三方系统是能以插拔式的方式接入，为了实现上述的理念，DSS提出了AppJoint(应用关节)的概念。
