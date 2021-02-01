@@ -193,6 +193,77 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://geosmart.github.io/2021/02/01/FlinkOnYarn%E5%A6%82%E4%BD%95%E6%9F%A5%E7%9C%8Btaskmanager%E6%97%A5%E5%BF%97/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="geosmart">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="geosmart.io">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          
+            <a href="/2021/02/01/FlinkOnYarn%E5%A6%82%E4%BD%95%E6%9F%A5%E7%9C%8Btaskmanager%E6%97%A5%E5%BF%97/" class="post-title-link" itemprop="url">FlinkOnYarn如何查看taskmanager日志</a>
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+              
+
+              <time title="创建时间：1   二月   2021 16:59:32 / 修改时间：17:12:41" itemprop="dateCreated datePublished" datetime="2021-02-01T16:59:32+08:00">1   二月   2021</time>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <h1 id="flink-taskmanager日志地址"><a href="#flink-taskmanager日志地址" class="headerlink" title="flink taskmanager日志地址"></a>flink taskmanager日志地址</h1><p>运行时查询日志，显示正常<br><a href="http://ip:8088/proxy/application_1606889053812_25820/#/task-manager/container_e03_1606889053812_25891_01_000002/logs">http://ip:8088/proxy/application_1606889053812_25820/#/task-manager/container_e03_1606889053812_25891_01_000002/logs</a></p>
+<h1 id="yarn-container本地日志位置"><a href="#yarn-container本地日志位置" class="headerlink" title="yarn container本地日志位置"></a>yarn container本地日志位置</h1><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">ls -hl  /data02/yarn/container-logs/application_1606889053812_25820/container_e03_1606889053812_25891_01_000002/</span><br><span class="line">total 72K</span><br><span class="line">-rw-r----- 1 jrsyb yarn 740 Feb  1 15:46 taskmanager.err</span><br><span class="line">-rw-r----- 1 jrsyb yarn 62K Feb  1 15:47 taskmanager.log</span><br><span class="line">-rw-r----- 1 jrsyb yarn 442 Feb  1 15:47 taskmanager.out</span><br></pre></td></tr></table></figure>
+<h1 id="yarn已开启日志聚合"><a href="#yarn已开启日志聚合" class="headerlink" title="yarn已开启日志聚合"></a>yarn已开启日志聚合</h1><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">yarn.log-aggregation-enable=<span class="literal">true</span></span><br><span class="line">yarn.log-aggregation.retain-seconds=604800</span><br></pre></td></tr></table></figure>
+<h1 id="yarn查看hdfs-container日志"><a href="#yarn查看hdfs-container日志" class="headerlink" title="yarn查看hdfs container日志"></a>yarn查看hdfs container日志</h1><p>job执行结束后，taskmanager日志聚合到了hdfs目录：<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">hdfs dfs -ls /tmp/logs/jrsyb/logs/application_1606889053812_25820/</span><br><span class="line">Found 2 items</span><br><span class="line">-rw-r-----   3 jrsyb hadoop      75341 2021-02-01 16:11 /tmp/logs/jrsyb/logs/application_1606889053812_25820/ip_8041</span><br><span class="line">-rw-r-----   3 jrsyb hadoop      57557 2021-02-01 16:11 /tmp/logs/jrsyb/logs/application_1606889053812_25820/hz-hadoop-test-199-151-41_8041</span><br></pre></td></tr></table></figure></p>
+<h1 id="通过yarn-logs-查看container日志"><a href="#通过yarn-logs-查看container日志" class="headerlink" title="通过yarn logs 查看container日志"></a>通过yarn logs 查看container日志</h1><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">yarn logs  -appOwner jrsyb -applicationId application_1606889053812_25820  -show_container_log_info</span><br></pre></td></tr></table></figure>
+<h1 id="问题"><a href="#问题" class="headerlink" title="问题"></a>问题</h1><p>historyserver能正常查询jobmanager日志，查询taskmanager日志时报404，<br><a href="http://HistoryServer:8090/#/task-manager/container_e03_1606889053812_25891_01_000002/logs">http://HistoryServer:8090/#/task-manager/container_e03_1606889053812_25891_01_000002/logs</a></p>
+<blockquote>
+<p>todo 如何配置history server读取正确的container日志目录？</p>
+</blockquote>
+<h1 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h1><ul>
+<li><a href="https://ci.apache.org/projects/flink/flink-docs-release-1.10/ops/config.html#history-server">flink 1.10 history server配置</a></li>
+<li><a href="https://developer.aliyun.com/article/719703">Flink on YARN常见问题与排查思路</a></li>
+</ul>
+
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+        
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
     <link itemprop="mainEntityOfPage" href="http://geosmart.github.io/2021/01/29/Flink%E9%85%8D%E7%BD%AE%E5%8F%82%E6%95%B0%E8%AF%B4%E6%98%8E/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -224,7 +295,7 @@
                   <i class="fa fa-calendar-check-o"></i>
                 </span>
                 <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：1   二月   2021 9:57:42" itemprop="dateModified" datetime="2021-02-01T09:57:42+08:00">1   二月   2021</time>
+                <time title="修改时间：1   二月   2021 11:01:47" itemprop="dateModified" datetime="2021-02-01T11:01:47+08:00">1   二月   2021</time>
               </span>
 
           
@@ -832,7 +903,7 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="http://geosmart.github.io/2020/07/29/%E4%BB%BB%E5%8A%A1%E8%B0%83%E5%BA%A6%E7%B3%BB%E7%BB%9F%E4%B9%8BAirflow/">
+    <link itemprop="mainEntityOfPage" href="http://geosmart.github.io/2020/07/29/%E4%BB%80%E4%B9%88%E6%98%AF%E6%95%B0%E6%8D%AE%E6%B9%96/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="image" content="/images/avatar.gif">
@@ -846,7 +917,7 @@
       <header class="post-header">
         <h1 class="post-title" itemprop="name headline">
           
-            <a href="/2020/07/29/%E4%BB%BB%E5%8A%A1%E8%B0%83%E5%BA%A6%E7%B3%BB%E7%BB%9F%E4%B9%8BAirflow/" class="post-title-link" itemprop="url">任务调度系统之Airflow</a>
+            <a href="/2020/07/29/%E4%BB%80%E4%B9%88%E6%98%AF%E6%95%B0%E6%8D%AE%E6%B9%96/" class="post-title-link" itemprop="url">什么是数据湖</a>
         </h1>
 
         <div class="post-meta">
@@ -855,16 +926,10 @@
                 <i class="fa fa-calendar-o"></i>
               </span>
               <span class="post-meta-item-text">发表于</span>
+              
 
-              <time title="创建时间：29   七月   2020 0:00:00" itemprop="dateCreated datePublished" datetime="2020-07-29T00:00:00+08:00">29   七月   2020</time>
+              <time title="创建时间：29   七月   2020 0:00:00 / 修改时间：19:52:46" itemprop="dateCreated datePublished" datetime="2020-07-29T00:00:00+08:00">29   七月   2020</time>
             </span>
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-calendar-check-o"></i>
-                </span>
-                <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：8   十月   2020 11:10:48" itemprop="dateModified" datetime="2020-10-08T11:10:48+08:00">8   十月   2020</time>
-              </span>
 
           
 
@@ -877,10 +942,10 @@
     <div class="post-body" itemprop="articleBody">
 
       
-          <p>airflow和传统的调度系统的最大区别是采用<code>workflow as code</code>思想，,dag是采用python代码定义，目标用户是熟悉python的工程师，普通用户使用成本较高。</p>
+          <h1 id="什么是数据湖？"><a href="#什么是数据湖？" class="headerlink" title="什么是数据湖？"></a>什么是数据湖？</h1><p>数据湖是一个集中式存储库，允许您以任意规模存储所有结构化和非结构化数据。您可以按原样存储数据（无需先对数据进行结构化处理），并运行不同类型的分析 – 从控制面板和可视化到大数据处理、实时分析和机器学习，以指导做出更好的决策。</p>
           <!--noindex-->
             <div class="post-button">
-              <a class="btn" href="/2020/07/29/%E4%BB%BB%E5%8A%A1%E8%B0%83%E5%BA%A6%E7%B3%BB%E7%BB%9F%E4%B9%8BAirflow/#more" rel="contents">
+              <a class="btn" href="/2020/07/29/%E4%BB%80%E4%B9%88%E6%98%AF%E6%95%B0%E6%8D%AE%E6%B9%96/#more" rel="contents">
                 阅读全文 &raquo;
               </a>
             </div>
@@ -995,7 +1060,7 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="http://geosmart.github.io/2020/07/29/%E4%BB%80%E4%B9%88%E6%98%AF%E6%95%B0%E6%8D%AE%E6%B9%96/">
+    <link itemprop="mainEntityOfPage" href="http://geosmart.github.io/2020/07/29/%E4%BB%BB%E5%8A%A1%E8%B0%83%E5%BA%A6%E7%B3%BB%E7%BB%9F%E4%B9%8BAirflow/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="image" content="/images/avatar.gif">
@@ -1009,7 +1074,7 @@
       <header class="post-header">
         <h1 class="post-title" itemprop="name headline">
           
-            <a href="/2020/07/29/%E4%BB%80%E4%B9%88%E6%98%AF%E6%95%B0%E6%8D%AE%E6%B9%96/" class="post-title-link" itemprop="url">什么是数据湖</a>
+            <a href="/2020/07/29/%E4%BB%BB%E5%8A%A1%E8%B0%83%E5%BA%A6%E7%B3%BB%E7%BB%9F%E4%B9%8BAirflow/" class="post-title-link" itemprop="url">任务调度系统之Airflow</a>
         </h1>
 
         <div class="post-meta">
@@ -1018,10 +1083,16 @@
                 <i class="fa fa-calendar-o"></i>
               </span>
               <span class="post-meta-item-text">发表于</span>
-              
 
-              <time title="创建时间：29   七月   2020 0:00:00 / 修改时间：19:52:46" itemprop="dateCreated datePublished" datetime="2020-07-29T00:00:00+08:00">29   七月   2020</time>
+              <time title="创建时间：29   七月   2020 0:00:00" itemprop="dateCreated datePublished" datetime="2020-07-29T00:00:00+08:00">29   七月   2020</time>
             </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：8   十月   2020 11:10:48" itemprop="dateModified" datetime="2020-10-08T11:10:48+08:00">8   十月   2020</time>
+              </span>
 
           
 
@@ -1034,10 +1105,10 @@
     <div class="post-body" itemprop="articleBody">
 
       
-          <h1 id="什么是数据湖？"><a href="#什么是数据湖？" class="headerlink" title="什么是数据湖？"></a>什么是数据湖？</h1><p>数据湖是一个集中式存储库，允许您以任意规模存储所有结构化和非结构化数据。您可以按原样存储数据（无需先对数据进行结构化处理），并运行不同类型的分析 – 从控制面板和可视化到大数据处理、实时分析和机器学习，以指导做出更好的决策。</p>
+          <p>airflow和传统的调度系统的最大区别是采用<code>workflow as code</code>思想，,dag是采用python代码定义，目标用户是熟悉python的工程师，普通用户使用成本较高。</p>
           <!--noindex-->
             <div class="post-button">
-              <a class="btn" href="/2020/07/29/%E4%BB%80%E4%B9%88%E6%98%AF%E6%95%B0%E6%8D%AE%E6%B9%96/#more" rel="contents">
+              <a class="btn" href="/2020/07/29/%E4%BB%BB%E5%8A%A1%E8%B0%83%E5%BA%A6%E7%B3%BB%E7%BB%9F%E4%B9%8BAirflow/#more" rel="contents">
                 阅读全文 &raquo;
               </a>
             </div>
@@ -1415,78 +1486,6 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="http://geosmart.github.io/2020/04/19/REST%E6%8E%A5%E5%8F%A3%E5%AE%9A%E4%B9%89%E8%A7%84%E8%8C%83/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.gif">
-      <meta itemprop="name" content="geosmart">
-      <meta itemprop="description" content="">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="geosmart.io">
-    </span>
-      <header class="post-header">
-        <h1 class="post-title" itemprop="name headline">
-          
-            <a href="/2020/04/19/REST%E6%8E%A5%E5%8F%A3%E5%AE%9A%E4%B9%89%E8%A7%84%E8%8C%83/" class="post-title-link" itemprop="url">REST接口定义规范</a>
-        </h1>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-
-              <time title="创建时间：19   四月   2020 20:49:13" itemprop="dateCreated datePublished" datetime="2020-04-19T20:49:13+08:00">19   四月   2020</time>
-            </span>
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-calendar-check-o"></i>
-                </span>
-                <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：17   五月   2020 14:45:01" itemprop="dateModified" datetime="2020-05-17T14:45:01+08:00">17   五月   2020</time>
-              </span>
-
-          
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <p>团队REST接口定义规范<br>
-          <!--noindex-->
-            <div class="post-button">
-              <a class="btn" href="/2020/04/19/REST%E6%8E%A5%E5%8F%A3%E5%AE%9A%E4%B9%89%E8%A7%84%E8%8C%83/#more" rel="contents">
-                阅读全文 &raquo;
-              </a>
-            </div>
-          <!--/noindex-->
-        
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
-        
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
     <link itemprop="mainEntityOfPage" href="http://geosmart.github.io/2020/04/19/%E7%94%A8DataHub%E5%AE%9E%E8%B7%B5%E5%85%83%E6%95%B0%E6%8D%AE%E7%AE%A1%E7%90%86/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -1559,7 +1558,7 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="http://geosmart.github.io/2020/04/19/CentOS%E5%8D%87%E7%BA%A7Python3/">
+    <link itemprop="mainEntityOfPage" href="http://geosmart.github.io/2020/04/19/REST%E6%8E%A5%E5%8F%A3%E5%AE%9A%E4%B9%89%E8%A7%84%E8%8C%83/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="image" content="/images/avatar.gif">
@@ -1573,7 +1572,7 @@
       <header class="post-header">
         <h1 class="post-title" itemprop="name headline">
           
-            <a href="/2020/04/19/CentOS%E5%8D%87%E7%BA%A7Python3/" class="post-title-link" itemprop="url">CentOS升级Python3</a>
+            <a href="/2020/04/19/REST%E6%8E%A5%E5%8F%A3%E5%AE%9A%E4%B9%89%E8%A7%84%E8%8C%83/" class="post-title-link" itemprop="url">REST接口定义规范</a>
         </h1>
 
         <div class="post-meta">
@@ -1582,19 +1581,16 @@
                 <i class="fa fa-calendar-o"></i>
               </span>
               <span class="post-meta-item-text">发表于</span>
-              
 
-              <time title="创建时间：19   四月   2020 10:50:45 / 修改时间：10:53:07" itemprop="dateCreated datePublished" datetime="2020-04-19T10:50:45+08:00">19   四月   2020</time>
+              <time title="创建时间：19   四月   2020 20:49:13" itemprop="dateCreated datePublished" datetime="2020-04-19T20:49:13+08:00">19   四月   2020</time>
             </span>
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/OPS/" itemprop="url" rel="index"><span itemprop="name">OPS</span></a>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
                 </span>
-            </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：17   五月   2020 14:45:01" itemprop="dateModified" datetime="2020-05-17T14:45:01+08:00">17   五月   2020</time>
+              </span>
 
           
 
@@ -1607,10 +1603,10 @@
     <div class="post-body" itemprop="articleBody">
 
       
-          <p>OPS笔记：centos7系统默认python2升级python3<br>
+          <p>团队REST接口定义规范<br>
           <!--noindex-->
             <div class="post-button">
-              <a class="btn" href="/2020/04/19/CentOS%E5%8D%87%E7%BA%A7Python3/#more" rel="contents">
+              <a class="btn" href="/2020/04/19/REST%E6%8E%A5%E5%8F%A3%E5%AE%9A%E4%B9%89%E8%A7%84%E8%8C%83/#more" rel="contents">
                 阅读全文 &raquo;
               </a>
             </div>
@@ -1700,7 +1696,7 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">185</span>
+          <span class="site-state-item-count">186</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>

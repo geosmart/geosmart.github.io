@@ -4,12 +4,41 @@
   
     
     <entry>
+      <title><![CDATA[FlinkOnYarn如何查看taskmanager日志]]></title>
+      <url>http://geosmart.github.io/2021/02/01/FlinkOnYarn%25E5%25A6%2582%25E4%25BD%2595%25E6%259F%25A5%25E7%259C%258Btaskmanager%25E6%2597%25A5%25E5%25BF%2597/</url>
+      <content type="html"><![CDATA[<h1 id="flink-taskmanager日志地址"><a href="#flink-taskmanager日志地址" class="headerlink" title="flink taskmanager日志地址"></a>flink taskmanager日志地址</h1><p>运行时查询日志，显示正常<br><a href="http://ip:8088/proxy/application_1606889053812_25820/#/task-manager/container_e03_1606889053812_25891_01_000002/logs">http://ip:8088/proxy/application_1606889053812_25820/#/task-manager/container_e03_1606889053812_25891_01_000002/logs</a></p>
+<h1 id="yarn-container本地日志位置"><a href="#yarn-container本地日志位置" class="headerlink" title="yarn container本地日志位置"></a>yarn container本地日志位置</h1><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">ls -hl  /data02/yarn/container-logs/application_1606889053812_25820/container_e03_1606889053812_25891_01_000002/</span><br><span class="line">total 72K</span><br><span class="line">-rw-r----- 1 jrsyb yarn 740 Feb  1 15:46 taskmanager.err</span><br><span class="line">-rw-r----- 1 jrsyb yarn 62K Feb  1 15:47 taskmanager.log</span><br><span class="line">-rw-r----- 1 jrsyb yarn 442 Feb  1 15:47 taskmanager.out</span><br></pre></td></tr></table></figure>
+<h1 id="yarn已开启日志聚合"><a href="#yarn已开启日志聚合" class="headerlink" title="yarn已开启日志聚合"></a>yarn已开启日志聚合</h1><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">yarn.log-aggregation-enable=<span class="literal">true</span></span><br><span class="line">yarn.log-aggregation.retain-seconds=604800</span><br></pre></td></tr></table></figure>
+<h1 id="yarn查看hdfs-container日志"><a href="#yarn查看hdfs-container日志" class="headerlink" title="yarn查看hdfs container日志"></a>yarn查看hdfs container日志</h1><p>job执行结束后，taskmanager日志聚合到了hdfs目录：<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">hdfs dfs -ls /tmp/logs/jrsyb/logs/application_1606889053812_25820/</span><br><span class="line">Found 2 items</span><br><span class="line">-rw-r-----   3 jrsyb hadoop      75341 2021-02-01 16:11 /tmp/logs/jrsyb/logs/application_1606889053812_25820/ip_8041</span><br><span class="line">-rw-r-----   3 jrsyb hadoop      57557 2021-02-01 16:11 /tmp/logs/jrsyb/logs/application_1606889053812_25820/hz-hadoop-test-199-151-41_8041</span><br></pre></td></tr></table></figure></p>
+<h1 id="通过yarn-logs-查看container日志"><a href="#通过yarn-logs-查看container日志" class="headerlink" title="通过yarn logs 查看container日志"></a>通过yarn logs 查看container日志</h1><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">yarn logs  -appOwner jrsyb -applicationId application_1606889053812_25820  -show_container_log_info</span><br></pre></td></tr></table></figure>
+<h1 id="问题"><a href="#问题" class="headerlink" title="问题"></a>问题</h1><p>historyserver能正常查询jobmanager日志，查询taskmanager日志时报404，<br><a href="http://HistoryServer:8090/#/task-manager/container_e03_1606889053812_25891_01_000002/logs">http://HistoryServer:8090/#/task-manager/container_e03_1606889053812_25891_01_000002/logs</a></p>
+<blockquote>
+<p>todo 如何配置history server读取正确的container日志目录？</p>
+</blockquote>
+<h1 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h1><ul>
+<li><a href="https://ci.apache.org/projects/flink/flink-docs-release-1.10/ops/config.html#history-server">flink 1.10 history server配置</a></li>
+<li><a href="https://developer.aliyun.com/article/719703">Flink on YARN常见问题与排查思路</a></li>
+</ul>
+]]></content>
+      
+        
+        <tags>
+            
+            <tag> 大数据 </tag>
+            
+            <tag> flink </tag>
+            
+        </tags>
+        
+    </entry>
+    
+    <entry>
       <title><![CDATA[Flink配置参数说明]]></title>
       <url>http://geosmart.github.io/2021/01/29/Flink%25E9%2585%258D%25E7%25BD%25AE%25E5%258F%2582%25E6%2595%25B0%25E8%25AF%25B4%25E6%2598%258E/</url>
       <content type="html"><![CDATA[<p>flink-1.10.2的fink-conf.yaml配置文件说明<br><a id="more"></a>  </p>
 <h1 id="Common"><a href="#Common" class="headerlink" title="Common"></a>Common</h1><p>常规配置参数<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># The external address of the host on which the JobManager runs and can be</span></span><br><span class="line"><span class="comment"># reached by the TaskManagers and any clients which want to connect. This setting</span></span><br><span class="line"><span class="comment"># is only used in Standalone mode and may be overwritten on the JobManager side</span></span><br><span class="line"><span class="comment"># by specifying the --host &lt;hostname&gt; parameter of the bin/jobmanager.sh executable.</span></span><br><span class="line"><span class="comment"># In high availability mode, if you use the bin/start-cluster.sh script and setup</span></span><br><span class="line"><span class="comment"># the conf/masters file, this will be taken care of automatically. Yarn/Mesos</span></span><br><span class="line"><span class="comment"># automatically configure the host name based on the hostname of the node where the</span></span><br><span class="line"><span class="comment"># JobManager runs.</span></span><br><span class="line"></span><br><span class="line">jobmanager.rpc.address: localhost</span><br><span class="line"></span><br><span class="line"><span class="comment"># The RPC port where the JobManager is reachable.</span></span><br><span class="line"></span><br><span class="line">jobmanager.rpc.port: 6123</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment"># The heap size for the JobManager JVM</span></span><br><span class="line"></span><br><span class="line">jobmanager.heap.size: 1024m</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment"># The total process memory size for the TaskManager.</span></span><br><span class="line"><span class="comment">#</span></span><br><span class="line"><span class="comment"># Note this accounts for all memory usage within the TaskManager process, including JVM metaspace and other overhead.</span></span><br><span class="line"></span><br><span class="line">taskmanager.memory.process.size: 1728m</span><br><span class="line"></span><br><span class="line"><span class="comment"># To exclude JVM metaspace and overhead, please, use total Flink memory size instead of 'taskmanager.memory.process.size'.</span></span><br><span class="line"><span class="comment"># It is not recommended to set both 'taskmanager.memory.process.size' and Flink memory.</span></span><br><span class="line"><span class="comment">#</span></span><br><span class="line"><span class="comment"># taskmanager.memory.flink.size: 1280m</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># The number of task slots that each TaskManager offers. Each slot runs one parallel pipeline.</span></span><br><span class="line"></span><br><span class="line">taskmanager.numberOfTaskSlots: 1</span><br><span class="line"></span><br><span class="line"><span class="comment"># The parallelism used for programs that did not specify and other parallelism.</span></span><br><span class="line"></span><br><span class="line">parallelism.default: 1</span><br><span class="line"></span><br><span class="line"><span class="comment"># The default file system scheme and authority.</span></span><br><span class="line"><span class="comment">#</span></span><br><span class="line"><span class="comment"># By default file paths without scheme are interpreted relative to the local</span></span><br><span class="line"><span class="comment"># root file system 'file:///'. Use this to override the default and interpret</span></span><br><span class="line"><span class="comment"># relative paths relative to a different file system,</span></span><br><span class="line"><span class="comment"># for example 'hdfs://mynamenode:12345'</span></span><br><span class="line"><span class="comment">#</span></span><br><span class="line"><span class="comment"># fs.default-scheme</span></span><br></pre></td></tr></table></figure></p>
 <h1 id="High-Availability"><a href="#High-Availability" class="headerlink" title="High Availability"></a>High Availability</h1><p>高可用配置参数<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># The high-availability mode. Possible options are 'NONE' or 'zookeeper'.</span></span><br><span class="line"><span class="comment">#</span></span><br><span class="line"><span class="comment"># high-availability: zookeeper</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># The path where metadata for master recovery is persisted. While ZooKeeper stores</span></span><br><span class="line"><span class="comment"># the small ground truth for checkpoint and leader election, this location stores</span></span><br><span class="line"><span class="comment"># the larger objects, like persisted dataflow graphs.</span></span><br><span class="line"><span class="comment">#</span></span><br><span class="line"><span class="comment"># Must be a durable file system that is accessible from all nodes</span></span><br><span class="line"><span class="comment"># (like HDFS, S3, Ceph, nfs, ...)</span></span><br><span class="line"><span class="comment">#</span></span><br><span class="line"><span class="comment"># high-availability.storageDir: hdfs:///flink/ha/</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># The list of ZooKeeper quorum peers that coordinate the high-availability</span></span><br><span class="line"><span class="comment"># setup. This must be a list of the form:</span></span><br><span class="line"><span class="comment"># "host1:clientPort,host2:clientPort,..." (default clientPort: 2181)</span></span><br><span class="line"><span class="comment">#</span></span><br><span class="line"><span class="comment"># high-availability.zookeeper.quorum: localhost:2181</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment"># ACL options are based on https://zookeeper.apache.org/doc/r3.1.2/zookeeperProgrammers.html#sc_BuiltinACLSchemes</span></span><br><span class="line"><span class="comment"># It can be either "creator" (ZOO_CREATE_ALL_ACL) or "open" (ZOO_OPEN_ACL_UNSAFE)</span></span><br><span class="line"><span class="comment"># The default value is "open" and it can be changed to "creator" if ZK security is enabled</span></span><br><span class="line"><span class="comment">#</span></span><br><span class="line"><span class="comment"># high-availability.zookeeper.client.acl: open</span></span><br></pre></td></tr></table></figure></p>
-<h1 id="Fault-tolerance-and-checkpointing"><a href="#Fault-tolerance-and-checkpointing" class="headerlink" title="Fault tolerance and checkpointing"></a>Fault tolerance and checkpointing</h1><p>容错和恢复配置参数<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># The backend that will be used to store operator state checkpoints if</span></span><br><span class="line"><span class="comment"># checkpointing is enabled.</span></span><br><span class="line"><span class="comment">#</span></span><br><span class="line"><span class="comment"># Supported backends are 'jobmanager', 'filesystem', 'rocksdb', or the</span></span><br><span class="line"><span class="comment"># &lt;class-name-of-factory&gt;.</span></span><br><span class="line"><span class="comment">#</span></span><br><span class="line"><span class="comment"># state.backend: filesystem</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># Directory for checkpoints filesystem, when using any of the default bundled</span></span><br><span class="line"><span class="comment"># state backends.</span></span><br><span class="line"><span class="comment">#</span></span><br><span class="line"><span class="comment"># state.checkpoints.dir: hdfs://namenode-host:port/flink-checkpoints</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># Default target directory for savepoints, optional.</span></span><br><span class="line"><span class="comment">#</span></span><br><span class="line"><span class="comment"># state.savepoints.dir: hdfs://namenode-host:port/flink-checkpoints</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># Flag to enable/disable incremental checkpoints for backends that</span></span><br><span class="line"><span class="comment"># support incremental checkpoints (like the RocksDB state backend).</span></span><br><span class="line"><span class="comment">#</span></span><br><span class="line"><span class="comment"># state.backend.incremental: false</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># The failover strategy, i.e., how the job computation recovers from task failures.</span></span><br><span class="line"><span class="comment"># Only restart tasks that may have been affected by the task failure, which typically includes</span></span><br><span class="line"><span class="comment"># downstream tasks and potentially upstream tasks if their produced data is no longer available for consumption.</span></span><br><span class="line"></span><br><span class="line">jobmanager.execution.failover-strategy: region</span><br></pre></td></tr></table></figure></p>
+<h1 id="Fault-tolerance-and-checkpointing"><a href="#Fault-tolerance-and-checkpointing" class="headerlink" title="Fault tolerance and checkpointing"></a>Fault tolerance and checkpointing</h1><p>容错和恢复配置参数<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># The backend that will be used to store operator state checkpoints if checkpointing is enabled.</span></span><br><span class="line"><span class="comment"># Supported backends are 'jobmanager', 'filesystem', 'rocksdb', or the &lt;class-name-of-factory&gt;.</span></span><br><span class="line"><span class="comment"># state.backend: filesystem</span></span><br><span class="line">state.backend: rocksdb</span><br><span class="line"></span><br><span class="line"><span class="comment"># Directory for checkpoints filesystem, when using any of the default bundled state backends.</span></span><br><span class="line"><span class="comment"># state.checkpoints.dir: hdfs://namenode-host:port/flink-checkpoints</span></span><br><span class="line">state.checkpoints.dir: hdfs://nameHAservice/user/geosmart/flink/checkpoint</span><br><span class="line"></span><br><span class="line"><span class="comment"># Default target directory for savepoints, optional.</span></span><br><span class="line"><span class="comment"># state.savepoints.dir: hdfs://namenode-host:port/flink-checkpoints</span></span><br><span class="line">state.savepoints.dir: hdfs://nameHAservice/user/geosmart/flink/savepoint</span><br><span class="line"></span><br><span class="line"><span class="comment"># Flag to enable/disable incremental checkpoints for backends that support incremental checkpoints (like the RocksDB state backend).</span></span><br><span class="line"><span class="comment"># state.backend.incremental: false</span></span><br><span class="line">state.backend.incremental: <span class="literal">true</span></span><br><span class="line"></span><br><span class="line">state.checkpoints.num-retained: 10</span><br><span class="line"><span class="comment"># The failover strategy, i.e., how the job computation recovers from task failures.</span></span><br><span class="line"><span class="comment"># Only restart tasks that may have been affected by the task failure, which typically includes</span></span><br><span class="line"><span class="comment"># downstream tasks and potentially upstream tasks if their produced data is no longer available for consumption.</span></span><br><span class="line">jobmanager.execution.failover-strategy: region</span><br></pre></td></tr></table></figure></p>
 <h1 id="Flink-HistoryServer-Configuration"><a href="#Flink-HistoryServer-Configuration" class="headerlink" title="Flink HistoryServer Configuration"></a>Flink HistoryServer Configuration</h1><p>job执行日志存储位置，需要独立启动historyserver服务<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># The HistoryServer is started and stopped via bin/historyserver.sh (start|stop)</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># Directory to upload completed jobs to. Add this directory to the list of</span></span><br><span class="line"><span class="comment"># monitored directories of the HistoryServer as well (see below).</span></span><br><span class="line">jobmanager.archive.fs.dir: hdfs://haService/user/geosmart/flink/historylog</span><br><span class="line"></span><br><span class="line"><span class="comment"># The address under which the web-based HistoryServer listens.</span></span><br><span class="line">historyserver.web.address: 0.0.0.0</span><br><span class="line"></span><br><span class="line"><span class="comment"># The port under which the web-based HistoryServer listens.</span></span><br><span class="line">historyserver.web.port: 8090</span><br><span class="line"></span><br><span class="line"><span class="comment"># Comma separated list of directories to monitor for completed jobs.</span></span><br><span class="line">historyserver.archive.fs.dir: hdfs://haService/user/geosmart/flink/historylog</span><br><span class="line"></span><br><span class="line"><span class="comment"># Interval in milliseconds for refreshing the monitored directories.</span></span><br><span class="line">historyserver.archive.fs.refresh-interval: 1000</span><br><span class="line"></span><br><span class="line"><span class="comment"># The maximum number of jobs to retain in each archive directory defined by `historyserver.archive.fs.dir`. If set to `-1`(default), there is no limit to the number of archives. If set to `0` or less than `-1` HistoryServer will throw an IllegalConfigurationException.</span></span><br><span class="line">historyserver.archive.retained-jobs: 10000</span><br><span class="line"></span><br><span class="line"><span class="comment"># (none)	String	This configuration parameter allows defining the Flink web directory to be used by the history server web interface. The web interface will copy its static files into the directory.</span></span><br><span class="line">historyserver.web.tmpdir: /tmp/flink_historyserver</span><br></pre></td></tr></table></figure></p>
 <h1 id="Flink-Cluster-Security-Configuration"><a href="#Flink-Cluster-Security-Configuration" class="headerlink" title="Flink Cluster Security Configuration"></a>Flink Cluster Security Configuration</h1><p>flink集群安全配置<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># Kerberos authentication for various components - Hadoop, ZooKeeper, and connectors -</span></span><br><span class="line"><span class="comment"># may be enabled in four steps:</span></span><br><span class="line"><span class="comment"># 1. configure the local krb5.conf file</span></span><br><span class="line"><span class="comment"># 2. provide Kerberos credentials (either a keytab or a ticket cache w/ kinit)</span></span><br><span class="line"><span class="comment"># 3. make the credentials available to various JAAS login contexts</span></span><br><span class="line"><span class="comment"># 4. configure the connector to use JAAS/SASL</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># The below configure how Kerberos credentials are provided.</span></span><br><span class="line"><span class="comment"># A keytab will be used instead of a ticket cache if the keytab path and principal are set.</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># security.kerberos.login.use-ticket-cache: false</span></span><br><span class="line">security.kerberos.login.keytab: /home/geosmart/keytab/geosmart.keytab</span><br><span class="line">security.kerberos.login.principal: geosmart</span><br><span class="line"></span><br><span class="line"><span class="comment"># The configuration below defines which JAAS login contexts</span></span><br><span class="line"><span class="comment"># security.kerberos.login.contexts: Client,KafkaClient</span></span><br></pre></td></tr></table></figure></p>
 <h1 id="Rest-amp-web-frontend"><a href="#Rest-amp-web-frontend" class="headerlink" title="Rest &amp; web frontend"></a>Rest &amp; web frontend</h1><p>REST和web前端配置参数<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># The port to which the REST client connects to. If rest.bind-port has</span></span><br><span class="line"><span class="comment"># not been specified, then the server will bind to this port as well.</span></span><br><span class="line"><span class="comment">#</span></span><br><span class="line"><span class="comment">#rest.port: 8081</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># The address to which the REST client will connect to</span></span><br><span class="line"><span class="comment">#</span></span><br><span class="line"><span class="comment">#rest.address: 0.0.0.0</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># Port range for the REST and web server to bind to.</span></span><br><span class="line"><span class="comment">#</span></span><br><span class="line"><span class="comment">#rest.bind-port: 8080-8090</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># The address that the REST &amp; web server binds to</span></span><br><span class="line"><span class="comment">#</span></span><br><span class="line"><span class="comment">#rest.bind-address: 0.0.0.0</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># Flag to specify whether job submission is enabled from the web-based</span></span><br><span class="line"><span class="comment"># runtime monitor. Uncomment to disable.</span></span><br><span class="line"></span><br><span class="line"><span class="comment">#web.submit.enable: false</span></span><br></pre></td></tr></table></figure></p>
@@ -699,6 +728,175 @@
     </entry>
     
     <entry>
+      <title><![CDATA[什么是数据湖]]></title>
+      <url>http://geosmart.github.io/2020/07/29/%25E4%25BB%2580%25E4%25B9%2588%25E6%2598%25AF%25E6%2595%25B0%25E6%258D%25AE%25E6%25B9%2596/</url>
+      <content type="html"><![CDATA[<h1 id="什么是数据湖？"><a href="#什么是数据湖？" class="headerlink" title="什么是数据湖？"></a>什么是数据湖？</h1><p>数据湖是一个集中式存储库，允许您以任意规模存储所有结构化和非结构化数据。您可以按原样存储数据（无需先对数据进行结构化处理），并运行不同类型的分析 – 从控制面板和可视化到大数据处理、实时分析和机器学习，以指导做出更好的决策。</p>
+<a id="more"></a>  
+<h1 id="什么时候采用数据湖？"><a href="#什么时候采用数据湖？" class="headerlink" title="什么时候采用数据湖？"></a>什么时候采用数据湖？</h1><ul>
+<li>数据形式多样，有结构化和半结构化数据，如基于事件的数据，服务器日志/点击流</li>
+<li>ETL过程复杂，需要复杂的流程将非结构化数据结构化</li>
+<li>需保留大量历史数据，需要存储低廉的存储成本</li>
+<li>面向实验性的机器学习/预测分析的数据需求，没有固定的数据需求</li>
+</ul>
+<h1 id="为什么采用数据湖？"><a href="#为什么采用数据湖？" class="headerlink" title="为什么采用数据湖？"></a>为什么采用数据湖？</h1><p>通过数据成功创造商业价值的组织将胜过同行。<br>Aberdeen 的一项调查表明，实施数据湖的组织比同类公司在有机收入增长方面高出 9%。<br>这些领导者能够进行新类型的分析，例如通过日志文件、来自点击流的数据、社交媒体以及存储在数据湖中的互联网连接设备等新来源的机器学习。<br>这有助于他们通过吸引和留住客户、提高生产力、主动维护设备以及做出明智的决策来更快地识别和应对业务增长机会。</p>
+<h1 id="数据湖与数据仓库相比–-两种不同的方法"><a href="#数据湖与数据仓库相比–-两种不同的方法" class="headerlink" title="数据湖与数据仓库相比– 两种不同的方法"></a>数据湖与数据仓库相比– 两种不同的方法</h1><p>根据要求，典型的组织将需要数据仓库和数据湖，因为它们可满足不同的需求和使用案例。</p>
+<ul>
+<li>数据仓库是一个优化的数据库，用于分析来自事务系统和业务线应用程序的关系数据。<ul>
+<li>事先定义数据结构和 Schema 以优化快速 SQL 查询，其中结果通常用于操作报告和分析。</li>
+<li>数据经过了清理、丰富和转换，因此可以充当用户可信任的“单一信息源”。</li>
+</ul>
+</li>
+<li>数据湖有所不同，因为它存储来自业务线应用程序的关系数据，以及来自移动应用程序、IoT 设备和社交媒体的非关系数据。<ul>
+<li>捕获数据时，未定义数据结构或 Schema。这意味着您可以存储所有数据，而不需要精心设计也无需知道将来您可能需要哪些问题的答案。</li>
+<li>您可以对数据使用不同类型的分析（如 SQL 查询、大数据分析、全文搜索、实时分析和机器学习）来获得见解。</li>
+</ul>
+</li>
+</ul>
+<div class="table-container">
+<table>
+<thead>
+<tr>
+<th><strong>特性</strong></th>
+<th><strong>数据仓库</strong></th>
+<th><strong>数据湖</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>数据</strong></td>
+<td>来自事务系统、运营数据库和业务线应用程序的  关系数据</td>
+<td>来自 IoT 设备、网站、移动应用程序、社交媒体和企业应用程序的  非关系和关系数据</td>
+</tr>
+<tr>
+<td><strong>Schema</strong></td>
+<td>设计在数据仓库实施之前（写入型 Schema）</td>
+<td>写入在分析时（读取型 Schema）</td>
+</tr>
+<tr>
+<td><strong>性价比</strong></td>
+<td>更快查询结果会带来较高存储成本</td>
+<td>更快查询结果只需较低存储成本</td>
+</tr>
+<tr>
+<td><strong>数据质量</strong></td>
+<td>可作为重要事实依据的高度监管数据</td>
+<td>任何可以或无法进行监管的数据（例如原始数据）</td>
+</tr>
+<tr>
+<td><strong>用户</strong></td>
+<td>业务分析师</td>
+<td>数据科学家、数据开发人员和业务分析师（使用监管数据）</td>
+</tr>
+<tr>
+<td><strong>分析</strong></td>
+<td>批处理报告、BI 和可视化</td>
+<td>机器学习、预测分析、数据发现和分析</td>
+</tr>
+</tbody>
+</table>
+</div>
+<h1 id="数据湖和分析解决方案的基本要素"><a href="#数据湖和分析解决方案的基本要素" class="headerlink" title="数据湖和分析解决方案的基本要素"></a>数据湖和分析解决方案的基本要素</h1><p>组织构建数据湖和分析平台时，他们需要考虑许多关键功能，包括：</p>
+<ul>
+<li>数据移动：数据湖允许您导入任何数量的实时获得的数据。<ul>
+<li>您可以从多个来源收集数据，并以其原始形式将其移入到数据湖中。此过程允许您扩展到任何规模的数据，同时节省定义数据结构、Schema 和转换的时间。</li>
+</ul>
+</li>
+<li>安全地存储和编目数据：数据湖允许您存储关系数据（例如，来自业务线应用程序的运营数据库和数据）和非关系数据（例如，来自移动应用程序、IoT 设备和社交媒体的运营数据库和数据）。它们还使您能够通过对数据进行爬网、编目和建立索引来了解湖中的数据。最后，必须保护数据以确保您的数据资产受到保护。</li>
+<li>分析：数据湖允许组织中的各种角色（如数据科学家、数据开发人员和业务分析师）通过各自选择的分析工具和框架来访问数据。这包括 Apache Hadoop、Presto 和 Apache Spark 等开源框架，以及数据仓库和商业智能供应商提供的商业产品。<ul>
+<li>数据湖允许您运行分析，而无需将数据移至单独的分析系统。</li>
+</ul>
+</li>
+<li>机器学习：数据湖将允许组织生成不同类型的见解，包括报告历史数据以及进行机器学习（构建模型以预测可能的结果），并建议一系列规定的行动以实现最佳结果。</li>
+</ul>
+<h1 id="数据湖的价值"><a href="#数据湖的价值" class="headerlink" title="数据湖的价值"></a>数据湖的价值</h1><p>能够在更短的时间内从更多来源利用更多数据，并使用户能够以不同方式协同处理和分析数据，从而做出更好、更快的决策。<br>数据湖具有增值价值的示例包括：</p>
+<ul>
+<li>改善客户互动：数据湖可以将来自 CRM 平台的客户数据与社交媒体分析相结合，有一个包括购买历史记录和事故单的营销平台，使企业能够了解最有利可图的客户群、客户流失的原因以及将提升忠诚度的促销活动或奖励。</li>
+<li>改善研发创新选择：数据湖可以帮助您的研发团队测试其假设，改进假设并评估结果 – 例如在产品设计中选择正确的材料从而提高性能，进行基因组研究从而获得更有效的药物，或者了解客户为不同属性付费的意愿。</li>
+<li>提高运营效率：物联网 (IoT) 引入了更多方式来收集有关制造等流程的数据，包括来自互联网连接设备的实时数据。使用数据湖，可以轻松地存储，并对机器生成的 IoT 数据进行分析，以发现降低运营成本和提高质量的方法。</li>
+</ul>
+<h1 id="数据湖的挑战"><a href="#数据湖的挑战" class="headerlink" title="数据湖的挑战"></a>数据湖的挑战</h1><p>数据湖架构的主要挑战是存储原始数据而不监督内容。对于使数据可用的数据湖，它需要有定义的机制来编目和保护数据。没有这些元素，就无法找到或信任数据，从而导致出现“数据沼泽”。<br>满足更广泛受众的需求需要数据湖具有<code>管理、语义一致性和访问控制</code>。</p>
+]]></content>
+      
+        
+        <tags>
+            
+            <tag> 数据湖 </tag>
+            
+        </tags>
+        
+    </entry>
+    
+    <entry>
+      <title><![CDATA[分布式任务调度系统的技术选型]]></title>
+      <url>http://geosmart.github.io/2020/07/29/%25E5%2588%2586%25E5%25B8%2583%25E5%25BC%258F%25E4%25BB%25BB%25E5%258A%25A1%25E8%25B0%2583%25E5%25BA%25A6%25E7%25B3%25BB%25E7%25BB%259F%25E7%259A%2584%25E6%258A%2580%25E6%259C%25AF%25E9%2580%2589%25E5%259E%258B/</url>
+      <content type="html"><![CDATA[<p>一个调度系统，涉及的功能可按任务执行周期分为3部分：</p>
+<ul>
+<li><strong>执行前：</strong><ul>
+<li>任务定义，如任务关系可以用DAG定义；</li>
+<li>任务调度，如按cron调度；</li>
+<li>任务分发，如通过mq分发任务；</li>
+</ul>
+</li>
+<li><strong>执行中：</strong><ul>
+<li>任务执行资源隔离：不同作业可在不同的机器上执行；</li>
+<li>任务执行并发控制：同一类型的作业可控制并发数；</li>
+<li>任务执行进度查询：可查询作业中每个任务的执行情况；</li>
+</ul>
+</li>
+<li><strong>任务后：</strong><ul>
+<li>任务执行异常通知：任务执行异常有邮件/消息通知机制；</li>
+<li>任务执行情况统计：可以分析历史执行情况，评估SLA；</li>
+</ul>
+</li>
+</ul>
+<a id="more"></a>  
+<h1 id="典型的工作处理流程"><a href="#典型的工作处理流程" class="headerlink" title="典型的工作处理流程"></a>典型的工作处理流程</h1><p>工作流程通常由一系列的任务组成，并由调度器或事件触发，其通常包含5个步骤：</p>
+<ul>
+<li>下载任务数据；</li>
+<li>分发任务数据到处理节点；</li>
+<li>监控处理进度直到任务结束；</li>
+<li>获取任务处理结果并生成任务处理报告；</li>
+<li>发送任务处理报告；</li>
+</ul>
+<h1 id="选型要求"><a href="#选型要求" class="headerlink" title="选型要求"></a>选型要求</h1><ul>
+<li>作业定义：支持DAG，DAG流程支持模板复用；</li>
+<li>任务定义：至少支持bash，jdbc，hive，hdfs；</li>
+<li>任务调度：支持CRON，支持事件触发，区间补数据（串行/并行）；</li>
+<li>任务隔离：作业可隔离执行环境，如采用kubernetes，每个task实例启动一个pod，可采用不同的镜像；</li>
+<li>任务执行：支持任务并行，支持重新执行；</li>
+<li>任务回溯：支持补数据（backfill/catchup）：正向/逆向；</li>
+<li>数据血缘：task节点可以手动配置/自动生成至少table级别的数据血缘，在任务执行成功后推送到元数据服务；</li>
+<li>异常处理：资源不足时支持任务堆积，节点异常时支持故障转移，机器重启时支持任务恢复，任务超时/异常时可自动重试；</li>
+<li>监控告警：监控任务状态，集成邮件/sentry/wechat告警；</li>
+<li>安全权限：支持多租户，DAG流程图可按租户隔离，支持LDAP身份验证，Kerberos安全通信；</li>
+<li>定制开发：有完善的API接口（REST/Java）</li>
+<li>高可用：任务调度节点高可用（避免单点故障），任务执行节点高可用（避免任务过多时产生阻塞）；</li>
+</ul>
+<h1 id="选型比较"><a href="#选型比较" class="headerlink" title="选型比较"></a>选型比较</h1><ul>
+<li>hadoop调度：oozie、azkaban</li>
+<li>通用调度：airflow、xxl-job、dolphin scheduler</li>
+<li>数据处理+调度：nifi</li>
+</ul>
+<h1 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h1><ul>
+<li><a href="https://github.com/common-workflow-language/common-workflow-language/wiki/Existing-Workflow-systems">Existing-Workflow-systems</a></li>
+<li><a href="https://github.com/pditommaso/awesome-pipeline">github-awesome-pipeline</a></li>
+<li><a href="https://mp.weixin.qq.com/s?__biz=MzIzOTU0NTQ0MA==&amp;mid=2247488054&amp;idx=1&amp;sn=215ca504afbb3234acd1c4146173b3c7&amp;chksm=e9292f39de5ea62f05bbbc0140d2ef9e88fd1dd6900fd85a066f087c7700837fbef680ce3f86&amp;mpshare=1&amp;scene=1&amp;srcid=0816xzwzUqCYArqbaqiTkgd6&amp;sharer_sharetime=1593736825889&amp;sharer_shareid=c34b9250c3b65723d4a3c176ade2782f&amp;key=0e4d83a1aaa2ddc8403b62d5df36de3b90ae18d3d8065108234d8f22cd3a3d034fcf2df50e4cbf636c43c92a347f377318abc45427053e4b1453d4f3eb73ee212b2283f40d62ce17b68c9352a0f6684c&amp;ascene=1&amp;uin=MjMxNDgyMzI2MA%3D%3D&amp;devicetype=Windows+10+x64&amp;version=62090070&amp;lang=zh_CN&amp;exportkey=AbPMXYoZZfkTshlVVjR3z18%3D&amp;pass_ticket=VWMiNZeJNL4X5wHsDdDQ0H7rU6tCU9crSAS4TSJ%2BxvzD5v1xKQj3Wp7IomwNYx2Y">阿里-基于DAG的分布式任务调度平台：Maat</a></li>
+<li><a href="https://mp.weixin.qq.com/s?__biz=Mzg5MTA4Mzg5NA==&amp;mid=2247484213&amp;idx=2&amp;sn=b1b43170b3f648c7614e4f6500198833&amp;chksm=cfd38e2cf8a4073a3f44bef1304d3309d151da44db8e2b480d7b0a55bce85ab38d09fd94ae51&amp;mpshare=1&amp;scene=1&amp;srcid=0624lsHbVCmyBRefcXoLxTf6&amp;sharer_sharetime=1592988350503&amp;sharer_shareid=c34b9250c3b65723d4a3c176ade2782f&amp;key=0f539cbc0453aa76380486ec4892819e9d4e62323f90a7c2b53f1b3384dc6a43d726deeb3df5136a78e280c2fb279473d264a2750b4ee2193e122843971eb865c390e5cd21a9023f0e7187553ad52814&amp;ascene=1&amp;uin=MjMxNDgyMzI2MA%3D%3D&amp;devicetype=Windows+10+x64&amp;version=62090070&amp;lang=zh_CN&amp;exportkey=AaRreYnA9Rqyij5w4%2Fzgnww%3D&amp;pass_ticket=eO1PEp6dyacyhKbCSkkBE42%2FiCouwxCJeSsk%2BMPRQfeQO861kaZF4865BimpAqEz">NiFi 在马蜂窝信息流推荐引擎中的使用及扩展</a></li>
+<li><a href="http://docs.dc.servyou-it.com/download/attachments/58560520/Real-Time Data Flows with Apache NiFi.pdf?version=1&amp;modificationDate=1593430463000&amp;api=v2">Real-Time Data Flows with Apache NiFi.pdf</a></li>
+<li><a href="https://cloud.tencent.com/developer/article/1596567">Apache Nifi的工作原理</a></li>
+</ul>
+]]></content>
+      
+        
+        <tags>
+            
+            <tag> 大数据 </tag>
+            
+        </tags>
+        
+    </entry>
+    
+    <entry>
       <title><![CDATA[任务调度系统之Airflow]]></title>
       <url>http://geosmart.github.io/2020/07/29/%25E4%25BB%25BB%25E5%258A%25A1%25E8%25B0%2583%25E5%25BA%25A6%25E7%25B3%25BB%25E7%25BB%259F%25E4%25B9%258BAirflow/</url>
       <content type="html"><![CDATA[<p>airflow和传统的调度系统的最大区别是采用<code>workflow as code</code>思想，,dag是采用python代码定义，目标用户是熟悉python的工程师，普通用户使用成本较高。</p>
@@ -809,175 +1007,6 @@
         <tags>
             
             <tag> 大数据 </tag>
-            
-        </tags>
-        
-    </entry>
-    
-    <entry>
-      <title><![CDATA[分布式任务调度系统的技术选型]]></title>
-      <url>http://geosmart.github.io/2020/07/29/%25E5%2588%2586%25E5%25B8%2583%25E5%25BC%258F%25E4%25BB%25BB%25E5%258A%25A1%25E8%25B0%2583%25E5%25BA%25A6%25E7%25B3%25BB%25E7%25BB%259F%25E7%259A%2584%25E6%258A%2580%25E6%259C%25AF%25E9%2580%2589%25E5%259E%258B/</url>
-      <content type="html"><![CDATA[<p>一个调度系统，涉及的功能可按任务执行周期分为3部分：</p>
-<ul>
-<li><strong>执行前：</strong><ul>
-<li>任务定义，如任务关系可以用DAG定义；</li>
-<li>任务调度，如按cron调度；</li>
-<li>任务分发，如通过mq分发任务；</li>
-</ul>
-</li>
-<li><strong>执行中：</strong><ul>
-<li>任务执行资源隔离：不同作业可在不同的机器上执行；</li>
-<li>任务执行并发控制：同一类型的作业可控制并发数；</li>
-<li>任务执行进度查询：可查询作业中每个任务的执行情况；</li>
-</ul>
-</li>
-<li><strong>任务后：</strong><ul>
-<li>任务执行异常通知：任务执行异常有邮件/消息通知机制；</li>
-<li>任务执行情况统计：可以分析历史执行情况，评估SLA；</li>
-</ul>
-</li>
-</ul>
-<a id="more"></a>  
-<h1 id="典型的工作处理流程"><a href="#典型的工作处理流程" class="headerlink" title="典型的工作处理流程"></a>典型的工作处理流程</h1><p>工作流程通常由一系列的任务组成，并由调度器或事件触发，其通常包含5个步骤：</p>
-<ul>
-<li>下载任务数据；</li>
-<li>分发任务数据到处理节点；</li>
-<li>监控处理进度直到任务结束；</li>
-<li>获取任务处理结果并生成任务处理报告；</li>
-<li>发送任务处理报告；</li>
-</ul>
-<h1 id="选型要求"><a href="#选型要求" class="headerlink" title="选型要求"></a>选型要求</h1><ul>
-<li>作业定义：支持DAG，DAG流程支持模板复用；</li>
-<li>任务定义：至少支持bash，jdbc，hive，hdfs；</li>
-<li>任务调度：支持CRON，支持事件触发，区间补数据（串行/并行）；</li>
-<li>任务隔离：作业可隔离执行环境，如采用kubernetes，每个task实例启动一个pod，可采用不同的镜像；</li>
-<li>任务执行：支持任务并行，支持重新执行；</li>
-<li>任务回溯：支持补数据（backfill/catchup）：正向/逆向；</li>
-<li>数据血缘：task节点可以手动配置/自动生成至少table级别的数据血缘，在任务执行成功后推送到元数据服务；</li>
-<li>异常处理：资源不足时支持任务堆积，节点异常时支持故障转移，机器重启时支持任务恢复，任务超时/异常时可自动重试；</li>
-<li>监控告警：监控任务状态，集成邮件/sentry/wechat告警；</li>
-<li>安全权限：支持多租户，DAG流程图可按租户隔离，支持LDAP身份验证，Kerberos安全通信；</li>
-<li>定制开发：有完善的API接口（REST/Java）</li>
-<li>高可用：任务调度节点高可用（避免单点故障），任务执行节点高可用（避免任务过多时产生阻塞）；</li>
-</ul>
-<h1 id="选型比较"><a href="#选型比较" class="headerlink" title="选型比较"></a>选型比较</h1><ul>
-<li>hadoop调度：oozie、azkaban</li>
-<li>通用调度：airflow、xxl-job、dolphin scheduler</li>
-<li>数据处理+调度：nifi</li>
-</ul>
-<h1 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h1><ul>
-<li><a href="https://github.com/common-workflow-language/common-workflow-language/wiki/Existing-Workflow-systems">Existing-Workflow-systems</a></li>
-<li><a href="https://github.com/pditommaso/awesome-pipeline">github-awesome-pipeline</a></li>
-<li><a href="https://mp.weixin.qq.com/s?__biz=MzIzOTU0NTQ0MA==&amp;mid=2247488054&amp;idx=1&amp;sn=215ca504afbb3234acd1c4146173b3c7&amp;chksm=e9292f39de5ea62f05bbbc0140d2ef9e88fd1dd6900fd85a066f087c7700837fbef680ce3f86&amp;mpshare=1&amp;scene=1&amp;srcid=0816xzwzUqCYArqbaqiTkgd6&amp;sharer_sharetime=1593736825889&amp;sharer_shareid=c34b9250c3b65723d4a3c176ade2782f&amp;key=0e4d83a1aaa2ddc8403b62d5df36de3b90ae18d3d8065108234d8f22cd3a3d034fcf2df50e4cbf636c43c92a347f377318abc45427053e4b1453d4f3eb73ee212b2283f40d62ce17b68c9352a0f6684c&amp;ascene=1&amp;uin=MjMxNDgyMzI2MA%3D%3D&amp;devicetype=Windows+10+x64&amp;version=62090070&amp;lang=zh_CN&amp;exportkey=AbPMXYoZZfkTshlVVjR3z18%3D&amp;pass_ticket=VWMiNZeJNL4X5wHsDdDQ0H7rU6tCU9crSAS4TSJ%2BxvzD5v1xKQj3Wp7IomwNYx2Y">阿里-基于DAG的分布式任务调度平台：Maat</a></li>
-<li><a href="https://mp.weixin.qq.com/s?__biz=Mzg5MTA4Mzg5NA==&amp;mid=2247484213&amp;idx=2&amp;sn=b1b43170b3f648c7614e4f6500198833&amp;chksm=cfd38e2cf8a4073a3f44bef1304d3309d151da44db8e2b480d7b0a55bce85ab38d09fd94ae51&amp;mpshare=1&amp;scene=1&amp;srcid=0624lsHbVCmyBRefcXoLxTf6&amp;sharer_sharetime=1592988350503&amp;sharer_shareid=c34b9250c3b65723d4a3c176ade2782f&amp;key=0f539cbc0453aa76380486ec4892819e9d4e62323f90a7c2b53f1b3384dc6a43d726deeb3df5136a78e280c2fb279473d264a2750b4ee2193e122843971eb865c390e5cd21a9023f0e7187553ad52814&amp;ascene=1&amp;uin=MjMxNDgyMzI2MA%3D%3D&amp;devicetype=Windows+10+x64&amp;version=62090070&amp;lang=zh_CN&amp;exportkey=AaRreYnA9Rqyij5w4%2Fzgnww%3D&amp;pass_ticket=eO1PEp6dyacyhKbCSkkBE42%2FiCouwxCJeSsk%2BMPRQfeQO861kaZF4865BimpAqEz">NiFi 在马蜂窝信息流推荐引擎中的使用及扩展</a></li>
-<li><a href="http://docs.dc.servyou-it.com/download/attachments/58560520/Real-Time Data Flows with Apache NiFi.pdf?version=1&amp;modificationDate=1593430463000&amp;api=v2">Real-Time Data Flows with Apache NiFi.pdf</a></li>
-<li><a href="https://cloud.tencent.com/developer/article/1596567">Apache Nifi的工作原理</a></li>
-</ul>
-]]></content>
-      
-        
-        <tags>
-            
-            <tag> 大数据 </tag>
-            
-        </tags>
-        
-    </entry>
-    
-    <entry>
-      <title><![CDATA[什么是数据湖]]></title>
-      <url>http://geosmart.github.io/2020/07/29/%25E4%25BB%2580%25E4%25B9%2588%25E6%2598%25AF%25E6%2595%25B0%25E6%258D%25AE%25E6%25B9%2596/</url>
-      <content type="html"><![CDATA[<h1 id="什么是数据湖？"><a href="#什么是数据湖？" class="headerlink" title="什么是数据湖？"></a>什么是数据湖？</h1><p>数据湖是一个集中式存储库，允许您以任意规模存储所有结构化和非结构化数据。您可以按原样存储数据（无需先对数据进行结构化处理），并运行不同类型的分析 – 从控制面板和可视化到大数据处理、实时分析和机器学习，以指导做出更好的决策。</p>
-<a id="more"></a>  
-<h1 id="什么时候采用数据湖？"><a href="#什么时候采用数据湖？" class="headerlink" title="什么时候采用数据湖？"></a>什么时候采用数据湖？</h1><ul>
-<li>数据形式多样，有结构化和半结构化数据，如基于事件的数据，服务器日志/点击流</li>
-<li>ETL过程复杂，需要复杂的流程将非结构化数据结构化</li>
-<li>需保留大量历史数据，需要存储低廉的存储成本</li>
-<li>面向实验性的机器学习/预测分析的数据需求，没有固定的数据需求</li>
-</ul>
-<h1 id="为什么采用数据湖？"><a href="#为什么采用数据湖？" class="headerlink" title="为什么采用数据湖？"></a>为什么采用数据湖？</h1><p>通过数据成功创造商业价值的组织将胜过同行。<br>Aberdeen 的一项调查表明，实施数据湖的组织比同类公司在有机收入增长方面高出 9%。<br>这些领导者能够进行新类型的分析，例如通过日志文件、来自点击流的数据、社交媒体以及存储在数据湖中的互联网连接设备等新来源的机器学习。<br>这有助于他们通过吸引和留住客户、提高生产力、主动维护设备以及做出明智的决策来更快地识别和应对业务增长机会。</p>
-<h1 id="数据湖与数据仓库相比–-两种不同的方法"><a href="#数据湖与数据仓库相比–-两种不同的方法" class="headerlink" title="数据湖与数据仓库相比– 两种不同的方法"></a>数据湖与数据仓库相比– 两种不同的方法</h1><p>根据要求，典型的组织将需要数据仓库和数据湖，因为它们可满足不同的需求和使用案例。</p>
-<ul>
-<li>数据仓库是一个优化的数据库，用于分析来自事务系统和业务线应用程序的关系数据。<ul>
-<li>事先定义数据结构和 Schema 以优化快速 SQL 查询，其中结果通常用于操作报告和分析。</li>
-<li>数据经过了清理、丰富和转换，因此可以充当用户可信任的“单一信息源”。</li>
-</ul>
-</li>
-<li>数据湖有所不同，因为它存储来自业务线应用程序的关系数据，以及来自移动应用程序、IoT 设备和社交媒体的非关系数据。<ul>
-<li>捕获数据时，未定义数据结构或 Schema。这意味着您可以存储所有数据，而不需要精心设计也无需知道将来您可能需要哪些问题的答案。</li>
-<li>您可以对数据使用不同类型的分析（如 SQL 查询、大数据分析、全文搜索、实时分析和机器学习）来获得见解。</li>
-</ul>
-</li>
-</ul>
-<div class="table-container">
-<table>
-<thead>
-<tr>
-<th><strong>特性</strong></th>
-<th><strong>数据仓库</strong></th>
-<th><strong>数据湖</strong></th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td><strong>数据</strong></td>
-<td>来自事务系统、运营数据库和业务线应用程序的  关系数据</td>
-<td>来自 IoT 设备、网站、移动应用程序、社交媒体和企业应用程序的  非关系和关系数据</td>
-</tr>
-<tr>
-<td><strong>Schema</strong></td>
-<td>设计在数据仓库实施之前（写入型 Schema）</td>
-<td>写入在分析时（读取型 Schema）</td>
-</tr>
-<tr>
-<td><strong>性价比</strong></td>
-<td>更快查询结果会带来较高存储成本</td>
-<td>更快查询结果只需较低存储成本</td>
-</tr>
-<tr>
-<td><strong>数据质量</strong></td>
-<td>可作为重要事实依据的高度监管数据</td>
-<td>任何可以或无法进行监管的数据（例如原始数据）</td>
-</tr>
-<tr>
-<td><strong>用户</strong></td>
-<td>业务分析师</td>
-<td>数据科学家、数据开发人员和业务分析师（使用监管数据）</td>
-</tr>
-<tr>
-<td><strong>分析</strong></td>
-<td>批处理报告、BI 和可视化</td>
-<td>机器学习、预测分析、数据发现和分析</td>
-</tr>
-</tbody>
-</table>
-</div>
-<h1 id="数据湖和分析解决方案的基本要素"><a href="#数据湖和分析解决方案的基本要素" class="headerlink" title="数据湖和分析解决方案的基本要素"></a>数据湖和分析解决方案的基本要素</h1><p>组织构建数据湖和分析平台时，他们需要考虑许多关键功能，包括：</p>
-<ul>
-<li>数据移动：数据湖允许您导入任何数量的实时获得的数据。<ul>
-<li>您可以从多个来源收集数据，并以其原始形式将其移入到数据湖中。此过程允许您扩展到任何规模的数据，同时节省定义数据结构、Schema 和转换的时间。</li>
-</ul>
-</li>
-<li>安全地存储和编目数据：数据湖允许您存储关系数据（例如，来自业务线应用程序的运营数据库和数据）和非关系数据（例如，来自移动应用程序、IoT 设备和社交媒体的运营数据库和数据）。它们还使您能够通过对数据进行爬网、编目和建立索引来了解湖中的数据。最后，必须保护数据以确保您的数据资产受到保护。</li>
-<li>分析：数据湖允许组织中的各种角色（如数据科学家、数据开发人员和业务分析师）通过各自选择的分析工具和框架来访问数据。这包括 Apache Hadoop、Presto 和 Apache Spark 等开源框架，以及数据仓库和商业智能供应商提供的商业产品。<ul>
-<li>数据湖允许您运行分析，而无需将数据移至单独的分析系统。</li>
-</ul>
-</li>
-<li>机器学习：数据湖将允许组织生成不同类型的见解，包括报告历史数据以及进行机器学习（构建模型以预测可能的结果），并建议一系列规定的行动以实现最佳结果。</li>
-</ul>
-<h1 id="数据湖的价值"><a href="#数据湖的价值" class="headerlink" title="数据湖的价值"></a>数据湖的价值</h1><p>能够在更短的时间内从更多来源利用更多数据，并使用户能够以不同方式协同处理和分析数据，从而做出更好、更快的决策。<br>数据湖具有增值价值的示例包括：</p>
-<ul>
-<li>改善客户互动：数据湖可以将来自 CRM 平台的客户数据与社交媒体分析相结合，有一个包括购买历史记录和事故单的营销平台，使企业能够了解最有利可图的客户群、客户流失的原因以及将提升忠诚度的促销活动或奖励。</li>
-<li>改善研发创新选择：数据湖可以帮助您的研发团队测试其假设，改进假设并评估结果 – 例如在产品设计中选择正确的材料从而提高性能，进行基因组研究从而获得更有效的药物，或者了解客户为不同属性付费的意愿。</li>
-<li>提高运营效率：物联网 (IoT) 引入了更多方式来收集有关制造等流程的数据，包括来自互联网连接设备的实时数据。使用数据湖，可以轻松地存储，并对机器生成的 IoT 数据进行分析，以发现降低运营成本和提高质量的方法。</li>
-</ul>
-<h1 id="数据湖的挑战"><a href="#数据湖的挑战" class="headerlink" title="数据湖的挑战"></a>数据湖的挑战</h1><p>数据湖架构的主要挑战是存储原始数据而不监督内容。对于使数据可用的数据湖，它需要有定义的机制来编目和保护数据。没有这些元素，就无法找到或信任数据，从而导致出现“数据沼泽”。<br>满足更广泛受众的需求需要数据湖具有<code>管理、语义一致性和访问控制</code>。</p>
-]]></content>
-      
-        
-        <tags>
-            
-            <tag> 数据湖 </tag>
             
         </tags>
         
@@ -1204,6 +1233,63 @@
     </entry>
     
     <entry>
+      <title><![CDATA[用DataHub实践元数据管理]]></title>
+      <url>http://geosmart.github.io/2020/04/19/%25E7%2594%25A8DataHub%25E5%25AE%259E%25E8%25B7%25B5%25E5%2585%2583%25E6%2595%25B0%25E6%258D%25AE%25E7%25AE%25A1%25E7%2590%2586/</url>
+      <content type="html"><![CDATA[<p>用linkedin开源框架datahub实现元数据管理<br><a id="more"></a></p>
+<h1 id="Datahub"><a href="#Datahub" class="headerlink" title="Datahub"></a>Datahub</h1><p><img src="datahub-architecture.png" alt="datahub-architecture"></p>
+<h1 id="术语"><a href="#术语" class="headerlink" title="术语"></a>术语</h1><h2 id="Metadata-Architecture"><a href="#Metadata-Architecture" class="headerlink" title="Metadata-Architecture"></a>Metadata-Architecture</h2><ul>
+<li>GMA：Generalized Metadata Architecture，通用元数据架构，GMA通过Rest.li提供微服务（即GMS)。GMA的Generalized体现在存储层支持文档型CRUD，复杂Join，图遍历，全文索引；</li>
+<li>GMS：Generalized Metadata Service，通用元数据服务，需通过GMA DAOS访问元数据；</li>
+<li>GMA DAO：GMA的通用数据访问层，包含4种类型的DAO：<ul>
+<li>Key-value DAO（LocalDAO）:kv本地搜索</li>
+<li>Search DAO：文档搜索</li>
+<li>Query DAO：图/非图搜索</li>
+<li>Remote DAO：只读形式访问远程GMS元数据</li>
+</ul>
+</li>
+</ul>
+<h2 id="Metadata-Model"><a href="#Metadata-Model" class="headerlink" title="Metadata-Model"></a>Metadata-Model</h2><ul>
+<li>URN：Uniform Resource Name，统一资源名称，如<code>urn:&lt;Namespace&gt;:&lt;Entity Type&gt;:&lt;ID&gt;</code>；</li>
+<li>PDL： a schema definition language for Pegasus，用于服务端和客户端的数据序列化/反序列化，是Rest.li框架的一部分；<ul>
+<li>Pegasus：支持丰富的语法，可实现对复杂关系做表示和建模；</li>
+</ul>
+</li>
+<li>AVSC：avro序列化生成的文件格式，datahub支持用<code>Pegasus&#39;s DataTranslator</code>实现pdsc和avsc格式的相互转换；</li>
+<li>PDSC：Pegasus schema definition language，一种定义schema的DSL语言，思想源于AVRO1.4.1；；</li>
+</ul>
+<h2 id="Metadata-Event"><a href="#Metadata-Event" class="headerlink" title="Metadata-Event"></a>Metadata-Event</h2><ul>
+<li>MXE(Metadata Events)元数据事件<ul>
+<li>MCE：Metata Change Event，元数据change事件，<ul>
+<li>snapshot-oriented metadata change proposal</li>
+<li>delta-oriented metadata change proposal</li>
+</ul>
+</li>
+<li>FMCE：Failed Metadata Change Event</li>
+<li>MAE：Metadata Audit Event，元数据commited change事件，</li>
+</ul>
+</li>
+</ul>
+<h2 id="FrameWork"><a href="#FrameWork" class="headerlink" title="FrameWork"></a>FrameWork</h2><ul>
+<li>Rest.li：实现REST协议，服务端/客户端协议对象生成</li>
+<li>Kafka：元数据事件异步解耦</li>
+<li>ElasticSearch：全文索引</li>
+<li>Neo4j：图检索</li>
+</ul>
+<h1 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h1><ul>
+<li><a href="https://github.com/linkedin/datahub/tree/master/docs/what">datahub-what</a></li>
+</ul>
+]]></content>
+      
+        
+        <tags>
+            
+            <tag> DataHub </tag>
+            
+        </tags>
+        
+    </entry>
+    
+    <entry>
       <title><![CDATA[REST接口定义规范]]></title>
       <url>http://geosmart.github.io/2020/04/19/REST%25E6%258E%25A5%25E5%258F%25A3%25E5%25AE%259A%25E4%25B9%2589%25E8%25A7%2584%25E8%258C%2583/</url>
       <content type="html"><![CDATA[<p>团队REST接口定义规范<br><a id="more"></a></p>
@@ -1325,63 +1411,6 @@
         <tags>
             
             <tag> REST </tag>
-            
-        </tags>
-        
-    </entry>
-    
-    <entry>
-      <title><![CDATA[用DataHub实践元数据管理]]></title>
-      <url>http://geosmart.github.io/2020/04/19/%25E7%2594%25A8DataHub%25E5%25AE%259E%25E8%25B7%25B5%25E5%2585%2583%25E6%2595%25B0%25E6%258D%25AE%25E7%25AE%25A1%25E7%2590%2586/</url>
-      <content type="html"><![CDATA[<p>用linkedin开源框架datahub实现元数据管理<br><a id="more"></a></p>
-<h1 id="Datahub"><a href="#Datahub" class="headerlink" title="Datahub"></a>Datahub</h1><p><img src="datahub-architecture.png" alt="datahub-architecture"></p>
-<h1 id="术语"><a href="#术语" class="headerlink" title="术语"></a>术语</h1><h2 id="Metadata-Architecture"><a href="#Metadata-Architecture" class="headerlink" title="Metadata-Architecture"></a>Metadata-Architecture</h2><ul>
-<li>GMA：Generalized Metadata Architecture，通用元数据架构，GMA通过Rest.li提供微服务（即GMS)。GMA的Generalized体现在存储层支持文档型CRUD，复杂Join，图遍历，全文索引；</li>
-<li>GMS：Generalized Metadata Service，通用元数据服务，需通过GMA DAOS访问元数据；</li>
-<li>GMA DAO：GMA的通用数据访问层，包含4种类型的DAO：<ul>
-<li>Key-value DAO（LocalDAO）:kv本地搜索</li>
-<li>Search DAO：文档搜索</li>
-<li>Query DAO：图/非图搜索</li>
-<li>Remote DAO：只读形式访问远程GMS元数据</li>
-</ul>
-</li>
-</ul>
-<h2 id="Metadata-Model"><a href="#Metadata-Model" class="headerlink" title="Metadata-Model"></a>Metadata-Model</h2><ul>
-<li>URN：Uniform Resource Name，统一资源名称，如<code>urn:&lt;Namespace&gt;:&lt;Entity Type&gt;:&lt;ID&gt;</code>；</li>
-<li>PDL： a schema definition language for Pegasus，用于服务端和客户端的数据序列化/反序列化，是Rest.li框架的一部分；<ul>
-<li>Pegasus：支持丰富的语法，可实现对复杂关系做表示和建模；</li>
-</ul>
-</li>
-<li>AVSC：avro序列化生成的文件格式，datahub支持用<code>Pegasus&#39;s DataTranslator</code>实现pdsc和avsc格式的相互转换；</li>
-<li>PDSC：Pegasus schema definition language，一种定义schema的DSL语言，思想源于AVRO1.4.1；；</li>
-</ul>
-<h2 id="Metadata-Event"><a href="#Metadata-Event" class="headerlink" title="Metadata-Event"></a>Metadata-Event</h2><ul>
-<li>MXE(Metadata Events)元数据事件<ul>
-<li>MCE：Metata Change Event，元数据change事件，<ul>
-<li>snapshot-oriented metadata change proposal</li>
-<li>delta-oriented metadata change proposal</li>
-</ul>
-</li>
-<li>FMCE：Failed Metadata Change Event</li>
-<li>MAE：Metadata Audit Event，元数据commited change事件，</li>
-</ul>
-</li>
-</ul>
-<h2 id="FrameWork"><a href="#FrameWork" class="headerlink" title="FrameWork"></a>FrameWork</h2><ul>
-<li>Rest.li：实现REST协议，服务端/客户端协议对象生成</li>
-<li>Kafka：元数据事件异步解耦</li>
-<li>ElasticSearch：全文索引</li>
-<li>Neo4j：图检索</li>
-</ul>
-<h1 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h1><ul>
-<li><a href="https://github.com/linkedin/datahub/tree/master/docs/what">datahub-what</a></li>
-</ul>
-]]></content>
-      
-        
-        <tags>
-            
-            <tag> DataHub </tag>
             
         </tags>
         
@@ -1566,6 +1595,49 @@
     </entry>
     
     <entry>
+      <title><![CDATA[Kuboard安装K8S集群]]></title>
+      <url>http://geosmart.github.io/2020/04/01/Kuboard%25E5%25AE%2589%25E8%25A3%2585K8S%25E9%259B%2586%25E7%25BE%25A4/</url>
+      <content type="html"><![CDATA[<p>记录如何用kuboard工具安装k8s集群<br><a id="more"></a><br><a href="kuboard.jpg">kuboard界面</a></p>
+<h1 id="检查网络"><a href="#检查网络" class="headerlink" title="检查网络"></a>检查网络</h1><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#</span><span class="bash"> master  修改 hostname</span></span><br><span class="line">hostnamectl set-hostname k8s.master</span><br><span class="line"></span><br><span class="line"><span class="meta">#</span><span class="bash"> 查看修改结果</span></span><br><span class="line">hostnamectl status</span><br><span class="line"><span class="meta">#</span><span class="bash"> 设置 hostname 解析</span></span><br><span class="line">echo "127.0.0.1   $(hostname)" &gt;&gt; /etc/hosts</span><br></pre></td></tr></table></figure>
+<h1 id="安装docker及kubelet"><a href="#安装docker及kubelet" class="headerlink" title="安装docker及kubelet"></a>安装docker及kubelet</h1><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#</span><span class="bash"> 在 master 节点和 worker 节点都要执行</span></span><br><span class="line"><span class="meta">#</span><span class="bash"> 最后一个参数 1.18.0 用于指定 kubenetes 版本，支持所有 1.18.x 版本的安装</span></span><br><span class="line"><span class="meta">#</span><span class="bash"> 腾讯云 docker hub 镜像</span></span><br><span class="line"><span class="meta">#</span><span class="bash"> <span class="built_in">export</span> REGISTRY_MIRROR=<span class="string">"https://mirror.ccs.tencentyun.com"</span></span></span><br><span class="line"><span class="meta">#</span><span class="bash"> DaoCloud 镜像</span></span><br><span class="line"><span class="meta">#</span><span class="bash"> <span class="built_in">export</span> REGISTRY_MIRROR=<span class="string">"http://f1361db2.m.daocloud.io"</span></span></span><br><span class="line"><span class="meta">#</span><span class="bash"> 华为云镜像</span></span><br><span class="line"><span class="meta">#</span><span class="bash"> <span class="built_in">export</span> REGISTRY_MIRROR=<span class="string">"https://05f073ad3c0010ea0f4bc00b7105ec20.mirror.swr.myhuaweicloud.com"</span></span></span><br><span class="line"><span class="meta">#</span><span class="bash"> 阿里云 docker hub 镜像</span></span><br><span class="line">export REGISTRY_MIRROR=https://registry.cn-hangzhou.aliyuncs.com</span><br><span class="line">curl -sSL https://kuboard.cn/install-script/v1.18.x/install_kubelet.sh | sh -s 1.18.2</span><br></pre></td></tr></table></figure>
+<h1 id="master配置"><a href="#master配置" class="headerlink" title="master配置"></a>master配置</h1><h2 id="初始化master节点"><a href="#初始化master节点" class="headerlink" title="初始化master节点"></a>初始化master节点</h2><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#</span><span class="bash"> 只在 master 节点执行</span></span><br><span class="line"><span class="meta">#</span><span class="bash"> 替换 x.x.x.x 为 master 节点实际 IP（请使用内网 IP）</span></span><br><span class="line"><span class="meta">#</span><span class="bash"> <span class="built_in">export</span> 命令只在当前 shell 会话中有效，开启新的 shell 窗口后，如果要继续安装过程，请重新执行此处的 <span class="built_in">export</span> 命令</span></span><br><span class="line">export MASTER_IP=192.168.135.130</span><br><span class="line"><span class="meta">#</span><span class="bash"> 替换 apiserver.demo 为 您想要的 dnsName</span></span><br><span class="line">export APISERVER_NAME=k8s.master</span><br><span class="line"><span class="meta">#</span><span class="bash"> Kubernetes 容器组所在的网段，该网段安装完成后，由 kubernetes 创建，事先并不存在于您的物理网络中</span></span><br><span class="line">export POD_SUBNET=10.100.0.1/16</span><br><span class="line">echo "$&#123;MASTER_IP&#125;    $&#123;APISERVER_NAME&#125;" &gt;&gt; /etc/hosts</span><br><span class="line">curl -sSL https://kuboard.cn/install-script/v1.18.x/init_master.sh | sh -s 1.18.2</span><br></pre></td></tr></table></figure>
+<h2 id="检查-master-初始化结果"><a href="#检查-master-初始化结果" class="headerlink" title="检查 master 初始化结果"></a>检查 master 初始化结果</h2><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#</span><span class="bash"> 只在 master 节点执行</span></span><br><span class="line"></span><br><span class="line"><span class="meta">#</span><span class="bash"> 执行如下命令，等待 3-10 分钟，直到所有的容器组处于 Running 状态</span></span><br><span class="line">watch kubectl get pod -n kube-system -o wide</span><br><span class="line"></span><br><span class="line"><span class="meta">#</span><span class="bash"> 查看 master 节点初始化结果</span></span><br><span class="line">kubectl get nodes -o wide</span><br></pre></td></tr></table></figure>
+<h1 id="worker配置"><a href="#worker配置" class="headerlink" title="worker配置"></a>worker配置</h1><p>master执行获取join命令<br><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">kubeadm token create --print-join-command</span><br></pre></td></tr></table></figure></p>
+<blockquote>
+<p>该 token 的有效时间为 2 个小时，2小时内，您可以使用此 token 初始化任意数量的 worker 节点。</p>
+</blockquote>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#</span><span class="bash"> 只在 worker 节点执行</span></span><br><span class="line"><span class="meta">#</span><span class="bash"> 替换 x.x.x.x 为 master 节点的内网 IP</span></span><br><span class="line">export MASTER_IP=192.168.135.130</span><br><span class="line"><span class="meta">#</span><span class="bash"> 替换 apiserver.demo 为初始化 master 节点时所使用的 APISERVER_NAME</span></span><br><span class="line">export APISERVER_NAME=k8s.master</span><br><span class="line">echo "$&#123;MASTER_IP&#125;    $&#123;APISERVER_NAME&#125;" &gt;&gt; /etc/hosts</span><br><span class="line"></span><br><span class="line"><span class="meta">#</span><span class="bash"> 替换为 master 节点上 kubeadm token create 命令的输出</span></span><br><span class="line">kubeadm join k8s.master:6443 --token bekn32.5jf2ih9zo2qptfw9     --discovery-token-ca-cert-hash sha256:3c8e58572a57f14b8de1ca3368d2c6eae9831a1fb6b1fcc6d35fce334bfaf78f</span><br></pre></td></tr></table></figure>
+<p>// todo 重新加入master</p>
+<h1 id="master检测配置结果"><a href="#master检测配置结果" class="headerlink" title="master检测配置结果"></a>master检测配置结果</h1><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#</span><span class="bash"> 查看 master 节点初始化结果</span></span><br><span class="line">kubectl get nodes -o wide</span><br></pre></td></tr></table></figure>
+<h1 id="官方可视化工具Kubernetes-Dashboard"><a href="#官方可视化工具Kubernetes-Dashboard" class="headerlink" title="官方可视化工具Kubernetes Dashboard"></a>官方可视化工具Kubernetes Dashboard</h1><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#</span><span class="bash"> 安装 Kubernetes Dashboard</span></span><br><span class="line">kubectl apply -f https://kuboard.cn/install-script/k8s-dashboard/v2.0.0-beta5.yaml</span><br><span class="line"><span class="meta">#</span><span class="bash"> 创建 Service Account 和 ClusterRoleBinding</span></span><br><span class="line">kubectl apply -f https://kuboard.cn/install-script/k8s-dashboard/auth.yaml</span><br><span class="line"><span class="meta">#</span><span class="bash"> 获取Bearer Token</span></span><br><span class="line">kubectl -n kubernetes-dashboard describe secret $(kubectl -n kubernetes-dashboard get secret | grep admin-user | awk '&#123;print $1&#125;')</span><br><span class="line"><span class="meta">#</span><span class="bash"> 启动kubernetes dashboard</span></span><br><span class="line">nohup kubectl proxy --address='0.0.0.0' --port=9090 --accept-hosts='^*$' &amp;</span><br></pre></td></tr></table></figure>
+<p>访问路径： <a href="http://192.168.135.130:9090/api/v1/namespaces/kubernetes-dashboard/services/https:kubernetes-dashboard:/proxy/">http://192.168.135.130:9090/api/v1/namespaces/kubernetes-dashboard/services/https:kubernetes-dashboard:/proxy/</a></p>
+<h1 id="Kuboard可视化工具"><a href="#Kuboard可视化工具" class="headerlink" title="Kuboard可视化工具"></a>Kuboard可视化工具</h1><h2 id="安装Kuboard"><a href="#安装Kuboard" class="headerlink" title="安装Kuboard"></a>安装Kuboard</h2><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">kubectl apply -f https://kuboard.cn/install-script/kuboard.yaml</span><br><span class="line">kubectl apply -f https://addons.kuboard.cn/metrics-server/0.3.6/metrics-server.yaml</span><br><span class="line">kubectl get pods -l k8s.eip.work/name=kuboard -n kube-system</span><br></pre></td></tr></table></figure>
+<h2 id="获取Kuboard界面地址"><a href="#获取Kuboard界面地址" class="headerlink" title="获取Kuboard界面地址"></a>获取Kuboard界面地址</h2><p>获取Token<br><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">kubectl -n kube-system get secret $(kubectl -n kube-system get secret | grep kuboard-user | awk '&#123;print $1&#125;') -o go-template='&#123;&#123;.data.token&#125;&#125;' | base64 -d</span><br></pre></td></tr></table></figure><br><a href="http://192.168.135.130:32567/dashboard?k8sToken=获取的Token">http://192.168.135.130:32567/dashboard?k8sToken=获取的Token</a></p>
+<h1 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h1><ul>
+<li><a href="https://kuboard.cn/">kuboard</a></li>
+</ul>
+]]></content>
+      
+        <categories>
+            
+            <category> OPS </category>
+            
+        </categories>
+        
+        
+        <tags>
+            
+            <tag> DevOps </tag>
+            
+            <tag> Kuboard </tag>
+            
+            <tag> Kubernetes </tag>
+            
+        </tags>
+        
+    </entry>
+    
+    <entry>
       <title><![CDATA[Ansible自动化运维笔记]]></title>
       <url>http://geosmart.github.io/2020/04/01/Ansible%25E8%2587%25AA%25E5%258A%25A8%25E5%258C%2596%25E8%25BF%2590%25E7%25BB%25B4%25E7%25AC%2594%25E8%25AE%25B0/</url>
       <content type="html"><![CDATA[<p>Ansible自动化运维工具学习笔记，告别乱糟糟的shell脚本<br><a id="more"></a></p>
@@ -1616,49 +1688,6 @@
             <tag> Ansible </tag>
             
             <tag> DevOps </tag>
-            
-        </tags>
-        
-    </entry>
-    
-    <entry>
-      <title><![CDATA[Kuboard安装K8S集群]]></title>
-      <url>http://geosmart.github.io/2020/04/01/Kuboard%25E5%25AE%2589%25E8%25A3%2585K8S%25E9%259B%2586%25E7%25BE%25A4/</url>
-      <content type="html"><![CDATA[<p>记录如何用kuboard工具安装k8s集群<br><a id="more"></a><br><a href="kuboard.jpg">kuboard界面</a></p>
-<h1 id="检查网络"><a href="#检查网络" class="headerlink" title="检查网络"></a>检查网络</h1><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#</span><span class="bash"> master  修改 hostname</span></span><br><span class="line">hostnamectl set-hostname k8s.master</span><br><span class="line"></span><br><span class="line"><span class="meta">#</span><span class="bash"> 查看修改结果</span></span><br><span class="line">hostnamectl status</span><br><span class="line"><span class="meta">#</span><span class="bash"> 设置 hostname 解析</span></span><br><span class="line">echo "127.0.0.1   $(hostname)" &gt;&gt; /etc/hosts</span><br></pre></td></tr></table></figure>
-<h1 id="安装docker及kubelet"><a href="#安装docker及kubelet" class="headerlink" title="安装docker及kubelet"></a>安装docker及kubelet</h1><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#</span><span class="bash"> 在 master 节点和 worker 节点都要执行</span></span><br><span class="line"><span class="meta">#</span><span class="bash"> 最后一个参数 1.18.0 用于指定 kubenetes 版本，支持所有 1.18.x 版本的安装</span></span><br><span class="line"><span class="meta">#</span><span class="bash"> 腾讯云 docker hub 镜像</span></span><br><span class="line"><span class="meta">#</span><span class="bash"> <span class="built_in">export</span> REGISTRY_MIRROR=<span class="string">"https://mirror.ccs.tencentyun.com"</span></span></span><br><span class="line"><span class="meta">#</span><span class="bash"> DaoCloud 镜像</span></span><br><span class="line"><span class="meta">#</span><span class="bash"> <span class="built_in">export</span> REGISTRY_MIRROR=<span class="string">"http://f1361db2.m.daocloud.io"</span></span></span><br><span class="line"><span class="meta">#</span><span class="bash"> 华为云镜像</span></span><br><span class="line"><span class="meta">#</span><span class="bash"> <span class="built_in">export</span> REGISTRY_MIRROR=<span class="string">"https://05f073ad3c0010ea0f4bc00b7105ec20.mirror.swr.myhuaweicloud.com"</span></span></span><br><span class="line"><span class="meta">#</span><span class="bash"> 阿里云 docker hub 镜像</span></span><br><span class="line">export REGISTRY_MIRROR=https://registry.cn-hangzhou.aliyuncs.com</span><br><span class="line">curl -sSL https://kuboard.cn/install-script/v1.18.x/install_kubelet.sh | sh -s 1.18.2</span><br></pre></td></tr></table></figure>
-<h1 id="master配置"><a href="#master配置" class="headerlink" title="master配置"></a>master配置</h1><h2 id="初始化master节点"><a href="#初始化master节点" class="headerlink" title="初始化master节点"></a>初始化master节点</h2><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#</span><span class="bash"> 只在 master 节点执行</span></span><br><span class="line"><span class="meta">#</span><span class="bash"> 替换 x.x.x.x 为 master 节点实际 IP（请使用内网 IP）</span></span><br><span class="line"><span class="meta">#</span><span class="bash"> <span class="built_in">export</span> 命令只在当前 shell 会话中有效，开启新的 shell 窗口后，如果要继续安装过程，请重新执行此处的 <span class="built_in">export</span> 命令</span></span><br><span class="line">export MASTER_IP=192.168.135.130</span><br><span class="line"><span class="meta">#</span><span class="bash"> 替换 apiserver.demo 为 您想要的 dnsName</span></span><br><span class="line">export APISERVER_NAME=k8s.master</span><br><span class="line"><span class="meta">#</span><span class="bash"> Kubernetes 容器组所在的网段，该网段安装完成后，由 kubernetes 创建，事先并不存在于您的物理网络中</span></span><br><span class="line">export POD_SUBNET=10.100.0.1/16</span><br><span class="line">echo "$&#123;MASTER_IP&#125;    $&#123;APISERVER_NAME&#125;" &gt;&gt; /etc/hosts</span><br><span class="line">curl -sSL https://kuboard.cn/install-script/v1.18.x/init_master.sh | sh -s 1.18.2</span><br></pre></td></tr></table></figure>
-<h2 id="检查-master-初始化结果"><a href="#检查-master-初始化结果" class="headerlink" title="检查 master 初始化结果"></a>检查 master 初始化结果</h2><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#</span><span class="bash"> 只在 master 节点执行</span></span><br><span class="line"></span><br><span class="line"><span class="meta">#</span><span class="bash"> 执行如下命令，等待 3-10 分钟，直到所有的容器组处于 Running 状态</span></span><br><span class="line">watch kubectl get pod -n kube-system -o wide</span><br><span class="line"></span><br><span class="line"><span class="meta">#</span><span class="bash"> 查看 master 节点初始化结果</span></span><br><span class="line">kubectl get nodes -o wide</span><br></pre></td></tr></table></figure>
-<h1 id="worker配置"><a href="#worker配置" class="headerlink" title="worker配置"></a>worker配置</h1><p>master执行获取join命令<br><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">kubeadm token create --print-join-command</span><br></pre></td></tr></table></figure></p>
-<blockquote>
-<p>该 token 的有效时间为 2 个小时，2小时内，您可以使用此 token 初始化任意数量的 worker 节点。</p>
-</blockquote>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#</span><span class="bash"> 只在 worker 节点执行</span></span><br><span class="line"><span class="meta">#</span><span class="bash"> 替换 x.x.x.x 为 master 节点的内网 IP</span></span><br><span class="line">export MASTER_IP=192.168.135.130</span><br><span class="line"><span class="meta">#</span><span class="bash"> 替换 apiserver.demo 为初始化 master 节点时所使用的 APISERVER_NAME</span></span><br><span class="line">export APISERVER_NAME=k8s.master</span><br><span class="line">echo "$&#123;MASTER_IP&#125;    $&#123;APISERVER_NAME&#125;" &gt;&gt; /etc/hosts</span><br><span class="line"></span><br><span class="line"><span class="meta">#</span><span class="bash"> 替换为 master 节点上 kubeadm token create 命令的输出</span></span><br><span class="line">kubeadm join k8s.master:6443 --token bekn32.5jf2ih9zo2qptfw9     --discovery-token-ca-cert-hash sha256:3c8e58572a57f14b8de1ca3368d2c6eae9831a1fb6b1fcc6d35fce334bfaf78f</span><br></pre></td></tr></table></figure>
-<p>// todo 重新加入master</p>
-<h1 id="master检测配置结果"><a href="#master检测配置结果" class="headerlink" title="master检测配置结果"></a>master检测配置结果</h1><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#</span><span class="bash"> 查看 master 节点初始化结果</span></span><br><span class="line">kubectl get nodes -o wide</span><br></pre></td></tr></table></figure>
-<h1 id="官方可视化工具Kubernetes-Dashboard"><a href="#官方可视化工具Kubernetes-Dashboard" class="headerlink" title="官方可视化工具Kubernetes Dashboard"></a>官方可视化工具Kubernetes Dashboard</h1><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#</span><span class="bash"> 安装 Kubernetes Dashboard</span></span><br><span class="line">kubectl apply -f https://kuboard.cn/install-script/k8s-dashboard/v2.0.0-beta5.yaml</span><br><span class="line"><span class="meta">#</span><span class="bash"> 创建 Service Account 和 ClusterRoleBinding</span></span><br><span class="line">kubectl apply -f https://kuboard.cn/install-script/k8s-dashboard/auth.yaml</span><br><span class="line"><span class="meta">#</span><span class="bash"> 获取Bearer Token</span></span><br><span class="line">kubectl -n kubernetes-dashboard describe secret $(kubectl -n kubernetes-dashboard get secret | grep admin-user | awk '&#123;print $1&#125;')</span><br><span class="line"><span class="meta">#</span><span class="bash"> 启动kubernetes dashboard</span></span><br><span class="line">nohup kubectl proxy --address='0.0.0.0' --port=9090 --accept-hosts='^*$' &amp;</span><br></pre></td></tr></table></figure>
-<p>访问路径： <a href="http://192.168.135.130:9090/api/v1/namespaces/kubernetes-dashboard/services/https:kubernetes-dashboard:/proxy/">http://192.168.135.130:9090/api/v1/namespaces/kubernetes-dashboard/services/https:kubernetes-dashboard:/proxy/</a></p>
-<h1 id="Kuboard可视化工具"><a href="#Kuboard可视化工具" class="headerlink" title="Kuboard可视化工具"></a>Kuboard可视化工具</h1><h2 id="安装Kuboard"><a href="#安装Kuboard" class="headerlink" title="安装Kuboard"></a>安装Kuboard</h2><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">kubectl apply -f https://kuboard.cn/install-script/kuboard.yaml</span><br><span class="line">kubectl apply -f https://addons.kuboard.cn/metrics-server/0.3.6/metrics-server.yaml</span><br><span class="line">kubectl get pods -l k8s.eip.work/name=kuboard -n kube-system</span><br></pre></td></tr></table></figure>
-<h2 id="获取Kuboard界面地址"><a href="#获取Kuboard界面地址" class="headerlink" title="获取Kuboard界面地址"></a>获取Kuboard界面地址</h2><p>获取Token<br><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">kubectl -n kube-system get secret $(kubectl -n kube-system get secret | grep kuboard-user | awk '&#123;print $1&#125;') -o go-template='&#123;&#123;.data.token&#125;&#125;' | base64 -d</span><br></pre></td></tr></table></figure><br><a href="http://192.168.135.130:32567/dashboard?k8sToken=获取的Token">http://192.168.135.130:32567/dashboard?k8sToken=获取的Token</a></p>
-<h1 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h1><ul>
-<li><a href="https://kuboard.cn/">kuboard</a></li>
-</ul>
-]]></content>
-      
-        <categories>
-            
-            <category> OPS </category>
-            
-        </categories>
-        
-        
-        <tags>
-            
-            <tag> DevOps </tag>
-            
-            <tag> Kuboard </tag>
-            
-            <tag> Kubernetes </tag>
             
         </tags>
         
@@ -1839,100 +1868,6 @@
     </entry>
     
     <entry>
-      <title><![CDATA[IO复用模型之Reactor]]></title>
-      <url>http://geosmart.github.io/2020/03/24/IO%25E5%25A4%258D%25E7%2594%25A8%25E6%25A8%25A1%25E5%259E%258B%25E4%25B9%258BReactor/</url>
-      <content type="html"><![CDATA[<p>要学Netty，得先从IO模型入手，一点点来。从Unix系统的5个IO模型，JDK的3种IO模型，Reactor模式的3种实现，最后到Netty事件模型的3种实现。</p>
-<p>本文主要搞清楚什么是Reactor模式？为什么要有Reactor模式？以及Reactor模式具体的3种实现方式是什么样的？</p>
-<a id="more"></a>  
-<h1 id="什么是Reactor模式？"><a href="#什么是Reactor模式？" class="headerlink" title="什么是Reactor模式？"></a>什么是Reactor模式？</h1><p>Wiki上Reactor模式的描述</p>
-<blockquote>
-<p>The reactor design pattern is an <a href="https://en.wikipedia.org/wiki/Event_handling">event handling</a> pattern for handling service requests delivered concurrently  to a service handler by one or more inputs.<br>The service handler then <a href="https://en.wikipedia.org/wiki/Demultiplex">demultiplexes</a> the incoming requests and dispatches them synchronously to the associated request handlers.</p>
-</blockquote>
-<ul>
-<li>Reactor核心重点是：有多路复用的组件来支持并发，事件驱动，并且不同事件有对应的处理器；</li>
-<li>Reactor模式本质是Unix系统5种I/O模型中的<strong>I/O复用(multiplexing)模型</strong>；</li>
-</ul>
-<p>JUC作者<code>Doug Lea</code> 在 《Scalable IO in Java 》中的介绍，Reacotr模型主要分为3个角色:</p>
-<ol>
-<li><strong>Reactor</strong>：把IO事件分配给对应的Handler处理</li>
-<li><strong>Acceptor</strong>：处理客户端连接事件</li>
-<li><strong>Handler</strong>：处理非阻塞的任务</li>
-</ol>
-<p>另外注意<code>Reactor</code>这个名词用到的地方比较多：</p>
-<ul>
-<li>Spring5的Reactor 反应式编程；</li>
-<li>Node.js中用到的设计模式-Reactor Pattern（反应器模式）;</li>
-<li>Netty中的ReactorI/O模型；</li>
-</ul>
-<p>我们这儿说的Reactor是指后面的2个相关，I/O事件模型相关的，和反应式编程不是一回事；</p>
-<h1 id="为什么有Reactor模式？"><a href="#为什么有Reactor模式？" class="headerlink" title="为什么有Reactor模式？"></a>为什么有Reactor模式？</h1><p><img src="阻塞IO.jpg" alt="阻塞IO"></p>
-<h1 id=""><a href="#" class="headerlink" title=" "></a> </h1><p>Reactor模式的出现原因要结合Unix系统的5个IO模型中提到的<code>阻塞IO</code>来说</p>
-<p><strong>传统的阻塞IO模型的不足</strong></p>
-<ol>
-<li>每个连接都需要独立线程处理，但线程数受系统现在数多，所以<code>并发能力有限</code>，资源利用率低；</li>
-<li>采用阻塞IO模型，连接建立后，若当前线程没有数据可读，线程会阻塞在读操作上，造成<code>资源浪费</code>；</li>
-</ol>
-<p>针对传统阻塞IO模型的两个问题，可以采用如下的方案进行优化</p>
-<ol>
-<li>基于<code>池化思想</code>，避免为每个连接创建线程，连接完成后将业务处理交给线程池处理；</li>
-<li>基于<code>IO复用模型</code>，多个连接共用同一个阻塞对象，不用等待所有的连接。遍历到有新数据可以处理时，操作系统会通知程序，线程跳出阻塞状态，进行业务逻辑处理；</li>
-</ol>
-<p>Reactor线程模型的思想就是基于IO复用和线程池的结合体；</p>
-<p>一般一个网络请求的数据处理过程包含：accept、read、decode、compute、encode、send；</p>
-<p>按照分而治之的思想，可以将accept，read，send按需设计成独立的模块，<code>decode、compute、encode</code>内聚性比较强，可以作为数据处理单元用池化的思路来并行处理；</p>
-<p>下面3种reactor模式就是不同拆分级别的优化；</p>
-<h1 id="Reactor模式的3种实现"><a href="#Reactor模式的3种实现" class="headerlink" title="Reactor模式的3种实现"></a>Reactor模式的3种实现</h1><h2 id="单Reactor单线程"><a href="#单Reactor单线程" class="headerlink" title="单Reactor单线程"></a>单Reactor单线程</h2><p><img src="单Reactor单线程.jpg" alt="单Reactor单线程"></p>
-<p>这种模型在Reactor中处理事件，并分发事件，如果是连接事件交给<code>acceptor</code>处理，如果是读写事件和业务处理就交给<code>handler</code>处理，但始终只有1个线程执行所有的事情；</p>
-<p>单Reactor单线程模型的不足</p>
-<ol>
-<li>仅用1个线程处理请求，浪费多核机器的CPU资源；</li>
-<li>单线程处理所有的读写任务，当线程负载过高后，处理速度下降，事件会堆积，严重的会超时，可能导致客户端重新发送请求，性能越来越差；</li>
-<li>单线程会有可靠性的问题；</li>
-</ol>
-<p>针对上面的种种不足，就有了下面的单Reactor多线程模型：</p>
-<blockquote>
-<p>服务员解释Reactor：一个人既当接待员又做服务员，适合客流量少的场景；</p>
-</blockquote>
-<h2 id="单Reactor多线程"><a href="#单Reactor多线程" class="headerlink" title="单Reactor多线程"></a>单Reactor多线程</h2><p><img src="单Reactor多线程.jpg" alt="单Reactor多线程"></p>
-<p>与单Reactor单线程相比，新增了池化手段，也就是Reactor线程只处理<code>accept,read,send</code>事件，耗资源的业务处理（<code>decode、compute、encode</code>）交给线程池处理，充分利用多核机器的资源、提高性能并且增加可靠性；</p>
-<p>单Reactor多线程模型的不足：</p>
-<p>Reactor线程承担所有的事件，例如监听和响应，<code>高并发场景</code>下单线程存在性能问题；</p>
-<blockquote>
-<p>服务员解释Reactor：1个接待员，n个服务员，适合中等流量的场景；</p>
-</blockquote>
-<h2 id="多Reactor多线程"><a href="#多Reactor多线程" class="headerlink" title="多Reactor多线程"></a>多Reactor多线程</h2><p><img src="多Reactor多线程.jpg" alt="多Reactor多线程"></p>
-<p>与单Reactord多线程相比，把Reactor线程拆分了mainReactor和subReactor两个部分，mainReactor只处理连接事件（<code>accept</code>），读写事件（<code>read,send</code>）交给subReactor来处理。业务逻辑还是由线程池来处理；</p>
-<ul>
-<li>mainRactor只处理连接事件，用一个线程来处理就好；</li>
-<li>处理读写事件的subReactor个数一般和CPU数量相等，一个subReactor对应一个线程；</li>
-<li>耗资源的业务逻辑由线程池处理；</li>
-</ul>
-<p>这种模型使各个模块职责单一，耦合度低，性能和稳定性都有提高；</p>
-<p>这种模型在许多项目中广泛应用，比如Netty的主从线程模型等；</p>
-<blockquote>
-<p>服务员解释Reactor：n个接待员，n个服务员，适合高并发流量的场景；</p>
-</blockquote>
-<h1 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h1><ul>
-<li><a href="http://gee.cs.oswego.edu/dl/cpjslides/nio.pdf">《Scalable IO in Java》-Doug Lea</a></li>
-</ul>
-]]></content>
-      
-        <categories>
-            
-            <category> 后端技术 </category>
-            
-        </categories>
-        
-        
-        <tags>
-            
-            <tag> IO </tag>
-            
-        </tags>
-        
-    </entry>
-    
-    <entry>
       <title><![CDATA[Netty的IO模型]]></title>
       <url>http://geosmart.github.io/2020/03/24/Netty%25E7%259A%2584IO%25E6%25A8%25A1%25E5%259E%258B/</url>
       <content type="html"><![CDATA[<p>要学Netty，得先从IO模型入手，一点点来。从Unix系统的5个IO模型，JDK的3种IO模型，Reactor模式的3种实现，最后到Netty事件模型的3种实现。</p>
@@ -2041,6 +1976,100 @@
         <tags>
             
             <tag> Netty </tag>
+            
+            <tag> IO </tag>
+            
+        </tags>
+        
+    </entry>
+    
+    <entry>
+      <title><![CDATA[IO复用模型之Reactor]]></title>
+      <url>http://geosmart.github.io/2020/03/24/IO%25E5%25A4%258D%25E7%2594%25A8%25E6%25A8%25A1%25E5%259E%258B%25E4%25B9%258BReactor/</url>
+      <content type="html"><![CDATA[<p>要学Netty，得先从IO模型入手，一点点来。从Unix系统的5个IO模型，JDK的3种IO模型，Reactor模式的3种实现，最后到Netty事件模型的3种实现。</p>
+<p>本文主要搞清楚什么是Reactor模式？为什么要有Reactor模式？以及Reactor模式具体的3种实现方式是什么样的？</p>
+<a id="more"></a>  
+<h1 id="什么是Reactor模式？"><a href="#什么是Reactor模式？" class="headerlink" title="什么是Reactor模式？"></a>什么是Reactor模式？</h1><p>Wiki上Reactor模式的描述</p>
+<blockquote>
+<p>The reactor design pattern is an <a href="https://en.wikipedia.org/wiki/Event_handling">event handling</a> pattern for handling service requests delivered concurrently  to a service handler by one or more inputs.<br>The service handler then <a href="https://en.wikipedia.org/wiki/Demultiplex">demultiplexes</a> the incoming requests and dispatches them synchronously to the associated request handlers.</p>
+</blockquote>
+<ul>
+<li>Reactor核心重点是：有多路复用的组件来支持并发，事件驱动，并且不同事件有对应的处理器；</li>
+<li>Reactor模式本质是Unix系统5种I/O模型中的<strong>I/O复用(multiplexing)模型</strong>；</li>
+</ul>
+<p>JUC作者<code>Doug Lea</code> 在 《Scalable IO in Java 》中的介绍，Reacotr模型主要分为3个角色:</p>
+<ol>
+<li><strong>Reactor</strong>：把IO事件分配给对应的Handler处理</li>
+<li><strong>Acceptor</strong>：处理客户端连接事件</li>
+<li><strong>Handler</strong>：处理非阻塞的任务</li>
+</ol>
+<p>另外注意<code>Reactor</code>这个名词用到的地方比较多：</p>
+<ul>
+<li>Spring5的Reactor 反应式编程；</li>
+<li>Node.js中用到的设计模式-Reactor Pattern（反应器模式）;</li>
+<li>Netty中的ReactorI/O模型；</li>
+</ul>
+<p>我们这儿说的Reactor是指后面的2个相关，I/O事件模型相关的，和反应式编程不是一回事；</p>
+<h1 id="为什么有Reactor模式？"><a href="#为什么有Reactor模式？" class="headerlink" title="为什么有Reactor模式？"></a>为什么有Reactor模式？</h1><p><img src="阻塞IO.jpg" alt="阻塞IO"></p>
+<h1 id=""><a href="#" class="headerlink" title=" "></a> </h1><p>Reactor模式的出现原因要结合Unix系统的5个IO模型中提到的<code>阻塞IO</code>来说</p>
+<p><strong>传统的阻塞IO模型的不足</strong></p>
+<ol>
+<li>每个连接都需要独立线程处理，但线程数受系统现在数多，所以<code>并发能力有限</code>，资源利用率低；</li>
+<li>采用阻塞IO模型，连接建立后，若当前线程没有数据可读，线程会阻塞在读操作上，造成<code>资源浪费</code>；</li>
+</ol>
+<p>针对传统阻塞IO模型的两个问题，可以采用如下的方案进行优化</p>
+<ol>
+<li>基于<code>池化思想</code>，避免为每个连接创建线程，连接完成后将业务处理交给线程池处理；</li>
+<li>基于<code>IO复用模型</code>，多个连接共用同一个阻塞对象，不用等待所有的连接。遍历到有新数据可以处理时，操作系统会通知程序，线程跳出阻塞状态，进行业务逻辑处理；</li>
+</ol>
+<p>Reactor线程模型的思想就是基于IO复用和线程池的结合体；</p>
+<p>一般一个网络请求的数据处理过程包含：accept、read、decode、compute、encode、send；</p>
+<p>按照分而治之的思想，可以将accept，read，send按需设计成独立的模块，<code>decode、compute、encode</code>内聚性比较强，可以作为数据处理单元用池化的思路来并行处理；</p>
+<p>下面3种reactor模式就是不同拆分级别的优化；</p>
+<h1 id="Reactor模式的3种实现"><a href="#Reactor模式的3种实现" class="headerlink" title="Reactor模式的3种实现"></a>Reactor模式的3种实现</h1><h2 id="单Reactor单线程"><a href="#单Reactor单线程" class="headerlink" title="单Reactor单线程"></a>单Reactor单线程</h2><p><img src="单Reactor单线程.jpg" alt="单Reactor单线程"></p>
+<p>这种模型在Reactor中处理事件，并分发事件，如果是连接事件交给<code>acceptor</code>处理，如果是读写事件和业务处理就交给<code>handler</code>处理，但始终只有1个线程执行所有的事情；</p>
+<p>单Reactor单线程模型的不足</p>
+<ol>
+<li>仅用1个线程处理请求，浪费多核机器的CPU资源；</li>
+<li>单线程处理所有的读写任务，当线程负载过高后，处理速度下降，事件会堆积，严重的会超时，可能导致客户端重新发送请求，性能越来越差；</li>
+<li>单线程会有可靠性的问题；</li>
+</ol>
+<p>针对上面的种种不足，就有了下面的单Reactor多线程模型：</p>
+<blockquote>
+<p>服务员解释Reactor：一个人既当接待员又做服务员，适合客流量少的场景；</p>
+</blockquote>
+<h2 id="单Reactor多线程"><a href="#单Reactor多线程" class="headerlink" title="单Reactor多线程"></a>单Reactor多线程</h2><p><img src="单Reactor多线程.jpg" alt="单Reactor多线程"></p>
+<p>与单Reactor单线程相比，新增了池化手段，也就是Reactor线程只处理<code>accept,read,send</code>事件，耗资源的业务处理（<code>decode、compute、encode</code>）交给线程池处理，充分利用多核机器的资源、提高性能并且增加可靠性；</p>
+<p>单Reactor多线程模型的不足：</p>
+<p>Reactor线程承担所有的事件，例如监听和响应，<code>高并发场景</code>下单线程存在性能问题；</p>
+<blockquote>
+<p>服务员解释Reactor：1个接待员，n个服务员，适合中等流量的场景；</p>
+</blockquote>
+<h2 id="多Reactor多线程"><a href="#多Reactor多线程" class="headerlink" title="多Reactor多线程"></a>多Reactor多线程</h2><p><img src="多Reactor多线程.jpg" alt="多Reactor多线程"></p>
+<p>与单Reactord多线程相比，把Reactor线程拆分了mainReactor和subReactor两个部分，mainReactor只处理连接事件（<code>accept</code>），读写事件（<code>read,send</code>）交给subReactor来处理。业务逻辑还是由线程池来处理；</p>
+<ul>
+<li>mainRactor只处理连接事件，用一个线程来处理就好；</li>
+<li>处理读写事件的subReactor个数一般和CPU数量相等，一个subReactor对应一个线程；</li>
+<li>耗资源的业务逻辑由线程池处理；</li>
+</ul>
+<p>这种模型使各个模块职责单一，耦合度低，性能和稳定性都有提高；</p>
+<p>这种模型在许多项目中广泛应用，比如Netty的主从线程模型等；</p>
+<blockquote>
+<p>服务员解释Reactor：n个接待员，n个服务员，适合高并发流量的场景；</p>
+</blockquote>
+<h1 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h1><ul>
+<li><a href="http://gee.cs.oswego.edu/dl/cpjslides/nio.pdf">《Scalable IO in Java》-Doug Lea</a></li>
+</ul>
+]]></content>
+      
+        <categories>
+            
+            <category> 后端技术 </category>
+            
+        </categories>
+        
+        
+        <tags>
             
             <tag> IO </tag>
             
@@ -6023,24 +6052,20 @@ Executor->Driver: 执行结果数据</textarea><textarea id="sequence-1-options"
     </entry>
     
     <entry>
-      <title><![CDATA[单链表旋转]]></title>
-      <url>http://geosmart.github.io/2019/06/01/2019-6-%25E5%258D%2595%25E9%2593%25BE%25E8%25A1%25A8%25E6%2597%258B%25E8%25BD%25AC/</url>
-      <content type="html"><![CDATA[<blockquote>
-<p>给定一个链表，旋转链表，将链表每个节点向右移动 k 个位置，其中 k 是非负数。<br><a id="more"></a></p>
-</blockquote>
-<h1 id="算法步骤"><a href="#算法步骤" class="headerlink" title="算法步骤"></a>算法步骤</h1><p>旋转链表</p>
-<ol>
-<li>求链表长度</li>
-<li>计算实际需要移动的位置k</li>
-<li>快慢指针法找到倒数第k个节点</li>
-<li>链表旋转：k节点作为新的链表头，k-1节点作为链表尾，中间部分以循环链表方式连接</li>
-</ol>
-<h1 id="复杂度"><a href="#复杂度" class="headerlink" title="复杂度"></a>复杂度</h1><ul>
-<li>空间复杂度：O(1)</li>
-<li>时间复杂度：O(n)</li>
+      <title><![CDATA[查找算法-BinarySearch二分查找]]></title>
+      <url>http://geosmart.github.io/2019/06/01/2019-6-%25E6%259F%25A5%25E6%2589%25BE%25E7%25AE%2597%25E6%25B3%2595-BinarySearch%25E4%25BA%258C%25E5%2588%2586%25E6%259F%25A5%25E6%2589%25BE/</url>
+      <content type="html"><![CDATA[<p>二分查找利用已排好序的数组，每一次查找都可以将查找范围减半。查找范围内只剩一个数据时查找结束。<br><a id="more"></a></p>
+<h1 id="二分查找算法简介"><a href="#二分查找算法简介" class="headerlink" title="二分查找算法简介"></a>二分查找算法简介</h1><ul>
+<li>二分查找利用已排好序的数组，每一次查找都可以将查找范围减半。查找范围内只剩一个数据时查找结束。 </li>
+<li>数据量为n 的数组，将其长度减半log2(n) 次后，其中便只剩一个数据了。</li>
+<li>也就是说， 在二分查找中重复执行将<code>目标数据</code>和数组<code>中间的数据</code>进行比较后将查找<code>范围减半</code>的 操作log2(n)次后，就能找到目标数据（若没找到则可以得出数据不存在的结论），因此它 的时间复杂度为 O(logn)。</li>
 </ul>
-<h1 id="代码实现"><a href="#代码实现" class="headerlink" title="代码实现"></a>代码实现</h1><p>版本1<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">static</span> ListNode <span class="title">rotateRight</span><span class="params">(ListNode head, <span class="keyword">int</span> k)</span> </span>&#123;</span><br><span class="line">        ListNode dummy = <span class="keyword">new</span> ListNode(-<span class="number">1</span>);</span><br><span class="line">        dummy.next = head;</span><br><span class="line">        ListNode tmp = dummy.next;</span><br><span class="line">        <span class="keyword">int</span> n = <span class="number">0</span>;</span><br><span class="line">        <span class="comment">//求链表长度</span></span><br><span class="line">        <span class="keyword">while</span> (tmp != <span class="keyword">null</span>) &#123;</span><br><span class="line">            tmp = tmp.next;</span><br><span class="line">            n++;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">if</span> (n == <span class="number">0</span> || k % n == <span class="number">0</span>) &#123;</span><br><span class="line">            <span class="keyword">return</span> dummy.next;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="comment">//当成循环链表，n次移动等于没移动，求余后的k为实际需移动的位置数</span></span><br><span class="line">        k = k % n;</span><br><span class="line">        <span class="comment">//快慢指针求倒数第k个节点</span></span><br><span class="line">        ListNode slow = dummy;</span><br><span class="line">        ListNode fast = dummy;</span><br><span class="line">        <span class="keyword">while</span> (k &gt; <span class="number">0</span>) &#123;</span><br><span class="line">            fast = fast.next;</span><br><span class="line">            k--;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">while</span> (fast.next != <span class="keyword">null</span>) &#123;</span><br><span class="line">            slow = slow.next;</span><br><span class="line">            fast = fast.next;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="comment">//kNode为返回结果的head</span></span><br><span class="line">        ListNode kNode = slow.next;</span><br><span class="line">        <span class="comment">//原slow节点即为tail</span></span><br><span class="line">        slow.next = <span class="keyword">null</span>;</span><br><span class="line">        <span class="comment">//连接原链表的头部</span></span><br><span class="line">        fast.next = head;</span><br><span class="line">        <span class="keyword">return</span> kNode;</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure></p>
-<p>版本2：快慢指针法，关键是k = k % n<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line">public static ListNode rotateRight(ListNode head, int k) &#123;</span><br><span class="line">        ListNode dummy &#x3D; new ListNode(-1);</span><br><span class="line">        dummy.next &#x3D; head;</span><br><span class="line">        ListNode fast &#x3D; dummy.next;</span><br><span class="line">        int n &#x3D; 1;</span><br><span class="line">        &#x2F;&#x2F;快指针，求链表长度和tail节点</span><br><span class="line">        while (fast.next !&#x3D; null) &#123;</span><br><span class="line">            fast &#x3D; fast.next;</span><br><span class="line">            n++;</span><br><span class="line">        &#125;</span><br><span class="line">        &#x2F;&#x2F;n次移动等于没移动</span><br><span class="line">        if (k % n &#x3D;&#x3D; 0) &#123;</span><br><span class="line">            return dummy.next;</span><br><span class="line">        &#125;</span><br><span class="line">        &#x2F;&#x2F;当成循环链表，求余后的k为实际需移动的位置数</span><br><span class="line">        k &#x3D; k % n;</span><br><span class="line">        ListNode slow &#x3D; dummy.next;</span><br><span class="line">        &#x2F;&#x2F;求倒数第k个节点</span><br><span class="line">        for (int i &#x3D; 0; i &lt; n - k - 1; i++) &#123;</span><br><span class="line">            slow &#x3D; slow.next;</span><br><span class="line">        &#125;</span><br><span class="line">        ListNode newHead &#x3D; slow.next;</span><br><span class="line">        slow.next &#x3D; null;</span><br><span class="line">        &#x2F;&#x2F;连接原链表的头部</span><br><span class="line">        fast.next &#x3D; head;</span><br><span class="line">        return newHead;</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure></p>
+<h1 id="二分查找的复杂度"><a href="#二分查找的复杂度" class="headerlink" title="二分查找的复杂度"></a>二分查找的复杂度</h1><p> 二分查找的时间复杂度为<code>O(logn)</code>，与线性查找的O(n) 相比速度上得到了指数倍提高（x=log2(n)，则 n=2^x）。 </p>
+<h1 id="二分查找算法的局限性"><a href="#二分查找算法的局限性" class="headerlink" title="二分查找算法的局限性"></a>二分查找算法的局限性</h1><p>二分查找必须建立在<code>数据已经排好序</code>的基础上才能使用，因此添加数据时必须加到合适的位置，这就需要额外耗费维护数组的时间。<br>而使用线性查找时，数组中的数据可以是无序的，因此添加数据时也无须顾虑位置，直接把它加在末尾即可，不需要耗费时间。</p>
+<blockquote>
+<p>具体使用哪种查找方法，可以根据<code>查找</code>和<code>添加</code>两个操作哪个更为频繁来决定。</p>
+</blockquote>
+<h1 id="算法实现"><a href="#算法实现" class="headerlink" title="算法实现"></a>算法实现</h1><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Test</span></span><br><span class="line">  <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">test_bsearch</span><span class="params">()</span> </span>&#123;</span><br><span class="line">      <span class="keyword">int</span> a[] = <span class="keyword">new</span> <span class="keyword">int</span>[]&#123;<span class="number">1</span>, <span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>, <span class="number">4</span>, <span class="number">5</span>, <span class="number">6</span>, <span class="number">7</span>, <span class="number">8</span>, <span class="number">9</span>, <span class="number">10</span>&#125;;</span><br><span class="line"></span><br><span class="line">      <span class="keyword">int</span>[] search = <span class="keyword">new</span> <span class="keyword">int</span>[]&#123;<span class="number">0</span>, <span class="number">1</span>, <span class="number">2</span>, <span class="number">7</span>, <span class="number">11</span>&#125;;</span><br><span class="line">      <span class="keyword">for</span> (<span class="keyword">int</span> s : search) &#123;</span><br><span class="line">          System.out.println(String.format(<span class="string">"begin Rsearch[%s]"</span>, s));</span><br><span class="line">          <span class="keyword">int</span> idx = bsearch_recurse(a, <span class="number">0</span>, a.length - <span class="number">1</span>, s);</span><br><span class="line">          System.out.println(String.format(<span class="string">"end Rsearch[%s],index[%s]"</span>, s, idx));</span><br><span class="line">      &#125;</span><br><span class="line"></span><br><span class="line">      <span class="keyword">for</span> (<span class="keyword">int</span> s : search) &#123;</span><br><span class="line">          System.out.println(String.format(<span class="string">"begin Lsearch[%s]"</span>, s));</span><br><span class="line">          <span class="keyword">int</span> idx = bsearch_while(a, s);</span><br><span class="line">          System.out.println(String.format(<span class="string">"end Lsearch[%s],index[%s]"</span>, s, idx));</span><br><span class="line">      &#125;</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  <span class="comment">/***</span></span><br><span class="line"><span class="comment">   * 递归实现二分查找</span></span><br><span class="line"><span class="comment">   * <span class="doctag">@param</span> a 目标数组</span></span><br><span class="line"><span class="comment">   * <span class="doctag">@param</span> from 开始索引</span></span><br><span class="line"><span class="comment">   * <span class="doctag">@param</span> to 结果索引</span></span><br><span class="line"><span class="comment">   * <span class="doctag">@param</span> tar 查找目标</span></span><br><span class="line"><span class="comment">   * <span class="doctag">@return</span> 目标索引，查不到返回-1</span></span><br><span class="line"><span class="comment">   */</span></span><br><span class="line">  <span class="function"><span class="keyword">public</span> <span class="keyword">int</span> <span class="title">bsearch_recurse</span><span class="params">(<span class="keyword">int</span>[] a, <span class="keyword">int</span> from, <span class="keyword">int</span> to, <span class="keyword">int</span> tar)</span> </span>&#123;</span><br><span class="line">      System.out.println(String.format(<span class="string">"search from[%s],to[%s]"</span>, from, to));</span><br><span class="line">      <span class="keyword">if</span> (from &gt; to || tar &lt; a[from] || tar &gt; a[to]) &#123;</span><br><span class="line">          <span class="keyword">return</span> -<span class="number">1</span>;</span><br><span class="line">      &#125; <span class="keyword">else</span> <span class="keyword">if</span> (tar == a[from]) &#123;</span><br><span class="line">          <span class="keyword">return</span> from;</span><br><span class="line">      &#125; <span class="keyword">else</span> <span class="keyword">if</span> (tar == a[to]) &#123;</span><br><span class="line">          <span class="keyword">return</span> to;</span><br><span class="line">      &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">          <span class="keyword">int</span> m = (to + from) / <span class="number">2</span>;</span><br><span class="line">          <span class="keyword">if</span> (tar &gt; a[m]) &#123;</span><br><span class="line">              <span class="keyword">return</span> bsearch_recurse(a, m, to, tar);</span><br><span class="line">          &#125; <span class="keyword">else</span> <span class="keyword">if</span> (tar &lt; a[m]) &#123;</span><br><span class="line">              <span class="keyword">return</span> bsearch_recurse(a, from, m, tar);</span><br><span class="line">          &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">              <span class="keyword">return</span> m;</span><br><span class="line">          &#125;</span><br><span class="line">      &#125;</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">  <span class="comment">/***</span></span><br><span class="line"><span class="comment">   *循环实现二分查找</span></span><br><span class="line"><span class="comment">   * <span class="doctag">@param</span> a 目标数组</span></span><br><span class="line"><span class="comment">   * <span class="doctag">@param</span> tar 查找目标</span></span><br><span class="line"><span class="comment">   * <span class="doctag">@return</span> 目标索引，查不到返回-1</span></span><br><span class="line"><span class="comment">   */</span></span><br><span class="line">  <span class="function"><span class="keyword">public</span> <span class="keyword">int</span> <span class="title">bsearch_while</span><span class="params">(<span class="keyword">int</span>[] a, <span class="keyword">int</span> tar)</span> </span>&#123;</span><br><span class="line">      <span class="keyword">int</span> from = <span class="number">0</span>;</span><br><span class="line">      <span class="keyword">int</span> to = a.length - <span class="number">1</span>;</span><br><span class="line">      <span class="keyword">if</span> (to &lt; <span class="number">0</span> || tar &lt; a[from] || tar &gt; a[to]) &#123;</span><br><span class="line">          <span class="keyword">return</span> -<span class="number">1</span>;</span><br><span class="line">      &#125; <span class="keyword">else</span> <span class="keyword">if</span> (tar == a[from]) &#123;</span><br><span class="line">          <span class="keyword">return</span> from;</span><br><span class="line">      &#125; <span class="keyword">else</span> <span class="keyword">if</span> (tar == a[to]) &#123;</span><br><span class="line">          <span class="keyword">return</span> to;</span><br><span class="line">      &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">          <span class="keyword">int</span> m = <span class="number">0</span>;</span><br><span class="line">          <span class="keyword">while</span> (from &lt;= to) &#123;</span><br><span class="line">              m = (to + from) / <span class="number">2</span>;</span><br><span class="line">              System.out.println(String.format(<span class="string">"search from[%s],to[%s]"</span>, from, to));</span><br><span class="line">              <span class="keyword">if</span> (tar &lt; a[m]) &#123;</span><br><span class="line">                  to = m - <span class="number">1</span>;</span><br><span class="line">              &#125; <span class="keyword">else</span> <span class="keyword">if</span> (tar &gt; a[m]) &#123;</span><br><span class="line">                  from = m + <span class="number">1</span>;</span><br><span class="line">              &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">                  <span class="keyword">return</span> m;</span><br><span class="line">              &#125;</span><br><span class="line">          &#125;</span><br><span class="line">      &#125;</span><br><span class="line">      <span class="keyword">return</span> -<span class="number">1</span>;</span><br><span class="line">  &#125;</span><br></pre></td></tr></table></figure>
 ]]></content>
       
         <categories>
@@ -6052,7 +6077,7 @@ Executor->Driver: 执行结果数据</textarea><textarea id="sequence-1-options"
         
         <tags>
             
-            <tag> LinkedList </tag>
+            <tag> Array </tag>
             
         </tags>
         
@@ -6191,20 +6216,24 @@ Executor->Driver: 执行结果数据</textarea><textarea id="sequence-1-options"
     </entry>
     
     <entry>
-      <title><![CDATA[查找算法-BinarySearch二分查找]]></title>
-      <url>http://geosmart.github.io/2019/06/01/2019-6-%25E6%259F%25A5%25E6%2589%25BE%25E7%25AE%2597%25E6%25B3%2595-BinarySearch%25E4%25BA%258C%25E5%2588%2586%25E6%259F%25A5%25E6%2589%25BE/</url>
-      <content type="html"><![CDATA[<p>二分查找利用已排好序的数组，每一次查找都可以将查找范围减半。查找范围内只剩一个数据时查找结束。<br><a id="more"></a></p>
-<h1 id="二分查找算法简介"><a href="#二分查找算法简介" class="headerlink" title="二分查找算法简介"></a>二分查找算法简介</h1><ul>
-<li>二分查找利用已排好序的数组，每一次查找都可以将查找范围减半。查找范围内只剩一个数据时查找结束。 </li>
-<li>数据量为n 的数组，将其长度减半log2(n) 次后，其中便只剩一个数据了。</li>
-<li>也就是说， 在二分查找中重复执行将<code>目标数据</code>和数组<code>中间的数据</code>进行比较后将查找<code>范围减半</code>的 操作log2(n)次后，就能找到目标数据（若没找到则可以得出数据不存在的结论），因此它 的时间复杂度为 O(logn)。</li>
-</ul>
-<h1 id="二分查找的复杂度"><a href="#二分查找的复杂度" class="headerlink" title="二分查找的复杂度"></a>二分查找的复杂度</h1><p> 二分查找的时间复杂度为<code>O(logn)</code>，与线性查找的O(n) 相比速度上得到了指数倍提高（x=log2(n)，则 n=2^x）。 </p>
-<h1 id="二分查找算法的局限性"><a href="#二分查找算法的局限性" class="headerlink" title="二分查找算法的局限性"></a>二分查找算法的局限性</h1><p>二分查找必须建立在<code>数据已经排好序</code>的基础上才能使用，因此添加数据时必须加到合适的位置，这就需要额外耗费维护数组的时间。<br>而使用线性查找时，数组中的数据可以是无序的，因此添加数据时也无须顾虑位置，直接把它加在末尾即可，不需要耗费时间。</p>
-<blockquote>
-<p>具体使用哪种查找方法，可以根据<code>查找</code>和<code>添加</code>两个操作哪个更为频繁来决定。</p>
+      <title><![CDATA[单链表旋转]]></title>
+      <url>http://geosmart.github.io/2019/06/01/2019-6-%25E5%258D%2595%25E9%2593%25BE%25E8%25A1%25A8%25E6%2597%258B%25E8%25BD%25AC/</url>
+      <content type="html"><![CDATA[<blockquote>
+<p>给定一个链表，旋转链表，将链表每个节点向右移动 k 个位置，其中 k 是非负数。<br><a id="more"></a></p>
 </blockquote>
-<h1 id="算法实现"><a href="#算法实现" class="headerlink" title="算法实现"></a>算法实现</h1><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Test</span></span><br><span class="line">  <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">test_bsearch</span><span class="params">()</span> </span>&#123;</span><br><span class="line">      <span class="keyword">int</span> a[] = <span class="keyword">new</span> <span class="keyword">int</span>[]&#123;<span class="number">1</span>, <span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>, <span class="number">4</span>, <span class="number">5</span>, <span class="number">6</span>, <span class="number">7</span>, <span class="number">8</span>, <span class="number">9</span>, <span class="number">10</span>&#125;;</span><br><span class="line"></span><br><span class="line">      <span class="keyword">int</span>[] search = <span class="keyword">new</span> <span class="keyword">int</span>[]&#123;<span class="number">0</span>, <span class="number">1</span>, <span class="number">2</span>, <span class="number">7</span>, <span class="number">11</span>&#125;;</span><br><span class="line">      <span class="keyword">for</span> (<span class="keyword">int</span> s : search) &#123;</span><br><span class="line">          System.out.println(String.format(<span class="string">"begin Rsearch[%s]"</span>, s));</span><br><span class="line">          <span class="keyword">int</span> idx = bsearch_recurse(a, <span class="number">0</span>, a.length - <span class="number">1</span>, s);</span><br><span class="line">          System.out.println(String.format(<span class="string">"end Rsearch[%s],index[%s]"</span>, s, idx));</span><br><span class="line">      &#125;</span><br><span class="line"></span><br><span class="line">      <span class="keyword">for</span> (<span class="keyword">int</span> s : search) &#123;</span><br><span class="line">          System.out.println(String.format(<span class="string">"begin Lsearch[%s]"</span>, s));</span><br><span class="line">          <span class="keyword">int</span> idx = bsearch_while(a, s);</span><br><span class="line">          System.out.println(String.format(<span class="string">"end Lsearch[%s],index[%s]"</span>, s, idx));</span><br><span class="line">      &#125;</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  <span class="comment">/***</span></span><br><span class="line"><span class="comment">   * 递归实现二分查找</span></span><br><span class="line"><span class="comment">   * <span class="doctag">@param</span> a 目标数组</span></span><br><span class="line"><span class="comment">   * <span class="doctag">@param</span> from 开始索引</span></span><br><span class="line"><span class="comment">   * <span class="doctag">@param</span> to 结果索引</span></span><br><span class="line"><span class="comment">   * <span class="doctag">@param</span> tar 查找目标</span></span><br><span class="line"><span class="comment">   * <span class="doctag">@return</span> 目标索引，查不到返回-1</span></span><br><span class="line"><span class="comment">   */</span></span><br><span class="line">  <span class="function"><span class="keyword">public</span> <span class="keyword">int</span> <span class="title">bsearch_recurse</span><span class="params">(<span class="keyword">int</span>[] a, <span class="keyword">int</span> from, <span class="keyword">int</span> to, <span class="keyword">int</span> tar)</span> </span>&#123;</span><br><span class="line">      System.out.println(String.format(<span class="string">"search from[%s],to[%s]"</span>, from, to));</span><br><span class="line">      <span class="keyword">if</span> (from &gt; to || tar &lt; a[from] || tar &gt; a[to]) &#123;</span><br><span class="line">          <span class="keyword">return</span> -<span class="number">1</span>;</span><br><span class="line">      &#125; <span class="keyword">else</span> <span class="keyword">if</span> (tar == a[from]) &#123;</span><br><span class="line">          <span class="keyword">return</span> from;</span><br><span class="line">      &#125; <span class="keyword">else</span> <span class="keyword">if</span> (tar == a[to]) &#123;</span><br><span class="line">          <span class="keyword">return</span> to;</span><br><span class="line">      &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">          <span class="keyword">int</span> m = (to + from) / <span class="number">2</span>;</span><br><span class="line">          <span class="keyword">if</span> (tar &gt; a[m]) &#123;</span><br><span class="line">              <span class="keyword">return</span> bsearch_recurse(a, m, to, tar);</span><br><span class="line">          &#125; <span class="keyword">else</span> <span class="keyword">if</span> (tar &lt; a[m]) &#123;</span><br><span class="line">              <span class="keyword">return</span> bsearch_recurse(a, from, m, tar);</span><br><span class="line">          &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">              <span class="keyword">return</span> m;</span><br><span class="line">          &#125;</span><br><span class="line">      &#125;</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">  <span class="comment">/***</span></span><br><span class="line"><span class="comment">   *循环实现二分查找</span></span><br><span class="line"><span class="comment">   * <span class="doctag">@param</span> a 目标数组</span></span><br><span class="line"><span class="comment">   * <span class="doctag">@param</span> tar 查找目标</span></span><br><span class="line"><span class="comment">   * <span class="doctag">@return</span> 目标索引，查不到返回-1</span></span><br><span class="line"><span class="comment">   */</span></span><br><span class="line">  <span class="function"><span class="keyword">public</span> <span class="keyword">int</span> <span class="title">bsearch_while</span><span class="params">(<span class="keyword">int</span>[] a, <span class="keyword">int</span> tar)</span> </span>&#123;</span><br><span class="line">      <span class="keyword">int</span> from = <span class="number">0</span>;</span><br><span class="line">      <span class="keyword">int</span> to = a.length - <span class="number">1</span>;</span><br><span class="line">      <span class="keyword">if</span> (to &lt; <span class="number">0</span> || tar &lt; a[from] || tar &gt; a[to]) &#123;</span><br><span class="line">          <span class="keyword">return</span> -<span class="number">1</span>;</span><br><span class="line">      &#125; <span class="keyword">else</span> <span class="keyword">if</span> (tar == a[from]) &#123;</span><br><span class="line">          <span class="keyword">return</span> from;</span><br><span class="line">      &#125; <span class="keyword">else</span> <span class="keyword">if</span> (tar == a[to]) &#123;</span><br><span class="line">          <span class="keyword">return</span> to;</span><br><span class="line">      &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">          <span class="keyword">int</span> m = <span class="number">0</span>;</span><br><span class="line">          <span class="keyword">while</span> (from &lt;= to) &#123;</span><br><span class="line">              m = (to + from) / <span class="number">2</span>;</span><br><span class="line">              System.out.println(String.format(<span class="string">"search from[%s],to[%s]"</span>, from, to));</span><br><span class="line">              <span class="keyword">if</span> (tar &lt; a[m]) &#123;</span><br><span class="line">                  to = m - <span class="number">1</span>;</span><br><span class="line">              &#125; <span class="keyword">else</span> <span class="keyword">if</span> (tar &gt; a[m]) &#123;</span><br><span class="line">                  from = m + <span class="number">1</span>;</span><br><span class="line">              &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">                  <span class="keyword">return</span> m;</span><br><span class="line">              &#125;</span><br><span class="line">          &#125;</span><br><span class="line">      &#125;</span><br><span class="line">      <span class="keyword">return</span> -<span class="number">1</span>;</span><br><span class="line">  &#125;</span><br></pre></td></tr></table></figure>
+<h1 id="算法步骤"><a href="#算法步骤" class="headerlink" title="算法步骤"></a>算法步骤</h1><p>旋转链表</p>
+<ol>
+<li>求链表长度</li>
+<li>计算实际需要移动的位置k</li>
+<li>快慢指针法找到倒数第k个节点</li>
+<li>链表旋转：k节点作为新的链表头，k-1节点作为链表尾，中间部分以循环链表方式连接</li>
+</ol>
+<h1 id="复杂度"><a href="#复杂度" class="headerlink" title="复杂度"></a>复杂度</h1><ul>
+<li>空间复杂度：O(1)</li>
+<li>时间复杂度：O(n)</li>
+</ul>
+<h1 id="代码实现"><a href="#代码实现" class="headerlink" title="代码实现"></a>代码实现</h1><p>版本1<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">static</span> ListNode <span class="title">rotateRight</span><span class="params">(ListNode head, <span class="keyword">int</span> k)</span> </span>&#123;</span><br><span class="line">        ListNode dummy = <span class="keyword">new</span> ListNode(-<span class="number">1</span>);</span><br><span class="line">        dummy.next = head;</span><br><span class="line">        ListNode tmp = dummy.next;</span><br><span class="line">        <span class="keyword">int</span> n = <span class="number">0</span>;</span><br><span class="line">        <span class="comment">//求链表长度</span></span><br><span class="line">        <span class="keyword">while</span> (tmp != <span class="keyword">null</span>) &#123;</span><br><span class="line">            tmp = tmp.next;</span><br><span class="line">            n++;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">if</span> (n == <span class="number">0</span> || k % n == <span class="number">0</span>) &#123;</span><br><span class="line">            <span class="keyword">return</span> dummy.next;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="comment">//当成循环链表，n次移动等于没移动，求余后的k为实际需移动的位置数</span></span><br><span class="line">        k = k % n;</span><br><span class="line">        <span class="comment">//快慢指针求倒数第k个节点</span></span><br><span class="line">        ListNode slow = dummy;</span><br><span class="line">        ListNode fast = dummy;</span><br><span class="line">        <span class="keyword">while</span> (k &gt; <span class="number">0</span>) &#123;</span><br><span class="line">            fast = fast.next;</span><br><span class="line">            k--;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">while</span> (fast.next != <span class="keyword">null</span>) &#123;</span><br><span class="line">            slow = slow.next;</span><br><span class="line">            fast = fast.next;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="comment">//kNode为返回结果的head</span></span><br><span class="line">        ListNode kNode = slow.next;</span><br><span class="line">        <span class="comment">//原slow节点即为tail</span></span><br><span class="line">        slow.next = <span class="keyword">null</span>;</span><br><span class="line">        <span class="comment">//连接原链表的头部</span></span><br><span class="line">        fast.next = head;</span><br><span class="line">        <span class="keyword">return</span> kNode;</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure></p>
+<p>版本2：快慢指针法，关键是k = k % n<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line">public static ListNode rotateRight(ListNode head, int k) &#123;</span><br><span class="line">        ListNode dummy &#x3D; new ListNode(-1);</span><br><span class="line">        dummy.next &#x3D; head;</span><br><span class="line">        ListNode fast &#x3D; dummy.next;</span><br><span class="line">        int n &#x3D; 1;</span><br><span class="line">        &#x2F;&#x2F;快指针，求链表长度和tail节点</span><br><span class="line">        while (fast.next !&#x3D; null) &#123;</span><br><span class="line">            fast &#x3D; fast.next;</span><br><span class="line">            n++;</span><br><span class="line">        &#125;</span><br><span class="line">        &#x2F;&#x2F;n次移动等于没移动</span><br><span class="line">        if (k % n &#x3D;&#x3D; 0) &#123;</span><br><span class="line">            return dummy.next;</span><br><span class="line">        &#125;</span><br><span class="line">        &#x2F;&#x2F;当成循环链表，求余后的k为实际需移动的位置数</span><br><span class="line">        k &#x3D; k % n;</span><br><span class="line">        ListNode slow &#x3D; dummy.next;</span><br><span class="line">        &#x2F;&#x2F;求倒数第k个节点</span><br><span class="line">        for (int i &#x3D; 0; i &lt; n - k - 1; i++) &#123;</span><br><span class="line">            slow &#x3D; slow.next;</span><br><span class="line">        &#125;</span><br><span class="line">        ListNode newHead &#x3D; slow.next;</span><br><span class="line">        slow.next &#x3D; null;</span><br><span class="line">        &#x2F;&#x2F;连接原链表的头部</span><br><span class="line">        fast.next &#x3D; head;</span><br><span class="line">        return newHead;</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure></p>
 ]]></content>
       
         <categories>
@@ -6216,7 +6245,7 @@ Executor->Driver: 执行结果数据</textarea><textarea id="sequence-1-options"
         
         <tags>
             
-            <tag> Array </tag>
+            <tag> LinkedList </tag>
             
         </tags>
         
@@ -7423,155 +7452,6 @@ public static boolean hasCycle2(ListNode head) {
     </entry>
     
     <entry>
-      <title><![CDATA[消息中间件之Kafka]]></title>
-      <url>http://geosmart.github.io/2017/10/09/%25E6%25B6%2588%25E6%2581%25AF%25E4%25B8%25AD%25E9%2597%25B4%25E4%25BB%25B6%25E4%25B9%258BKafka/</url>
-      <content type="html"><![CDATA[<p>Kafka  is used for building <code>real-time</code> data pipelines and streaming apps. It is <code>horizontally scalable</code>, <code>fault-tolerant</code>, <code>wicked fast</code>, and runs in production in thousands of companies.</p>
-<hr>
-<a id="more"></a> 
-<h2 id="消息中间件之Kafka"><a href="#消息中间件之Kafka" class="headerlink" title="消息中间件之Kafka"></a>消息中间件之Kafka</h2><h1 id="关于消息中间件"><a href="#关于消息中间件" class="headerlink" title="关于消息中间件"></a>关于消息中间件</h1><blockquote>
-<p>什么是消息中间件？</p>
-</blockquote>
-<p>举个生产者/消费者的例子，生产者生产鸡蛋，消费者消费鸡蛋，生产者生产一个鸡蛋，消费者就消费一个鸡蛋。</p>
-<ul>
-<li>假设消费者消费鸡蛋的时候噎住了（系统宕机了），生产者还在生产鸡蛋，那新生产的鸡蛋就丢失了。</li>
-<li>再比如生产者很强劲（大交易量的情况），生产者1秒钟生产100个鸡蛋，消费者1秒钟只能吃50个鸡蛋，那要不了一会，消费者就吃不消了（消息堵塞，最终导致系统超时），消费者拒绝再吃了，”鸡蛋“又丢失了，</li>
-<li>这个时候我们放个篮子在它们中间，生产出来的鸡蛋都放到篮子里，消费者去篮子里拿鸡蛋，这样鸡蛋就不会丢失了，都在篮子里</li>
-<li>而这个篮子就是”kafka“。鸡蛋其实就是“数据流”，系统之间的交互都是通过“数据流”来传输的（就是tcp、http什么的），也称为报文，也叫“消息”。消息队列满了，其实就是篮子满了，”鸡蛋“ 放不下了，那赶紧多放几个篮子，其实就是kafka的扩容。<br>kafka是干什么的，它就是那个”篮子”。</li>
-</ul>
-<h1 id="什么时候用消息中间件"><a href="#什么时候用消息中间件" class="headerlink" title="什么时候用消息中间件"></a>什么时候用消息中间件</h1><p>解决耦合问题：</p>
-<ol>
-<li>数据驱动的任务依赖</li>
-<li>上游不关心多下游执行结果</li>
-<li>异步返回执行时间长</li>
-</ol>
-<h1 id="消息中间件的不足"><a href="#消息中间件的不足" class="headerlink" title="消息中间件的不足"></a>消息中间件的不足</h1><ol>
-<li>系统更复杂，多了一个MQ组件</li>
-<li>消息传递路径更长，延时会增加</li>
-<li>消息可靠性和重复性互为矛盾，消息不丢不重难以同时保证</li>
-<li>上游无法知道下游的执行结果，这一点是很致命的</li>
-</ol>
-<h1 id="Kafka简介"><a href="#Kafka简介" class="headerlink" title="Kafka简介"></a>Kafka简介</h1><p><img src="Alt text.png" alt="Alt text"><br>Apache Kafka是由Apache软件基金会开发的一个开源消息系统项目，由Scala写成。Kafka最初是由LinkedIn开发，并于2011年初开源。<br>Kafka是一个分布式、分区的、多副本的、多订阅者，基于zookeeper协调的分布式日志系统(也可以当做MQ系统)，常见可以用于web/nginx日志、访问日志，消息服务等等，Linkedin于2010年贡献给了Apache基金会并成为顶级开源项目。</p>
-<ul>
-<li>快速：单个kafka服务每秒可以处理数以千计从客户端发来的几百兆字节的读取和写入。</li>
-<li>可扩展性：kafka被设计为允许单个集群作为中央数据骨干大型组织。它可以弹性地，透明地扩展，无需停机。数据流被划分并分布在机器的集群中，允许数据流比任何单一机器的性能大，并让集群来协调消费者。</li>
-<li>可靠性：消息被保存在磁盘上,并在集群中复制，防止数据丢失。每个代理可以处理TB级的消息，而不影响性能。</li>
-<li>分布式设计：kafka使用现代化的集群为中心设计，并提供了强大的耐用性和容错性保证。</li>
-</ul>
-<h1 id="kafka名词解释"><a href="#kafka名词解释" class="headerlink" title="kafka名词解释"></a>kafka名词解释</h1><p>后面大家会看到一些关于kafka的名词，比如topic、producer、consumer、broker，我这边来简单说明一下。</p>
-<ul>
-<li><code>topic</code>：Kafka将消息种子(Feed)分门别类， 每一类的消息称之为话题(Topic)。例如page view日志、click日志等都可以以topic的形式存在，Kafka集群能够同时负责多个topic的分发；</li>
-<li><code>partion</code>：topic物理上的分组，一个topic可以分为多个partion，每个partion是一个有序的队列；</li>
-<li><code>segment</code>：partion物理上由多个segment组成；</li>
-<li><code>offset</code>：每个partion都由一系列有序的、不可变的消息组成，这些消息被连续的追加到partion中。每个partion中的每个消息都由一个连续的序列化叫做offset，由于partion唯一标识一条消息；</li>
-<li><code>producer</code>： 发布消息的对象称之为话题生产者(Kafka topic producer)；</li>
-<li><code>consumer</code>：订阅消息并处理发布的消息的Feed的对象称之为话题消费者(consumers)消费者；</li>
-<li><code>broker</code>： 消息中间件处理节点，一个Kafka节点就是一个Broker，多个Broker可以组成一个Kafka集群；</li>
-</ul>
-<p>Client和Server之间的通讯是通过一条简单、高能并且和开发语言无关的TCP协议。<br>除了Java Client外，还有非常多的其它编程语言的Client。</p>
-<h1 id="Kafka的保证-Guarantees"><a href="#Kafka的保证-Guarantees" class="headerlink" title="Kafka的保证(Guarantees)"></a>Kafka的保证(Guarantees)</h1><p>生产者发送到一个特定的Topic的分区上的消息将会按照它们发送的顺序依次加入<br>消费者收到的消息也是此顺序<br>如果一个Topic配置了复制因子( replication facto)为N， 那么可以允许N-1服务器宕机而不丢失任何已经增加的消息</p>
-<h1 id="Kafka的文件存储机制"><a href="#Kafka的文件存储机制" class="headerlink" title="Kafka的文件存储机制"></a>Kafka的文件存储机制</h1><p>一个商业化消息队列的好坏，其文件存储机制是衡量一个消息队列服务技术水平的最关键指标之一。</p>
-<h2 id="topic中partion存储分布"><a href="#topic中partion存储分布" class="headerlink" title="topic中partion存储分布"></a>topic中partion存储分布</h2><p>在Kafka文件存储中，同一个topic下有多个不同partition，每个partition为一个目录，<br>partiton命名规则为topic名称+有序序号，第一个partiton序号从0开始，序号最大值为partitions数量减1。</p>
-<h2 id="partion中文件存储方式"><a href="#partion中文件存储方式" class="headerlink" title="partion中文件存储方式"></a>partion中文件存储方式</h2><ul>
-<li>每个partion(目录)相当于一个巨型文件被平均分配到多个<code>大小相等segment</code>(段)数据文件中。但每个段segment file消息数量不一定相等，这种特性方便old segment file快速被删除。</li>
-<li>每个partiton只需要支持顺序读写就行了，segment文件生命周期由服务端配置参数决定。<br>这样做的好处就是能快速删除无用文件，有效提高磁盘利用率。<h2 id="partion中segment文件存储结构"><a href="#partion中segment文件存储结构" class="headerlink" title="partion中segment文件存储结构"></a>partion中segment文件存储结构</h2></li>
-<li>segment file组成：由2大部分组成，分别为index file和data file，此2个文件一一对应，成对出现，后缀”.index”和“.log”分别表示为segment索引文件、数据文件.</li>
-<li>segment文件命名规则：partion全局的第一个segment从0开始，后续每个segment文件名为上一个segment文件最后一条消息的offset值。数值最大为64位long大小，19位数字字符长度，没有数字用0填充。</li>
-<li>索引文件存储大量元数据，数据文件存储大量消息，索引文件中元数据指向对应数据文件中message的物理偏移地址。</li>
-</ul>
-<p>message物理结构参数说明：</p>
-<div class="table-container">
-<table>
-<thead>
-<tr>
-<th style="text-align:left">关键字</th>
-<th style="text-align:left">解释说明</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td style="text-align:left">8 byte offset</td>
-<td style="text-align:left">在parition(分区)内的每条消息都有一个有序的id号，这个id号被称为偏移(offset),它可以唯一确定每条消息在parition(分区)内的位置。即offset表示partiion的第多少message</td>
-</tr>
-<tr>
-<td style="text-align:left">4 byte message size</td>
-<td style="text-align:left">message大小</td>
-</tr>
-<tr>
-<td style="text-align:left">4 byte CRC32</td>
-<td style="text-align:left">用crc32校验message</td>
-</tr>
-<tr>
-<td style="text-align:left">1 byte “magic”</td>
-<td style="text-align:left">表示本次发布Kafka服务程序协议版本号</td>
-</tr>
-<tr>
-<td style="text-align:left">1 byte “attributes”</td>
-<td style="text-align:left">表示为独立版本、或标识压缩类型、或编码类型。</td>
-</tr>
-<tr>
-<td style="text-align:left">4 byte key length</td>
-<td style="text-align:left">表示key的长度,当key为-1时，K byte key字段不填</td>
-</tr>
-<tr>
-<td style="text-align:left">K byte key</td>
-<td style="text-align:left">可选</td>
-</tr>
-<tr>
-<td style="text-align:left">value bytes payload</td>
-<td style="text-align:left">表示实际消息数据</td>
-</tr>
-</tbody>
-</table>
-</div>
-<h2 id="在partion中如何通过offset找到message"><a href="#在partion中如何通过offset找到message" class="headerlink" title="在partion中如何通过offset找到message"></a>在partion中如何通过offset找到message</h2><p><img src="Alt text.png" alt="Alt text"><br><img src="Alt text.png" alt="Alt text"><br>例如读取offset=368776的message，需要通过下面2个步骤查找。</p>
-<ul>
-<li>第一步查找segment file，其中00000000000000000000.index表示最开始的文件，起始偏移量(offset)为0.第二个文件00000000000000368769.index的消息量起始偏移量为368770 = 368769 + 1.同样，第三个文件00000000000000737337.index的起始偏移量为737338=737337 + 1，其他后续文件依次类推，以起始偏移量命名并排序这些文件，只要根据offset <strong>二分查找</strong>文件列表，就可以快速定位到具体文件。 当offset=368776时定位到00000000000000368769.index|log</li>
-<li>第二步通过segment file查找message 通过第一步定位到segment file，当offset=368776时，依次定位到00000000000000368769.index的元数据物理位置和00000000000000368769.log的物理偏移地址，然后再通过00000000000000368769.log顺序查找直到offset=368776为止。</li>
-</ul>
-<p>从上图可知这样做的优点，segment index file采取稀疏索引存储方式，它减少索引文件大小，通过mmap可以直接内存操作，稀疏索引为数据文件的每个对应message设置一个元数据指针,它比稠密索引节省了更多的存储空间，但查找起来需要消耗更多的时间。</p>
-<h2 id="Kafka中读写message特点"><a href="#Kafka中读写message特点" class="headerlink" title="Kafka中读写message特点"></a>Kafka中读写message特点</h2><h3 id="写message"><a href="#写message" class="headerlink" title="写message"></a>写message</h3><ul>
-<li>消息从java堆转入page cache(即物理内存)。</li>
-<li>由异步线程刷盘,消息从page cache刷入磁盘。<h3 id="读message"><a href="#读message" class="headerlink" title="读message"></a>读message</h3></li>
-<li>消息直接从page cache转入socket发送出去。</li>
-<li>当从page cache没有找到相应数据时，此时会产生磁盘IO,从磁盘Load消息到page cache，然后直接从socket发出去；</li>
-</ul>
-<h2 id="Kafka高效文件存储设计特点"><a href="#Kafka高效文件存储设计特点" class="headerlink" title="Kafka高效文件存储设计特点"></a>Kafka高效文件存储设计特点</h2><ul>
-<li>Kafka把topic中一个parition大文件分成多个小文件段，通过多个小文件段，就容易定期清除或删除已经消费完文件，减少磁盘占用。</li>
-<li>通过索引信息可以快速定位message和确定response的最大大小。</li>
-<li>通过index元数据全部映射到memory，可以避免segment file的IO磁盘操作。</li>
-<li>通过索引文件稀疏存储，可以大幅降低index文件元数据占用空间大小。</li>
-</ul>
-<h1 id="Kafka常见问题"><a href="#Kafka常见问题" class="headerlink" title="Kafka常见问题"></a>Kafka常见问题</h1><ul>
-<li>kafka节点之间如何复制备份的？</li>
-<li>kafka消息是否会丢失？为什么？</li>
-<li>kafka最合理的配置是什么？</li>
-<li>kafka的leader选举机制是什么？</li>
-<li>kafka对硬件的配置有什么要求？</li>
-<li>kafka的消息保证有几种方式？</li>
-</ul>
-<h1 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h1><ul>
-<li><a href="http://www.orchome.com/kafka/index">kafka中文教程</a></li>
-<li><a href="http://blog.csdn.net/suifeng3051/article/details/48053965">enter link description here</a></li>
-<li><a href="http://www.10tiao.com/html/249/201704/2651960012/1.html">到底什么时候该使用MQ？</a></li>
-</ul>
-]]></content>
-      
-        <categories>
-            
-            <category> 中间件 </category>
-            
-        </categories>
-        
-        
-        <tags>
-            
-            <tag> Kafka </tag>
-            
-        </tags>
-        
-    </entry>
-    
-    <entry>
       <title><![CDATA[数据结构之B-Tree]]></title>
       <url>http://geosmart.github.io/2017/10/09/%25E6%2595%25B0%25E6%258D%25AE%25E7%25BB%2593%25E6%259E%2584%25E4%25B9%258BB-Tree/</url>
       <content type="html"><![CDATA[<p>B-tree is a tree data structure that keeps data sorted and allows <code>searches,sequential access, insertions, and deletions in logarithmic time</code>. The B-tree is a generalization of a binary search tree in that a node can have more than two children. Unlike self-balancing binary search trees, the B-tree is optimized for systems that <code>read and write large blocks of data</code>. It is commonly used in <code>databases</code> and <code>file-systems</code></p>
@@ -7793,6 +7673,155 @@ public static boolean hasCycle2(ListNode head) {
     </entry>
     
     <entry>
+      <title><![CDATA[消息中间件之Kafka]]></title>
+      <url>http://geosmart.github.io/2017/10/09/%25E6%25B6%2588%25E6%2581%25AF%25E4%25B8%25AD%25E9%2597%25B4%25E4%25BB%25B6%25E4%25B9%258BKafka/</url>
+      <content type="html"><![CDATA[<p>Kafka  is used for building <code>real-time</code> data pipelines and streaming apps. It is <code>horizontally scalable</code>, <code>fault-tolerant</code>, <code>wicked fast</code>, and runs in production in thousands of companies.</p>
+<hr>
+<a id="more"></a> 
+<h2 id="消息中间件之Kafka"><a href="#消息中间件之Kafka" class="headerlink" title="消息中间件之Kafka"></a>消息中间件之Kafka</h2><h1 id="关于消息中间件"><a href="#关于消息中间件" class="headerlink" title="关于消息中间件"></a>关于消息中间件</h1><blockquote>
+<p>什么是消息中间件？</p>
+</blockquote>
+<p>举个生产者/消费者的例子，生产者生产鸡蛋，消费者消费鸡蛋，生产者生产一个鸡蛋，消费者就消费一个鸡蛋。</p>
+<ul>
+<li>假设消费者消费鸡蛋的时候噎住了（系统宕机了），生产者还在生产鸡蛋，那新生产的鸡蛋就丢失了。</li>
+<li>再比如生产者很强劲（大交易量的情况），生产者1秒钟生产100个鸡蛋，消费者1秒钟只能吃50个鸡蛋，那要不了一会，消费者就吃不消了（消息堵塞，最终导致系统超时），消费者拒绝再吃了，”鸡蛋“又丢失了，</li>
+<li>这个时候我们放个篮子在它们中间，生产出来的鸡蛋都放到篮子里，消费者去篮子里拿鸡蛋，这样鸡蛋就不会丢失了，都在篮子里</li>
+<li>而这个篮子就是”kafka“。鸡蛋其实就是“数据流”，系统之间的交互都是通过“数据流”来传输的（就是tcp、http什么的），也称为报文，也叫“消息”。消息队列满了，其实就是篮子满了，”鸡蛋“ 放不下了，那赶紧多放几个篮子，其实就是kafka的扩容。<br>kafka是干什么的，它就是那个”篮子”。</li>
+</ul>
+<h1 id="什么时候用消息中间件"><a href="#什么时候用消息中间件" class="headerlink" title="什么时候用消息中间件"></a>什么时候用消息中间件</h1><p>解决耦合问题：</p>
+<ol>
+<li>数据驱动的任务依赖</li>
+<li>上游不关心多下游执行结果</li>
+<li>异步返回执行时间长</li>
+</ol>
+<h1 id="消息中间件的不足"><a href="#消息中间件的不足" class="headerlink" title="消息中间件的不足"></a>消息中间件的不足</h1><ol>
+<li>系统更复杂，多了一个MQ组件</li>
+<li>消息传递路径更长，延时会增加</li>
+<li>消息可靠性和重复性互为矛盾，消息不丢不重难以同时保证</li>
+<li>上游无法知道下游的执行结果，这一点是很致命的</li>
+</ol>
+<h1 id="Kafka简介"><a href="#Kafka简介" class="headerlink" title="Kafka简介"></a>Kafka简介</h1><p><img src="Alt text.png" alt="Alt text"><br>Apache Kafka是由Apache软件基金会开发的一个开源消息系统项目，由Scala写成。Kafka最初是由LinkedIn开发，并于2011年初开源。<br>Kafka是一个分布式、分区的、多副本的、多订阅者，基于zookeeper协调的分布式日志系统(也可以当做MQ系统)，常见可以用于web/nginx日志、访问日志，消息服务等等，Linkedin于2010年贡献给了Apache基金会并成为顶级开源项目。</p>
+<ul>
+<li>快速：单个kafka服务每秒可以处理数以千计从客户端发来的几百兆字节的读取和写入。</li>
+<li>可扩展性：kafka被设计为允许单个集群作为中央数据骨干大型组织。它可以弹性地，透明地扩展，无需停机。数据流被划分并分布在机器的集群中，允许数据流比任何单一机器的性能大，并让集群来协调消费者。</li>
+<li>可靠性：消息被保存在磁盘上,并在集群中复制，防止数据丢失。每个代理可以处理TB级的消息，而不影响性能。</li>
+<li>分布式设计：kafka使用现代化的集群为中心设计，并提供了强大的耐用性和容错性保证。</li>
+</ul>
+<h1 id="kafka名词解释"><a href="#kafka名词解释" class="headerlink" title="kafka名词解释"></a>kafka名词解释</h1><p>后面大家会看到一些关于kafka的名词，比如topic、producer、consumer、broker，我这边来简单说明一下。</p>
+<ul>
+<li><code>topic</code>：Kafka将消息种子(Feed)分门别类， 每一类的消息称之为话题(Topic)。例如page view日志、click日志等都可以以topic的形式存在，Kafka集群能够同时负责多个topic的分发；</li>
+<li><code>partion</code>：topic物理上的分组，一个topic可以分为多个partion，每个partion是一个有序的队列；</li>
+<li><code>segment</code>：partion物理上由多个segment组成；</li>
+<li><code>offset</code>：每个partion都由一系列有序的、不可变的消息组成，这些消息被连续的追加到partion中。每个partion中的每个消息都由一个连续的序列化叫做offset，由于partion唯一标识一条消息；</li>
+<li><code>producer</code>： 发布消息的对象称之为话题生产者(Kafka topic producer)；</li>
+<li><code>consumer</code>：订阅消息并处理发布的消息的Feed的对象称之为话题消费者(consumers)消费者；</li>
+<li><code>broker</code>： 消息中间件处理节点，一个Kafka节点就是一个Broker，多个Broker可以组成一个Kafka集群；</li>
+</ul>
+<p>Client和Server之间的通讯是通过一条简单、高能并且和开发语言无关的TCP协议。<br>除了Java Client外，还有非常多的其它编程语言的Client。</p>
+<h1 id="Kafka的保证-Guarantees"><a href="#Kafka的保证-Guarantees" class="headerlink" title="Kafka的保证(Guarantees)"></a>Kafka的保证(Guarantees)</h1><p>生产者发送到一个特定的Topic的分区上的消息将会按照它们发送的顺序依次加入<br>消费者收到的消息也是此顺序<br>如果一个Topic配置了复制因子( replication facto)为N， 那么可以允许N-1服务器宕机而不丢失任何已经增加的消息</p>
+<h1 id="Kafka的文件存储机制"><a href="#Kafka的文件存储机制" class="headerlink" title="Kafka的文件存储机制"></a>Kafka的文件存储机制</h1><p>一个商业化消息队列的好坏，其文件存储机制是衡量一个消息队列服务技术水平的最关键指标之一。</p>
+<h2 id="topic中partion存储分布"><a href="#topic中partion存储分布" class="headerlink" title="topic中partion存储分布"></a>topic中partion存储分布</h2><p>在Kafka文件存储中，同一个topic下有多个不同partition，每个partition为一个目录，<br>partiton命名规则为topic名称+有序序号，第一个partiton序号从0开始，序号最大值为partitions数量减1。</p>
+<h2 id="partion中文件存储方式"><a href="#partion中文件存储方式" class="headerlink" title="partion中文件存储方式"></a>partion中文件存储方式</h2><ul>
+<li>每个partion(目录)相当于一个巨型文件被平均分配到多个<code>大小相等segment</code>(段)数据文件中。但每个段segment file消息数量不一定相等，这种特性方便old segment file快速被删除。</li>
+<li>每个partiton只需要支持顺序读写就行了，segment文件生命周期由服务端配置参数决定。<br>这样做的好处就是能快速删除无用文件，有效提高磁盘利用率。<h2 id="partion中segment文件存储结构"><a href="#partion中segment文件存储结构" class="headerlink" title="partion中segment文件存储结构"></a>partion中segment文件存储结构</h2></li>
+<li>segment file组成：由2大部分组成，分别为index file和data file，此2个文件一一对应，成对出现，后缀”.index”和“.log”分别表示为segment索引文件、数据文件.</li>
+<li>segment文件命名规则：partion全局的第一个segment从0开始，后续每个segment文件名为上一个segment文件最后一条消息的offset值。数值最大为64位long大小，19位数字字符长度，没有数字用0填充。</li>
+<li>索引文件存储大量元数据，数据文件存储大量消息，索引文件中元数据指向对应数据文件中message的物理偏移地址。</li>
+</ul>
+<p>message物理结构参数说明：</p>
+<div class="table-container">
+<table>
+<thead>
+<tr>
+<th style="text-align:left">关键字</th>
+<th style="text-align:left">解释说明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left">8 byte offset</td>
+<td style="text-align:left">在parition(分区)内的每条消息都有一个有序的id号，这个id号被称为偏移(offset),它可以唯一确定每条消息在parition(分区)内的位置。即offset表示partiion的第多少message</td>
+</tr>
+<tr>
+<td style="text-align:left">4 byte message size</td>
+<td style="text-align:left">message大小</td>
+</tr>
+<tr>
+<td style="text-align:left">4 byte CRC32</td>
+<td style="text-align:left">用crc32校验message</td>
+</tr>
+<tr>
+<td style="text-align:left">1 byte “magic”</td>
+<td style="text-align:left">表示本次发布Kafka服务程序协议版本号</td>
+</tr>
+<tr>
+<td style="text-align:left">1 byte “attributes”</td>
+<td style="text-align:left">表示为独立版本、或标识压缩类型、或编码类型。</td>
+</tr>
+<tr>
+<td style="text-align:left">4 byte key length</td>
+<td style="text-align:left">表示key的长度,当key为-1时，K byte key字段不填</td>
+</tr>
+<tr>
+<td style="text-align:left">K byte key</td>
+<td style="text-align:left">可选</td>
+</tr>
+<tr>
+<td style="text-align:left">value bytes payload</td>
+<td style="text-align:left">表示实际消息数据</td>
+</tr>
+</tbody>
+</table>
+</div>
+<h2 id="在partion中如何通过offset找到message"><a href="#在partion中如何通过offset找到message" class="headerlink" title="在partion中如何通过offset找到message"></a>在partion中如何通过offset找到message</h2><p><img src="Alt text.png" alt="Alt text"><br><img src="Alt text.png" alt="Alt text"><br>例如读取offset=368776的message，需要通过下面2个步骤查找。</p>
+<ul>
+<li>第一步查找segment file，其中00000000000000000000.index表示最开始的文件，起始偏移量(offset)为0.第二个文件00000000000000368769.index的消息量起始偏移量为368770 = 368769 + 1.同样，第三个文件00000000000000737337.index的起始偏移量为737338=737337 + 1，其他后续文件依次类推，以起始偏移量命名并排序这些文件，只要根据offset <strong>二分查找</strong>文件列表，就可以快速定位到具体文件。 当offset=368776时定位到00000000000000368769.index|log</li>
+<li>第二步通过segment file查找message 通过第一步定位到segment file，当offset=368776时，依次定位到00000000000000368769.index的元数据物理位置和00000000000000368769.log的物理偏移地址，然后再通过00000000000000368769.log顺序查找直到offset=368776为止。</li>
+</ul>
+<p>从上图可知这样做的优点，segment index file采取稀疏索引存储方式，它减少索引文件大小，通过mmap可以直接内存操作，稀疏索引为数据文件的每个对应message设置一个元数据指针,它比稠密索引节省了更多的存储空间，但查找起来需要消耗更多的时间。</p>
+<h2 id="Kafka中读写message特点"><a href="#Kafka中读写message特点" class="headerlink" title="Kafka中读写message特点"></a>Kafka中读写message特点</h2><h3 id="写message"><a href="#写message" class="headerlink" title="写message"></a>写message</h3><ul>
+<li>消息从java堆转入page cache(即物理内存)。</li>
+<li>由异步线程刷盘,消息从page cache刷入磁盘。<h3 id="读message"><a href="#读message" class="headerlink" title="读message"></a>读message</h3></li>
+<li>消息直接从page cache转入socket发送出去。</li>
+<li>当从page cache没有找到相应数据时，此时会产生磁盘IO,从磁盘Load消息到page cache，然后直接从socket发出去；</li>
+</ul>
+<h2 id="Kafka高效文件存储设计特点"><a href="#Kafka高效文件存储设计特点" class="headerlink" title="Kafka高效文件存储设计特点"></a>Kafka高效文件存储设计特点</h2><ul>
+<li>Kafka把topic中一个parition大文件分成多个小文件段，通过多个小文件段，就容易定期清除或删除已经消费完文件，减少磁盘占用。</li>
+<li>通过索引信息可以快速定位message和确定response的最大大小。</li>
+<li>通过index元数据全部映射到memory，可以避免segment file的IO磁盘操作。</li>
+<li>通过索引文件稀疏存储，可以大幅降低index文件元数据占用空间大小。</li>
+</ul>
+<h1 id="Kafka常见问题"><a href="#Kafka常见问题" class="headerlink" title="Kafka常见问题"></a>Kafka常见问题</h1><ul>
+<li>kafka节点之间如何复制备份的？</li>
+<li>kafka消息是否会丢失？为什么？</li>
+<li>kafka最合理的配置是什么？</li>
+<li>kafka的leader选举机制是什么？</li>
+<li>kafka对硬件的配置有什么要求？</li>
+<li>kafka的消息保证有几种方式？</li>
+</ul>
+<h1 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h1><ul>
+<li><a href="http://www.orchome.com/kafka/index">kafka中文教程</a></li>
+<li><a href="http://blog.csdn.net/suifeng3051/article/details/48053965">enter link description here</a></li>
+<li><a href="http://www.10tiao.com/html/249/201704/2651960012/1.html">到底什么时候该使用MQ？</a></li>
+</ul>
+]]></content>
+      
+        <categories>
+            
+            <category> 中间件 </category>
+            
+        </categories>
+        
+        
+        <tags>
+            
+            <tag> Kafka </tag>
+            
+        </tags>
+        
+    </entry>
+    
+    <entry>
       <title><![CDATA[数据预处理方法论]]></title>
       <url>http://geosmart.github.io/2017/10/08/%25E6%2595%25B0%25E6%258D%25AE%25E9%25A2%2584%25E5%25A4%2584%25E7%2590%2586%25E6%2596%25B9%25E6%25B3%2595%25E8%25AE%25BA/</url>
       <content type="html"><![CDATA[<p>记录数据预处理，特征向量化的一些常见方法</p>
@@ -7928,6 +7957,41 @@ public static boolean hasCycle2(ListNode head) {
     </entry>
     
     <entry>
+      <title><![CDATA[前端工程化工具]]></title>
+      <url>http://geosmart.github.io/2017/10/05/%25E5%2589%258D%25E7%25AB%25AF%25E5%25B7%25A5%25E7%25A8%258B%25E5%258C%2596%25E5%25B7%25A5%25E5%2585%25B7/</url>
+      <content type="html"><![CDATA[<p>前端工程化框架/工具</p>
+<hr>
+<a id="more"></a> 
+<h2 id="前端工程化工具"><a href="#前端工程化工具" class="headerlink" title="前端工程化工具"></a>前端工程化工具</h2><h1 id="node-js"><a href="#node-js" class="headerlink" title="node.js"></a>node.js</h1><p>Node.js是一个事件驱动I/O伺服端JavaScript环境，基于Google的V8引擎。目的是为了提供撰写可扩充网络程序，如Web服务。Node.js并不是在Web浏览器上执行，而是一种在服务器上执行的Javascript伺服端JavaScript。Node.js实作了部份CommonJS规格（Spec）。Node.js包含了一个互动测试REPL环境。[wiki]</p>
+<h1 id="npm"><a href="#npm" class="headerlink" title="npm"></a>npm</h1><p>npm 是 node.js 用来下载及安装套件的工具</p>
+<h1 id="bower（弃用）"><a href="#bower（弃用）" class="headerlink" title="bower（弃用）"></a>bower（弃用）</h1><p>bower 由 Twitter  团队研发，能自动下载安装 CSS 及 JavaScript 套件，并可自动处理相依性，角色与 NuGet 相当</p>
+<h1 id="grunt"><a href="#grunt" class="headerlink" title="grunt"></a>grunt</h1><p>Grunt 是一个 Task Runner，常用来执行 JS/CSS 打包压缩、SASS/LESS/CoffeeScript 编译、单元测试… 等工作，常被拿来当成前端开发自动化的引擎。</p>
+<h1 id="gulp"><a href="#gulp" class="headerlink" title="gulp"></a>gulp</h1><p>用来简化 Grunt 设定，透过 gulpfile.js 按排作业流程：task, run, watch, src, dest</p>
+<ul>
+<li>npm -g install gulp</li>
+<li>npm install —save-dev gulp （安装到项目目录，限定开发才用到）</li>
+<li>npm install gulp-compass —save-dev （gulp-compass 是常用 Gulp 外挂，内含大量 Mixin 定义）</li>
+</ul>
+<p>一种常见应用是让 Gulp 透过 watch 目录，一旦档案发生异动，就立即启动编译、打包等动作，实现连续整合的目标。</p>
+<h1 id="webpack"><a href="#webpack" class="headerlink" title="webpack"></a>webpack</h1><p>Webpack 是一个模块打包器。它将根据模块的依赖关系进行静态分析，然后将这些模块按照指定的规则生成对应的静态资源。</p>
+<h1 id="IDE"><a href="#IDE" class="headerlink" title="IDE"></a>IDE</h1><ul>
+<li>Hbuild apiclound：<a href="http://www.dcloud.io/">http://www.dcloud.io/</a></li>
+<li>VSCode</li>
+<li>WebStorm</li>
+</ul>
+<h1 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h1><p><a href="http://zhaoda.net/webpack-handbook/index.html">webpack</a><br><a href="http://zhaoda.net/webpack-handbook/module-system.html">前端模块系统的演进</a></p>
+]]></content>
+      
+        <categories>
+            
+            <category> 前端技术 </category>
+            
+        </categories>
+        
+        
+    </entry>
+    
+    <entry>
       <title><![CDATA[python高级特性]]></title>
       <url>http://geosmart.github.io/2017/10/05/python%25E9%25AB%2598%25E7%25BA%25A7%25E7%2589%25B9%25E6%2580%25A7/</url>
       <content type="html"><![CDATA[<p>python高级特性之GIL全局解释锁，concurrent多线程</p>
@@ -7964,98 +8028,6 @@ public static boolean hasCycle2(ListNode head) {
         <tags>
             
             <tag> python </tag>
-            
-        </tags>
-        
-    </entry>
-    
-    <entry>
-      <title><![CDATA[前端工程化工具]]></title>
-      <url>http://geosmart.github.io/2017/10/05/%25E5%2589%258D%25E7%25AB%25AF%25E5%25B7%25A5%25E7%25A8%258B%25E5%258C%2596%25E5%25B7%25A5%25E5%2585%25B7/</url>
-      <content type="html"><![CDATA[<p>前端工程化框架/工具</p>
-<hr>
-<a id="more"></a> 
-<h2 id="前端工程化工具"><a href="#前端工程化工具" class="headerlink" title="前端工程化工具"></a>前端工程化工具</h2><h1 id="node-js"><a href="#node-js" class="headerlink" title="node.js"></a>node.js</h1><p>Node.js是一个事件驱动I/O伺服端JavaScript环境，基于Google的V8引擎。目的是为了提供撰写可扩充网络程序，如Web服务。Node.js并不是在Web浏览器上执行，而是一种在服务器上执行的Javascript伺服端JavaScript。Node.js实作了部份CommonJS规格（Spec）。Node.js包含了一个互动测试REPL环境。[wiki]</p>
-<h1 id="npm"><a href="#npm" class="headerlink" title="npm"></a>npm</h1><p>npm 是 node.js 用来下载及安装套件的工具</p>
-<h1 id="bower（弃用）"><a href="#bower（弃用）" class="headerlink" title="bower（弃用）"></a>bower（弃用）</h1><p>bower 由 Twitter  团队研发，能自动下载安装 CSS 及 JavaScript 套件，并可自动处理相依性，角色与 NuGet 相当</p>
-<h1 id="grunt"><a href="#grunt" class="headerlink" title="grunt"></a>grunt</h1><p>Grunt 是一个 Task Runner，常用来执行 JS/CSS 打包压缩、SASS/LESS/CoffeeScript 编译、单元测试… 等工作，常被拿来当成前端开发自动化的引擎。</p>
-<h1 id="gulp"><a href="#gulp" class="headerlink" title="gulp"></a>gulp</h1><p>用来简化 Grunt 设定，透过 gulpfile.js 按排作业流程：task, run, watch, src, dest</p>
-<ul>
-<li>npm -g install gulp</li>
-<li>npm install —save-dev gulp （安装到项目目录，限定开发才用到）</li>
-<li>npm install gulp-compass —save-dev （gulp-compass 是常用 Gulp 外挂，内含大量 Mixin 定义）</li>
-</ul>
-<p>一种常见应用是让 Gulp 透过 watch 目录，一旦档案发生异动，就立即启动编译、打包等动作，实现连续整合的目标。</p>
-<h1 id="webpack"><a href="#webpack" class="headerlink" title="webpack"></a>webpack</h1><p>Webpack 是一个模块打包器。它将根据模块的依赖关系进行静态分析，然后将这些模块按照指定的规则生成对应的静态资源。</p>
-<h1 id="IDE"><a href="#IDE" class="headerlink" title="IDE"></a>IDE</h1><ul>
-<li>Hbuild apiclound：<a href="http://www.dcloud.io/">http://www.dcloud.io/</a></li>
-<li>VSCode</li>
-<li>WebStorm</li>
-</ul>
-<h1 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h1><p><a href="http://zhaoda.net/webpack-handbook/index.html">webpack</a><br><a href="http://zhaoda.net/webpack-handbook/module-system.html">前端模块系统的演进</a></p>
-]]></content>
-      
-        <categories>
-            
-            <category> 前端技术 </category>
-            
-        </categories>
-        
-        
-    </entry>
-    
-    <entry>
-      <title><![CDATA[机器学习数学基础]]></title>
-      <url>http://geosmart.github.io/2017/10/03/%25E6%259C%25BA%25E5%2599%25A8%25E5%25AD%25A6%25E4%25B9%25A0%25E6%2595%25B0%25E5%25AD%25A6%25E5%259F%25BA%25E7%25A1%2580/</url>
-      <content type="html"><![CDATA[<p>记录机器学习数学概念/公式</p>
-<hr>
-<a id="more"></a> 
-<h2 id="机器学习数学基础"><a href="#机器学习数学基础" class="headerlink" title="机器学习数学基础"></a>机器学习数学基础</h2><h1 id="线性代数"><a href="#线性代数" class="headerlink" title="线性代数"></a>线性代数</h1><h2 id="Variance-方差"><a href="#Variance-方差" class="headerlink" title="Variance(方差)"></a>Variance(方差)</h2><blockquote>
-<p>方差（Variance），应用数学里的专有名词。<br>在概率论和统计学中，一个随机变量的方差描述的是它的离散程度，也就是该变量离其期望值的距离。方差越大，数据的分布越分散。<br>一个实随机变量的方差也称为它的二阶矩或二阶中心动差，恰巧也是它的二阶累积量。<br>说白了，就是将各个误差将之平方（而非取绝对值），使之肯定为正数，相加之后再除以总数，透过这样的方式来算出各个数据分布、零散（相对中心点）的程度。<br>继续延伸的话，方差的算术平方根称为该随机变量的标准差（此为相对各个数据点间）。</p>
-</blockquote>
-<p>总体方差计算公式：  </p>
-<h2 id="Bias-偏差"><a href="#Bias-偏差" class="headerlink" title="Bias(偏差)"></a>Bias(偏差)</h2><p>偏差：描述的是预测值（估计值）的期望与真实值之间的差距。偏差越大，越偏离真实数据，<br>方差，是形容数据分散程度的，算是“无监督的”，客观的指标，<br>偏差，形容数据跟我们期望的中心差得有多远，算是“有监督的”，有人的知识参与的指标。</p>
-<h2 id="Standard-Deviation-标准差"><a href="#Standard-Deviation-标准差" class="headerlink" title="Standard Deviation(标准差)"></a>Standard Deviation(标准差)</h2><blockquote>
-<p>标准差（Standard Deviation，SD）又常称均方差，数学符号 σ（sigma），在概率统计中最常使用作为测量一组数值的离散程度之用。<br>标准差定义：标准差是方差的算术平方根。标准差能反映一个数据集的离散程度。平均数相同的两组数据，标准差未必相同。  </p>
-</blockquote>
-<p>标准差也被称为标准偏差，或者实验标准差，公式为<br><img src="标准差公式.png" alt="标准差公式"></p>
-<h2 id="正态分布"><a href="#正态分布" class="headerlink" title="正态分布"></a>正态分布</h2><h2 id="矩阵"><a href="#矩阵" class="headerlink" title="矩阵"></a>矩阵</h2><h3 id="矩阵的性质"><a href="#矩阵的性质" class="headerlink" title="矩阵的性质"></a>矩阵的性质</h3><ul>
-<li>不满足交换律</li>
-<li>方阵：行列相等</li>
-<li>单位矩阵：xx对角线都为1</li>
-<li>逆矩阵：I<em>A=A</em>I=A</li>
-<li>奇异矩阵/退化矩阵（singular/degenerate）：没有逆矩阵，如零矩阵（矩阵元素都为0）<h3 id="矩阵的乘法"><a href="#矩阵的乘法" class="headerlink" title="矩阵的乘法"></a>矩阵的乘法</h3><h3 id="矩阵的转置（transpose）"><a href="#矩阵的转置（transpose）" class="headerlink" title="矩阵的转置（transpose）"></a>矩阵的转置（transpose）</h3></li>
-</ul>
-<h1 id="微积分"><a href="#微积分" class="headerlink" title="微积分"></a>微积分</h1><h2 id="导数"><a href="#导数" class="headerlink" title="导数"></a>导数</h2><h2 id="偏导数"><a href="#偏导数" class="headerlink" title="偏导数"></a>偏导数</h2><h2 id="梯度"><a href="#梯度" class="headerlink" title="梯度"></a>梯度</h2><h2 id="微分"><a href="#微分" class="headerlink" title="微分"></a>微分</h2><h1 id="常用公式"><a href="#常用公式" class="headerlink" title="常用公式"></a>常用公式</h1><ul>
-<li><p>假定函數（Hypothesis）：<script type="math/tex">h_    heta(x)=    heta_0+    heta_1x</script><br>参数：$    heta_0{,}    heta_1$</p>
-</li>
-<li><p>损失函数（Cost Function）：<script type="math/tex">J(    heta_0,    heta_1) = rac{1}{2m} \sum_{i=1}^m (h_    heta(x^{(i)})-y^{(i)})^2</script><br>目标：$ argmin $ $ J(    heta_0,    heta_1) $ </p>
-</li>
-<li><p>多元梯度下降算法</p>
-<ul>
-<li>假设函数：<script type="math/tex">h_    heta(x)=    heta^Tx=     heta_0x_0+    heta_1x_1+    heta_2x_2 +...+    heta_0x_n</script></li>
-<li>参数：<script type="math/tex">heta_0{,}    heta_1,...,    heta_n</script></li>
-<li>代价函数：<script type="math/tex">J_(    heta)=J(    heta_0,    heta_1,...,    heta_n)=rac{1}{2m} \sum_{i=1}^m (h_    heta(x^{(i)})-y^{(i)})^2</script>，<br>一元时，$x_j^{(i)}=x_0^{(1)}=1$</li>
-<li>梯度下降：Repeat { <script type="math/tex">heta_j :=    heta_j - lpha rac{\partial}{\partial    heta_j}J(    heta) =
-lpha  rac{1}{m} \sum_{i=1}^m (h_    heta(x^{(i)})-y^{(i)})⋅x_j^{(i)}</script> } ，同步更新每个$j=0,…m$<br>$lpha$为学习率，定义了每次参数更新的幅度；</li>
-</ul>
-</li>
-</ul>
-<blockquote>
-<p>Learning Rate:<br>If α is too small: slow convergence.<br>If α is too large: ￼may not decrease on every iteration and thus may not converge.</p>
-</blockquote>
-]]></content>
-      
-        <categories>
-            
-            <category> 机器学习 </category>
-            
-        </categories>
-        
-        
-        <tags>
-            
-            <tag> AI </tag>
             
         </tags>
         
@@ -8099,6 +8071,42 @@ public static boolean hasCycle2(ListNode head) {
         <tags>
             
             <tag> AI </tag>
+            
+        </tags>
+        
+    </entry>
+    
+    <entry>
+      <title><![CDATA[MySQL数据库优化]]></title>
+      <url>http://geosmart.github.io/2017/10/03/MySQL%25E6%2595%25B0%25E6%258D%25AE%25E5%25BA%2593%25E4%25BC%2598%25E5%258C%2596/</url>
+      <content type="html"><![CDATA[<p>MySQL优化技术：负载均衡，读写分类，分库分表，索引优化…</p>
+<hr>
+<a id="more"></a> 
+<h2 id="MySQL数据库优化"><a href="#MySQL数据库优化" class="headerlink" title="MySQL数据库优化"></a>MySQL数据库优化</h2><h1 id="负载均衡技术"><a href="#负载均衡技术" class="headerlink" title="负载均衡技术"></a>负载均衡技术</h1><p>多数据库同步</p>
+<h1 id="数据库的读写分离"><a href="#数据库的读写分离" class="headerlink" title="数据库的读写分离"></a>数据库的读写分离</h1><p>数据库复制</p>
+<h1 id="数据库拆分（分布式）"><a href="#数据库拆分（分布式）" class="headerlink" title="数据库拆分（分布式）"></a>数据库拆分（分布式）</h1><p>CAP法则</p>
+<h2 id="垂直（纵向）拆分"><a href="#垂直（纵向）拆分" class="headerlink" title="垂直（纵向）拆分"></a>垂直（纵向）拆分</h2><p>按功能模块拆分</p>
+<h2 id="水平（横向）拆分"><a href="#水平（横向）拆分" class="headerlink" title="水平（横向）拆分"></a>水平（横向）拆分</h2><p>将同一张表的数据分块存储到不同的数据库</p>
+<h1 id="索引优化"><a href="#索引优化" class="headerlink" title="索引优化"></a>索引优化</h1><h2 id="索引选择性"><a href="#索引选择性" class="headerlink" title="索引选择性"></a>索引选择性</h2><p>索引可以加快查询速度，那么是不是只要是查询语句需要，就建上索引？<br>答案是否定的。因为索引虽然加快了查询速度，但索引也是有代价的：索引文件本身要消耗存储空间，同时索引会加重插入、删除和修改记录时的负担，另外，MySQL在运行时也要消耗资源维护索引，因此索引并不是越多越好。一般两种情况下不建议建索引。</p>
+<ol>
+<li>表记录比较少，例如一两千条甚至只有几百条记录的表，没必要建索引，让查询做全表扫描就好了。至于多少条记录才算多，这个个人有个人的看法，我个人的经验是以2000作为分界线，记录数不超过 2000可以考虑不建索引，超过2000条可以酌情考虑索引。</li>
+<li>索引的选择性较低。所谓<code>索引的选择性</code>（Selectivity），是指不重复的索引值（也叫基数，Cardinality）与表记录数（#T）的比值：<code>Index Selectivity = Cardinality / #T</code><br>显然选择性的取值范围为(0, 1]，选择性越高的索引价值越大，这是由B+Tree的性质决定的。</li>
+</ol>
+<blockquote>
+<p>有一种与索引选择性有关的索引优化策略叫做前缀索引，就是用列的前缀代替整个列作为索引key，当前缀长度合适时，可以做到既使得前缀索引的选择性接近全列索引，同时因为索引key变短而减少了索引文件的大小和维护开销。</p>
+</blockquote>
+]]></content>
+      
+        <categories>
+            
+            <category> 存储层 </category>
+            
+        </categories>
+        
+        
+        <tags>
+            
+            <tag> MySQL </tag>
             
         </tags>
         
@@ -8191,6 +8199,63 @@ public static boolean hasCycle2(ListNode head) {
     </entry>
     
     <entry>
+      <title><![CDATA[机器学习数学基础]]></title>
+      <url>http://geosmart.github.io/2017/10/03/%25E6%259C%25BA%25E5%2599%25A8%25E5%25AD%25A6%25E4%25B9%25A0%25E6%2595%25B0%25E5%25AD%25A6%25E5%259F%25BA%25E7%25A1%2580/</url>
+      <content type="html"><![CDATA[<p>记录机器学习数学概念/公式</p>
+<hr>
+<a id="more"></a> 
+<h2 id="机器学习数学基础"><a href="#机器学习数学基础" class="headerlink" title="机器学习数学基础"></a>机器学习数学基础</h2><h1 id="线性代数"><a href="#线性代数" class="headerlink" title="线性代数"></a>线性代数</h1><h2 id="Variance-方差"><a href="#Variance-方差" class="headerlink" title="Variance(方差)"></a>Variance(方差)</h2><blockquote>
+<p>方差（Variance），应用数学里的专有名词。<br>在概率论和统计学中，一个随机变量的方差描述的是它的离散程度，也就是该变量离其期望值的距离。方差越大，数据的分布越分散。<br>一个实随机变量的方差也称为它的二阶矩或二阶中心动差，恰巧也是它的二阶累积量。<br>说白了，就是将各个误差将之平方（而非取绝对值），使之肯定为正数，相加之后再除以总数，透过这样的方式来算出各个数据分布、零散（相对中心点）的程度。<br>继续延伸的话，方差的算术平方根称为该随机变量的标准差（此为相对各个数据点间）。</p>
+</blockquote>
+<p>总体方差计算公式：  </p>
+<h2 id="Bias-偏差"><a href="#Bias-偏差" class="headerlink" title="Bias(偏差)"></a>Bias(偏差)</h2><p>偏差：描述的是预测值（估计值）的期望与真实值之间的差距。偏差越大，越偏离真实数据，<br>方差，是形容数据分散程度的，算是“无监督的”，客观的指标，<br>偏差，形容数据跟我们期望的中心差得有多远，算是“有监督的”，有人的知识参与的指标。</p>
+<h2 id="Standard-Deviation-标准差"><a href="#Standard-Deviation-标准差" class="headerlink" title="Standard Deviation(标准差)"></a>Standard Deviation(标准差)</h2><blockquote>
+<p>标准差（Standard Deviation，SD）又常称均方差，数学符号 σ（sigma），在概率统计中最常使用作为测量一组数值的离散程度之用。<br>标准差定义：标准差是方差的算术平方根。标准差能反映一个数据集的离散程度。平均数相同的两组数据，标准差未必相同。  </p>
+</blockquote>
+<p>标准差也被称为标准偏差，或者实验标准差，公式为<br><img src="标准差公式.png" alt="标准差公式"></p>
+<h2 id="正态分布"><a href="#正态分布" class="headerlink" title="正态分布"></a>正态分布</h2><h2 id="矩阵"><a href="#矩阵" class="headerlink" title="矩阵"></a>矩阵</h2><h3 id="矩阵的性质"><a href="#矩阵的性质" class="headerlink" title="矩阵的性质"></a>矩阵的性质</h3><ul>
+<li>不满足交换律</li>
+<li>方阵：行列相等</li>
+<li>单位矩阵：xx对角线都为1</li>
+<li>逆矩阵：I<em>A=A</em>I=A</li>
+<li>奇异矩阵/退化矩阵（singular/degenerate）：没有逆矩阵，如零矩阵（矩阵元素都为0）<h3 id="矩阵的乘法"><a href="#矩阵的乘法" class="headerlink" title="矩阵的乘法"></a>矩阵的乘法</h3><h3 id="矩阵的转置（transpose）"><a href="#矩阵的转置（transpose）" class="headerlink" title="矩阵的转置（transpose）"></a>矩阵的转置（transpose）</h3></li>
+</ul>
+<h1 id="微积分"><a href="#微积分" class="headerlink" title="微积分"></a>微积分</h1><h2 id="导数"><a href="#导数" class="headerlink" title="导数"></a>导数</h2><h2 id="偏导数"><a href="#偏导数" class="headerlink" title="偏导数"></a>偏导数</h2><h2 id="梯度"><a href="#梯度" class="headerlink" title="梯度"></a>梯度</h2><h2 id="微分"><a href="#微分" class="headerlink" title="微分"></a>微分</h2><h1 id="常用公式"><a href="#常用公式" class="headerlink" title="常用公式"></a>常用公式</h1><ul>
+<li><p>假定函數（Hypothesis）：<script type="math/tex">h_    heta(x)=    heta_0+    heta_1x</script><br>参数：$    heta_0{,}    heta_1$</p>
+</li>
+<li><p>损失函数（Cost Function）：<script type="math/tex">J(    heta_0,    heta_1) = rac{1}{2m} \sum_{i=1}^m (h_    heta(x^{(i)})-y^{(i)})^2</script><br>目标：$ argmin $ $ J(    heta_0,    heta_1) $ </p>
+</li>
+<li><p>多元梯度下降算法</p>
+<ul>
+<li>假设函数：<script type="math/tex">h_    heta(x)=    heta^Tx=     heta_0x_0+    heta_1x_1+    heta_2x_2 +...+    heta_0x_n</script></li>
+<li>参数：<script type="math/tex">heta_0{,}    heta_1,...,    heta_n</script></li>
+<li>代价函数：<script type="math/tex">J_(    heta)=J(    heta_0,    heta_1,...,    heta_n)=rac{1}{2m} \sum_{i=1}^m (h_    heta(x^{(i)})-y^{(i)})^2</script>，<br>一元时，$x_j^{(i)}=x_0^{(1)}=1$</li>
+<li>梯度下降：Repeat { <script type="math/tex">heta_j :=    heta_j - lpha rac{\partial}{\partial    heta_j}J(    heta) =
+lpha  rac{1}{m} \sum_{i=1}^m (h_    heta(x^{(i)})-y^{(i)})⋅x_j^{(i)}</script> } ，同步更新每个$j=0,…m$<br>$lpha$为学习率，定义了每次参数更新的幅度；</li>
+</ul>
+</li>
+</ul>
+<blockquote>
+<p>Learning Rate:<br>If α is too small: slow convergence.<br>If α is too large: ￼may not decrease on every iteration and thus may not converge.</p>
+</blockquote>
+]]></content>
+      
+        <categories>
+            
+            <category> 机器学习 </category>
+            
+        </categories>
+        
+        
+        <tags>
+            
+            <tag> AI </tag>
+            
+        </tags>
+        
+    </entry>
+    
+    <entry>
       <title><![CDATA[Nodejs入门笔记]]></title>
       <url>http://geosmart.github.io/2017/10/03/Nodejs%25E5%2585%25A5%25E9%2597%25A8%25E7%25AC%2594%25E8%25AE%25B0/</url>
       <content type="html"><![CDATA[<p> Everything runs in parallel except your code!</p>
@@ -8273,42 +8338,6 @@ public static boolean hasCycle2(ListNode head) {
         <tags>
             
             <tag> Nodejs </tag>
-            
-        </tags>
-        
-    </entry>
-    
-    <entry>
-      <title><![CDATA[MySQL数据库优化]]></title>
-      <url>http://geosmart.github.io/2017/10/03/MySQL%25E6%2595%25B0%25E6%258D%25AE%25E5%25BA%2593%25E4%25BC%2598%25E5%258C%2596/</url>
-      <content type="html"><![CDATA[<p>MySQL优化技术：负载均衡，读写分类，分库分表，索引优化…</p>
-<hr>
-<a id="more"></a> 
-<h2 id="MySQL数据库优化"><a href="#MySQL数据库优化" class="headerlink" title="MySQL数据库优化"></a>MySQL数据库优化</h2><h1 id="负载均衡技术"><a href="#负载均衡技术" class="headerlink" title="负载均衡技术"></a>负载均衡技术</h1><p>多数据库同步</p>
-<h1 id="数据库的读写分离"><a href="#数据库的读写分离" class="headerlink" title="数据库的读写分离"></a>数据库的读写分离</h1><p>数据库复制</p>
-<h1 id="数据库拆分（分布式）"><a href="#数据库拆分（分布式）" class="headerlink" title="数据库拆分（分布式）"></a>数据库拆分（分布式）</h1><p>CAP法则</p>
-<h2 id="垂直（纵向）拆分"><a href="#垂直（纵向）拆分" class="headerlink" title="垂直（纵向）拆分"></a>垂直（纵向）拆分</h2><p>按功能模块拆分</p>
-<h2 id="水平（横向）拆分"><a href="#水平（横向）拆分" class="headerlink" title="水平（横向）拆分"></a>水平（横向）拆分</h2><p>将同一张表的数据分块存储到不同的数据库</p>
-<h1 id="索引优化"><a href="#索引优化" class="headerlink" title="索引优化"></a>索引优化</h1><h2 id="索引选择性"><a href="#索引选择性" class="headerlink" title="索引选择性"></a>索引选择性</h2><p>索引可以加快查询速度，那么是不是只要是查询语句需要，就建上索引？<br>答案是否定的。因为索引虽然加快了查询速度，但索引也是有代价的：索引文件本身要消耗存储空间，同时索引会加重插入、删除和修改记录时的负担，另外，MySQL在运行时也要消耗资源维护索引，因此索引并不是越多越好。一般两种情况下不建议建索引。</p>
-<ol>
-<li>表记录比较少，例如一两千条甚至只有几百条记录的表，没必要建索引，让查询做全表扫描就好了。至于多少条记录才算多，这个个人有个人的看法，我个人的经验是以2000作为分界线，记录数不超过 2000可以考虑不建索引，超过2000条可以酌情考虑索引。</li>
-<li>索引的选择性较低。所谓<code>索引的选择性</code>（Selectivity），是指不重复的索引值（也叫基数，Cardinality）与表记录数（#T）的比值：<code>Index Selectivity = Cardinality / #T</code><br>显然选择性的取值范围为(0, 1]，选择性越高的索引价值越大，这是由B+Tree的性质决定的。</li>
-</ol>
-<blockquote>
-<p>有一种与索引选择性有关的索引优化策略叫做前缀索引，就是用列的前缀代替整个列作为索引key，当前缀长度合适时，可以做到既使得前缀索引的选择性接近全列索引，同时因为索引key变短而减少了索引文件的大小和维护开销。</p>
-</blockquote>
-]]></content>
-      
-        <categories>
-            
-            <category> 存储层 </category>
-            
-        </categories>
-        
-        
-        <tags>
-            
-            <tag> MySQL </tag>
             
         </tags>
         
@@ -11310,61 +11339,6 @@ public static boolean hasCycle2(ListNode head) {
     </entry>
     
     <entry>
-      <title><![CDATA[JVM学习笔记（一）走近Java]]></title>
-      <url>http://geosmart.github.io/2016/02/22/JVM%25E5%25AD%25A6%25E4%25B9%25A0%25E7%25AC%2594%25E8%25AE%25B0%25EF%25BC%2588%25E4%25B8%2580%25EF%25BC%2589%25E8%25B5%25B0%25E8%25BF%2591Java/</url>
-      <content type="html"><![CDATA[<p>2016上半年花点时间深入了解JVM，读《《深入理解Java虚拟机 JVM高级特性与最佳实践》，整理遇到过的内存泄漏，性能优化问题</p>
-<hr>
-<a id="more"></a>
-<h1 id="第一章-走近Java"><a href="#第一章-走近Java" class="headerlink" title="第一章 走近Java"></a>第一章 走近Java</h1><h2 id="Java技术体系"><a href="#Java技术体系" class="headerlink" title="Java技术体系"></a>Java技术体系</h2><p><img src="JDK技术组成.png" alt="JDK"></p>
-<ul>
-<li>Java程序设计语言、Java虚拟机、Java API类库三部分统称为JDK(Java Development Kit) ,JDK是Java程序开发的最小环境</li>
-<li>Java API类库中的Java SE API子集和Java虚拟机两部分统称为JRE(Java Runtime Environment)，JRE是支持Java程序运行的标准环境</li>
-<li><p>按照Java技术关注的重点业务领域来划分，Java技术体系可分为4个平台</p>
-<ul>
-<li>Java Card：支持Applets(Java小程序)运行在小内存设备（如智能卡）上的平台；</li>
-<li>Java ME(Micro Edition)：支持Java运行在移动终端上的平台；（今有Android SDK）</li>
-<li>Java SE(Standard Edition)：支持面向桌面级应用的Java平台；</li>
-<li>Java EE(Enterprise Edition)：支持使用多层架构的企业级应用(如ERP、CRM应用)的Java平台；</li>
-</ul>
-</li>
-</ul>
-<h2 id="Java发展史"><a href="#Java发展史" class="headerlink" title="Java发展史"></a>Java发展史</h2><h2 id="Java虚拟机发展史"><a href="#Java虚拟机发展史" class="headerlink" title="Java虚拟机发展史"></a>Java虚拟机发展史</h2><ul>
-<li>Sun Classic/Extract VM</li>
-<li>Sun HotSpot VM</li>
-<li>Sun Mobile-Embedded VM/Meta-Circular VM</li>
-<li>Bea Jrockit/IDM J9 VM</li>
-<li>Azul VM/BEA Liquid VM</li>
-<li>Apache Harmony/Google Android Dalvik VM</li>
-<li>Microsoft JVM…</li>
-</ul>
-<h2 id="Java技术的未来展望"><a href="#Java技术的未来展望" class="headerlink" title="Java技术的未来展望"></a>Java技术的未来展望</h2><ul>
-<li>模块化（Jigsaw）</li>
-<li>混合语言：多语言混合编程，通过特定领域发语言去解决特定领域的问题</li>
-<li>多核并行（concurrent.forkjoin；Lambada；函数式编程）</li>
-<li>丰富语法（Coin子项目）</li>
-<li>64位虚拟机（计算机终究完全过渡到64位的时代）</li>
-</ul>
-<h2 id="JDK编译实战"><a href="#JDK编译实战" class="headerlink" title="JDK编译实战"></a>JDK编译实战</h2><p><a href="https://jdk7.java.net/source.html">OpenJDK7下载</a> Building the source code for the OpenJDK requires a certain degree of technical expertise.</p>
-]]></content>
-      
-        <categories>
-            
-            <category> 后端技术 </category>
-            
-        </categories>
-        
-        
-        <tags>
-            
-            <tag> Java </tag>
-            
-            <tag> JVM </tag>
-            
-        </tags>
-        
-    </entry>
-    
-    <entry>
       <title><![CDATA[《深入理解Java虚拟机》读书笔记]]></title>
       <url>http://geosmart.github.io/2016/02/22/%25E3%2580%258A%25E6%25B7%25B1%25E5%2585%25A5%25E7%2590%2586%25E8%25A7%25A3Java%25E8%2599%259A%25E6%258B%259F%25E6%259C%25BA%25E3%2580%258B%25E8%25AF%25BB%25E4%25B9%25A6%25E7%25AC%2594%25E8%25AE%25B0/</url>
       <content type="html"><![CDATA[<p>2016上半年花点时间深入了解JVM，读《《深入理解Java虚拟机 JVM高级特性与最佳实践》，整理遇到过的内存泄漏，性能优化问题</p>
@@ -11457,6 +11431,61 @@ public static boolean hasCycle2(ListNode head) {
         <tags>
             
             <tag> Java </tag>
+            
+        </tags>
+        
+    </entry>
+    
+    <entry>
+      <title><![CDATA[JVM学习笔记（一）走近Java]]></title>
+      <url>http://geosmart.github.io/2016/02/22/JVM%25E5%25AD%25A6%25E4%25B9%25A0%25E7%25AC%2594%25E8%25AE%25B0%25EF%25BC%2588%25E4%25B8%2580%25EF%25BC%2589%25E8%25B5%25B0%25E8%25BF%2591Java/</url>
+      <content type="html"><![CDATA[<p>2016上半年花点时间深入了解JVM，读《《深入理解Java虚拟机 JVM高级特性与最佳实践》，整理遇到过的内存泄漏，性能优化问题</p>
+<hr>
+<a id="more"></a>
+<h1 id="第一章-走近Java"><a href="#第一章-走近Java" class="headerlink" title="第一章 走近Java"></a>第一章 走近Java</h1><h2 id="Java技术体系"><a href="#Java技术体系" class="headerlink" title="Java技术体系"></a>Java技术体系</h2><p><img src="JDK技术组成.png" alt="JDK"></p>
+<ul>
+<li>Java程序设计语言、Java虚拟机、Java API类库三部分统称为JDK(Java Development Kit) ,JDK是Java程序开发的最小环境</li>
+<li>Java API类库中的Java SE API子集和Java虚拟机两部分统称为JRE(Java Runtime Environment)，JRE是支持Java程序运行的标准环境</li>
+<li><p>按照Java技术关注的重点业务领域来划分，Java技术体系可分为4个平台</p>
+<ul>
+<li>Java Card：支持Applets(Java小程序)运行在小内存设备（如智能卡）上的平台；</li>
+<li>Java ME(Micro Edition)：支持Java运行在移动终端上的平台；（今有Android SDK）</li>
+<li>Java SE(Standard Edition)：支持面向桌面级应用的Java平台；</li>
+<li>Java EE(Enterprise Edition)：支持使用多层架构的企业级应用(如ERP、CRM应用)的Java平台；</li>
+</ul>
+</li>
+</ul>
+<h2 id="Java发展史"><a href="#Java发展史" class="headerlink" title="Java发展史"></a>Java发展史</h2><h2 id="Java虚拟机发展史"><a href="#Java虚拟机发展史" class="headerlink" title="Java虚拟机发展史"></a>Java虚拟机发展史</h2><ul>
+<li>Sun Classic/Extract VM</li>
+<li>Sun HotSpot VM</li>
+<li>Sun Mobile-Embedded VM/Meta-Circular VM</li>
+<li>Bea Jrockit/IDM J9 VM</li>
+<li>Azul VM/BEA Liquid VM</li>
+<li>Apache Harmony/Google Android Dalvik VM</li>
+<li>Microsoft JVM…</li>
+</ul>
+<h2 id="Java技术的未来展望"><a href="#Java技术的未来展望" class="headerlink" title="Java技术的未来展望"></a>Java技术的未来展望</h2><ul>
+<li>模块化（Jigsaw）</li>
+<li>混合语言：多语言混合编程，通过特定领域发语言去解决特定领域的问题</li>
+<li>多核并行（concurrent.forkjoin；Lambada；函数式编程）</li>
+<li>丰富语法（Coin子项目）</li>
+<li>64位虚拟机（计算机终究完全过渡到64位的时代）</li>
+</ul>
+<h2 id="JDK编译实战"><a href="#JDK编译实战" class="headerlink" title="JDK编译实战"></a>JDK编译实战</h2><p><a href="https://jdk7.java.net/source.html">OpenJDK7下载</a> Building the source code for the OpenJDK requires a certain degree of technical expertise.</p>
+]]></content>
+      
+        <categories>
+            
+            <category> 后端技术 </category>
+            
+        </categories>
+        
+        
+        <tags>
+            
+            <tag> Java </tag>
+            
+            <tag> JVM </tag>
             
         </tags>
         
@@ -11818,6 +11847,33 @@ public static boolean hasCycle2(ListNode head) {
     </entry>
     
     <entry>
+      <title><![CDATA[MongoDB权限配置]]></title>
+      <url>http://geosmart.github.io/2015/12/28/MongoDB%25E6%259D%2583%25E9%2599%2590%25E9%2585%258D%25E7%25BD%25AE/</url>
+      <content type="html"><![CDATA[<hr>
+<a id="more"></a>
+<h1 id="在未开启auth模式下新建sa用户"><a href="#在未开启auth模式下新建sa用户" class="headerlink" title="在未开启auth模式下新建sa用户"></a>在未开启auth模式下新建sa用户</h1><p>//进入admin数据库<br>mongo admin<br>//新建sa超级用户<br><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line">db.createUser(</span><br><span class="line">   &#123;</span><br><span class="line">     user: <span class="string">"sa"</span>,</span><br><span class="line">     pwd: <span class="string">"1qaz2wsx"</span>,</span><br><span class="line">     roles:</span><br><span class="line">       [</span><br><span class="line">         &#123; <span class="attr">db</span>: <span class="string">"uadb"</span>, <span class="attr">role</span>: <span class="string">"readWrite"</span> &#125;,</span><br><span class="line"> &#123; <span class="attr">db</span>: <span class="string">"uadb"</span>, <span class="attr">role</span>: <span class="string">"dbAdmin"</span> &#125;,</span><br><span class="line"> &#123; <span class="attr">db</span>: <span class="string">"uadb"</span>, <span class="attr">role</span>: <span class="string">"userAdmin"</span> &#125;,</span><br><span class="line"> &#123; <span class="attr">db</span>: <span class="string">"uadb"</span>, <span class="attr">role</span>: <span class="string">"dbOwner"</span> &#125;,    </span><br><span class="line"> &#123; <span class="attr">db</span>: <span class="string">"uadb_attachment"</span>, <span class="attr">role</span>: <span class="string">"readWrite"</span> &#125;,</span><br><span class="line"> &#123; <span class="attr">db</span>: <span class="string">"uadb_attachment"</span>, <span class="attr">role</span>: <span class="string">"dbAdmin"</span> &#125;,</span><br><span class="line"> &#123; <span class="attr">db</span>: <span class="string">"uadb_attachment"</span>, <span class="attr">role</span>: <span class="string">"userAdmin"</span> &#125;,</span><br><span class="line"> &#123; <span class="attr">db</span>: <span class="string">"uadb_attachment"</span>, <span class="attr">role</span>: <span class="string">"dbOwner"</span> &#125;,     </span><br><span class="line"> &#123; <span class="attr">db</span>: <span class="string">"admin"</span>, <span class="attr">role</span>: <span class="string">"readWrite"</span> &#125;,</span><br><span class="line"> &#123; <span class="attr">db</span>: <span class="string">"admin"</span>, <span class="attr">role</span>: <span class="string">"dbAdmin"</span> &#125;,</span><br><span class="line"> &#123; <span class="attr">db</span>: <span class="string">"admin"</span>, <span class="attr">role</span>: <span class="string">"userAdmin"</span> &#125;,</span><br><span class="line"> &#123; <span class="attr">db</span>: <span class="string">"admin"</span>, <span class="attr">role</span>: <span class="string">"dbOwner"</span> &#125;,</span><br><span class="line"> &#123; <span class="attr">db</span>: <span class="string">"admin"</span>, <span class="attr">role</span>: <span class="string">"root"</span> &#125;</span><br><span class="line">       ]</span><br><span class="line">   &#125;</span><br><span class="line">)</span><br></pre></td></tr></table></figure><br>//sa用户授权测试<br>db.auth(“sa”,”1qaz2wsx”)</p>
+<h1 id="启用MongoDB权限控制"><a href="#启用MongoDB权限控制" class="headerlink" title="启用MongoDB权限控制"></a>启用MongoDB权限控制</h1><p>Windows<br>卸载现有MongoDB服务<br>C:\WINDOWS\system32&gt;sc delete “MongoDB”</p>
+<p>启动服务<br>按照MongoDB服务（设置权限控制）：E:\mongodb\bin\mongod —logpath “E:\mongodb\log\mongo.log” —logappend —dbpath “E:\mongodb\data” —directoryperdb   —auth  —serviceName “MongoDB” —serviceDisplayName “MongoDB” —install</p>
+<p>Linux<br>启动服务<br>/mnt/data/mongodb/bin/mongod —dbpath /mnt/data/mongodb/data —logpath /mnt/data/mongodb/log/mongodb.log  —auth</p>
+<h1 id="开启auth后新建用户"><a href="#开启auth后新建用户" class="headerlink" title="开启auth后新建用户"></a>开启auth后新建用户</h1><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//以admin登陆获取权限</span></span><br><span class="line">use admin</span><br><span class="line"><span class="comment">//sa用户授权</span></span><br><span class="line">db.auth(<span class="string">"sa"</span>,<span class="string">"1qaz2wsx"</span>)</span><br><span class="line"><span class="comment">//切换到uadb库新建用户uadb</span></span><br><span class="line">use uadb</span><br><span class="line">db.auth(<span class="string">"uadb"</span>,<span class="string">"1c63129ae9db9c60c3e8aa94d3e00495"</span>)</span><br><span class="line">db.dropUser(<span class="string">"uadb"</span>);</span><br><span class="line">db.createUser( &#123;<span class="attr">user</span>: <span class="string">"uadb"</span>, <span class="attr">pwd</span>: <span class="string">"1c63129ae9db9c60c3e8aa94d3e00495"</span>, <span class="attr">roles</span>: [   <span class="string">"readWrite"</span> , <span class="string">"dbAdmin"</span> ] &#125;)</span><br><span class="line"></span><br><span class="line"><span class="comment">//切换到uadb库新建用户uadb_attachment</span></span><br><span class="line">use uadb_attachment</span><br><span class="line">db.dropUser(<span class="string">"uadb_attachment"</span>);</span><br><span class="line">db.createUser( &#123;<span class="attr">user</span>: <span class="string">"uadb_attachment"</span>, <span class="attr">pwd</span>: <span class="string">"1c63129ae9db9c60c3e8aa94d3e00495"</span>, <span class="attr">roles</span>: [   <span class="string">"readWrite"</span> , <span class="string">"dbAdmin"</span> ] &#125;)</span><br></pre></td></tr></table></figure>
+]]></content>
+      
+        <categories>
+            
+            <category> 存储层 </category>
+            
+        </categories>
+        
+        
+        <tags>
+            
+            <tag> MongoDB </tag>
+            
+        </tags>
+        
+    </entry>
+    
+    <entry>
       <title><![CDATA[MongoDB3离线部署]]></title>
       <url>http://geosmart.github.io/2015/12/28/MongoDB3%25E7%25A6%25BB%25E7%25BA%25BF%25E9%2583%25A8%25E7%25BD%25B2/</url>
       <content type="html"><![CDATA[<p>基于Ops Manager的MongoDB 3.2集群离线部署笔记</p>
@@ -11906,33 +11962,6 @@ public static boolean hasCycle2(ListNode head) {
 <h2 id="修改步骤"><a href="#修改步骤" class="headerlink" title="修改步骤"></a>修改步骤</h2><figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#连接Route Server(mongos shell)</span></span><br><span class="line"><span class="string">/var/lib/mongodb-mms-automation/mongodb-linux-x86_64-3.2.0/bin/mongo</span> <span class="string">opsagent2.lt.com:27017</span>  </span><br><span class="line"> <span class="comment">#切换到config数据库</span></span><br><span class="line"> <span class="string">use</span> <span class="string">config</span></span><br><span class="line"> <span class="comment">#修改chunk size</span></span><br><span class="line"> <span class="string">db.settings.save(</span> <span class="string">&#123;</span> <span class="string">_id:"chunksize",</span> <span class="attr">value:</span> <span class="string">&lt;sizeInMB&gt;</span> <span class="string">&#125;</span> <span class="string">)</span></span><br><span class="line"> <span class="string">如</span> <span class="string">db.settings.save(</span> <span class="string">&#123;</span> <span class="string">_id:"chunksize",</span> <span class="attr">value:</span> <span class="number">64</span> <span class="string">&#125;</span> <span class="string">)</span></span><br></pre></td></tr></table></figure>
 <h1 id="数据库启用分片：enableSharding"><a href="#数据库启用分片：enableSharding" class="headerlink" title="数据库启用分片：enableSharding"></a>数据库启用分片：enableSharding</h1><p><a href="https://docs.mongodb.org/manual/tutorial/deploy-shard-cluster/">参考文档：deploy-shard-cluster</a><br><figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#连接以mingo连接route server（mongo shell）</span></span><br><span class="line"><span class="string">mongo</span> <span class="string">--host</span> <span class="string">&lt;hostname</span> <span class="string">of</span> <span class="string">machine</span> <span class="string">running</span> <span class="string">mongos&gt;</span> <span class="string">--port</span> <span class="string">&lt;port</span> <span class="string">mongos</span> <span class="string">listens</span> <span class="string">on&gt;</span></span><br><span class="line"><span class="string">如/var/lib/mongodb-mms-automation/mongodb-linux-x86_64-3.2.0/bin/mongo</span> <span class="string">--host</span> <span class="string">opsagent2.lt.com</span> <span class="string">--port</span> <span class="number">27017</span></span><br><span class="line"><span class="comment">#启用分片</span></span><br><span class="line"><span class="string">sh.enableSharding("&lt;database&gt;")</span> <span class="string">或者</span> <span class="string">db.runCommand(</span> <span class="string">&#123;</span> <span class="attr">enableSharding:</span> <span class="string">&lt;database&gt;</span> <span class="string">&#125;</span> <span class="string">)</span></span><br><span class="line"><span class="string">如</span></span><br><span class="line"><span class="string">sh.enableSharding("uadb")</span></span><br><span class="line"><span class="string">sh.enableSharding("uadb_attachment")</span></span><br><span class="line"><span class="string">或</span></span><br><span class="line"><span class="string">use</span> <span class="string">admin</span></span><br><span class="line"><span class="string">db.runCommand(</span> <span class="string">&#123;</span> <span class="attr">enableSharding:</span> <span class="string">"uadb"</span><span class="string">&#125;</span> <span class="string">);</span></span><br><span class="line"><span class="string">db.runCommand(</span> <span class="string">&#123;</span> <span class="attr">enableSharding:</span> <span class="string">"uadb_attachment"</span><span class="string">&#125;</span> <span class="string">);</span></span><br><span class="line"><span class="comment"># collection分片</span></span><br><span class="line"><span class="string">sh.shardCollection("&lt;database&gt;.&lt;collection&gt;",</span> <span class="string">shard-key-pattern)</span></span><br><span class="line"><span class="string">如</span> <span class="string">sh.shardCollection("uadb.AddressNode",</span> <span class="string">&#123;</span> <span class="attr">"_id":</span> <span class="number">1</span><span class="string">,</span> <span class="attr">"ruleabbr":</span> <span class="number">1</span> <span class="string">&#125;</span> <span class="string">)</span></span><br><span class="line"><span class="comment">#查看是否成功启用分片</span></span><br><span class="line"><span class="string">use</span> <span class="string">uadb;</span></span><br><span class="line"><span class="string">db.AddressNode.stats();</span></span><br></pre></td></tr></table></figure></p>
 <h1 id="shard集群测试"><a href="#shard集群测试" class="headerlink" title="shard集群测试"></a>shard集群测试</h1><p><a href="http://janephp.blog.51cto.com/4439680/1330656">Sharding 分片分片测试</a><br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#mongo连接admin库</span></span><br><span class="line">/var/lib/mongodb-mms-automation/mongodb-linux-x86_64-3.2.0/bin/mongo admin --host opsagent2.lt.com --port 27017</span><br><span class="line"></span><br><span class="line"><span class="comment">#设置分片存储数据库</span></span><br><span class="line">sh.enableSharding(<span class="string">"test"</span>)</span><br><span class="line">sh.shardCollection(<span class="string">'test.users'</span>, &#123; <span class="string">"_id"</span>: 1&#125; )</span><br><span class="line"></span><br><span class="line"><span class="comment">#插入测试数据</span></span><br><span class="line">use <span class="built_in">test</span></span><br><span class="line"><span class="keyword">for</span>(var i=1;i&lt;50000;i++) db.users.insert(&#123;age:i,name:<span class="string">'geosmart'</span>,address:<span class="string">'anhui_chuzhou'</span>,country:<span class="string">'china'</span>&#125;)</span><br><span class="line"><span class="comment">#查询分片状态</span></span><br><span class="line">db.users.stats();</span><br></pre></td></tr></table></figure></p>
-]]></content>
-      
-        <categories>
-            
-            <category> 存储层 </category>
-            
-        </categories>
-        
-        
-        <tags>
-            
-            <tag> MongoDB </tag>
-            
-        </tags>
-        
-    </entry>
-    
-    <entry>
-      <title><![CDATA[MongoDB权限配置]]></title>
-      <url>http://geosmart.github.io/2015/12/28/MongoDB%25E6%259D%2583%25E9%2599%2590%25E9%2585%258D%25E7%25BD%25AE/</url>
-      <content type="html"><![CDATA[<hr>
-<a id="more"></a>
-<h1 id="在未开启auth模式下新建sa用户"><a href="#在未开启auth模式下新建sa用户" class="headerlink" title="在未开启auth模式下新建sa用户"></a>在未开启auth模式下新建sa用户</h1><p>//进入admin数据库<br>mongo admin<br>//新建sa超级用户<br><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line">db.createUser(</span><br><span class="line">   &#123;</span><br><span class="line">     user: <span class="string">"sa"</span>,</span><br><span class="line">     pwd: <span class="string">"1qaz2wsx"</span>,</span><br><span class="line">     roles:</span><br><span class="line">       [</span><br><span class="line">         &#123; <span class="attr">db</span>: <span class="string">"uadb"</span>, <span class="attr">role</span>: <span class="string">"readWrite"</span> &#125;,</span><br><span class="line"> &#123; <span class="attr">db</span>: <span class="string">"uadb"</span>, <span class="attr">role</span>: <span class="string">"dbAdmin"</span> &#125;,</span><br><span class="line"> &#123; <span class="attr">db</span>: <span class="string">"uadb"</span>, <span class="attr">role</span>: <span class="string">"userAdmin"</span> &#125;,</span><br><span class="line"> &#123; <span class="attr">db</span>: <span class="string">"uadb"</span>, <span class="attr">role</span>: <span class="string">"dbOwner"</span> &#125;,    </span><br><span class="line"> &#123; <span class="attr">db</span>: <span class="string">"uadb_attachment"</span>, <span class="attr">role</span>: <span class="string">"readWrite"</span> &#125;,</span><br><span class="line"> &#123; <span class="attr">db</span>: <span class="string">"uadb_attachment"</span>, <span class="attr">role</span>: <span class="string">"dbAdmin"</span> &#125;,</span><br><span class="line"> &#123; <span class="attr">db</span>: <span class="string">"uadb_attachment"</span>, <span class="attr">role</span>: <span class="string">"userAdmin"</span> &#125;,</span><br><span class="line"> &#123; <span class="attr">db</span>: <span class="string">"uadb_attachment"</span>, <span class="attr">role</span>: <span class="string">"dbOwner"</span> &#125;,     </span><br><span class="line"> &#123; <span class="attr">db</span>: <span class="string">"admin"</span>, <span class="attr">role</span>: <span class="string">"readWrite"</span> &#125;,</span><br><span class="line"> &#123; <span class="attr">db</span>: <span class="string">"admin"</span>, <span class="attr">role</span>: <span class="string">"dbAdmin"</span> &#125;,</span><br><span class="line"> &#123; <span class="attr">db</span>: <span class="string">"admin"</span>, <span class="attr">role</span>: <span class="string">"userAdmin"</span> &#125;,</span><br><span class="line"> &#123; <span class="attr">db</span>: <span class="string">"admin"</span>, <span class="attr">role</span>: <span class="string">"dbOwner"</span> &#125;,</span><br><span class="line"> &#123; <span class="attr">db</span>: <span class="string">"admin"</span>, <span class="attr">role</span>: <span class="string">"root"</span> &#125;</span><br><span class="line">       ]</span><br><span class="line">   &#125;</span><br><span class="line">)</span><br></pre></td></tr></table></figure><br>//sa用户授权测试<br>db.auth(“sa”,”1qaz2wsx”)</p>
-<h1 id="启用MongoDB权限控制"><a href="#启用MongoDB权限控制" class="headerlink" title="启用MongoDB权限控制"></a>启用MongoDB权限控制</h1><p>Windows<br>卸载现有MongoDB服务<br>C:\WINDOWS\system32&gt;sc delete “MongoDB”</p>
-<p>启动服务<br>按照MongoDB服务（设置权限控制）：E:\mongodb\bin\mongod —logpath “E:\mongodb\log\mongo.log” —logappend —dbpath “E:\mongodb\data” —directoryperdb   —auth  —serviceName “MongoDB” —serviceDisplayName “MongoDB” —install</p>
-<p>Linux<br>启动服务<br>/mnt/data/mongodb/bin/mongod —dbpath /mnt/data/mongodb/data —logpath /mnt/data/mongodb/log/mongodb.log  —auth</p>
-<h1 id="开启auth后新建用户"><a href="#开启auth后新建用户" class="headerlink" title="开启auth后新建用户"></a>开启auth后新建用户</h1><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//以admin登陆获取权限</span></span><br><span class="line">use admin</span><br><span class="line"><span class="comment">//sa用户授权</span></span><br><span class="line">db.auth(<span class="string">"sa"</span>,<span class="string">"1qaz2wsx"</span>)</span><br><span class="line"><span class="comment">//切换到uadb库新建用户uadb</span></span><br><span class="line">use uadb</span><br><span class="line">db.auth(<span class="string">"uadb"</span>,<span class="string">"1c63129ae9db9c60c3e8aa94d3e00495"</span>)</span><br><span class="line">db.dropUser(<span class="string">"uadb"</span>);</span><br><span class="line">db.createUser( &#123;<span class="attr">user</span>: <span class="string">"uadb"</span>, <span class="attr">pwd</span>: <span class="string">"1c63129ae9db9c60c3e8aa94d3e00495"</span>, <span class="attr">roles</span>: [   <span class="string">"readWrite"</span> , <span class="string">"dbAdmin"</span> ] &#125;)</span><br><span class="line"></span><br><span class="line"><span class="comment">//切换到uadb库新建用户uadb_attachment</span></span><br><span class="line">use uadb_attachment</span><br><span class="line">db.dropUser(<span class="string">"uadb_attachment"</span>);</span><br><span class="line">db.createUser( &#123;<span class="attr">user</span>: <span class="string">"uadb_attachment"</span>, <span class="attr">pwd</span>: <span class="string">"1c63129ae9db9c60c3e8aa94d3e00495"</span>, <span class="attr">roles</span>: [   <span class="string">"readWrite"</span> , <span class="string">"dbAdmin"</span> ] &#125;)</span><br></pre></td></tr></table></figure>
 ]]></content>
       
         <categories>
@@ -13908,76 +13937,6 @@ public static boolean hasCycle2(ListNode head) {
     </entry>
     
     <entry>
-      <title><![CDATA[《三体》读书笔记]]></title>
-      <url>http://geosmart.github.io/2015/07/21/%25E3%2580%258A%25E4%25B8%2589%25E4%25BD%2593%25E3%2580%258B%25E8%25AF%25BB%25E4%25B9%25A6%25E7%25AC%2594%25E8%25AE%25B0/</url>
-      <content type="html"><![CDATA[<p>三体三部曲-刘慈欣  </p>
-<p>给岁月以文明，给时光以生命。</p>
-<hr>
-<a id="more"></a>
-<p>宇宙社会学：（1）生存是文明的第一需求；（2）文明不断增长和扩张，但宇宙中的物质总量不变。</p>
-<p>【时间开始后约170亿年，我们的星星】</p>
-<p>宇宙就是一座黑暗森林，每个文明都是带枪的猎人，像幽灵般潜行与林间，轻轻拨开挡路的树枝，竭力不让脚步发出一点儿声音，连呼吸都必须小心翼翼：他必须小心，因为林中到处都有与他一样潜行的猎人，如果他发现了别的生命，能做的只有一件事：开枪消灭之。在这片森林中，他人就是地狱，就是永恒的威胁，任何暴露自己存在的生命都将很快被消灭，这就是宇宙文明的图景，这就是对费米悖论的解释</p>
-<p>2015-01-06 09:16:05<br>“城市就是森林，每一个男人都是猎手，每一个女人都是陷阱。”</p>
-<p>2015-02-10 12:11:38<br>自由女神像基座上的埃玛·拉扎的诗原文为：把你们疲惫的人，你们贫穷的人，你们渴望呼吸自由空气的挤在一堆的人都给我/把那些无家可归、饱经风浪的人都送来/在这金色的大门旁，我要为他们把灯举起。</p>
-<p>2015-02-10 13:57:09<br>给时光以生命，而不是给生命以时光。</p>
-<p>2015-02-10 13:57:28<br>给岁月以文明，给时光以生命。</p>
-<p>2015-02-11 21:58:25<br>精骛八极，心游万仞</p>
-<p>2015-03-19 23:01:31<br>从科学角度讲，毁灭一词并不准确，没有真正毁掉什么，更没有灭掉什么，物质总量一点不少都还在，角动量也还在，只是物质的组合方式变了变，像一副扑克牌，仅仅重洗而已……可生命是一手同花顺，一洗什么都没了。”</p>
-<p>2015-03-19 23:05:56<br>处于幼年的人类文明曾经打开家门向外看了一眼，外面无边的暗夜吓住了他，他面对黑暗中的广袤和深邃打了个寒战，紧紧地关上了门。</p>
-<p>2015-03-31 20:09:40<br>这是一种放弃，她终于看清了，使自己这粒沙尘四处飘飞的，是怎样的天风；把自己这片小叶送向远方的，是怎样的大河。她彻底放弃了，让风吹透躯体，让阳光穿过灵魂。<br>多看笔记 来自多看阅读 for Kindle</p>
-]]></content>
-      
-        <categories>
-            
-            <category> 读书笔记 </category>
-            
-        </categories>
-        
-        
-        <tags>
-            
-            <tag> 小说 </tag>
-            
-        </tags>
-        
-    </entry>
-    
-    <entry>
-      <title><![CDATA[《谜踪之国》读书笔记]]></title>
-      <url>http://geosmart.github.io/2015/07/21/%25E3%2580%258A%25E8%25B0%259C%25E8%25B8%25AA%25E4%25B9%258B%25E5%259B%25BD%25E3%2580%258B%25E8%25AF%25BB%25E4%25B9%25A6%25E7%25AC%2594%25E8%25AE%25B0/</url>
-      <content type="html"><![CDATA[<p>谜踪之国-天下霸唱<br>探险类的，没有藏地密码写的精彩</p>
-<hr>
-<a id="more"></a>
-<h1 id="第三话-海森堡不确定原理"><a href="#第三话-海森堡不确定原理" class="headerlink" title="第三话　海森堡不确定原理"></a>第三话　海森堡不确定原理</h1><p>2015-07-14 13:43:29<br>世事茫茫如大海，人生何处无风波。</p>
-<p>2015-07-14 19:12:50<br>当可执其端而理其绪，举一隅而知三隅；随机生变，鬼神莫测；分寸即定，任意纵横；通篇玩熟，定教四海扬名</p>
-<p>2015-07-17 13:47:09<br>好花不常开，好景不常在</p>
-<p>2015-07-17 14:20:27<br>见不尽者，是天下之事；悟不尽者，是天下之理”</p>
-<p>2015-07-22 13:01:01<br>万物的命运，皆是由无数个点所组成的一条曲线，没有人知道线的中间会发生什么，或是会遇到什么，只是所有的线，最终都会前往同一个终点，这个终点就是死亡，绝不存在例外，曲线中出现的任何一个点，也都不可能对终点产生影响。</p>
-<p>2015-07-25 22:07:56<br>近代科学观念支持大爆炸形成宇宙的理论，“宇”和“宙”就是时间与空间的坐标，这和中国传统观念里“盘古开天地”之类的传说有些相似，据说以前只有一片混沌，清浊不分，从盘古产生时间的那一刻被称为“零秒”，而在“零秒坐标”出现之前，还没有时间存在。</p>
-<p>2015-07-25 22:09:21<br>从前有句古话是“蝶梦庄周未可知”，是说庄周以为自己在梦中变为了蝴蝶，其实也有可能庄周自己才是蝴蝶做的一场梦，这句话可以用来比喻真实的不确定性，那些看得见摸得到的东西，却未必真实可信。</p>
-<p>2015-07-26 17:44:31<br>说开天地怕、道破鬼神惊</p>
-<p>2015-07-26 17:48:18<br>并不是出现了“原因”才会产生“结果”，而是结果造就了复杂的原因。没有结果的原因不能称为原因，正是由于结果的存在，才会使前边发生的事件成为原因。因果之间的关系就像一株参天大树，注定成为事实的结果是根，原因则是枝杈纵横交错的茂密树冠，事先掌握了结果的人，就能洞悉命运的规律。</p>
-<p>2015-08-07 19:36:06<br>混沌定律，基本上分为三个部分。事物发展运行的轨迹好像是多元化的，存在着无数种可能性，不管你预先布置得如何周密，事到临头也总会出现意料之外的情况，所谓计划赶不上变化，是对第一定律的最好概括。第二定律说白了就是‘怕什么来什么’，你越是不想让它发生的事，它发生的概率就越大。比方说我有块面包，正面抹满了黄油，又不小心失手把它掉在了名贵的地毯上，面包正反两面朝下的概率看起来似乎差不多，其实不管面包掉落多少次，抹了黄油的那一面都会永远朝下，因为事情总是会往咱们最不想看到的方向发展，这既是摩非原理——宿命的重力。另外还有第三定律……”</p>
-<p>2015-08-26 09:13:51<br>挫折只是成功者的勋章，疾风劲草，方显英雄本色，洪波汹涌，愈见生命不息。</p>
-<p>多看笔记 来自多看阅读 for Kindle</p>
-]]></content>
-      
-        <categories>
-            
-            <category> 读书笔记 </category>
-            
-        </categories>
-        
-        
-        <tags>
-            
-            <tag> 小说 </tag>
-            
-        </tags>
-        
-    </entry>
-    
-    <entry>
       <title><![CDATA[《MacTalk·人生元编程》读书笔记]]></title>
       <url>http://geosmart.github.io/2015/07/21/%25E3%2580%258AMacTalk%25C2%25B7%25E4%25BA%25BA%25E7%2594%259F%25E5%2585%2583%25E7%25BC%2596%25E7%25A8%258B%25E3%2580%258B%25E8%25AF%25BB%25E4%25B9%25A6%25E7%25AC%2594%25E8%25AE%25B0/</url>
       <content type="html"><![CDATA[<p>MacTalk·人生元编程</p>
@@ -14104,6 +14063,76 @@ public static boolean hasCycle2(ListNode head) {
         <tags>
             
             <tag> 鸡汤 </tag>
+            
+        </tags>
+        
+    </entry>
+    
+    <entry>
+      <title><![CDATA[《三体》读书笔记]]></title>
+      <url>http://geosmart.github.io/2015/07/21/%25E3%2580%258A%25E4%25B8%2589%25E4%25BD%2593%25E3%2580%258B%25E8%25AF%25BB%25E4%25B9%25A6%25E7%25AC%2594%25E8%25AE%25B0/</url>
+      <content type="html"><![CDATA[<p>三体三部曲-刘慈欣  </p>
+<p>给岁月以文明，给时光以生命。</p>
+<hr>
+<a id="more"></a>
+<p>宇宙社会学：（1）生存是文明的第一需求；（2）文明不断增长和扩张，但宇宙中的物质总量不变。</p>
+<p>【时间开始后约170亿年，我们的星星】</p>
+<p>宇宙就是一座黑暗森林，每个文明都是带枪的猎人，像幽灵般潜行与林间，轻轻拨开挡路的树枝，竭力不让脚步发出一点儿声音，连呼吸都必须小心翼翼：他必须小心，因为林中到处都有与他一样潜行的猎人，如果他发现了别的生命，能做的只有一件事：开枪消灭之。在这片森林中，他人就是地狱，就是永恒的威胁，任何暴露自己存在的生命都将很快被消灭，这就是宇宙文明的图景，这就是对费米悖论的解释</p>
+<p>2015-01-06 09:16:05<br>“城市就是森林，每一个男人都是猎手，每一个女人都是陷阱。”</p>
+<p>2015-02-10 12:11:38<br>自由女神像基座上的埃玛·拉扎的诗原文为：把你们疲惫的人，你们贫穷的人，你们渴望呼吸自由空气的挤在一堆的人都给我/把那些无家可归、饱经风浪的人都送来/在这金色的大门旁，我要为他们把灯举起。</p>
+<p>2015-02-10 13:57:09<br>给时光以生命，而不是给生命以时光。</p>
+<p>2015-02-10 13:57:28<br>给岁月以文明，给时光以生命。</p>
+<p>2015-02-11 21:58:25<br>精骛八极，心游万仞</p>
+<p>2015-03-19 23:01:31<br>从科学角度讲，毁灭一词并不准确，没有真正毁掉什么，更没有灭掉什么，物质总量一点不少都还在，角动量也还在，只是物质的组合方式变了变，像一副扑克牌，仅仅重洗而已……可生命是一手同花顺，一洗什么都没了。”</p>
+<p>2015-03-19 23:05:56<br>处于幼年的人类文明曾经打开家门向外看了一眼，外面无边的暗夜吓住了他，他面对黑暗中的广袤和深邃打了个寒战，紧紧地关上了门。</p>
+<p>2015-03-31 20:09:40<br>这是一种放弃，她终于看清了，使自己这粒沙尘四处飘飞的，是怎样的天风；把自己这片小叶送向远方的，是怎样的大河。她彻底放弃了，让风吹透躯体，让阳光穿过灵魂。<br>多看笔记 来自多看阅读 for Kindle</p>
+]]></content>
+      
+        <categories>
+            
+            <category> 读书笔记 </category>
+            
+        </categories>
+        
+        
+        <tags>
+            
+            <tag> 小说 </tag>
+            
+        </tags>
+        
+    </entry>
+    
+    <entry>
+      <title><![CDATA[《谜踪之国》读书笔记]]></title>
+      <url>http://geosmart.github.io/2015/07/21/%25E3%2580%258A%25E8%25B0%259C%25E8%25B8%25AA%25E4%25B9%258B%25E5%259B%25BD%25E3%2580%258B%25E8%25AF%25BB%25E4%25B9%25A6%25E7%25AC%2594%25E8%25AE%25B0/</url>
+      <content type="html"><![CDATA[<p>谜踪之国-天下霸唱<br>探险类的，没有藏地密码写的精彩</p>
+<hr>
+<a id="more"></a>
+<h1 id="第三话-海森堡不确定原理"><a href="#第三话-海森堡不确定原理" class="headerlink" title="第三话　海森堡不确定原理"></a>第三话　海森堡不确定原理</h1><p>2015-07-14 13:43:29<br>世事茫茫如大海，人生何处无风波。</p>
+<p>2015-07-14 19:12:50<br>当可执其端而理其绪，举一隅而知三隅；随机生变，鬼神莫测；分寸即定，任意纵横；通篇玩熟，定教四海扬名</p>
+<p>2015-07-17 13:47:09<br>好花不常开，好景不常在</p>
+<p>2015-07-17 14:20:27<br>见不尽者，是天下之事；悟不尽者，是天下之理”</p>
+<p>2015-07-22 13:01:01<br>万物的命运，皆是由无数个点所组成的一条曲线，没有人知道线的中间会发生什么，或是会遇到什么，只是所有的线，最终都会前往同一个终点，这个终点就是死亡，绝不存在例外，曲线中出现的任何一个点，也都不可能对终点产生影响。</p>
+<p>2015-07-25 22:07:56<br>近代科学观念支持大爆炸形成宇宙的理论，“宇”和“宙”就是时间与空间的坐标，这和中国传统观念里“盘古开天地”之类的传说有些相似，据说以前只有一片混沌，清浊不分，从盘古产生时间的那一刻被称为“零秒”，而在“零秒坐标”出现之前，还没有时间存在。</p>
+<p>2015-07-25 22:09:21<br>从前有句古话是“蝶梦庄周未可知”，是说庄周以为自己在梦中变为了蝴蝶，其实也有可能庄周自己才是蝴蝶做的一场梦，这句话可以用来比喻真实的不确定性，那些看得见摸得到的东西，却未必真实可信。</p>
+<p>2015-07-26 17:44:31<br>说开天地怕、道破鬼神惊</p>
+<p>2015-07-26 17:48:18<br>并不是出现了“原因”才会产生“结果”，而是结果造就了复杂的原因。没有结果的原因不能称为原因，正是由于结果的存在，才会使前边发生的事件成为原因。因果之间的关系就像一株参天大树，注定成为事实的结果是根，原因则是枝杈纵横交错的茂密树冠，事先掌握了结果的人，就能洞悉命运的规律。</p>
+<p>2015-08-07 19:36:06<br>混沌定律，基本上分为三个部分。事物发展运行的轨迹好像是多元化的，存在着无数种可能性，不管你预先布置得如何周密，事到临头也总会出现意料之外的情况，所谓计划赶不上变化，是对第一定律的最好概括。第二定律说白了就是‘怕什么来什么’，你越是不想让它发生的事，它发生的概率就越大。比方说我有块面包，正面抹满了黄油，又不小心失手把它掉在了名贵的地毯上，面包正反两面朝下的概率看起来似乎差不多，其实不管面包掉落多少次，抹了黄油的那一面都会永远朝下，因为事情总是会往咱们最不想看到的方向发展，这既是摩非原理——宿命的重力。另外还有第三定律……”</p>
+<p>2015-08-26 09:13:51<br>挫折只是成功者的勋章，疾风劲草，方显英雄本色，洪波汹涌，愈见生命不息。</p>
+<p>多看笔记 来自多看阅读 for Kindle</p>
+]]></content>
+      
+        <categories>
+            
+            <category> 读书笔记 </category>
+            
+        </categories>
+        
+        
+        <tags>
+            
+            <tag> 小说 </tag>
             
         </tags>
         
