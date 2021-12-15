@@ -1,0 +1,586 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 4.2.1">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css">
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"geosmart.github.io","root":"/","scheme":"Pisces","version":"7.7.1","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.xml"};
+  </script>
+
+  <meta name="description" content="记录随机森林算法的基本概念（熵，分类器，候选特征，分裂特征），构建过程，优缺点">
+<meta property="og:type" content="article">
+<meta property="og:title" content="随机森林学习笔记">
+<meta property="og:url" content="http://geosmart.github.io/2017/07/19/%E9%9A%8F%E6%9C%BA%E6%A3%AE%E6%9E%97%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/index.html">
+<meta property="og:site_name" content="geosmart.io">
+<meta property="og:description" content="记录随机森林算法的基本概念（熵，分类器，候选特征，分裂特征），构建过程，优缺点">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="http://geosmart.github.io/2017/07/19/%E9%9A%8F%E6%9C%BA%E6%A3%AE%E6%9E%97%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/%E6%95%B0%E6%8D%AE%E7%9A%84%E9%9A%8F%E6%9C%BA%E9%80%89%E5%8F%96.png">
+<meta property="og:image" content="http://geosmart.github.io/2017/07/19/%E9%9A%8F%E6%9C%BA%E6%A3%AE%E6%9E%97%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/Alt%20text.png">
+<meta property="og:image" content="http://geosmart.github.io/2017/07/19/%E9%9A%8F%E6%9C%BA%E6%A3%AE%E6%9E%97%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/Alt%20text.png">
+<meta property="article:published_time" content="2017-07-19T16:00:00.000Z">
+<meta property="article:modified_time" content="2021-12-15T01:13:12.852Z">
+<meta property="article:author" content="geosmart">
+<meta property="article:tag" content="AI">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://geosmart.github.io/2017/07/19/%E9%9A%8F%E6%9C%BA%E6%A3%AE%E6%9E%97%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/%E6%95%B0%E6%8D%AE%E7%9A%84%E9%9A%8F%E6%9C%BA%E9%80%89%E5%8F%96.png">
+
+<link rel="canonical" href="http://geosmart.github.io/2017/07/19/%E9%9A%8F%E6%9C%BA%E6%A3%AE%E6%9E%97%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome: false,
+    isPost: true
+  };
+</script>
+
+  <title>随机森林学习笔记 | geosmart.io</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <div>
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">geosmart.io</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+        <p class="site-subtitle">勿助勿忘，深造自得</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+<nav class="site-nav">
+  
+  <ul id="menu" class="menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-fw fa-home"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-about">
+
+    <a href="/about/" rel="section"><i class="fa fa-fw fa-user"></i>关于</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="fa fa-fw fa-tags"></i>标签</a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/categories/" rel="section"><i class="fa fa-fw fa-th"></i>分类</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-fw fa-archive"></i>归档</a>
+
+  </li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜索
+        </a>
+      </li>
+  </ul>
+
+</nav>
+  <div class="site-search">
+    <div class="popup search-popup">
+    <div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocorrect="off" autocapitalize="off"
+           placeholder="搜索..." spellcheck="false"
+           type="search" class="search-input">
+  </div>
+  <span class="popup-btn-close">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div id="search-result"></div>
+
+</div>
+<div class="search-pop-overlay"></div>
+
+  </div>
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+  <a href="https://github.com/geosmart" class="github-corner" title="Follow me on GitHub" aria-label="Follow me on GitHub" rel="noopener" target="_blank"><svg width="80" height="80" viewBox="0 0 250 250" aria-hidden="true"><path d="M0,0 L115,115 L130,115 L142,142 L250,250 L250,0 Z"></path><path d="M128.3,109.0 C113.8,99.7 119.0,89.6 119.0,89.6 C122.0,82.7 120.5,78.6 120.5,78.6 C119.2,72.0 123.4,76.3 123.4,76.3 C127.3,80.9 125.5,87.3 125.5,87.3 C122.9,97.6 130.6,101.9 134.4,103.2" fill="currentColor" style="transform-origin: 130px 106px;" class="octo-arm"></path><path d="M115.0,115.0 C114.9,115.1 118.7,116.5 119.8,115.4 L133.7,101.6 C136.9,99.2 139.9,98.4 142.2,98.6 C133.8,88.0 127.5,74.4 143.8,58.0 C148.5,53.4 154.0,51.2 159.7,51.0 C160.3,49.4 163.2,43.6 171.4,40.1 C171.4,40.1 176.1,42.5 178.8,56.2 C183.1,58.6 187.2,61.8 190.9,65.4 C194.5,69.0 197.7,73.2 200.1,77.6 C213.8,80.2 216.3,84.9 216.3,84.9 C212.7,93.1 206.9,96.0 205.4,96.6 C205.1,102.4 203.0,107.8 198.3,112.5 C181.9,128.9 168.3,122.5 157.7,114.1 C157.9,116.9 156.7,120.9 152.7,124.9 L141.0,136.5 C139.8,137.7 141.6,141.9 141.8,141.8 Z" fill="currentColor" class="octo-body"></path></svg></a>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content">
+            
+
+  <div class="posts-expand">
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block " lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://geosmart.github.io/2017/07/19/%E9%9A%8F%E6%9C%BA%E6%A3%AE%E6%9E%97%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="geosmart">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="geosmart.io">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          随机森林学习笔记
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：20   七月   2017 0:00:00" itemprop="dateCreated datePublished" datetime="2017-07-20T00:00:00+08:00">20   七月   2017</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：15   十二月   2021 9:13:12" itemprop="dateModified" datetime="2021-12-15T09:13:12+08:00">15   十二月   2021</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/" itemprop="url" rel="index"><span itemprop="name">机器学习</span></a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <p>记录随机森林算法的基本概念（熵，分类器，候选特征，分裂特征），构建过程，优缺点</p>
+<hr>
+<a id="more"></a> 
+<h2 id="随机森林学习笔记"><a href="#随机森林学习笔记" class="headerlink" title="随机森林学习笔记"></a>随机森林学习笔记</h2><h1 id="相关概念"><a href="#相关概念" class="headerlink" title="相关概念"></a>相关概念</h1><h2 id="熵"><a href="#熵" class="headerlink" title="熵"></a>熵</h2><p>熵是对无序程度的衡量，熵越大越无序，熵越小越有序<br>首先，熵是一种不可逆性（热力学熵）。一件事（或一个过程），越不可逆，其熵越大。<br>热力学第二定理：温度可以自发从高向低传递，但不能反过来。虽然能量是守恒的，但你能使用的能量却在逐渐减少。这种不可逆性，即“覆水难收，人死不可复生。通常人们不喜欢不可逆。大部分人不能保证自己一次就能成功，所以希望有重新开始的机会<br>其次，熵反映了你对一件事的了解程度（信息熵）。你对一件事了解越少，其熵越大。<br>两个陌生人之间，就存在一个无比巨大的熵。在一起，双方自然会感觉不舒服。两人逐渐熟悉、逐渐了解的过程，本质是一个熵减的过程。当双方为知己时，相互的信息熵已趋近于0。两者相处起来，会轻松。沟通无障碍，不用去费劲解释。<br>最后，熵反映了你对一件东西的不确定性（构象熵）。当你越不确定，这件东西对你来说，熵就越大。</p>
+<h2 id="分类器"><a href="#分类器" class="headerlink" title="分类器"></a>分类器</h2><p>分类器就是给定一个样本的数据，判定这个样本属于哪个类别的算法。例如在股票涨跌预测中，我们认为前一天的交易量和收盘价对于第二天的涨跌是有影响的，那么分类器就是通过样本的交易量和收盘价预测第二天的涨跌情况的算法。</p>
+<h2 id="分裂"><a href="#分裂" class="headerlink" title="分裂"></a>分裂</h2><p>在决策树的训练过程中，需要一次次的将训练数据集分裂成两个子数据集，这个过程就叫做分裂。</p>
+<h2 id="特征"><a href="#特征" class="headerlink" title="特征"></a>特征</h2><p>在分类问题中，输入到分类器中的数据叫做特征。以上面的股票涨跌预测问题为例，特征就是前一天的交易量和收盘价。</p>
+<h2 id="待选特征"><a href="#待选特征" class="headerlink" title="待选特征"></a>待选特征</h2><p>在决策树的构建过程中，需要按照一定的次序从全部的特征中选取特征。待选特征就是在目前的步骤之前还没有被选择的特征的集合。例如，全部的特征是 ABCDE，第一步的时候，待选特征就是ABCDE，第一步选择了C，那么第二步的时候，待选特征就是ABDE。</p>
+<h2 id="分裂特征"><a href="#分裂特征" class="headerlink" title="分裂特征"></a>分裂特征</h2><p>接待选特征的定义，每一次选取的特征就是分裂特征，例如，在上面的例子中，第一步的分裂特征就是C。因为选出的这些特征将数据集分成了一个个不相交的部分，所以叫它们分裂特征。</p>
+<h1 id="如何选择分裂特征？"><a href="#如何选择分裂特征？" class="headerlink" title="如何选择分裂特征？"></a>如何选择分裂特征？</h1><p>用不同的准则衡量特征的贡献程度。主流准则的列举3个：</p>
+<ul>
+<li>ID3算法（J. Ross Quinlan于1986年提出），采用信息增益最大的特征；</li>
+<li>C4.5算法（J. Ross Quinlan于1993年提出）采用信息增益比选择特征；</li>
+<li>CART算法（Breiman等人于1984年提出）利用基尼指数最小化准则进行特征选择。</li>
+</ul>
+<h1 id="随机森林的构建过程"><a href="#随机森林的构建过程" class="headerlink" title="随机森林的构建过程"></a>随机森林的构建过程</h1><p>决策树相当于一个大师，通过自己在数据集中学到的知识对于新的数据进行分类。但是俗话说得好，一个诸葛亮，玩不过三个臭皮匠。随机森林就是希望构建多个臭皮匠，希望最终的分类效果能够超过单个大师的一种算法。</p>
+<p>那随机森林具体如何构建呢？有两个方面：数据的随机性选取，以及待选特征的随机选取。</p>
+<h2 id="数据的随机选取："><a href="#数据的随机选取：" class="headerlink" title="数据的随机选取："></a>数据的随机选取：</h2><p>首先，从原始的数据集中采取有放回的抽样，构造子数据集，子数据集的数据量是和原始数据集相同的。不同子数据集的元素可以重复，同一个子数据集中的元素也可以重复。<br>第二，利用子数据集来构建子决策树，将这个数据放到每个子决策树中，每个子决策树输出一个结果。最后，如果有了新的数据需要通过随机森林得到分类结果，就可以通过对子决策树的判断结果的投票，得到随机森林的输出结果了。</p>
+<p>如下图，假设随机森林中有3棵子决策树，2棵子树的分类结果是A类，1棵子树的分类结果是B类，那么随机森林的分类结果就是A类。<br><img src="数据的随机选取.png" alt="数据的随机选取"></p>
+<h2 id="待选特征的随机选取："><a href="#待选特征的随机选取：" class="headerlink" title="待选特征的随机选取："></a>待选特征的随机选取：</h2><p>与数据集的随机选取类似，随机森林中的子树的每一个分裂过程并未用到所有的待选特征，而是从所有的待选特征中随机选取一定的特征，之后再在随机选取的特征中选取最优的特征。这样能够使得随机森林中的决策树都能够彼此不同，提升系统的多样性，从而提升分类性能。</p>
+<p>下图中，蓝色的方块代表所有可以被选择的特征，也就是目前的待选特征。黄色的方块是分裂特征。<br>左边是一棵决策树的特征选取过程，通过在待选特征中选取最优的分裂特征（别忘了前文提到的ID3算法，C4.5算法，CART算法等等），完成分裂。<br>右边是一个随机森林中的子树的特征选取过程。<br><img src="Alt text.png" alt="Alt text"></p>
+<h1 id="随机森林的优点与缺点"><a href="#随机森林的优点与缺点" class="headerlink" title="随机森林的优点与缺点"></a>随机森林的优点与缺点</h1><h2 id="优点："><a href="#优点：" class="headerlink" title="优点："></a>优点：</h2><ol>
+<li>随机森林算法能解决分类与回归两种类型的问题，并在这两个方面都有相当好的估计表现；</li>
+<li>随机森林对于高维数据集的处理能力令人兴奋，它可以处理成千上万的输入变量，并确定最重要的变量，因此被认为是一个不错的降维方法。此外，该模型能够输出变量的重要性程度，这是一个非常便利的功能。</li>
+<li>在对缺失数据进行估计时，随机森林是一个十分有效的方法。就算存在大量的数据缺失，随机森林也能较好地保持精确性。</li>
+<li>当存在分类不平衡的情况时，随机森林能够提供平衡数据集误差的有效方法；（为什么？）</li>
+<li>模型的上述性能可以被扩展运用到未标记的数据集中，用于引导无监督聚类、数据透视和异常检测；</li>
+<li>随机森林算法中包含了对输入数据的重复自抽样过程，即所谓的bootstrap抽样。这样一来，数据集中大约三分之一将没有用于模型的训练而是用于测试，这样的数据被称为out of bag samples，通过这些样本估计的误差被称为out of bag error。<br>研究表明，这种out of bag方法的与测试集规模同训练集一致的估计方法有着相同的精确程度，因此在随机森林中我们无需再对测试集进行另外的设置。</li>
+<li>训练速度快，容易做成并行化方法</li>
+</ol>
+<h2 id="缺点："><a href="#缺点：" class="headerlink" title="缺点："></a>缺点：</h2><p>1.随机森林在解决回归问题时并没有像它在分类中表现的那么好，这是因为它并不能给出一个连续型的输出。当进行回归时，随机森林不能够作出超越训练集数据范围的预测，这可能导致在对某些还有特定噪声的数据进行建模时出现过度拟合。<br>2.对于许多统计建模者来说，随机森林给人的感觉像是一个黑盒子——你几乎无法控制模型内部的运行，只能在不同的参数和随机种子之间进行尝试。</p>
+<p>机器学习中如何处理缺失数据？<br>目前有三类处理方法：</p>
+<ol>
+<li>用平均值、中值、分位数、众数、随机值等替代。效果一般，因为等于人为增加了噪声。</li>
+<li>用其他变量做预测模型来算出缺失变量。效果比方法1略好。有一个根本缺陷，如果其他变量和缺失变量无关，则预测的结果无意义。如果预测结果相当准确，则又说明这个变量是没必要加入建模的。一般情况下，介于两者之间。</li>
+<li>最精确的做法，把变量映射到高维空间。比如性别，有男、女、缺失三种情况，则映射成3个变量：是否男、是否女、是否缺失。连续型变量也可以这样处理。比如Google、百度的CTR预估模型，预处理时会把所有变量都这样处理，达到几亿维。这样做的好处是完整保留了原始数据的全部信息、不用考虑缺失值、不用考虑线性不可分之类的问题。缺点是计算量大大提升。而且只有在样本量非常大的时候效果才好，否则会因为过于稀疏，效果很差。</li>
+</ol>
+<h1 id="问题"><a href="#问题" class="headerlink" title="问题"></a>问题</h1><ol>
+<li><p>随机森林是一个十分有效的方法。就算存在大量的数据缺失，随机森林也能较好地保持精确性；<br>RF不需要做特征选择，不需要规范化数据，如何数据缺失，不用向量化进行矩阵运算吗？</p>
+</li>
+<li><p>随机森林在解决回归问题时并没有像它在分类中表现的那么好，这是因为它并不能给出一个连续型的输出。当进行回归时，随机森林不能够作出超越训练集数据范围的预测，这可能导致在对某些还有特定噪声的数据进行建模时出现过度拟合。如何避免过拟合？</p>
+</li>
+</ol>
+<p>样本选择是随机的，分裂特征选择也是随机的，</p>
+<blockquote>
+<p>random forest 确实是一个不易overfitting的模型。<br>主要依靠了其中三个随机过程，即产生决策树的样本是随机生成，构建决策树的特征值是随机选取，树产生过程中裂变的时候是选择N个最佳方向中的随机一个裂变的。</p>
+</blockquote>
+<p>当前的数据量过少，不足以对整个数据集进行分布估计，因此往往需要防止模型过拟合，提高模型泛化能力。<br>在对模型进行训练时，有可能遇到训练数据不够，即训练数据无法对整个数据的分布进行估计的时候，或者在对模型进行过度训练（overtraining）时，常常会导致模型的过拟合（overfitting）。如下图所示：<br><img src="Alt text.png" alt="Alt text"><br>  通过上图可以看出，随着模型训练的进行，模型的复杂度会增加，此时模型在训练数据集上的训练误差会逐渐减小，但是在模型的复杂度达到一定程度时，模型在验证集上的误差反而随着模型的复杂度增加而增大。此时便发生了过拟合，即模型的复杂度升高，但是该模型在除训练集之外的数据集上却不work。<br>  为了防止过拟合，我们需要用到一些方法，如：early stopping、数据集扩增（Data augmentation）、正则化（Regularization）、Dropout等。</p>
+<ol>
+<li>树的颗树，树的深度如何确定？<br>特征个数？</li>
+</ol>
+<blockquote>
+<p>当随机森林产生的树的数目趋近无穷的时候，理论上根据大数定理可以证明训练误差与测试误差是收敛到一起的。 </p>
+</blockquote>
+<ol>
+<li>RF训练集和测试集的比例确定？</li>
+</ol>
+<h1 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h1><p><a href="https://github.com/morrislab/mlworkshop/blob/6eea6521958563aaf5856b013b6926c0f68fbb1d/supervised_learning/Random Forests.ipynb">可视化Random Forests.ipynb</a></p>
+<p><a href="http://www.cnblogs.com/pinard/category/894692.html">刘建平Pinard 系列</a></p>
+
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/AI/" rel="tag"># AI</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2017/07/11/MachineLearning%E5%9F%BA%E7%A1%80%E6%A6%82%E5%BF%B5/" rel="prev" title="机器学习基础概念">
+      <i class="fa fa-chevron-left"></i> 机器学习基础概念
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/2017/07/20/%E6%B7%B1%E5%B1%82%E7%A5%9E%E7%BB%8F%E7%BD%91%E7%BB%9C/" rel="next" title="深层神经网络">
+      深层神经网络 <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+  </div>
+
+
+          </div>
+          
+    <div class="comments" id="gitalk-container"></div>
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let activeClass = CONFIG.comments.activeClass;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#随机森林学习笔记"><span class="nav-number">1.</span> <span class="nav-text">随机森林学习笔记</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#相关概念"><span class="nav-number"></span> <span class="nav-text">相关概念</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#熵"><span class="nav-number">1.</span> <span class="nav-text">熵</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#分类器"><span class="nav-number">2.</span> <span class="nav-text">分类器</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#分裂"><span class="nav-number">3.</span> <span class="nav-text">分裂</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#特征"><span class="nav-number">4.</span> <span class="nav-text">特征</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#待选特征"><span class="nav-number">5.</span> <span class="nav-text">待选特征</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#分裂特征"><span class="nav-number">6.</span> <span class="nav-text">分裂特征</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#如何选择分裂特征？"><span class="nav-number"></span> <span class="nav-text">如何选择分裂特征？</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#随机森林的构建过程"><span class="nav-number"></span> <span class="nav-text">随机森林的构建过程</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#数据的随机选取："><span class="nav-number">1.</span> <span class="nav-text">数据的随机选取：</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#待选特征的随机选取："><span class="nav-number">2.</span> <span class="nav-text">待选特征的随机选取：</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#随机森林的优点与缺点"><span class="nav-number"></span> <span class="nav-text">随机森林的优点与缺点</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#优点："><span class="nav-number">1.</span> <span class="nav-text">优点：</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#缺点："><span class="nav-number">2.</span> <span class="nav-text">缺点：</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#问题"><span class="nav-number"></span> <span class="nav-text">问题</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#参考"><span class="nav-number"></span> <span class="nav-text">参考</span></a></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">geosmart</p>
+  <div class="site-description" itemprop="description"></div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">199</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+          
+        <span class="site-state-item-count">15</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">118</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+        <a href="https://github.com/geosmart" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;geosmart" rel="noopener" target="_blank"><i class="fa fa-fw fa-github"></i>GitHub</a>
+      </span>
+  </div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2021</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">geosmart</span>
+</div>
+
+        
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/pisces.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+  
+<script src="/js/local-search.js"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+      
+
+<script>
+  if (typeof MathJax === 'undefined') {
+    window.MathJax = {
+      tex: {
+        inlineMath: {'[+]': [['$', '$']]},
+        tags: 'ams'
+      },
+      options: {
+        renderActions: {
+          findScript: [10, doc => {
+            document.querySelectorAll('script[type^="math/tex"]').forEach(node => {
+              const display = !!node.type.match(/; *mode=display/);
+              const math = new doc.options.MathItem(node.textContent, doc.inputJax[0], display);
+              const text = document.createTextNode('');
+              node.parentNode.replaceChild(text, node);
+              math.start = {node: text, delim: '', n: 0};
+              math.end = {node: text, delim: '', n: 0};
+              doc.math.push(math);
+            });
+          }, '', false],
+          insertedScript: [200, () => {
+            document.querySelectorAll('mjx-container').forEach(node => {
+              let target = node.parentNode;
+              if (target.nodeName.toLowerCase() === 'li') {
+                target.parentNode.classList.add('has-jax');
+              }
+            });
+          }, '', false]
+        }
+      }
+    };
+    (function () {
+      var script = document.createElement('script');
+      script.src = '//cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js';
+      script.defer = true;
+      document.head.appendChild(script);
+    })();
+  } else {
+    MathJax.startup.document.state(0);
+    MathJax.texReset();
+    MathJax.typeset();
+  }
+</script>
+
+    
+
+  
+
+<link rel="stylesheet" href="//cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.min.css">
+
+<script>
+NexT.utils.loadComments(document.querySelector('#gitalk-container'), () => {
+  NexT.utils.getScript('//cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.min.js', () => {
+    var gitalk = new Gitalk({
+      clientID    : '8a29a27c357a64ed79fd',
+      clientSecret: 'fe1b781c49fa9037803f3c4d3e94fbb677abac4d',
+      repo        : 'geosmart.github.io',
+      owner       : 'geosmart',
+      admin       : ['geosmart'],
+      id          : '996887214fb914460b6e7fc135b22d73',
+        language: 'zh-CN',
+      distractionFreeMode: true
+    });
+    gitalk.render('gitalk-container');
+  }, window.Gitalk);
+});
+</script>
+
+</body>
+</html>

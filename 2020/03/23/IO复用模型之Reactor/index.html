@@ -1,0 +1,602 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 4.2.1">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css">
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"geosmart.github.io","root":"/","scheme":"Pisces","version":"7.7.1","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.xml"};
+  </script>
+
+  <meta name="description" content="要学Netty，得先从IO模型入手，一点点来。从Unix系统的5个IO模型，JDK的3种IO模型，Reactor模式的3种实现，最后到Netty事件模型的3种实现。 本文主要搞清楚什么是Reactor模式？为什么要有Reactor模式？以及Reactor模式具体的3种实现方式是什么样的？">
+<meta property="og:type" content="article">
+<meta property="og:title" content="IO复用模型之Reactor">
+<meta property="og:url" content="http://geosmart.github.io/2020/03/23/IO%E5%A4%8D%E7%94%A8%E6%A8%A1%E5%9E%8B%E4%B9%8BReactor/index.html">
+<meta property="og:site_name" content="geosmart.io">
+<meta property="og:description" content="要学Netty，得先从IO模型入手，一点点来。从Unix系统的5个IO模型，JDK的3种IO模型，Reactor模式的3种实现，最后到Netty事件模型的3种实现。 本文主要搞清楚什么是Reactor模式？为什么要有Reactor模式？以及Reactor模式具体的3种实现方式是什么样的？">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="http://geosmart.github.io/2020/03/23/IO%E5%A4%8D%E7%94%A8%E6%A8%A1%E5%9E%8B%E4%B9%8BReactor/%E9%98%BB%E5%A1%9EIO.jpg">
+<meta property="og:image" content="http://geosmart.github.io/2020/03/23/IO%E5%A4%8D%E7%94%A8%E6%A8%A1%E5%9E%8B%E4%B9%8BReactor/%E5%8D%95Reactor%E5%8D%95%E7%BA%BF%E7%A8%8B.jpg">
+<meta property="og:image" content="http://geosmart.github.io/2020/03/23/IO%E5%A4%8D%E7%94%A8%E6%A8%A1%E5%9E%8B%E4%B9%8BReactor/%E5%8D%95Reactor%E5%A4%9A%E7%BA%BF%E7%A8%8B.jpg">
+<meta property="og:image" content="http://geosmart.github.io/2020/03/23/IO%E5%A4%8D%E7%94%A8%E6%A8%A1%E5%9E%8B%E4%B9%8BReactor/%E5%A4%9AReactor%E5%A4%9A%E7%BA%BF%E7%A8%8B.jpg">
+<meta property="article:published_time" content="2020-03-23T16:00:00.000Z">
+<meta property="article:modified_time" content="2021-12-15T01:13:12.948Z">
+<meta property="article:author" content="geosmart">
+<meta property="article:tag" content="IO">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://geosmart.github.io/2020/03/23/IO%E5%A4%8D%E7%94%A8%E6%A8%A1%E5%9E%8B%E4%B9%8BReactor/%E9%98%BB%E5%A1%9EIO.jpg">
+
+<link rel="canonical" href="http://geosmart.github.io/2020/03/23/IO%E5%A4%8D%E7%94%A8%E6%A8%A1%E5%9E%8B%E4%B9%8BReactor/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome: false,
+    isPost: true
+  };
+</script>
+
+  <title>IO复用模型之Reactor | geosmart.io</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <div>
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">geosmart.io</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+        <p class="site-subtitle">勿助勿忘，深造自得</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+<nav class="site-nav">
+  
+  <ul id="menu" class="menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-fw fa-home"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-about">
+
+    <a href="/about/" rel="section"><i class="fa fa-fw fa-user"></i>关于</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="fa fa-fw fa-tags"></i>标签</a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/categories/" rel="section"><i class="fa fa-fw fa-th"></i>分类</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-fw fa-archive"></i>归档</a>
+
+  </li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜索
+        </a>
+      </li>
+  </ul>
+
+</nav>
+  <div class="site-search">
+    <div class="popup search-popup">
+    <div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocorrect="off" autocapitalize="off"
+           placeholder="搜索..." spellcheck="false"
+           type="search" class="search-input">
+  </div>
+  <span class="popup-btn-close">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div id="search-result"></div>
+
+</div>
+<div class="search-pop-overlay"></div>
+
+  </div>
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+  <a href="https://github.com/geosmart" class="github-corner" title="Follow me on GitHub" aria-label="Follow me on GitHub" rel="noopener" target="_blank"><svg width="80" height="80" viewBox="0 0 250 250" aria-hidden="true"><path d="M0,0 L115,115 L130,115 L142,142 L250,250 L250,0 Z"></path><path d="M128.3,109.0 C113.8,99.7 119.0,89.6 119.0,89.6 C122.0,82.7 120.5,78.6 120.5,78.6 C119.2,72.0 123.4,76.3 123.4,76.3 C127.3,80.9 125.5,87.3 125.5,87.3 C122.9,97.6 130.6,101.9 134.4,103.2" fill="currentColor" style="transform-origin: 130px 106px;" class="octo-arm"></path><path d="M115.0,115.0 C114.9,115.1 118.7,116.5 119.8,115.4 L133.7,101.6 C136.9,99.2 139.9,98.4 142.2,98.6 C133.8,88.0 127.5,74.4 143.8,58.0 C148.5,53.4 154.0,51.2 159.7,51.0 C160.3,49.4 163.2,43.6 171.4,40.1 C171.4,40.1 176.1,42.5 178.8,56.2 C183.1,58.6 187.2,61.8 190.9,65.4 C194.5,69.0 197.7,73.2 200.1,77.6 C213.8,80.2 216.3,84.9 216.3,84.9 C212.7,93.1 206.9,96.0 205.4,96.6 C205.1,102.4 203.0,107.8 198.3,112.5 C181.9,128.9 168.3,122.5 157.7,114.1 C157.9,116.9 156.7,120.9 152.7,124.9 L141.0,136.5 C139.8,137.7 141.6,141.9 141.8,141.8 Z" fill="currentColor" class="octo-body"></path></svg></a>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content">
+            
+
+  <div class="posts-expand">
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block " lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://geosmart.github.io/2020/03/23/IO%E5%A4%8D%E7%94%A8%E6%A8%A1%E5%9E%8B%E4%B9%8BReactor/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="geosmart">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="geosmart.io">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          IO复用模型之Reactor
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：24   三月   2020 0:00:00" itemprop="dateCreated datePublished" datetime="2020-03-24T00:00:00+08:00">24   三月   2020</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：15   十二月   2021 9:13:12" itemprop="dateModified" datetime="2021-12-15T09:13:12+08:00">15   十二月   2021</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/%E5%90%8E%E7%AB%AF%E6%8A%80%E6%9C%AF/" itemprop="url" rel="index"><span itemprop="name">后端技术</span></a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <p>要学Netty，得先从IO模型入手，一点点来。从Unix系统的5个IO模型，JDK的3种IO模型，Reactor模式的3种实现，最后到Netty事件模型的3种实现。</p>
+<p>本文主要搞清楚什么是Reactor模式？为什么要有Reactor模式？以及Reactor模式具体的3种实现方式是什么样的？</p>
+<a id="more"></a>  
+<h1 id="什么是Reactor模式？"><a href="#什么是Reactor模式？" class="headerlink" title="什么是Reactor模式？"></a>什么是Reactor模式？</h1><p>Wiki上Reactor模式的描述</p>
+<blockquote>
+<p>The reactor design pattern is an <a href="https://en.wikipedia.org/wiki/Event_handling">event handling</a> pattern for handling service requests delivered concurrently  to a service handler by one or more inputs.<br>The service handler then <a href="https://en.wikipedia.org/wiki/Demultiplex">demultiplexes</a> the incoming requests and dispatches them synchronously to the associated request handlers.</p>
+</blockquote>
+<ul>
+<li>Reactor核心重点是：有多路复用的组件来支持并发，事件驱动，并且不同事件有对应的处理器；</li>
+<li>Reactor模式本质是Unix系统5种I/O模型中的<strong>I/O复用(multiplexing)模型</strong>；</li>
+</ul>
+<p>JUC作者<code>Doug Lea</code> 在 《Scalable IO in Java 》中的介绍，Reacotr模型主要分为3个角色:</p>
+<ol>
+<li><strong>Reactor</strong>：把IO事件分配给对应的Handler处理</li>
+<li><strong>Acceptor</strong>：处理客户端连接事件</li>
+<li><strong>Handler</strong>：处理非阻塞的任务</li>
+</ol>
+<p>另外注意<code>Reactor</code>这个名词用到的地方比较多：</p>
+<ul>
+<li>Spring5的Reactor 反应式编程；</li>
+<li>Node.js中用到的设计模式-Reactor Pattern（反应器模式）;</li>
+<li>Netty中的ReactorI/O模型；</li>
+</ul>
+<p>我们这儿说的Reactor是指后面的2个相关，I/O事件模型相关的，和反应式编程不是一回事；</p>
+<h1 id="为什么有Reactor模式？"><a href="#为什么有Reactor模式？" class="headerlink" title="为什么有Reactor模式？"></a>为什么有Reactor模式？</h1><p><img src="阻塞IO.jpg" alt="阻塞IO"></p>
+<h1 id=""><a href="#" class="headerlink" title=" "></a> </h1><p>Reactor模式的出现原因要结合Unix系统的5个IO模型中提到的<code>阻塞IO</code>来说</p>
+<p><strong>传统的阻塞IO模型的不足</strong></p>
+<ol>
+<li>每个连接都需要独立线程处理，但线程数受系统现在数多，所以<code>并发能力有限</code>，资源利用率低；</li>
+<li>采用阻塞IO模型，连接建立后，若当前线程没有数据可读，线程会阻塞在读操作上，造成<code>资源浪费</code>；</li>
+</ol>
+<p>针对传统阻塞IO模型的两个问题，可以采用如下的方案进行优化</p>
+<ol>
+<li>基于<code>池化思想</code>，避免为每个连接创建线程，连接完成后将业务处理交给线程池处理；</li>
+<li>基于<code>IO复用模型</code>，多个连接共用同一个阻塞对象，不用等待所有的连接。遍历到有新数据可以处理时，操作系统会通知程序，线程跳出阻塞状态，进行业务逻辑处理；</li>
+</ol>
+<p>Reactor线程模型的思想就是基于IO复用和线程池的结合体；</p>
+<p>一般一个网络请求的数据处理过程包含：accept、read、decode、compute、encode、send；</p>
+<p>按照分而治之的思想，可以将accept，read，send按需设计成独立的模块，<code>decode、compute、encode</code>内聚性比较强，可以作为数据处理单元用池化的思路来并行处理；</p>
+<p>下面3种reactor模式就是不同拆分级别的优化；</p>
+<h1 id="Reactor模式的3种实现"><a href="#Reactor模式的3种实现" class="headerlink" title="Reactor模式的3种实现"></a>Reactor模式的3种实现</h1><h2 id="单Reactor单线程"><a href="#单Reactor单线程" class="headerlink" title="单Reactor单线程"></a>单Reactor单线程</h2><p><img src="单Reactor单线程.jpg" alt="单Reactor单线程"></p>
+<p>这种模型在Reactor中处理事件，并分发事件，如果是连接事件交给<code>acceptor</code>处理，如果是读写事件和业务处理就交给<code>handler</code>处理，但始终只有1个线程执行所有的事情；</p>
+<p>单Reactor单线程模型的不足</p>
+<ol>
+<li>仅用1个线程处理请求，浪费多核机器的CPU资源；</li>
+<li>单线程处理所有的读写任务，当线程负载过高后，处理速度下降，事件会堆积，严重的会超时，可能导致客户端重新发送请求，性能越来越差；</li>
+<li>单线程会有可靠性的问题；</li>
+</ol>
+<p>针对上面的种种不足，就有了下面的单Reactor多线程模型：</p>
+<blockquote>
+<p>服务员解释Reactor：一个人既当接待员又做服务员，适合客流量少的场景；</p>
+</blockquote>
+<h2 id="单Reactor多线程"><a href="#单Reactor多线程" class="headerlink" title="单Reactor多线程"></a>单Reactor多线程</h2><p><img src="单Reactor多线程.jpg" alt="单Reactor多线程"></p>
+<p>与单Reactor单线程相比，新增了池化手段，也就是Reactor线程只处理<code>accept,read,send</code>事件，耗资源的业务处理（<code>decode、compute、encode</code>）交给线程池处理，充分利用多核机器的资源、提高性能并且增加可靠性；</p>
+<p>单Reactor多线程模型的不足：</p>
+<p>Reactor线程承担所有的事件，例如监听和响应，<code>高并发场景</code>下单线程存在性能问题；</p>
+<blockquote>
+<p>服务员解释Reactor：1个接待员，n个服务员，适合中等流量的场景；</p>
+</blockquote>
+<h2 id="多Reactor多线程"><a href="#多Reactor多线程" class="headerlink" title="多Reactor多线程"></a>多Reactor多线程</h2><p><img src="多Reactor多线程.jpg" alt="多Reactor多线程"></p>
+<p>与单Reactord多线程相比，把Reactor线程拆分了mainReactor和subReactor两个部分，mainReactor只处理连接事件（<code>accept</code>），读写事件（<code>read,send</code>）交给subReactor来处理。业务逻辑还是由线程池来处理；</p>
+<ul>
+<li>mainRactor只处理连接事件，用一个线程来处理就好；</li>
+<li>处理读写事件的subReactor个数一般和CPU数量相等，一个subReactor对应一个线程；</li>
+<li>耗资源的业务逻辑由线程池处理；</li>
+</ul>
+<p>这种模型使各个模块职责单一，耦合度低，性能和稳定性都有提高；</p>
+<p>这种模型在许多项目中广泛应用，比如Netty的主从线程模型等；</p>
+<blockquote>
+<p>服务员解释Reactor：n个接待员，n个服务员，适合高并发流量的场景；</p>
+</blockquote>
+<h1 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h1><ul>
+<li><a href="http://gee.cs.oswego.edu/dl/cpjslides/nio.pdf">《Scalable IO in Java》-Doug Lea</a></li>
+</ul>
+
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/IO/" rel="tag"># IO</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2020/03/22/Java%E4%B8%AD%E7%9A%84NIO%E6%A8%A1%E5%9E%8B/" rel="prev" title="Java中的NIO模型">
+      <i class="fa fa-chevron-left"></i> Java中的NIO模型
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/2020/03/23/Netty%E7%9A%84IO%E6%A8%A1%E5%9E%8B/" rel="next" title="Netty的IO模型">
+      Netty的IO模型 <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+  </div>
+
+
+          </div>
+          
+    <div class="comments" id="gitalk-container"></div>
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let activeClass = CONFIG.comments.activeClass;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#什么是Reactor模式？"><span class="nav-number">1.</span> <span class="nav-text">什么是Reactor模式？</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#为什么有Reactor模式？"><span class="nav-number">2.</span> <span class="nav-text">为什么有Reactor模式？</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#"><span class="nav-number">3.</span> <span class="nav-text"> </span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Reactor模式的3种实现"><span class="nav-number">4.</span> <span class="nav-text">Reactor模式的3种实现</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#单Reactor单线程"><span class="nav-number">4.1.</span> <span class="nav-text">单Reactor单线程</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#单Reactor多线程"><span class="nav-number">4.2.</span> <span class="nav-text">单Reactor多线程</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#多Reactor多线程"><span class="nav-number">4.3.</span> <span class="nav-text">多Reactor多线程</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#参考"><span class="nav-number">5.</span> <span class="nav-text">参考</span></a></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">geosmart</p>
+  <div class="site-description" itemprop="description"></div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">199</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+          
+        <span class="site-state-item-count">15</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">118</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+        <a href="https://github.com/geosmart" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;geosmart" rel="noopener" target="_blank"><i class="fa fa-fw fa-github"></i>GitHub</a>
+      </span>
+  </div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2021</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">geosmart</span>
+</div>
+
+        
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/pisces.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+  
+<script src="/js/local-search.js"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+      
+
+<script>
+  if (typeof MathJax === 'undefined') {
+    window.MathJax = {
+      tex: {
+        inlineMath: {'[+]': [['$', '$']]},
+        tags: 'ams'
+      },
+      options: {
+        renderActions: {
+          findScript: [10, doc => {
+            document.querySelectorAll('script[type^="math/tex"]').forEach(node => {
+              const display = !!node.type.match(/; *mode=display/);
+              const math = new doc.options.MathItem(node.textContent, doc.inputJax[0], display);
+              const text = document.createTextNode('');
+              node.parentNode.replaceChild(text, node);
+              math.start = {node: text, delim: '', n: 0};
+              math.end = {node: text, delim: '', n: 0};
+              doc.math.push(math);
+            });
+          }, '', false],
+          insertedScript: [200, () => {
+            document.querySelectorAll('mjx-container').forEach(node => {
+              let target = node.parentNode;
+              if (target.nodeName.toLowerCase() === 'li') {
+                target.parentNode.classList.add('has-jax');
+              }
+            });
+          }, '', false]
+        }
+      }
+    };
+    (function () {
+      var script = document.createElement('script');
+      script.src = '//cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js';
+      script.defer = true;
+      document.head.appendChild(script);
+    })();
+  } else {
+    MathJax.startup.document.state(0);
+    MathJax.texReset();
+    MathJax.typeset();
+  }
+</script>
+
+    
+
+  
+
+<link rel="stylesheet" href="//cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.min.css">
+
+<script>
+NexT.utils.loadComments(document.querySelector('#gitalk-container'), () => {
+  NexT.utils.getScript('//cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.min.js', () => {
+    var gitalk = new Gitalk({
+      clientID    : '8a29a27c357a64ed79fd',
+      clientSecret: 'fe1b781c49fa9037803f3c4d3e94fbb677abac4d',
+      repo        : 'geosmart.github.io',
+      owner       : 'geosmart',
+      admin       : ['geosmart'],
+      id          : '2089d000a6d254054447270494ea845c',
+        language: 'zh-CN',
+      distractionFreeMode: true
+    });
+    gitalk.render('gitalk-container');
+  }, window.Gitalk);
+});
+</script>
+
+</body>
+</html>

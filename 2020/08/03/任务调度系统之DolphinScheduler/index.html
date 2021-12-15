@@ -1,0 +1,674 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 4.2.1">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css">
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"geosmart.github.io","root":"/","scheme":"Pisces","version":"7.7.1","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.xml"};
+  </script>
+
+  <meta name="description" content="airflow要投入生产，定制成本太高，国产apache dolphinScheduler真香，只是可惜airflow使用python代码对dag进行版本控制的思路没有采用，得自己实现版本控制。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="任务调度系统之DolphinScheduler">
+<meta property="og:url" content="http://geosmart.github.io/2020/08/03/%E4%BB%BB%E5%8A%A1%E8%B0%83%E5%BA%A6%E7%B3%BB%E7%BB%9F%E4%B9%8BDolphinScheduler/index.html">
+<meta property="og:site_name" content="geosmart.io">
+<meta property="og:description" content="airflow要投入生产，定制成本太高，国产apache dolphinScheduler真香，只是可惜airflow使用python代码对dag进行版本控制的思路没有采用，得自己实现版本控制。">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="http://geosmart.github.io/2020/08/03/%E4%BB%BB%E5%8A%A1%E8%B0%83%E5%BA%A6%E7%B3%BB%E7%BB%9F%E4%B9%8BDolphinScheduler/dolphinscheduler.png">
+<meta property="og:image" content="http://geosmart.github.io/2020/08/03/%E4%BB%BB%E5%8A%A1%E8%B0%83%E5%BA%A6%E7%B3%BB%E7%BB%9F%E4%B9%8BDolphinScheduler/distributed-quartz.jpg">
+<meta property="article:published_time" content="2020-08-03T16:00:00.000Z">
+<meta property="article:modified_time" content="2021-12-15T01:13:13.026Z">
+<meta property="article:author" content="geosmart">
+<meta property="article:tag" content="大数据">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://geosmart.github.io/2020/08/03/%E4%BB%BB%E5%8A%A1%E8%B0%83%E5%BA%A6%E7%B3%BB%E7%BB%9F%E4%B9%8BDolphinScheduler/dolphinscheduler.png">
+
+<link rel="canonical" href="http://geosmart.github.io/2020/08/03/%E4%BB%BB%E5%8A%A1%E8%B0%83%E5%BA%A6%E7%B3%BB%E7%BB%9F%E4%B9%8BDolphinScheduler/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome: false,
+    isPost: true
+  };
+</script>
+
+  <title>任务调度系统之DolphinScheduler | geosmart.io</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <div>
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">geosmart.io</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+        <p class="site-subtitle">勿助勿忘，深造自得</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+<nav class="site-nav">
+  
+  <ul id="menu" class="menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-fw fa-home"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-about">
+
+    <a href="/about/" rel="section"><i class="fa fa-fw fa-user"></i>关于</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="fa fa-fw fa-tags"></i>标签</a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/categories/" rel="section"><i class="fa fa-fw fa-th"></i>分类</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-fw fa-archive"></i>归档</a>
+
+  </li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜索
+        </a>
+      </li>
+  </ul>
+
+</nav>
+  <div class="site-search">
+    <div class="popup search-popup">
+    <div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocorrect="off" autocapitalize="off"
+           placeholder="搜索..." spellcheck="false"
+           type="search" class="search-input">
+  </div>
+  <span class="popup-btn-close">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div id="search-result"></div>
+
+</div>
+<div class="search-pop-overlay"></div>
+
+  </div>
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+  <a href="https://github.com/geosmart" class="github-corner" title="Follow me on GitHub" aria-label="Follow me on GitHub" rel="noopener" target="_blank"><svg width="80" height="80" viewBox="0 0 250 250" aria-hidden="true"><path d="M0,0 L115,115 L130,115 L142,142 L250,250 L250,0 Z"></path><path d="M128.3,109.0 C113.8,99.7 119.0,89.6 119.0,89.6 C122.0,82.7 120.5,78.6 120.5,78.6 C119.2,72.0 123.4,76.3 123.4,76.3 C127.3,80.9 125.5,87.3 125.5,87.3 C122.9,97.6 130.6,101.9 134.4,103.2" fill="currentColor" style="transform-origin: 130px 106px;" class="octo-arm"></path><path d="M115.0,115.0 C114.9,115.1 118.7,116.5 119.8,115.4 L133.7,101.6 C136.9,99.2 139.9,98.4 142.2,98.6 C133.8,88.0 127.5,74.4 143.8,58.0 C148.5,53.4 154.0,51.2 159.7,51.0 C160.3,49.4 163.2,43.6 171.4,40.1 C171.4,40.1 176.1,42.5 178.8,56.2 C183.1,58.6 187.2,61.8 190.9,65.4 C194.5,69.0 197.7,73.2 200.1,77.6 C213.8,80.2 216.3,84.9 216.3,84.9 C212.7,93.1 206.9,96.0 205.4,96.6 C205.1,102.4 203.0,107.8 198.3,112.5 C181.9,128.9 168.3,122.5 157.7,114.1 C157.9,116.9 156.7,120.9 152.7,124.9 L141.0,136.5 C139.8,137.7 141.6,141.9 141.8,141.8 Z" fill="currentColor" class="octo-body"></path></svg></a>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content">
+            
+
+  <div class="posts-expand">
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block " lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://geosmart.github.io/2020/08/03/%E4%BB%BB%E5%8A%A1%E8%B0%83%E5%BA%A6%E7%B3%BB%E7%BB%9F%E4%B9%8BDolphinScheduler/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="geosmart">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="geosmart.io">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          任务调度系统之DolphinScheduler
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：4   八月   2020 0:00:00" itemprop="dateCreated datePublished" datetime="2020-08-04T00:00:00+08:00">4   八月   2020</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：15   十二月   2021 9:13:13" itemprop="dateModified" datetime="2021-12-15T09:13:13+08:00">15   十二月   2021</time>
+              </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <p>airflow要投入生产，定制成本太高，国产apache dolphinScheduler真香，只是可惜airflow使用python代码对dag进行版本控制的思路没有采用，得自己实现版本控制。<br><a id="more"></a>  </p>
+<h1 id="DolphinScheduler核心概念"><a href="#DolphinScheduler核心概念" class="headerlink" title="DolphinScheduler核心概念"></a>DolphinScheduler核心概念</h1><ul>
+<li>dag：任务关系依赖</li>
+<li>cron：任务时间依赖</li>
+<li>alert group：任务异常告警分组设置用户</li>
+<li>worker group：任务执行环境隔离</li>
+</ul>
+<h1 id="DolphinScheduler架构"><a href="#DolphinScheduler架构" class="headerlink" title="DolphinScheduler架构"></a>DolphinScheduler架构</h1><p>DolphinScheduler的去中心化是Master/Worker注册到Zookeeper中，实现Master集群和Worker集群无中心，并使用Zookeeper分布式锁来选举其中的一台Master或Worker为“管理者”来执行任务。</p>
+<ul>
+<li><p><strong>MasterServer</strong>：MasterServer采用分布式无中心设计理念，MasterServer主要负责 DAG 任务切分、任务提交监控，并同时监听其它MasterServer和WorkerServer的健康状态。 MasterServer服务启动时向Zookeeper注册临时节点，通过监听Zookeeper临时节点变化来进行容错处理。<br>该服务内主要包含:</p>
+<ul>
+<li>Distributed Quartz分布式调度组件，主要负责定时任务的启停操作，当quartz调起任务后，Master内部会有线程池具体负责处理任务的后续操作;</li>
+<li>MasterSchedulerThread是一个扫描线程，定时扫描数据库中的 command 表，根据不同的命令类型进行不同的业务操作</li>
+<li>MasterExecThread主要是负责DAG任务切分、任务提交监控、各种不同命令类型的逻辑处理</li>
+<li>MasterTaskExecThread主要负责任务的持久化</li>
+</ul>
+</li>
+<li><p><strong>WorkerServer</strong>：WorkerServer也采用分布式无中心设计理念，WorkerServer主要负责任务的执行和提供日志服务。WorkerServer服务启动时向Zookeeper注册临时节点，并维持心跳。<br>该服务包含：</p>
+<ul>
+<li>FetchTaskThread主要负责不断从Task Queue中领取任务，并根据不同任务类型调用TaskScheduleThread对应执行器。</li>
+<li>LoggerServer是一个RPC服务，提供日志分片查看、刷新和下载等功能</li>
+</ul>
+</li>
+<li><p><strong>ZooKeeper</strong>：ZooKeeper服务，系统中的MasterServer和WorkerServer节点都通过ZooKeeper来进行集群管理和容错。另外系统还基于ZooKeeper进行事件监听和分布式锁。 </p>
+</li>
+<li><strong>Alert</strong>：提供告警相关接口，接口主要包括告警两种类型的告警数据的存储、查询和通知功能。其中通知功能又有邮件通知和<strong>SNMP(暂未实现)</strong>两种。</li>
+<li><strong>API</strong>：API接口层，主要负责处理前端UI层的请求。该服务统一提供RESTful api向外部提供请求服务。 接口包括工作流的创建、定义、查询、修改、发布、下线、手工启动、停止、暂停、恢复、从该节点开始执行等等。</li>
+<li><strong>UI</strong>：系统的前端页面，提供系统的各种可视化操作界面，详见系统使用手册部分。</li>
+</ul>
+<h1 id="选型DolphinScheduler的考虑"><a href="#选型DolphinScheduler的考虑" class="headerlink" title="选型DolphinScheduler的考虑"></a>选型DolphinScheduler的考虑</h1><blockquote>
+<p><strong>pros</strong></p>
+<ul>
+<li>去中心化设计（netty+zookeeper），scheduler和worker都实现了高可用；</li>
+<li>可视化拖拽设计dag流程，友好的task参数配置；</li>
+<li>java工程化技术栈(springboot+mybatis+vue)，学习和维护成本低；</li>
+<li>源码有完整的单元测试用例</li>
+<li>告警/通知机制，提供dingtalk/email等集成；</li>
+</ul>
+<p><strong>cons</strong></p>
+<ul>
+<li>具体任务类型依赖的库耦合在同一个项目未做插件化；</li>
+<li>自定义任务类型实现必须侵入性修改源码，插件化task类型的pr在开发中；</li>
+<li>不支持数据血缘采集；</li>
+<li>不支持sentry告警集成；</li>
+<li>不支持ldap认证；</li>
+</ul>
+</blockquote>
+<h1 id="DolphinScheduler的Process-Task状态"><a href="#DolphinScheduler的Process-Task状态" class="headerlink" title="DolphinScheduler的Process/Task状态"></a>DolphinScheduler的Process/Task状态</h1><p>对应<code>task_instance</code>表的state字段</p>
+<ul>
+<li>submit_success：提交成功</li>
+<li>running：正在运行</li>
+<li>ready_pause：准备暂停</li>
+<li>pause：暂停</li>
+<li>ready_stop：准备停止</li>
+<li>stop：停止</li>
+<li>failure：失败</li>
+<li>success：成功</li>
+<li>need_fault_tolerance：需要容错，worker节点宕机，任务标记为需要容错，然后被master接管后重新分派给其他worker处理</li>
+<li>kill：中止</li>
+<li>waiting_thread：等待线程</li>
+<li>waiting_depend_node_complete：等待依赖完成</li>
+</ul>
+<blockquote>
+<p>调度器处理的状态： submit_success, ready_pause, ready_stop, need_fault_tolerance，waiting_thread，waiting_depend_node_complete<br>任务运行状态：pause，running<br>任务终止状态：stop，success，kill，failure</p>
+</blockquote>
+<h1 id="DolphinScheduler的异常处理机制"><a href="#DolphinScheduler的异常处理机制" class="headerlink" title="DolphinScheduler的异常处理机制"></a>DolphinScheduler的异常处理机制</h1><ul>
+<li>Master节点容错：依赖于ZooKeeper的Watcher机制实现（<code>EPHEMERAL_SEQUENTIAL</code>），watch到master节点remove时，会将host为当前节点且任务状态in[<code>正在运行，准备暂停，准备停止</code>]的任务的host设置为null，并重新生成新的command；</li>
+<li>Worker节点容错：依赖于ZooKeeper的Watcher机制实现（<code>EPHEMERAL_SEQUENTIAL</code>），watch到worker节点remove时，会将host为当前节点且任务状态in[正在运行]的任务kill掉，然后状态改为<code>需要容错</code>;</li>
+<li>任务失败重试：是任务级别的，是调度系统自动进行的，比如一个Shell任务设置重试次数为3次，那么在Shell任务运行失败后会自己再最多尝试运行3次；</li>
+<li>流程失败恢复：是流程级别的，是手动进行的，恢复是从只能从失败的节点开始执行或从当前节点开始执行；</li>
+<li>流程失败重跑：是流程级别的，是手动进行的，重跑是从开始节点进行；</li>
+</ul>
+<h1 id="调度规则"><a href="#调度规则" class="headerlink" title="调度规则"></a>调度规则</h1><ul>
+<li>定时调度：cron表达式，提供可视化生成cron；</li>
+<li>事件触发：从当前节点开始执行、从失败节点开始执行、补数、重跑、暂停/恢复暂停、停止；</li>
+<li>调度实现：基于<code>quartz</code>分布式调度器</li>
+</ul>
+<h1 id="DolphinScheduler的表结构"><a href="#DolphinScheduler的表结构" class="headerlink" title="DolphinScheduler的表结构"></a>DolphinScheduler的表结构</h1><p><a href="dolphinscheduler.jdl">DolphinScheduler的ERD(JDL)</a></p>
+<p><img src="dolphinscheduler.png" alt="dolphinescheduler-erd"></p>
+<blockquote>
+<p>表前缀：<code>t_ds_</code></p>
+</blockquote>
+<p>DolphinScheduler的表可分为用户，资源，用户资源授权，调度表（quartz），调度记录表，运维6类</p>
+<h2 id="用户表"><a href="#用户表" class="headerlink" title="用户表"></a>用户表</h2><ul>
+<li>tenant：租户</li>
+<li>user：用户</li>
+<li>access_token：访问ds后端的token</li>
+<li>session：用户登陆session</li>
+</ul>
+<h2 id="资源表"><a href="#资源表" class="headerlink" title="资源表"></a>资源表</h2><ul>
+<li>queue：队列</li>
+<li>resources：资源文件</li>
+<li>udfs：UDF资源</li>
+<li>datasource：数据源</li>
+<li>project：项目</li>
+<li>process_definition：流程定义，存储dag定义数据；</li>
+</ul>
+<h2 id="用户资源授权表"><a href="#用户资源授权表" class="headerlink" title="用户资源授权表"></a>用户资源授权表</h2><ul>
+<li>relation_project_user：用户关联的项目</li>
+<li>relation_datasource_user：用户关联的数据源</li>
+<li>relation_udfs_user：用户关联的UDF函数</li>
+<li>relation_resources_user：用户关联的资源</li>
+</ul>
+<h2 id="调度记录表"><a href="#调度记录表" class="headerlink" title="调度记录表"></a>调度记录表</h2><ul>
+<li>schedules：流程定时调度，存储process_definition的时间调度配置；</li>
+<li>process_instance：流程实例</li>
+<li>relation_process_instance：子流程，用于处理流程定义中含有子流程的情况；</li>
+<li>task_instance：任务实例</li>
+<li>command：任务执行命令</li>
+<li>error_command：任务执行错误命令</li>
+</ul>
+<h2 id="运维表"><a href="#运维表" class="headerlink" title="运维表"></a>运维表</h2><ul>
+<li>alert：告警信息</li>
+<li>alertgroup：告警组</li>
+<li>relation_user_alertgroup：用户关联告警组</li>
+<li>version_ds：版本信息</li>
+</ul>
+<h2 id="quartz调度表"><a href="#quartz调度表" class="headerlink" title="quartz调度表"></a>quartz调度表</h2><blockquote>
+<p>分布式quartz：保证了同一时刻有且只有一个服务器在调用定时器任务<br><img src="distributed-quartz.jpg" alt="distributed-quartz"></p>
+</blockquote>
+<ul>
+<li>qrtz_triggers：存储定义的trigger；</li>
+<li>qrtz_cron_triggers：存储 Cron Trigger，包括 Cron 表达式和时区信息；</li>
+<li>qrtz_fired_triggers：存储与已触发的 Trigger 相关的状态信息，以及相联 Job 的执行信息；</li>
+<li>qrtz_blob_triggers：以 Blob 类型存储Quartz的Calendar信息；</li>
+<li>qrtz_simple_triggers：存储SimpleTrigger，包括重复次数，间隔，以及已触的次数；</li>
+<li>qrtz_simprop_triggers：存储简单的存储CalendarIntervalTrigger和DailyTimeIntervalTrigger两种类型的触发器；</li>
+<li>qrtz_paused_trigger_grps：存储已暂停的 Trigger 组的信息；</li>
+<li>qrtz_calendars：自定义时间段，可以控制触发器在这个时间段内触发/不触发；</li>
+<li>qrtz_scheduler_state：存储一个集群中其他调度器 (Scheduler) 的状态；</li>
+<li>qrtz_job_details：存储每一个已配置的 Job 的详细信息(jobDetail)；</li>
+<li>qrtz_locks：存储程序的悲观锁的信息（行锁实现同一个任务不会被多次调度）；</li>
+</ul>
+<h1 id="代码结构"><a href="#代码结构" class="headerlink" title="代码结构"></a>代码结构</h1><p>依赖</p>
+<ul>
+<li>dolphinscheduler-service：核心service层，包含log，queue，zk，quartz.cron等逻辑；</li>
+<li>dolphinscheduler-dao：mybatis元数据库的数据访问层、外部数据源配置；</li>
+<li>dolphinscheduler-common：枚举定义、不同任务类型的参数定义、辅助工具类；</li>
+<li>dolphinscheduler-plugin-api：Alert插件api；</li>
+<li>dolphinscheduler-remote：基于netty实现的rpc框架；</li>
+<li>dolphinscheduler-dist：协议、部署；</li>
+</ul>
+<p>部署服务</p>
+<ul>
+<li>dolphinscheduler-ui：ds前端网站；</li>
+<li>dolphinscheduler-api：rest服务；</li>
+<li>dolphinscheduler-server：Master和Worker；</li>
+<li>dolphinscheduler-alert：告警服务AlertServer；</li>
+</ul>
+<h1 id="如何定制"><a href="#如何定制" class="headerlink" title="如何定制"></a>如何定制</h1><ul>
+<li><h1 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h1></li>
+</ul>
+<ul>
+<li><a href="https://dolphinscheduler.apache.org/zh-cn/docs/development/architecture-design.html">Apache DolphinScheduler系统架构设计</a></li>
+<li><a href="https://www.slidestalk.com/DolphinScheduler/ApacheDolphinScheduler81906">Apache DolphinScheduler-分布式易扩展的可视化DAG工作流调度系统</a></li>
+<li><a href="https://www.slidestalk.com/DolphinScheduler/Distributed_Job_Management_Platform">Apache DolphinScheduler-让作业提交变得更简单</a></li>
+</ul>
+
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/%E5%A4%A7%E6%95%B0%E6%8D%AE/" rel="tag"># 大数据</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2020/07/28/%E4%BB%80%E4%B9%88%E6%98%AF%E6%95%B0%E6%8D%AE%E6%B9%96/" rel="prev" title="什么是数据湖">
+      <i class="fa fa-chevron-left"></i> 什么是数据湖
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/2020/11/21/DataSphereStudio%E7%9A%84%E8%87%AA%E5%8A%A8%E5%8C%96%E9%83%A8%E7%BD%B2/" rel="next" title="DataSphereStudio的自动化部署">
+      DataSphereStudio的自动化部署 <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+  </div>
+
+
+          </div>
+          
+    <div class="comments" id="gitalk-container"></div>
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let activeClass = CONFIG.comments.activeClass;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#DolphinScheduler核心概念"><span class="nav-number">1.</span> <span class="nav-text">DolphinScheduler核心概念</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#DolphinScheduler架构"><span class="nav-number">2.</span> <span class="nav-text">DolphinScheduler架构</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#选型DolphinScheduler的考虑"><span class="nav-number">3.</span> <span class="nav-text">选型DolphinScheduler的考虑</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#DolphinScheduler的Process-Task状态"><span class="nav-number">4.</span> <span class="nav-text">DolphinScheduler的Process&#x2F;Task状态</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#DolphinScheduler的异常处理机制"><span class="nav-number">5.</span> <span class="nav-text">DolphinScheduler的异常处理机制</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#调度规则"><span class="nav-number">6.</span> <span class="nav-text">调度规则</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#DolphinScheduler的表结构"><span class="nav-number">7.</span> <span class="nav-text">DolphinScheduler的表结构</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#用户表"><span class="nav-number">7.1.</span> <span class="nav-text">用户表</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#资源表"><span class="nav-number">7.2.</span> <span class="nav-text">资源表</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#用户资源授权表"><span class="nav-number">7.3.</span> <span class="nav-text">用户资源授权表</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#调度记录表"><span class="nav-number">7.4.</span> <span class="nav-text">调度记录表</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#运维表"><span class="nav-number">7.5.</span> <span class="nav-text">运维表</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#quartz调度表"><span class="nav-number">7.6.</span> <span class="nav-text">quartz调度表</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#代码结构"><span class="nav-number">8.</span> <span class="nav-text">代码结构</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#如何定制"><span class="nav-number">9.</span> <span class="nav-text">如何定制</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#参考"><span class="nav-number">10.</span> <span class="nav-text">参考</span></a></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">geosmart</p>
+  <div class="site-description" itemprop="description"></div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">199</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+          
+        <span class="site-state-item-count">15</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">118</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+        <a href="https://github.com/geosmart" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;geosmart" rel="noopener" target="_blank"><i class="fa fa-fw fa-github"></i>GitHub</a>
+      </span>
+  </div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2021</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">geosmart</span>
+</div>
+
+        
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/pisces.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+  
+<script src="/js/local-search.js"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+      
+
+<script>
+  if (typeof MathJax === 'undefined') {
+    window.MathJax = {
+      tex: {
+        inlineMath: {'[+]': [['$', '$']]},
+        tags: 'ams'
+      },
+      options: {
+        renderActions: {
+          findScript: [10, doc => {
+            document.querySelectorAll('script[type^="math/tex"]').forEach(node => {
+              const display = !!node.type.match(/; *mode=display/);
+              const math = new doc.options.MathItem(node.textContent, doc.inputJax[0], display);
+              const text = document.createTextNode('');
+              node.parentNode.replaceChild(text, node);
+              math.start = {node: text, delim: '', n: 0};
+              math.end = {node: text, delim: '', n: 0};
+              doc.math.push(math);
+            });
+          }, '', false],
+          insertedScript: [200, () => {
+            document.querySelectorAll('mjx-container').forEach(node => {
+              let target = node.parentNode;
+              if (target.nodeName.toLowerCase() === 'li') {
+                target.parentNode.classList.add('has-jax');
+              }
+            });
+          }, '', false]
+        }
+      }
+    };
+    (function () {
+      var script = document.createElement('script');
+      script.src = '//cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js';
+      script.defer = true;
+      document.head.appendChild(script);
+    })();
+  } else {
+    MathJax.startup.document.state(0);
+    MathJax.texReset();
+    MathJax.typeset();
+  }
+</script>
+
+    
+
+  
+
+<link rel="stylesheet" href="//cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.min.css">
+
+<script>
+NexT.utils.loadComments(document.querySelector('#gitalk-container'), () => {
+  NexT.utils.getScript('//cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.min.js', () => {
+    var gitalk = new Gitalk({
+      clientID    : '8a29a27c357a64ed79fd',
+      clientSecret: 'fe1b781c49fa9037803f3c4d3e94fbb677abac4d',
+      repo        : 'geosmart.github.io',
+      owner       : 'geosmart',
+      admin       : ['geosmart'],
+      id          : 'e211bd3fa1ed68da7e33f988e5fbbabe',
+        language: 'zh-CN',
+      distractionFreeMode: true
+    });
+    gitalk.render('gitalk-container');
+  }, window.Gitalk);
+});
+</script>
+
+</body>
+</html>

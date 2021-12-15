@@ -1,0 +1,564 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 4.2.1">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css">
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"geosmart.github.io","root":"/","scheme":"Pisces","version":"7.7.1","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.xml"};
+  </script>
+
+  <meta name="description" content="考虑部署实施的复杂度，一直没上MongoDB集群，但现在海量数据一来，单机性能就扛不住了，本文记录MongoDB集群的基础知识。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="MongoDB集群学习笔记">
+<meta property="og:url" content="http://geosmart.github.io/2015/12/29/MongoDB%E9%9B%86%E7%BE%A4%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/index.html">
+<meta property="og:site_name" content="geosmart.io">
+<meta property="og:description" content="考虑部署实施的复杂度，一直没上MongoDB集群，但现在海量数据一来，单机性能就扛不住了，本文记录MongoDB集群的基础知识。">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="http://geosmart.github.io/2015/12/29/MongoDB%E9%9B%86%E7%BE%A4%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/automation.png">
+<meta property="og:image" content="http://geosmart.github.io/2015/12/29/MongoDB%E9%9B%86%E7%BE%A4%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/monitoring.png">
+<meta property="og:image" content="http://geosmart.github.io/2015/12/29/MongoDB%E9%9B%86%E7%BE%A4%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/backup.png">
+<meta property="article:published_time" content="2015-12-29T09:37:01.000Z">
+<meta property="article:modified_time" content="2021-12-15T01:13:12.816Z">
+<meta property="article:author" content="geosmart">
+<meta property="article:tag" content="MongoDB">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://geosmart.github.io/2015/12/29/MongoDB%E9%9B%86%E7%BE%A4%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/automation.png">
+
+<link rel="canonical" href="http://geosmart.github.io/2015/12/29/MongoDB%E9%9B%86%E7%BE%A4%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome: false,
+    isPost: true
+  };
+</script>
+
+  <title>MongoDB集群学习笔记 | geosmart.io</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <div>
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">geosmart.io</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+        <p class="site-subtitle">勿助勿忘，深造自得</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+<nav class="site-nav">
+  
+  <ul id="menu" class="menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-fw fa-home"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-about">
+
+    <a href="/about/" rel="section"><i class="fa fa-fw fa-user"></i>关于</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="fa fa-fw fa-tags"></i>标签</a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/categories/" rel="section"><i class="fa fa-fw fa-th"></i>分类</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-fw fa-archive"></i>归档</a>
+
+  </li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜索
+        </a>
+      </li>
+  </ul>
+
+</nav>
+  <div class="site-search">
+    <div class="popup search-popup">
+    <div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocorrect="off" autocapitalize="off"
+           placeholder="搜索..." spellcheck="false"
+           type="search" class="search-input">
+  </div>
+  <span class="popup-btn-close">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div id="search-result"></div>
+
+</div>
+<div class="search-pop-overlay"></div>
+
+  </div>
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+  <a href="https://github.com/geosmart" class="github-corner" title="Follow me on GitHub" aria-label="Follow me on GitHub" rel="noopener" target="_blank"><svg width="80" height="80" viewBox="0 0 250 250" aria-hidden="true"><path d="M0,0 L115,115 L130,115 L142,142 L250,250 L250,0 Z"></path><path d="M128.3,109.0 C113.8,99.7 119.0,89.6 119.0,89.6 C122.0,82.7 120.5,78.6 120.5,78.6 C119.2,72.0 123.4,76.3 123.4,76.3 C127.3,80.9 125.5,87.3 125.5,87.3 C122.9,97.6 130.6,101.9 134.4,103.2" fill="currentColor" style="transform-origin: 130px 106px;" class="octo-arm"></path><path d="M115.0,115.0 C114.9,115.1 118.7,116.5 119.8,115.4 L133.7,101.6 C136.9,99.2 139.9,98.4 142.2,98.6 C133.8,88.0 127.5,74.4 143.8,58.0 C148.5,53.4 154.0,51.2 159.7,51.0 C160.3,49.4 163.2,43.6 171.4,40.1 C171.4,40.1 176.1,42.5 178.8,56.2 C183.1,58.6 187.2,61.8 190.9,65.4 C194.5,69.0 197.7,73.2 200.1,77.6 C213.8,80.2 216.3,84.9 216.3,84.9 C212.7,93.1 206.9,96.0 205.4,96.6 C205.1,102.4 203.0,107.8 198.3,112.5 C181.9,128.9 168.3,122.5 157.7,114.1 C157.9,116.9 156.7,120.9 152.7,124.9 L141.0,136.5 C139.8,137.7 141.6,141.9 141.8,141.8 Z" fill="currentColor" class="octo-body"></path></svg></a>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content">
+            
+
+  <div class="posts-expand">
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block " lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://geosmart.github.io/2015/12/29/MongoDB%E9%9B%86%E7%BE%A4%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="geosmart">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="geosmart.io">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          MongoDB集群学习笔记
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：29   十二月   2015 17:37:01" itemprop="dateCreated datePublished" datetime="2015-12-29T17:37:01+08:00">29   十二月   2015</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：15   十二月   2021 9:13:12" itemprop="dateModified" datetime="2021-12-15T09:13:12+08:00">15   十二月   2021</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/%E5%AD%98%E5%82%A8%E5%B1%82/" itemprop="url" rel="index"><span itemprop="name">存储层</span></a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <p>考虑部署实施的复杂度，一直没上MongoDB集群，但现在海量数据一来，单机性能就扛不住了，本文记录MongoDB集群的基础知识。</p>
+<hr>
+<a id="more"></a>
+<p>Mongodb 有三种集群方式的搭建： Replica Set ，Sharding 和 Master-Slaver</p>
+<h1 id="基本概念"><a href="#基本概念" class="headerlink" title="基本概念"></a>基本概念</h1><ol>
+<li>Chunck（块）：一个区间的数据称为一个数据块,是一个逻辑概念，物理存储并不连续，默认64M,可通过启动时附加’—chunkSize N’参数设置块大小</li>
+<li>Vertical Scaling（垂直扩展）：CPU/RAM/IO等硬件层扩展，有云端部署和硬件扩展的瓶颈</li>
+<li>Sharding（水平分片）：逻辑上是一个数据库，但物理存储上分开独立存储</li>
+<li>Balancing（平衡）：当存在多个可用的分片，且块的数量足够多，mongodb的balancer（平衡器）会把数据迁移到其他分片上</li>
+<li>mongos：mongos是用户和群集间的交互点，其职责是隐藏分片内部的复杂性并向用户提供一个简洁的单服务器接口，mongos会将所有用户请求转发到恰当的分片上。</li>
+<li>config server（配置服务器）：配置服务器包含了有关集群的最完整可靠的信息以供所有人（分片、mongos进程和系统管理员）访问。</li>
+</ol>
+<h1 id="集群的构造"><a href="#集群的构造" class="headerlink" title="集群的构造"></a>集群的构造</h1><p>一个MongoDB集群基本由3类进程组成： shards（存储数据）, mongos(路由器）、 config servers（配置服务器）</p>
+<h2 id="Shard-Server"><a href="#Shard-Server" class="headerlink" title="Shard Server"></a>Shard Server</h2><p>即存储实际数据的分片每个Shard 可以是一个mongod实例也可以是一组mongod实例构成的Replica Set。为了实现每个Shard内部的auto-failover，MongoDB官方建议每个Shard为一组Replica Set。</p>
+<h2 id="Config-Server"><a href="#Config-Server" class="headerlink" title="Config Server"></a>Config Server</h2><p>为了将一个特定的collection 存储在多个shard 中需要为该collection指定一个shard key例如{age: 1} shard key 可以决定该条记录属于哪个chunk。Config Servers 就是用来存储所有shard 节点的配置信息、每个chunk 的shard key 范围、chunk 在各shard 的分布情况、该集群中所有DB 和collection 的sharding 配置信息。</p>
+<h2 id="Route-Process"><a href="#Route-Process" class="headerlink" title="Route Process"></a>Route Process</h2><p>路由客户端由此接入，然后询问Config Servers 需要到哪个Shard 上查询或保存记录再连接相应的Shard 进行操作，最后将结果返回给客户端。客户端只需要将原本发给mongod的查询或更新请求原封不动地发给Routing Process而不必关心所操作的记录存储在哪个Shard 上。</p>
+<h1 id="Replica-Set（复制）"><a href="#Replica-Set（复制）" class="headerlink" title="Replica Set（复制）"></a>Replica Set（复制）</h1><h2 id="定义"><a href="#定义" class="headerlink" title="定义"></a>定义</h2><p>复制是在多台服务器之间同步数据的过程。</p>
+<h2 id="容灾性"><a href="#容灾性" class="headerlink" title="容灾性"></a>容灾性</h2><p>由于在不同的数据库服务器上拥有多个数据镜像，复制可以有效的防止由于单台服务器故障而导致的数据丢失。复制还能够帮助我们从硬件故障或是服务中断中恢复数据。我们也可以通过增加复制节点来将其用于灾难恢复、报表或是备份。</p>
+<h2 id="读写分离"><a href="#读写分离" class="headerlink" title="读写分离"></a>读写分离</h2><p>在某些情况中，我们可以通过复制的方式来提高读的性能。客户端可以将读与写请求分别发送到不同的服务器上。我们还能够通过在其他数据中心建立分布式复制节点的方式来做异地冗灾，以进一步提高可用性。</p>
+<h1 id="Sharding（分片）"><a href="#Sharding（分片）" class="headerlink" title="Sharding（分片）"></a>Sharding（分片）</h1><p><a href="https://docs.mongodb.org/manual/faq/sharding/">shard官方QA</a></p>
+<h2 id="定义-1"><a href="#定义-1" class="headerlink" title="定义"></a>定义</h2><p>sharding（分片）是使用多个机器存储数据的方法,MongoDB使用分片以支持巨大的数据存储量与对数据操作.<br>为了解决这些问题,有两个基本的方法: 纵向扩展 和 分片 .<br>分片的目的：高数据量和吞吐量的数据库应用会对单机的性能造成较大压力,大的查询量会将单机的CPU耗尽,大的数据量对单机的存储压力较大,最终会耗尽系统的内存而将压力转移到磁盘IO上.</p>
+<p>一个分片可由多台服务器组成（每台服务器都有一份分片数据的Replica set副本）<br>根据片键（key）分片[a,b)，MongoDB会在不同分片区间移动数据子集<br><a href="http://www.server110.com/mongodb/201403/7201.html">MongoDB集群（分片）安装与配置方法图解</a></p>
+<h2 id="shard-key-片键"><a href="#shard-key-片键" class="headerlink" title="shard key(片键)"></a>shard key(片键)</h2><p>shard key大小不能超过512 bytes.<br>分片后shard key不可改变，除非重建collection</p>
+<h3 id="小基数片键"><a href="#小基数片键" class="headerlink" title="小基数片键"></a>小基数片键</h3><p>小基数片键：片键值数量有限<br>适用的键：应使用组合片键(一个片键包含2个字段），请确保第二个字段有足够的值供MongoDB用来进行分割</p>
+<h3 id="升序片键"><a href="#升序片键" class="headerlink" title="升序片键"></a>升序片键</h3><p>适用于任何升序排列的键值，而并不必须是时间戳，包括日期、自增主键。<br>只要键值趋于无穷大，就会面临单一且不可分散的热点问题</p>
+<h3 id="随机片键"><a href="#随机片键" class="headerlink" title="随机片键"></a>随机片键</h3><p>初衷是为了避免热点，会选择一个随机值的字段来分片。<br>数据量变大后会给RAM增加压力，且会引发大量的磁盘IO</p>
+<h3 id="好片键"><a href="#好片键" class="headerlink" title="好片键"></a>好片键</h3><p>具有良好的数据局部性（data locality）特征，但又不会太局部而导致热点出现。<br>准升序键+搜索键<code>｛coarselyAscending:1，search:1｝</code>，coarselyAscending用来控制数据局部化，search字段则是数据上常用的一个检索字段。<br>coarselyAscending键的每个值最好能对应几十到几百个数据块，如月份（2015-12）<br>search键则应当是应用程序通常都会依据其进行查询的字段，如用户信息、文件名称、或GUID等</p>
+<h1 id="Master-Slaver（主从）"><a href="#Master-Slaver（主从）" class="headerlink" title="Master-Slaver（主从）"></a>Master-Slaver（主从）</h1><p>对于Mongodb来说，并不推荐使用Master-Slave架构，因为Master-Slave其中Master宕机后不能自动恢复，推荐使用Replica Set，除非Replica的节点数超过50，才需要使用Master-Slave架构，正常情况是不可能用那么多节点的。<br>主从架构一般用于备份或者做读写分离。由两种角色构成：</p>
+<h2 id="主-Master"><a href="#主-Master" class="headerlink" title="主(Master)"></a>主(Master)</h2><p>可读可写，当数据有修改的时候，会将oplog同步到所有连接的salve上去。</p>
+<h2 id="从-Slave"><a href="#从-Slave" class="headerlink" title="从(Slave)"></a>从(Slave)</h2><p>只读不可写，自动从Master同步数据。</p>
+<h1 id="mongodb集群监控"><a href="#mongodb集群监控" class="headerlink" title="mongodb集群监控"></a>mongodb集群监控</h1><p>在线：Mongodb Cloud Manager<br>离线：MongoDB Management Service(MMS)<br><img src="automation.png" alt="how automation agent work"><br><img src="monitoring.png" alt="how monitoring agent work"><br><img src="backup.png" alt="how bakcup agent work"></p>
+<h1 id="mongodb-gui-tools"><a href="#mongodb-gui-tools" class="headerlink" title="mongodb gui tools"></a>mongodb gui tools</h1><p><code>MongoVUE1.6.9</code> 在<code>Mongodb3.2.0</code>版本不可用了，不得不寻找替代品<br><a href="https://docs.mongodb.org/ecosystem/tools/administration-interfaces">官方推荐工具列表</a></p>
+<p>亲测觉得不错的GUI工具</p>
+<ul>
+<li><a href="http://3t.io/mongochef/">3T MongoChef</a> 提供64位</li>
+<li><a href="http://mongobooster.com/">mongobooster</a></li>
+</ul>
+
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/MongoDB/" rel="tag"># MongoDB</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2015/12/28/MongoDB%E6%9D%83%E9%99%90%E9%85%8D%E7%BD%AE/" rel="prev" title="MongoDB权限配置">
+      <i class="fa fa-chevron-left"></i> MongoDB权限配置
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/2016/01/20/%E6%90%AD%E5%BB%BAPython%E5%B7%A5%E7%A8%8B%E5%8C%96%E5%BC%80%E5%8F%91%E6%A1%86%E6%9E%B6/" rel="next" title="搭建Python工程化开发框架">
+      搭建Python工程化开发框架 <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+  </div>
+
+
+          </div>
+          
+    <div class="comments" id="gitalk-container"></div>
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let activeClass = CONFIG.comments.activeClass;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#基本概念"><span class="nav-number">1.</span> <span class="nav-text">基本概念</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#集群的构造"><span class="nav-number">2.</span> <span class="nav-text">集群的构造</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#Shard-Server"><span class="nav-number">2.1.</span> <span class="nav-text">Shard Server</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Config-Server"><span class="nav-number">2.2.</span> <span class="nav-text">Config Server</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Route-Process"><span class="nav-number">2.3.</span> <span class="nav-text">Route Process</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Replica-Set（复制）"><span class="nav-number">3.</span> <span class="nav-text">Replica Set（复制）</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#定义"><span class="nav-number">3.1.</span> <span class="nav-text">定义</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#容灾性"><span class="nav-number">3.2.</span> <span class="nav-text">容灾性</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#读写分离"><span class="nav-number">3.3.</span> <span class="nav-text">读写分离</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Sharding（分片）"><span class="nav-number">4.</span> <span class="nav-text">Sharding（分片）</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#定义-1"><span class="nav-number">4.1.</span> <span class="nav-text">定义</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#shard-key-片键"><span class="nav-number">4.2.</span> <span class="nav-text">shard key(片键)</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#小基数片键"><span class="nav-number">4.2.1.</span> <span class="nav-text">小基数片键</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#升序片键"><span class="nav-number">4.2.2.</span> <span class="nav-text">升序片键</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#随机片键"><span class="nav-number">4.2.3.</span> <span class="nav-text">随机片键</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#好片键"><span class="nav-number">4.2.4.</span> <span class="nav-text">好片键</span></a></li></ol></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Master-Slaver（主从）"><span class="nav-number">5.</span> <span class="nav-text">Master-Slaver（主从）</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#主-Master"><span class="nav-number">5.1.</span> <span class="nav-text">主(Master)</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#从-Slave"><span class="nav-number">5.2.</span> <span class="nav-text">从(Slave)</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#mongodb集群监控"><span class="nav-number">6.</span> <span class="nav-text">mongodb集群监控</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#mongodb-gui-tools"><span class="nav-number">7.</span> <span class="nav-text">mongodb gui tools</span></a></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">geosmart</p>
+  <div class="site-description" itemprop="description"></div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">199</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+          
+        <span class="site-state-item-count">15</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">118</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+        <a href="https://github.com/geosmart" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;geosmart" rel="noopener" target="_blank"><i class="fa fa-fw fa-github"></i>GitHub</a>
+      </span>
+  </div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2021</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">geosmart</span>
+</div>
+
+        
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/pisces.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+  
+<script src="/js/local-search.js"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+      
+
+<script>
+  if (typeof MathJax === 'undefined') {
+    window.MathJax = {
+      tex: {
+        inlineMath: {'[+]': [['$', '$']]},
+        tags: 'ams'
+      },
+      options: {
+        renderActions: {
+          findScript: [10, doc => {
+            document.querySelectorAll('script[type^="math/tex"]').forEach(node => {
+              const display = !!node.type.match(/; *mode=display/);
+              const math = new doc.options.MathItem(node.textContent, doc.inputJax[0], display);
+              const text = document.createTextNode('');
+              node.parentNode.replaceChild(text, node);
+              math.start = {node: text, delim: '', n: 0};
+              math.end = {node: text, delim: '', n: 0};
+              doc.math.push(math);
+            });
+          }, '', false],
+          insertedScript: [200, () => {
+            document.querySelectorAll('mjx-container').forEach(node => {
+              let target = node.parentNode;
+              if (target.nodeName.toLowerCase() === 'li') {
+                target.parentNode.classList.add('has-jax');
+              }
+            });
+          }, '', false]
+        }
+      }
+    };
+    (function () {
+      var script = document.createElement('script');
+      script.src = '//cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js';
+      script.defer = true;
+      document.head.appendChild(script);
+    })();
+  } else {
+    MathJax.startup.document.state(0);
+    MathJax.texReset();
+    MathJax.typeset();
+  }
+</script>
+
+    
+
+  
+
+<link rel="stylesheet" href="//cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.min.css">
+
+<script>
+NexT.utils.loadComments(document.querySelector('#gitalk-container'), () => {
+  NexT.utils.getScript('//cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.min.js', () => {
+    var gitalk = new Gitalk({
+      clientID    : '8a29a27c357a64ed79fd',
+      clientSecret: 'fe1b781c49fa9037803f3c4d3e94fbb677abac4d',
+      repo        : 'geosmart.github.io',
+      owner       : 'geosmart',
+      admin       : ['geosmart'],
+      id          : '916bf4e6b08c4f96b0e25ffec0ba24d8',
+        language: 'zh-CN',
+      distractionFreeMode: true
+    });
+    gitalk.render('gitalk-container');
+  }, window.Gitalk);
+});
+</script>
+
+</body>
+</html>

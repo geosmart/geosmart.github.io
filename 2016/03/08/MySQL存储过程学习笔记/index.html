@@ -1,0 +1,571 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 4.2.1">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css">
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"geosmart.github.io","root":"/","scheme":"Pisces","version":"7.7.1","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.xml"};
+  </script>
+
+  <meta name="description" content="团队一直有小伙伴顶着数据库相关的工作，ETL数据整合分析事情多了，研发开发工作相应减少，终于有机会也来写写存储过程了。以SP进行SQL业务逻辑封装，执行性能能大大提高，在注意合理拆分SP、SQL书写简洁规范和注释到位的情况下，也能做到易于维护。特别是对于海量数据分析追求时效性的业务，效率第一，就算逻辑复杂不易维护也得认。如Hibernate VS Mybatis，产品 VS 项目，现实世界丰富多彩">
+<meta property="og:type" content="article">
+<meta property="og:title" content="MySQL存储过程学习笔记">
+<meta property="og:url" content="http://geosmart.github.io/2016/03/08/MySQL%E5%AD%98%E5%82%A8%E8%BF%87%E7%A8%8B%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/index.html">
+<meta property="og:site_name" content="geosmart.io">
+<meta property="og:description" content="团队一直有小伙伴顶着数据库相关的工作，ETL数据整合分析事情多了，研发开发工作相应减少，终于有机会也来写写存储过程了。以SP进行SQL业务逻辑封装，执行性能能大大提高，在注意合理拆分SP、SQL书写简洁规范和注释到位的情况下，也能做到易于维护。特别是对于海量数据分析追求时效性的业务，效率第一，就算逻辑复杂不易维护也得认。如Hibernate VS Mybatis，产品 VS 项目，现实世界丰富多彩">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="http://geosmart.github.io/2016/03/08/MySQL%E5%AD%98%E5%82%A8%E8%BF%87%E7%A8%8B%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/DbForgeStudio%E8%B0%83%E8%AF%95MySQL%E5%AD%98%E5%82%A8%E8%BF%87%E7%A8%8B.png">
+<meta property="article:published_time" content="2016-03-08T11:31:39.000Z">
+<meta property="article:modified_time" content="2021-12-15T01:13:12.833Z">
+<meta property="article:author" content="geosmart">
+<meta property="article:tag" content="MySQL">
+<meta property="article:tag" content="Stored Procedure">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://geosmart.github.io/2016/03/08/MySQL%E5%AD%98%E5%82%A8%E8%BF%87%E7%A8%8B%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/DbForgeStudio%E8%B0%83%E8%AF%95MySQL%E5%AD%98%E5%82%A8%E8%BF%87%E7%A8%8B.png">
+
+<link rel="canonical" href="http://geosmart.github.io/2016/03/08/MySQL%E5%AD%98%E5%82%A8%E8%BF%87%E7%A8%8B%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome: false,
+    isPost: true
+  };
+</script>
+
+  <title>MySQL存储过程学习笔记 | geosmart.io</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <div>
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">geosmart.io</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+        <p class="site-subtitle">勿助勿忘，深造自得</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+<nav class="site-nav">
+  
+  <ul id="menu" class="menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-fw fa-home"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-about">
+
+    <a href="/about/" rel="section"><i class="fa fa-fw fa-user"></i>关于</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="fa fa-fw fa-tags"></i>标签</a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/categories/" rel="section"><i class="fa fa-fw fa-th"></i>分类</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-fw fa-archive"></i>归档</a>
+
+  </li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜索
+        </a>
+      </li>
+  </ul>
+
+</nav>
+  <div class="site-search">
+    <div class="popup search-popup">
+    <div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocorrect="off" autocapitalize="off"
+           placeholder="搜索..." spellcheck="false"
+           type="search" class="search-input">
+  </div>
+  <span class="popup-btn-close">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div id="search-result"></div>
+
+</div>
+<div class="search-pop-overlay"></div>
+
+  </div>
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+  <a href="https://github.com/geosmart" class="github-corner" title="Follow me on GitHub" aria-label="Follow me on GitHub" rel="noopener" target="_blank"><svg width="80" height="80" viewBox="0 0 250 250" aria-hidden="true"><path d="M0,0 L115,115 L130,115 L142,142 L250,250 L250,0 Z"></path><path d="M128.3,109.0 C113.8,99.7 119.0,89.6 119.0,89.6 C122.0,82.7 120.5,78.6 120.5,78.6 C119.2,72.0 123.4,76.3 123.4,76.3 C127.3,80.9 125.5,87.3 125.5,87.3 C122.9,97.6 130.6,101.9 134.4,103.2" fill="currentColor" style="transform-origin: 130px 106px;" class="octo-arm"></path><path d="M115.0,115.0 C114.9,115.1 118.7,116.5 119.8,115.4 L133.7,101.6 C136.9,99.2 139.9,98.4 142.2,98.6 C133.8,88.0 127.5,74.4 143.8,58.0 C148.5,53.4 154.0,51.2 159.7,51.0 C160.3,49.4 163.2,43.6 171.4,40.1 C171.4,40.1 176.1,42.5 178.8,56.2 C183.1,58.6 187.2,61.8 190.9,65.4 C194.5,69.0 197.7,73.2 200.1,77.6 C213.8,80.2 216.3,84.9 216.3,84.9 C212.7,93.1 206.9,96.0 205.4,96.6 C205.1,102.4 203.0,107.8 198.3,112.5 C181.9,128.9 168.3,122.5 157.7,114.1 C157.9,116.9 156.7,120.9 152.7,124.9 L141.0,136.5 C139.8,137.7 141.6,141.9 141.8,141.8 Z" fill="currentColor" class="octo-body"></path></svg></a>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content">
+            
+
+  <div class="posts-expand">
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block " lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://geosmart.github.io/2016/03/08/MySQL%E5%AD%98%E5%82%A8%E8%BF%87%E7%A8%8B%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="geosmart">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="geosmart.io">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          MySQL存储过程学习笔记
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：8   三月   2016 19:31:39" itemprop="dateCreated datePublished" datetime="2016-03-08T19:31:39+08:00">8   三月   2016</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：15   十二月   2021 9:13:12" itemprop="dateModified" datetime="2021-12-15T09:13:12+08:00">15   十二月   2021</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/%E5%AD%98%E5%82%A8%E5%B1%82/" itemprop="url" rel="index"><span itemprop="name">存储层</span></a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <p>团队一直有小伙伴顶着数据库相关的工作，ETL数据整合分析事情多了，研发开发工作相应减少，终于有机会也来写写存储过程了。<br>以SP进行SQL业务逻辑封装，执行性能能大大提高，在注意合理拆分SP、SQL书写简洁规范和注释到位的情况下，也能做到易于维护。<br>特别是对于海量数据分析追求时效性的业务，效率第一，就算逻辑复杂不易维护也得认。如Hibernate VS Mybatis，产品 VS 项目，现实世界丰富多彩，存在即合理。</p>
+<hr>
+<a id="more"></a>
+<p>MySQL从V5.0开始支持存储过程，V5.0~V5.7版本之间自带的function有所差别，查资料的时候注意过滤，本文以<code>MySQL5.5.4</code>作为测试环境。</p>
+<h1 id="关于MySQL存储过程"><a href="#关于MySQL存储过程" class="headerlink" title="关于MySQL存储过程"></a>关于MySQL存储过程</h1><p>MySQL 存储过程(Stored Procedure) 是通过给定的语法格式编写自定义的数据库API, 包含一系列sql语句的集合, 完成一个复杂的功能.</p>
+<ul>
+<li><a href="http://dev.mysql.com/doc/refman/5.5/en/stored-programs-views.html">MySQL5.5官方文档 存储过程</a></li>
+<li>调试工具：dbForge Studio for MySQL Professional Edition<br><img src="DbForgeStudio调试MySQL存储过程.png" alt="DbForgeStudio调试MySQL存储过程"></li>
+</ul>
+<h1 id="变量定义"><a href="#变量定义" class="headerlink" title="变量定义"></a>变量定义</h1><p>mysql存储过程中，定义变量有两种方式：</p>
+<h2 id="会话变量"><a href="#会话变量" class="headerlink" title="会话变量"></a>会话变量</h2><p>使用set或select直接赋值，变量名以 @ 开头，可以在一个会话的任何地方声明，作用域是整个会话，称为会话变量。<br>如:<code>set @var=1;</code></p>
+<h2 id="存储过程变量"><a href="#存储过程变量" class="headerlink" title="存储过程变量"></a>存储过程变量</h2><p>以 DECLARE 关键字声明的变量，只能在存储过程中使用，称为存储过程变量，主要用在存储过程中，或者是给存储传参数中。<br>如：<code>DECLARE var1  INT DEFAULT 0;</code></p>
+<h2 id="两者的区别"><a href="#两者的区别" class="headerlink" title="两者的区别"></a>两者的区别</h2><ul>
+<li>在调用存储过程时，以DECLARE声明的变量都会被初始化为 NULL。</li>
+<li>会话变量（即@开头的变量）则不会被再初始化，在一个会话内，只须初始化一次，之后在会话内都是对上一次计算的结果，就相当于在是这个会话内的全局变量。</li>
+<li>在存储过程中，使用动态语句，预处理时，动态内容必须赋给一个会话变量。</li>
+</ul>
+<h2 id="注意事项"><a href="#注意事项" class="headerlink" title="注意事项"></a>注意事项</h2><ul>
+<li>变量命名需与表字段不一致；</li>
+</ul>
+<h1 id="输出日志信息"><a href="#输出日志信息" class="headerlink" title="输出日志信息"></a>输出日志信息</h1><p>SELECT concat(‘Comment:’,’—-Comment—-‘);</p>
+<h1 id="临时表"><a href="#临时表" class="headerlink" title="临时表"></a>临时表</h1><p><a href="http://www.nowamagic.net/librarys/veda/detail/1317">参考-MySQL临时表的简单用法</a><br><a href="http://dev.mysql.com/doc/refman/5.5/en/internal-temporary-tables.html">参考-internal-temporary-tables</a><br>临时表将在你连接MySQL期间存在。当连接断开时，MySQL将自动删除表并释放所用的空间。当然也可以在仍然连接的时候删除表并释放空间。<br><figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">-- 新建</span></span><br><span class="line"><span class="keyword">CREATE</span> <span class="keyword">TEMPORARY</span> <span class="keyword">TABLE</span> <span class="keyword">IF</span> <span class="keyword">NOT</span> <span class="keyword">EXISTS</span> sp_output_tmp <span class="keyword">ENGINE</span> = <span class="keyword">MEMORY</span> SELECT... from... where... ;</span><br><span class="line"><span class="comment">-- 删除</span></span><br><span class="line"><span class="keyword">DROP</span> <span class="keyword">TEMPORARY</span> <span class="keyword">TABLE</span> <span class="keyword">IF</span> <span class="keyword">EXISTS</span> sp_output_tmp;</span><br></pre></td></tr></table></figure></p>
+<h1 id="游标嵌套循环（nested-cursor-loop）"><a href="#游标嵌套循环（nested-cursor-loop）" class="headerlink" title="游标嵌套循环（nested cursor loop）"></a>游标嵌套循环（nested cursor loop）</h1><p><a href="http://stackoverflow.com/questions/6099500/multiple-cursors-in-nested-loops-in-mysql/6099837#6099837">参考/multiple-cursors-in-nested-loops-in-mysql</a></p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">BEGIN</span></span><br><span class="line">  <span class="keyword">DECLARE</span> done1 <span class="built_in">int</span> <span class="keyword">default</span> <span class="literal">false</span>;  </span><br><span class="line">  <span class="comment">-- 批量更新计数器</span></span><br><span class="line">  <span class="keyword">DECLARE</span> cachSize_matchedAddress <span class="built_in">int</span> <span class="keyword">DEFAULT</span> <span class="number">0</span>;</span><br><span class="line"></span><br><span class="line">  <span class="comment">-- 定义Cursor1</span></span><br><span class="line">  <span class="keyword">DECLARE</span> cursor_bizId <span class="keyword">CURSOR</span> <span class="keyword">FOR</span> <span class="keyword">select</span> *  <span class="keyword">from</span> table1;</span><br><span class="line">  <span class="keyword">DECLARE</span> CONTINUE <span class="keyword">HANDLER</span> <span class="keyword">FOR</span> <span class="keyword">NOT</span> <span class="keyword">FOUND</span> <span class="keyword">SET</span> done1 = <span class="literal">TRUE</span>;  </span><br><span class="line"></span><br><span class="line">  <span class="comment">-- 打开Cursor1</span></span><br><span class="line">  OPEN cursor_bizId;</span><br><span class="line">  <span class="comment">-- 循环获取业务ID  </span></span><br><span class="line">  loop_getBizId:LOOP</span><br><span class="line">     FETCH cursor_bizId INTO bizId;</span><br><span class="line">      IF done1 THEN</span><br><span class="line">        LEAVE loop_getBizId;</span><br><span class="line">        <span class="comment"># 关闭Cursor1</span></span><br><span class="line">        CLOSE cursor_bizId;</span><br><span class="line">      <span class="keyword">END</span> <span class="keyword">IF</span>;</span><br><span class="line">    <span class="comment">-- TODO Cursor1相关业务逻辑</span></span><br><span class="line"></span><br><span class="line">    <span class="comment">-- 根据业务ID获取业务数据</span></span><br><span class="line">    block_matchedAddress:<span class="keyword">BEGIN</span></span><br><span class="line">        <span class="keyword">DECLARE</span> done2 <span class="built_in">int</span> <span class="keyword">default</span> <span class="literal">false</span>;</span><br><span class="line">        <span class="comment">-- 定义Cursor2</span></span><br><span class="line">        <span class="keyword">DECLARE</span> cursor_matchedAddress <span class="keyword">CURSOR</span> <span class="keyword">FOR</span> <span class="keyword">SELECT</span> * <span class="keyword">FROM</span> temp_matchedAddress;</span><br><span class="line">        <span class="keyword">DECLARE</span> continue <span class="keyword">handler</span> <span class="keyword">for</span> <span class="keyword">not</span> <span class="keyword">found</span> <span class="keyword">set</span> done2 = <span class="literal">true</span>;  </span><br><span class="line"></span><br><span class="line">        OPEN cursor_matchedAddress;  </span><br><span class="line">        <span class="comment">-- 循环获取业务数据</span></span><br><span class="line">        loop_getMatchedAddress:LOOP   </span><br><span class="line">            FETCH cursor_matchedAddress INTO _rownum, _matchID, _matchedType, _matchedAddress, _x, _y;</span><br><span class="line">            IF done2 THEN</span><br><span class="line">               LEAVE loop_getMatchedAddress;</span><br><span class="line">               <span class="comment">-- 关闭Cursor2</span></span><br><span class="line">               CLOSE cursor_matchedAddress;</span><br><span class="line">            <span class="keyword">END</span> <span class="keyword">IF</span>;</span><br><span class="line">            <span class="comment">-- TODO Cursor2相关业务逻辑</span></span><br><span class="line"></span><br><span class="line">        <span class="keyword">END</span> <span class="keyword">LOOP</span> loop_getMatchedAddress;</span><br><span class="line">      <span class="keyword">END</span> block_matchedAddress;</span><br><span class="line"></span><br><span class="line">  <span class="keyword">END</span> <span class="keyword">LOOP</span> loop_getBizId;</span><br><span class="line"><span class="keyword">END</span></span><br></pre></td></tr></table></figure>
+<h1 id="动态sql"><a href="#动态sql" class="headerlink" title="动态sql"></a>动态sql</h1><p>PREPARE命令：<code>PREPARE stmt_name FROM preparable_stmt</code><br>The PREPARE statement prepares a SQL statement and assigns it a name, stmt_name, by which to refer to the statement later. The prepared statement is executed with EXECUTE and released with DEALLOCATE PREPARE. For examples, see Section 13.5, “SQL Syntax for Prepared Statements”.  </p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">SET</span> @<span class="keyword">sql</span> = <span class="string">"select *  from table"</span>;</span><br><span class="line"><span class="keyword">PREPARE</span> stmt <span class="keyword">from</span> @<span class="keyword">sql</span> ;</span><br><span class="line"><span class="keyword">EXECUTE</span> stmt;</span><br><span class="line"><span class="keyword">DEALLOCATE</span> <span class="keyword">PREPARE</span> stmt;</span><br></pre></td></tr></table></figure>
+<p>注意：<strong>The text must represent a single statement, not multiple statements.</strong></p>
+<h1 id="批量更新"><a href="#批量更新" class="headerlink" title="批量更新"></a>批量更新</h1><p>在sp中类似<code>insert into (column1) values (value1)</code>这样循环单条insert执行速度太慢，<br>可采用<code>temporary table</code>将数据先插入临时表；设置一个计数器，当临时表达到limit记录数时，关联更新目标表并重置临时表以释放资源。</p>
+<h1 id="问题记录"><a href="#问题记录" class="headerlink" title="问题记录"></a>问题记录</h1><h2 id="Json序列化函数JSON-Array不存在问题"><a href="#Json序列化函数JSON-Array不存在问题" class="headerlink" title="Json序列化函数JSON_Array不存在问题"></a>Json序列化函数JSON_Array不存在问题</h2><p>问题描述：JSON_Array does not existed<br>解决：我用的V5.5，不支持,V5.7.8才支持;</p>
+<blockquote>
+<p>As of MySQL 5.7.8, MySQL supports a native JSON data type that enables efficient access to data in JSON (JavaScript Object Notation) documents. The JSON data type provides these advantages over storing JSON-format strings in a string column:</p>
+</blockquote>
+<h2 id="嵌套Cusor问题"><a href="#嵌套Cusor问题" class="headerlink" title="嵌套Cusor问题"></a>嵌套Cusor问题</h2><p>问题描述：子Cursor fetch的values总是父Cursor的第一个值，见<a href="https://gist.github.com/geosmart/c3d7f4eb0d9ad53751d7">gist存储过程记录</a><br>解决：View的问题，换成temporary table解决，见<a href="https://gist.github.com/geosmart/9020fdc1cad9fb0ab36e">gist-batchUpdateMatchedAddress.sql</a></p>
+<h2 id="游标动态sql问题"><a href="#游标动态sql问题" class="headerlink" title="游标动态sql问题"></a>游标动态sql问题</h2><p>问题描述：动态设置的条件与静态条件相比，少返回1条记录<br>原因：游标中查询条件不支持动态条件。<br><a href="http://dev.mysql.com/doc/refman/5.6/en/sql-syntax-prepared-statements.html">参考sql-syntax-prepared-statements</a></p>
+<blockquote>
+<p>SQL syntax for prepared statements can be used within stored procedures, but not in stored functions or triggers. However, a cursor cannot be used for a dynamic statement that is prepared and executed with PREPARE and EXECUTE. The statement for a cursor is checked at cursor creation time, so the statement cannot be dynamic.</p>
+</blockquote>
+<p>解决：<a href="http://stackoverflow.com/questions/7685588/dynamic-cursor-in-stored-procedure">参考dynamic-cursor-in-stored-procedure</a></p>
+<ul>
+<li>A cursor will only accept a select statement, so if the SQL really needs to be dynamic make the declare cursor part of the statement you are executing.</li>
+<li>以View视图或Temporary Table临时表形式间接实现</li>
+</ul>
+<h2 id="新建视图时select中不能带有动态参数"><a href="#新建视图时select中不能带有动态参数" class="headerlink" title="新建视图时select中不能带有动态参数"></a>新建视图时select中不能带有动态参数</h2><p>原因： Within a stored program, the SELECT statement cannot refer to program parameters or local variables.<br>解决：View嵌套子查询，参考<a href="http://stackoverflow.com/questions/8428641/views-select-contains-a-subquery-in-the-from-clause">View’s SELECT contains a subquery in the FROM clause</a><br><figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">create</span> <span class="keyword">view</span> view_clients_credit_usage <span class="keyword">as</span></span><br><span class="line">    <span class="keyword">select</span> client_id, <span class="keyword">sum</span>(credits_used) <span class="keyword">as</span> credits_used</span><br><span class="line">    <span class="keyword">from</span> credit_usage</span><br><span class="line">    <span class="keyword">group</span> <span class="keyword">by</span> client_id;</span><br><span class="line"></span><br><span class="line"><span class="keyword">create</span> <span class="keyword">view</span> view_credit_status <span class="keyword">as</span></span><br><span class="line">    <span class="keyword">select</span></span><br><span class="line">        credit_orders.client_id,</span><br><span class="line">        <span class="keyword">sum</span>(credit_orders.number_of_credits) <span class="keyword">as</span> purchased,</span><br><span class="line">        <span class="keyword">ifnull</span>(t1.credits_used,<span class="number">0</span>) <span class="keyword">as</span> used</span><br><span class="line">    <span class="keyword">from</span> credit_orders</span><br><span class="line">    <span class="keyword">left</span> <span class="keyword">outer</span> <span class="keyword">join</span> view_clients_credit_usage <span class="keyword">as</span> t1 <span class="keyword">on</span> t1.client_id = credit_orders.client_id</span><br><span class="line">    <span class="keyword">where</span> credit_orders.payment_status=<span class="string">'Paid'</span></span><br><span class="line">    <span class="keyword">group</span> <span class="keyword">by</span> credit_orders.client_id);</span><br></pre></td></tr></table></figure>
+　</p>
+
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/MySQL/" rel="tag"># MySQL</a>
+              <a href="/tags/Stored-Procedure/" rel="tag"># Stored Procedure</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2016/03/07/JVM%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0%EF%BC%88%E4%BA%8C%EF%BC%89Java%E5%86%85%E5%AD%98%E5%8C%BA%E5%9F%9F%E4%B8%8E%E5%86%85%E5%AD%98%E6%BA%A2%E5%87%BA%E5%BC%82%E5%B8%B8/" rel="prev" title="JVM学习笔记（二）Java内存区域与内存溢出异常">
+      <i class="fa fa-chevron-left"></i> JVM学习笔记（二）Java内存区域与内存溢出异常
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/2016/03/09/JVM%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0%EF%BC%88%E4%B8%89%EF%BC%89%E5%9E%83%E5%9C%BE%E6%94%B6%E9%9B%86%E5%99%A8%E4%B8%8E%E5%86%85%E5%AD%98%E5%88%86%E9%85%8D%E7%AD%96%E7%95%A5/" rel="next" title="JVM学习笔记（三）垃圾收集器与内存分配策略">
+      JVM学习笔记（三）垃圾收集器与内存分配策略 <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+  </div>
+
+
+          </div>
+          
+    <div class="comments" id="gitalk-container"></div>
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let activeClass = CONFIG.comments.activeClass;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#关于MySQL存储过程"><span class="nav-number">1.</span> <span class="nav-text">关于MySQL存储过程</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#变量定义"><span class="nav-number">2.</span> <span class="nav-text">变量定义</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#会话变量"><span class="nav-number">2.1.</span> <span class="nav-text">会话变量</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#存储过程变量"><span class="nav-number">2.2.</span> <span class="nav-text">存储过程变量</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#两者的区别"><span class="nav-number">2.3.</span> <span class="nav-text">两者的区别</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#注意事项"><span class="nav-number">2.4.</span> <span class="nav-text">注意事项</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#输出日志信息"><span class="nav-number">3.</span> <span class="nav-text">输出日志信息</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#临时表"><span class="nav-number">4.</span> <span class="nav-text">临时表</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#游标嵌套循环（nested-cursor-loop）"><span class="nav-number">5.</span> <span class="nav-text">游标嵌套循环（nested cursor loop）</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#动态sql"><span class="nav-number">6.</span> <span class="nav-text">动态sql</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#批量更新"><span class="nav-number">7.</span> <span class="nav-text">批量更新</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#问题记录"><span class="nav-number">8.</span> <span class="nav-text">问题记录</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#Json序列化函数JSON-Array不存在问题"><span class="nav-number">8.1.</span> <span class="nav-text">Json序列化函数JSON_Array不存在问题</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#嵌套Cusor问题"><span class="nav-number">8.2.</span> <span class="nav-text">嵌套Cusor问题</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#游标动态sql问题"><span class="nav-number">8.3.</span> <span class="nav-text">游标动态sql问题</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#新建视图时select中不能带有动态参数"><span class="nav-number">8.4.</span> <span class="nav-text">新建视图时select中不能带有动态参数</span></a></li></ol></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">geosmart</p>
+  <div class="site-description" itemprop="description"></div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">199</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+          
+        <span class="site-state-item-count">15</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">118</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+        <a href="https://github.com/geosmart" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;geosmart" rel="noopener" target="_blank"><i class="fa fa-fw fa-github"></i>GitHub</a>
+      </span>
+  </div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2021</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">geosmart</span>
+</div>
+
+        
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/pisces.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+  
+<script src="/js/local-search.js"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+      
+
+<script>
+  if (typeof MathJax === 'undefined') {
+    window.MathJax = {
+      tex: {
+        inlineMath: {'[+]': [['$', '$']]},
+        tags: 'ams'
+      },
+      options: {
+        renderActions: {
+          findScript: [10, doc => {
+            document.querySelectorAll('script[type^="math/tex"]').forEach(node => {
+              const display = !!node.type.match(/; *mode=display/);
+              const math = new doc.options.MathItem(node.textContent, doc.inputJax[0], display);
+              const text = document.createTextNode('');
+              node.parentNode.replaceChild(text, node);
+              math.start = {node: text, delim: '', n: 0};
+              math.end = {node: text, delim: '', n: 0};
+              doc.math.push(math);
+            });
+          }, '', false],
+          insertedScript: [200, () => {
+            document.querySelectorAll('mjx-container').forEach(node => {
+              let target = node.parentNode;
+              if (target.nodeName.toLowerCase() === 'li') {
+                target.parentNode.classList.add('has-jax');
+              }
+            });
+          }, '', false]
+        }
+      }
+    };
+    (function () {
+      var script = document.createElement('script');
+      script.src = '//cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js';
+      script.defer = true;
+      document.head.appendChild(script);
+    })();
+  } else {
+    MathJax.startup.document.state(0);
+    MathJax.texReset();
+    MathJax.typeset();
+  }
+</script>
+
+    
+
+  
+
+<link rel="stylesheet" href="//cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.min.css">
+
+<script>
+NexT.utils.loadComments(document.querySelector('#gitalk-container'), () => {
+  NexT.utils.getScript('//cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.min.js', () => {
+    var gitalk = new Gitalk({
+      clientID    : '8a29a27c357a64ed79fd',
+      clientSecret: 'fe1b781c49fa9037803f3c4d3e94fbb677abac4d',
+      repo        : 'geosmart.github.io',
+      owner       : 'geosmart',
+      admin       : ['geosmart'],
+      id          : 'dcad832b47487cbbf1301e2bd9365e4b',
+        language: 'zh-CN',
+      distractionFreeMode: true
+    });
+    gitalk.render('gitalk-container');
+  }, window.Gitalk);
+});
+</script>
+
+</body>
+</html>

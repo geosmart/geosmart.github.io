@@ -1,0 +1,586 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 4.2.1">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css">
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"geosmart.github.io","root":"/","scheme":"Pisces","version":"7.7.1","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.xml"};
+  </script>
+
+  <meta name="description" content="DataSphereStudio工作流集成DolphinScheduler调度引擎的实现思路梳理，从鉴权、资源同步、任务执行等角度分析">
+<meta property="og:type" content="article">
+<meta property="og:title" content="DataSphereStudio工作流集成DolphinScheduler调度引擎">
+<meta property="og:url" content="http://geosmart.github.io/2021/01/28/DataSphereStudio%E5%B7%A5%E4%BD%9C%E6%B5%81%E9%9B%86%E6%88%90DolphinScheduler%E8%B0%83%E5%BA%A6%E5%BC%95%E6%93%8E/index.html">
+<meta property="og:site_name" content="geosmart.io">
+<meta property="og:description" content="DataSphereStudio工作流集成DolphinScheduler调度引擎的实现思路梳理，从鉴权、资源同步、任务执行等角度分析">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2021-01-28T02:12:09.000Z">
+<meta property="article:modified_time" content="2021-12-15T01:13:13.047Z">
+<meta property="article:author" content="geosmart">
+<meta property="article:tag" content="大数据">
+<meta property="article:tag" content="Scheduler">
+<meta name="twitter:card" content="summary">
+
+<link rel="canonical" href="http://geosmart.github.io/2021/01/28/DataSphereStudio%E5%B7%A5%E4%BD%9C%E6%B5%81%E9%9B%86%E6%88%90DolphinScheduler%E8%B0%83%E5%BA%A6%E5%BC%95%E6%93%8E/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome: false,
+    isPost: true
+  };
+</script>
+
+  <title>DataSphereStudio工作流集成DolphinScheduler调度引擎 | geosmart.io</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <div>
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">geosmart.io</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+        <p class="site-subtitle">勿助勿忘，深造自得</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+<nav class="site-nav">
+  
+  <ul id="menu" class="menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-fw fa-home"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-about">
+
+    <a href="/about/" rel="section"><i class="fa fa-fw fa-user"></i>关于</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="fa fa-fw fa-tags"></i>标签</a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/categories/" rel="section"><i class="fa fa-fw fa-th"></i>分类</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-fw fa-archive"></i>归档</a>
+
+  </li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜索
+        </a>
+      </li>
+  </ul>
+
+</nav>
+  <div class="site-search">
+    <div class="popup search-popup">
+    <div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocorrect="off" autocapitalize="off"
+           placeholder="搜索..." spellcheck="false"
+           type="search" class="search-input">
+  </div>
+  <span class="popup-btn-close">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div id="search-result"></div>
+
+</div>
+<div class="search-pop-overlay"></div>
+
+  </div>
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+  <a href="https://github.com/geosmart" class="github-corner" title="Follow me on GitHub" aria-label="Follow me on GitHub" rel="noopener" target="_blank"><svg width="80" height="80" viewBox="0 0 250 250" aria-hidden="true"><path d="M0,0 L115,115 L130,115 L142,142 L250,250 L250,0 Z"></path><path d="M128.3,109.0 C113.8,99.7 119.0,89.6 119.0,89.6 C122.0,82.7 120.5,78.6 120.5,78.6 C119.2,72.0 123.4,76.3 123.4,76.3 C127.3,80.9 125.5,87.3 125.5,87.3 C122.9,97.6 130.6,101.9 134.4,103.2" fill="currentColor" style="transform-origin: 130px 106px;" class="octo-arm"></path><path d="M115.0,115.0 C114.9,115.1 118.7,116.5 119.8,115.4 L133.7,101.6 C136.9,99.2 139.9,98.4 142.2,98.6 C133.8,88.0 127.5,74.4 143.8,58.0 C148.5,53.4 154.0,51.2 159.7,51.0 C160.3,49.4 163.2,43.6 171.4,40.1 C171.4,40.1 176.1,42.5 178.8,56.2 C183.1,58.6 187.2,61.8 190.9,65.4 C194.5,69.0 197.7,73.2 200.1,77.6 C213.8,80.2 216.3,84.9 216.3,84.9 C212.7,93.1 206.9,96.0 205.4,96.6 C205.1,102.4 203.0,107.8 198.3,112.5 C181.9,128.9 168.3,122.5 157.7,114.1 C157.9,116.9 156.7,120.9 152.7,124.9 L141.0,136.5 C139.8,137.7 141.6,141.9 141.8,141.8 Z" fill="currentColor" class="octo-body"></path></svg></a>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content">
+            
+
+  <div class="posts-expand">
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block " lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://geosmart.github.io/2021/01/28/DataSphereStudio%E5%B7%A5%E4%BD%9C%E6%B5%81%E9%9B%86%E6%88%90DolphinScheduler%E8%B0%83%E5%BA%A6%E5%BC%95%E6%93%8E/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="geosmart">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="geosmart.io">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          DataSphereStudio工作流集成DolphinScheduler调度引擎
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：28   一月   2021 10:12:09" itemprop="dateCreated datePublished" datetime="2021-01-28T10:12:09+08:00">28   一月   2021</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：15   十二月   2021 9:13:13" itemprop="dateModified" datetime="2021-12-15T09:13:13+08:00">15   十二月   2021</time>
+              </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <p>DataSphereStudio工作流集成DolphinScheduler调度引擎的实现思路梳理，从鉴权、资源同步、任务执行等角度分析<br><a id="more"></a>  </p>
+<h1 id="DSS接入第三方应用（AppJoint）"><a href="#DSS接入第三方应用（AppJoint）" class="headerlink" title="DSS接入第三方应用（AppJoint）"></a>DSS接入第三方应用（AppJoint）</h1><p>DSS(DataSphere Studio)从一开始就被设计成为一个开放的、具有强扩展能力的系统。<br>DSS系统希望第三方系统是能以插拔式的方式接入，为了实现上述的理念，DSS提出了AppJoint(应用关节)的概念。<br>AppJoint从作用上来说是连接两个系统，并为两个系统的协调运行提供服务。 </p>
+<h2 id="接入问题"><a href="#接入问题" class="headerlink" title="接入问题"></a>接入问题</h2><p>任务提交到DSS系统，并由DSS系统转发给第三方外部系统进行执行，必须要考虑并实现下面的几点功能。</p>
+<ol>
+<li>解决双方系统用户的鉴权问题；</li>
+<li>双方系统都需要对用户提交任务的元数据进行正确处理；</li>
+<li>DSS系统要能以同步或者异步的方式正确地提交任务给第三方系统进行执行；</li>
+<li>任务提交到第三方系统之后，外部系统需要能将日志、状态等信息返回给DSS系统；</li>
+<li>第三方系统在任务执行完毕之后，将可能产生的任务结果等信息持久化到执行的路径；</li>
+</ol>
+<h1 id="具体实现"><a href="#具体实现" class="headerlink" title="具体实现"></a>具体实现</h1><p>为了方便外部系统的接入，DSS提供了SDK的方式,maven依赖引入<code>dss-appjoint-core</code>，具体如下<br><figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">dependency</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>com.webank.wedatasphere.dss<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>dss-appjoint-core<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">version</span>&gt;</span>$&#123;dss.version&#125;<span class="tag">&lt;/<span class="name">version</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></span><br></pre></td></tr></table></figure><br>dss-appjoint-core提供了的AppJoint的顶级接口，想要接入DSS系统的第三方系统都需要实现该顶层接口，此接口有以下方法需要用户进行实现</p>
+<h2 id="getSecurityService"><a href="#getSecurityService" class="headerlink" title="getSecurityService"></a>getSecurityService</h2><p>SecurityService是用来进行解决DSS系统与第三方系统的鉴权问题。<br>用户在DSS系统进行登录之后，并希望提交任务到第三方系统，首先第三方系统需要能够将这个用户进行鉴权。</p>
+<h2 id="getProjectSerivice"><a href="#getProjectSerivice" class="headerlink" title="getProjectSerivice"></a>getProjectSerivice</h2><p>ProjectService是用来进行解决DSS系统与第三方系统的工程管理问题。<br>用户在DSS系统进行新增、删除、修改工程的时候，第三方系统也需要进行同步进行相同的动作，这样的目的是为了双方系统能够在工程层面实现统一。</p>
+<h2 id="getNodeService"><a href="#getNodeService" class="headerlink" title="getNodeService"></a>getNodeService</h2><p>NodeService是用来解决用户在DSS提交的任务在第三方系统生成相应的任务的问题。<br>用户如果在DSS系统的工作流中新建了一个工作流节点并进行任务的编辑，第三方系统需要同步感知到</p>
+<h2 id="getNodeExecution"><a href="#getNodeExecution" class="headerlink" title="getNodeExecution"></a>getNodeExecution</h2><p>NodeExecution接口是用来将任务提交到第三方系统进行执行的接口，NodeExecution 接口有支持短时间任务的和支持长时间任务的。</p>
+<ul>
+<li>短时间任务（NodeExecution），如邮件发送等，可以直接实现NodeExecution接口，并重写execute方法，DSS系统同步等待任务结束。</li>
+<li>长时间任务（LongTermNodeExecution），如数据质量检测等，可以实现LongTermNodeExecution接口，并重写submit方法，返回一个NodeExecutionAction，DSS系统通过这个NodeExecutionAction可以向第三方系统获取任务的日志、状态等。</li>
+</ul>
+<h1 id="集成DolphinScheduler"><a href="#集成DolphinScheduler" class="headerlink" title="集成DolphinScheduler"></a>集成DolphinScheduler</h1><p>针对DSS接入需要解决的问题，DolphinScheduler（下面简称ds）中如何对应解决</p>
+<h2 id="用户鉴权"><a href="#用户鉴权" class="headerlink" title="用户鉴权"></a>用户鉴权</h2><ul>
+<li>ds调用linkis gateway：cookie中写入bdp-user-ticket-id</li>
+<li>linkis调用ds：dss ldap登陆ds后可自动创建token，linkis调用ds接口前，先查询token并缓存（设置ttl)，然后用token调用ds接口；</li>
+</ul>
+<h2 id="资源同步"><a href="#资源同步" class="headerlink" title="资源同步"></a>资源同步</h2><p>ds中以下资源更新时，同步到dss：</p>
+<ul>
+<li>项目（project）</li>
+<li>工作流（process_definition）：</li>
+<li>文件：hdfs目录和文件：bml服务</li>
+<li>UDF包/函数定义：hdfs目录和jar包</li>
+<li>数据源：jdbc连接配置</li>
+<li>队列：任务执行时可选择的yarn队列</li>
+<li>告警组：任务执行异常时选择的告警组（包含用户列表）</li>
+</ul>
+<p>哪些需要在dss更新时，同步到ds</p>
+<h2 id="项目"><a href="#项目" class="headerlink" title="项目"></a>项目</h2><p>项目增删改；</p>
+<h2 id="工作流"><a href="#工作流" class="headerlink" title="工作流"></a>工作流</h2><p>工作流增删改<br>每次dss保存时，dss和ds有各自的工作流版本维护，不用额外双方同步；</p>
+<p>针对ds中的任务类型，dss需要对应做适配</p>
+<h3 id="shell"><a href="#shell" class="headerlink" title="shell"></a>shell</h3><p>脚本直接映射</p>
+<h3 id="sql"><a href="#sql" class="headerlink" title="sql"></a>sql</h3><p>dss中hive、sql、jdbc需要映射成对应的sql任务</p>
+<h3 id="python"><a href="#python" class="headerlink" title="python"></a>python</h3><p>脚本直接映射</p>
+<h3 id="flink"><a href="#flink" class="headerlink" title="flink"></a>flink</h3><p>待支持</p>
+<h3 id="sqoop"><a href="#sqoop" class="headerlink" title="sqoop"></a>sqoop</h3><p>待支持</p>
+<h3 id="http"><a href="#http" class="headerlink" title="http"></a>http</h3><p>待支持</p>
+<h3 id="datax"><a href="#datax" class="headerlink" title="datax"></a>datax</h3><p>待支持</p>
+<h3 id="condition"><a href="#condition" class="headerlink" title="condition"></a>condition</h3><p>考虑基于dss signal实现</p>
+<h3 id="dependent"><a href="#dependent" class="headerlink" title="dependent"></a>dependent</h3><p>考虑基于dss signal实现</p>
+<h3 id="mapreduce"><a href="#mapreduce" class="headerlink" title="mapreduce"></a>mapreduce</h3><p>待支持</p>
+<h3 id="procedure"><a href="#procedure" class="headerlink" title="procedure"></a>procedure</h3><p>待支持</p>
+<h3 id="subprocess"><a href="#subprocess" class="headerlink" title="subprocess"></a>subprocess</h3><p>dss中subflow映射</p>
+<h2 id="文件"><a href="#文件" class="headerlink" title="文件"></a>文件</h2><p>DSS中DAG保存，DAG节点脚本脚本保存，资源上传都需同步</p>
+<ul>
+<li>dag任务节点关联的脚本，会通过linkis-bml服务保存为hdfs文件，存储在linkis_resources_version表，此时需要调用ds接口同步到ds的resource表</li>
+<li>ds和linkis的source的根目录需设置一致，不然ds的web界面不能下载resource对应的文件<h2 id="UDF包-函数定义"><a href="#UDF包-函数定义" class="headerlink" title="UDF包/函数定义"></a>UDF包/函数定义</h2>dss的linkis_udf表新增udf时，需要调用ds接口同步到ds的t_ds_udfs表</li>
+</ul>
+<h2 id="数据源"><a href="#数据源" class="headerlink" title="数据源"></a>数据源</h2><p>dss有JDBC连接配置，但目前需要支持配置多个不同的数据源，不同类型的数据源配置参数会不一致。</p>
+<p>如果要支持同步，dss的前后端都需要新增多jdbc源支持，改造好才能在dss编辑jdbc配置时同步到ds的数据源;</p>
+<h2 id="队列"><a href="#队列" class="headerlink" title="队列"></a>队列</h2><ul>
+<li>dss不同用户可以在配置中设置默认任务提交的yarn队列名，每个工作流及节点也可以配置执行的yarn队列；</li>
+<li>ds中每个工作流可以设置执行租户，租户可以预设置yarn队列；</li>
+</ul>
+<p>这儿如果需要做到队列配置的同步，需要在dss中添加租户的管理，dss为租户设置队列时需要调用ds接口同步到队列（t_ds_queue），租户（t_ds_tenant）表</p>
+<blockquote>
+<p>等linkis1.0发布之后支持协同开发，通过设置工程的租户来同步租户队列</p>
+</blockquote>
+<h2 id="任务执行"><a href="#任务执行" class="headerlink" title="任务执行"></a>任务执行</h2><p>dss任务执行分实时执行和定时执行2种，</p>
+<ul>
+<li>实时执行直接调用linkis的对应engine执行任务；</li>
+<li>定时执行，dss工作流同步到ds后，由ds的调度器定时触发worker执行，此处worker不直接启动任务，而是将任务跳过linkis-ujes-client提交给具体的linkis engine执行，worker实时获取任务的执行日志/进度/状态等数据；</li>
+</ul>
+
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/%E5%A4%A7%E6%95%B0%E6%8D%AE/" rel="tag"># 大数据</a>
+              <a href="/tags/Scheduler/" rel="tag"># Scheduler</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2021/01/22/FlinkOnYarn/" rel="prev" title="FlinkOnYarn">
+      <i class="fa fa-chevron-left"></i> FlinkOnYarn
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/2021/01/28/DSS%E5%B7%A5%E4%BD%9C%E6%B5%81%E5%AE%9E%E7%8E%B0%E5%8E%9F%E7%90%86/" rel="next" title="DSS工作流实现原理">
+      DSS工作流实现原理 <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+  </div>
+
+
+          </div>
+          
+    <div class="comments" id="gitalk-container"></div>
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let activeClass = CONFIG.comments.activeClass;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#DSS接入第三方应用（AppJoint）"><span class="nav-number">1.</span> <span class="nav-text">DSS接入第三方应用（AppJoint）</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#接入问题"><span class="nav-number">1.1.</span> <span class="nav-text">接入问题</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#具体实现"><span class="nav-number">2.</span> <span class="nav-text">具体实现</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#getSecurityService"><span class="nav-number">2.1.</span> <span class="nav-text">getSecurityService</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#getProjectSerivice"><span class="nav-number">2.2.</span> <span class="nav-text">getProjectSerivice</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#getNodeService"><span class="nav-number">2.3.</span> <span class="nav-text">getNodeService</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#getNodeExecution"><span class="nav-number">2.4.</span> <span class="nav-text">getNodeExecution</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#集成DolphinScheduler"><span class="nav-number">3.</span> <span class="nav-text">集成DolphinScheduler</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#用户鉴权"><span class="nav-number">3.1.</span> <span class="nav-text">用户鉴权</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#资源同步"><span class="nav-number">3.2.</span> <span class="nav-text">资源同步</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#项目"><span class="nav-number">3.3.</span> <span class="nav-text">项目</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#工作流"><span class="nav-number">3.4.</span> <span class="nav-text">工作流</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#shell"><span class="nav-number">3.4.1.</span> <span class="nav-text">shell</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#sql"><span class="nav-number">3.4.2.</span> <span class="nav-text">sql</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#python"><span class="nav-number">3.4.3.</span> <span class="nav-text">python</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#flink"><span class="nav-number">3.4.4.</span> <span class="nav-text">flink</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#sqoop"><span class="nav-number">3.4.5.</span> <span class="nav-text">sqoop</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#http"><span class="nav-number">3.4.6.</span> <span class="nav-text">http</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#datax"><span class="nav-number">3.4.7.</span> <span class="nav-text">datax</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#condition"><span class="nav-number">3.4.8.</span> <span class="nav-text">condition</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#dependent"><span class="nav-number">3.4.9.</span> <span class="nav-text">dependent</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#mapreduce"><span class="nav-number">3.4.10.</span> <span class="nav-text">mapreduce</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#procedure"><span class="nav-number">3.4.11.</span> <span class="nav-text">procedure</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#subprocess"><span class="nav-number">3.4.12.</span> <span class="nav-text">subprocess</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#文件"><span class="nav-number">3.5.</span> <span class="nav-text">文件</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#UDF包-函数定义"><span class="nav-number">3.6.</span> <span class="nav-text">UDF包&#x2F;函数定义</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#数据源"><span class="nav-number">3.7.</span> <span class="nav-text">数据源</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#队列"><span class="nav-number">3.8.</span> <span class="nav-text">队列</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#任务执行"><span class="nav-number">3.9.</span> <span class="nav-text">任务执行</span></a></li></ol></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">geosmart</p>
+  <div class="site-description" itemprop="description"></div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">199</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+          
+        <span class="site-state-item-count">15</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">118</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+        <a href="https://github.com/geosmart" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;geosmart" rel="noopener" target="_blank"><i class="fa fa-fw fa-github"></i>GitHub</a>
+      </span>
+  </div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2021</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">geosmart</span>
+</div>
+
+        
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/pisces.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+  
+<script src="/js/local-search.js"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+      
+
+<script>
+  if (typeof MathJax === 'undefined') {
+    window.MathJax = {
+      tex: {
+        inlineMath: {'[+]': [['$', '$']]},
+        tags: 'ams'
+      },
+      options: {
+        renderActions: {
+          findScript: [10, doc => {
+            document.querySelectorAll('script[type^="math/tex"]').forEach(node => {
+              const display = !!node.type.match(/; *mode=display/);
+              const math = new doc.options.MathItem(node.textContent, doc.inputJax[0], display);
+              const text = document.createTextNode('');
+              node.parentNode.replaceChild(text, node);
+              math.start = {node: text, delim: '', n: 0};
+              math.end = {node: text, delim: '', n: 0};
+              doc.math.push(math);
+            });
+          }, '', false],
+          insertedScript: [200, () => {
+            document.querySelectorAll('mjx-container').forEach(node => {
+              let target = node.parentNode;
+              if (target.nodeName.toLowerCase() === 'li') {
+                target.parentNode.classList.add('has-jax');
+              }
+            });
+          }, '', false]
+        }
+      }
+    };
+    (function () {
+      var script = document.createElement('script');
+      script.src = '//cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js';
+      script.defer = true;
+      document.head.appendChild(script);
+    })();
+  } else {
+    MathJax.startup.document.state(0);
+    MathJax.texReset();
+    MathJax.typeset();
+  }
+</script>
+
+    
+
+  
+
+<link rel="stylesheet" href="//cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.min.css">
+
+<script>
+NexT.utils.loadComments(document.querySelector('#gitalk-container'), () => {
+  NexT.utils.getScript('//cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.min.js', () => {
+    var gitalk = new Gitalk({
+      clientID    : '8a29a27c357a64ed79fd',
+      clientSecret: 'fe1b781c49fa9037803f3c4d3e94fbb677abac4d',
+      repo        : 'geosmart.github.io',
+      owner       : 'geosmart',
+      admin       : ['geosmart'],
+      id          : '36834b42b8a3efdad451ffa22154f7d8',
+        language: 'zh-CN',
+      distractionFreeMode: true
+    });
+    gitalk.render('gitalk-container');
+  }, window.Gitalk);
+});
+</script>
+
+</body>
+</html>

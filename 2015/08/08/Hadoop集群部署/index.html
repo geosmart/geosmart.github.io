@@ -1,0 +1,664 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 4.2.1">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css">
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"geosmart.github.io","root":"/","scheme":"Pisces","version":"7.7.1","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.xml"};
+  </script>
+
+  <meta name="description" content="Hadoop版本区别目前不收费的Hadoop版本主要有三个，分别是：  Apache（最原始的版本，所有发行版均基于这个版本进行改进） Cloudera版本（Cloudera’s Distribution Including Apache Hadoop，简称CDH） Hortonworks版本(Hortonworks Data Platform，简称“HDP”），对于国内而言，绝大多数选择CDH版">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Hadoop集群部署">
+<meta property="og:url" content="http://geosmart.github.io/2015/08/08/Hadoop%E9%9B%86%E7%BE%A4%E9%83%A8%E7%BD%B2/index.html">
+<meta property="og:site_name" content="geosmart.io">
+<meta property="og:description" content="Hadoop版本区别目前不收费的Hadoop版本主要有三个，分别是：  Apache（最原始的版本，所有发行版均基于这个版本进行改进） Cloudera版本（Cloudera’s Distribution Including Apache Hadoop，简称CDH） Hortonworks版本(Hortonworks Data Platform，简称“HDP”），对于国内而言，绝大多数选择CDH版">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2015-08-08T03:38:22.000Z">
+<meta property="article:modified_time" content="2021-12-15T01:13:12.811Z">
+<meta property="article:author" content="geosmart">
+<meta property="article:tag" content="分布式">
+<meta property="article:tag" content="CDH">
+<meta property="article:tag" content="Hadoop">
+<meta name="twitter:card" content="summary">
+
+<link rel="canonical" href="http://geosmart.github.io/2015/08/08/Hadoop%E9%9B%86%E7%BE%A4%E9%83%A8%E7%BD%B2/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome: false,
+    isPost: true
+  };
+</script>
+
+  <title>Hadoop集群部署 | geosmart.io</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <div>
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">geosmart.io</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+        <p class="site-subtitle">勿助勿忘，深造自得</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+<nav class="site-nav">
+  
+  <ul id="menu" class="menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-fw fa-home"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-about">
+
+    <a href="/about/" rel="section"><i class="fa fa-fw fa-user"></i>关于</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="fa fa-fw fa-tags"></i>标签</a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/categories/" rel="section"><i class="fa fa-fw fa-th"></i>分类</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-fw fa-archive"></i>归档</a>
+
+  </li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜索
+        </a>
+      </li>
+  </ul>
+
+</nav>
+  <div class="site-search">
+    <div class="popup search-popup">
+    <div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocorrect="off" autocapitalize="off"
+           placeholder="搜索..." spellcheck="false"
+           type="search" class="search-input">
+  </div>
+  <span class="popup-btn-close">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div id="search-result"></div>
+
+</div>
+<div class="search-pop-overlay"></div>
+
+  </div>
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+  <a href="https://github.com/geosmart" class="github-corner" title="Follow me on GitHub" aria-label="Follow me on GitHub" rel="noopener" target="_blank"><svg width="80" height="80" viewBox="0 0 250 250" aria-hidden="true"><path d="M0,0 L115,115 L130,115 L142,142 L250,250 L250,0 Z"></path><path d="M128.3,109.0 C113.8,99.7 119.0,89.6 119.0,89.6 C122.0,82.7 120.5,78.6 120.5,78.6 C119.2,72.0 123.4,76.3 123.4,76.3 C127.3,80.9 125.5,87.3 125.5,87.3 C122.9,97.6 130.6,101.9 134.4,103.2" fill="currentColor" style="transform-origin: 130px 106px;" class="octo-arm"></path><path d="M115.0,115.0 C114.9,115.1 118.7,116.5 119.8,115.4 L133.7,101.6 C136.9,99.2 139.9,98.4 142.2,98.6 C133.8,88.0 127.5,74.4 143.8,58.0 C148.5,53.4 154.0,51.2 159.7,51.0 C160.3,49.4 163.2,43.6 171.4,40.1 C171.4,40.1 176.1,42.5 178.8,56.2 C183.1,58.6 187.2,61.8 190.9,65.4 C194.5,69.0 197.7,73.2 200.1,77.6 C213.8,80.2 216.3,84.9 216.3,84.9 C212.7,93.1 206.9,96.0 205.4,96.6 C205.1,102.4 203.0,107.8 198.3,112.5 C181.9,128.9 168.3,122.5 157.7,114.1 C157.9,116.9 156.7,120.9 152.7,124.9 L141.0,136.5 C139.8,137.7 141.6,141.9 141.8,141.8 Z" fill="currentColor" class="octo-body"></path></svg></a>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content">
+            
+
+  <div class="posts-expand">
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block " lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://geosmart.github.io/2015/08/08/Hadoop%E9%9B%86%E7%BE%A4%E9%83%A8%E7%BD%B2/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="geosmart">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="geosmart.io">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          Hadoop集群部署
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：8   八月   2015 11:38:22" itemprop="dateCreated datePublished" datetime="2015-08-08T11:38:22+08:00">8   八月   2015</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：15   十二月   2021 9:13:12" itemprop="dateModified" datetime="2021-12-15T09:13:12+08:00">15   十二月   2021</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/OPS/" itemprop="url" rel="index"><span itemprop="name">OPS</span></a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <h1 id="Hadoop版本区别"><a href="#Hadoop版本区别" class="headerlink" title="Hadoop版本区别"></a>Hadoop版本区别</h1><p>目前不收费的Hadoop版本主要有三个，分别是：</p>
+<ol>
+<li>Apache（最原始的版本，所有发行版均基于这个版本进行改进）</li>
+<li>Cloudera版本（Cloudera’s Distribution Including Apache Hadoop，简称CDH）</li>
+<li>Hortonworks版本(Hortonworks Data Platform，简称“HDP”），对于国内而言，绝大多数选择CDH版本，</li>
+</ol>
+<p>CDH和Apache版本主要区别：</p>
+<ul>
+<li>CDH对Hadoop版本的划分非常清晰，目前维护的有两个系列的版本，分别是cdh4和cdh5</li>
+<li>由于Cloudera做Hadoop开发的，其他厂商仅是做Hadoop集成或CDH集成，和Hadoop trunk能最快的同步，保证业务的前向兼容性；</li>
+<li>安全 CDH支持Kerberos安全认证，apache hadoop则使用简陋的用户名匹配认证</li>
+<li>CDH文档清晰（包括中文文档），很多采用Apache版本的用户都会阅读CDH提供的文档，包括安装文档、升级文档等。</li>
+<li>CDH支持Yum/Apt包，Tar包，RPM包，CM安装，Cloudera Manager三种方式安装,Apache hadoop只支持Tar包安装。</li>
+</ul>
+<hr>
+<a id="more"></a>
+<h1 id="关于CDH"><a href="#关于CDH" class="headerlink" title="关于CDH"></a>关于CDH</h1><p><a href="http：//www.cloudera.com/content/cloudera/zh-CN/documentation/core/v5-3-x/topics/introduction.html">官方介绍</a><br>Cloudera 提供一个可扩展、灵活、集成的平台，可用来方便地管理您的企业中快速增长的多种多样的数据。业界领先的 Cloudera 产品和解决方案使您能够部署并管理 Apache Hadoop 和相关项目、操作和分析您的数据以及保护数据的安全。</p>
+<p>Cloudera 提供下列产品和工具：</p>
+<ul>
+<li>CDH — Cloudera 分发的 Apache Hadoop 和其他相关开放源代码项目，包括 Impala 和 Cloudera Search。CDH 还提供安全保护以及与许多硬件和软件解决方案的集成。</li>
+<li>Cloudera Manager — 一个复杂的应用程序，用于部署、管理、监控您的 CDH 部署并诊断问题。Cloudera Manager 提供 Admin Console，这是一种基于 Web 的用户界面，使您的企业数据管理简单而直接。它还包括 Cloudera Manager API，可用来获取群集运行状况信息和度量以及配置 Cloudera Manager。</li>
+<li>Cloudera Navigator — CDH 平台的端到端数据管理工具。Cloudera Navigator 使管理员、数据经理和分析师能够了解 Hadoop 中的大量数据。Cloudera Navigator 中强大的审核、数据管理、沿袭管理和生命周期管理使企业能够遵守严格的法规遵从性和法规要求。</li>
+<li>Cloudera Impala — 一种大规模并行处理 SQL 引擎，用于交互式分析和商业智能。其高度优化的体系结构使它非常适合用于具有联接、聚合和子查询的传统 BI 样式的查询。它可以查询来自各种源的 Hadoop 数据文件，包括由 MapReduce 作业生成的数据文件或加载到 Hive 表中的数据文件。YARN 和 Llama 资源管理组件让 Impala 能够共存于使用 Impala SQL 查询并发运行批处理工作负载的群集上。您可以通过 Cloudera Manager 用户界面管理 Impala 及其他 Hadoop 组件，并通过 Sentry 授权框架保护其数据。</li>
+</ul>
+<h1 id="Cloudera-QuickStart-VM"><a href="#Cloudera-QuickStart-VM" class="headerlink" title="Cloudera QuickStart VM"></a>Cloudera QuickStart VM</h1><p><a href="http：//www.cloudera.com/content/cloudera/en/downloads/quickstart_vms/cdh-5-4-x.html">下载地址</a><br>为方便开始使用CDH、Cloudera Manager、Cloudera Impala 和 Cloudera Search，这些虚拟机器包含您所需的一切。</p>
+<h1 id="CDH安装步骤"><a href="#CDH安装步骤" class="headerlink" title="CDH安装步骤"></a>CDH安装步骤</h1><h2 id="CDH安装参考资料"><a href="#CDH安装参考资料" class="headerlink" title="CDH安装参考资料"></a>CDH安装参考资料</h2><ul>
+<li><a href="http：//zh-cn.cloudera.com/content/cloudera/en/products-and-services/cloudera-enterprise.html">cloudera简介</a></li>
+<li><a href="http：//www.cloudera.com/content/cloudera/zh-CN/documentation/core/v5-3-x/topics/introduction.html">cdh5官方文档</a></li>
+<li><a href="http：//www.cloudera.com/content/cloudera/en/documentation/core/latest/topics/cdh_ig_req_supported_versions.html">CDH5安装环境要求</a></li>
+<li><a href="http：//www.cloudera.com/content/cloudera/en/documentation/core/latest/topics/installation_installation.html">CDH5的3种安装方式</a></li>
+<li><a href="http：//www.cloudera.com/content/cloudera/en/documentation/core/latest/topics/cm_ig_install_path_a.html#concept_vk4_psb_zm_unique_4">在线Yum/Wget安装教程</a></li>
+<li><a href="http：//www.aboutyun.com/thread-9219-1-1.html">在线Yum/Wget安装教程-中文</a></li>
+</ul>
+<h2 id="在线安装优势"><a href="#在线安装优势" class="headerlink" title="在线安装优势"></a>在线安装优势</h2><ol>
+<li>联网安装、升级，非常方便</li>
+<li>自动下载依赖软件包</li>
+<li>Hadoop生态系统包自动匹配，不需要你寻找与当前Hadoop匹配的Hbase，Flume，Hive等软件，Yum/Apt会根据当前安装Hadoop版本自动寻找匹配版本的软件包，并保证兼容性。</li>
+<li>自动创建相关目录并软链到合适的地方（如conf和logs等目录）；自动创建hdfs, mapred用户，hdfs用户是HDFS的最高权限用户，mapred用户则负责mapreduce执行过程中相关目录的权限。</li>
+</ol>
+<h2 id="在线安装步骤"><a href="#在线安装步骤" class="headerlink" title="在线安装步骤"></a>在线安装步骤</h2><h3 id="静态IP配置"><a href="#静态IP配置" class="headerlink" title="静态IP配置"></a>静态IP配置</h3><p><code>cd /mnt/scripts/batch-update-ip &amp;&amp; chmod +x static-ip.sh &amp;&amp; ./static-ip.sh localhost eth1 192.168.1 81 1</code><br>示例：<code>cd /mnt/scripts/batch-update-ip &amp;&amp; chmod +x static-ip.sh &amp;&amp; ./static-ip.sh slave3.lt.com eth1 192.168.1 103 1</code></p>
+<p><a href="todo">脚本地址</a></p>
+<h3 id="HostName配置-FQDN配置"><a href="#HostName配置-FQDN配置" class="headerlink" title="HostName配置/FQDN配置"></a>HostName配置/FQDN配置</h3><p>FQDN是Fully Qualified Domain Name的缩写, 含义是完整的域名. 例如, 一台机器主机名(hostname)是www, 域后缀(domain)是example.com, 那么该主机的FQDN应该是www.example.com.<br>注意：hosts配置不当，后面server和agent间通讯会存在问题，参考host配置如下：</p>
+<ul>
+<li>server/agent配置(master)</li>
+</ul>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#</span><span class="bash"> vim /etc/hosts</span></span><br><span class="line"></span><br><span class="line"><span class="meta">#</span><span class="bash"> solr/hue/hive server</span></span><br><span class="line">127.0.0.1 localhost.localdomain localhost</span><br><span class="line"></span><br><span class="line">192.168.1.90   cdhagent.lt.com cdhagent</span><br><span class="line"></span><br><span class="line">192.168.1.91   server1.lt.com server1</span><br><span class="line">192.168.1.92   server2.lt.com server2</span><br><span class="line">192.168.1.93   server3.lt.com server3</span><br><span class="line">192.168.1.94   server4.lt.com server4</span><br><span class="line">192.168.1.95   server5.lt.com server5</span><br><span class="line"></span><br><span class="line"><span class="meta">#</span><span class="bash"> HDFS NameNode</span></span><br><span class="line">192.168.1.100  master.lt.com master</span><br><span class="line"></span><br><span class="line"><span class="meta">#</span><span class="bash"> HDFS DataNode</span></span><br><span class="line">192.168.1.101  slave1.lt.com slave1</span><br><span class="line">192.168.1.102  slave2.lt.com slave2</span><br><span class="line">192.168.1.103  slave3.lt.com slave3</span><br><span class="line">192.168.1.104  slave4.lt.com slave4</span><br><span class="line">192.168.1.105  slave5.lt.com slave5</span><br><span class="line">192.168.1.106  slave6.lt.com slave6</span><br><span class="line">192.168.1.107  slave7.lt.com slave7</span><br><span class="line">192.168.1.108  slave8.lt.com slave8</span><br><span class="line">192.168.1.109  slave9.lt.com slave9</span><br><span class="line">192.168.1.110  slave10.lt.com slave10</span><br></pre></td></tr></table></figure>
+<ul>
+<li>network配置</li>
+</ul>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#</span><span class="bash"> vim /etc/sysconfig/network</span></span><br><span class="line">NETWORKING=yes</span><br><span class="line">HOSTNAME=master.lt.com</span><br><span class="line">NTPSERVERARGS=iburst</span><br></pre></td></tr></table></figure>
+<p><em>TODO：可局域网搭建DNS服务器，Slave机器即可不配配置hosts</em></p>
+<h3 id="SSH无密码登陆配置"><a href="#SSH无密码登陆配置" class="headerlink" title="SSH无密码登陆配置"></a>SSH无密码登陆配置</h3><p><em>TODO：补充github脚本地址</em><br>删除现有ssh配置（可选）：rm /root/.ssh/authorized_keys &amp;&amp; rm /root/.ssh/known_hosts<br><code>cd /mnt/scripts/batch-ssh &amp;&amp; chmod +x keygen_master.sh &amp;&amp; ./keygen_master.sh</code></p>
+<h3 id="iptables防火墙配置"><a href="#iptables防火墙配置" class="headerlink" title="iptables防火墙配置"></a>iptables防火墙配置</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#查看防火墙状态</span></span><br><span class="line">service iptables status</span><br><span class="line"><span class="comment">#关闭防火墙</span></span><br><span class="line">service iptables stop</span><br><span class="line"><span class="comment">#永久关闭防火墙</span></span><br><span class="line">chkconfig iptables off</span><br></pre></td></tr></table></figure>
+<h3 id="selinux强制访问控制安全配置"><a href="#selinux强制访问控制安全配置" class="headerlink" title="selinux强制访问控制安全配置"></a>selinux强制访问控制安全配置</h3><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#</span><span class="bash">查看SELinux状态</span></span><br><span class="line">/usr/sbin/sestatus -v</span><br><span class="line"><span class="meta">#</span><span class="bash">或命令</span></span><br><span class="line">getenforce</span><br><span class="line"><span class="meta">#</span><span class="bash">关闭SELinux</span></span><br><span class="line"><span class="meta">#</span><span class="bash">1. 临时关闭（不用重启机器）：</span></span><br><span class="line">setenforce 0                  ##设置SELinux 成为permissive模式</span><br><span class="line">                              ##setenforce 1 设置SELinux 成为enforcing模式</span><br><span class="line"><span class="meta">#</span><span class="bash">2. 修改配置文件</span></span><br><span class="line">vim /etc/selinux/config</span><br><span class="line"><span class="meta">#</span><span class="bash">将SELINUX=enforcing改为SELINUX=disabled</span></span><br><span class="line"><span class="meta">#</span><span class="bash">3. reboot</span></span><br></pre></td></tr></table></figure>
+<h3 id="swap配置"><a href="#swap配置" class="headerlink" title="swap配置"></a>swap配置</h3><p>Cloudera 建议将 /proc/sys/vm/swappiness 设置为 0。默认设置为 60。<br>查看当前swap分区设置<code>cat /proc/sys/vm/swappiness</code><br>临时修改值：<code>sudo sysctl vm.swappiness=0</code><br>永久修改值：<code>vim /etc/sysctl.conf</code>，在最后加一行<code>vm.swappiness = 0</code></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">swappiness的值的大小对如何使用swap分区是有着很大的联系</span><br><span class="line">swappiness&#x3D;0的时候表示最大限度使用物理内存，然后才是 swap空间</span><br><span class="line">swappiness＝100的时候表示积极的使用swap分区，并且把内存上的数据及时的搬运到swap空间里面</span><br></pre></td></tr></table></figure>
+<h3 id="安装NTP服务"><a href="#安装NTP服务" class="headerlink" title="安装NTP服务"></a>安装NTP服务</h3><p><a href="http://acooly.iteye.com/blog/1993484">NTP配置教程</a><br>集群中所有主机必须保持时间同步，如果时间相差较大会引起各种问题。 具体思路如下：<br>master节点作为ntp服务器与外界对时中心同步时间，随后对所有datanode节点提供时间同步服务。<br>所有datanode节点以master节点为基础同步时间。<br>所有节点安装相关组件： <code>yum install ntp</code> 。<br>配置开机启动： <code>chkconfig ntpd on</code> ,<br>检查是否设置成功： <code>chkconfig --list ntpd</code> 其中2-5为on状态就代表成功。</p>
+<ul>
+<li>主节点配置<br>在配置之前，先使用ntpdate手动同步一下时间，免得本机与对时中心时间差距太大，使得ntpd不能正常同步。 ntpdate -u 202.112.29.82<br>编辑<code>/etc/ntp.conf</code>配置文件，配置完成后启动服务<code>service ntpd start</code></li>
+</ul>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line">driftfile /var/lib/ntp/drift</span><br><span class="line"></span><br><span class="line">restrict default kod nomodify notrap nopeer noquery</span><br><span class="line">restrict -6 default kod nomodify notrap nopeer noquery</span><br><span class="line"></span><br><span class="line">restrict 127.0.0.1</span><br><span class="line">restrict -6 ::1</span><br><span class="line"></span><br><span class="line"><span class="meta">#</span><span class="bash">允许内网其他机器同步时间</span></span><br><span class="line">restrict 192.168.1.0 mask 255.255.255.0 nomodify notrap</span><br><span class="line"></span><br><span class="line"><span class="meta">#</span><span class="bash"> 中国这边最活跃的时间服务器 : http://www.pool.ntp.org/zone/cn</span></span><br><span class="line">server 3.cn.pool.ntp.org perfer  </span><br><span class="line">server 1.asia.pool.ntp.org         </span><br><span class="line">server 3.asia.pool.ntp.org</span><br><span class="line"></span><br><span class="line"><span class="meta">#</span><span class="bash"> 外部时间服务器不可用时，以本地时间作为时间服务</span></span><br><span class="line">server  127.127.1.0     # local clock</span><br><span class="line">fudge   127.127.1.0 stratum 10</span><br><span class="line"></span><br><span class="line">includefile /etc/ntp/crypto/pw</span><br><span class="line"></span><br><span class="line">keys /etc/ntp/keys</span><br><span class="line">server 127.127.1.0 iburst</span><br></pre></td></tr></table></figure>
+<p>查看配置结果：   </p>
+<ul>
+<li><code>netstat -tlunp | grep ntp</code> 查看服务连接和监听</li>
+<li><code>ntpq -p</code>查看网络中的NTP服务器，同时显示客户端和每个服务器的关系</li>
+<li><p><code>ntpstat</code> 查看时间同步状态</p>
+</li>
+<li><p>NTP客户端配置<br>编辑<code>/etc/ntp.conf</code>配置文件，配置完成后启动服务<code>service ntpd restart</code></p>
+</li>
+</ul>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">driftfile /var/lib/ntp/drift</span><br><span class="line">restrict 127.0.0.1</span><br><span class="line">restrict -6 ::1</span><br><span class="line"></span><br><span class="line"><span class="meta">#</span><span class="bash"> 配置时间服务器为本地的时间服务器</span></span><br><span class="line">server 192.168.1.100</span><br><span class="line"></span><br><span class="line">restrict 192.168.1.100 nomodify notrap noquery</span><br><span class="line"></span><br><span class="line">server  127.127.1.0     # local clock</span><br><span class="line">fudge   127.127.1.0 stratum 10</span><br><span class="line"></span><br><span class="line">includefile /etc/ntp/crypto/pw</span><br><span class="line"></span><br><span class="line">keys /etc/ntp/keys</span><br></pre></td></tr></table></figure>
+<h3 id="cloudera-manager-installer-bin安装"><a href="#cloudera-manager-installer-bin安装" class="headerlink" title="cloudera-manager-installer.bin安装"></a>cloudera-manager-installer.bin安装</h3><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">wget http：//archive.cloudera.com/cm5/installer/latest/cloudera-manager-installer.bin</span><br><span class="line">chmod u+x cloudera-manager-installer.bin</span><br><span class="line">sudo ./cloudera-manager-installer.bin</span><br></pre></td></tr></table></figure>
+<h3 id="在线配置"><a href="#在线配置" class="headerlink" title="在线配置"></a>在线配置</h3><p>打开http：//{host}：7180/cmf/login<br>默认用户名/密码：admin/admin<br><a href="http：//www.aboutyun.com/thread-9189-1-1.html">cloudera配置文件</a></p>
+<h1 id="CDH5运维相关"><a href="#CDH5运维相关" class="headerlink" title="CDH5运维相关"></a>CDH5运维相关</h1><h2 id="系统服务"><a href="#系统服务" class="headerlink" title="系统服务"></a>系统服务</h2><p>服务查询：<code>service --status-all| grep cloudera</code><br><em>服务端</em>  </p>
+<ul>
+<li>cloudera-scm-server</li>
+<li>cloudera-scm-server-db<br><em>客户端</em>  </li>
+<li>cloudera-scm-agent</li>
+</ul>
+<h2 id="嵌入式-PostgreSQL-数据库"><a href="#嵌入式-PostgreSQL-数据库" class="headerlink" title="嵌入式 PostgreSQL 数据库"></a>嵌入式 PostgreSQL 数据库</h2><p><a href="http://www.cloudera.com/content/cloudera/zh-CN/documentation/core/v5-3-x/topics/cm_ig_embed_pstgrs.html">嵌入式 PostgreSQL 数据库</a><br><a href="http://www.linuxidc.com/Linux/2013-10/91446.htm">修改postgresql配置允许远程访问</a>  </p>
+<ul>
+<li>scm数据库密码</li>
+</ul>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#</span><span class="bash"> cat /etc/cloudera-scm-server/db.properties</span></span><br><span class="line">com.cloudera.cmf.db.type=postgresql</span><br><span class="line">com.cloudera.cmf.db.host=localhost:7432</span><br><span class="line">com.cloudera.cmf.db.name=scm</span><br><span class="line">com.cloudera.cmf.db.user=scm</span><br><span class="line">com.cloudera.cmf.db.password=30MCe9Mxuk</span><br></pre></td></tr></table></figure>
+<ul>
+<li>root密码： <code>/var/lib/cloudera-scm-server-db/data/generated_password.txt</code></li>
+</ul>
+<h2 id="卸载Cloudera"><a href="#卸载Cloudera" class="headerlink" title="卸载Cloudera"></a>卸载Cloudera</h2><p><a href="http://www.cloudera.com/content/cloudera/zh-CN/documentation/core/v5-3-x/topics/cm_ig_uninstall_cm.html">卸载 Cloudera Manager 和托管软件</a><br><a href="http://student-lp.iteye.com/blog/2158887">参考博客</a></p>
+<h2 id="Cloudera-Manager-API"><a href="#Cloudera-Manager-API" class="headerlink" title="Cloudera Manager API"></a>Cloudera Manager API</h2><p><a href="http://zh-cn.cloudera.com/content/cloudera/en/documentation.html">官方文档</a><br>Cloudera Manager API 提供了配置和服务生命周期管理、服务运行状况信息和指标，并允许您配置 Cloudera Manager 本身。此 API 与 Cloudera Manager Admin Console 在同一主机和端口上接受服务，不需要任何额外过程或额外配置。此 API 支持 HTTP 基本验证，接受的用户和凭据与 Cloudera Manager Admin Console 相同。</p>
+<h2 id="Cloudera-Management-Service"><a href="#Cloudera-Management-Service" class="headerlink" title="Cloudera Management Service"></a>Cloudera Management Service</h2><p>Cloudera Management Service 可作为一组角色实施各种管理功能：<br>Activity Monitor - 收集有关 MapReduce 服务运行的活动的信息。默认情况下未添加此角色。<br>Host Monitor - 收集有关主机的运行状况和指标信息<br>Service Monitor - 收集有关服务的运行状况和指标信息以及 YARN 和 Impala 服务中的活动信息<br>Event Server - 聚合 relevant Hadoop 事件并将其用于警报和搜索<br>Alert Publisher - 为特定类型的事件生成和提供警报<br>Reports Manager - 生成报告，它提供用户、用户组和目录的磁盘使用率的历史视图，用户和 YARN 池的处理活动，以及 HBase 表和命名空间。此角色未在 Cloudera Express 中添加。<br>Cloudera Manager 将单独管理每个角色，而不是作为 Cloudera Manager Server 的一部分进行管理，可实现可扩展性（例如，在大型部署中，它可用于将监控器角色置于自身的主机上）和隔离。</p>
+<p>此外，对于特定版本的 Cloudera Enterprise 许可证，Cloudera Management Service 还为 Cloudera Navigator 提供 Navigator Audit Server 和 Navigator Metadata Server 角色。</p>
+<h1 id="安装问题记录"><a href="#安装问题记录" class="headerlink" title="安装问题记录"></a>安装问题记录</h1><ol>
+<li>无法发出查询：未能连接到 Host Monitor</li>
+</ol>
+<p>解决方式：新增cloudera management services ,注意新增的目标机器因为scm-server安装的同一台机器，机器内存最好&gt;=8G</p>
+<ol>
+<li>urlopen error [Errno 111] Connection refused</li>
+</ol>
+<ul>
+<li>问题场景：CM中主机CDH5安装Parcel完成后无法分配和激活Agent</li>
+<li>详细日志<blockquote>
+<p>downloader INFO  Finished download [ url： http：//master.lt.com：7180/cmf/parcel/download/CDH-5.4.4-1.cdh5.4.4.p0.4-el6.parcel, state： exception, total_bytes： 0, downloaded_bytes： 0, start_time： 2015-08-11 22：18：32, download_end_time： , end_time： 2015-08-11 22：18：33, code： 600, exception： <urlopen error [Errno 111] Connection refused>, path： None ]</p>
+</blockquote>
+</li>
+<li>错误分析：在slave机器执行<code>nc -v master.lt.com  7182</code> 返回refused，判断是host配置有误导致dns解析不了</li>
+<li>解决方式：在slave1的hosts中新增master的域名解析</li>
+</ul>
+<ol>
+<li>正在获取安装锁问题</li>
+</ol>
+<ul>
+<li>问题描述：意外中止安装后重新安装提示”正在获取安装锁…“  ；</li>
+<li>问题解决：在Manager节点运行<code>rm /tmp/.scm_prepare_node.lock</code>删除Manager的lock文件后重新安装即可；</li>
+</ul>
+<ol>
+<li>对于此 Cloudera Manager 版本 (5.4.7) 太新的 CDH 版本不会显示</li>
+</ol>
+<ul>
+<li>问题描述：Versions of CDH that are too new for this version of Cloudera Manager (5.4.7) will not be shown.</li>
+<li>问题定位：PARCELS表fileName=CDH-5.4.7-1.cdh5.4.7.p0.3-el6.parcel的hash值为null，判断为parcel文件问题或scm数据库生成干扰问题</li>
+<li>解决思路：判断为/opt/cloudera/parcel-repo/目录内的本地parcel应该在scm数据库初始化结束后再放入</li>
+<li>问题解决：停止server&gt;重置scm数据库&gt;启动server&gt;复制parcel到/opt/cloudera/parcel-repo/目录</li>
+</ul>
+<p><a href="https://community.cloudera.com/t5/Cloudera-Manager-Installation/Can-t-find-CM-5-4-2-for-Trusty-or-Precise/td-p/28685">参考</a></p>
+<ol>
+<li><p>[Errno 2] No such file or directory: u’/opt/cloudera/parcels/CDH-5.4.7-1.cdh5.4.7.p0.3/meta/parcel.json’ - master.lt.com<br>需要存在目录：/opt/cloudera/parcel-cache</p>
+</li>
+<li><p>启用透明大页面问题</p>
+</li>
+</ol>
+<ul>
+<li>问题描述：已启用“透明大页面”，它可能会导致重大的性能问题。版本为“CentOS release 6.5 (Final)”且发行版为“2.6.32-431.el6.x86_64”的 Kernel 已将 enabled 设置为“[always] madvise never”，并将 defrag 设置为“[always] madvise never”。</li>
+<li>问题解决：运行“echo never &gt; /sys/kernel/mm/redhat_transparent_hugepage/defrag”以禁用此设置，然后将同一命令添加到一个 init 脚本中，如 /etc/rc.local，</li>
+</ul>
+<ol>
+<li>修改Cloudera Manager 管理机器的IP<br><a href="http://www.cnblogs.com/chenfool/archive/2014/05/27/3756066.html">解决方案</a></li>
+</ol>
+
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/%E5%88%86%E5%B8%83%E5%BC%8F/" rel="tag"># 分布式</a>
+              <a href="/tags/CDH/" rel="tag"># CDH</a>
+              <a href="/tags/Hadoop/" rel="tag"># Hadoop</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2015/08/05/Python%E5%AE%89%E8%A3%85%E5%8D%87%E7%BA%A7%E6%95%99%E7%A8%8B/" rel="prev" title="Python安装升级教程">
+      <i class="fa fa-chevron-left"></i> Python安装升级教程
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/2015/08/11/Hadoop%E7%94%9F%E6%80%81%E5%9C%88/" rel="next" title="Hadoop生态圈">
+      Hadoop生态圈 <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+  </div>
+
+
+          </div>
+          
+    <div class="comments" id="gitalk-container"></div>
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let activeClass = CONFIG.comments.activeClass;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#Hadoop版本区别"><span class="nav-number">1.</span> <span class="nav-text">Hadoop版本区别</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#关于CDH"><span class="nav-number">2.</span> <span class="nav-text">关于CDH</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Cloudera-QuickStart-VM"><span class="nav-number">3.</span> <span class="nav-text">Cloudera QuickStart VM</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#CDH安装步骤"><span class="nav-number">4.</span> <span class="nav-text">CDH安装步骤</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#CDH安装参考资料"><span class="nav-number">4.1.</span> <span class="nav-text">CDH安装参考资料</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#在线安装优势"><span class="nav-number">4.2.</span> <span class="nav-text">在线安装优势</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#在线安装步骤"><span class="nav-number">4.3.</span> <span class="nav-text">在线安装步骤</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#静态IP配置"><span class="nav-number">4.3.1.</span> <span class="nav-text">静态IP配置</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#HostName配置-FQDN配置"><span class="nav-number">4.3.2.</span> <span class="nav-text">HostName配置&#x2F;FQDN配置</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#SSH无密码登陆配置"><span class="nav-number">4.3.3.</span> <span class="nav-text">SSH无密码登陆配置</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#iptables防火墙配置"><span class="nav-number">4.3.4.</span> <span class="nav-text">iptables防火墙配置</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#selinux强制访问控制安全配置"><span class="nav-number">4.3.5.</span> <span class="nav-text">selinux强制访问控制安全配置</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#swap配置"><span class="nav-number">4.3.6.</span> <span class="nav-text">swap配置</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#安装NTP服务"><span class="nav-number">4.3.7.</span> <span class="nav-text">安装NTP服务</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#cloudera-manager-installer-bin安装"><span class="nav-number">4.3.8.</span> <span class="nav-text">cloudera-manager-installer.bin安装</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#在线配置"><span class="nav-number">4.3.9.</span> <span class="nav-text">在线配置</span></a></li></ol></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#CDH5运维相关"><span class="nav-number">5.</span> <span class="nav-text">CDH5运维相关</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#系统服务"><span class="nav-number">5.1.</span> <span class="nav-text">系统服务</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#嵌入式-PostgreSQL-数据库"><span class="nav-number">5.2.</span> <span class="nav-text">嵌入式 PostgreSQL 数据库</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#卸载Cloudera"><span class="nav-number">5.3.</span> <span class="nav-text">卸载Cloudera</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Cloudera-Manager-API"><span class="nav-number">5.4.</span> <span class="nav-text">Cloudera Manager API</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Cloudera-Management-Service"><span class="nav-number">5.5.</span> <span class="nav-text">Cloudera Management Service</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#安装问题记录"><span class="nav-number">6.</span> <span class="nav-text">安装问题记录</span></a></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">geosmart</p>
+  <div class="site-description" itemprop="description"></div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">199</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+          
+        <span class="site-state-item-count">15</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">118</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+        <a href="https://github.com/geosmart" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;geosmart" rel="noopener" target="_blank"><i class="fa fa-fw fa-github"></i>GitHub</a>
+      </span>
+  </div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2021</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">geosmart</span>
+</div>
+
+        
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/pisces.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+  
+<script src="/js/local-search.js"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+      
+
+<script>
+  if (typeof MathJax === 'undefined') {
+    window.MathJax = {
+      tex: {
+        inlineMath: {'[+]': [['$', '$']]},
+        tags: 'ams'
+      },
+      options: {
+        renderActions: {
+          findScript: [10, doc => {
+            document.querySelectorAll('script[type^="math/tex"]').forEach(node => {
+              const display = !!node.type.match(/; *mode=display/);
+              const math = new doc.options.MathItem(node.textContent, doc.inputJax[0], display);
+              const text = document.createTextNode('');
+              node.parentNode.replaceChild(text, node);
+              math.start = {node: text, delim: '', n: 0};
+              math.end = {node: text, delim: '', n: 0};
+              doc.math.push(math);
+            });
+          }, '', false],
+          insertedScript: [200, () => {
+            document.querySelectorAll('mjx-container').forEach(node => {
+              let target = node.parentNode;
+              if (target.nodeName.toLowerCase() === 'li') {
+                target.parentNode.classList.add('has-jax');
+              }
+            });
+          }, '', false]
+        }
+      }
+    };
+    (function () {
+      var script = document.createElement('script');
+      script.src = '//cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js';
+      script.defer = true;
+      document.head.appendChild(script);
+    })();
+  } else {
+    MathJax.startup.document.state(0);
+    MathJax.texReset();
+    MathJax.typeset();
+  }
+</script>
+
+    
+
+  
+
+<link rel="stylesheet" href="//cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.min.css">
+
+<script>
+NexT.utils.loadComments(document.querySelector('#gitalk-container'), () => {
+  NexT.utils.getScript('//cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.min.js', () => {
+    var gitalk = new Gitalk({
+      clientID    : '8a29a27c357a64ed79fd',
+      clientSecret: 'fe1b781c49fa9037803f3c4d3e94fbb677abac4d',
+      repo        : 'geosmart.github.io',
+      owner       : 'geosmart',
+      admin       : ['geosmart'],
+      id          : '375b6569fb84424c37a2b651ca8c4d93',
+        language: 'zh-CN',
+      distractionFreeMode: true
+    });
+    gitalk.render('gitalk-container');
+  }, window.Gitalk);
+});
+</script>
+
+</body>
+</html>

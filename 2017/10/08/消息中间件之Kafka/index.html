@@ -1,0 +1,656 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 4.2.1">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css">
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"geosmart.github.io","root":"/","scheme":"Pisces","version":"7.7.1","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.xml"};
+  </script>
+
+  <meta name="description" content="Kafka  is used for building real-time data pipelines and streaming apps. It is horizontally scalable, fault-tolerant, wicked fast, and runs in production in thousands of companies.">
+<meta property="og:type" content="article">
+<meta property="og:title" content="消息中间件之Kafka">
+<meta property="og:url" content="http://geosmart.github.io/2017/10/08/%E6%B6%88%E6%81%AF%E4%B8%AD%E9%97%B4%E4%BB%B6%E4%B9%8BKafka/index.html">
+<meta property="og:site_name" content="geosmart.io">
+<meta property="og:description" content="Kafka  is used for building real-time data pipelines and streaming apps. It is horizontally scalable, fault-tolerant, wicked fast, and runs in production in thousands of companies.">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="http://geosmart.github.io/2017/10/08/%E6%B6%88%E6%81%AF%E4%B8%AD%E9%97%B4%E4%BB%B6%E4%B9%8BKafka/Alt%20text.png">
+<meta property="og:image" content="http://geosmart.github.io/2017/10/08/%E6%B6%88%E6%81%AF%E4%B8%AD%E9%97%B4%E4%BB%B6%E4%B9%8BKafka/Alt%20text.png">
+<meta property="og:image" content="http://geosmart.github.io/2017/10/08/%E6%B6%88%E6%81%AF%E4%B8%AD%E9%97%B4%E4%BB%B6%E4%B9%8BKafka/Alt%20text.png">
+<meta property="article:published_time" content="2017-10-08T16:00:00.000Z">
+<meta property="article:modified_time" content="2021-12-15T01:13:12.896Z">
+<meta property="article:author" content="geosmart">
+<meta property="article:tag" content="Kafka">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://geosmart.github.io/2017/10/08/%E6%B6%88%E6%81%AF%E4%B8%AD%E9%97%B4%E4%BB%B6%E4%B9%8BKafka/Alt%20text.png">
+
+<link rel="canonical" href="http://geosmart.github.io/2017/10/08/%E6%B6%88%E6%81%AF%E4%B8%AD%E9%97%B4%E4%BB%B6%E4%B9%8BKafka/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome: false,
+    isPost: true
+  };
+</script>
+
+  <title>消息中间件之Kafka | geosmart.io</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <div>
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">geosmart.io</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+        <p class="site-subtitle">勿助勿忘，深造自得</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+<nav class="site-nav">
+  
+  <ul id="menu" class="menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-fw fa-home"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-about">
+
+    <a href="/about/" rel="section"><i class="fa fa-fw fa-user"></i>关于</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="fa fa-fw fa-tags"></i>标签</a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/categories/" rel="section"><i class="fa fa-fw fa-th"></i>分类</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-fw fa-archive"></i>归档</a>
+
+  </li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜索
+        </a>
+      </li>
+  </ul>
+
+</nav>
+  <div class="site-search">
+    <div class="popup search-popup">
+    <div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocorrect="off" autocapitalize="off"
+           placeholder="搜索..." spellcheck="false"
+           type="search" class="search-input">
+  </div>
+  <span class="popup-btn-close">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div id="search-result"></div>
+
+</div>
+<div class="search-pop-overlay"></div>
+
+  </div>
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+  <a href="https://github.com/geosmart" class="github-corner" title="Follow me on GitHub" aria-label="Follow me on GitHub" rel="noopener" target="_blank"><svg width="80" height="80" viewBox="0 0 250 250" aria-hidden="true"><path d="M0,0 L115,115 L130,115 L142,142 L250,250 L250,0 Z"></path><path d="M128.3,109.0 C113.8,99.7 119.0,89.6 119.0,89.6 C122.0,82.7 120.5,78.6 120.5,78.6 C119.2,72.0 123.4,76.3 123.4,76.3 C127.3,80.9 125.5,87.3 125.5,87.3 C122.9,97.6 130.6,101.9 134.4,103.2" fill="currentColor" style="transform-origin: 130px 106px;" class="octo-arm"></path><path d="M115.0,115.0 C114.9,115.1 118.7,116.5 119.8,115.4 L133.7,101.6 C136.9,99.2 139.9,98.4 142.2,98.6 C133.8,88.0 127.5,74.4 143.8,58.0 C148.5,53.4 154.0,51.2 159.7,51.0 C160.3,49.4 163.2,43.6 171.4,40.1 C171.4,40.1 176.1,42.5 178.8,56.2 C183.1,58.6 187.2,61.8 190.9,65.4 C194.5,69.0 197.7,73.2 200.1,77.6 C213.8,80.2 216.3,84.9 216.3,84.9 C212.7,93.1 206.9,96.0 205.4,96.6 C205.1,102.4 203.0,107.8 198.3,112.5 C181.9,128.9 168.3,122.5 157.7,114.1 C157.9,116.9 156.7,120.9 152.7,124.9 L141.0,136.5 C139.8,137.7 141.6,141.9 141.8,141.8 Z" fill="currentColor" class="octo-body"></path></svg></a>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content">
+            
+
+  <div class="posts-expand">
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block " lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://geosmart.github.io/2017/10/08/%E6%B6%88%E6%81%AF%E4%B8%AD%E9%97%B4%E4%BB%B6%E4%B9%8BKafka/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="geosmart">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="geosmart.io">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          消息中间件之Kafka
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：9   十月   2017 0:00:00" itemprop="dateCreated datePublished" datetime="2017-10-09T00:00:00+08:00">9   十月   2017</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：15   十二月   2021 9:13:12" itemprop="dateModified" datetime="2021-12-15T09:13:12+08:00">15   十二月   2021</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/%E4%B8%AD%E9%97%B4%E4%BB%B6/" itemprop="url" rel="index"><span itemprop="name">中间件</span></a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <p>Kafka  is used for building <code>real-time</code> data pipelines and streaming apps. It is <code>horizontally scalable</code>, <code>fault-tolerant</code>, <code>wicked fast</code>, and runs in production in thousands of companies.</p>
+<hr>
+<a id="more"></a> 
+<h2 id="消息中间件之Kafka"><a href="#消息中间件之Kafka" class="headerlink" title="消息中间件之Kafka"></a>消息中间件之Kafka</h2><h1 id="关于消息中间件"><a href="#关于消息中间件" class="headerlink" title="关于消息中间件"></a>关于消息中间件</h1><blockquote>
+<p>什么是消息中间件？</p>
+</blockquote>
+<p>举个生产者/消费者的例子，生产者生产鸡蛋，消费者消费鸡蛋，生产者生产一个鸡蛋，消费者就消费一个鸡蛋。</p>
+<ul>
+<li>假设消费者消费鸡蛋的时候噎住了（系统宕机了），生产者还在生产鸡蛋，那新生产的鸡蛋就丢失了。</li>
+<li>再比如生产者很强劲（大交易量的情况），生产者1秒钟生产100个鸡蛋，消费者1秒钟只能吃50个鸡蛋，那要不了一会，消费者就吃不消了（消息堵塞，最终导致系统超时），消费者拒绝再吃了，”鸡蛋“又丢失了，</li>
+<li>这个时候我们放个篮子在它们中间，生产出来的鸡蛋都放到篮子里，消费者去篮子里拿鸡蛋，这样鸡蛋就不会丢失了，都在篮子里</li>
+<li>而这个篮子就是”kafka“。鸡蛋其实就是“数据流”，系统之间的交互都是通过“数据流”来传输的（就是tcp、http什么的），也称为报文，也叫“消息”。消息队列满了，其实就是篮子满了，”鸡蛋“ 放不下了，那赶紧多放几个篮子，其实就是kafka的扩容。<br>kafka是干什么的，它就是那个”篮子”。</li>
+</ul>
+<h1 id="什么时候用消息中间件"><a href="#什么时候用消息中间件" class="headerlink" title="什么时候用消息中间件"></a>什么时候用消息中间件</h1><p>解决耦合问题：</p>
+<ol>
+<li>数据驱动的任务依赖</li>
+<li>上游不关心多下游执行结果</li>
+<li>异步返回执行时间长</li>
+</ol>
+<h1 id="消息中间件的不足"><a href="#消息中间件的不足" class="headerlink" title="消息中间件的不足"></a>消息中间件的不足</h1><ol>
+<li>系统更复杂，多了一个MQ组件</li>
+<li>消息传递路径更长，延时会增加</li>
+<li>消息可靠性和重复性互为矛盾，消息不丢不重难以同时保证</li>
+<li>上游无法知道下游的执行结果，这一点是很致命的</li>
+</ol>
+<h1 id="Kafka简介"><a href="#Kafka简介" class="headerlink" title="Kafka简介"></a>Kafka简介</h1><p><img src="Alt text.png" alt="Alt text"><br>Apache Kafka是由Apache软件基金会开发的一个开源消息系统项目，由Scala写成。Kafka最初是由LinkedIn开发，并于2011年初开源。<br>Kafka是一个分布式、分区的、多副本的、多订阅者，基于zookeeper协调的分布式日志系统(也可以当做MQ系统)，常见可以用于web/nginx日志、访问日志，消息服务等等，Linkedin于2010年贡献给了Apache基金会并成为顶级开源项目。</p>
+<ul>
+<li>快速：单个kafka服务每秒可以处理数以千计从客户端发来的几百兆字节的读取和写入。</li>
+<li>可扩展性：kafka被设计为允许单个集群作为中央数据骨干大型组织。它可以弹性地，透明地扩展，无需停机。数据流被划分并分布在机器的集群中，允许数据流比任何单一机器的性能大，并让集群来协调消费者。</li>
+<li>可靠性：消息被保存在磁盘上,并在集群中复制，防止数据丢失。每个代理可以处理TB级的消息，而不影响性能。</li>
+<li>分布式设计：kafka使用现代化的集群为中心设计，并提供了强大的耐用性和容错性保证。</li>
+</ul>
+<h1 id="kafka名词解释"><a href="#kafka名词解释" class="headerlink" title="kafka名词解释"></a>kafka名词解释</h1><p>后面大家会看到一些关于kafka的名词，比如topic、producer、consumer、broker，我这边来简单说明一下。</p>
+<ul>
+<li><code>topic</code>：Kafka将消息种子(Feed)分门别类， 每一类的消息称之为话题(Topic)。例如page view日志、click日志等都可以以topic的形式存在，Kafka集群能够同时负责多个topic的分发；</li>
+<li><code>partion</code>：topic物理上的分组，一个topic可以分为多个partion，每个partion是一个有序的队列；</li>
+<li><code>segment</code>：partion物理上由多个segment组成；</li>
+<li><code>offset</code>：每个partion都由一系列有序的、不可变的消息组成，这些消息被连续的追加到partion中。每个partion中的每个消息都由一个连续的序列化叫做offset，由于partion唯一标识一条消息；</li>
+<li><code>producer</code>： 发布消息的对象称之为话题生产者(Kafka topic producer)；</li>
+<li><code>consumer</code>：订阅消息并处理发布的消息的Feed的对象称之为话题消费者(consumers)消费者；</li>
+<li><code>broker</code>： 消息中间件处理节点，一个Kafka节点就是一个Broker，多个Broker可以组成一个Kafka集群；</li>
+</ul>
+<p>Client和Server之间的通讯是通过一条简单、高能并且和开发语言无关的TCP协议。<br>除了Java Client外，还有非常多的其它编程语言的Client。</p>
+<h1 id="Kafka的保证-Guarantees"><a href="#Kafka的保证-Guarantees" class="headerlink" title="Kafka的保证(Guarantees)"></a>Kafka的保证(Guarantees)</h1><p>生产者发送到一个特定的Topic的分区上的消息将会按照它们发送的顺序依次加入<br>消费者收到的消息也是此顺序<br>如果一个Topic配置了复制因子( replication facto)为N， 那么可以允许N-1服务器宕机而不丢失任何已经增加的消息</p>
+<h1 id="Kafka的文件存储机制"><a href="#Kafka的文件存储机制" class="headerlink" title="Kafka的文件存储机制"></a>Kafka的文件存储机制</h1><p>一个商业化消息队列的好坏，其文件存储机制是衡量一个消息队列服务技术水平的最关键指标之一。</p>
+<h2 id="topic中partion存储分布"><a href="#topic中partion存储分布" class="headerlink" title="topic中partion存储分布"></a>topic中partion存储分布</h2><p>在Kafka文件存储中，同一个topic下有多个不同partition，每个partition为一个目录，<br>partiton命名规则为topic名称+有序序号，第一个partiton序号从0开始，序号最大值为partitions数量减1。</p>
+<h2 id="partion中文件存储方式"><a href="#partion中文件存储方式" class="headerlink" title="partion中文件存储方式"></a>partion中文件存储方式</h2><ul>
+<li>每个partion(目录)相当于一个巨型文件被平均分配到多个<code>大小相等segment</code>(段)数据文件中。但每个段segment file消息数量不一定相等，这种特性方便old segment file快速被删除。</li>
+<li>每个partiton只需要支持顺序读写就行了，segment文件生命周期由服务端配置参数决定。<br>这样做的好处就是能快速删除无用文件，有效提高磁盘利用率。<h2 id="partion中segment文件存储结构"><a href="#partion中segment文件存储结构" class="headerlink" title="partion中segment文件存储结构"></a>partion中segment文件存储结构</h2></li>
+<li>segment file组成：由2大部分组成，分别为index file和data file，此2个文件一一对应，成对出现，后缀”.index”和“.log”分别表示为segment索引文件、数据文件.</li>
+<li>segment文件命名规则：partion全局的第一个segment从0开始，后续每个segment文件名为上一个segment文件最后一条消息的offset值。数值最大为64位long大小，19位数字字符长度，没有数字用0填充。</li>
+<li>索引文件存储大量元数据，数据文件存储大量消息，索引文件中元数据指向对应数据文件中message的物理偏移地址。</li>
+</ul>
+<p>message物理结构参数说明：</p>
+<div class="table-container">
+<table>
+<thead>
+<tr>
+<th style="text-align:left">关键字</th>
+<th style="text-align:left">解释说明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left">8 byte offset</td>
+<td style="text-align:left">在parition(分区)内的每条消息都有一个有序的id号，这个id号被称为偏移(offset),它可以唯一确定每条消息在parition(分区)内的位置。即offset表示partiion的第多少message</td>
+</tr>
+<tr>
+<td style="text-align:left">4 byte message size</td>
+<td style="text-align:left">message大小</td>
+</tr>
+<tr>
+<td style="text-align:left">4 byte CRC32</td>
+<td style="text-align:left">用crc32校验message</td>
+</tr>
+<tr>
+<td style="text-align:left">1 byte “magic”</td>
+<td style="text-align:left">表示本次发布Kafka服务程序协议版本号</td>
+</tr>
+<tr>
+<td style="text-align:left">1 byte “attributes”</td>
+<td style="text-align:left">表示为独立版本、或标识压缩类型、或编码类型。</td>
+</tr>
+<tr>
+<td style="text-align:left">4 byte key length</td>
+<td style="text-align:left">表示key的长度,当key为-1时，K byte key字段不填</td>
+</tr>
+<tr>
+<td style="text-align:left">K byte key</td>
+<td style="text-align:left">可选</td>
+</tr>
+<tr>
+<td style="text-align:left">value bytes payload</td>
+<td style="text-align:left">表示实际消息数据</td>
+</tr>
+</tbody>
+</table>
+</div>
+<h2 id="在partion中如何通过offset找到message"><a href="#在partion中如何通过offset找到message" class="headerlink" title="在partion中如何通过offset找到message"></a>在partion中如何通过offset找到message</h2><p><img src="Alt text.png" alt="Alt text"><br><img src="Alt text.png" alt="Alt text"><br>例如读取offset=368776的message，需要通过下面2个步骤查找。</p>
+<ul>
+<li>第一步查找segment file，其中00000000000000000000.index表示最开始的文件，起始偏移量(offset)为0.第二个文件00000000000000368769.index的消息量起始偏移量为368770 = 368769 + 1.同样，第三个文件00000000000000737337.index的起始偏移量为737338=737337 + 1，其他后续文件依次类推，以起始偏移量命名并排序这些文件，只要根据offset <strong>二分查找</strong>文件列表，就可以快速定位到具体文件。 当offset=368776时定位到00000000000000368769.index|log</li>
+<li>第二步通过segment file查找message 通过第一步定位到segment file，当offset=368776时，依次定位到00000000000000368769.index的元数据物理位置和00000000000000368769.log的物理偏移地址，然后再通过00000000000000368769.log顺序查找直到offset=368776为止。</li>
+</ul>
+<p>从上图可知这样做的优点，segment index file采取稀疏索引存储方式，它减少索引文件大小，通过mmap可以直接内存操作，稀疏索引为数据文件的每个对应message设置一个元数据指针,它比稠密索引节省了更多的存储空间，但查找起来需要消耗更多的时间。</p>
+<h2 id="Kafka中读写message特点"><a href="#Kafka中读写message特点" class="headerlink" title="Kafka中读写message特点"></a>Kafka中读写message特点</h2><h3 id="写message"><a href="#写message" class="headerlink" title="写message"></a>写message</h3><ul>
+<li>消息从java堆转入page cache(即物理内存)。</li>
+<li>由异步线程刷盘,消息从page cache刷入磁盘。<h3 id="读message"><a href="#读message" class="headerlink" title="读message"></a>读message</h3></li>
+<li>消息直接从page cache转入socket发送出去。</li>
+<li>当从page cache没有找到相应数据时，此时会产生磁盘IO,从磁盘Load消息到page cache，然后直接从socket发出去；</li>
+</ul>
+<h2 id="Kafka高效文件存储设计特点"><a href="#Kafka高效文件存储设计特点" class="headerlink" title="Kafka高效文件存储设计特点"></a>Kafka高效文件存储设计特点</h2><ul>
+<li>Kafka把topic中一个parition大文件分成多个小文件段，通过多个小文件段，就容易定期清除或删除已经消费完文件，减少磁盘占用。</li>
+<li>通过索引信息可以快速定位message和确定response的最大大小。</li>
+<li>通过index元数据全部映射到memory，可以避免segment file的IO磁盘操作。</li>
+<li>通过索引文件稀疏存储，可以大幅降低index文件元数据占用空间大小。</li>
+</ul>
+<h1 id="Kafka常见问题"><a href="#Kafka常见问题" class="headerlink" title="Kafka常见问题"></a>Kafka常见问题</h1><ul>
+<li>kafka节点之间如何复制备份的？</li>
+<li>kafka消息是否会丢失？为什么？</li>
+<li>kafka最合理的配置是什么？</li>
+<li>kafka的leader选举机制是什么？</li>
+<li>kafka对硬件的配置有什么要求？</li>
+<li>kafka的消息保证有几种方式？</li>
+</ul>
+<h1 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h1><ul>
+<li><a href="http://www.orchome.com/kafka/index">kafka中文教程</a></li>
+<li><a href="http://blog.csdn.net/suifeng3051/article/details/48053965">enter link description here</a></li>
+<li><a href="http://www.10tiao.com/html/249/201704/2651960012/1.html">到底什么时候该使用MQ？</a></li>
+</ul>
+
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/Kafka/" rel="tag"># Kafka</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2017/10/08/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E4%B9%8BB-Tree/" rel="prev" title="数据结构之B-Tree">
+      <i class="fa fa-chevron-left"></i> 数据结构之B-Tree
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/2017/10/10/AVL/" rel="next" title="AVL">
+      AVL <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+  </div>
+
+
+          </div>
+          
+    <div class="comments" id="gitalk-container"></div>
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let activeClass = CONFIG.comments.activeClass;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#消息中间件之Kafka"><span class="nav-number">1.</span> <span class="nav-text">消息中间件之Kafka</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#关于消息中间件"><span class="nav-number"></span> <span class="nav-text">关于消息中间件</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#什么时候用消息中间件"><span class="nav-number"></span> <span class="nav-text">什么时候用消息中间件</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#消息中间件的不足"><span class="nav-number"></span> <span class="nav-text">消息中间件的不足</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Kafka简介"><span class="nav-number"></span> <span class="nav-text">Kafka简介</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#kafka名词解释"><span class="nav-number"></span> <span class="nav-text">kafka名词解释</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Kafka的保证-Guarantees"><span class="nav-number"></span> <span class="nav-text">Kafka的保证(Guarantees)</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Kafka的文件存储机制"><span class="nav-number"></span> <span class="nav-text">Kafka的文件存储机制</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#topic中partion存储分布"><span class="nav-number">1.</span> <span class="nav-text">topic中partion存储分布</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#partion中文件存储方式"><span class="nav-number">2.</span> <span class="nav-text">partion中文件存储方式</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#partion中segment文件存储结构"><span class="nav-number">3.</span> <span class="nav-text">partion中segment文件存储结构</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#在partion中如何通过offset找到message"><span class="nav-number">4.</span> <span class="nav-text">在partion中如何通过offset找到message</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Kafka中读写message特点"><span class="nav-number">5.</span> <span class="nav-text">Kafka中读写message特点</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#写message"><span class="nav-number">5.1.</span> <span class="nav-text">写message</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#读message"><span class="nav-number">5.2.</span> <span class="nav-text">读message</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Kafka高效文件存储设计特点"><span class="nav-number">6.</span> <span class="nav-text">Kafka高效文件存储设计特点</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Kafka常见问题"><span class="nav-number"></span> <span class="nav-text">Kafka常见问题</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#参考"><span class="nav-number"></span> <span class="nav-text">参考</span></a></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">geosmart</p>
+  <div class="site-description" itemprop="description"></div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">199</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+          
+        <span class="site-state-item-count">15</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">118</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+        <a href="https://github.com/geosmart" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;geosmart" rel="noopener" target="_blank"><i class="fa fa-fw fa-github"></i>GitHub</a>
+      </span>
+  </div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2021</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">geosmart</span>
+</div>
+
+        
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/pisces.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+  
+<script src="/js/local-search.js"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+      
+
+<script>
+  if (typeof MathJax === 'undefined') {
+    window.MathJax = {
+      tex: {
+        inlineMath: {'[+]': [['$', '$']]},
+        tags: 'ams'
+      },
+      options: {
+        renderActions: {
+          findScript: [10, doc => {
+            document.querySelectorAll('script[type^="math/tex"]').forEach(node => {
+              const display = !!node.type.match(/; *mode=display/);
+              const math = new doc.options.MathItem(node.textContent, doc.inputJax[0], display);
+              const text = document.createTextNode('');
+              node.parentNode.replaceChild(text, node);
+              math.start = {node: text, delim: '', n: 0};
+              math.end = {node: text, delim: '', n: 0};
+              doc.math.push(math);
+            });
+          }, '', false],
+          insertedScript: [200, () => {
+            document.querySelectorAll('mjx-container').forEach(node => {
+              let target = node.parentNode;
+              if (target.nodeName.toLowerCase() === 'li') {
+                target.parentNode.classList.add('has-jax');
+              }
+            });
+          }, '', false]
+        }
+      }
+    };
+    (function () {
+      var script = document.createElement('script');
+      script.src = '//cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js';
+      script.defer = true;
+      document.head.appendChild(script);
+    })();
+  } else {
+    MathJax.startup.document.state(0);
+    MathJax.texReset();
+    MathJax.typeset();
+  }
+</script>
+
+    
+
+  
+
+<link rel="stylesheet" href="//cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.min.css">
+
+<script>
+NexT.utils.loadComments(document.querySelector('#gitalk-container'), () => {
+  NexT.utils.getScript('//cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.min.js', () => {
+    var gitalk = new Gitalk({
+      clientID    : '8a29a27c357a64ed79fd',
+      clientSecret: 'fe1b781c49fa9037803f3c4d3e94fbb677abac4d',
+      repo        : 'geosmart.github.io',
+      owner       : 'geosmart',
+      admin       : ['geosmart'],
+      id          : '15939fa8a91d44e7e70a6df9a6f7dd54',
+        language: 'zh-CN',
+      distractionFreeMode: true
+    });
+    gitalk.render('gitalk-container');
+  }, window.Gitalk);
+});
+</script>
+
+</body>
+</html>

@@ -1,0 +1,633 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 4.2.1">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css">
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"geosmart.github.io","root":"/","scheme":"Pisces","version":"7.7.1","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.xml"};
+  </script>
+
+  <meta name="description" content="You can build a simple rules engine yourself. All you need is to create a bunch of objects with conditions and actions, store them in a collection, and run through them to evaluate the conditions and">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Drools学习笔记">
+<meta property="og:url" content="http://geosmart.github.io/2016/08/22/Drools%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/index.html">
+<meta property="og:site_name" content="geosmart.io">
+<meta property="og:description" content="You can build a simple rules engine yourself. All you need is to create a bunch of objects with conditions and actions, store them in a collection, and run through them to evaluate the conditions and">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="http://geosmart.github.io/2016/08/22/Drools%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/rules-inference_engine-facts.png">
+<meta property="article:published_time" content="2016-08-22T08:41:26.000Z">
+<meta property="article:modified_time" content="2021-12-15T01:13:12.839Z">
+<meta property="article:author" content="geosmart">
+<meta property="article:tag" content="Drools">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://geosmart.github.io/2016/08/22/Drools%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/rules-inference_engine-facts.png">
+
+<link rel="canonical" href="http://geosmart.github.io/2016/08/22/Drools%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome: false,
+    isPost: true
+  };
+</script>
+
+  <title>Drools学习笔记 | geosmart.io</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <div>
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">geosmart.io</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+        <p class="site-subtitle">勿助勿忘，深造自得</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+<nav class="site-nav">
+  
+  <ul id="menu" class="menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-fw fa-home"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-about">
+
+    <a href="/about/" rel="section"><i class="fa fa-fw fa-user"></i>关于</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="fa fa-fw fa-tags"></i>标签</a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/categories/" rel="section"><i class="fa fa-fw fa-th"></i>分类</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-fw fa-archive"></i>归档</a>
+
+  </li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜索
+        </a>
+      </li>
+  </ul>
+
+</nav>
+  <div class="site-search">
+    <div class="popup search-popup">
+    <div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocorrect="off" autocapitalize="off"
+           placeholder="搜索..." spellcheck="false"
+           type="search" class="search-input">
+  </div>
+  <span class="popup-btn-close">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div id="search-result"></div>
+
+</div>
+<div class="search-pop-overlay"></div>
+
+  </div>
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+  <a href="https://github.com/geosmart" class="github-corner" title="Follow me on GitHub" aria-label="Follow me on GitHub" rel="noopener" target="_blank"><svg width="80" height="80" viewBox="0 0 250 250" aria-hidden="true"><path d="M0,0 L115,115 L130,115 L142,142 L250,250 L250,0 Z"></path><path d="M128.3,109.0 C113.8,99.7 119.0,89.6 119.0,89.6 C122.0,82.7 120.5,78.6 120.5,78.6 C119.2,72.0 123.4,76.3 123.4,76.3 C127.3,80.9 125.5,87.3 125.5,87.3 C122.9,97.6 130.6,101.9 134.4,103.2" fill="currentColor" style="transform-origin: 130px 106px;" class="octo-arm"></path><path d="M115.0,115.0 C114.9,115.1 118.7,116.5 119.8,115.4 L133.7,101.6 C136.9,99.2 139.9,98.4 142.2,98.6 C133.8,88.0 127.5,74.4 143.8,58.0 C148.5,53.4 154.0,51.2 159.7,51.0 C160.3,49.4 163.2,43.6 171.4,40.1 C171.4,40.1 176.1,42.5 178.8,56.2 C183.1,58.6 187.2,61.8 190.9,65.4 C194.5,69.0 197.7,73.2 200.1,77.6 C213.8,80.2 216.3,84.9 216.3,84.9 C212.7,93.1 206.9,96.0 205.4,96.6 C205.1,102.4 203.0,107.8 198.3,112.5 C181.9,128.9 168.3,122.5 157.7,114.1 C157.9,116.9 156.7,120.9 152.7,124.9 L141.0,136.5 C139.8,137.7 141.6,141.9 141.8,141.8 Z" fill="currentColor" class="octo-body"></path></svg></a>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content">
+            
+
+  <div class="posts-expand">
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block " lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://geosmart.github.io/2016/08/22/Drools%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="geosmart">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="geosmart.io">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          Drools学习笔记
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：22   八月   2016 16:41:26" itemprop="dateCreated datePublished" datetime="2016-08-22T16:41:26+08:00">22   八月   2016</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：15   十二月   2021 9:13:12" itemprop="dateModified" datetime="2021-12-15T09:13:12+08:00">15   十二月   2021</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/%E5%90%8E%E7%AB%AF%E6%8A%80%E6%9C%AF/" itemprop="url" rel="index"><span itemprop="name">后端技术</span></a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <blockquote>
+<p>You can build a simple rules engine yourself. All you need is to create a bunch of objects with conditions and actions, store them in a collection, and run through them to evaluate the conditions and execute the actions.<br>                -Martin Fowler</p>
+<hr>
+<a id="more"></a> 
+<h1 id="为什么会有规则引擎-？"><a href="#为什么会有规则引擎-？" class="headerlink" title="为什么会有规则引擎 ？"></a>为什么会有规则引擎 ？</h1><p>背景：复杂企业级项目的开发以及其中随外部条件不断变化的业务规则（business logic），迫切需要分离商业决策者的商业决策逻辑和应用开发者的技术决策，并把这些商业决策放在中心数据库或其他统一的地方，让它们能在运行时（即商务时间）可以动态地管理和修改从而提供软件系统的柔性和适应性。规则引擎正是应用于上述动态环境中的一种解决方法。</p>
+</blockquote>
+<p>企业管理者对企业级IT系统的开发有着如下的要求：</p>
+<ul>
+<li>为提高效率，管理流程必须自动化，即使现代商业规则异常复杂；</li>
+<li>市场要求业务规则经常变化，IT系统必须依据业务规则的变化快速、低成本的更新；</li>
+<li>为了快速、低成本的更新，业务人员应能直接管理IT系统中的规则，不需要程序开发人员参与；</li>
+</ul>
+<h1 id="什么是规则引擎-？"><a href="#什么是规则引擎-？" class="headerlink" title="什么是规则引擎 ？"></a>什么是规则引擎 ？</h1><p>也许这又是一种“先有蛋还是先有鸡”哲学争论，在JSR-94种也几乎没有定义,规则引擎这个术语是非常不明确的，因为任何以任意形式使用能够应用于数据生成结果的规则的系统都可以称为规则引擎。包括像表单验证和动态表达式引擎这样的简单系统都可以称之为规则引擎。<br>可以这样理解规则引擎由推理引擎发展而来，是一种嵌入在应用程序中的组件，实现了将业务决策从应用程序代码中分离出来，并使用预定义的语义模块编写业务决策。接受数据输入，解释业务规则，并根据规则做出业务决策。</p>
+<blockquote>
+<p>Drools is Rule Engine or a Production Rule System（产生式规则系统） that uses the rule-based approach to implement and Expert System. Expert Systems（专家系统） are knowledge-based systems that use knowledge representation（知识表达） to process acquired knowledge into a knowledge base（知识库） that can be used for reasoning（推理）.<br>A Production Rule System is Turing complete with a focus on knowledge representation to express propositional and first-order logic in a concise, non-ambiguous and declarative manner.<br>The brain of a Production Rules System is an Inference Engine（推理机） that can scale to a large number of rules and facts. The Inference Engine matches facts and data against Production Rules（根据规则匹配数据和事实）<br>– also called Productions or just Rules – to infer conclusions which result in actions.<br>A Production Rule is a two-part structure that uses first-order logic（一阶逻辑） for reasoning over knowledge representation.<br>A business rule engine（商业规则引擎） is a software system that executes one or more business rules in a runtime production environment.<br>A Rule Engine（定义做什么而不是怎么做） allows you to define “What to Do”（声明式编程） and not “How to do it.”（命令式编程）</p>
+</blockquote>
+<h2 id="规则引擎的优点"><a href="#规则引擎的优点" class="headerlink" title="规则引擎的优点"></a>规则引擎的优点</h2><h3 id="Declarative-Programming（声明式编程）"><a href="#Declarative-Programming（声明式编程）" class="headerlink" title="Declarative Programming（声明式编程）"></a>Declarative Programming（声明式编程）</h3><p>规则引擎允许你描述做什么而不是如何去做。<br>这里的主要优点是使用规则更加容易对复杂的问题进行表述，并得到验证。 (规则比编码更容易阅读).<br>规则系统能够解决非常非常困难的问题，并提供了方案怎样达到和在解决问题的方向上所作的每一个决定的原因（这对于类似神经网络这样的AI系统来说不容易达到）<br>与code不同，DSL易于编写复杂业务逻辑，对复杂问题的描述也变得简单化，且更易于阅读，理解和核查。<br>如SQL和D3.js也是声明式编程</p>
+<h3 id="Logic-and-Data-Separation（逻辑与数据分离）"><a href="#Logic-and-Data-Separation（逻辑与数据分离）" class="headerlink" title="Logic and Data Separation（逻辑与数据分离）"></a>Logic and Data Separation（逻辑与数据分离）</h3><p>The data resides in the Domain Objects and the business logic resides in the Rules. Depending upon the kind of project, this kind of separation can be very advantageous.<br>数据保存在系统对象中，逻辑保存在规则中。这根本性的打破了面向对象系统中将数据和逻辑耦合起来的局面，这点是有利的也是不利的，在于你的观察角度。<br>这样做的结果是，未来逻辑发生改变时更容易被维护，因为逻辑保存在规则中，这点在逻辑是跨领域或多领域中使用时尤其有用。<br>通过将逻辑集中在一个或数个清晰的规则文件中，取代了之前分散在代码中的局面。</p>
+<h3 id="Speed-and-Scalability（速度和可测量性）"><a href="#Speed-and-Scalability（速度和可测量性）" class="headerlink" title="Speed and Scalability（速度和可测量性）"></a>Speed and Scalability（速度和可测量性）</h3><p>The Rete OO algorithm on which Drools is written is already a proven algorithm. With the help of Drools, your application becomes very scalable. If there are frequent change requests, one can add new rules without having to modify the existing rules.<br>Rete算法、Leaps算法,以及由此衍生出来的 Drools的 Rete、Leaps算法，提供了对系统数据对象非常有效率的匹配。这些都是高效率尤其当你的数据是不完全的改变（规则引擎能够记得之前的匹配）。这些算法经过了大量实际考验的证明。</p>
+<h3 id="Centralization-of-Knowledge（集中化知识管理）"><a href="#Centralization-of-Knowledge（集中化知识管理）" class="headerlink" title="Centralization of Knowledge（集中化知识管理）"></a>Centralization of Knowledge（集中化知识管理）</h3><p>By using Rules, you create a repository of knowledge (a knowledge base) which is executable. It is a single point of truth for business policy. Ideally, Rules are so readable that they can also serve as documentation.<br>通过使用规则，将建立一个可执行的规则库。这意味着规则库代表着现实中的业务策略的唯一对应，理想情况下可读性高的规则还可以被当作文档使用。</p>
+<h3 id="Tool-Integration（工具集成）"><a href="#Tool-Integration（工具集成）" class="headerlink" title="Tool Integration（工具集成）"></a>Tool Integration（工具集成）</h3><p>Tools such as Eclipse provide ways to edit and manage rules and get immediate feedback, validation, and content assistance. Auditing and debugging tools are also available.<br>例如Eclipse（将来可能在基于Web的界面上）这样的工具为规则的修改与管理、即时获得反馈、内容验证与修补提供了办法。审查与调试工具同样也可用了。</p>
+<h1 id="什么情况下使用规则引擎-？"><a href="#什么情况下使用规则引擎-？" class="headerlink" title="什么情况下使用规则引擎 ？"></a>什么情况下使用规则引擎 ？</h1><p>最简短的回答就是“当没有令人满意的传统的程序设计方法能够解决这个问题时”。<br>下面对这个所谓的传统解决方法的一个描述：</p>
+<ul>
+<li>对于传统代码来说，问题需要的精确度太高。</li>
+<li>这种问题可能并不复杂，但是你找不到一种稳定的方法去建立它。</li>
+<li>问题超越了任何有明显运算法则的方案。</li>
+<li>它是一个难以解决的复杂问题，没有明显的传统解决方案或者问题没有一个准确的定论。</li>
+<li>业务逻辑经常发生改变：逻辑本身是简单的（但不是指过于简单），但是规则经常发生变化。在许多软件组织中正式版本的间隔是较长并且较少的，规则可以在适当的安全前提下帮助提供一定的敏捷性。</li>
+<li>领域专家（或者业务分析师）是非技术人员：领域专家通常对业务规则和流程具有很好的认知。他们通常是不了解软件技术的人员，但是具有很好的逻辑性。规则能够让他们用自己的术语来描述业务逻辑。当然他们仍然需要严密的思考和良好的逻辑思维能力（许多在非软件技术型岗位上的人没有进行过形式逻辑的训练，因此在和他们工作时要特别小心，在将业务知识编撰成规则时，要特别注意业务规则和流程应当是当前能够理解的）。</li>
+</ul>
+<h1 id="什么情况下不能使用规则引擎-？"><a href="#什么情况下不能使用规则引擎-？" class="headerlink" title="什么情况下不能使用规则引擎 ？"></a>什么情况下不能使用规则引擎 ？</h1><ul>
+<li>因为规则引擎是动态的 (动态的在这里意味着规则可以象数据一样保存、管理和更新),它们通常被看作发布软件系统的一种解决方案(大多数IT部门似乎存在的目的是防止软件系统被遗弃)。如果这是你希望使用规则引擎的原因，应当意识到在可以写出公开发布的规则时，规则引擎能够以最佳方式工作。</li>
+<li>另一个方面，你也可以考虑使用数据驱动的设计（查找表）或者脚本/流程引擎等有能够在数据库中管理并能够动态更新的脚本。对特定的工作要使用恰当的工具。<br>当然，必要时老虎钳可以当作锤子用，但那并不是发明老虎钳的本意。”</li>
+</ul>
+<h1 id="Drools"><a href="#Drools" class="headerlink" title="Drools"></a>Drools</h1><p>一个应用程序一般可分为3部分：一个和用户交互的前台(UI), 一个和后台系统，例如数据库交互的服务层(DAO)，以及他们中间的业务逻辑(BLL)。<br>使用框架构建前台和后台系统已经成为普遍共识，如 Spring , Struts，Hibernate，Mybatis等；<br>而没有一个标准的方法来构建业务逻辑，为什么没有一个框架来替换冗繁，易错的if…then语句呢，这个框架应该和其它前台或后台框架一样，易于配置，具有可读性和重用性。<br>Drools 规则引擎就是解决我们这个问题的框架。 </p>
+<p>Drools是一个基于java的规则引擎，开源的，可以将复杂多变的规则从硬编码中解放出来，以规则脚本的形式存放在文件中，使得规则的变更不需要修正代码重启机器就可以立即在线上环境生效。</p>
+<blockquote>
+<p>Drools is a business rule management system (BRMS) with a forward and backward chaining inference based rules engine, more correctly known as a production rule system, using an enhanced implementation of the Rete algorithm.</p>
+<p>KIE (Knowledge Is Everything) is the new umbrella name to drools, optaPlanner, jBPM, Guvnor, uberFire and related technologies.<br>Drools supports the JSR-94 standard for its business rule engine and enterprise framework for the construction, maintenance, and enforcement of business policies in an organization, application, or service.</p>
+<p>Drools is a Business Logic integration Platform (BLiP). It is written in Java. It is an open source project that is backed by JBoss and Red Hat, Inc. It extends and implements the Rete Pattern matching algorithm（实现并扩展了Rete模式匹配算法）.<br>In layman’s terms, Drools is a collection of tools that allow us to separate and reason over logic and data found within business processes（分离数据与业务逻辑，推理）. The two important keywords we need to notice are Logic and Data.</p>
+</blockquote>
+<p>Drools 分为两个主要部分：构建（ Authoring ）和运行时（ Runtime ）。</p>
+<h2 id="Authoring（构建）"><a href="#Authoring（构建）" class="headerlink" title="Authoring（构建）"></a>Authoring（构建）</h2><p>构建的过程涉及到.drl或.xml规则文件的创建，它们被读入一个解析器，使用ANTLR3语法进行解析。<br>解析器对语法进行正确性的检查，然后产生一种中间结构“ descr ”， descr 用 AST 来描述规则。<br>AST 然后被传到PackageBuilder ，由 PackagBuilder 来产生 Packaged 对象。<br>PackageBuilder 还承担着一些代码产生和编译的工作，这些对于产生 Package 对象都时必需的。<br>Package 对象是一个可以配置的，可序列化的，由一个或多个规则组成的对象。</p>
+<h2 id="Runtime（运行时）"><a href="#Runtime（运行时）" class="headerlink" title="Runtime（运行时）"></a>Runtime（运行时）</h2><p>It involves the creation of working memory(被推理机进行匹配的数据称为 WorkingMemory) and handling the activation.</p>
+<h1 id="Rule（规则）"><a href="#Rule（规则）" class="headerlink" title="Rule（规则）"></a>Rule（规则）</h1><p>Rules are pieces of knowledge often expressed as, “When some conditions occur, then do some tasks.”<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">rule  <span class="string">"&lt;name&gt;"</span></span><br><span class="line">      &lt;attribute&gt; &lt;value&gt;</span><br><span class="line">      </span><br><span class="line">      when</span><br><span class="line">         &lt;conditions&gt;</span><br><span class="line">      </span><br><span class="line">      <span class="keyword">then</span></span><br><span class="line">         &lt;actions&gt;</span><br><span class="line">end</span><br></pre></td></tr></table></figure></p>
+<h1 id="Pattern-Matching（模式匹配）"><a href="#Pattern-Matching（模式匹配）" class="headerlink" title="Pattern Matching（模式匹配）"></a>Pattern Matching（模式匹配）</h1><p>对新的数据和被修改的数据进行规则的匹配称为模式匹配（ Pattern Matching ）。进行匹配的引擎称为推理机（Inference Engine ）。被访问的规则称为 ProductionMemory ，被推理机进行匹配的数据称为 WorkingMemory。 Agenda 管理被匹配规则的执行。<br>推理机所采用的模式匹配算法有下列几种： Linear，RETE，Treat，Leaps。<br>DroDrools是为Java量身定制的基于Charles  Forgy的RETE算法的规则引擎的实现。具有了OO接口的RETE,使得商业规则有了更自然的表达。</p>
+<p>在规则引擎中，将知识表达为规则（rules），要分析的情况定义为事实（facts）。<br>二者在内存中的存储分别称为<code>Production Memory</code>和<code>Working Memory</code>，如下图：<br><img src="rules-inference_engine-facts.png" alt="rules-inference_engine-facts"><br>rules和facts是规则引擎接受的输入参数，而规则引擎本身包括两个组成部分：<code>Pattern Matcher</code>和<code>Agenda</code>。Pattern Matcher根据facts找到匹配的rules，Agenda管理PatternMatcher挑选出来的规则的执行次序。在外围，还会有一个执行引擎（Execution Engine）负责根据Agenda输出的rules执行具体的操作。</p>
+<p>其中Pattern Matcher是规则引擎负责推理的核心。和人类的思维相对应，<br>规则引擎中也存在两种推理方式：<code>正向推理（Forward-Chaining）</code>和<code>反向推理（Backward-Chaining）</code>。</p>
+<ul>
+<li>正向推理也叫演绎法，由事实驱动，从 一个初始的事实出发，不断地应用规则得出结论。首先在候选队列中选择一条规则作为启用规则进行推理，记录其结论作为下一步推理时的证据。如此重复这个过程，直到再无可用规则可被选用或者求得了所要求的解为止。</li>
+<li>反向推理也叫归纳法，由目标驱动，首先提出某个假设，然后寻找支持该假设的证据，若所需的证据都能找到，说明原假设是正确的；若无论如何都找不到所需要的证据，则说明原假设不成立，此时需要另做新的假设。</li>
+</ul>
+<p><a href="http://www.blogjava.net/guangnian0412/archive/2006/06/01/49712.html">RETE算法</a></p>
+<h1 id="Drools-常用术语"><a href="#Drools-常用术语" class="headerlink" title="Drools-常用术语"></a>Drools-常用术语</h1><h2 id="Rules（规则）"><a href="#Rules（规则）" class="headerlink" title="Rules（规则）"></a>Rules（规则）</h2><p>The heart of the Rules Engine where you specify conditions (if ‘a’ then ‘b’).</p>
+<p>业务调研中很重要的内容就是了解业务规则。在企业流程中，可能还会接触到流程规则。<br>在IT技术领域，很多地方也应用了规则，比如路由表，防火墙策略，乃至角色权限控制(RBAC)，或者Web框架中的URL匹配。<br>不管是哪种规则，都规定了一组确定的条件和此条件所产生的结果。</p>
+<ul>
+<li>每条规则都是一组条件决定的一系列结果；</li>
+<li>一条规则可能与其他规则共同决定最终结果；</li>
+<li>可能存在条件互相交叉的规则，此时有必要规定规则的优先级；</li>
+</ul>
+<h2 id="Facts（事实）"><a href="#Facts（事实）" class="headerlink" title="Facts（事实）"></a>Facts（事实）</h2><p>Facts are the data on which the rules will act upon.<br>From Java perspective, Facts are the POJO (Plain Old Java Object).</p>
+<h2 id="KnowledgeBuilder"><a href="#KnowledgeBuilder" class="headerlink" title="KnowledgeBuilder"></a>KnowledgeBuilder</h2><p>KnowledgeBuilder是用来在业务代码中收集已经编好的规则，找到这些规则并把这些规则文件进行编译，<br>最终产生一批编译好的KnowledgePackage（规则包）给其它的应用程序使用。<br>创建KnowledgeBuilder对象使用的是KnowledgeBuilderFactory的newKnowledgeBuilder方法。</p>
+<h2 id="Knowledge-Base"><a href="#Knowledge-Base" class="headerlink" title="Knowledge Base"></a>Knowledge Base</h2><ul>
+<li>Knowledge Base是管理一系列rules, processes和 internal types的接口. 它在<code>org.drools.KnowledgeBase</code>包中；</li>
+<li>KnowledgeBase 是Drools提供的用来收集应用当中知识（Knowledge）定义的知识库对象，在一个KnowledgeBase当中可以包含普通的规则、规则流、函数定义、用户自定义对象等；</li>
+<li>KnowledgeBase本身不包含任何业务数据对象(fact 对象)，业务对象都是插入到由KnowledgeBase产生的两种类型的session对象；</li>
+<li>一系列Knowledge definitions组成knowledge packages；</li>
+<li>Knowledge definitions 可以新增和移除；</li>
+<li>Knowledge Base的主要目的是为了重用，因为Knowledge definitions成本很高； </li>
+<li>Knowledge Base 提供新建knowledge sessions的方法；</li>
+</ul>
+<h2 id="Session"><a href="#Session" class="headerlink" title="Session"></a>Session</h2><p>knowledge session是激发规则的核心组件，knowledge session容纳所有规则和资源， knowledge session由KnowledgeBase创建。<br>规则引擎工作时会将facts插入session中，当满足特定的condition时，对应的rule就会被激发。<br>knowledge session从knowledge base中获取，是与drools规则引擎交互的主要接口，knowledge session有两种类型:</p>
+<h3 id="Stateful-Knowledge-Session"><a href="#Stateful-Knowledge-Session" class="headerlink" title="Stateful Knowledge Session"></a>Stateful Knowledge Session</h3><p>StatefulKnowledgeSession对象是一种最常用的与规则引擎进行交互的方式，它可以与规则引擎建立一个持续的交互通道。<br>StatefulKnowledgeSession执行完之后一定要调用dispose()方法释放资源。<br>StatefulKnowledgeSession可以接受外部插入(insert方法)的业务数据——也叫fact，一个对象通常可以对应一个普通的POJO, 而一个POJO有若干个属性来描述这个业务对象，比如一个PeopleEvent中包含了isComing(人是否进来属性), roomed(房间号)，每一个属性对应getter和setter方法，供规则定义来使用（注意：在规则定义中isComing默认的getter方法是getIsComing()）。<br>如果规则当中需要有数据传出，那么可以通过在StatefulKnowledgeSession当中设置global对象来实现，一个global对象也是一个普通的Java对象，在向StatefulKnowledgeSession当中设置global对象时不用insert方法而用setGlobal方法实现。</p>
+<p>一些stateless session常用的用例：</p>
+<ul>
+<li>Monitoring 监控<br>Stock market monitoring and analysis for semi-automatic buying.</li>
+<li>Diagnostics 诊断<br>Fault finding, medical diagnostics</li>
+<li>Logistics<br>Parcel tracking and delivery provisioning  </li>
+</ul>
+<h3 id="Stateless-Knowledge-Session"><a href="#Stateless-Knowledge-Session" class="headerlink" title="Stateless Knowledge Session"></a>Stateless Knowledge Session</h3><p>Stateless Knowledge Session是一个无状态的session，形成最简单的用例，不利用推理<br>Stateless Knowledge Session可以像function一样被调用，可传入一些数据和接收一些结果。<br>一般 stateless session包括:</p>
+<ul>
+<li>Validation 验证<br>Is this person eligible for a mortgage?</li>
+<li>Calculation 计算<br>Compute a mortgage premium.</li>
+<li>Routing and Filtering 路由和过滤<br>Filter incoming messages, such as emails, into folders.<br>Send incoming messages to a destination</li>
+</ul>
+<h3 id="Stateless和Stateful两种session的区别"><a href="#Stateless和Stateful两种session的区别" class="headerlink" title="Stateless和Stateful两种session的区别"></a>Stateless和Stateful两种session的区别</h3><ul>
+<li>StatelessKnowledgeSession是在StatefulKnowledgeSession基础上进行进一步的封装，</li>
+<li>StatelessKnowledgeSession跟StatefulKnowledgeSession的区别就是它不需要调用dispose方法释放内存资源了，</li>
+<li>StatelessKnowledgeSession不能重复的执行插入fact的操作、也不能重复的调用fireAllRules方法来执行所有的规则，因为它不能保存状态，<br>对应的这些要完成的工作在StatelessKnowledgeSession当中只有execute方法，通过这个方法可以实现插入所有的fact并且可以同时执行所有的规则或规则流。</li>
+</ul>
+<h2 id="MVEL（MVFLEX-Expression-Language-）"><a href="#MVEL（MVFLEX-Expression-Language-）" class="headerlink" title="MVEL（MVFLEX Expression Language ）"></a>MVEL（MVFLEX Expression Language ）</h2><p>MVEL is a hybrid dynamic/statically typed, embeddable Expression Language and runtime for the Java Platform.<br>MVEL is particularly ideal for restrictive environments that can’t use bytecode generation due to <code>memory restrictions</code> or sand boxing. Instead of trying to re-invent Java, it instead aims to provide a familiar syntax for Java programmers while also adding <code>syntactic sugar</code> for short and concise expressions.</p>
+<h1 id="Rule-Attributes"><a href="#Rule-Attributes" class="headerlink" title="Rule Attributes"></a>Rule Attributes</h1><h2 id="ruleflow-group"><a href="#ruleflow-group" class="headerlink" title="ruleflow-group"></a>ruleflow-group</h2><h2 id="agenda-group"><a href="#agenda-group" class="headerlink" title="agenda-group"></a>agenda-group</h2><h2 id="activation-group"><a href="#activation-group" class="headerlink" title="activation-group"></a>activation-group</h2><h2 id="salience"><a href="#salience" class="headerlink" title="salience"></a>salience</h2><h2 id="no-loop"><a href="#no-loop" class="headerlink" title="no-loop"></a>no-loop</h2><h2 id="lock-on-action"><a href="#lock-on-action" class="headerlink" title="lock-on-action"></a>lock-on-action</h2><h2 id="Agenda"><a href="#Agenda" class="headerlink" title="Agenda"></a>Agenda</h2><p>The Agenda is a Rete feature. It maintains set of rules that are able to execute, its job is to schedule that execution in a deterministic order.</p>
+<p>It’s a logical concept. The agenda is the logical place where activations are waiting to be fired.<br>Agenda是一个逻辑概念，逻辑上存储待执行规则（activations）。</p>
+<h2 id="Activations（被匹配的规则）"><a href="#Activations（被匹配的规则）" class="headerlink" title="Activations（被匹配的规则）"></a>Activations（被匹配的规则）</h2><p>Activations are the ‘then’ part of the rule. Activations are placed in the agenda where the appropriate rule is fired.<br>Activations是rule的’then’部分，存储在Agenda中的已匹配但未激发的rule，即Activations；</p>
+<h2 id="DRL规则文件的语法"><a href="#DRL规则文件的语法" class="headerlink" title="DRL规则文件的语法"></a>DRL规则文件的语法</h2><h2 id="Package"><a href="#Package" class="headerlink" title="Package"></a>Package</h2><p>Every Rule starts with a package name. The package acts as a namespace for Rules. Rule names within a package must be unique. Packages in Rules are similar to packages in Java.<br>package是Rules的命名空间，且必须唯一</p>
+<h2 id="Import-statement"><a href="#Import-statement" class="headerlink" title="Import statement"></a>Import statement</h2><p>Whatever facts you want to apply the rule on, those facts needs to be imported.<br>导入定义Fatcs的className</p>
+<h2 id="Rule-Definition"><a href="#Rule-Definition" class="headerlink" title="Rule Definition"></a>Rule Definition</h2><ul>
+<li>Rule consists of the Rule Name, the condition, and the Consequence. </li>
+<li>Drools keywords： rule, when, then,  end. </li>
+<li>The when part is the condition in both the rules and the then part is the consequence. </li>
+<li>In rule terminology, the when part is also called as LHS (left hand side) and the then part as the RHS (right hand side) of the rule.</li>
+</ul>
+<h1 id="Drools-API"><a href="#Drools-API" class="headerlink" title="Drools API"></a>Drools API</h1><p>规则引擎中，将知识表达为规则（rules），要分析的情况定义为事实（facts）。二者在内存中的存储分别称为Production Memory和Working Memory。在外围，还会有一个执行引擎（Execution Engine）。<br>与此对应，规则引擎API也分成三个部分。在Drools中，分别叫做Knowledge API，Fact API和Execution API。</p>
+<h2 id="Knowledge-API"><a href="#Knowledge-API" class="headerlink" title="Knowledge API"></a>Knowledge API</h2><p>Drools将知识库(KnowledgeBase)作为JSR94中的规则执行集(RuleExecutionSet)。知识库中的知识以包(KnowledgePackage)为单位组合而成。每个包中聚合多个规则(Rule)。<br>通常，一个包中的内容会在一个或多个资源(Resource)中保存。资源的类型可以有很多种,如.drl 文件、.dslr 文件或 xls 文件等。<br>规则包还可以从规则流(rule flow) 文件中获取。</p>
+<h2 id="Fact-API"><a href="#Fact-API" class="headerlink" title="Fact API"></a>Fact API</h2><p>要操作Working Memory，首先要建立规则引擎的一个会话。<br>Drools中的有状态会话和无状态会话分别为StatefulKnowledgeSession和StatelessKnowledgeSession，都可以由KnowledgeBase建立。<br>通过会话可以进行操作Fact对象，执行规则等交互。</p>
+<h2 id="Execution-API"><a href="#Execution-API" class="headerlink" title="Execution API"></a>Execution API</h2><p>插入到WorkingMemory中的对象，并不是克隆，而是对原对象的引用。这就意味着引擎中可以改变外部的对象，这是引擎与外部数据交互的一个通道。<br>此外，insert()方法还会返回一个FactHandler，作为引擎中该Fact对象的一个句柄。<br>最后，session上可以注册AgendaEventListener、ProcessEventListener和WorkingMemoryEventListener，这也是常用的交互方式。</p>
+<h1 id="参考资料"><a href="#参考资料" class="headerlink" title="参考资料"></a>参考资料</h1><p><a href="http://www.iigrowing.cn/java_gui_ze_yin_qing_zong_jie.html">JAVA规则引擎总结</a><br><a href="http://holbrook.github.io/pages/tags.html#规则引擎-ref">心内求法-规则引擎系列博客</a><br><a href="http://martinfowler.com/bliki/RulesEngine.html">martinfowler-RulesEngine</a></p>
+<h1 id="问题记录"><a href="#问题记录" class="headerlink" title="问题记录"></a>问题记录</h1><h2 id="drl逻辑编译问题"><a href="#drl逻辑编译问题" class="headerlink" title="drl逻辑编译问题"></a>drl逻辑编译问题</h2><p>据说drl中写的逻辑明明是对的，但是编译判断还是会有问题，待验证</p>
+
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/Drools/" rel="tag"># Drools</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2016/07/30/Elasticsearch%E5%B8%B8%E7%94%A8API/" rel="prev" title="Elasticsearch常用API">
+      <i class="fa fa-chevron-left"></i> Elasticsearch常用API
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/2016/09/10/Centos7%E5%AE%89%E8%A3%85MySQL5-6/" rel="next" title="Centos7安装MySQL5.6">
+      Centos7安装MySQL5.6 <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+  </div>
+
+
+          </div>
+          
+    <div class="comments" id="gitalk-container"></div>
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let activeClass = CONFIG.comments.activeClass;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#为什么会有规则引擎-？"><span class="nav-number">1.</span> <span class="nav-text">为什么会有规则引擎 ？</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#什么是规则引擎-？"><span class="nav-number">2.</span> <span class="nav-text">什么是规则引擎 ？</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#规则引擎的优点"><span class="nav-number">2.1.</span> <span class="nav-text">规则引擎的优点</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Declarative-Programming（声明式编程）"><span class="nav-number">2.1.1.</span> <span class="nav-text">Declarative Programming（声明式编程）</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Logic-and-Data-Separation（逻辑与数据分离）"><span class="nav-number">2.1.2.</span> <span class="nav-text">Logic and Data Separation（逻辑与数据分离）</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Speed-and-Scalability（速度和可测量性）"><span class="nav-number">2.1.3.</span> <span class="nav-text">Speed and Scalability（速度和可测量性）</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Centralization-of-Knowledge（集中化知识管理）"><span class="nav-number">2.1.4.</span> <span class="nav-text">Centralization of Knowledge（集中化知识管理）</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Tool-Integration（工具集成）"><span class="nav-number">2.1.5.</span> <span class="nav-text">Tool Integration（工具集成）</span></a></li></ol></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#什么情况下使用规则引擎-？"><span class="nav-number">3.</span> <span class="nav-text">什么情况下使用规则引擎 ？</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#什么情况下不能使用规则引擎-？"><span class="nav-number">4.</span> <span class="nav-text">什么情况下不能使用规则引擎 ？</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Drools"><span class="nav-number">5.</span> <span class="nav-text">Drools</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#Authoring（构建）"><span class="nav-number">5.1.</span> <span class="nav-text">Authoring（构建）</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Runtime（运行时）"><span class="nav-number">5.2.</span> <span class="nav-text">Runtime（运行时）</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Rule（规则）"><span class="nav-number">6.</span> <span class="nav-text">Rule（规则）</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Pattern-Matching（模式匹配）"><span class="nav-number">7.</span> <span class="nav-text">Pattern Matching（模式匹配）</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Drools-常用术语"><span class="nav-number">8.</span> <span class="nav-text">Drools-常用术语</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#Rules（规则）"><span class="nav-number">8.1.</span> <span class="nav-text">Rules（规则）</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Facts（事实）"><span class="nav-number">8.2.</span> <span class="nav-text">Facts（事实）</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#KnowledgeBuilder"><span class="nav-number">8.3.</span> <span class="nav-text">KnowledgeBuilder</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Knowledge-Base"><span class="nav-number">8.4.</span> <span class="nav-text">Knowledge Base</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Session"><span class="nav-number">8.5.</span> <span class="nav-text">Session</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Stateful-Knowledge-Session"><span class="nav-number">8.5.1.</span> <span class="nav-text">Stateful Knowledge Session</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Stateless-Knowledge-Session"><span class="nav-number">8.5.2.</span> <span class="nav-text">Stateless Knowledge Session</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Stateless和Stateful两种session的区别"><span class="nav-number">8.5.3.</span> <span class="nav-text">Stateless和Stateful两种session的区别</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#MVEL（MVFLEX-Expression-Language-）"><span class="nav-number">8.6.</span> <span class="nav-text">MVEL（MVFLEX Expression Language ）</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Rule-Attributes"><span class="nav-number">9.</span> <span class="nav-text">Rule Attributes</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#ruleflow-group"><span class="nav-number">9.1.</span> <span class="nav-text">ruleflow-group</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#agenda-group"><span class="nav-number">9.2.</span> <span class="nav-text">agenda-group</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#activation-group"><span class="nav-number">9.3.</span> <span class="nav-text">activation-group</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#salience"><span class="nav-number">9.4.</span> <span class="nav-text">salience</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#no-loop"><span class="nav-number">9.5.</span> <span class="nav-text">no-loop</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#lock-on-action"><span class="nav-number">9.6.</span> <span class="nav-text">lock-on-action</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Agenda"><span class="nav-number">9.7.</span> <span class="nav-text">Agenda</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Activations（被匹配的规则）"><span class="nav-number">9.8.</span> <span class="nav-text">Activations（被匹配的规则）</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#DRL规则文件的语法"><span class="nav-number">9.9.</span> <span class="nav-text">DRL规则文件的语法</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Package"><span class="nav-number">9.10.</span> <span class="nav-text">Package</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Import-statement"><span class="nav-number">9.11.</span> <span class="nav-text">Import statement</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Rule-Definition"><span class="nav-number">9.12.</span> <span class="nav-text">Rule Definition</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Drools-API"><span class="nav-number">10.</span> <span class="nav-text">Drools API</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#Knowledge-API"><span class="nav-number">10.1.</span> <span class="nav-text">Knowledge API</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Fact-API"><span class="nav-number">10.2.</span> <span class="nav-text">Fact API</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Execution-API"><span class="nav-number">10.3.</span> <span class="nav-text">Execution API</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#参考资料"><span class="nav-number">11.</span> <span class="nav-text">参考资料</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#问题记录"><span class="nav-number">12.</span> <span class="nav-text">问题记录</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#drl逻辑编译问题"><span class="nav-number">12.1.</span> <span class="nav-text">drl逻辑编译问题</span></a></li></ol></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">geosmart</p>
+  <div class="site-description" itemprop="description"></div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">199</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+          
+        <span class="site-state-item-count">15</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">118</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+        <a href="https://github.com/geosmart" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;geosmart" rel="noopener" target="_blank"><i class="fa fa-fw fa-github"></i>GitHub</a>
+      </span>
+  </div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2021</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">geosmart</span>
+</div>
+
+        
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/pisces.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+  
+<script src="/js/local-search.js"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+      
+
+<script>
+  if (typeof MathJax === 'undefined') {
+    window.MathJax = {
+      tex: {
+        inlineMath: {'[+]': [['$', '$']]},
+        tags: 'ams'
+      },
+      options: {
+        renderActions: {
+          findScript: [10, doc => {
+            document.querySelectorAll('script[type^="math/tex"]').forEach(node => {
+              const display = !!node.type.match(/; *mode=display/);
+              const math = new doc.options.MathItem(node.textContent, doc.inputJax[0], display);
+              const text = document.createTextNode('');
+              node.parentNode.replaceChild(text, node);
+              math.start = {node: text, delim: '', n: 0};
+              math.end = {node: text, delim: '', n: 0};
+              doc.math.push(math);
+            });
+          }, '', false],
+          insertedScript: [200, () => {
+            document.querySelectorAll('mjx-container').forEach(node => {
+              let target = node.parentNode;
+              if (target.nodeName.toLowerCase() === 'li') {
+                target.parentNode.classList.add('has-jax');
+              }
+            });
+          }, '', false]
+        }
+      }
+    };
+    (function () {
+      var script = document.createElement('script');
+      script.src = '//cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js';
+      script.defer = true;
+      document.head.appendChild(script);
+    })();
+  } else {
+    MathJax.startup.document.state(0);
+    MathJax.texReset();
+    MathJax.typeset();
+  }
+</script>
+
+    
+
+  
+
+<link rel="stylesheet" href="//cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.min.css">
+
+<script>
+NexT.utils.loadComments(document.querySelector('#gitalk-container'), () => {
+  NexT.utils.getScript('//cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.min.js', () => {
+    var gitalk = new Gitalk({
+      clientID    : '8a29a27c357a64ed79fd',
+      clientSecret: 'fe1b781c49fa9037803f3c4d3e94fbb677abac4d',
+      repo        : 'geosmart.github.io',
+      owner       : 'geosmart',
+      admin       : ['geosmart'],
+      id          : 'f386fbe503830e7bf151ad12128b683d',
+        language: 'zh-CN',
+      distractionFreeMode: true
+    });
+    gitalk.render('gitalk-container');
+  }, window.Gitalk);
+});
+</script>
+
+</body>
+</html>

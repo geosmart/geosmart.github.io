@@ -1,0 +1,614 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 4.2.1">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css">
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"geosmart.github.io","root":"/","scheme":"Pisces","version":"7.7.1","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.xml"};
+  </script>
+
+  <meta name="description" content="本文描述数据库表的设计流程以及DDL和DML的设计规约；">
+<meta property="og:type" content="article">
+<meta property="og:title" content="MySQL数据库开发规范">
+<meta property="og:url" content="http://geosmart.github.io/2020/04/12/MySQL%E6%95%B0%E6%8D%AE%E5%BA%93%E5%BC%80%E5%8F%91%E8%A7%84%E8%8C%83/index.html">
+<meta property="og:site_name" content="geosmart.io">
+<meta property="og:description" content="本文描述数据库表的设计流程以及DDL和DML的设计规约；">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2020-04-12T07:24:34.000Z">
+<meta property="article:modified_time" content="2021-12-15T01:13:12.962Z">
+<meta property="article:author" content="geosmart">
+<meta property="article:tag" content="MySQL">
+<meta property="article:tag" content="方法论">
+<meta name="twitter:card" content="summary">
+
+<link rel="canonical" href="http://geosmart.github.io/2020/04/12/MySQL%E6%95%B0%E6%8D%AE%E5%BA%93%E5%BC%80%E5%8F%91%E8%A7%84%E8%8C%83/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome: false,
+    isPost: true
+  };
+</script>
+
+  <title>MySQL数据库开发规范 | geosmart.io</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <div>
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">geosmart.io</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+        <p class="site-subtitle">勿助勿忘，深造自得</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+<nav class="site-nav">
+  
+  <ul id="menu" class="menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-fw fa-home"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-about">
+
+    <a href="/about/" rel="section"><i class="fa fa-fw fa-user"></i>关于</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="fa fa-fw fa-tags"></i>标签</a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/categories/" rel="section"><i class="fa fa-fw fa-th"></i>分类</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-fw fa-archive"></i>归档</a>
+
+  </li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜索
+        </a>
+      </li>
+  </ul>
+
+</nav>
+  <div class="site-search">
+    <div class="popup search-popup">
+    <div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocorrect="off" autocapitalize="off"
+           placeholder="搜索..." spellcheck="false"
+           type="search" class="search-input">
+  </div>
+  <span class="popup-btn-close">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div id="search-result"></div>
+
+</div>
+<div class="search-pop-overlay"></div>
+
+  </div>
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+  <a href="https://github.com/geosmart" class="github-corner" title="Follow me on GitHub" aria-label="Follow me on GitHub" rel="noopener" target="_blank"><svg width="80" height="80" viewBox="0 0 250 250" aria-hidden="true"><path d="M0,0 L115,115 L130,115 L142,142 L250,250 L250,0 Z"></path><path d="M128.3,109.0 C113.8,99.7 119.0,89.6 119.0,89.6 C122.0,82.7 120.5,78.6 120.5,78.6 C119.2,72.0 123.4,76.3 123.4,76.3 C127.3,80.9 125.5,87.3 125.5,87.3 C122.9,97.6 130.6,101.9 134.4,103.2" fill="currentColor" style="transform-origin: 130px 106px;" class="octo-arm"></path><path d="M115.0,115.0 C114.9,115.1 118.7,116.5 119.8,115.4 L133.7,101.6 C136.9,99.2 139.9,98.4 142.2,98.6 C133.8,88.0 127.5,74.4 143.8,58.0 C148.5,53.4 154.0,51.2 159.7,51.0 C160.3,49.4 163.2,43.6 171.4,40.1 C171.4,40.1 176.1,42.5 178.8,56.2 C183.1,58.6 187.2,61.8 190.9,65.4 C194.5,69.0 197.7,73.2 200.1,77.6 C213.8,80.2 216.3,84.9 216.3,84.9 C212.7,93.1 206.9,96.0 205.4,96.6 C205.1,102.4 203.0,107.8 198.3,112.5 C181.9,128.9 168.3,122.5 157.7,114.1 C157.9,116.9 156.7,120.9 152.7,124.9 L141.0,136.5 C139.8,137.7 141.6,141.9 141.8,141.8 Z" fill="currentColor" class="octo-body"></path></svg></a>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content">
+            
+
+  <div class="posts-expand">
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block " lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://geosmart.github.io/2020/04/12/MySQL%E6%95%B0%E6%8D%AE%E5%BA%93%E5%BC%80%E5%8F%91%E8%A7%84%E8%8C%83/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="geosmart">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="geosmart.io">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          MySQL数据库开发规范
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：12   四月   2020 15:24:34" itemprop="dateCreated datePublished" datetime="2020-04-12T15:24:34+08:00">12   四月   2020</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：15   十二月   2021 9:13:12" itemprop="dateModified" datetime="2021-12-15T09:13:12+08:00">15   十二月   2021</time>
+              </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <p>本文描述数据库表的设计流程以及DDL和DML的设计规约；<br><a id="more"></a></p>
+<h1 id="表设计流程"><a href="#表设计流程" class="headerlink" title="表设计流程"></a>表设计流程</h1><ol>
+<li><code>表设计</code>：用<a href="http://staruml.io/">StarUML</a>等UML建模工具中的ER图来设计表结构；</li>
+<li><code>表创建</code>：导出DDL语句（yyyyMMddHHmmss_.sql）至项目的<code>Flyway</code>数据迁移目录，启动项目完成表的初始化；</li>
+<li><code>ORM代码生成</code>：<ul>
+<li>Idea中安装插件<a href="https://plugins.jetbrains.com/plugin/8321-free-mybatis-plugin/">free-mybatis-plugin</a>；</li>
+<li>在database视图，连接db，选择生成的表右击选择mybatis-generator，在gui界面配置package和目录，完成生成DAO层的DaoMapper接口和Mapper.xml文件；</li>
+</ul>
+</li>
+</ol>
+<h1 id="DDL设计规约"><a href="#DDL设计规约" class="headerlink" title="DDL设计规约"></a>DDL设计规约</h1><h2 id="存储引擎"><a href="#存储引擎" class="headerlink" title="存储引擎"></a>存储引擎</h2><p>通常不需要手动设置数据库存储引擎（如innodb,myisam），按数据库默认值即可；</p>
+<ul>
+<li>原因：客户的数据库可能是基于MySQL/MariaDB封装了自己的存储引擎，如果指定了会导致flyway初始化异常；</li>
+</ul>
+<h2 id="字符集"><a href="#字符集" class="headerlink" title="字符集"></a>字符集</h2><p>新系统的数据库本身库、表、列所有字符集必须保持一致，使用utf8mb4；</p>
+<ul>
+<li>示例：<code>create table(...) default charset = utf8mb4</code>；</li>
+<li>原因：utf8mb4编码是utf8编码的超集，兼容utf8，并且能存储4字节的表情字符；采用utf8mb4编码的好处是存储与获取数据的时候，不用再考虑emoji字符的编码与解码问题；</li>
+<li>注意：utf8mb4的最低mysql版本支持版本为5.5.3+；</li>
+</ul>
+<h2 id="字段类型和长度"><a href="#字段类型和长度" class="headerlink" title="字段类型和长度"></a>字段类型和长度</h2><ul>
+<li><strong>整数类型</strong><ul>
+<li><code>int</code>：次数，状态等类型字段存储</li>
+</ul>
+</li>
+<li><strong>小数类型</strong><ul>
+<li><code>decimal</code>：禁止使用float和double。float和double 在存储的时候，存在精度损失的问题，很可能在值的比较时，得到不正确的结果。如果存储的数据范围超过 decimal 的范围，建议将数据拆成整数和小数分开存储。 </li>
+</ul>
+</li>
+<li><strong>布尔类型</strong><ul>
+<li><code>unsigned_tinyint(1)</code>：1表示true，0表示false</li>
+</ul>
+</li>
+<li><strong>文本类型</strong><ul>
+<li>短字符：<code>varchar(64)</code>，如name,code,id</li>
+<li>中字符：<code>varchar(190)</code>，如description<ul>
+<li>需要建索引的字段，长度最好不超过190，因为utf8mb4编码单个索引最大长度是767字节（767/4约等于191） </li>
+</ul>
+</li>
+<li>短文本：<code>text</code>，最大64kb</li>
+<li>中文本：<code>mediumtext</code>，最大16MB，如存储HTML页面内容</li>
+</ul>
+</li>
+<li><strong>时间类型</strong><ul>
+<li>记录经常变化的时间：<code>timestamp</code>，时间范围（1970-2038），如更新/创建/发布/日志时间/注册时间等，并且是近来的时间，够用，区自动处理，比如说做海外购或者业务可能拓展到海外；</li>
+<li>记录固定时间：<code>datetime</code>，时间范围（1000-9999），如服务器执行计划任务时间/健身锻炼计划时间等，在任何时区都是需要一个固定的时间要做某个事情；</li>
+<li>自定义时间字段：<code>bigint</code>，不确定的时间范围存储；</li>
+</ul>
+</li>
+</ul>
+<h2 id="命名规则"><a href="#命名规则" class="headerlink" title="命名规则"></a>命名规则</h2><p><strong>库名、表名、列名的修改代价很大，命名时需要慎重考虑</strong></p>
+<h3 id="公共命名规则"><a href="#公共命名规则" class="headerlink" title="公共命名规则"></a>公共命名规则</h3><ol>
+<li>【强制】表名、列表都必须有comment注释；</li>
+<li>【强制】表名、列名只能使用字母、数字和下划线，禁止出现数字开头，一律小写；</li>
+</ol>
+<h3 id="库名"><a href="#库名" class="headerlink" title="库名"></a>库名</h3><p>库名与应用名称尽量一致。 </p>
+<h3 id="表名"><a href="#表名" class="headerlink" title="表名"></a>表名</h3><ol>
+<li>【强制】表的命名规则：<code>业务名_表的作用</code>，如<code>scheduler_job</code>。 </li>
+<li>【强制】表名带当前系统前缀，如<code>mlp_</code>，便于后续数据平台聚合使用；</li>
+<li>【强制】表名不使用复数名词。</li>
+</ol>
+<h3 id="列名"><a href="#列名" class="headerlink" title="列名"></a>列名</h3><ol>
+<li>【强制】列的命名规则：<code>实体类型_字段含义</code>，如<code>user_name、user_id</code>。 </li>
+<li>【强制】FK外键保持原字段名，方便join；</li>
+<li>【强制】字段名禁用数据库保留字；</li>
+<li>表中所有字段必须都是NOT NULL属性，业务可以根据需要定义DEFAULT值。因为使用NULL值会存在每一行都会占用额外存储空间、数据迁移容易出错、聚合函数计算结果偏差等问题。</li>
+</ol>
+<h3 id="索引名"><a href="#索引名" class="headerlink" title="索引名"></a>索引名</h3><ol>
+<li>【强制】主键索引：uk_字段名；</li>
+<li>【强制】普通索引：idx_字段名； </li>
+<li>【强制】唯一索引：uk_字段名； </li>
+</ol>
+<h2 id="表必备字段"><a href="#表必备字段" class="headerlink" title="表必备字段"></a>表必备字段</h2><ol>
+<li>【强制】{entity}_id：主键</li>
+<li>【强制】create_time：记录创建时间，date_time，数据库默认值；</li>
+<li>【强制】update_time：记录更新时间，date_time，数据库自动设置；</li>
+<li>is_deleted：unsigned_inyint(1)，是否删除，需支持软删除的表必备；</li>
+<li>create_by：创建人，varchar(64)，需权限控制的数据表必备；</li>
+<li>update_by：更新人，varchar(64)，需权限控制的数据表必备；</li>
+</ol>
+<h1 id="DML设计规约"><a href="#DML设计规约" class="headerlink" title="DML设计规约"></a>DML设计规约</h1><ol>
+<li>【强制】<code>alter table</code>：对于超过100W行的大表进行alter table，必须经过DBA审核，并在业务低峰期执行；<ul>
+<li>因为alter table会产生表锁，期间阻塞对于该表的所有写入，对于业务可能会产生极大影响。</li>
+</ul>
+</li>
+<li>【强制】<code>select或insert语句</code>必须指定具体字段名称，禁止写成<code>*</code>；<ul>
+<li>因为<code>select *</code>会将不该读的数据也从MySQL里读出来，造成网卡压力。且表字段一旦更新，但model层没有来得及更新的话，系统会报错；</li>
+</ul>
+</li>
+<li>【强制】除静态表或小表(100行以内)，DML语句必须有<code>where条件</code></li>
+<li>【强制】<code>where条件</code>需用explain确认会使用索引；索引至少要达到 range 级别，要求是ref级别，如果可以是consts最好；</li>
+<li>【强制】<code>where条件</code>中等号左右字段类型必须一致，且不要使用函数或表达式，否则无法利用索引；</li>
+<li>【强制】<code>where条件</code>中禁止只使用全模糊的<code>like</code>条件进行查找，必须有其它等值或范围查询条件，否则无法利用索引。</li>
+<li>select语句不要使用<code>union</code>，推荐使用<code>union all</code>，并且union子句个数限制在5个以内；<ul>
+<li>因为union all不需要去重，节省数据库资源，提高性能；</li>
+</ul>
+</li>
+</ol>
+
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/MySQL/" rel="tag"># MySQL</a>
+              <a href="/tags/%E6%96%B9%E6%B3%95%E8%AE%BA/" rel="tag"># 方法论</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2020/04/08/Kubeadm%E5%AE%89%E8%A3%85K8S%E9%9B%86%E7%BE%A4/" rel="prev" title="Kubeadm安装K8S集群">
+      <i class="fa fa-chevron-left"></i> Kubeadm安装K8S集群
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/2020/04/19/CentOS%E5%8D%87%E7%BA%A7Python3/" rel="next" title="CentOS升级Python3">
+      CentOS升级Python3 <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+  </div>
+
+
+          </div>
+          
+    <div class="comments" id="gitalk-container"></div>
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let activeClass = CONFIG.comments.activeClass;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#表设计流程"><span class="nav-number">1.</span> <span class="nav-text">表设计流程</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#DDL设计规约"><span class="nav-number">2.</span> <span class="nav-text">DDL设计规约</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#存储引擎"><span class="nav-number">2.1.</span> <span class="nav-text">存储引擎</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#字符集"><span class="nav-number">2.2.</span> <span class="nav-text">字符集</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#字段类型和长度"><span class="nav-number">2.3.</span> <span class="nav-text">字段类型和长度</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#命名规则"><span class="nav-number">2.4.</span> <span class="nav-text">命名规则</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#公共命名规则"><span class="nav-number">2.4.1.</span> <span class="nav-text">公共命名规则</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#库名"><span class="nav-number">2.4.2.</span> <span class="nav-text">库名</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#表名"><span class="nav-number">2.4.3.</span> <span class="nav-text">表名</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#列名"><span class="nav-number">2.4.4.</span> <span class="nav-text">列名</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#索引名"><span class="nav-number">2.4.5.</span> <span class="nav-text">索引名</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#表必备字段"><span class="nav-number">2.5.</span> <span class="nav-text">表必备字段</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#DML设计规约"><span class="nav-number">3.</span> <span class="nav-text">DML设计规约</span></a></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">geosmart</p>
+  <div class="site-description" itemprop="description"></div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">199</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+          
+        <span class="site-state-item-count">15</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">118</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+        <a href="https://github.com/geosmart" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;geosmart" rel="noopener" target="_blank"><i class="fa fa-fw fa-github"></i>GitHub</a>
+      </span>
+  </div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2021</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">geosmart</span>
+</div>
+
+        
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/pisces.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+  
+<script src="/js/local-search.js"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+      
+
+<script>
+  if (typeof MathJax === 'undefined') {
+    window.MathJax = {
+      tex: {
+        inlineMath: {'[+]': [['$', '$']]},
+        tags: 'ams'
+      },
+      options: {
+        renderActions: {
+          findScript: [10, doc => {
+            document.querySelectorAll('script[type^="math/tex"]').forEach(node => {
+              const display = !!node.type.match(/; *mode=display/);
+              const math = new doc.options.MathItem(node.textContent, doc.inputJax[0], display);
+              const text = document.createTextNode('');
+              node.parentNode.replaceChild(text, node);
+              math.start = {node: text, delim: '', n: 0};
+              math.end = {node: text, delim: '', n: 0};
+              doc.math.push(math);
+            });
+          }, '', false],
+          insertedScript: [200, () => {
+            document.querySelectorAll('mjx-container').forEach(node => {
+              let target = node.parentNode;
+              if (target.nodeName.toLowerCase() === 'li') {
+                target.parentNode.classList.add('has-jax');
+              }
+            });
+          }, '', false]
+        }
+      }
+    };
+    (function () {
+      var script = document.createElement('script');
+      script.src = '//cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js';
+      script.defer = true;
+      document.head.appendChild(script);
+    })();
+  } else {
+    MathJax.startup.document.state(0);
+    MathJax.texReset();
+    MathJax.typeset();
+  }
+</script>
+
+    
+
+  
+
+<link rel="stylesheet" href="//cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.min.css">
+
+<script>
+NexT.utils.loadComments(document.querySelector('#gitalk-container'), () => {
+  NexT.utils.getScript('//cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.min.js', () => {
+    var gitalk = new Gitalk({
+      clientID    : '8a29a27c357a64ed79fd',
+      clientSecret: 'fe1b781c49fa9037803f3c4d3e94fbb677abac4d',
+      repo        : 'geosmart.github.io',
+      owner       : 'geosmart',
+      admin       : ['geosmart'],
+      id          : '14cd7f6bf6fede4b40b839b14aaa1eed',
+        language: 'zh-CN',
+      distractionFreeMode: true
+    });
+    gitalk.render('gitalk-container');
+  }, window.Gitalk);
+});
+</script>
+
+</body>
+</html>

@@ -1,0 +1,688 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 4.2.1">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css">
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"geosmart.github.io","root":"/","scheme":"Pisces","version":"7.7.1","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.xml"};
+  </script>
+
+  <meta name="description" content="整理量化投资学习笔记-期货">
+<meta property="og:type" content="article">
+<meta property="og:title" content="期货基础知识">
+<meta property="og:url" content="http://geosmart.github.io/2018/01/14/%E6%9C%9F%E8%B4%A7%E5%9F%BA%E7%A1%80%E7%9F%A5%E8%AF%86/index.html">
+<meta property="og:site_name" content="geosmart.io">
+<meta property="og:description" content="整理量化投资学习笔记-期货">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="http://geosmart.github.io/2018/01/14/%E6%9C%9F%E8%B4%A7%E5%9F%BA%E7%A1%80%E7%9F%A5%E8%AF%86/%E9%87%91%E8%9E%8D%E6%9C%9F%E8%B4%A7-%E7%8E%B0%E9%87%91%E4%BA%A4%E5%89%B2.png">
+<meta property="og:image" content="http://geosmart.github.io/2018/01/14/%E6%9C%9F%E8%B4%A7%E5%9F%BA%E7%A1%80%E7%9F%A5%E8%AF%86/%E5%95%86%E5%93%81%E6%9C%9F%E8%B4%A7-%E5%AE%9E%E7%89%A9%E4%BA%A4%E5%89%B2.png">
+<meta property="og:image" content="http://geosmart.github.io/2018/01/14/%E6%9C%9F%E8%B4%A7%E5%9F%BA%E7%A1%80%E7%9F%A5%E8%AF%86/Alt%20text.png">
+<meta property="og:image" content="http://geosmart.github.io/2018/01/14/%E6%9C%9F%E8%B4%A7%E5%9F%BA%E7%A1%80%E7%9F%A5%E8%AF%86/%E6%9C%9F%E8%B4%A7%E4%BA%A4%E6%98%93%E7%9A%84%E6%94%B6%E6%95%9B%E6%80%A7.png">
+<meta property="og:image" content="http://geosmart.github.io/2018/01/14/%E6%9C%9F%E8%B4%A7%E5%9F%BA%E7%A1%80%E7%9F%A5%E8%AF%86/%E5%88%A9%E7%94%A8%E5%8E%9F%E6%B2%B9%E6%9C%9F%E8%B4%A7%E5%A5%97%E6%9C%9F%E4%BF%9D%E5%80%BC.png">
+<meta property="og:image" content="http://geosmart.github.io/2018/01/14/%E6%9C%9F%E8%B4%A7%E5%9F%BA%E7%A1%80%E7%9F%A5%E8%AF%86/%E6%9C%9F%E8%B4%A7%E4%BF%9D%E5%80%BC%E5%8E%9F%E7%90%86%E5%9B%BE.png">
+<meta property="og:image" content="http://geosmart.github.io/2018/01/14/%E6%9C%9F%E8%B4%A7%E5%9F%BA%E7%A1%80%E7%9F%A5%E8%AF%86/%E6%9C%9F%E8%B4%A7%E4%BB%B7%E6%A0%BC.png">
+<meta property="og:image" content="http://geosmart.github.io/2018/01/14/%E6%9C%9F%E8%B4%A7%E5%9F%BA%E7%A1%80%E7%9F%A5%E8%AF%86/%E7%8E%B0%E4%BB%A3%E8%B5%84%E4%BA%A7%E7%BB%84%E5%90%88%E7%90%86%E8%AE%BA.png">
+<meta property="og:image" content="http://geosmart.github.io/2018/01/14/%E6%9C%9F%E8%B4%A7%E5%9F%BA%E7%A1%80%E7%9F%A5%E8%AF%86/%E9%87%8F%E5%8C%96%E6%8A%95%E8%B5%84%E7%9A%84%E9%BB%91%E7%AE%B1.png">
+<meta property="article:published_time" content="2018-01-14T16:00:00.000Z">
+<meta property="article:modified_time" content="2021-12-15T01:13:12.917Z">
+<meta property="article:author" content="geosmart">
+<meta property="article:tag" content="量化投资">
+<meta property="article:tag" content="期货">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://geosmart.github.io/2018/01/14/%E6%9C%9F%E8%B4%A7%E5%9F%BA%E7%A1%80%E7%9F%A5%E8%AF%86/%E9%87%91%E8%9E%8D%E6%9C%9F%E8%B4%A7-%E7%8E%B0%E9%87%91%E4%BA%A4%E5%89%B2.png">
+
+<link rel="canonical" href="http://geosmart.github.io/2018/01/14/%E6%9C%9F%E8%B4%A7%E5%9F%BA%E7%A1%80%E7%9F%A5%E8%AF%86/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome: false,
+    isPost: true
+  };
+</script>
+
+  <title>期货基础知识 | geosmart.io</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <div>
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">geosmart.io</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+        <p class="site-subtitle">勿助勿忘，深造自得</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+<nav class="site-nav">
+  
+  <ul id="menu" class="menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-fw fa-home"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-about">
+
+    <a href="/about/" rel="section"><i class="fa fa-fw fa-user"></i>关于</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="fa fa-fw fa-tags"></i>标签</a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/categories/" rel="section"><i class="fa fa-fw fa-th"></i>分类</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-fw fa-archive"></i>归档</a>
+
+  </li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜索
+        </a>
+      </li>
+  </ul>
+
+</nav>
+  <div class="site-search">
+    <div class="popup search-popup">
+    <div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocorrect="off" autocapitalize="off"
+           placeholder="搜索..." spellcheck="false"
+           type="search" class="search-input">
+  </div>
+  <span class="popup-btn-close">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div id="search-result"></div>
+
+</div>
+<div class="search-pop-overlay"></div>
+
+  </div>
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+  <a href="https://github.com/geosmart" class="github-corner" title="Follow me on GitHub" aria-label="Follow me on GitHub" rel="noopener" target="_blank"><svg width="80" height="80" viewBox="0 0 250 250" aria-hidden="true"><path d="M0,0 L115,115 L130,115 L142,142 L250,250 L250,0 Z"></path><path d="M128.3,109.0 C113.8,99.7 119.0,89.6 119.0,89.6 C122.0,82.7 120.5,78.6 120.5,78.6 C119.2,72.0 123.4,76.3 123.4,76.3 C127.3,80.9 125.5,87.3 125.5,87.3 C122.9,97.6 130.6,101.9 134.4,103.2" fill="currentColor" style="transform-origin: 130px 106px;" class="octo-arm"></path><path d="M115.0,115.0 C114.9,115.1 118.7,116.5 119.8,115.4 L133.7,101.6 C136.9,99.2 139.9,98.4 142.2,98.6 C133.8,88.0 127.5,74.4 143.8,58.0 C148.5,53.4 154.0,51.2 159.7,51.0 C160.3,49.4 163.2,43.6 171.4,40.1 C171.4,40.1 176.1,42.5 178.8,56.2 C183.1,58.6 187.2,61.8 190.9,65.4 C194.5,69.0 197.7,73.2 200.1,77.6 C213.8,80.2 216.3,84.9 216.3,84.9 C212.7,93.1 206.9,96.0 205.4,96.6 C205.1,102.4 203.0,107.8 198.3,112.5 C181.9,128.9 168.3,122.5 157.7,114.1 C157.9,116.9 156.7,120.9 152.7,124.9 L141.0,136.5 C139.8,137.7 141.6,141.9 141.8,141.8 Z" fill="currentColor" class="octo-body"></path></svg></a>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content">
+            
+
+  <div class="posts-expand">
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block " lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://geosmart.github.io/2018/01/14/%E6%9C%9F%E8%B4%A7%E5%9F%BA%E7%A1%80%E7%9F%A5%E8%AF%86/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="geosmart">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="geosmart.io">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          期货基础知识
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：15   一月   2018 0:00:00" itemprop="dateCreated datePublished" datetime="2018-01-15T00:00:00+08:00">15   一月   2018</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：15   十二月   2021 9:13:12" itemprop="dateModified" datetime="2021-12-15T09:13:12+08:00">15   十二月   2021</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/%E9%87%8F%E5%8C%96%E6%8A%95%E8%B5%84/" itemprop="url" rel="index"><span itemprop="name">量化投资</span></a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <p>整理量化投资学习笔记-期货</p>
+<hr>
+<a id="more"></a>
+<h2 id="期货基础知识"><a href="#期货基础知识" class="headerlink" title="期货基础知识"></a>期货基础知识</h2><h1 id="期货基础知识-1"><a href="#期货基础知识-1" class="headerlink" title="期货基础知识"></a>期货基础知识</h1><h2 id="期货定义"><a href="#期货定义" class="headerlink" title="期货定义"></a>期货定义</h2><p>期货（ futures ），一般指期货合约（ futures contracts），就是指在将来确定的时间按照确定的价格和品质在规定的地点购买或出售一定数量标的物的合约。<br>期货合约可以分为远期合约（forward）和标准合约(futures)，一般将标准合约称为期货合约。下文如无特指，提到的期货合约均指标准合约。</p>
+<h3 id="远期合约"><a href="#远期合约" class="headerlink" title="远期合约"></a>远期合约</h3><p>远期合约是指合约双方约定在未来某个特定时间以约定的价格买卖特定数量的标的物（或基础资产）的协议。</p>
+<h3 id="标准合约"><a href="#标准合约" class="headerlink" title="标准合约"></a>标准合约</h3><p>标准合约是指合约双方约定在未来某个特定时间,特定的地点（一般为集中的期货交易所），以特定的价格买卖特定数量的标的物的协议，其交易的合约<br>是由交易所规定的标准化合约，包括标的物的等级、数量、交割日期、交割地点与交割方式等 。<br>从某种意义上来说，期货是未来的东西，是一种可以买卖的标准化了的合约。</p>
+<blockquote>
+<p>期货的价格和现货的价格之间关系之一，期货的由来是因为现货的投资需求而来的，以前，因为交易活动的封闭性，现货价格实际上对期货价格起着决定性作用。<br>由于期货交易的不断发展，其交易的区间已经扩展到整个世界当中去，而且由于期货交易采用的是电子竞价系统进行的，再加上有世界各方投资者的加入，其价格已经是全方位的表现，因此现在的现货价格定位都是以期货价格乘以百分比之后得出来的。<br>期货价格和现货价格关系之二，期货本身的作用便是套期保值，那么既然期货的价格属于全方位的，也就是说反映了市场上供应的变化情况，期货价格高也就预示着远期市场的供不应求，这样一来就一定会造成现货价格随之一起上升。</p>
+</blockquote>
+<h1 id="期货的功能"><a href="#期货的功能" class="headerlink" title="期货的功能"></a>期货的功能</h1><h2 id="套期保值"><a href="#套期保值" class="headerlink" title="套期保值"></a>套期保值</h2><p>提供了避险和对冲工具，让市场更稳定和更有效；</p>
+<h2 id="价格发现"><a href="#价格发现" class="headerlink" title="价格发现"></a>价格发现</h2><p>另外它成本低杠杆高，因此对市场信息更加敏感，股指期货价格往往先于现货市场反应第一手信息。</p>
+<h2 id="期货市场组织结构"><a href="#期货市场组织结构" class="headerlink" title="期货市场组织结构"></a>期货市场组织结构</h2><ul>
+<li>核心服务层：期货交易所、结算公司、经纪公司</li>
+<li>相关服务机构：交割仓库、结算银行、信息咨询机构、会计事务所、律师事务所</li>
+<li>期货投资者：所有期货交易者</li>
+<li>期货监管机构：中国证监协会、期货行业协会</li>
+</ul>
+<h2 id="期货分类"><a href="#期货分类" class="headerlink" title="期货分类"></a>期货分类</h2><h3 id="金融期货（-Finacial-futures）"><a href="#金融期货（-Finacial-futures）" class="headerlink" title="金融期货（ Finacial futures）"></a>金融期货（ Finacial futures）</h3><p>标的：金融工具(产品)<br>金融期货类别：</p>
+<ul>
+<li>外汇期货</li>
+<li>利率期货</li>
+<li>股票期货</li>
+<li>股指期货<br><img src="金融期货-现金交割.png" alt="金融期货-现金交割"><h3 id="商品期货（Commodity-futures）"><a href="#商品期货（Commodity-futures）" class="headerlink" title="商品期货（Commodity futures）"></a>商品期货（Commodity futures）</h3>标的：实物商品<br>商品期货类别：</li>
+<li>农产品期货</li>
+<li>能源期货</li>
+<li>工业金属期货</li>
+<li>贵金属期货<br><img src="商品期货-实物交割.png" alt="商品期货-实物交割"></li>
+</ul>
+<h3 id="国内期货品种"><a href="#国内期货品种" class="headerlink" title="国内期货品种"></a>国内期货品种</h3><p><img src="Alt text.png" alt="Alt text"></p>
+<h1 id="期货交易"><a href="#期货交易" class="headerlink" title="期货交易"></a>期货交易</h1><h2 id="期货交易的特征（与股票的区别）"><a href="#期货交易的特征（与股票的区别）" class="headerlink" title="期货交易的特征（与股票的区别）"></a>期货交易的特征（与股票的区别）</h2><ol>
+<li><code>交易集中化</code></li>
+<li><code>保证金制度</code>（以小搏大、杠杆效应）：期货交易者按照规定标准交纳的资金（一般10%），用于结算和保证履约；</li>
+<li><code>逐日盯市</code>： <code>T+0交易</code>，当日无负债结算</li>
+<li><code>交割率低</code>： 到期后通常不用实物交割</li>
+<li><code>双向交易与对冲机制</code><ul>
+<li><code>买空卖空</code>：股票市场你有股票才能卖，没有股票就只能买。在期货市场，既可以先买后卖，也可以先卖后买。当然股票市场也可以做空，就是融券，需要一定资金规模需求（50万以上）。</li>
+</ul>
+</li>
+<li><code>强行平仓制度</code>：<ul>
+<li>交易保证金不足，且未在规定时间内补足；</li>
+<li>客户持仓超出规定的持仓限额；</li>
+<li>因客户违规受到处罚；</li>
+<li>根据交易所的紧急措施应于强行平仓；</li>
+</ul>
+</li>
+<li><code>到期交割</code>：买入股票后只要股票不退市就可以无限期持有，亏了可以强行放在那里，等着它涨回来讲不定还有机会；而期货合约的寿命是有限的，等合约期限快到期时，你必须对手中期货合约的头寸进行了结；</li>
+</ol>
+<blockquote>
+<p>保证金种类</p>
+<pre><code>* 维持保证金：客户必须保持其保证金帐户内的最低保证金金额。
+* 履约保证金：为确保履行合约而由期货合约买卖双方或期权卖方存放于交易帐户内的押金。商品期货保证金不是一种股票的支付，也不是为交易该商品而预付的定金，而是一种良好信誉押金。
+* 结算保证金：确保结算会员(通常为公司或企业)将其顾客的期货和期权合约空盘履约的金融保证。结算保证金有别于客户履约保证金。客户履约保证金存放于经纪人处，而结算保证金则存放于票据交换所。
+</code></pre><p>实物交割只能企业法人才可以，自然人只能对冲了结，不能进行实物交割。</p>
+</blockquote>
+<h2 id="期货交易的收敛性"><a href="#期货交易的收敛性" class="headerlink" title="期货交易的收敛性"></a>期货交易的收敛性</h2><p><img src="期货交易的收敛性.png" alt="期货交易的收敛性"></p>
+<h2 id="期货交易的策略（-Trading-Strategy）"><a href="#期货交易的策略（-Trading-Strategy）" class="headerlink" title="期货交易的策略（ Trading Strategy）"></a>期货交易的策略（ Trading Strategy）</h2><h3 id="投机-Speculate（基本面结合技术面分析）"><a href="#投机-Speculate（基本面结合技术面分析）" class="headerlink" title="投机-Speculate（基本面结合技术面分析）"></a>投机-Speculate（基本面结合技术面分析）</h3><p>以获利价差为目的的期货交易行为；<br>无货沽空：投机者在交易市场上出售自己并不持有的股票、黄金、证券等的商品期货，并希望在将来以较低的价格买入同等数量的同种商品或资产。</p>
+<h3 id="套利-Arbitrage（以期货合约定价公式为依据）"><a href="#套利-Arbitrage（以期货合约定价公式为依据）" class="headerlink" title="套利-Arbitrage（以期货合约定价公式为依据）"></a>套利-Arbitrage（以期货合约定价公式为依据）</h3><p>投机者或对冲者都可以使用的一种交易技术，即在某市场买进现货或期货商，同时在另一个市场卖出相同或类似的商品，并希望两个交易会产生<code>价差</code>而获利。</p>
+<blockquote>
+<p>投机交易和套利交易有本质的区别在于，套利交易是同一投资品在不同市场产生了价差，才会去做低买高卖的套利行为，而投机交易则是要预测市场波动的趋势，相比而言，投机交易的风险要更大，因为不确定性比套利交易大。</p>
+</blockquote>
+<h4 id="期现套利"><a href="#期现套利" class="headerlink" title="期现套利"></a>期现套利</h4><p>期现套利是指某种期货合约，当<code>期货市场与现货市场在价格上出现差距</code>，从而利用两个市场的价格差距，低买高卖而获利。<br>理论上，期货价格是商品未来的价格，现货价格是商品目前的价格，按照经济学上的同一价格理论，两者间的差距，即“基差”（基差=现货价格－期货价格）应该等于该商品的持有成本。一旦基差与持有成本偏离较大，就出现了期现套利的机会。<br>其中，期货价格要高出现货价格，并且超过用于交割的各项成本，如运输成本、质检成本、仓储成本、开具发票所增加的成本等等。<br> 期现套利主要包括正向买进期现套利和反向买进期现套利两种。</p>
+<h4 id="跨期套利"><a href="#跨期套利" class="headerlink" title="跨期套利"></a>跨期套利</h4><p>所谓跨期套利就是在同一期货品种的不同月份合约上建立数量相等、方向相反的交易头寸，最后以对冲或交割方式结束交易、获得收益的方式。<br>最简单的跨期套利就是买入近期的期货品种，卖出远期的期货品种。</p>
+<h4 id="跨品种套利"><a href="#跨品种套利" class="headerlink" title="跨品种套利"></a>跨品种套利</h4><h4 id="跨市场套利"><a href="#跨市场套利" class="headerlink" title="跨市场套利"></a>跨市场套利</h4><h3 id="套期保值-Hedge（以持有的现货资产为依据）"><a href="#套期保值-Hedge（以持有的现货资产为依据）" class="headerlink" title="套期保值-Hedge（以持有的现货资产为依据）"></a>套期保值-Hedge（以持有的现货资产为依据）</h3><p>套期保值与投机是期货市场两个相反的策略，投机者利用期货合约从价格变化中获利，而套期保值者是为了规避价格波动带来的风险。</p>
+<h4 id="空头套期保值"><a href="#空头套期保值" class="headerlink" title="空头套期保值"></a>空头套期保值</h4><p>卖出期货合约，以防止将来卖出现货商品时因价格下跌而导致的损失。当卖出现货商品时，将先以前卖出的期货合约通过买进另一数量、类别和交割月份相等的期货合约相对冲，以结束保值。亦称卖期保值<br><img src="利用原油期货套期保值.png" alt="利用原油期货套期保值"><br><img src="期货保值原理图.png" alt="期货保值原理图"></p>
+<h4 id="多头套期保值"><a href="#多头套期保值" class="headerlink" title="多头套期保值"></a>多头套期保值</h4><p>多头套期保值是指交易者先在期货市场买进期货，以便在将来现货市场买进时不致于因价格上涨而给自己造成经济损失的一种期货交易方式。<br>例如，一个电力供应商现在采购原油是担心未来采购时价格上涨，电力供应商可以通过购买原油期货合约来锁定原油的购买价格。</p>
+<h1 id="期货价格"><a href="#期货价格" class="headerlink" title="期货价格"></a>期货价格</h1><h2 id="影响期货价格的因素"><a href="#影响期货价格的因素" class="headerlink" title="影响期货价格的因素"></a>影响期货价格的因素</h2><p>商品价格的波动主要是受市场供应和需求等基本因素的影响，即任何减少供应或增加消费的经济因素，将导致价格上涨的变化；反之，任何增加供应或减少商品消费的因素，将导致库存增加、价格下跌。然而，随着现代经济的发展，一些非供求因素也对期货价格的变化起到越来越大的作用，这就使期货市场变得更加复杂，更加难以预料。影响期货价格变化的基本因素要概括起来主要有以下八个：</p>
+<ol>
+<li>供求关系。<br>期货交易是市场经济的产物，因此，它的价格变化受市场供求关系的影响。当供大于求时，期货价格下跌；反之，期货价格就上升。</li>
+<li>经济周期。<br>在期货市场上，价格变动还受经济周期的影响，在经济周期的各个阶段，都会出现随之波动的价格上涨和下降现象。</li>
+<li>政府政策。<br>各国政府制定的某些政策和措施会对期货市场价格带来不同程度的影响。</li>
+<li>政治因素。<br>期货市场对政治气候的变化非常敏感，各种政治性事件的发生常常对价格造成不同程度的影响。</li>
+<li>社会因素。<br>社会因素指公众的观念、社会心理趋势、传播媒介的信息影响。</li>
+<li>季节性因素。<br>许多期货商品，尤其是农产品有明显的季节性，价格亦随季节变化而波动。</li>
+<li>心理因素。<br>所谓心理因素，就是交易者对市场的信心程度，人称“人气”。如对某商品看好时，即使无任何利好因素，该商品价格也会上涨；而当看淡时，无任何利淡消息，价格也会下跌。又如一些大投机商品们还经常利用人们的心理因素，散布某些消息，并人为地进行投机性的大量抛售或补进，谋取投机利润。</li>
+<li>金融货币变动因素。<br>在世界经济发展过程，各国的通货膨胀，货币汇价以及利率的上下波动，已成为经济生活中的普遍现象，这对期货市场带来了日益明显的影响。</li>
+</ol>
+<p><img src="期货价格.png" alt="期货价格"></p>
+<h2 id="预期假设"><a href="#预期假设" class="headerlink" title="预期假设"></a>预期假设</h2><h2 id="现货溢价"><a href="#现货溢价" class="headerlink" title="现货溢价"></a>现货溢价</h2><h2 id="期货溢价"><a href="#期货溢价" class="headerlink" title="期货溢价"></a>期货溢价</h2><p><img src="现代资产组合理论.png" alt="现代资产组合理论"></p>
+<h1 id="股指期货"><a href="#股指期货" class="headerlink" title="股指期货"></a>股指期货</h1><p>股指期货即股票指数期货，是以<code>股价指数</code>作为标的物的金融期货合约。股指期货的交易与普通的商品期货交易一样，具备相同的特征；<br>股指期货属于金融衍生品的一种。股指期货是可以通过做多和做空来双向获取利润的。</p>
+<h2 id="股指期货交易指令"><a href="#股指期货交易指令" class="headerlink" title="股指期货交易指令"></a>股指期货交易指令</h2><ol>
+<li><code>市价指令</code>：指不限定价格的、按照当时市场上可执行的最优报价成交的指令。未成交部分自动撤消。集合竞价指令申报时间不接受市价指令申报；</li>
+<li><code>限价指令</code>：指按照限定价格或者更优价格成交的指令。限价指令当日有效，未成交部分可以撤销；</li>
+<li><code>其他指令</code>。<br>注：交易指令每次最小下单手数为1手，市价指令每次最大下单数量为50手。限价指令每次最大下单数量为100手。进行投机交易的客户号某一合约单边持仓限额100手。</li>
+</ol>
+<h2 id="股指期货软件交易名词"><a href="#股指期货软件交易名词" class="headerlink" title="股指期货软件交易名词"></a>股指期货软件交易名词</h2><ul>
+<li>买开仓：是指下单时买入多单，也就是对指数看多、看涨。</li>
+<li>卖开仓：是指下单时买入空单，也就是对指数看空、看跌。</li>
+<li>买平仓：是指下单时把买入的多单卖出。</li>
+<li>卖平仓：是指下单时把买入的空单卖出。</li>
+<li>买平今：是专指下单时把当天买入的多单卖出。</li>
+<li>卖平今：是专指下单时把当天买入的空单卖出</li>
+<li>结算：是指根据期货交易所公布的结算价格对交易双方的交易盈亏状况进行的资金清算。</li>
+<li>交割：是指期货合约到期时，根据期货交易所的规则和程序，交易双方通过该期货合约所载商品所有权的转移，了结到期未平仓合约的过程。<ul>
+<li>现金交割：是指到期末平仓期货合约进行交割时，用结算价格来计算未平仓合约的盈亏，以现金支付的方式最终了结期货合约的交割方式。</li>
+<li>实物交割：是指期货合约的买卖双方于合约到期时，根据交易所制订的规则和程序，通过期货合约标的物的所有权转移，将到期未平仓合约进行了结的行为。商品期货交易一般采用实物交割的方式。</li>
+</ul>
+</li>
+<li>开仓：开始买入或卖出期货合约的交易行为称为”开仓”或”建立交易部位”。</li>
+<li>平仓：是指期货交易者买入或者卖出与其所持期货合约的品种、数量及交割月份相同但交易方向相反的期货合约，了结期货交易的行为。</li>
+<li>持仓量：是指期货交易者所持有的未平仓合约的数量。</li>
+<li>持仓限额：是指期货交易所对期货交易者的持仓规定的最高数额。</li>
+<li>仓单：是指交割仓库开出并经期货交易所认定的标准化提货凭证。</li>
+<li>撮合成交：是指期货交易所的计算机交易系统对交易双方的交易指令进行配对的过。</li>
+<li>涨跌停板：是指期货合约在一个交易日中的交易价格不得高于或者低于规定的涨跌幅度，超出该涨跌幅度的报价将被视为无效，不能成交。</li>
+<li>头寸：一种市场约定。期货合约买方处于多头(买空)部位，期货合约卖方处于空头(卖空)部位。</li>
+<li>基差：同一商品当时现货市场价格与期货市场价格间的差异。</li>
+<li>逼仓：期货交易所会员或客户利用资金优势，通过控制期货交易头寸或垄断可供交割的现货商品，故意抬高或压低期货市场价格，超量持仓、交割，迫使对方违约或以不利的价格平仓以牟取暴利的行为。根据操作手法不同，又可分为“多逼空“和“空逼多”两种方式。</li>
+<li>空逼多：操纵市场者利用资金或实物优势，在期货市场上大量卖出某种期货合约，使其拥有的空头持仓大大超过多方能够承接实物的能力。从而使期货市场的价格急剧下跌，迫使投机多头以低价位卖出持有的合约认赔出局，或出于资金实力接货而受到违约罚款，从而牟取暴利。</li>
+<li>多逼空：在一些小品种的期货交易中，当操纵市场者预期可供交割的现货商品不足时，即凭借资金优势在期货市场建立足够的多头持仓以拉高期货价格，同时大量收购和囤积可用于交割的实物，于是现货市场的价格同时升高。这样当合约临近交割时，追使空头会员和客户要么以高价买回期货合约认赔平仓出局;要么以高价买入现货进行实物交割，甚至因无法交出实物而受到违约罚款，这样多头头寸持有者即可从中牟取暴利。</li>
+<li>套期图利：同时买进和卖出两种相关商品，并希望在日后对冲交易部位时有所获利。例如，买进和卖出同一商品、但不同交割月份的期货合约;买进和卖出相同交割月份，相同商品、但不同交易所的期货合约;买进和卖出相同交割月份，但不同商品的期货合约(但二商品间有相互关联的关系)。</li>
+<li>升贴水：交割升贴水是由交易所制定的，期货交割升贴水可分为四类：第一，现货价格与期货价格间的升贴水；第二，替代交割物与标准交割物间的升贴水；第三，跨年度交割的升贴水；第四，不同交割地间的升贴水。</li>
+</ul>
+<h2 id="股指期货做多和做空"><a href="#股指期货做多和做空" class="headerlink" title="股指期货做多和做空"></a>股指期货做多和做空</h2><p>股指期货是可以通过做多和做空来双向获取利润的，以上证指数举例说明：<br>比如2015年1月11日上证指数是3212点。每点假设为100元，假设合约期是3个月。</p>
+<h3 id="股指期货做多"><a href="#股指期货做多" class="headerlink" title="股指期货做多"></a>股指期货做多</h3><p>如果今天你买3份指数期货了，那么就花了3212<em>100元</em>3份=963600元。<br>3个月到期的那一天，4月11日，</p>
+<ul>
+<li>如果上证指数是4113点，那么你卖出你的三份指数（期货到期是必须卖的），4113<em>100元</em>3份=1233900元，那你就会挣了1233900—963600=270300元。</li>
+<li>如果上证指数是3000点，那么同理可证3000<em>100</em>3=900000元，你就会赔了963600—900000=63600元。<h3 id="股指期货做空"><a href="#股指期货做空" class="headerlink" title="股指期货做空"></a>股指期货做空</h3>如果今天你卖（<em>是卖啊，不是买，需要注意的是这里的卖不是真的卖了，而是相当于你卖了三份证券公司借给你的期货合约，到期是要还的哦</em>）三份指数期货了，那么就得到了3212<em>100元</em>3份=963600元(这个钱是暂时冻结的 )。<br>3个月到期的那一天，4月11日，</li>
+<li>如果上证指数是4113点，那么你买三份指数（到期必须买，因为你卖过三份，所以必须要买回来还上），4113<em>100元</em>3份=1233900元，那你就会赔了1233900—963600=270300元。</li>
+<li>如果上证指数是3000点，那么同理可证3000<em>100</em>3=900000元，你就会挣了963600—900000=63600元。</li>
+</ul>
+<blockquote>
+<p>特别说明：在这3个月中，你可以随时卖出自己的股指期货合约，结算按实时的点数结算。</p>
+</blockquote>
+<h1 id="期货资金管理掌握原则"><a href="#期货资金管理掌握原则" class="headerlink" title="期货资金管理掌握原则"></a>期货资金管理掌握原则</h1><ol>
+<li>在投机市场中投资总额必须控制在自有资产的50%；</li>
+<li>每次交易量控制在可用资金的10%—30%以内，最多不能超过50%；</li>
+<li>单笔交易最大亏损额必须控制在总资金的10%以内；</li>
+<li>每次交易都应设置止损指令，加仓资金单独设立止损保护，在盈利的情况下让利润奔跑，及时斩断亏损而不是斩断盈利；</li>
+<li>以金字塔方式买入，以金字塔方式卖出；</li>
+<li>风险收益比为1：3才值得尝试。</li>
+</ol>
+<h1 id="AI在期货市场的应用"><a href="#AI在期货市场的应用" class="headerlink" title="AI在期货市场的应用"></a>AI在期货市场的应用</h1><p>人工智能在期货市场中的应用主要是用机器学习等技术促进量化投资和程序化交易。<br><img src="量化投资的黑箱.png" alt="量化投资的黑箱"></p>
+<ul>
+<li>投资组合构建模型：阿尔法模型、风险控制模型、交易成本模型</li>
+<li>订单执行模型</li>
+</ul>
+<h2 id="期货产品风险定价"><a href="#期货产品风险定价" class="headerlink" title="期货产品风险定价"></a>期货产品风险定价</h2><p>不合趋势的价差</p>
+<h2 id="期现套利-1"><a href="#期现套利-1" class="headerlink" title="期现套利"></a>期现套利</h2><h2 id="商品期货跨品种配对交易"><a href="#商品期货跨品种配对交易" class="headerlink" title="商品期货跨品种配对交易"></a>商品期货跨品种配对交易</h2><p>统计套利：跨期套利、跨品种套利</p>
+<h2 id="市场择时"><a href="#市场择时" class="headerlink" title="市场择时"></a>市场择时</h2><p>包括宏观择时、行业轮动、风格轮动等</p>
+<h2 id="期货订单高频交易"><a href="#期货订单高频交易" class="headerlink" title="期货订单高频交易"></a>期货订单高频交易</h2><p>程序化买卖开仓</p>
+<h2 id="期货量化投资策略"><a href="#期货量化投资策略" class="headerlink" title="期货量化投资策略"></a>期货量化投资策略</h2><p>构建alpha市场中性策略；</p>
+<h2 id="趋势交易"><a href="#趋势交易" class="headerlink" title="趋势交易"></a>趋势交易</h2><h3 id="阿尔法模型"><a href="#阿尔法模型" class="headerlink" title="阿尔法模型"></a>阿尔法模型</h3><p><code>阿尔法对冲，穿越牛熊</code><br>同时持有空头和多头，通过一定手段保证总体收益为正<br>实际中，持有多头股票组合同时卖空股指期货，当大盘上涨时只要保证股票组合的收益大于股指期货的亏损就能实现整体盈利；同理，当大盘下跌时，保证股票的亏损小于股指期货的盈利就能实现整体正的收益。长时间的累积，就能实现稳健的收益，无惧黑天鹅<br>以今天为例，假设我股票多头亏损了6.9%，但期货端收益7%，从而整体我的收益是0.1%（7%-6.9%），试想，在别人亏损7%的时候我能实现盈利0.1%。。。</p>
+<h1 id="期货相关概念"><a href="#期货相关概念" class="headerlink" title="期货相关概念"></a>期货相关概念</h1><h2 id="远期合约和期货合约"><a href="#远期合约和期货合约" class="headerlink" title="远期合约和期货合约"></a>远期合约和期货合约</h2><h3 id="远期合约-1"><a href="#远期合约-1" class="headerlink" title="远期合约"></a>远期合约</h3><p>远期合约（forward contract）是指合约双方同意在未来日期按照固定价格交换金融资产的合约，承诺以当前约定的条件在未来进行交易的合约。<br>远期合约是一种金融衍生工具。远期价格和即期价格的差异为远期溢价或远期折价。远期溢价或折价可以视作买方的利润或亏损。<br>远期合约可用于风险对冲（特别是汇率风险）或用于投机行为。</p>
+<h3 id="期货合约"><a href="#期货合约" class="headerlink" title="期货合约"></a>期货合约</h3><p>期货合约则是指由期货<code>交易所</code>统一制订的、规定在将来某一特定的时间和地点交割一定数量和质量实物商品或金融商品的<code>标准化合约</code>。</p>
+<h3 id="远期合约与期货的区别"><a href="#远期合约与期货的区别" class="headerlink" title="远期合约与期货的区别"></a>远期合约与期货的区别</h3><p>远期合约和期货合约有紧密的关联，相比期货合约，远期合约不是标准化合约，也不在交易所进行交易。</p>
+<h2 id="空头-多头"><a href="#空头-多头" class="headerlink" title="空头/多头"></a>空头/多头</h2><p>交易所对合约条款作了规定，所有交易者可以协商的只有期货价格。</p>
+<ol>
+<li>short position 空头头寸：在交割日购买商品；</li>
+<li>long position 多头头寸：在合约到期日出售商品；</li>
+</ol>
+<blockquote>
+<p>多头是合约的”买方”，空头是合约的”卖方”；</p>
+</blockquote>
+
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/%E9%87%8F%E5%8C%96%E6%8A%95%E8%B5%84/" rel="tag"># 量化投资</a>
+              <a href="/tags/%E6%9C%9F%E8%B4%A7/" rel="tag"># 期货</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2018/01/11/TensorFlow%E7%AC%94%E8%AE%B0/" rel="prev" title="TensorFlow笔记">
+      <i class="fa fa-chevron-left"></i> TensorFlow笔记
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/2018/01/20/%E9%87%8F%E5%8C%96%E6%8A%95%E8%B5%84%E7%AD%96%E7%95%A5/" rel="next" title="量化投资策略">
+      量化投资策略 <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+  </div>
+
+
+          </div>
+          
+    <div class="comments" id="gitalk-container"></div>
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let activeClass = CONFIG.comments.activeClass;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#期货基础知识"><span class="nav-number">1.</span> <span class="nav-text">期货基础知识</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#期货基础知识-1"><span class="nav-number"></span> <span class="nav-text">期货基础知识</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#期货定义"><span class="nav-number">1.</span> <span class="nav-text">期货定义</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#远期合约"><span class="nav-number">1.1.</span> <span class="nav-text">远期合约</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#标准合约"><span class="nav-number">1.2.</span> <span class="nav-text">标准合约</span></a></li></ol></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#期货的功能"><span class="nav-number"></span> <span class="nav-text">期货的功能</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#套期保值"><span class="nav-number">1.</span> <span class="nav-text">套期保值</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#价格发现"><span class="nav-number">2.</span> <span class="nav-text">价格发现</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#期货市场组织结构"><span class="nav-number">3.</span> <span class="nav-text">期货市场组织结构</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#期货分类"><span class="nav-number">4.</span> <span class="nav-text">期货分类</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#金融期货（-Finacial-futures）"><span class="nav-number">4.1.</span> <span class="nav-text">金融期货（ Finacial futures）</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#商品期货（Commodity-futures）"><span class="nav-number">4.2.</span> <span class="nav-text">商品期货（Commodity futures）</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#国内期货品种"><span class="nav-number">4.3.</span> <span class="nav-text">国内期货品种</span></a></li></ol></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#期货交易"><span class="nav-number"></span> <span class="nav-text">期货交易</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#期货交易的特征（与股票的区别）"><span class="nav-number">1.</span> <span class="nav-text">期货交易的特征（与股票的区别）</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#期货交易的收敛性"><span class="nav-number">2.</span> <span class="nav-text">期货交易的收敛性</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#期货交易的策略（-Trading-Strategy）"><span class="nav-number">3.</span> <span class="nav-text">期货交易的策略（ Trading Strategy）</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#投机-Speculate（基本面结合技术面分析）"><span class="nav-number">3.1.</span> <span class="nav-text">投机-Speculate（基本面结合技术面分析）</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#套利-Arbitrage（以期货合约定价公式为依据）"><span class="nav-number">3.2.</span> <span class="nav-text">套利-Arbitrage（以期货合约定价公式为依据）</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#期现套利"><span class="nav-number">3.2.1.</span> <span class="nav-text">期现套利</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#跨期套利"><span class="nav-number">3.2.2.</span> <span class="nav-text">跨期套利</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#跨品种套利"><span class="nav-number">3.2.3.</span> <span class="nav-text">跨品种套利</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#跨市场套利"><span class="nav-number">3.2.4.</span> <span class="nav-text">跨市场套利</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#套期保值-Hedge（以持有的现货资产为依据）"><span class="nav-number">3.3.</span> <span class="nav-text">套期保值-Hedge（以持有的现货资产为依据）</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#空头套期保值"><span class="nav-number">3.3.1.</span> <span class="nav-text">空头套期保值</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#多头套期保值"><span class="nav-number">3.3.2.</span> <span class="nav-text">多头套期保值</span></a></li></ol></li></ol></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#期货价格"><span class="nav-number"></span> <span class="nav-text">期货价格</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#影响期货价格的因素"><span class="nav-number">1.</span> <span class="nav-text">影响期货价格的因素</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#预期假设"><span class="nav-number">2.</span> <span class="nav-text">预期假设</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#现货溢价"><span class="nav-number">3.</span> <span class="nav-text">现货溢价</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#期货溢价"><span class="nav-number">4.</span> <span class="nav-text">期货溢价</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#股指期货"><span class="nav-number"></span> <span class="nav-text">股指期货</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#股指期货交易指令"><span class="nav-number">1.</span> <span class="nav-text">股指期货交易指令</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#股指期货软件交易名词"><span class="nav-number">2.</span> <span class="nav-text">股指期货软件交易名词</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#股指期货做多和做空"><span class="nav-number">3.</span> <span class="nav-text">股指期货做多和做空</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#股指期货做多"><span class="nav-number">3.1.</span> <span class="nav-text">股指期货做多</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#股指期货做空"><span class="nav-number">3.2.</span> <span class="nav-text">股指期货做空</span></a></li></ol></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#期货资金管理掌握原则"><span class="nav-number"></span> <span class="nav-text">期货资金管理掌握原则</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#AI在期货市场的应用"><span class="nav-number"></span> <span class="nav-text">AI在期货市场的应用</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#期货产品风险定价"><span class="nav-number">1.</span> <span class="nav-text">期货产品风险定价</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#期现套利-1"><span class="nav-number">2.</span> <span class="nav-text">期现套利</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#商品期货跨品种配对交易"><span class="nav-number">3.</span> <span class="nav-text">商品期货跨品种配对交易</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#市场择时"><span class="nav-number">4.</span> <span class="nav-text">市场择时</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#期货订单高频交易"><span class="nav-number">5.</span> <span class="nav-text">期货订单高频交易</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#期货量化投资策略"><span class="nav-number">6.</span> <span class="nav-text">期货量化投资策略</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#趋势交易"><span class="nav-number">7.</span> <span class="nav-text">趋势交易</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#阿尔法模型"><span class="nav-number">7.1.</span> <span class="nav-text">阿尔法模型</span></a></li></ol></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#期货相关概念"><span class="nav-number"></span> <span class="nav-text">期货相关概念</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#远期合约和期货合约"><span class="nav-number">1.</span> <span class="nav-text">远期合约和期货合约</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#远期合约-1"><span class="nav-number">1.1.</span> <span class="nav-text">远期合约</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#期货合约"><span class="nav-number">1.2.</span> <span class="nav-text">期货合约</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#远期合约与期货的区别"><span class="nav-number">1.3.</span> <span class="nav-text">远期合约与期货的区别</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#空头-多头"><span class="nav-number">2.</span> <span class="nav-text">空头&#x2F;多头</span></a></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">geosmart</p>
+  <div class="site-description" itemprop="description"></div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">199</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+          
+        <span class="site-state-item-count">15</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">118</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+        <a href="https://github.com/geosmart" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;geosmart" rel="noopener" target="_blank"><i class="fa fa-fw fa-github"></i>GitHub</a>
+      </span>
+  </div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2021</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">geosmart</span>
+</div>
+
+        
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/pisces.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+  
+<script src="/js/local-search.js"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+      
+
+<script>
+  if (typeof MathJax === 'undefined') {
+    window.MathJax = {
+      tex: {
+        inlineMath: {'[+]': [['$', '$']]},
+        tags: 'ams'
+      },
+      options: {
+        renderActions: {
+          findScript: [10, doc => {
+            document.querySelectorAll('script[type^="math/tex"]').forEach(node => {
+              const display = !!node.type.match(/; *mode=display/);
+              const math = new doc.options.MathItem(node.textContent, doc.inputJax[0], display);
+              const text = document.createTextNode('');
+              node.parentNode.replaceChild(text, node);
+              math.start = {node: text, delim: '', n: 0};
+              math.end = {node: text, delim: '', n: 0};
+              doc.math.push(math);
+            });
+          }, '', false],
+          insertedScript: [200, () => {
+            document.querySelectorAll('mjx-container').forEach(node => {
+              let target = node.parentNode;
+              if (target.nodeName.toLowerCase() === 'li') {
+                target.parentNode.classList.add('has-jax');
+              }
+            });
+          }, '', false]
+        }
+      }
+    };
+    (function () {
+      var script = document.createElement('script');
+      script.src = '//cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js';
+      script.defer = true;
+      document.head.appendChild(script);
+    })();
+  } else {
+    MathJax.startup.document.state(0);
+    MathJax.texReset();
+    MathJax.typeset();
+  }
+</script>
+
+    
+
+  
+
+<link rel="stylesheet" href="//cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.min.css">
+
+<script>
+NexT.utils.loadComments(document.querySelector('#gitalk-container'), () => {
+  NexT.utils.getScript('//cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.min.js', () => {
+    var gitalk = new Gitalk({
+      clientID    : '8a29a27c357a64ed79fd',
+      clientSecret: 'fe1b781c49fa9037803f3c4d3e94fbb677abac4d',
+      repo        : 'geosmart.github.io',
+      owner       : 'geosmart',
+      admin       : ['geosmart'],
+      id          : 'bb5bc94222ef494613ac6714a21365e5',
+        language: 'zh-CN',
+      distractionFreeMode: true
+    });
+    gitalk.render('gitalk-container');
+  }, window.Gitalk);
+});
+</script>
+
+</body>
+</html>

@@ -1,0 +1,630 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 4.2.1">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css">
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"geosmart.github.io","root":"/","scheme":"Pisces","version":"7.7.1","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.xml"};
+  </script>
+
+  <meta name="description" content="介绍Hbase出场背景、解决问题、应用场景  Hbase是山寨Google的Bigtable的开源、分布式、列数据库，可以解决海量数据的存储问题，适用于需要随机、实时读&#x2F;写的场景；">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Hbase背景知识">
+<meta property="og:url" content="http://geosmart.github.io/2020/01/02/Hbase%E7%9A%84%E8%83%8C%E6%99%AF%E7%9F%A5%E8%AF%86/index.html">
+<meta property="og:site_name" content="geosmart.io">
+<meta property="og:description" content="介绍Hbase出场背景、解决问题、应用场景  Hbase是山寨Google的Bigtable的开源、分布式、列数据库，可以解决海量数据的存储问题，适用于需要随机、实时读&#x2F;写的场景；">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2020-01-02T16:00:00.000Z">
+<meta property="article:modified_time" content="2021-12-15T01:13:12.945Z">
+<meta property="article:author" content="geosmart">
+<meta property="article:tag" content="Hbase">
+<meta name="twitter:card" content="summary">
+
+<link rel="canonical" href="http://geosmart.github.io/2020/01/02/Hbase%E7%9A%84%E8%83%8C%E6%99%AF%E7%9F%A5%E8%AF%86/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome: false,
+    isPost: true
+  };
+</script>
+
+  <title>Hbase背景知识 | geosmart.io</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <div>
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">geosmart.io</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+        <p class="site-subtitle">勿助勿忘，深造自得</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+<nav class="site-nav">
+  
+  <ul id="menu" class="menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-fw fa-home"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-about">
+
+    <a href="/about/" rel="section"><i class="fa fa-fw fa-user"></i>关于</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="fa fa-fw fa-tags"></i>标签</a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/categories/" rel="section"><i class="fa fa-fw fa-th"></i>分类</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-fw fa-archive"></i>归档</a>
+
+  </li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜索
+        </a>
+      </li>
+  </ul>
+
+</nav>
+  <div class="site-search">
+    <div class="popup search-popup">
+    <div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocorrect="off" autocapitalize="off"
+           placeholder="搜索..." spellcheck="false"
+           type="search" class="search-input">
+  </div>
+  <span class="popup-btn-close">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div id="search-result"></div>
+
+</div>
+<div class="search-pop-overlay"></div>
+
+  </div>
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+  <a href="https://github.com/geosmart" class="github-corner" title="Follow me on GitHub" aria-label="Follow me on GitHub" rel="noopener" target="_blank"><svg width="80" height="80" viewBox="0 0 250 250" aria-hidden="true"><path d="M0,0 L115,115 L130,115 L142,142 L250,250 L250,0 Z"></path><path d="M128.3,109.0 C113.8,99.7 119.0,89.6 119.0,89.6 C122.0,82.7 120.5,78.6 120.5,78.6 C119.2,72.0 123.4,76.3 123.4,76.3 C127.3,80.9 125.5,87.3 125.5,87.3 C122.9,97.6 130.6,101.9 134.4,103.2" fill="currentColor" style="transform-origin: 130px 106px;" class="octo-arm"></path><path d="M115.0,115.0 C114.9,115.1 118.7,116.5 119.8,115.4 L133.7,101.6 C136.9,99.2 139.9,98.4 142.2,98.6 C133.8,88.0 127.5,74.4 143.8,58.0 C148.5,53.4 154.0,51.2 159.7,51.0 C160.3,49.4 163.2,43.6 171.4,40.1 C171.4,40.1 176.1,42.5 178.8,56.2 C183.1,58.6 187.2,61.8 190.9,65.4 C194.5,69.0 197.7,73.2 200.1,77.6 C213.8,80.2 216.3,84.9 216.3,84.9 C212.7,93.1 206.9,96.0 205.4,96.6 C205.1,102.4 203.0,107.8 198.3,112.5 C181.9,128.9 168.3,122.5 157.7,114.1 C157.9,116.9 156.7,120.9 152.7,124.9 L141.0,136.5 C139.8,137.7 141.6,141.9 141.8,141.8 Z" fill="currentColor" class="octo-body"></path></svg></a>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content">
+            
+
+  <div class="posts-expand">
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block " lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://geosmart.github.io/2020/01/02/Hbase%E7%9A%84%E8%83%8C%E6%99%AF%E7%9F%A5%E8%AF%86/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="geosmart">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="geosmart.io">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          Hbase背景知识
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：3   一月   2020 0:00:00" itemprop="dateCreated datePublished" datetime="2020-01-03T00:00:00+08:00">3   一月   2020</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：15   十二月   2021 9:13:12" itemprop="dateModified" datetime="2021-12-15T09:13:12+08:00">15   十二月   2021</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/%E5%AD%98%E5%82%A8%E5%B1%82/" itemprop="url" rel="index"><span itemprop="name">存储层</span></a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <p>介绍Hbase出场背景、解决问题、应用场景</p>
+<blockquote>
+<p>Hbase是山寨Google的Bigtable的开源、分布式、列数据库，可以解决海量数据的存储问题，适用于需要随机、实时读/写的场景；<br><a id="more"></a></p>
+</blockquote>
+<h1 id="官方Hbase简介"><a href="#官方Hbase简介" class="headerlink" title="官方Hbase简介"></a>官方Hbase简介</h1><blockquote>
+<p>Use Apache HBase™ when you need random, realtime read/write access to your Big Data.<br>当需对大数据进行<code>随机</code>，<code>实时读/写</code>时采用Hbase；</p>
+<p>This project’s goal is the hosting of very large tables — billions of rows X millions of columns — atop clusters of commodity hardware.<br>Hbase项目的目标是在集群中存储<code>数十亿行</code>，<code>数百万列</code>的超级大表；</p>
+<p>Apache HBase is an open-source, distributed, versioned, <strong>non-relational database</strong> modeled after Google’s <a href="https://research.google.com/archive/bigtable.html">Bigtable: A Distributed Storage System for Structured Data</a> by Chang et al.<br>Hbase是一个开源的分布式的<code>非关系型</code>数据库，其数据模型是基于Google的Bigtable论文（结构化数据的分布式存储系统）开发的；</p>
+<p>Just as Bigtable leverages the distributed data storage provided by the Google File System, Apache HBase provides <strong>Bigtable-like capabilities</strong> on top of Hadoop and HDFS.<br>正如Google的Bigtable用Google文件系统分布式存储数据，Hbase基于Hadoop的<code>HDFS(Hadoop File System)</code>来存储海量数据；</p>
+<p>一句话：Hbase是山寨Google的Bigtable的开源、分布式、列数据库，可以解决海量数据的存储问题，适用于需要随机、实时读/写的场景；</p>
+</blockquote>
+<h1 id="Hbase的出场背景"><a href="#Hbase的出场背景" class="headerlink" title="Hbase的出场背景"></a>Hbase的出场背景</h1><p>HBase 是Powerset在2007年创建的，最初是Hadoop的一部分。之后，它逐渐成为Apache软件基金会旗下的顶级项目，具备Apache软件许可证，版本为2.0。 </p>
+<blockquote>
+<p>下面是一个HBase随时间发展的简短概述：<br>2006年11月：Google发布BigTable论文。<br>2007年2月：HBase宣布在Hadoop项目中成立。<br>2007年10月：HBase第一个“可用”版本（Hadoop 0.15.0）。<br>2008年1月：Hadoop成为Apache的顶级项目，HBase成为Hadoop的子项目。<br>2008年10月：Hadoop 0.18.1发布。<br>2009年1月：HBase 0.19.0发布。<br>2009年9月：HBase0.20.0发布，性能有明显提升。<br>2010年5月：HBase成为Apache的顶级项目。<br>2010年6月：HBase 0.89.20100621，第一个开发版本。<br>2011年1月：HBase 0.90.0发布，稳定性和持续性有所提升。<br>2011年年中：HBase 0.92.0发布，支持协议处理器和安全控制。<br>2010年5月前后，HBase的开发者决定打破一直依赖的、步调一致的Hadoop的版本编号。原因是HBase有一个更快的发布周期，同时更接近1.0版本的水平，比Hadoop的预期更快。<br>为此，版本号从0.20.x跳到了0.89.x，跳跃相当明显。此外，还做了一个决定，将0.89.x定为早期的开发版本。在0.89的基础上最终发布了0.90，即面向所有用户的稳定版。 </p>
+<p>Powerset<br>公司位于旧金山，开发了一套用于互联网的自然语言搜索引擎。在2008年7越1日，微软公司收购了Powerset，之后Powerset放弃了对HBase开发的后续支持。</p>
+</blockquote>
+<h1 id="Hbase解决的问题"><a href="#Hbase解决的问题" class="headerlink" title="Hbase解决的问题"></a>Hbase解决的问题</h1><p>传统关系数据库的设计不能满足海量数据的读写需求：扩容问题、写单点问题；</p>
+<p>Hbase的特点：</p>
+<ul>
+<li>可动态扩容，Hadoop/HDFS Integration</li>
+<li>强一致性读写， Strongly consistent reads/writes</li>
+<li>自动分片， Automatic sharding</li>
+<li>失败自动切换，Automatic RegionServer failover</li>
+</ul>
+<h2 id="Hbase与Hive的关系"><a href="#Hbase与Hive的关系" class="headerlink" title="Hbase与Hive的关系"></a>Hbase与Hive的关系</h2><blockquote>
+<p>联系</p>
+</blockquote>
+<ul>
+<li>Hbase和Hive都是Hadoop生态中的重要组件，数据都是存储在HDFS上的；</li>
+</ul>
+<blockquote>
+<p>区别</p>
+</blockquote>
+<ul>
+<li>Hive时效性在秒-分钟级别，适合用来对一段时间内的数据进行分析查询，例如，用来计算趋势或者网站的日志；HiveSQL的执行可以基于Spark或者MapReduce；</li>
+<li>HBase时效性在毫秒（100ms）级别，适合<code>准实时查询</code>，例如 Facebook 用 HBase 进行消息和实时的分析。Hbase可以基于Phoenix SQL访问；</li>
+</ul>
+<h2 id="Hbase与RDBMS的区别"><a href="#Hbase与RDBMS的区别" class="headerlink" title="Hbase与RDBMS的区别"></a>Hbase与RDBMS的区别</h2><div class="table-container">
+<table>
+<thead>
+<tr>
+<th style="text-align:left"></th>
+<th style="text-align:left">HBase</th>
+<th>RDBMS</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left">硬件架构</td>
+<td style="text-align:left">类似于 Hadoop 的分布式集群，硬件成本低廉</td>
+<td>传统的多核系统，硬件成本昂贵</td>
+</tr>
+<tr>
+<td style="text-align:left">容错性</td>
+<td style="text-align:left">由软件架构实现，由于由多个节点组成，<br />所以不担心一点或几点宕机</td>
+<td>一般需要额外硬件设备实现 HA 机制</td>
+</tr>
+<tr>
+<td style="text-align:left">数据库大小</td>
+<td style="text-align:left">PB</td>
+<td>GB、TB</td>
+</tr>
+<tr>
+<td style="text-align:left">数据排布方式</td>
+<td style="text-align:left">稀疏的、分布的多维的 Map</td>
+<td>以行和列组织</td>
+</tr>
+<tr>
+<td style="text-align:left">数据类型</td>
+<td style="text-align:left">Bytes</td>
+<td>丰富的数据类型</td>
+</tr>
+<tr>
+<td style="text-align:left">事物支持</td>
+<td style="text-align:left">ACID 只支持单个 Row 级别</td>
+<td>全面的 ACID 支持，对 Row 和表</td>
+</tr>
+<tr>
+<td style="text-align:left">查询语言</td>
+<td style="text-align:left">只支持 Java API <br />（除非与其他框架一起使用，如 Phoenix、Hive）</td>
+<td>SQL</td>
+</tr>
+<tr>
+<td style="text-align:left">索引</td>
+<td style="text-align:left">只支持 Row-key，<br />除非与其他技术一起应用，如 Phoenix、Hive</td>
+<td>支持</td>
+</tr>
+<tr>
+<td style="text-align:left">吞吐量</td>
+<td style="text-align:left">百万查询/每秒</td>
+<td>数千查询/每秒</td>
+</tr>
+</tbody>
+</table>
+</div>
+<h1 id="Hbase的适用场景"><a href="#Hbase的适用场景" class="headerlink" title="Hbase的适用场景"></a>Hbase的适用场景</h1><ol>
+<li><code>写密集型</code>应用：每天写多读少的应用，比如IM的历史消息，游戏的日志；</li>
+<li>查询场景明确且简单，如扫描一条记录或根据rowkey进行前缀扫描，因此Hbase需要根据查询需求设计RowKey；</li>
+<li>对性能和<code>可靠性</code>要求非常高的应用，由于HBase本身没有单点故障，<code>可用性</code>非常高。</li>
+<li>数据量较大，而且<code>增长量</code>无法预估的应用，HBase支持在线扩展，即使在一段时间内数据量呈井喷式增长，也可以通过HBase<code>横向扩展</code>来满足功能。</li>
+</ol>
+<h1 id="Hbase的限制场景"><a href="#Hbase的限制场景" class="headerlink" title="Hbase的限制场景"></a>Hbase的限制场景</h1><ul>
+<li><p>不适合以<code>复杂查询条件</code>来查询数据的应用，原生HBase只支持基于rowkey的查询，对于HBase来说，单条记录或者小范围的查询是可以接受的，大范围的查询由于<code>分布式</code>的原因，在性能上没有保障；</p>
+</li>
+<li><p>不适合<code>事务要求高</code>的应用，如多表Join查询</p>
+</li>
+</ul>
+
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/Hbase/" rel="tag"># Hbase</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2020/01/01/Android%E5%B9%B3%E5%8F%B0%E7%9A%84%E4%B8%B2%E5%8F%A3%E9%80%9A%E4%BF%A1%E6%8A%80%E6%9C%AF/" rel="prev" title="Android平台的串口通信技术">
+      <i class="fa fa-chevron-left"></i> Android平台的串口通信技术
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/2020/01/03/Redis%E6%8C%81%E4%B9%85%E5%8C%96/" rel="next" title="Redis持久化">
+      Redis持久化 <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+  </div>
+
+
+          </div>
+          
+    <div class="comments" id="gitalk-container"></div>
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let activeClass = CONFIG.comments.activeClass;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#官方Hbase简介"><span class="nav-number">1.</span> <span class="nav-text">官方Hbase简介</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Hbase的出场背景"><span class="nav-number">2.</span> <span class="nav-text">Hbase的出场背景</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Hbase解决的问题"><span class="nav-number">3.</span> <span class="nav-text">Hbase解决的问题</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#Hbase与Hive的关系"><span class="nav-number">3.1.</span> <span class="nav-text">Hbase与Hive的关系</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Hbase与RDBMS的区别"><span class="nav-number">3.2.</span> <span class="nav-text">Hbase与RDBMS的区别</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Hbase的适用场景"><span class="nav-number">4.</span> <span class="nav-text">Hbase的适用场景</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Hbase的限制场景"><span class="nav-number">5.</span> <span class="nav-text">Hbase的限制场景</span></a></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">geosmart</p>
+  <div class="site-description" itemprop="description"></div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">199</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+          
+        <span class="site-state-item-count">15</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">118</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+        <a href="https://github.com/geosmart" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;geosmart" rel="noopener" target="_blank"><i class="fa fa-fw fa-github"></i>GitHub</a>
+      </span>
+  </div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2021</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">geosmart</span>
+</div>
+
+        
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/pisces.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+  
+<script src="/js/local-search.js"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+      
+
+<script>
+  if (typeof MathJax === 'undefined') {
+    window.MathJax = {
+      tex: {
+        inlineMath: {'[+]': [['$', '$']]},
+        tags: 'ams'
+      },
+      options: {
+        renderActions: {
+          findScript: [10, doc => {
+            document.querySelectorAll('script[type^="math/tex"]').forEach(node => {
+              const display = !!node.type.match(/; *mode=display/);
+              const math = new doc.options.MathItem(node.textContent, doc.inputJax[0], display);
+              const text = document.createTextNode('');
+              node.parentNode.replaceChild(text, node);
+              math.start = {node: text, delim: '', n: 0};
+              math.end = {node: text, delim: '', n: 0};
+              doc.math.push(math);
+            });
+          }, '', false],
+          insertedScript: [200, () => {
+            document.querySelectorAll('mjx-container').forEach(node => {
+              let target = node.parentNode;
+              if (target.nodeName.toLowerCase() === 'li') {
+                target.parentNode.classList.add('has-jax');
+              }
+            });
+          }, '', false]
+        }
+      }
+    };
+    (function () {
+      var script = document.createElement('script');
+      script.src = '//cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js';
+      script.defer = true;
+      document.head.appendChild(script);
+    })();
+  } else {
+    MathJax.startup.document.state(0);
+    MathJax.texReset();
+    MathJax.typeset();
+  }
+</script>
+
+    
+
+  
+
+<link rel="stylesheet" href="//cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.min.css">
+
+<script>
+NexT.utils.loadComments(document.querySelector('#gitalk-container'), () => {
+  NexT.utils.getScript('//cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.min.js', () => {
+    var gitalk = new Gitalk({
+      clientID    : '8a29a27c357a64ed79fd',
+      clientSecret: 'fe1b781c49fa9037803f3c4d3e94fbb677abac4d',
+      repo        : 'geosmart.github.io',
+      owner       : 'geosmart',
+      admin       : ['geosmart'],
+      id          : '6da56ceb6a0c2c9c1332b71e2bdcae13',
+        language: 'zh-CN',
+      distractionFreeMode: true
+    });
+    gitalk.render('gitalk-container');
+  }, window.Gitalk);
+});
+</script>
+
+</body>
+</html>

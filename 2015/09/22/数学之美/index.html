@@ -1,0 +1,576 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 4.2.1">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css">
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"geosmart.github.io","root":"/","scheme":"Pisces","version":"7.7.1","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.xml"};
+  </script>
+
+  <meta name="description" content="谷歌吴军：数学之美 如何化繁为简，如何用数学去解决工程问题，如何跳出固有思维不断去思考创新。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="《数学之美》读书笔记">
+<meta property="og:url" content="http://geosmart.github.io/2015/09/22/%E6%95%B0%E5%AD%A6%E4%B9%8B%E7%BE%8E/index.html">
+<meta property="og:site_name" content="geosmart.io">
+<meta property="og:description" content="谷歌吴军：数学之美 如何化繁为简，如何用数学去解决工程问题，如何跳出固有思维不断去思考创新。">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2015-09-22T01:15:20.000Z">
+<meta property="article:modified_time" content="2021-12-15T01:13:12.814Z">
+<meta property="article:author" content="geosmart">
+<meta property="article:tag" content="NLP">
+<meta name="twitter:card" content="summary">
+
+<link rel="canonical" href="http://geosmart.github.io/2015/09/22/%E6%95%B0%E5%AD%A6%E4%B9%8B%E7%BE%8E/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome: false,
+    isPost: true
+  };
+</script>
+
+  <title>《数学之美》读书笔记 | geosmart.io</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <div>
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">geosmart.io</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+        <p class="site-subtitle">勿助勿忘，深造自得</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+<nav class="site-nav">
+  
+  <ul id="menu" class="menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-fw fa-home"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-about">
+
+    <a href="/about/" rel="section"><i class="fa fa-fw fa-user"></i>关于</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="fa fa-fw fa-tags"></i>标签</a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/categories/" rel="section"><i class="fa fa-fw fa-th"></i>分类</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-fw fa-archive"></i>归档</a>
+
+  </li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜索
+        </a>
+      </li>
+  </ul>
+
+</nav>
+  <div class="site-search">
+    <div class="popup search-popup">
+    <div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocorrect="off" autocapitalize="off"
+           placeholder="搜索..." spellcheck="false"
+           type="search" class="search-input">
+  </div>
+  <span class="popup-btn-close">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div id="search-result"></div>
+
+</div>
+<div class="search-pop-overlay"></div>
+
+  </div>
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+  <a href="https://github.com/geosmart" class="github-corner" title="Follow me on GitHub" aria-label="Follow me on GitHub" rel="noopener" target="_blank"><svg width="80" height="80" viewBox="0 0 250 250" aria-hidden="true"><path d="M0,0 L115,115 L130,115 L142,142 L250,250 L250,0 Z"></path><path d="M128.3,109.0 C113.8,99.7 119.0,89.6 119.0,89.6 C122.0,82.7 120.5,78.6 120.5,78.6 C119.2,72.0 123.4,76.3 123.4,76.3 C127.3,80.9 125.5,87.3 125.5,87.3 C122.9,97.6 130.6,101.9 134.4,103.2" fill="currentColor" style="transform-origin: 130px 106px;" class="octo-arm"></path><path d="M115.0,115.0 C114.9,115.1 118.7,116.5 119.8,115.4 L133.7,101.6 C136.9,99.2 139.9,98.4 142.2,98.6 C133.8,88.0 127.5,74.4 143.8,58.0 C148.5,53.4 154.0,51.2 159.7,51.0 C160.3,49.4 163.2,43.6 171.4,40.1 C171.4,40.1 176.1,42.5 178.8,56.2 C183.1,58.6 187.2,61.8 190.9,65.4 C194.5,69.0 197.7,73.2 200.1,77.6 C213.8,80.2 216.3,84.9 216.3,84.9 C212.7,93.1 206.9,96.0 205.4,96.6 C205.1,102.4 203.0,107.8 198.3,112.5 C181.9,128.9 168.3,122.5 157.7,114.1 C157.9,116.9 156.7,120.9 152.7,124.9 L141.0,136.5 C139.8,137.7 141.6,141.9 141.8,141.8 Z" fill="currentColor" class="octo-body"></path></svg></a>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content">
+            
+
+  <div class="posts-expand">
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block " lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://geosmart.github.io/2015/09/22/%E6%95%B0%E5%AD%A6%E4%B9%8B%E7%BE%8E/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="geosmart">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="geosmart.io">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          《数学之美》读书笔记
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：22   九月   2015 9:15:20" itemprop="dateCreated datePublished" datetime="2015-09-22T09:15:20+08:00">22   九月   2015</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：15   十二月   2021 9:13:12" itemprop="dateModified" datetime="2021-12-15T09:13:12+08:00">15   十二月   2021</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B0/" itemprop="url" rel="index"><span itemprop="name">读书笔记</span></a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <p>谷歌吴军：数学之美</p>
+<p>如何化繁为简，如何用数学去解决工程问题，如何跳出固有思维不断去思考创新。</p>
+<hr>
+<a id="more"></a>
+<h1 id="系列二-—-谈谈中文分词"><a href="#系列二-—-谈谈中文分词" class="headerlink" title="系列二 — 谈谈中文分词"></a>系列二 — 谈谈中文分词</h1><p>2015-09-13 16:31:25<br>一般来讲，根据不同应用，汉语分词的颗粒度大小应该不同。比如，在机器翻译中，颗粒度应该大一些，“北京大学”就不能被分成两个词。而在语音识别中，“北京大学”一般 是被分成两个词。因此，不同的应用，应该有不同的分词系统</p>
+<h1 id="系列三-—-隐含马尔可夫模型在语言处理中的应用"><a href="#系列三-—-隐含马尔可夫模型在语言处理中的应用" class="headerlink" title="系列三 — 隐含马尔可夫模型在语言处理中的应用"></a>系列三 — 隐含马尔可夫模型在语言处理中的应用</h1><p>2015-09-13 16:34:02<br>自然语言是人类交流信息的工具。很多自然语言处理问题都可以等同于通信系统中的解码问题 — 一个人根据接收到的信息，去猜测发话人要表达的意思。这其实就象通信中，我们根据接收端收到的信号去分析、理解、还原发送端传送过来的信息。</p>
+<p>2015-09-13 16:35:28<br>在计算机中，如果我们要根据接收到的英语信息，推测说话者的汉语意思，就是机器翻译；如果我们要根据带有拼写错误的语句推测说话者想表达的正确意思，那就是自动纠错。</p>
+<h1 id="系列-4-—-怎样度量信息"><a href="#系列-4-—-怎样度量信息" class="headerlink" title="系列 4 — 怎样度量信息?"></a>系列 4 — 怎样度量信息?</h1><p>2015-09-13 21:37:46<br>Google 一直以 “整合全球信息，让人人能获取，使人人能受益” 为使命</p>
+<p>2015-09-13 21:40:33<br>一条信息的信息量大小和它的不确定性有直接的关系。</p>
+<p>2015-09-13 21:40:44<br>信息量的度量就等于不确定性的多少。</p>
+<p>2015-09-13 21:47:32<br>不同语言的冗余度差别很大，而汉语在所有语言中冗余度是相对小的。这和人们普遍的认识”汉语是最简洁的语言”是一致的。</p>
+<h1 id="系列五-—-简单之美：布尔代数和搜索引擎的索引"><a href="#系列五-—-简单之美：布尔代数和搜索引擎的索引" class="headerlink" title="系列五 — 简单之美：布尔代数和搜索引擎的索引"></a>系列五 — 简单之美：布尔代数和搜索引擎的索引</h1><p>2015-09-13 21:48:42<br>建立一个搜索引擎大致需要做这样几件事：自动下载尽可能多的网页；建立快速有效的索引；根据相关性对网页进行公平准确的排序</p>
+<p>2015-09-14 22:31:43<br>搜索引擎的索引就变成了一张大表：表的每一行对应一个关键词，而每一个关键词后面跟着一组数字，是包含该关键词 的文献序号。</p>
+<p>2015-09-14 22:32:45<br>每当接受一个查询时，这个查询就被分送到许许多多服务器中，这些服务器 同时并行处理用户请求，并把结果送到主服务器进行合并处理，最后将结果返回给用户。</p>
+<p>2015-09-14 22:33:05<br>不管索引如何复杂，查找的基本操作仍然是布尔运算。布尔运算把逻辑和数学联系起来了。它的最大好处是容易实现，速度快，这对于海量的信息查找是至关重要的。它的不足是只能给出是与否的判断，而不能给出量化的 度量。因此，所有搜索引擎在内部检索完毕后，都要对符合要求的网页根据相关性排序，然后才返回给用户。</p>
+<h1 id="系列六-—-图论和网络爬虫"><a href="#系列六-—-图论和网络爬虫" class="headerlink" title="系列六 — 图论和网络爬虫"></a>系列六 — 图论和网络爬虫</h1><p>2015-09-14 22:33:57<br>如何自动下载互联网所有的网页呢，它要用到图论中的遍历（Traverse) 算法。</p>
+<p>2015-09-14 22:35:57<br>“广度优先算法”（BFS)，因为它先要尽可能广地访问每个节点所直接连接的其他节点。</p>
+<p>2015-09-14 22:36:22<br>“深度优先算法”（DFS)，因为它是一条路走到黑。</p>
+<h1 id="系列七-—-信息论在信息处理中的应用"><a href="#系列七-—-信息论在信息处理中的应用" class="headerlink" title="系列七 — 信息论在信息处理中的应用"></a>系列七 — 信息论在信息处理中的应用</h1><p>2015-09-14 22:41:23<br>李开复博士在介绍他发明的 Sphinx 语音识别系统时谈到，如果不用任何语言模型（即零元语言模型）时，复杂度为997，也就是说句子中每个位置有 997 个可能的单词可以填入。如果（二元）语言模型只考虑前后词的搭配不考虑搭配的概率时，复杂度为60。虽然它比不用语言模型好很多，但是和考虑了搭配概率的二元语言模型相比要差很多，因为后者的复杂度只有20。</p>
+<p>2015-09-14 22:41:40<br>信息论中仅次于熵的另外两个重要的概念是“互信息”（Mutual Information) 和“相对熵”（Kullback-Leibler Divergence)。</p>
+<p>2015-09-14 22:42:00<br>“互信息”是信息熵的引申概念，它是对两个随机事件相关性的度量。</p>
+<p>2015-09-14 22:45:15<br>信息论中另外一个重要的概念是“相对熵”，在有些文献中它被称为成“交叉熵”。在英语中是 Kullback-Leibler Divergence， 是以它的两个提出者库尔贝克和莱伯勒的名字命名的。相对熵用来衡量两个正函数是否相似，对于两个完全相同的函数，它们的相对熵等于零。在自然语言处理中可 以用相对熵来衡量两个常用词（在语法上和语义上）是否同义，或者两篇文章的内容是否相近等等。利用相对熵，我们可以到处信息检索中最重要的一个概念：词频率-逆向文档频率（TF/IDF)。</p>
+<h1 id="系列八—-贾里尼克的故事和现代语言处理"><a href="#系列八—-贾里尼克的故事和现代语言处理" class="headerlink" title="系列八— 贾里尼克的故事和现代语言处理"></a>系列八— 贾里尼克的故事和现代语言处理</h1><p>2015-09-14 22:53:52<br>七十年代的 IBM 有点像九十年代的微软和今天的 Google, 给于杰出科学家作任何有兴趣研究的自由。在那种宽松的环境里，贾里尼克等人提出了统计语音识别的框架结构。 在贾里尼克以前，科学家们把语音识别问题当作人工智能问题和模式匹配问题。而贾里尼克把它当成通信问题，并用两个隐含马尔可夫模型（声学模型和语言模型） 把语音识别概括得清清楚楚。这个框架结构对至今的语音和语言处理有着深远的影响，它从根本上使得语音识别有实用的可能。 贾里尼克本人后来也因此当选美国工程院院士。</p>
+<h1 id="系列九-—-如何确定网页和查询的相关性"><a href="#系列九-—-如何确定网页和查询的相关性" class="headerlink" title="系列九 — 如何确定网页和查询的相关性"></a>系列九 — 如何确定网页和查询的相关性</h1><p>2015-09-15 22:48:01<br>如果一个关键词只在很少的网页中出现，我们通过它就容易锁定搜索目标，它的权重也就应该大。反之如果一个词在大量网页中出现，我们看到它仍 然不很清楚要找什么内容，因此它应该小。概括地讲，假定一个关键词w在DW个网页中出现过，那么DW越大，w的权重越小，反之亦然。在信息检索中，使用最多的权重是“逆文本频率指数”</p>
+<p>2015-09-15 22:49:07<br>ＴＦ／ＩＤＦ（term frequency/inverse document frequency) 的概念被公认为信息检索中最重要的发明。在搜索、文献分类和其他相关领域有广泛的应用。</p>
+<p>2015-09-15 22:50:46<br>信息论的学者们已经发现并指出，其实 IDF 的概念就是一个特定条件下、关键词的概率分布的交叉熵（Kullback-Leibler Divergence)（详见上一系列）。这样，信息检索相关性的度量，又回到了信息论。</p>
+<h1 id="系列十-有限状态机和地址识别"><a href="#系列十-有限状态机和地址识别" class="headerlink" title="系列十 有限状态机和地址识别"></a>系列十 有限状态机和地址识别</h1><p>2015-09-16 22:00:29<br>地址的识别和分析是本地搜索必不可少的技术，尽管有许多识别和分析地址的方法，最有效的是有限状态机。</p>
+<p>2015-09-16 22:00:55<br>一个有限状态机是一个特殊的有向图（参见有关图论的系列），它包括一些状态（节点）和连接这些状态的有向弧。</p>
+<p>2015-09-16 22:02:38<br>使用有限状态机识别地址，关键要解决两个问题，即通过一些有效的地址建立状态机，以及给定一个有限状态机后，地址字串的匹配算法。</p>
+<p>2015-09-16 22:04:22<br>基于有限状态机的地址识别方法在实用中会有一些问题：当用户输入的地址不太标准或者有错别字时，有限状态机会束手无策，因为它只能进行严格匹配。（其实，有限状态机在计算机科学中早期的成功应用是在程序语言编译器的设计中。一个能运行的程序在语法上必须是没有错的，所以不需要模糊匹配。而自然语言则很随意，无法用简单的语法描述。）<br>为了解决这个问题，我们希望有一个能进行模糊匹配、并给出一个字串为正确地址的可能性。为了实现这一目的，科学家们提出了基于概率的有限状态机。这种基于概率的有限状态机和离散的马尔可夫链（详见前面关于马尔可夫模型的系列）基本上等效。</p>
+<h1 id="十四-谈谈数学模型的重要性"><a href="#十四-谈谈数学模型的重要性" class="headerlink" title="十四 谈谈数学模型的重要性"></a>十四 谈谈数学模型的重要性</h1><p>2015-09-17 21:57:04</p>
+<ol>
+<li>一个正确的数学模型应当在形式上是简单的。（托勒密的模型显然太复杂。）</li>
+<li>一个正确的模型在它开始的时候可能还不如一个精雕细琢过的错误的模型来的准确，但是，如果我们认定大方向是对的，就应该坚持下去。（日心说开始并没有地心说准确。）</li>
+<li>大量准确的数据对研发很重要。</li>
+<li>正确的模型也可能受噪音干扰，而显得不准确；这时我们不应该用一种凑合的修正方法来弥补它，而是要找到噪音的根源，这也许能通往重大发现。</li>
+</ol>
+<p>2015-09-17 21:57:17<br>在网络搜索的研发中，我们在前面提到的单文本词频/逆文本频率指数（TF/IDF) 和网页排名（page rank)都相当于是网络搜索中的”椭圆模型”，它们都很简单易懂。</p>
+<h1 id="系列十六（上）-不要把所有的鸡蛋放在一个篮子里"><a href="#系列十六（上）-不要把所有的鸡蛋放在一个篮子里" class="headerlink" title="系列十六（上） 不要把所有的鸡蛋放在一个篮子里"></a>系列十六（上） 不要把所有的鸡蛋放在一个篮子里</h1><p>2015-09-21 22:08:08<br>最大熵原理指出，当我们需要对一个随机事件的概率分布进行预测时，我们的预测应当满足全部已知的条件，而对未知的情况不要做任何主观假设。（不做主观假设这点很重要。）在这种情况下，概率分布最均匀，预测的风险最小。因为这时概率分布的信息熵最大，所以人们称这种模型叫”最大熵模型”。我们常说，不要把所有的鸡蛋放在一个篮子里，其实就是最大熵原理的一个朴素的说法，因为当我们遇到不确定性时，就要保留各种可能性。</p>
+<h1 id="系列十六-（下）－-不要把所有的鸡蛋放在一个篮子里"><a href="#系列十六-（下）－-不要把所有的鸡蛋放在一个篮子里" class="headerlink" title="系列十六 （下）－ 不要把所有的鸡蛋放在一个篮子里"></a>系列十六 （下）－ 不要把所有的鸡蛋放在一个篮子里</h1><p>2015-09-21 22:14:07<br>最原始的最大熵模型的训练方法是一种称为通用迭代算法 GIS(generalized iterative scaling) 的迭代 算法。GIS 的原理并不复杂，大致可以概括为以下几个步骤：</p>
+<ol>
+<li>假定第零次迭代的初始模型为等概率的均匀分布。</li>
+<li>用第 N 次迭代的模型来估算每种信息特征在训练数据中的分布，如果超过了实际的，就把相应的模型参数变小；否则，将它们便大。</li>
+<li>重复步骤 2 直到收敛。</li>
+</ol>
+<p>2015-09-21 22:19:29<br>最大熵模型，可以说是集简与繁于一体，形式简单，实现复杂。</p>
+<h1 id="系列十八-－-矩阵运算和文本处理中的分类问题"><a href="#系列十八-－-矩阵运算和文本处理中的分类问题" class="headerlink" title="系列十八 － 矩阵运算和文本处理中的分类问题"></a>系列十八 － 矩阵运算和文本处理中的分类问题</h1><p>2015-09-21 22:36:15<br>分类的关键是计算相关性。我们首先对两个文本计算出它们的内容词，或者说实词的向量，然后求这两个向量的夹角。当这两个向量夹角为零时，新闻就相关；当它们垂直或者说正交时，新闻则无关。</p>
+<h1 id="系列十九-－-马尔可夫链的扩展-贝叶斯网络"><a href="#系列十九-－-马尔可夫链的扩展-贝叶斯网络" class="headerlink" title="系列十九 － 马尔可夫链的扩展 贝叶斯网络"></a>系列十九 － 马尔可夫链的扩展 贝叶斯网络</h1><p>2015-09-21 22:39:58<br>马尔可夫链 (Markov Chain)，它描述了一种状态序列，其每个状态值取决于前面有限个状态。这种模型，对很多实际问题来讲是一种很粗略的简化。在现实生活中，很多事物相互的关系并不能用一条链来串起来。它们之间的关系可能是交叉的、错综复杂的。</p>
+<p>2015-09-21 22:39:35<br>贝叶斯网络。其中每个圆圈表示一个状态。状态之间的连线表示它们的因果关系。比如从心血管疾病出发到吸烟的弧线表示心血管疾病可能和吸烟有关。当然，这些关系可以有一个量化的可信度 (belief)，用一个概率描述。我们可以通过这样一张网络估计出一个人的心血管疾病的可能性。在网络中每个节点概率的计算，可以用贝叶斯公式来进行，贝叶斯网络因此而得名。由于网络的每个弧有一个可信度，贝叶斯网络也被称作信念网络 (belief networks)。</p>
+<h1 id="系列二十-－自然语言处理的教父-马库斯"><a href="#系列二十-－自然语言处理的教父-马库斯" class="headerlink" title="系列二十 －自然语言处理的教父 马库斯"></a>系列二十 －自然语言处理的教父 马库斯</h1><p>2015-09-21 22:43:25<br>PennTree Bank 覆盖多种语言（包括中文）。每一种语言，它有几十万到几百万字的有代表性的句子，每个句子都有的词性标注，语法分析树等等。LDC 语料库如今已成为全世界自然语言处理科学家共用的数据库。如今，在自然语言处理方面发表论文，几乎都要提供基于 LDC 语料库的测试结果。</p>
+<h1 id="系列二十二-由电视剧《暗算》所想到的"><a href="#系列二十二-由电视剧《暗算》所想到的" class="headerlink" title="系列二十二 由电视剧《暗算》所想到的"></a>系列二十二 由电视剧《暗算》所想到的</h1><p>2015-09-21 22:54:10<br>来设计一个密码系统，对这个明码加密。<br>1，找两个很大的素数（质数）P 和 Q，越大越好，比如 100 位长的, 然后计算它们的乘积 N=P×Q，M=（P-1）×（Q-1）。<br>2，找一个和 M 互素的整数 E，也就是说 M 和 E 除了 1 以外没有公约数。<br>3，找一个整数 D，使得 E×D 除以 M 余 1，即 E×D mod M = 1。<br>现在，世界上先进的、最常用的密码系统就设计好了，其中 E 是公钥谁都可以用来加密，D 是私钥用于解密，一定要自己保存好。乘积 N 是公开的，即使敌人知道了也没关系。<br>现在，我们用下面的公式对 X 加密，得到密码 Y。<br>好了，现在没有密钥 D，神仙也无法从 Y 中恢复 X。如果知道 D，根据费尔马小定理，则只要按下面的公式就可以轻而易举地从 Y 中得到 X。</p>
+<hr>
+<p>多看笔记 来自多看阅读 for Kindle<br>多看ID: geosmart</p>
+
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/NLP/" rel="tag"># NLP</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2015/09/21/MySQL%E6%95%B0%E6%8D%AE%E5%BA%93%E4%BD%BF%E7%94%A8%E7%AC%94%E8%AE%B0/" rel="prev" title="MySQL数据库使用笔记">
+      <i class="fa fa-chevron-left"></i> MySQL数据库使用笔记
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/2015/09/26/SublimeText-Markdown%E4%B9%A6%E5%86%99%E5%88%A9%E5%99%A8/" rel="next" title="SublimeText-Markdown书写利器">
+      SublimeText-Markdown书写利器 <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+  </div>
+
+
+          </div>
+          
+    <div class="comments" id="gitalk-container"></div>
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let activeClass = CONFIG.comments.activeClass;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#系列二-—-谈谈中文分词"><span class="nav-number">1.</span> <span class="nav-text">系列二 — 谈谈中文分词</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#系列三-—-隐含马尔可夫模型在语言处理中的应用"><span class="nav-number">2.</span> <span class="nav-text">系列三 — 隐含马尔可夫模型在语言处理中的应用</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#系列-4-—-怎样度量信息"><span class="nav-number">3.</span> <span class="nav-text">系列 4 — 怎样度量信息?</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#系列五-—-简单之美：布尔代数和搜索引擎的索引"><span class="nav-number">4.</span> <span class="nav-text">系列五 — 简单之美：布尔代数和搜索引擎的索引</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#系列六-—-图论和网络爬虫"><span class="nav-number">5.</span> <span class="nav-text">系列六 — 图论和网络爬虫</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#系列七-—-信息论在信息处理中的应用"><span class="nav-number">6.</span> <span class="nav-text">系列七 — 信息论在信息处理中的应用</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#系列八—-贾里尼克的故事和现代语言处理"><span class="nav-number">7.</span> <span class="nav-text">系列八— 贾里尼克的故事和现代语言处理</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#系列九-—-如何确定网页和查询的相关性"><span class="nav-number">8.</span> <span class="nav-text">系列九 — 如何确定网页和查询的相关性</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#系列十-有限状态机和地址识别"><span class="nav-number">9.</span> <span class="nav-text">系列十 有限状态机和地址识别</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#十四-谈谈数学模型的重要性"><span class="nav-number">10.</span> <span class="nav-text">十四 谈谈数学模型的重要性</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#系列十六（上）-不要把所有的鸡蛋放在一个篮子里"><span class="nav-number">11.</span> <span class="nav-text">系列十六（上） 不要把所有的鸡蛋放在一个篮子里</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#系列十六-（下）－-不要把所有的鸡蛋放在一个篮子里"><span class="nav-number">12.</span> <span class="nav-text">系列十六 （下）－ 不要把所有的鸡蛋放在一个篮子里</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#系列十八-－-矩阵运算和文本处理中的分类问题"><span class="nav-number">13.</span> <span class="nav-text">系列十八 － 矩阵运算和文本处理中的分类问题</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#系列十九-－-马尔可夫链的扩展-贝叶斯网络"><span class="nav-number">14.</span> <span class="nav-text">系列十九 － 马尔可夫链的扩展 贝叶斯网络</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#系列二十-－自然语言处理的教父-马库斯"><span class="nav-number">15.</span> <span class="nav-text">系列二十 －自然语言处理的教父 马库斯</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#系列二十二-由电视剧《暗算》所想到的"><span class="nav-number">16.</span> <span class="nav-text">系列二十二 由电视剧《暗算》所想到的</span></a></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">geosmart</p>
+  <div class="site-description" itemprop="description"></div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">199</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+          
+        <span class="site-state-item-count">15</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">118</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+        <a href="https://github.com/geosmart" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;geosmart" rel="noopener" target="_blank"><i class="fa fa-fw fa-github"></i>GitHub</a>
+      </span>
+  </div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2021</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">geosmart</span>
+</div>
+
+        
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/pisces.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+  
+<script src="/js/local-search.js"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+      
+
+<script>
+  if (typeof MathJax === 'undefined') {
+    window.MathJax = {
+      tex: {
+        inlineMath: {'[+]': [['$', '$']]},
+        tags: 'ams'
+      },
+      options: {
+        renderActions: {
+          findScript: [10, doc => {
+            document.querySelectorAll('script[type^="math/tex"]').forEach(node => {
+              const display = !!node.type.match(/; *mode=display/);
+              const math = new doc.options.MathItem(node.textContent, doc.inputJax[0], display);
+              const text = document.createTextNode('');
+              node.parentNode.replaceChild(text, node);
+              math.start = {node: text, delim: '', n: 0};
+              math.end = {node: text, delim: '', n: 0};
+              doc.math.push(math);
+            });
+          }, '', false],
+          insertedScript: [200, () => {
+            document.querySelectorAll('mjx-container').forEach(node => {
+              let target = node.parentNode;
+              if (target.nodeName.toLowerCase() === 'li') {
+                target.parentNode.classList.add('has-jax');
+              }
+            });
+          }, '', false]
+        }
+      }
+    };
+    (function () {
+      var script = document.createElement('script');
+      script.src = '//cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js';
+      script.defer = true;
+      document.head.appendChild(script);
+    })();
+  } else {
+    MathJax.startup.document.state(0);
+    MathJax.texReset();
+    MathJax.typeset();
+  }
+</script>
+
+    
+
+  
+
+<link rel="stylesheet" href="//cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.min.css">
+
+<script>
+NexT.utils.loadComments(document.querySelector('#gitalk-container'), () => {
+  NexT.utils.getScript('//cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.min.js', () => {
+    var gitalk = new Gitalk({
+      clientID    : '8a29a27c357a64ed79fd',
+      clientSecret: 'fe1b781c49fa9037803f3c4d3e94fbb677abac4d',
+      repo        : 'geosmart.github.io',
+      owner       : 'geosmart',
+      admin       : ['geosmart'],
+      id          : '89c28c6003b737240845dd2d1b1aae11',
+        language: 'zh-CN',
+      distractionFreeMode: true
+    });
+    gitalk.render('gitalk-container');
+  }, window.Gitalk);
+});
+</script>
+
+</body>
+</html>

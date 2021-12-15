@@ -1,0 +1,73 @@
+FROM cdh-base:latest as cdh-base
+FROM openjdk:8u282-jdk
+
+SHELL ["/bin/bash", "-o", "pipefail", "-c"]
+
+RUN { \
+    echo "deb http://mirrors.tuna.tsinghua.edu.cn/debian/ buster main contrib non-free"; \
+    echo "deb http://mirrors.tuna.tsinghua.edu.cn/debian/ buster-updates main contrib non-free"; \
+    echo "deb http://mirrors.tuna.tsinghua.edu.cn/debian/ buster-backports main contrib non-free"; \
+    echo "deb http://mirrors.tuna.tsinghua.edu.cn/debian-security buster/updates main contrib non-free"; \
+} > /etc/apt/sources.list
+
+# Install dependencies
+RUN set -ex; \
+  apt-get update; \
+  apt-get -y install python3 python3-pip libsnappy1v5 gettext-base libjemalloc-dev --no-install-recommends; \
+  pip3 install --no-cache-dir -i https://pypi.tuna.tsinghua.edu.cn/simple minio; \
+  rm -rf /var/lib/apt/lists/*
+
+# Grab gosu for easy step-down from root
+
+# github 国内镜像地址 https://hub.fastgit.org
+ENV GOSU_VERSION 1.11
+RUN set -ex; \
+  wget -nv -O /usr/local/bin/gosu "https://hub.fastgit.org/tianon/gosu/releases/download/$GOSU_VERSION/gosu-$(dpkg --print-architecture)"; \
+  wget -nv -O /usr/local/bin/gosu.asc "https://hub.fastgit.org/tianon/gosu/releases/download/$GOSU_VERSION/gosu-$(dpkg --print-architecture).asc"; \
+  export GNUPGHOME="$(mktemp -d)"; \
+  for server in ha.pool.sks-keyservers.net $(shuf -e \
+                          hkp://p80.pool.sks-keyservers.net:80 \
+                          keyserver.ubuntu.com \
+                          hkp://keyserver.ubuntu.com:80 \
+                          pgp.mit.edu) ; do \
+      gpg --batch --keyserver "$server" --recv-keys B42F6819007F00F88E364FD4036A9C25BF357DD4 && break || : ; \
+  done && \
+  gpg --batch --verify /usr/local/bin/gosu.asc /usr/local/bin/gosu; \
+  gpgconf --kill all; \
+  rm -rf "$GNUPGHOME" /usr/local/bin/gosu.asc; \
+  chmod +x /usr/local/bin/gosu; \
+  gosu nobody true
+
+COPY --from=cdh-base /opt/cdh /opt/cdh
+# Prepare environment
+ENV CDH_HOME /opt/cdh
+ENV FLINK_VERSION=1.12.2
+ENV SCALA_VERSION=2.12
+ENV FLINK_HOME=$CDH_HOME/lib/flink-$FLINK_VERSION
+ENV FLINKX_HOME=$CDH_HOME/lib/flinkx-$FLINK_VERSION
+ENV PATH=$FLINK_HOME/bin:$FLINKX_HOME/bin:$PATH
+
+RUN groupadd --system --gid=9999 flink && \
+    useradd --system --home-dir $FLINK_HOME --uid=9999 --gid=flink flink
+
+# Install Flink
+RUN set -ex; \
+  mkdir -p $FLINK_HOME && \
+  wget -N http://domain/installers/flink/flink-${FLINK_VERSION}-bin-scala_${SCALA_VERSION}.tgz -qO- | \
+    tar zxf - --strip-components 1 -C ${FLINK_HOME} ;\
+  chown -R flink:flink $FLINK_HOME;
+
+# Install Flinkx
+RUN set -ex; \
+  mkdir -p $FLINKX_HOME && \
+  wget -N http://domain/installers/flink/flinkx-${FLINK_VERSION}.tgz -qO- | \
+    tar zxf - --strip-components 1 -C ${FLINKX_HOME} ;\
+  chown -R flink:flink $FLINKX_HOME;
+  
+# Configure container
+COPY docker-entrypoint.sh /
+COPY minio_client.py /
+
+WORKDIR $FLINK_HOME
+ENTRYPOINT ["/docker-entrypoint.sh"]
+CMD ["help"]

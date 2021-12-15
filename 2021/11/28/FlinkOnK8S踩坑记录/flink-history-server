@@ -1,0 +1,85 @@
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: flink-hs-cm
+  namespace: FLINK_DEMO
+data:
+  # file-like keys
+  flink-conf.yaml: |
+    ### history server
+    jobmanager.archive.fs.dir: s3a://FLINK_DEMO/__FLINK__/historylog
+    historyserver.archive.fs.dir: s3a://FLINK_DEMO/__FLINK__/historylog
+    historyserver.web.address: 0.0.0.0
+    historyserver.web.port: 18002
+    historyserver.archive.fs.refresh-interval: 1000
+    # filesystem-s3a
+    s3.access-key: {{s3a.ak}}
+    s3.secret-key: {{s3a.sk}}
+    s3.endpoint: {{s3a.endpoint}}
+    s3.path.style.access: true
+
+---
+apiVersion: apps/v1beta1
+kind: Deployment
+metadata:
+  name: flink-history-server
+  namespace: FLINK_DEMO
+spec:
+  replicas: 1
+  template:
+    metadata:
+      name: flink-history-server
+      labels:
+        app: flink-history-server
+    spec:
+      containers:
+        - name: flink-history-server
+          image: flink:latest
+          resources:
+            requests:
+              memory: "512Mi"
+              cpu: "100m"
+          command:
+            - /opt/cdh/lib/flink-1.12.2/bin/historyserver.sh
+            - start-foreground
+          ports:
+            - name: http
+              protocol: TCP
+              containerPort: 18002
+          readinessProbe:
+            timeoutSeconds: 4
+            httpGet:
+              path: /
+              port: http
+          livenessProbe:
+            timeoutSeconds: 4
+            httpGet:
+              path: /
+              port: http
+          volumeMounts:
+            - name: flink-hs-conf
+              mountPath: /opt/cdh/lib/flink-1.12.2/conf/flink-conf.yaml
+              subPath: flink-conf.yaml
+      volumes:
+        - name: flink-hs-conf
+          configMap:
+            name: flink-hs-cm
+            defaultMode: 420
+            items:
+              - key: flink-conf.yaml
+                path: flink-conf.yaml
+---
+kind: Service
+apiVersion: v1
+metadata:
+  name: flink-history-server
+  namespace: FLINK_DEMO
+spec:
+  ports:
+    - nodePort: {{flink.port}}
+      port: 18002
+      targetPort: http
+  type: NodePort
+  selector:
+    app: flink-history-server

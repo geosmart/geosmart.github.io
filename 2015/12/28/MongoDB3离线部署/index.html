@@ -1,0 +1,615 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 4.2.1">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css">
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"geosmart.github.io","root":"/","scheme":"Pisces","version":"7.7.1","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.xml"};
+  </script>
+
+  <meta name="description" content="基于Ops Manager的MongoDB 3.2集群离线部署笔记">
+<meta property="og:type" content="article">
+<meta property="og:title" content="MongoDB3离线部署">
+<meta property="og:url" content="http://geosmart.github.io/2015/12/28/MongoDB3%E7%A6%BB%E7%BA%BF%E9%83%A8%E7%BD%B2/index.html">
+<meta property="og:site_name" content="geosmart.io">
+<meta property="og:description" content="基于Ops Manager的MongoDB 3.2集群离线部署笔记">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://docs.opsmanager.mongodb.com/master/_images/opsmanager-network-diagram-fullsize.png">
+<meta property="og:image" content="https://docs.opsmanager.mongodb.com/master/_images/opsmanager-large.png">
+<meta property="og:image" content="http://geosmart.github.io/2015/12/28/MongoDB3%E7%A6%BB%E7%BA%BF%E9%83%A8%E7%BD%B2/01_deployment.png">
+<meta property="og:image" content="http://geosmart.github.io/2015/12/28/MongoDB3%E7%A6%BB%E7%BA%BF%E9%83%A8%E7%BD%B2/02_statis_chart.png">
+<meta property="og:image" content="http://geosmart.github.io/2015/12/28/MongoDB3%E7%A6%BB%E7%BA%BF%E9%83%A8%E7%BD%B2/03_statis_table.png">
+<meta property="article:published_time" content="2015-12-28T13:03:12.000Z">
+<meta property="article:modified_time" content="2021-12-15T01:13:12.814Z">
+<meta property="article:author" content="geosmart">
+<meta property="article:tag" content="MongoDB">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://docs.opsmanager.mongodb.com/master/_images/opsmanager-network-diagram-fullsize.png">
+
+<link rel="canonical" href="http://geosmart.github.io/2015/12/28/MongoDB3%E7%A6%BB%E7%BA%BF%E9%83%A8%E7%BD%B2/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome: false,
+    isPost: true
+  };
+</script>
+
+  <title>MongoDB3离线部署 | geosmart.io</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <div>
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">geosmart.io</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+        <p class="site-subtitle">勿助勿忘，深造自得</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+<nav class="site-nav">
+  
+  <ul id="menu" class="menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-fw fa-home"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-about">
+
+    <a href="/about/" rel="section"><i class="fa fa-fw fa-user"></i>关于</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="fa fa-fw fa-tags"></i>标签</a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/categories/" rel="section"><i class="fa fa-fw fa-th"></i>分类</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-fw fa-archive"></i>归档</a>
+
+  </li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜索
+        </a>
+      </li>
+  </ul>
+
+</nav>
+  <div class="site-search">
+    <div class="popup search-popup">
+    <div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocorrect="off" autocapitalize="off"
+           placeholder="搜索..." spellcheck="false"
+           type="search" class="search-input">
+  </div>
+  <span class="popup-btn-close">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div id="search-result"></div>
+
+</div>
+<div class="search-pop-overlay"></div>
+
+  </div>
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+  <a href="https://github.com/geosmart" class="github-corner" title="Follow me on GitHub" aria-label="Follow me on GitHub" rel="noopener" target="_blank"><svg width="80" height="80" viewBox="0 0 250 250" aria-hidden="true"><path d="M0,0 L115,115 L130,115 L142,142 L250,250 L250,0 Z"></path><path d="M128.3,109.0 C113.8,99.7 119.0,89.6 119.0,89.6 C122.0,82.7 120.5,78.6 120.5,78.6 C119.2,72.0 123.4,76.3 123.4,76.3 C127.3,80.9 125.5,87.3 125.5,87.3 C122.9,97.6 130.6,101.9 134.4,103.2" fill="currentColor" style="transform-origin: 130px 106px;" class="octo-arm"></path><path d="M115.0,115.0 C114.9,115.1 118.7,116.5 119.8,115.4 L133.7,101.6 C136.9,99.2 139.9,98.4 142.2,98.6 C133.8,88.0 127.5,74.4 143.8,58.0 C148.5,53.4 154.0,51.2 159.7,51.0 C160.3,49.4 163.2,43.6 171.4,40.1 C171.4,40.1 176.1,42.5 178.8,56.2 C183.1,58.6 187.2,61.8 190.9,65.4 C194.5,69.0 197.7,73.2 200.1,77.6 C213.8,80.2 216.3,84.9 216.3,84.9 C212.7,93.1 206.9,96.0 205.4,96.6 C205.1,102.4 203.0,107.8 198.3,112.5 C181.9,128.9 168.3,122.5 157.7,114.1 C157.9,116.9 156.7,120.9 152.7,124.9 L141.0,136.5 C139.8,137.7 141.6,141.9 141.8,141.8 Z" fill="currentColor" class="octo-body"></path></svg></a>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content">
+            
+
+  <div class="posts-expand">
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block " lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://geosmart.github.io/2015/12/28/MongoDB3%E7%A6%BB%E7%BA%BF%E9%83%A8%E7%BD%B2/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="geosmart">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="geosmart.io">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          MongoDB3离线部署
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：28   十二月   2015 21:03:12" itemprop="dateCreated datePublished" datetime="2015-12-28T21:03:12+08:00">28   十二月   2015</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：15   十二月   2021 9:13:12" itemprop="dateModified" datetime="2021-12-15T09:13:12+08:00">15   十二月   2021</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/%E5%AD%98%E5%82%A8%E5%B1%82/" itemprop="url" rel="index"><span itemprop="name">存储层</span></a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <p>基于Ops Manager的MongoDB 3.2集群离线部署笔记</p>
+<hr>
+<a id="more"></a>
+<h1 id="MongoDB3带来的改变"><a href="#MongoDB3带来的改变" class="headerlink" title="MongoDB3带来的改变"></a>MongoDB3带来的改变</h1><p>MongoDB 3.0新版重点主要在效能的提升以及可扩展性，这些改变来自于储存层（Storage Layer）的强化，<br>MongoDB 2.8版本开始引入支持Latch-free、Non-blocking算法的WiredTiger储存引擎，因此可以开始使用新硬件才有的功能，比如大量的高速缓存（On-chip Cache）和多执行架构。<br>MongoDB 3.0 还提供了企业Ops Manager管理工具，用来管理大规模的 MongoDB 架构。</p>
+<h2 id="个人测试"><a href="#个人测试" class="headerlink" title="个人测试"></a>个人测试</h2><ol>
+<li>数据恢复（mongorestore）支持并行导入了，性能有所提升；</li>
+<li>数据存储变成了*.wt后缀的，待确认具体更新；</li>
+</ol>
+<p>MongoDB的管理服务（MMS）是用于监控和备份MongoDB的基础设施服务。其中监控的服务是免费的，备份的服务是需要收费的。</p>
+<h1 id="Ops-Manager"><a href="#Ops-Manager" class="headerlink" title="Ops Manager"></a>Ops Manager</h1><p><code>The Best Way to Run MongoDB: Ops Manager</code><br><a href="https://www.mongodb.com/products/ops-manager">Ops Manager官网</a></p>
+<p>Ops Manager能做什么？</p>
+<blockquote>
+<p>Deployment. Any topology, at any scale<br>Management. Deploy new clusters. Manage, monitor, and back up existing ones<br>Upgrades. In minutes, with no downtime<br>Scaling. Add capacity, without taking the application offline<br>Point-in-time, Scheduled Backups. Restore to any point in time, because disasters aren’t predictable<br>Performance Alerts. Monitor 100+ system metrics and get custom alerts before the system degrades<br>Add Query Optimization. Identify slow-running queries, get index suggestions, automate index builds</p>
+</blockquote>
+<h1 id="安装步骤"><a href="#安装步骤" class="headerlink" title="安装步骤"></a>安装步骤</h1><h2 id="服务器准备"><a href="#服务器准备" class="headerlink" title="服务器准备"></a>服务器准备</h2><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#mms应用服务器</span></span><br><span class="line">192.168.1.80</span><br><span class="line"></span><br><span class="line"><span class="comment">#mms监控数据服务器，Monitor Agent部署</span></span><br><span class="line">192.168.1.51</span><br><span class="line"></span><br><span class="line">192.168.1.52：shard</span><br><span class="line">192.168.1.54：config server</span><br><span class="line">192.168.1.58：mongos</span><br></pre></td></tr></table></figure>
+<h2 id="域名解析配置"><a href="#域名解析配置" class="headerlink" title="域名解析配置"></a>域名解析配置</h2><h3 id="HostName配置-FQDN配置"><a href="#HostName配置-FQDN配置" class="headerlink" title="HostName配置/FQDN配置"></a>HostName配置/FQDN配置</h3><p>FQDN是Fully Qualified Domain Name的缩写, 含义是完整的域名. 例如, 一台机器主机名(hostname)是www, 域后缀(domain)是example.com, 那么该主机的FQDN应该是www.example.com.<br>注意：hosts配置不当，后面server和agent间通讯会存在问题，参考host配置如下：</p>
+<ul>
+<li>server/agent配置(master)</li>
+</ul>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># vim /etc/hosts</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># localhost</span></span><br><span class="line">127.0.0.1 localhost.localdomain localhost</span><br><span class="line"></span><br><span class="line"><span class="comment">#mongodb ops manager server</span></span><br><span class="line">192.168.1.80   opsserver.lt.com opsserver</span><br><span class="line"></span><br><span class="line"><span class="comment">#mongodb ops monitor agent</span></span><br><span class="line">192.168.1.51   opsagent1.lt.com opsagent1</span><br><span class="line">192.168.1.52   opsagent2.lt.com opsagent2</span><br><span class="line">192.168.1.53   opsagent3.lt.com opsagent3</span><br><span class="line">192.168.1.54   opsagent4.lt.com opsagent4</span><br><span class="line">192.168.1.58   opsagent8.lt.com opsagent8</span><br></pre></td></tr></table></figure>
+<h3 id="network配置"><a href="#network配置" class="headerlink" title="network配置"></a>network配置</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># vim /etc/sysconfig/network</span></span><br><span class="line">NETWORKING=yes</span><br><span class="line">HOSTNAME=opsserver</span><br><span class="line">NTPSERVERARGS=iburst</span><br></pre></td></tr></table></figure>
+<h2 id="安装Ops-Manager-Application-Database"><a href="#安装Ops-Manager-Application-Database" class="headerlink" title="安装Ops Manager Application Database"></a>安装Ops Manager Application Database</h2><p>可选：Backup Database</p>
+<p>设置最大文件打开数<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#vim /etc/rc.local</span></span><br><span class="line"><span class="built_in">ulimit</span> -n 65536</span><br></pre></td></tr></table></figure></p>
+<h2 id="安装Ops-Manager集群监控"><a href="#安装Ops-Manager集群监控" class="headerlink" title="　安装Ops Manager集群监控"></a>　安装Ops Manager集群监控</h2><h3 id="关于Ops-Manager"><a href="#关于Ops-Manager" class="headerlink" title="关于Ops Manager"></a>关于Ops Manager</h3><p><a href="https://www.mongodb.com/presentations/webinar-introducing-ops-manager">视频教程</a><br><a href="http://www.slideshare.net/mongodb/ops-manager-webinar-mar-5-2015">视频教程</a></p>
+<p><a href="https://docs.opsmanager.mongodb.com/master/application/">介绍文档</a><br>MongoDB Ops Manager is a service for managing, monitoring and backing up a MongoDB infrastructure. Ops Manager provides the services described here.<br><img src="https://docs.opsmanager.mongodb.com/master/_images/opsmanager-network-diagram-fullsize.png" alt="组成部分"></p>
+<p><img src="https://docs.opsmanager.mongodb.com/master/_images/opsmanager-large.png" alt="Production Install with a Highly Available Ops Manager Application and Multiple Backup Databases¶"></p>
+<p>备注：目前Ops Manager只能完成从无到有的集群部署，sharding集群的shard key等配置需在xshell中手动配置</p>
+<h3 id="centos6安装Ops-Manager"><a href="#centos6安装Ops-Manager" class="headerlink" title="centos6安装Ops Manager"></a>centos6安装Ops Manager</h3><p><a href="https://docs.opsmanager.mongodb.com/current/tutorial/install-on-prem-with-rpm-packages/">RPM安装参考教程</a><br><a href="http://www.ttlsa.com/mms/follow-me-to-use-mongodb-mms-services/">中文配置教程</a></p>
+<ol>
+<li>配置ops manager application data数据服务器（192.168.1.51），安装mongodb并启动服务<br>从其他机器复制mongodb：<code>scp -r root@192.168.1.52:/usr/local/mongodb /usr/local</code></li>
+<li>安装ops manager server<ul>
+<li>复制到<code>mongodb-mms-2.0.0.327-1.x86_64.rpm</code>到<code>/mnt</code></li>
+<li>执行<code>sudo rpm -ivh  /mnt/mongodb-mms-2.0.0.327-1.x86_64.rpm</code>，mms将默认安装到<code>/opt/mongodb/mms/</code></li>
+<li>配置/opt/mongodb/mms/conf/conf-mms.properties,设置mongo.mongoUri等参数</li>
+<li>启动服务<code>sudo service mongodb-mms start</code></li>
+<li>设置mongodb-mms为开机自启动：chkconfig  mongodb-mms  on</li>
+<li>登录http://<host>:8080/注册用户</li>
+</ul>
+</li>
+<li>agent节点分别配置安装automation agent  </li>
+</ol>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#以下具体参数参考http://192.168.1.80:8080/settings/agents/中的Automation选项卡的操作步骤</span></span><br><span class="line"></span><br><span class="line"><span class="comment">#Download the agent</span></span><br><span class="line">curl -OL http://192.168.1.80:8080/download/agent/automation/mongodb-mms-automation-agent-manager-2.5.11.1484-1.x86_64.rpm</span><br><span class="line"><span class="comment">#and install the package.</span></span><br><span class="line">sudo rpm -U mongodb-mms-automation-agent-manager-2.5.11.1484-1.x86_64.rpm</span><br><span class="line"></span><br><span class="line"><span class="comment">#Open the config file</span></span><br><span class="line">sudo vi /etc/mongodb-mms/automation-agent.config</span><br><span class="line"><span class="comment">#配置唯一 API key, Group ID, and Ops Manager Base URL</span></span><br><span class="line">mmsGroupId=568486a424ac2c591d35e00c</span><br><span class="line">mmsApiKey=e4db7d0b6757a704271d04e25748ac41</span><br><span class="line">mmsBaseUrl=http://192.168.1.80:8080</span><br><span class="line"></span><br><span class="line"><span class="comment">#Prepare a directory in which to store your MongoDB data. This directory must be owned by the mongod user. Any directory is fine, but the default is /data. This directory can be created with a command similar to below.</span></span><br><span class="line">sudo mkdir /data</span><br><span class="line">sudo chown mongod:mongod /data</span><br><span class="line"></span><br><span class="line"><span class="comment">#Start the agent.</span></span><br><span class="line">sudo service mongodb-mms-automation-agent start</span><br><span class="line"></span><br><span class="line"><span class="comment">#设置mongodb-mms-automation-agent为开机自启动</span></span><br><span class="line">chkconfig  mongodb-mms-automation-agent on</span><br></pre></td></tr></table></figure>
+<p>其他shard节点可从monitor节点复制automation-agent配置文件：<code>scp root@192.168.1.51:/etc/mongodb-mms/automation-agent.config /etc/mongodb-mms/automation-agent.config</code><br>重启automation-agent服务：<code>sudo service mongodb-mms-automation-agent restart</code></p>
+<ol>
+<li>在web控制台Deployment中选1台性能较好的服务器配置monitoring agent（如在ops manager application data数据服务器）</li>
+<li>zai Deployment模块Add New Cluster,配置mongos,config server和shards</li>
+<li>集群测试<br>服务器主机名regex过滤:(opsagent2|opsagent4|opsagent8)<br>集群服务器配置:mongos:1/mongod:3/config server:1<br>端口配置，shards(27000-28000),mongos(27017)config server(27019)<br>分片数配置<br>配置完成确认执行后，ops会按顺序自动安装部署shard&gt;config server&gt;mongos，再也不用kb手动去安装了！<br>mongodb安装的默认位置：/var/lib/mongodb-mms-automation</li>
+</ol>
+<h3 id="windows-server安装Ops-Manager"><a href="#windows-server安装Ops-Manager" class="headerlink" title="windows server安装Ops Manager"></a>windows server安装Ops Manager</h3><p><a href="https://docs.opsmanager.mongodb.com/current/tutorial/install-on-prem-windows/">参考教程</a></p>
+<ol>
+<li>安装mongodb</li>
+<li>安装Install Ops Manager</li>
+<li>配置<code>C:\MMSData\Server\Config\conf-mms.properties</code>（默认路径）中的<code>mongo.mongoUri</code>等连接配置属性</li>
+<li>在windows服务列表启动服务<code>MongoDB Ops Manager HTTP Service</code></li>
+<li>登录http://<host>:8080/注册用户，admin/1qaz@WSX</li>
+</ol>
+<h3 id="问题记录"><a href="#问题记录" class="headerlink" title="问题记录"></a>问题记录</h3><ol>
+<li>No MongoDB versions have been made available for use in your deployment. Visit the Version Manager to enable MongoDB versions.<br>重新配置，将version manager参数设置为internet而非local</li>
+<li>There are a mix of Agents that are installed manually and managed by your Automation Agents. This configuration is not supported.<br>You will not be able to add new hosts to monitoring or create new automated hosts while in this state. The Agents that should be removed are indicated on the table above.<br>After stopping an Agent it can take up to 5 minutes to take effect.</li>
+<li>添加集群报错： Unable to create member 2 of myShard_0. Unable to find enough servers. Requested port range was 27000 to 27000. Excluding port ranges 27019 to 27019, 27017 to 27017. Please ensure all agents are running.<br>shard server port设置在27000-28000范围内，不能设置为27000</li>
+<li>mongos服务无法启动<br>错误日志：<code>not master or secondary; cannot currently read from this replSet member ns,config.settings query,config.shards query</code><br>解决方案：pkill mongod 强制关闭mongo进程，删除/data目录内的shard数据(不能删automation的数据)，重新添加集群</li>
+<li>shard集群分片测试，目前数据量小，数据存储表现为replica set，待测试分片效果！</li>
+</ol>
+<h1 id="MongoDB离线部署配置"><a href="#MongoDB离线部署配置" class="headerlink" title="MongoDB离线部署配置"></a>MongoDB离线部署配置</h1><p><a href="https://docs.opsmanager.mongodb.com/v2.0/tutorial/configure-local-mode/">Configure Local Mode if Servers Have No Internet Access</a></p>
+<h2 id="设置为Local"><a href="#设置为Local" class="headerlink" title="设置为Local"></a>设置为Local</h2><p>在Ops Manager控制台，单击右上角Admin，General&gt;Ops Manager Config&gt; Miscellaneous&gt;设置Version Manifest Source 为Local<br>设置 Versions Directory存储MongoDB binaries，默认<code>/opt/mongodb/mms/mongodb-releases</code></p>
+<h2 id="下载MongoDB离线Binaries"><a href="#下载MongoDB离线Binaries" class="headerlink" title="下载MongoDB离线Binaries"></a>下载MongoDB离线Binaries</h2><p>cd /opt/mongodb/mms/mongodb-releases<br>curl -OL <a href="http://fastdl.mongodb.org/linux/mongodb-linux-x86_64-rhel62-3.2.0.tgz">http://fastdl.mongodb.org/linux/mongodb-linux-x86_64-rhel62-3.2.0.tgz</a></p>
+<h2 id="设置Versions-Directory目录权限"><a href="#设置Versions-Directory目录权限" class="headerlink" title="设置Versions Directory目录权限"></a>设置Versions Directory目录权限</h2><ol>
+<li>查看目录权限：<code>ls -l /opt/mongodb/mms/mongodb-releases</code></li>
+<li>设置mongodb-mms用户对Versions Directory中文件有读写权限：<code>sudo chown -R  mongodb-mms:mongodb-mms /opt/mongodb/mms/mongodb-releases</code></li>
+</ol>
+<h2 id="编辑conf-mms-properties"><a href="#编辑conf-mms-properties" class="headerlink" title="编辑conf-mms.properties"></a>编辑conf-mms.properties</h2><p>在conf-mms.propertie最后新增两行<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#vim /opt/mongodb/mms/conf/conf-mms.properties</span></span><br><span class="line">automation.versions.source=<span class="built_in">local</span></span><br><span class="line">automation.versions.directory=/opt/mongodb/mms/mongodb-releases/</span><br></pre></td></tr></table></figure></p>
+<h2 id="重启服务"><a href="#重启服务" class="headerlink" title="重启服务"></a>重启服务</h2><p><code>sudo service mongodb-mms restart</code></p>
+<h2 id="部署截图"><a href="#部署截图" class="headerlink" title="部署截图"></a>部署截图</h2><p><img src="01_deployment.png" alt="deployment"><br><img src="02_statis_chart.png" alt="statis_chart"><br><img src="03_statis_table.png" alt="statis_table"></p>
+<h2 id="Version-Manager配置MongoDB版本"><a href="#Version-Manager配置MongoDB版本" class="headerlink" title="Version Manager配置MongoDB版本"></a>Version Manager配置MongoDB版本</h2><p>在Ops Manager控制台，Deployment&gt;Version Manager&gt;选择离线的mongodb版本&gt;Review &amp; Deploy&gt;Confirm &amp; Deploy.</p>
+<h1 id="MongoDB-数据备份与恢复"><a href="#MongoDB-数据备份与恢复" class="headerlink" title="MongoDB 数据备份与恢复"></a>MongoDB 数据备份与恢复</h1><p><a href="https://docs.mongodb.org/manual/tutorial/backup-small-sharded-cluster-with-mongodump/">backup-small-sharded-cluster-with-mongodump</a><br>在mongodb primary节点执行mongorestore<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">cd</span> /var/lib/mongodb-mms-automation/mongodb-linux-x86_64-3.2.0/bin</span><br><span class="line">mongorestore -drop  -d uadb  /mnt/dump/dump/uadb_dump/uadb</span><br><span class="line">mongorestore -drop  -d uadb_attachment  /mnt/dump/dump/uadb_attachment_dump/uadb_attachment</span><br></pre></td></tr></table></figure></p>
+<h1 id="Route-Server配置chunk-size"><a href="#Route-Server配置chunk-size" class="headerlink" title="Route Server配置chunk size"></a>Route Server配置chunk size</h1><p><a href="https://docs.mongodb.org/manual/tutorial/modify-chunk-size-in-sharded-cluster/">参考文档：modify-chunk-size-in-sharded-cluster</a></p>
+<h2 id="注意事项"><a href="#注意事项" class="headerlink" title="注意事项"></a>注意事项</h2><ol>
+<li>Automatic splitting only occurs on insert or update.</li>
+<li>If you lower the chunk size, it may take time for all chunks to split to the new size.</li>
+<li>Splits cannot be undone.</li>
+<li>If you increase the chunk size, existing chunks grow only through insertion or updates until they reach the new size.</li>
+<li>The allowed range of the chunk size is between 1 and 1024 megabytes, inclusive.</li>
+</ol>
+<h2 id="修改步骤"><a href="#修改步骤" class="headerlink" title="修改步骤"></a>修改步骤</h2><figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#连接Route Server(mongos shell)</span></span><br><span class="line"><span class="string">/var/lib/mongodb-mms-automation/mongodb-linux-x86_64-3.2.0/bin/mongo</span> <span class="string">opsagent2.lt.com:27017</span>  </span><br><span class="line"> <span class="comment">#切换到config数据库</span></span><br><span class="line"> <span class="string">use</span> <span class="string">config</span></span><br><span class="line"> <span class="comment">#修改chunk size</span></span><br><span class="line"> <span class="string">db.settings.save(</span> <span class="string">&#123;</span> <span class="string">_id:"chunksize",</span> <span class="attr">value:</span> <span class="string">&lt;sizeInMB&gt;</span> <span class="string">&#125;</span> <span class="string">)</span></span><br><span class="line"> <span class="string">如</span> <span class="string">db.settings.save(</span> <span class="string">&#123;</span> <span class="string">_id:"chunksize",</span> <span class="attr">value:</span> <span class="number">64</span> <span class="string">&#125;</span> <span class="string">)</span></span><br></pre></td></tr></table></figure>
+<h1 id="数据库启用分片：enableSharding"><a href="#数据库启用分片：enableSharding" class="headerlink" title="数据库启用分片：enableSharding"></a>数据库启用分片：enableSharding</h1><p><a href="https://docs.mongodb.org/manual/tutorial/deploy-shard-cluster/">参考文档：deploy-shard-cluster</a><br><figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#连接以mingo连接route server（mongo shell）</span></span><br><span class="line"><span class="string">mongo</span> <span class="string">--host</span> <span class="string">&lt;hostname</span> <span class="string">of</span> <span class="string">machine</span> <span class="string">running</span> <span class="string">mongos&gt;</span> <span class="string">--port</span> <span class="string">&lt;port</span> <span class="string">mongos</span> <span class="string">listens</span> <span class="string">on&gt;</span></span><br><span class="line"><span class="string">如/var/lib/mongodb-mms-automation/mongodb-linux-x86_64-3.2.0/bin/mongo</span> <span class="string">--host</span> <span class="string">opsagent2.lt.com</span> <span class="string">--port</span> <span class="number">27017</span></span><br><span class="line"><span class="comment">#启用分片</span></span><br><span class="line"><span class="string">sh.enableSharding("&lt;database&gt;")</span> <span class="string">或者</span> <span class="string">db.runCommand(</span> <span class="string">&#123;</span> <span class="attr">enableSharding:</span> <span class="string">&lt;database&gt;</span> <span class="string">&#125;</span> <span class="string">)</span></span><br><span class="line"><span class="string">如</span></span><br><span class="line"><span class="string">sh.enableSharding("uadb")</span></span><br><span class="line"><span class="string">sh.enableSharding("uadb_attachment")</span></span><br><span class="line"><span class="string">或</span></span><br><span class="line"><span class="string">use</span> <span class="string">admin</span></span><br><span class="line"><span class="string">db.runCommand(</span> <span class="string">&#123;</span> <span class="attr">enableSharding:</span> <span class="string">"uadb"</span><span class="string">&#125;</span> <span class="string">);</span></span><br><span class="line"><span class="string">db.runCommand(</span> <span class="string">&#123;</span> <span class="attr">enableSharding:</span> <span class="string">"uadb_attachment"</span><span class="string">&#125;</span> <span class="string">);</span></span><br><span class="line"><span class="comment"># collection分片</span></span><br><span class="line"><span class="string">sh.shardCollection("&lt;database&gt;.&lt;collection&gt;",</span> <span class="string">shard-key-pattern)</span></span><br><span class="line"><span class="string">如</span> <span class="string">sh.shardCollection("uadb.AddressNode",</span> <span class="string">&#123;</span> <span class="attr">"_id":</span> <span class="number">1</span><span class="string">,</span> <span class="attr">"ruleabbr":</span> <span class="number">1</span> <span class="string">&#125;</span> <span class="string">)</span></span><br><span class="line"><span class="comment">#查看是否成功启用分片</span></span><br><span class="line"><span class="string">use</span> <span class="string">uadb;</span></span><br><span class="line"><span class="string">db.AddressNode.stats();</span></span><br></pre></td></tr></table></figure></p>
+<h1 id="shard集群测试"><a href="#shard集群测试" class="headerlink" title="shard集群测试"></a>shard集群测试</h1><p><a href="http://janephp.blog.51cto.com/4439680/1330656">Sharding 分片分片测试</a><br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#mongo连接admin库</span></span><br><span class="line">/var/lib/mongodb-mms-automation/mongodb-linux-x86_64-3.2.0/bin/mongo admin --host opsagent2.lt.com --port 27017</span><br><span class="line"></span><br><span class="line"><span class="comment">#设置分片存储数据库</span></span><br><span class="line">sh.enableSharding(<span class="string">"test"</span>)</span><br><span class="line">sh.shardCollection(<span class="string">'test.users'</span>, &#123; <span class="string">"_id"</span>: 1&#125; )</span><br><span class="line"></span><br><span class="line"><span class="comment">#插入测试数据</span></span><br><span class="line">use <span class="built_in">test</span></span><br><span class="line"><span class="keyword">for</span>(var i=1;i&lt;50000;i++) db.users.insert(&#123;age:i,name:<span class="string">'geosmart'</span>,address:<span class="string">'anhui_chuzhou'</span>,country:<span class="string">'china'</span>&#125;)</span><br><span class="line"><span class="comment">#查询分片状态</span></span><br><span class="line">db.users.stats();</span><br></pre></td></tr></table></figure></p>
+
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/MongoDB/" rel="tag"># MongoDB</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2015/12/28/MongoDB%E7%A9%BA%E9%97%B4%E5%88%86%E6%9E%90/" rel="prev" title="MongoDB空间分析">
+      <i class="fa fa-chevron-left"></i> MongoDB空间分析
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/2015/12/28/MongoDB%E6%9D%83%E9%99%90%E9%85%8D%E7%BD%AE/" rel="next" title="MongoDB权限配置">
+      MongoDB权限配置 <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+  </div>
+
+
+          </div>
+          
+    <div class="comments" id="gitalk-container"></div>
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let activeClass = CONFIG.comments.activeClass;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#MongoDB3带来的改变"><span class="nav-number">1.</span> <span class="nav-text">MongoDB3带来的改变</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#个人测试"><span class="nav-number">1.1.</span> <span class="nav-text">个人测试</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Ops-Manager"><span class="nav-number">2.</span> <span class="nav-text">Ops Manager</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#安装步骤"><span class="nav-number">3.</span> <span class="nav-text">安装步骤</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#服务器准备"><span class="nav-number">3.1.</span> <span class="nav-text">服务器准备</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#域名解析配置"><span class="nav-number">3.2.</span> <span class="nav-text">域名解析配置</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#HostName配置-FQDN配置"><span class="nav-number">3.2.1.</span> <span class="nav-text">HostName配置&#x2F;FQDN配置</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#network配置"><span class="nav-number">3.2.2.</span> <span class="nav-text">network配置</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#安装Ops-Manager-Application-Database"><span class="nav-number">3.3.</span> <span class="nav-text">安装Ops Manager Application Database</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#安装Ops-Manager集群监控"><span class="nav-number">3.4.</span> <span class="nav-text">　安装Ops Manager集群监控</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#关于Ops-Manager"><span class="nav-number">3.4.1.</span> <span class="nav-text">关于Ops Manager</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#centos6安装Ops-Manager"><span class="nav-number">3.4.2.</span> <span class="nav-text">centos6安装Ops Manager</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#windows-server安装Ops-Manager"><span class="nav-number">3.4.3.</span> <span class="nav-text">windows server安装Ops Manager</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#问题记录"><span class="nav-number">3.4.4.</span> <span class="nav-text">问题记录</span></a></li></ol></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#MongoDB离线部署配置"><span class="nav-number">4.</span> <span class="nav-text">MongoDB离线部署配置</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#设置为Local"><span class="nav-number">4.1.</span> <span class="nav-text">设置为Local</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#下载MongoDB离线Binaries"><span class="nav-number">4.2.</span> <span class="nav-text">下载MongoDB离线Binaries</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#设置Versions-Directory目录权限"><span class="nav-number">4.3.</span> <span class="nav-text">设置Versions Directory目录权限</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#编辑conf-mms-properties"><span class="nav-number">4.4.</span> <span class="nav-text">编辑conf-mms.properties</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#重启服务"><span class="nav-number">4.5.</span> <span class="nav-text">重启服务</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#部署截图"><span class="nav-number">4.6.</span> <span class="nav-text">部署截图</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Version-Manager配置MongoDB版本"><span class="nav-number">4.7.</span> <span class="nav-text">Version Manager配置MongoDB版本</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#MongoDB-数据备份与恢复"><span class="nav-number">5.</span> <span class="nav-text">MongoDB 数据备份与恢复</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Route-Server配置chunk-size"><span class="nav-number">6.</span> <span class="nav-text">Route Server配置chunk size</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#注意事项"><span class="nav-number">6.1.</span> <span class="nav-text">注意事项</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#修改步骤"><span class="nav-number">6.2.</span> <span class="nav-text">修改步骤</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#数据库启用分片：enableSharding"><span class="nav-number">7.</span> <span class="nav-text">数据库启用分片：enableSharding</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#shard集群测试"><span class="nav-number">8.</span> <span class="nav-text">shard集群测试</span></a></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">geosmart</p>
+  <div class="site-description" itemprop="description"></div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">199</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+          
+        <span class="site-state-item-count">15</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">118</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+        <a href="https://github.com/geosmart" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;geosmart" rel="noopener" target="_blank"><i class="fa fa-fw fa-github"></i>GitHub</a>
+      </span>
+  </div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2021</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">geosmart</span>
+</div>
+
+        
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/pisces.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+  
+<script src="/js/local-search.js"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+      
+
+<script>
+  if (typeof MathJax === 'undefined') {
+    window.MathJax = {
+      tex: {
+        inlineMath: {'[+]': [['$', '$']]},
+        tags: 'ams'
+      },
+      options: {
+        renderActions: {
+          findScript: [10, doc => {
+            document.querySelectorAll('script[type^="math/tex"]').forEach(node => {
+              const display = !!node.type.match(/; *mode=display/);
+              const math = new doc.options.MathItem(node.textContent, doc.inputJax[0], display);
+              const text = document.createTextNode('');
+              node.parentNode.replaceChild(text, node);
+              math.start = {node: text, delim: '', n: 0};
+              math.end = {node: text, delim: '', n: 0};
+              doc.math.push(math);
+            });
+          }, '', false],
+          insertedScript: [200, () => {
+            document.querySelectorAll('mjx-container').forEach(node => {
+              let target = node.parentNode;
+              if (target.nodeName.toLowerCase() === 'li') {
+                target.parentNode.classList.add('has-jax');
+              }
+            });
+          }, '', false]
+        }
+      }
+    };
+    (function () {
+      var script = document.createElement('script');
+      script.src = '//cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js';
+      script.defer = true;
+      document.head.appendChild(script);
+    })();
+  } else {
+    MathJax.startup.document.state(0);
+    MathJax.texReset();
+    MathJax.typeset();
+  }
+</script>
+
+    
+
+  
+
+<link rel="stylesheet" href="//cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.min.css">
+
+<script>
+NexT.utils.loadComments(document.querySelector('#gitalk-container'), () => {
+  NexT.utils.getScript('//cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.min.js', () => {
+    var gitalk = new Gitalk({
+      clientID    : '8a29a27c357a64ed79fd',
+      clientSecret: 'fe1b781c49fa9037803f3c4d3e94fbb677abac4d',
+      repo        : 'geosmart.github.io',
+      owner       : 'geosmart',
+      admin       : ['geosmart'],
+      id          : 'f4b8f7667cbe1f1c8ffc34c871ae6b8a',
+        language: 'zh-CN',
+      distractionFreeMode: true
+    });
+    gitalk.render('gitalk-container');
+  }, window.Gitalk);
+});
+</script>
+
+</body>
+</html>

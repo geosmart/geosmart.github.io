@@ -1,0 +1,2319 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 4.2.1">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css">
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"geosmart.github.io","root":"/","scheme":"Pisces","version":"7.7.1","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.xml"};
+  </script>
+
+  <meta property="og:type" content="website">
+<meta property="og:title" content="geosmart.io">
+<meta property="og:url" content="http://geosmart.github.io/page/6/index.html">
+<meta property="og:site_name" content="geosmart.io">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:author" content="geosmart">
+<meta property="article:tag" content="大数据">
+<meta property="article:tag" content="AI">
+<meta property="article:tag" content="IOT">
+<meta property="article:tag" content="JAVA">
+<meta property="article:tag" content="PYTHON">
+<meta name="twitter:card" content="summary">
+
+<link rel="canonical" href="http://geosmart.github.io/page/6/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome: true,
+    isPost: false
+  };
+</script>
+
+  <title>geosmart.io</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <div>
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">geosmart.io</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+        <p class="site-subtitle">勿助勿忘，深造自得</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+<nav class="site-nav">
+  
+  <ul id="menu" class="menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-fw fa-home"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-about">
+
+    <a href="/about/" rel="section"><i class="fa fa-fw fa-user"></i>关于</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="fa fa-fw fa-tags"></i>标签</a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/categories/" rel="section"><i class="fa fa-fw fa-th"></i>分类</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-fw fa-archive"></i>归档</a>
+
+  </li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜索
+        </a>
+      </li>
+  </ul>
+
+</nav>
+  <div class="site-search">
+    <div class="popup search-popup">
+    <div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocorrect="off" autocapitalize="off"
+           placeholder="搜索..." spellcheck="false"
+           type="search" class="search-input">
+  </div>
+  <span class="popup-btn-close">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div id="search-result"></div>
+
+</div>
+<div class="search-pop-overlay"></div>
+
+  </div>
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+  <a href="https://github.com/geosmart" class="github-corner" title="Follow me on GitHub" aria-label="Follow me on GitHub" rel="noopener" target="_blank"><svg width="80" height="80" viewBox="0 0 250 250" aria-hidden="true"><path d="M0,0 L115,115 L130,115 L142,142 L250,250 L250,0 Z"></path><path d="M128.3,109.0 C113.8,99.7 119.0,89.6 119.0,89.6 C122.0,82.7 120.5,78.6 120.5,78.6 C119.2,72.0 123.4,76.3 123.4,76.3 C127.3,80.9 125.5,87.3 125.5,87.3 C122.9,97.6 130.6,101.9 134.4,103.2" fill="currentColor" style="transform-origin: 130px 106px;" class="octo-arm"></path><path d="M115.0,115.0 C114.9,115.1 118.7,116.5 119.8,115.4 L133.7,101.6 C136.9,99.2 139.9,98.4 142.2,98.6 C133.8,88.0 127.5,74.4 143.8,58.0 C148.5,53.4 154.0,51.2 159.7,51.0 C160.3,49.4 163.2,43.6 171.4,40.1 C171.4,40.1 176.1,42.5 178.8,56.2 C183.1,58.6 187.2,61.8 190.9,65.4 C194.5,69.0 197.7,73.2 200.1,77.6 C213.8,80.2 216.3,84.9 216.3,84.9 C212.7,93.1 206.9,96.0 205.4,96.6 C205.1,102.4 203.0,107.8 198.3,112.5 C181.9,128.9 168.3,122.5 157.7,114.1 C157.9,116.9 156.7,120.9 152.7,124.9 L141.0,136.5 C139.8,137.7 141.6,141.9 141.8,141.8 Z" fill="currentColor" class="octo-body"></path></svg></a>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content">
+            
+
+  <div class="posts-expand">
+        
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://geosmart.github.io/2017/10/04/python%E9%AB%98%E7%BA%A7%E7%89%B9%E6%80%A7/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="geosmart">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="geosmart.io">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          
+            <a href="/2017/10/04/python%E9%AB%98%E7%BA%A7%E7%89%B9%E6%80%A7/" class="post-title-link" itemprop="url">python高级特性</a>
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：5   十月   2017 0:00:00" itemprop="dateCreated datePublished" datetime="2017-10-05T00:00:00+08:00">5   十月   2017</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：15   十二月   2021 9:13:12" itemprop="dateModified" datetime="2021-12-15T09:13:12+08:00">15   十二月   2021</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/%E5%90%8E%E7%AB%AF%E6%8A%80%E6%9C%AF/" itemprop="url" rel="index"><span itemprop="name">后端技术</span></a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <p>python高级特性之GIL全局解释锁，concurrent多线程</p>
+<hr>
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/2017/10/04/python%E9%AB%98%E7%BA%A7%E7%89%B9%E6%80%A7/#more" rel="contents">
+                阅读全文 &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+        
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://geosmart.github.io/2017/10/04/%E5%89%8D%E7%AB%AF%E5%B7%A5%E7%A8%8B%E5%8C%96%E5%B7%A5%E5%85%B7/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="geosmart">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="geosmart.io">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          
+            <a href="/2017/10/04/%E5%89%8D%E7%AB%AF%E5%B7%A5%E7%A8%8B%E5%8C%96%E5%B7%A5%E5%85%B7/" class="post-title-link" itemprop="url">前端工程化工具</a>
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：5   十月   2017 0:00:00" itemprop="dateCreated datePublished" datetime="2017-10-05T00:00:00+08:00">5   十月   2017</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：15   十二月   2021 9:13:12" itemprop="dateModified" datetime="2021-12-15T09:13:12+08:00">15   十二月   2021</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/%E5%89%8D%E7%AB%AF%E6%8A%80%E6%9C%AF/" itemprop="url" rel="index"><span itemprop="name">前端技术</span></a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <p>前端工程化框架/工具</p>
+<hr>
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/2017/10/04/%E5%89%8D%E7%AB%AF%E5%B7%A5%E7%A8%8B%E5%8C%96%E5%B7%A5%E5%85%B7/#more" rel="contents">
+                阅读全文 &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+        
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://geosmart.github.io/2017/10/02/MySQL%E6%95%B0%E6%8D%AE%E5%BA%93%E4%BC%98%E5%8C%96/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="geosmart">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="geosmart.io">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          
+            <a href="/2017/10/02/MySQL%E6%95%B0%E6%8D%AE%E5%BA%93%E4%BC%98%E5%8C%96/" class="post-title-link" itemprop="url">MySQL数据库优化</a>
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：3   十月   2017 0:00:00" itemprop="dateCreated datePublished" datetime="2017-10-03T00:00:00+08:00">3   十月   2017</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：15   十二月   2021 9:13:12" itemprop="dateModified" datetime="2021-12-15T09:13:12+08:00">15   十二月   2021</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/%E5%AD%98%E5%82%A8%E5%B1%82/" itemprop="url" rel="index"><span itemprop="name">存储层</span></a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <p>MySQL优化技术：负载均衡，读写分类，分库分表，索引优化…</p>
+<hr>
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/2017/10/02/MySQL%E6%95%B0%E6%8D%AE%E5%BA%93%E4%BC%98%E5%8C%96/#more" rel="contents">
+                阅读全文 &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+        
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://geosmart.github.io/2017/10/02/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0%E6%96%B9%E6%B3%95%E8%AE%BA/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="geosmart">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="geosmart.io">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          
+            <a href="/2017/10/02/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0%E6%96%B9%E6%B3%95%E8%AE%BA/" class="post-title-link" itemprop="url">机器学习方法论</a>
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：3   十月   2017 0:00:00" itemprop="dateCreated datePublished" datetime="2017-10-03T00:00:00+08:00">3   十月   2017</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：15   十二月   2021 9:13:12" itemprop="dateModified" datetime="2021-12-15T09:13:12+08:00">15   十二月   2021</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/" itemprop="url" rel="index"><span itemprop="name">机器学习</span></a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <p>机器学习中监督学习（分类/回归）/非监督学习（聚类/降维）的常算法</p>
+<hr>
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/2017/10/02/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0%E6%96%B9%E6%B3%95%E8%AE%BA/#more" rel="contents">
+                阅读全文 &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+        
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://geosmart.github.io/2017/10/02/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0%E6%95%B0%E5%AD%A6%E5%9F%BA%E7%A1%80/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="geosmart">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="geosmart.io">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          
+            <a href="/2017/10/02/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0%E6%95%B0%E5%AD%A6%E5%9F%BA%E7%A1%80/" class="post-title-link" itemprop="url">机器学习数学基础</a>
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：3   十月   2017 0:00:00" itemprop="dateCreated datePublished" datetime="2017-10-03T00:00:00+08:00">3   十月   2017</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：15   十二月   2021 9:13:12" itemprop="dateModified" datetime="2021-12-15T09:13:12+08:00">15   十二月   2021</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/" itemprop="url" rel="index"><span itemprop="name">机器学习</span></a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <p>记录机器学习数学概念/公式</p>
+<hr>
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/2017/10/02/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0%E6%95%B0%E5%AD%A6%E5%9F%BA%E7%A1%80/#more" rel="contents">
+                阅读全文 &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+        
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://geosmart.github.io/2017/10/02/Nodejs%E5%85%A5%E9%97%A8%E7%AC%94%E8%AE%B0/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="geosmart">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="geosmart.io">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          
+            <a href="/2017/10/02/Nodejs%E5%85%A5%E9%97%A8%E7%AC%94%E8%AE%B0/" class="post-title-link" itemprop="url">Nodejs入门笔记</a>
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：3   十月   2017 0:00:00" itemprop="dateCreated datePublished" datetime="2017-10-03T00:00:00+08:00">3   十月   2017</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：15   十二月   2021 9:13:12" itemprop="dateModified" datetime="2021-12-15T09:13:12+08:00">15   十二月   2021</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/%E5%89%8D%E7%AB%AF%E6%8A%80%E6%9C%AF/" itemprop="url" rel="index"><span itemprop="name">前端技术</span></a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <p> Everything runs in parallel except your code!</p>
+<hr>
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/2017/10/02/Nodejs%E5%85%A5%E9%97%A8%E7%AC%94%E8%AE%B0/#more" rel="contents">
+                阅读全文 &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+        
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://geosmart.github.io/2017/10/02/%E7%B3%BB%E7%BB%9F%E8%AE%BE%E8%AE%A1%E9%97%AE%E9%A2%98%E8%AE%B0%E5%BD%95/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="geosmart">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="geosmart.io">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          
+            <a href="/2017/10/02/%E7%B3%BB%E7%BB%9F%E8%AE%BE%E8%AE%A1%E9%97%AE%E9%A2%98%E8%AE%B0%E5%BD%95/" class="post-title-link" itemprop="url">系统设计问题记录</a>
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：3   十月   2017 0:00:00" itemprop="dateCreated datePublished" datetime="2017-10-03T00:00:00+08:00">3   十月   2017</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：15   十二月   2021 9:13:12" itemprop="dateModified" datetime="2021-12-15T09:13:12+08:00">15   十二月   2021</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/%E6%96%B9%E6%B3%95%E8%AE%BA/" itemprop="url" rel="index"><span itemprop="name">方法论</span></a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <p>记录遇到的系统设计问题，如内部支撑系统、2B的数据服务系统以及通用的系统设计问题</p>
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/2017/10/02/%E7%B3%BB%E7%BB%9F%E8%AE%BE%E8%AE%A1%E9%97%AE%E9%A2%98%E8%AE%B0%E5%BD%95/#more" rel="contents">
+                阅读全文 &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+        
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://geosmart.github.io/2017/10/01/JMS%E6%B6%88%E6%81%AF%E4%B8%AD%E9%97%B4%E4%BB%B6/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="geosmart">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="geosmart.io">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          
+            <a href="/2017/10/01/JMS%E6%B6%88%E6%81%AF%E4%B8%AD%E9%97%B4%E4%BB%B6/" class="post-title-link" itemprop="url">JMS消息中间件</a>
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2   十月   2017 0:00:00" itemprop="dateCreated datePublished" datetime="2017-10-02T00:00:00+08:00">2   十月   2017</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：15   十二月   2021 9:13:12" itemprop="dateModified" datetime="2021-12-15T09:13:12+08:00">15   十二月   2021</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/%E4%B8%AD%E9%97%B4%E4%BB%B6/" itemprop="url" rel="index"><span itemprop="name">中间件</span></a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <p>JMS即Java消息服务（Java Message Service）应用程序接口是一个Java平台中关于面向消息中间件（MOM）的API，用于在两个应用程序之间，或分布式系统中发送消息，进行异步通信。<br>Java消息服务是一个与具体平台无关的API，绝大多数MOM提供商都对JMS提供支持。</p>
+<blockquote>
+<p>JMS (Java Message Service) is an API that provides the facility to create， send and read messages。<br>It provides loosely coupled（松耦合）， reliable（可靠） and asynchronous（异步） communication。</p>
+</blockquote>
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/2017/10/01/JMS%E6%B6%88%E6%81%AF%E4%B8%AD%E9%97%B4%E4%BB%B6/#more" rel="contents">
+                阅读全文 &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+        
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://geosmart.github.io/2017/09/16/Web%E5%BC%80%E5%8F%91%E5%B8%B8%E7%94%A8%E5%8D%8F%E8%AE%AE/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="geosmart">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="geosmart.io">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          
+            <a href="/2017/09/16/Web%E5%BC%80%E5%8F%91%E5%B8%B8%E7%94%A8%E5%8D%8F%E8%AE%AE/" class="post-title-link" itemprop="url">Web开发常用协议</a>
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：17   九月   2017 0:00:00" itemprop="dateCreated datePublished" datetime="2017-09-17T00:00:00+08:00">17   九月   2017</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：15   十二月   2021 9:13:12" itemprop="dateModified" datetime="2021-12-15T09:13:12+08:00">15   十二月   2021</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/%E7%BD%91%E7%BB%9C%E6%8A%80%E6%9C%AF/" itemprop="url" rel="index"><span itemprop="name">网络技术</span></a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <p>整理常用网络协议OSI七层协议，TCP-IP协议组，UDP，Socket，WebSocket，Http，Https，三次握手，长连接</p>
+<hr>
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/2017/09/16/Web%E5%BC%80%E5%8F%91%E5%B8%B8%E7%94%A8%E5%8D%8F%E8%AE%AE/#more" rel="contents">
+                阅读全文 &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+        
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://geosmart.github.io/2017/08/12/%E9%80%BB%E8%BE%91%E5%9B%9E%E5%BD%92-%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="geosmart">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="geosmart.io">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          
+            <a href="/2017/08/12/%E9%80%BB%E8%BE%91%E5%9B%9E%E5%BD%92-%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/" class="post-title-link" itemprop="url">逻辑回归-学习笔记</a>
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：13   八月   2017 0:00:00" itemprop="dateCreated datePublished" datetime="2017-08-13T00:00:00+08:00">13   八月   2017</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：15   十二月   2021 9:13:12" itemprop="dateModified" datetime="2021-12-15T09:13:12+08:00">15   十二月   2021</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/" itemprop="url" rel="index"><span itemprop="name">机器学习</span></a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <h1 id="逻辑回归-学习笔记"><a href="#逻辑回归-学习笔记" class="headerlink" title="逻辑回归-学习笔记"></a>逻辑回归-学习笔记</h1><p>学习任何东西都可以按照3W的框架进行，容器技术也是一样，先回答 What、Why 和 How 这三个问题。</p>
+<h2 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h2><ul>
+<li><a href="http://www.cnblogs.com/pinard/p/6029432.html">逻辑回归原理</a></li>
+<li><a href="http://m.blog.csdn.net/pakko/article/details/37878837">逻辑回归</a></li>
+<li><a href="https://gist.github.com/vietjtnguyen/6655020">Fun with Logistic Regression.ipynb</a></li>
+</ul>
+<h1 id="概述"><a href="#概述" class="headerlink" title="概述"></a>概述</h1><p>辑回归是一个分类算法，它可以处理二元分类以及多元分类。<br>虽然它名字里面有“回归”两个字，却不是一个回归算法。<br>那为什么有“回归”这个误导性的词呢？<br>个人认为，虽然逻辑回归是分类模型，但是它的原理里面却残留着回归模型的影子，</p>
+<h2 id="从线性回归到逻辑回归"><a href="#从线性回归到逻辑回归" class="headerlink" title="从线性回归到逻辑回归"></a>从线性回归到逻辑回归</h2><p>线性回归的模型是求出<code>输出特征向量Y</code>和<code>输入样本矩阵X</code>之间的<code>线性关系系数θ</code>，满足$Y=X     heta$。<br>此时我们的$Y$是连续的，所以是回归模型。<br>如果我们想要$Y$是离散的话，怎么办呢？我们对于Y再做一次函数转换，变为$g(Y)$。</p>
+<blockquote>
+<p>如果我们令$g(Y)$的值在某个实数区间的时候是类别A，在另一个实数区间的时候是类别B，以此类推，就得到了一个分类模型。如果结果的类别只有两种，那么就是一个二元分类模型了。<br>逻辑回归的出发点就是从这来的。</p>
+</blockquote>
+<h1 id="二元逻辑回归的模型"><a href="#二元逻辑回归的模型" class="headerlink" title="二元逻辑回归的模型"></a>二元逻辑回归的模型</h1><p>对线性回归的结果做一个在函数g上的转换，可以变化为逻辑回归。<br>这个函数g在逻辑回归中我们一般取为sigmoid函数，形式如下：</p>
+<script type="math/tex; mode=display">g(z) = rac {1} {1+e^{-z}}</script><h3 id="模型性质"><a href="#模型性质" class="headerlink" title="模型性质"></a>模型性质</h3><ol>
+<li>当z趋于正无穷时，g(z)趋于1；当z趋于负无穷时，g(z)趋于0（这非常适合分类概率模型）</li>
+<li>对g(z)求导可得到：$g′(z)=g(z)(1−g(z))  $，如果令g(z)中的z为：$z=xθ$，这样就得到了二元逻辑回归模型的一般形式：<script type="math/tex; mode=display">h_{    heta}(x) = rac {1} {1+e^{-x    heta}}</script>其中$x$为样本输入，$h<em>    heta(x)$为模型输出，可以理解为某一分类的概率大小。而$θ$为分类模型的要求出的模型参数。<br>对于模型输出$h</em>    heta(x)$，我们让它和我们的二元样本输出$y$（假设为0和1）有这样的对应关系，<br>如果$h<em>    heta(x)&gt;0.5 $，即$x</em>    heta&gt;0$, 则$y$为1。<br>如果$h<em>    heta(x)&lt;0.5$，即$x</em>    heta&lt;0$, 则$y$为0。<br>$y=0.5$是临界情况，此时$x_    heta=0$， 从逻辑回归模型本身无法确定分类。</li>
+</ol>
+<blockquote>
+<p>$h_    heta(x)$的值越小，而分类为0的的概率越高，反之，值越大的话分类为1的的概率越高。<br>如果靠近临界点，则分类准确率会下降。</p>
+</blockquote>
+<ol>
+<li>模型的矩阵模式：<script type="math/tex; mode=display">h_{    heta}(X) = rac {1} {1+e^{-X    heta}}</script>其中$h_    heta(x)$为模型输出，为$m<em>1$的维度。$X$为样本特征矩阵，为$m</em>n$的维度。$    heta$为分类的模型系数，为$n*1$的向量。</li>
+</ol>
+<p>理解了二元分类回归的模型，就要看模型的损失函数，我们的目标是极小化损失函数来得到对应的模型系数$    heta$。</p>
+<h1 id="二元逻辑回归的损失函数"><a href="#二元逻辑回归的损失函数" class="headerlink" title="二元逻辑回归的损失函数"></a>二元逻辑回归的损失函数</h1><p>由于线性回归是连续的，所以可以使用<code>模型误差的的平方和</code>来定义损失函数。<br>但是逻辑回归不是连续的，自然线性回归损失函数定义的经验就用不上了。<br>不过我们可以用<code>最大似然法</code>来推导出我们的损失函数。</p>
+<p>按照二元逻辑回归的定义，假设我们的样本输出是0或者1两类。那么我们有：</p>
+<script type="math/tex; mode=display">P(y=1|x,    heta ) = h_{    heta}(x)</script><script type="math/tex; mode=display">P(y=0|x,    heta ) = 1- h_{    heta}(x)</script><p>把这两个式子写成一个式子：<script type="math/tex">P(y|x,    heta ) = h_{    heta}(x)^y(1-h_{    heta}(x))^{1-y}</script><br>其中$y$的取值只能是0或者1。<br>用矩阵法表示，即为：<script type="math/tex">P(Y|X,    heta ) = h_{    heta}(X)^Y(E-h_{    heta}(X))^{1-Y}</script><br>其中$E$为单位矩阵。<br>得到了$y$的概率分布函数表达式，我们就可以用<code>似然函数最大化</code>来求解我们需要的模型系数$    heta$。<br>为了方便求解，这里我们用对数似然函数最大化，对数似然函数取反即为我们的损失函数$J(    heta)$。其中：<br>似然函数的代数表达式为：</p>
+<script type="math/tex; mode=display">L(    heta) = \prod\limits_{i=1}^{m}(h_{    heta}(x^{(i)}))^{y^{(i)}}(1-h_{    heta}(x^{(i)}))^{1-y^{(i)}}</script><p>其中m为样本的个数。</p>
+<p>对<code>似然函数对数化取反</code>的表达式，即损失函数表达式为：</p>
+<script type="math/tex; mode=display">J(    heta) = -lnL(    heta) = -\sum\limits_{i=1}^{m}(y^{(i)}log(h_{    heta}(x^{(i)}))+ (1-y^{(i)})log(1-h_{    heta}(x^{(i)})))</script><p>损失函数用<code>矩阵法</code>表达更加简洁：</p>
+<script type="math/tex; mode=display">J(    heta) = -Yullet log(h_{    heta}(X)) - (E-Y)ullet log(E-h_{    heta}(X))</script><p>其中E为单位矩阵$ullet$为内积。</p>
+<h1 id="二元逻辑回归的损失函数的优化方法"><a href="#二元逻辑回归的损失函数的优化方法" class="headerlink" title="二元逻辑回归的损失函数的优化方法"></a>二元逻辑回归的损失函数的优化方法</h1><p>对于二元逻辑回归的损失函数极小化，有比较多的方法，最常见的有<code>梯度下降法</code>，<code>坐标轴下降法</code>，<code>等牛顿法</code>等。<br>这里推导出梯度下降法中$    heta$每次迭代的公式。<br>由于代数法推导比较的繁琐，我习惯于用<code>矩阵法</code>来做损失函数的优化过程，<br>这里给出<code>矩阵法推导二元逻辑回归梯度</code>的过程。</p>
+<p>对于$J(    heta) = -Yullet log(h<em>{    heta}(X)) - (E-Y)ullet log(E-h</em>{    heta}(X))$，<br>我们用$J(    heta)$对$    heta$向量求导可得：</p>
+<script type="math/tex; mode=display">rac{\partial}{\partial    heta}J(    heta) = -Y ullet X^Trac{1}{h_{    heta}(X)}h_{    heta}(X)(1-h_{    heta}(X)) + (E-Y)ullet X^Trac{1}{1-h_{    heta}(X)}h_{    heta}(X)(1-h_{    heta}(X)) = X^T(h_{    heta}(X) - Y )</script><p>这一步我们用到了矩阵求导的链式法则，和下面三个矩阵求导公式：</p>
+<ul>
+<li>$rac{\partial}{\partial X}logX = rac{1}{X}$</li>
+<li>$rac{\partial}{\partial z}g(z) = g(z)(1-g(z))$，   (g(z)为sigmoid函数)</li>
+<li>$rac{\partial}{\partial    heta}X    heta = X^T$</li>
+</ul>
+<p>从而在梯度下降法中每一步向量$    heta$的迭代公式如下：</p>
+<script type="math/tex; mode=display">heta =     heta - lpha X^T(h_{    heta}(X) - Y )</script><p>其中，$lpha$为梯度下降法的步长。<br>实践中，我们一般不用操心优化方法，大部分机器学习库都内置了各种逻辑回归的优化方法，不过了解至少一种优化方法还是有必要的。
+　　　　</p>
+<h1 id="二元逻辑回归的正则化"><a href="#二元逻辑回归的正则化" class="headerlink" title="二元逻辑回归的正则化"></a>二元逻辑回归的正则化</h1><p>逻辑回归也会面临<code>过拟合问题</code>，所以我们也要考虑正则化。常见的有L1正则化和L2正则化。<br>逻辑回归的<code>L1正则化</code>的损失函数表达式如下，相比普通的逻辑回归损失函数，增加了L1的范数做作为惩罚，超参数$lpha$作为惩罚系数，调节惩罚项的大小。</p>
+<p>二元逻辑回归的L1正则化损失函数表达式如下：</p>
+<script type="math/tex; mode=display">J(    heta) = -Yullet logh_{    heta}(X) - (E-Y)ullet log(1-h_{    heta}(X)) + lpha||    heta||_1</script><p>其中$||    heta||_1$为$    heta$的<code>L1范数</code>。<br>逻辑回归的L1正则化损失函数的优化方法常用的有<code>坐标轴下降法</code>和<code>最小角回归法</code>。</p>
+<p>二元逻辑回归的L2正则化损失函数表达式如下：</p>
+<script type="math/tex; mode=display">J(    heta) = -Yullet logh_{    heta}(X) - (E-Y)ullet log(1-h_{    heta}(X)) + rac{1}{2}lpha||    heta||_2^2</script><p>其中$||    heta||_2$为$    heta$的<code>L2范数</code>。<br>逻辑回归的L2正则化损失函数的优化方法和普通的逻辑回归类似。</p>
+<h1 id="二元逻辑回归的推广：多元逻辑回归"><a href="#二元逻辑回归的推广：多元逻辑回归" class="headerlink" title="二元逻辑回归的推广：多元逻辑回归"></a>二元逻辑回归的推广：多元逻辑回归</h1><p>二元逻辑回归的模型和损失函数很容易推广到多元逻辑回归。</p>
+<ul>
+<li>比如总是认为某种类型为正值，其余为0值，这种方法为最常用的是<code>one-vs-reset(OvR)</code>.</li>
+<li><code>Many-vs-Many(MvM)</code>，它会选择一部分类别的样本和另一部分类别的样本来做逻辑回归二分类。</li>
+<li>最常用的是<code>One-Vs-One（OvO）</code>。OvO是MvM的特例。</li>
+</ul>
+<p>我们选择两类样本来做二元逻辑回归，具体如下：<br>首先回顾下二元逻辑回归。</p>
+<script type="math/tex; mode=display">P(y=1|x,    heta ) = h_{    heta}(x) =  rac{1}{1+e^{-x    heta}} = rac{e^{x    heta}}{1+e^{x    heta}}</script><script type="math/tex; mode=display">P(y=0|x,    heta ) = 1- h_{    heta}(x) = rac{1}{1+e^{x    heta}}</script><p>其中$y$只能取到0和1。则有：</p>
+<script type="math/tex; mode=display">lnrac{P(y=1|x,    heta )}{P(y=0|x,    heta)} = x    heta</script><p>如果我们要推广到多元逻辑回归，则模型要稍微做下扩展。<br>我们假设是K元分类模型,即样本输出y的取值为1，2，。。。，K。<br>根据二元逻辑回归的经验，我们有：</p>
+<script type="math/tex; mode=display">lnrac{P(y=1|x,    heta )}{P(y=K|x,    heta)} = x    heta</script><script type="math/tex; mode=display">lnrac{P(y=2|x,    heta )}{P(y=K|x,    heta)} = x    heta</script><script type="math/tex; mode=display">...</script><script type="math/tex; mode=display">lnrac{P(y=K-1|x,    heta )}{P(y=K|x,    heta)} = x    heta_{K-1}</script><p>上面有K-1个方程。<br>加上概率之和为1的方程如下：</p>
+<script type="math/tex; mode=display">\sum\limits_{i=1}^{K}P(y=i|x,    heta ) = 1</script><p>从而得到K个方程，里面有K个逻辑回归的概率分布。<br>解出这个K元一次方程组，得到K元逻辑回归的概率分布如下：</p>
+<script type="math/tex; mode=display">P(y=k|x,    heta ) =  e^{x    heta_k} igg/ 1+\sum\limits_{t=1}^{K-1}e^{x    heta_t},k = 1,2,...K-1</script><script type="math/tex; mode=display">P(y=K|x,    heta ) =  1 igg/ 1+\sum\limits_{t=1}^{K-1}e^{x    heta_t}</script><p>多元逻辑回归的损失函数推导以及优化方法和二元逻辑回归类似</p>
+<h1 id="scikit-learn中的逻辑回归实践"><a href="#scikit-learn中的逻辑回归实践" class="headerlink" title="scikit-learn中的逻辑回归实践"></a>scikit-learn中的逻辑回归实践</h1><p><a href="http://www.cnblogs.com/pinard/p/6035872.html">http://www.cnblogs.com/pinard/p/6035872.html</a></p>
+<h1 id="逻辑回归的优缺点"><a href="#逻辑回归的优缺点" class="headerlink" title="逻辑回归的优缺点"></a>逻辑回归的优缺点</h1><p>逻辑回归尤其是二元逻辑回归是非常常见的模型，训练速度很快，<br>虽然使用起来没有支持向量机（SVM）那么占主流，但是解决普通的分类问题是足够了，训练速度也比起SVM要快不少。<br>如果你要理解机器学习分类算法，那么第一个应该学习的分类算法个人觉得应该是逻辑回归。<br>理解了逻辑回归，其他的分类算法再学习起来应该没有那么难了。</p>
+<h2 id="优点"><a href="#优点" class="headerlink" title="优点"></a>优点</h2><ul>
+<li>实现简单，易于理解和实现；计算代价不高，速度很快，存储资源低；</li>
+<li>实现简单，广泛的应用于工业问题上；</li>
+<li>分类时计算量非常小，速度很快，存储资源低；</li>
+<li>便利的观测样本概率分数；</li>
+<li>对逻辑回归而言，多重共线性并不是问题，它可以结合L2正则化来解决该问题；</li>
+</ul>
+<h2 id="缺点"><a href="#缺点" class="headerlink" title="缺点"></a>缺点</h2><ul>
+<li><p>容易欠拟合，分类精度可能不高<br>why：数据问题？正负样本不均衡，特征不具代表性?</p>
+</li>
+<li><p>过拟合如何处理<br>方法一：尽量减少选取变量的数量<br>方法二：正则化</p>
+</li>
+</ul>
+<h1 id="逻辑回归的应用"><a href="#逻辑回归的应用" class="headerlink" title="逻辑回归的应用"></a>逻辑回归的应用</h1>
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+        
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://geosmart.github.io/2017/07/25/GBDT%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="geosmart">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="geosmart.io">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          
+            <a href="/2017/07/25/GBDT%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/" class="post-title-link" itemprop="url">GBDT学习笔记</a>
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：26   七月   2017 0:00:00" itemprop="dateCreated datePublished" datetime="2017-07-26T00:00:00+08:00">26   七月   2017</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：15   十二月   2021 9:13:12" itemprop="dateModified" datetime="2021-12-15T09:13:12+08:00">15   十二月   2021</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/" itemprop="url" rel="index"><span itemprop="name">机器学习</span></a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <h1 id="GBDT学习笔记"><a href="#GBDT学习笔记" class="headerlink" title="GBDT学习笔记"></a>GBDT学习笔记</h1><p>学习任何东西都可以按照3W的框架进行，容器技术也是一样，先回答 What、Why 和 How 这三个问题。</p>
+<p>参考：<br>video：<a href="https://www.youtube.com/watch?v=IXZKgIsZRm0&amp;ab_channel=PyData">https://www.youtube.com/watch?v=IXZKgIsZRm0&amp;ab_channel=PyData</a></p>
+<p>在说GBDT前，我们先说下它的俩前缀Gradient Boosting：</p>
+<ul>
+<li>Boosting: 这是一种迭代算法，每一次训练都是在前面已有模型的预测基础上进行。<br>最简单地说，先训练一个初始模型，对比真实值和预测值的残差；用残差再训练一个模型，再计算残差；再训练……。这样，每一个模型都专注于修正前面模型最不给力的效果方面。<br>于是，通过这种方式联合多个弱分类器，就能得到一个强分类器。</li>
+<li>Gradient: 梯度。对于单个变量来说，就是一阶导数。<br>前面Boosting要计算残差，方法就很多了，你可以直接相减，也可以定义个函数。这里Gradient就是说用梯度来计算残差。</li>
+</ul>
+<p>所以说Gradient Boosting是一种算法框架，它是<code>用Grdient计算残差的Boosting过程，而GBDT只是用决策树来训练的一种具体实现</code>。</p>
+<h1 id="概念定义-what"><a href="#概念定义-what" class="headerlink" title="概念定义 what"></a>概念定义 what</h1><h2 id="ensemble-learning（集成学习）"><a href="#ensemble-learning（集成学习）" class="headerlink" title="ensemble learning（集成学习）"></a>ensemble learning（集成学习）</h2><p>从下图，我们可以对集成学习的思想做一个概括。对于训练集数据，我们通过训练若干个个体学习器，通过一定的结合策略，就可以最终形成一个强学习器，以达到博采众长的目的。<br><img src="ensemble learning（集成学习）.png" alt="ensemble learning（集成学习）"><br>也就是说，集成学习有两个主要的问题需要解决，<br>第一是如何得到若干个个体学习器，<br>第二是如何选择一种结合策略，将这些个体学习器集合成一个强学习器。</p>
+<h3 id="集成学习之个体学习器"><a href="#集成学习之个体学习器" class="headerlink" title="集成学习之个体学习器"></a>集成学习之个体学习器</h3><p>如何得到若干个个体学习器？ 这里我们有两种选择。</p>
+<ol>
+<li>第一种就是所有的个体学习器都是一个种类的，或者说是<code>同质</code>的。比如都是决策树个体学习器，或者都是神经网络个体学习器。<br>同质个体学习器使用最多的模型是<code>CART决策树</code>和<code>神经网络</code>。<br>同质个体学习器按照个体学习器之间<code>是否存在依赖关系</code>可以分为两类，<ul>
+<li>第一个是个体学习器之间存在强依赖关系，一系列个体学习器基本都需要串行生成，代表算法是<code>boosting</code>系列算法，</li>
+<li>第二个是个体学习器之间不存在强依赖关系，一系列个体学习器可以并行生成，代表算法是<code>bagging</code>和<code>随机森林（Random Forest）</code>系列算法。</li>
+</ul>
+</li>
+<li>第二种是所有的个体学习器不全是一个种类的，或者说是<code>异质</code>的。比如我们有一个分类问题，对训练集采用<code>支持向量机个体学习器，逻辑回归个体学习器和朴素贝叶斯个体学习器</code>来学习，再通过某种结合策略来确定最终的分类强学习器。</li>
+</ol>
+<blockquote>
+<p>目前来说，同质个体学习器的应用是最广泛的，一般我们常说的集成学习的方法都是指的同质个体学习器。</p>
+</blockquote>
+<h2 id="集成学习之boosting"><a href="#集成学习之boosting" class="headerlink" title="集成学习之boosting"></a>集成学习之boosting</h2><p>Boosting 是迭代算法，每一次迭代都根据上一次迭代的预测结果对样本进行加权，所以随着迭代不断进行，误差会越来越小，所以模型的 bias 会不断降低。这种算法无法并行，例子比如 Adaptive Boosting.<br><img src="Boosting算法的工作机制.png" alt="Boosting算法的工作机制"><br>从图中可以看出，Boosting算法的工作机制</p>
+<ol>
+<li>从训练集用<code>初始权重</code>训练出一个弱学习器1，根据弱学习的<code>学习误差率</code>表现来更新训练样本的权重，使得之前弱学习器1学习误差率高的训练样本点的权重变高，使得这些误差率高的点在后面的弱学习器2中得到更多的重视；</li>
+<li>基于调整权重后的训练集来训练弱学习器2；</li>
+<li>如此重复进行，直到弱学习器数达到事先指定的数目T；</li>
+<li>最终将这T个弱学习器通过集合策略进行整合，得到最终的强学习器。</li>
+</ol>
+<p>Boosting系列算法里最著名算法主要有：</p>
+<ul>
+<li>AdaBoost算法</li>
+<li>提升树(boosting tree)系列算法。提升树系列算法里面应用最广泛的是梯度提升树(Gradient Boosting Tree)。</li>
+</ul>
+<h2 id="Boosting算法的4个具体的问题"><a href="#Boosting算法的4个具体的问题" class="headerlink" title="Boosting算法的4个具体的问题"></a>Boosting算法的4个具体的问题</h2><p> 只要是boosting大家族的算法，都要解决这4个问题。</p>
+<ol>
+<li>如何计算学习误差率e?</li>
+<li>如何得到弱学习器权重系数α?</li>
+<li>如何更新样本权重D?</li>
+<li>使用何种结合策略？</li>
+</ol>
+<h2 id="集成学习之bagging"><a href="#集成学习之bagging" class="headerlink" title="集成学习之bagging"></a>集成学习之bagging</h2><p>Bagging 是 Bootstrap Aggregating 的简称，意思就是再取样 (Bootstrap) 然后在每个样本上训练出来的模型取平均，所以是降低模型的 variance， 比如 Random Forest 这种先天并行的算法都有这个效果。</p>
+<p>Bagging的算法原理和 boosting不同，它的弱学习器之间没有依赖关系，可以并行生成，我们可以用一张图做一个概括如下：</p>
+<p><img src="Bagging的算法原理.png" alt="Bagging的算法原理"><br>从上图可以看出，bagging的个体弱学习器的训练集是通过<code>随机采样</code>得到的。通过T次的随机采样，我们就可以得到T个采样集，对于这T个采样集，我们可以分别独立的训练出T个弱学习器，再对这T个弱学习器通过集合策略来得到最终的强学习器。</p>
+<p>对于这里的随机采样有必要做进一步的介绍，这里一般采用的是<code>自助采样法（Bootstap sampling）</code>,即对于m个样本的原始训练集，我们每次先随机采集一个样本放入采样集，接着把该样本放回，也就是说下次采样时该样本仍有可能被采集到，这样采集m次，最终可以得到m个样本的采样集，由于是随机采样，这样每次的采样集是和原始训练集不同的，和其他采样集也是不同的，这样得到多个不同的弱学习器。</p>
+<blockquote>
+<p>随机森林是bagging的一个特化进阶版，所谓的特化是因为随机森林的弱学习器都是决策树。所谓的进阶是随机森林在bagging的样本随机采样基础上，又加上了特征的随机选择，其基本思想没有脱离bagging的范畴。</p>
+</blockquote>
+<p>　　　　</p>
+<h2 id="GBDT是什么？"><a href="#GBDT是什么？" class="headerlink" title="GBDT是什么？"></a>GBDT是什么？</h2><p>GBDT有很多简称，有</p>
+<ul>
+<li>GBT（Gradient Boosting Tree）, </li>
+<li>GTB（Gradient Tree Boosting ）， </li>
+<li>GBRT（Gradient Boosting Regression Tree）, </li>
+<li><p>MART(Multiple Additive Regression Tree)，</p>
+<p>  其实都是指的同一种算法，本文统一简称GBDT（Gradient Boosting Decision Tree）。GBDT在BAT大厂中也有广泛的应用，假如要选择3个最重要的机器学习算法的话，个人认为GBDT应该占一席之地。</p>
+</li>
+</ul>
+<blockquote>
+<p>GBDT 使用的弱分类器就是 Decision Tree，而融合的方法叫做 Gradient Boosting。</p>
+</blockquote>
+<h2 id="Gradient-梯度"><a href="#Gradient-梯度" class="headerlink" title="Gradient  梯度"></a>Gradient  梯度</h2><h3 id="梯度的提出只为回答一个问题"><a href="#梯度的提出只为回答一个问题" class="headerlink" title="梯度的提出只为回答一个问题"></a>梯度的提出只为回答一个问题</h3><p>函数在变量空间的某一点处，沿着哪一个方向有最大的变化率？ </p>
+<h3 id="梯度定义grad"><a href="#梯度定义grad" class="headerlink" title="梯度定义grad"></a>梯度定义grad</h3><blockquote>
+<p>函数在某一点的梯度是个向量，它的方向与函数在这点取得最大方向导数的方向一致，而它的模为方向导数的最大值。<br>函数在一点的梯度方向与等值线在这点的一个法线方向相同，它的指向为从数值较低的等值线指向数值较高的等值线，梯度的模就等于函数在这个法线方向的方向导数；<br>—-《同济大学高等数学下册》p49</p>
+</blockquote>
+<p>这里注意三点： </p>
+<ol>
+<li>梯度是一个向量，即有方向有大小； </li>
+<li>梯度的方向是最大方向导数的方向； </li>
+<li>梯度的值是最大方向导数的值。<br>梯度即函数在某一点最大的方向导数，函数沿梯度方向函数有最大的变化率。 </li>
+</ol>
+<h3 id="梯度的应用"><a href="#梯度的应用" class="headerlink" title="梯度的应用"></a>梯度的应用</h3><p>一个标量场 数量变化最快的方向就是梯度方向，<br>那么我们可以用梯度来优化损失函数，如梯度下降求损失函数的最小值…<br>形象理解就是：山坡某个点坡度最陡的方向</p>
+<p>梯度本质就是一个向量。一个曲面上某点(x，y)，梯度是由该点偏导数得出的向量(a，b)。<br>可以类比成：你站在该点，按照向量所指的方向上山最陡。</p>
+<h2 id="导数"><a href="#导数" class="headerlink" title="导数"></a>导数</h2><p> 导数：被定义为一个极限，其意义就是变化率<br>微分：是一个线性函数，其意义就是变化的具体数值<br>切线：有了导数之后就可以被确定下来了</p>
+<ul>
+<li>几何意义：f(x)在点x0处的导数为改点切线的斜率</li>
+<li>物理意义：动点在某时刻t0的瞬时速度（极限值）<h2 id="方向导数"><a href="#方向导数" class="headerlink" title="方向导数"></a>方向导数</h2>方向导数就是一个曲面上的某点(x，y)，从该点起始沿特定方向函数的变化率。<br>可以类比成：有一个山峰，你站在山顶观察，北坡较陡南坡较缓。</li>
+</ul>
+<h2 id="Boosting"><a href="#Boosting" class="headerlink" title="Boosting"></a>Boosting</h2><ul>
+<li>Boosting是一族可将弱学习器提升为强学习器的算法，属于集成学习（ensemble learning）的范畴；</li>
+<li>Boosting方法基于这样一种思想：<br>对于一个复杂任务来说，将多个专家的判定进行适当的综合得出的判断，要比其中任何一个专家单独的判断好。<br>通俗理解。</li>
+</ul>
+<ol>
+<li>“三个臭皮匠顶个诸葛亮”，一堆弱分类器的组合就可以成为一个强分类器；</li>
+<li>“知错能改，善莫大焉”，不断地在错误中学习，迭代来降低犯错概率；</li>
+</ol>
+<h3 id="弱学习算法和强学习算法"><a href="#弱学习算法和强学习算法" class="headerlink" title="弱学习算法和强学习算法"></a>弱学习算法和强学习算法</h3><p>要理解好Boosting的思想，首先需从弱学习算法和强学习算法来引入：</p>
+<ul>
+<li>强学习算法：存在一个多项式时间的学习算法以识别一组概念，且识别的正确率很高；</li>
+<li>弱学习算法：识别一组概念的正确率仅比随机猜测略好；</li>
+</ul>
+<p>Kearns &amp; Valiant证明了<strong>弱学习算法与强学习算法的等价问题</strong>，<br>如果两者等价，只需找到一个比随机猜测略好的学习算法，就可以将其提升为强学习算法。</p>
+<blockquote>
+<p>那么是怎么实现“知错就改”的呢？<br>Boosting算法，通过一系列的迭代来优化分类结果，每迭代一次引入一个弱分类器，来克服现在已经存在的弱分类器组合的shortcomings；</p>
+<ul>
+<li>在Adaboost算法中，这个shortcomings的表征就是权值高的样本点；</li>
+<li>而在Gradient Boosting算法中,这个shortcomings的表征就是梯度；</li>
+</ul>
+</blockquote>
+<p>无论是Adaboost还是Gradient Boosting，都是通过这个shortcomings来告诉学习器怎么去提升模型，也就是“Boosting”这个名字的由来吧</p>
+<h4 id="Adaboost-算法"><a href="#Adaboost-算法" class="headerlink" title="Adaboost 算法"></a>Adaboost 算法</h4><p><img src="Adaboost算法.png" alt="Adaboost算法"><br>前一个学习器改变权重w，然后再经过下一个学习器，最终所有的学习器共同组成最后的学习器。<br>如果一个样本在前一个学习器中被误分，那么它所对应的权重会被加重，相应地，被正确分类的样本的权重会降低。</p>
+<h2 id="Gradient-boosting梯度提升"><a href="#Gradient-boosting梯度提升" class="headerlink" title="Gradient boosting梯度提升"></a>Gradient boosting梯度提升</h2><p>梯度提升（Gradient boosting）是一种用于回归、分类和排序任务的机器学习技术，属于Boosting算法族的一部分。<br>梯度提升同其他boosting方法一样，通过集成（ensemble）多个弱学习器，通常是决策树，来构建最终的预测模型。<br><img src="Alt text.png" alt="Alt text"><br><img src="Alt text.png" alt="Alt text"></p>
+<ul>
+<li>Gradient Boosting 在迭代的时候选择梯度下降的方向来保证最后的结果最好。</li>
+<li>损失函数用来描述模型的“靠谱”程度，假设模型没有过拟合，损失函数越大，模型的错误率越高</li>
+<li>如果我们的模型能够让损失函数持续的下降，则说明我们的模型在不停的改进，而最好的方式就是让损失函数在其梯度方向上下降。</li>
+</ul>
+<blockquote>
+<p>Gradient Boosting是在boosting思想下的一种函数（也可以说是模型）的优化的方法，首先将函数分解为可加的形式（其实所有的函数都是可加的，只是是否好放在这个框架中，以及最终的效果如何）。然后进行m次迭代，通过使得损失函数在梯度方向上减少，最终得到一个优秀的模型。值得一提的是，每次模型在梯度方向上的减少的部分，可以认为是一个“小”的或者“弱”的模型，最终我们会通过加权(也就是每次在梯度方向上下降的距离）的方式将这些“弱”的模型合并起来，形成一个更好的模型。</p>
+</blockquote>
+<h2 id="Decision-Tree基本思想"><a href="#Decision-Tree基本思想" class="headerlink" title="Decision Tree基本思想"></a>Decision Tree基本思想</h2><h3 id="DT定义"><a href="#DT定义" class="headerlink" title="DT定义"></a>DT定义</h3><ul>
+<li>机器学习中，决策树是一个预测模型，数据挖掘中决策树是一种经常要用到的技术，可以用于分析数据，同样也可以用来作预测；</li>
+<li>他代表的是对象属性与对象值之间的一种映射关系。树中每个节点表示某个对象，而每个分叉路径则代表某个可能的属性值，而每个叶节点则对应从根节点到该叶节点所经历的路径所表示的对象的值。</li>
+<li>决策树仅有单一输出，若欲有复数输出，可以建立独立的决策树以处理不同输出。 </li>
+</ul>
+<p>从数据产生决策树的机器学习技术叫做决策树学习，通俗说就是决策树。<br>一个决策树包含三种类型的节点：</p>
+<ol>
+<li>决策节点：通常用矩形框来表示</li>
+<li>机会节点：通常用圆圈来表示</li>
+<li>终结点：通常用三角形来表示<br><img src="决策树示例.png" alt="决策树示例"></li>
+</ol>
+<p>决策树学习也是数据挖掘中一个普通的方法。在这里，每个决策树都表述了一种树型结构，它由它的分支来对该类型的对象依靠属性进行分类。<br>每个决策树可以依靠对源数据库的分割进行数据测试。这个过程可以递归式的对树进行修剪。 当不能再进行分割或一个单独的类可以被应用于某一分支时，递归过程就完成了。</p>
+<p>另外，随机森林分类器将许多决策树结合起来以提升分类的正确率。</p>
+<p>决策树同时也可以依靠计算条件概率来构造。</p>
+<h2 id="分类树-回归树"><a href="#分类树-回归树" class="headerlink" title="分类树/回归树"></a>分类树/回归树</h2><h3 id="分类树"><a href="#分类树" class="headerlink" title="分类树"></a>分类树</h3><p>以C4.5分类树为例，C4.5分类树在每次分枝时，<br>是穷举每一个feature的每一个阈值，<br>找到使得按照feature&lt;=阈值，和feature&gt;阈值分成的两个分枝的熵最大的阈值<br>(熵最大的概念可理解成尽可能每个分枝的男女比例都远离1:1)，</p>
+<p>按照该标准分枝得到两个新节点，用同样方法继续分枝直到所有人都被分入性别唯一的叶子节点，<br>或达到预设的终止条件，<br>若最终叶子节点中的性别不唯一，则以多数人的性别作为该叶子节点的性别。</p>
+<p>总结：<br>分类树使用<code>信息增益</code>或增益比率来划分节点；<br>每个节点样本的类别情况投票决定测试样本的类别。</p>
+<h3 id="回归树"><a href="#回归树" class="headerlink" title="回归树"></a>回归树</h3><p>回归树总体流程也是类似，<br>区别在于，回归树的每个节点（不一定是叶子节点）都会得一个预测值，<br>以年龄为例，该预测值等于属于这个节点的所有人年龄的平均值。<br>分枝时穷举每一个feature的每个阈值找最好的分割点，但衡量最好的标准不再是最大熵，而是最小化均方差即(每个人的年龄-预测年龄)^2 的总和 / N。<br>也就是被预测出错的人数越多，错的越离谱，均方差就越大，通过<code>最小化均方差</code>能够找到最可靠的分枝依据。<br>分枝直到每个叶子节点上人的年龄都唯一或者达到预设的终止条件(如叶子个数上限)，<br>若最终叶子节点上人的年龄不唯一，则以该节点上所有人的平均年龄做为该叶子节点的预测年龄。</p>
+<p>总结：<br>回归树使用最小均方差划分节点；<br>每个节点样本的均值作为测试样本的回归预测值。</p>
+<h2 id="决策树-分裂成本"><a href="#决策树-分裂成本" class="headerlink" title="决策树-分裂成本"></a>决策树-分裂成本</h2><p>让我们进一步讨论用于分类和回归的成本函数。在这两种情况下，成本函数都在试图寻找分裂后结构相似程度最高的那种方式。其中的意义是，我们可以更加确信测试数据将会跟随哪个路径。<br><img src="Alt text.png" alt="Alt text"><br>比如预测房价：决策树开始分裂时需要考虑训练数据的所有特征；对于训练数据的特定分组，其输入响应的均值会被作为该组的预测值。上述函数会被用在所有的数据点，用以计算所有可能分裂的成本。损失最低的分裂方式将被筛选出来。另一种成本函数涉及到约化和标准差，更多信息可参考这里：<a href="http://www.saedsayad.com/decision_tree_reg.htm。">http://www.saedsayad.com/decision_tree_reg.htm。</a></p>
+<p><img src="Alt text.png" alt="Alt text"><br>为评估某个分裂方式的优劣，我们用Gini分数来衡量训练数据分裂后的混乱程度。其中，pk表示特定分组中相同输入类别所占的比例。当某一数据组的所有输入都来自同一类别时，我们就得到了一个完美分类，此时的pk值不是1就是0，而G必定为0。但如果某个数据组中两个类别的数据各占一半，这就发生了最坏的情况，此时二元分类的pk=0.5, G=0.5。</p>
+<p><a href="http://daniellaah.github.io/2017/Statistical-Learning-Notes-Chapter5-DecisionTree-2.html">《统计学习方法》笔记 (七) - 决策树(下)</a></p>
+<h2 id="应用场景-why"><a href="#应用场景-why" class="headerlink" title="应用场景 why"></a>应用场景 why</h2><p>为什么需要GBDT？GBDT到底解决的是什么问题？</p>
+<h2 id="算法推导-how"><a href="#算法推导-how" class="headerlink" title="算法推导 how"></a>算法推导 how</h2><p>GBDT如何工作，算法原理<br><a href="http://www.cnblogs.com/LeftNotEasy/archive/2011/03/07/random-forest-and-gbdt.html">http://www.cnblogs.com/LeftNotEasy/archive/2011/03/07/random-forest-and-gbdt.html</a></p>
+<p><a href="http://blog.kaggle.com/2017/01/23/a-kaggle-master-explains-gradient-boosting/">http://blog.kaggle.com/2017/01/23/a-kaggle-master-explains-gradient-boosting/</a></p>
+<h2 id="可视化"><a href="#可视化" class="headerlink" title="可视化"></a>可视化</h2><p><img src="Alt text.png" alt="Alt text"><br><img src="Alt text.png" alt="Alt text"></p>
+<p><a href="https://distill.pub/2017/momentum/">梯度下降</a><br><a href="http://www.r2d3.us/å¾è§£æºå¨å­¦ä¹ /">决策树</a></p>
+<h1 id="GBDT总结"><a href="#GBDT总结" class="headerlink" title="GBDT总结"></a>GBDT总结</h1><p>GBDT是Gradient Boosting框架用决策树完成的一个具体实现。<br>Gradeint Boosting框架的本质思路是一个从基准值到目标值的逼近过程，也是一个基准弱模型向强模型的进化过程。<br>逼近过程是用损失函数来描述和控制的，具体的步进量（残差）由损失函数的梯度来指示。机器模型的作用是用来拟合和预测残差。</p>
+<h2 id="XGBoost-GBDT相关blog推荐"><a href="#XGBoost-GBDT相关blog推荐" class="headerlink" title="XGBoost/GBDT相关blog推荐"></a>XGBoost/GBDT相关blog推荐</h2><p><a href="http://www.jianshu.com/p/02cfaae3fd01">http://www.jianshu.com/p/02cfaae3fd01</a><br>参考 <a href="https://zhuanlan.zhihu.com/p/27111288">https://zhuanlan.zhihu.com/p/27111288</a><br><a href="http://www.cnblogs.com/pinard/category/894692.html">http://www.cnblogs.com/pinard/category/894692.html</a></p>
+<p>简书-提升方法(Boosting)算法笔记-Python<br><a href="http://www.jianshu.com/p/cbcfee8cf245">http://www.jianshu.com/p/cbcfee8cf245</a><br><a href="http://www.jianshu.com/p/4d32da99f18d">http://www.jianshu.com/p/4d32da99f18d</a></p>
+<p>Gradient Boosting Interactive Playground<br><a href="http://arogozhnikov.github.io/2016/07/05/gradient_boosting_playground.html">http://arogozhnikov.github.io/2016/07/05/gradient_boosting_playground.html</a></p>
+<p>Gradient Boosting explained<br><a href="http://arogozhnikov.github.io/2016/06/24/gradient_boosting_explained.html">http://arogozhnikov.github.io/2016/06/24/gradient_boosting_explained.html</a></p>
+<p>在数据分析的过程中，我们经常需要对数据建模并做预测。在众多的选择中，<code>randomForest</code>, <code>gbm</code> 和 <code>glmnet</code>是三个尤其流行的 R 包，它们在 Kaggle 的各大数据挖掘竞赛中的出现频率独占鳌头，被坊间人称为 R 数据挖掘包中的三驾马车。</p>
+<h1 id="DT（Decision-Tree）"><a href="#DT（Decision-Tree）" class="headerlink" title="DT（Decision Tree）"></a>DT（Decision Tree）</h1><p>决策树的判定过程就相当于树中从根结点到某一个叶子结点的遍历。每一步如何遍历是由数据各个特征的具体特征属性决定。</p>
+<p><a href="https://zhuanlan.zhihu.com/p/26703300">深入浅出理解决策树算法</a># GBM（Gradient boosting machine）</p>
+<h2 id="GBM定义"><a href="#GBM定义" class="headerlink" title="GBM定义"></a>GBM定义</h2><p>梯度提升机器（GBM，Gradient boosting machine）：这种方法通过训练一系列决策树来产生一个预测模型，在其中，后序决策树会校正前序决策树所产生的预测误差。</p>
+<h2 id="GBM与传统Boosting算法区别"><a href="#GBM与传统Boosting算法区别" class="headerlink" title="GBM与传统Boosting算法区别"></a>GBM与传统Boosting算法区别</h2><p>Gradient Boosting是一种Boosting的方法，其与传统的Boosting的区别是，每一次的计算是为了减少上一次的残差(residual)，而为了消除残差，可以在残差减少的梯度(Gradient)方向上建立一个新的模型。<br>所以说，在Gradient Boosting中，每个新的模型的建立是为了使得之前模型的残差往梯度方向减少，与传统Boosting对正确、错误样本进行加权有着很大的区别。</p>
+<h1 id="GBDT（Gradient-Boosting-Decision-Tree）"><a href="#GBDT（Gradient-Boosting-Decision-Tree）" class="headerlink" title="GBDT（Gradient Boosting Decision Tree）"></a>GBDT（Gradient Boosting Decision Tree）</h1><h2 id="GBDT定义"><a href="#GBDT定义" class="headerlink" title="GBDT定义"></a>GBDT定义</h2><p>GBDT(Gradient Boosting Decision Tree) ,又叫 MART（Multiple Additive Regression Tree)，是一种迭代的决策树算法，该算法由多棵决策树组成，所有树的结论累加起来做最终答案。它在被提出之初就和SVM一起被认为是泛化能力较强的算法。<br>GBDT中的树是回归树（不是分类树），GBDT用来做回归预测，调整后也可以用于分类。<br>GBDT的思想使其具有天然优势可以发现多种有区分性的特征以及特征组合。</p>
+<h2 id="Regression-Decision-Tree：回归树"><a href="#Regression-Decision-Tree：回归树" class="headerlink" title="Regression Decision Tree：回归树"></a>Regression Decision Tree：回归树</h2><p>  回归树总体流程类似于分类树，区别在于，回归树的每一个节点都会得一个预测值，以年龄为例，该预测值等于属于这个节点的所有人年龄的平均值。分枝时穷举每一个feature的每个阈值找最好的分割点，但衡量最好的标准不再是最大熵，而是最小化平方误差。也就是被预测出错的人数越多，错的越离谱，平方误差就越大，通过最小化平方误差能够找到最可靠的分枝依据。分枝直到每个叶子节点上人的年龄都唯一或者达到预设的终止条件(如叶子个数上限)，若最终叶子节点上人的年龄不唯一，则以该节点上所有人的平均年龄做为该叶子节点的预测年龄。</p>
+<ul>
+<li>回归树示例<br><img src="回归树示例.png" alt="回归树示例"></li>
+<li>回归树算法（《统计学习方法》5.5.1 CART生成）：<br><img src="回归树算法.png" alt="回归树算法"></li>
+</ul>
+<h2 id="Boosting-Decision-Tree：提升树算法"><a href="#Boosting-Decision-Tree：提升树算法" class="headerlink" title="Boosting Decision Tree：提升树算法"></a>Boosting Decision Tree：提升树算法</h2><p>提升树是迭代多棵回归树来共同决策。当采用平方误差损失函数时，每一棵回归树学习的是之前所有树的结论和残差，拟合得到一个当前的残差回归树，残差的意义如公式：残差 = 真实值 - 预测值 。提升树即是整个迭代过程生成的回归树的累加。<br>举个例子展现多棵决策树线性求和过程以及残差的意义。<br>训练一个提升树模型来预测年龄：训练集是4个人，A，B，C，D年龄分别是14，16，24，26。样本中有购物金额、上网时长、经常到百度知道提问等特征。提升树的过程如下：<br><img src="训练一个提升树模型来预测年龄.png" alt="训练一个提升树模型来预测年龄"><br>该例子很直观的能看到，预测值等于所有树值得累加，如A的预测值 = 树1左节点 值 15 + 树2左节点 -1 = 14。<br>因此，给定当前模型 fm-1(x)，只需要简单的拟合当前模型的残差。现将回归问题的提升树算法叙述如下：<br><img src="回归问题的提升树算法流程.png" alt="回归问题的提升树算法流程"></p>
+<h2 id="Gradient-Boosting-Decision-Tree：梯度提升决策树"><a href="#Gradient-Boosting-Decision-Tree：梯度提升决策树" class="headerlink" title="Gradient Boosting Decision Tree：梯度提升决策树"></a>Gradient Boosting Decision Tree：梯度提升决策树</h2><p>提升树利用加法模型和前向分步算法实现学习的优化过程。当损失函数是平方损失和指数损失函数时，每一步的优化很简单，如平方损失函数学习残差回归树。</p>
+<h2 id="xgboost-gbdt在调参时为什么树的深度很少就能达到很高的精度？"><a href="#xgboost-gbdt在调参时为什么树的深度很少就能达到很高的精度？" class="headerlink" title="xgboost/gbdt在调参时为什么树的深度很少就能达到很高的精度？"></a>xgboost/gbdt在调参时为什么树的深度很少就能达到很高的精度？</h2><p>用xgboost/gbdt在在调参的时候把树的最大深度调成6就有很高的精度了。但是用DecisionTree/RandomForest的时候需要把树的深度调到15或更高。用RandomForest所需要的树的深度和DecisionTree一样我能理解，因为它是用bagging的方法把DecisionTree组合在一起，相当于做了多次DecisionTree一样。但是xgboost/gbdt仅仅用梯度上升法就能用6个节点的深度达到很高的预测精度，使我惊讶到怀疑它是黑科技了。请问下xgboost/gbdt是怎么做到的？它的节点和一般的DecisionTree不同吗？<br> <br>一句话的解释，来自周志华老师的机器学习教科书（ 机器学习-周志华）：Boosting主要关注降低偏差，因此Boosting能基于泛化性能相当弱的学习器构建出很强的集成；Bagging主要关注降低方差，因此它在不剪枝的决策树、神经网络等学习器上效用更为明显。</p>
+<p>随机森林(random forest)和GBDT都是属于集成学习（ensemble learning)的范畴。集成学习下有两个重要的策略Bagging和Boosting。</p>
+<p>Bagging算法是这样做的：每个分类器都随机从原样本中做有放回的采样，然后分别在这些采样后的样本上训练分类器，然后再把这些分类器组合起来。简单的多数投票一般就可以。其代表算法是随机森林。Boosting的意思是这样，他通过迭代地训练一系列的分类器，每个分类器采用的样本分布都和上一轮的学习结果有关。其代表算法是AdaBoost, GBDT。</p>
+<p>其实就机器学习算法来说，其泛化误差可以分解为两部分，偏差（bias)和方差(variance)。这个可由下图的式子导出（这里用到了概率论公式D(X)=E(X^2)-[E(X)]^2）。偏差指的是算法的期望预测与真实预测之间的偏差程度，反应了模型本身的拟合能力；方差度量了同等大小的训练集的变动导致学习性能的变化，刻画了数据扰动所导致的影响。这个有点儿绕，不过你一定知道过拟合。</p>
+<p>如下图所示，当模型越复杂时，拟合的程度就越高，模型的训练偏差就越小。但此时如果换一组数据可能模型的变化就会很大，即模型的方差很大。所以模型过于复杂的时候会导致过拟合。</p>
+<p>当模型越简单时，即使我们再换一组数据，最后得出的学习器和之前的学习器的差别就不那么大，模型的方差很小。还是因为模型简单，所以偏差会很大。<br><img src="模型复杂度与偏差方差的关系图.png" alt="模型复杂度与偏差方差的关系图"></p>
+<p>也就是说，当我们训练一个模型时，偏差和方差都得照顾到，漏掉一个都不行。</p>
+<p>对于Bagging算法来说，由于我们会并行地训练很多不同的分类器的目的就是降低这个方差(variance) ,因为采用了相互独立的基分类器多了以后，h的值自然就会靠近.所以对于每个基分类器来说，目标就是如何降低这个偏差（bias),所以我们会采用深度很深甚至不剪枝的决策树。</p>
+<p>对于Boosting来说，每一步我们都会在上一轮的基础上更加拟合原数据，所以可以保证偏差（bias）,所以对于每个基分类器来说，问题就在于如何选择variance更小的分类器，即更简单的分类器，所以我们选择了深度很浅的决策树。 </p>
+<h2 id="GBDT应用"><a href="#GBDT应用" class="headerlink" title="GBDT应用"></a>GBDT应用</h2><p>业界中，Facebook使用其来自动发现有效的特征、特征组合，来作为LR模型中的特征，以提高 CTR预估（Click-Through Rate Prediction）的准确性；GBDT在淘宝的搜索及预测业务上也发挥了重要作用</p>
+<h2 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h2><p><a href="https://link.zhihu.com/?target=http://www.jianshu.com/p/005a4e6ac775">GBDT：梯度提升决策树</a><br><a href="https://link.zhihu.com/?target=http://blog.csdn.net/suranxu007/article/details/49910323">GBDT（MART） 迭代决策树入门教程</a><br><a href="http://hacker.duanshishi.com/?p=1348">http://hacker.duanshishi.com/?p=1348</a></p>
+<h2 id="Xgboost与GBDT比较"><a href="#Xgboost与GBDT比较" class="headerlink" title="Xgboost与GBDT比较"></a>Xgboost与GBDT比较</h2><ul>
+<li>传统GBDT以CART作为基分类器，xgboost还支持线性分类器，这个时候xgboost相当于带L1和L2正则化项的逻辑斯蒂回归（分类问题）或者线性回归（回归问题）。</li>
+<li>传统GBDT在优化时只用到一阶导数信息，xgboost则对代价函数进行了二阶泰勒展开，同时用到了一阶和二阶导数。顺便提一下，xgboost工具支持自定义代价函数，只要函数可一阶和二阶求导。</li>
+<li>xgboost在代价函数里加入了正则项，用于控制模型的复杂度。正则项里包含了树的叶子节点个数、每个叶子节点上输出的score的L2模的平方和。从Bias-variance tradeoff角度来讲，正则项降低了模型的variance，使学习出来的模型更加简单，防止过拟合，这也是xgboost优于传统GBDT的一个特性。</li>
+<li>Shrinkage（缩减），相当于学习速率（xgboost中的eta）。xgboost在进行完一次迭代后，会将叶子节点的权重乘上该系数，主要是为了削弱每棵树的影响，让后面有更大的学习空间。实际应用中，一般把eta设置得小一点，然后迭代次数设置得大一点。（补充：传统GBDT的实现也有学习速率）</li>
+<li>列抽样（column subsampling）。xgboost借鉴了随机森林的做法，支持列抽样，不仅能降低过拟合，还能减少计算，这也是xgboost异于传统gbdt的一个特性。对缺失值的处理。对于特征的值有缺失的样本，xgboost可以自动学习出它的分裂方向。</li>
+<li>可并行的近似直方图算法。树节点在进行分裂时，我们需要计算每个特征的每个分割点对应的增益，即用贪心法枚举所有可能的分割点。当数据无法一次载入内存或者在分布式情况下，贪心算法效率就会变得很低，所以xgboost还提出了一种可并行的近似直方图算法，用于高效地生成候选的分割点。<br><a href="https://www.zhihu.com/question/41354392">参考 机器学习算法中GBDT和XGBOOST的区别有哪些？</a></li>
+</ul>
+<h1 id="Xgboost（eXtreme-Gradient-Boosting）"><a href="#Xgboost（eXtreme-Gradient-Boosting）" class="headerlink" title="Xgboost（eXtreme Gradient Boosting）"></a>Xgboost（eXtreme Gradient Boosting）</h1><p>xgboost是GradientBoosting Machine的一个c++实现。现在xgboost已封装成了Python库，并制作成了xgboost工具的R语言接口提交到了CRAN上，也有用户将其封装成了 julia库。</p>
+<h2 id="Xgboost特点"><a href="#Xgboost特点" class="headerlink" title="Xgboost特点"></a>Xgboost特点</h2><ol>
+<li>xgboost能够自动利用CPU的多线程进行并行，同时在算法上加以改进提高了精度。</li>
+<li>xgboost通过如下的优化使得效率大幅提高：</li>
+</ol>
+<ul>
+<li>xgboost借助OpenMP ，能自动利用单机CPU的多核进行并行计算。需要注意的是，Mac上的Clang对OpenMP的支持较差，所以默认情况下只能单核运行。</li>
+<li>xgboost自定义了一个数据矩阵类DMatrix，会在训练开始时进行一遍预处理，从而提高之后每次迭代的效率。</li>
+</ul>
+<blockquote>
+<p>boosting不是一种串行的结构吗?怎么并行的？注意xgboost的并行不是tree粒度的并行，xgboost也是一次迭代完才能进行下一次迭代的（第t次迭代的代价函数里包含了前面t-1次迭代的预测值）。<br>xgboost的并行是在特征粒度上的。我们知道，决策树的学习最耗时的一个步骤就是对特征的值进行排序（因为要确定最佳分割点），xgboost在训练之前，预先对数据进行了排序，然后保存为block结构，后面的迭代中重复地使用这个结构，大大减小计算量。这个block结构也使得并行成为了可能，在进行节点的分裂时，需要计算每个特征的增益，最终选增益最大的那个特征去做分裂，那么各个特征的增益计算就可以开多线程进行。</p>
+</blockquote>
+<h2 id="Xgboost与XGB-比较"><a href="#Xgboost与XGB-比较" class="headerlink" title="Xgboost与XGB 比较"></a>Xgboost与XGB 比较</h2><ul>
+<li>Xgboost：速度快，效果好，功能多。</li>
+<li>XGB的优势<ul>
+<li>添加复杂度控制和后期剪枝防止过拟合；</li>
+<li>对于loss function 具有通用性，只需求一阶二阶导数；</li>
+<li>知道每个样本分到哪片叶子上，可提高模型表现；</li>
+<li>可以使用线性模型代替树模型，从而得到L1+L2 的线性或逻辑回归。</li>
+<li>分布式应用：XGB 直接在YARN 上使用、集成进现有Spark 机器学习工具。</li>
+</ul>
+</li>
+</ul>
+<h3 id="Xgboost实践"><a href="#Xgboost实践" class="headerlink" title="Xgboost实践"></a>Xgboost实践</h3><p><a href="http://machinelearningmastery.com/visualize-gradient-boosting-decision-trees-xgboost-python/">Plot a Single XGBoost Decision Tree</a></p>
+<h1 id="GLM（Generalized-linear-model）广义线性模型"><a href="#GLM（Generalized-linear-model）广义线性模型" class="headerlink" title="GLM（Generalized linear model）广义线性模型"></a>GLM（Generalized linear model）广义线性模型</h1><h2 id="LM"><a href="#LM" class="headerlink" title="LM"></a>LM</h2>
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+        
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://geosmart.github.io/2017/07/20/%E6%B7%B1%E5%B1%82%E7%A5%9E%E7%BB%8F%E7%BD%91%E7%BB%9C/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="geosmart">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="geosmart.io">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          
+            <a href="/2017/07/20/%E6%B7%B1%E5%B1%82%E7%A5%9E%E7%BB%8F%E7%BD%91%E7%BB%9C/" class="post-title-link" itemprop="url">深层神经网络</a>
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：20   七月   2017 15:27:56" itemprop="dateCreated datePublished" datetime="2017-07-20T15:27:56+08:00">20   七月   2017</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：15   十二月   2021 9:13:12" itemprop="dateModified" datetime="2021-12-15T09:13:12+08:00">15   十二月   2021</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/" itemprop="url" rel="index"><span itemprop="name">机器学习</span></a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <a id="more"></a> 
+<h1 id="深度学习与深层神经网络"><a href="#深度学习与深层神经网络" class="headerlink" title="深度学习与深层神经网络"></a>深度学习与深层神经网络</h1><h1 id="损失函数"><a href="#损失函数" class="headerlink" title="损失函数"></a>损失函数</h1><h2 id="经典损失函数"><a href="#经典损失函数" class="headerlink" title="经典损失函数"></a>经典损失函数</h2><h3 id="交叉熵"><a href="#交叉熵" class="headerlink" title="交叉熵"></a>交叉熵</h3><blockquote>
+<p>如何判断输出向量和期望向量之间的接近程度？<br>交叉熵是常用的评判方法，其刻画了两个概率分布之间的距离，它是分类问题中使用较广的一种损失函数；</p>
+<h3 id="Softmax回归"><a href="#Softmax回归" class="headerlink" title="Softmax回归"></a>Softmax回归</h3><p>如何将神经网络前向传播得到的结果也变成概率分布？<br>Softmax回归是一个非常常用的方法<br>公式：</p>
+</blockquote>
+<p>tensorflow 实现交叉熵</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">cross_entropy=-tf.reduce_mean(y_*tf.log(tf.clip_by_value(y,<span class="number">1e-10</span>,<span class="number">1.0</span>)))</span><br><span class="line"><span class="comment"># y_：正确结果</span></span><br><span class="line"><span class="comment"># y:预测结果</span></span><br><span class="line"><span class="comment"># tf.clip_by_value：将一个张量的数值限制在一个范围内，避免一些运算错误，如log0</span></span><br><span class="line"><span class="comment"># tf.log：对张量中的数据依次就对数</span></span><br><span class="line"><span class="comment"># * ：乘法，每个位置上对应元素的乘积，不是矩阵乘法</span></span><br></pre></td></tr></table></figure>
+<p>因为交叉熵一般会与softmax回归一起使用，所以tensorflow对这两个功能进行了统一封装，并提供了<code>tf.nn.softmax_cross_entropy_with_logists(y,y_)</code></p>
+<p>对于回归问题，最常用的损失函数是均方差（MSE,mean squared error）；</p>
+
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+        
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://geosmart.github.io/2017/07/19/%E9%9A%8F%E6%9C%BA%E6%A3%AE%E6%9E%97%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="geosmart">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="geosmart.io">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          
+            <a href="/2017/07/19/%E9%9A%8F%E6%9C%BA%E6%A3%AE%E6%9E%97%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/" class="post-title-link" itemprop="url">随机森林学习笔记</a>
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：20   七月   2017 0:00:00" itemprop="dateCreated datePublished" datetime="2017-07-20T00:00:00+08:00">20   七月   2017</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：15   十二月   2021 9:13:12" itemprop="dateModified" datetime="2021-12-15T09:13:12+08:00">15   十二月   2021</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/" itemprop="url" rel="index"><span itemprop="name">机器学习</span></a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <p>记录随机森林算法的基本概念（熵，分类器，候选特征，分裂特征），构建过程，优缺点</p>
+<hr>
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/2017/07/19/%E9%9A%8F%E6%9C%BA%E6%A3%AE%E6%9E%97%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/#more" rel="contents">
+                阅读全文 &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+        
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://geosmart.github.io/2017/07/11/MachineLearning%E5%9F%BA%E7%A1%80%E6%A6%82%E5%BF%B5/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="geosmart">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="geosmart.io">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          
+            <a href="/2017/07/11/MachineLearning%E5%9F%BA%E7%A1%80%E6%A6%82%E5%BF%B5/" class="post-title-link" itemprop="url">机器学习基础概念</a>
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：11   七月   2017 9:07:02" itemprop="dateCreated datePublished" datetime="2017-07-11T09:07:02+08:00">11   七月   2017</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：15   十二月   2021 9:13:12" itemprop="dateModified" datetime="2021-12-15T09:13:12+08:00">15   十二月   2021</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/" itemprop="url" rel="index"><span itemprop="name">机器学习</span></a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <p>监督学习、非监督学习、神经网络……<br>
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/2017/07/11/MachineLearning%E5%9F%BA%E7%A1%80%E6%A6%82%E5%BF%B5/#more" rel="contents">
+                阅读全文 &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+        
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://geosmart.github.io/2017/07/08/MachineLearning%E8%AF%BE%E7%A8%8B%E7%AC%94%E8%AE%B0Week1-%E6%8D%9F%E5%A4%B1%E5%87%BD%E6%95%B0/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="geosmart">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="geosmart.io">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          
+            <a href="/2017/07/08/MachineLearning%E8%AF%BE%E7%A8%8B%E7%AC%94%E8%AE%B0Week1-%E6%8D%9F%E5%A4%B1%E5%87%BD%E6%95%B0/" class="post-title-link" itemprop="url">MachineLearning课程笔记Week1-损失函数</a>
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：8   七月   2017 11:09:14" itemprop="dateCreated datePublished" datetime="2017-07-08T11:09:14+08:00">8   七月   2017</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：15   十二月   2021 9:13:12" itemprop="dateModified" datetime="2021-12-15T09:13:12+08:00">15   十二月   2021</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/" itemprop="url" rel="index"><span itemprop="name">机器学习</span></a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <p><a href="https://www.coursera.org/learn/machine-learning/supplement/cRa2m/model-representation">Coursera斯坦福大学机器学习（Machine Leaning）课程第一周</a>课程笔记</p>
+<blockquote>
+<p>given a training set, to learn a function h : X → Y so that h(x) is a “good” predictor for the corresponding value of y. For historical reasons, this function h is called a hypothesis. </p>
+</blockquote>
+<hr>
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/2017/07/08/MachineLearning%E8%AF%BE%E7%A8%8B%E7%AC%94%E8%AE%B0Week1-%E6%8D%9F%E5%A4%B1%E5%87%BD%E6%95%B0/#more" rel="contents">
+                阅读全文 &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+        
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://geosmart.github.io/2017/07/04/R%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="geosmart">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="geosmart.io">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          
+            <a href="/2017/07/04/R%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/" class="post-title-link" itemprop="url">R学习笔记</a>
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：4   七月   2017 8:13:38" itemprop="dateCreated datePublished" datetime="2017-07-04T08:13:38+08:00">4   七月   2017</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：15   十二月   2021 9:13:12" itemprop="dateModified" datetime="2021-12-15T09:13:12+08:00">15   十二月   2021</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/" itemprop="url" rel="index"><span itemprop="name">机器学习</span></a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <blockquote>
+<p>R is a tool for statistics and data modeling. The R programming language is elegant, versatile, and has a highly expressive syntax designed around working with data. R is more than that, though — it also includes extremely powerful graphics capabilities.</p>
+</blockquote>
+<hr>
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/2017/07/04/R%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/#more" rel="contents">
+                阅读全文 &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+        
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://geosmart.github.io/2017/07/03/MachineLeaning%E8%AF%BE%E7%A8%8B%E7%AC%94%E8%AE%B0Week1-%E5%9F%BA%E7%A1%80%E6%A6%82%E5%BF%B5/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="geosmart">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="geosmart.io">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          
+            <a href="/2017/07/03/MachineLeaning%E8%AF%BE%E7%A8%8B%E7%AC%94%E8%AE%B0Week1-%E5%9F%BA%E7%A1%80%E6%A6%82%E5%BF%B5/" class="post-title-link" itemprop="url">Machine Learning课程笔记Week1-基础概念</a>
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：3   七月   2017 20:44:47" itemprop="dateCreated datePublished" datetime="2017-07-03T20:44:47+08:00">3   七月   2017</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：15   十二月   2021 9:13:12" itemprop="dateModified" datetime="2021-12-15T09:13:12+08:00">15   十二月   2021</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/" itemprop="url" rel="index"><span itemprop="name">机器学习</span></a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <p><a href="https://www.coursera.org/learn/machine-learning/home/week/1">Coursera斯坦福大学机器学习（Machine Leaning）课程第一周</a>课程笔记</p>
+<blockquote>
+<p>A computer program is said to learn from experience E with respect to some class of tasks T and performance measure P, if its performance at tasks in T, as measured by P, improves with experience E.</p>
+</blockquote>
+<p>“对于某类任务T和性能度量P，如果一个计算机程序在T上以P衡量的性能随着经验E而自我完善，那么我们称这个计算机程序在从经验E学习。”</p>
+<hr>
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/2017/07/03/MachineLeaning%E8%AF%BE%E7%A8%8B%E7%AC%94%E8%AE%B0Week1-%E5%9F%BA%E7%A1%80%E6%A6%82%E5%BF%B5/#more" rel="contents">
+                阅读全文 &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+        
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://geosmart.github.io/2017/07/03/TensorFlow%E5%AE%9E%E7%8E%B0%E7%A5%9E%E7%BB%8F%E7%BD%91%E7%BB%9C/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="geosmart">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="geosmart.io">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          
+            <a href="/2017/07/03/TensorFlow%E5%AE%9E%E7%8E%B0%E7%A5%9E%E7%BB%8F%E7%BD%91%E7%BB%9C/" class="post-title-link" itemprop="url">TensorFlow实现神经网络</a>
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：3   七月   2017 20:42:25" itemprop="dateCreated datePublished" datetime="2017-07-03T20:42:25+08:00">3   七月   2017</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：15   十二月   2021 9:13:12" itemprop="dateModified" datetime="2021-12-15T09:13:12+08:00">15   十二月   2021</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/" itemprop="url" rel="index"><span itemprop="name">机器学习</span></a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <p><a href="http://playground.tensorflow.org/">神经网络可视化示例-TensorFlow游乐场</a><br>一个最简单的神经元的结构的输出就是所有输入的<strong>加权和</strong>，而不同输入的权重就是神经元的参数。神经网络的优化过程就是优化神经元中参数的取值过程。</p>
+<hr>
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/2017/07/03/TensorFlow%E5%AE%9E%E7%8E%B0%E7%A5%9E%E7%BB%8F%E7%BD%91%E7%BB%9C/#more" rel="contents">
+                阅读全文 &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+        
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://geosmart.github.io/2017/07/03/TensorFlow%E5%9F%BA%E7%A1%80%E6%A6%82%E5%BF%B5/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="geosmart">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="geosmart.io">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          
+            <a href="/2017/07/03/TensorFlow%E5%9F%BA%E7%A1%80%E6%A6%82%E5%BF%B5/" class="post-title-link" itemprop="url">TensorFlow基础概念</a>
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：3   七月   2017 20:41:50" itemprop="dateCreated datePublished" datetime="2017-07-03T20:41:50+08:00">3   七月   2017</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：15   十二月   2021 9:13:12" itemprop="dateModified" datetime="2021-12-15T09:13:12+08:00">15   十二月   2021</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/" itemprop="url" rel="index"><span itemprop="name">机器学习</span></a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <p>TensorFlow最重要的两个概念-Tensor和Flow；<br>Tensor就是张量，可简单理解为多维数组；<br>Flow直观表达Tensor之间通过计算相互转换的过程；<br>TensorFlow是一个通过计算图的形式来表述计算的编程系统。TensorFlow中的每个计算都是计算图上的一个节点，而节点之间的边描述了计算之间的依赖关系。</p>
+<hr>
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/2017/07/03/TensorFlow%E5%9F%BA%E7%A1%80%E6%A6%82%E5%BF%B5/#more" rel="contents">
+                阅读全文 &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+        
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://geosmart.github.io/2017/07/01/TensorFlow%E7%8E%AF%E5%A2%83%E6%90%AD%E5%BB%BA/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="geosmart">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="geosmart.io">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          
+            <a href="/2017/07/01/TensorFlow%E7%8E%AF%E5%A2%83%E6%90%AD%E5%BB%BA/" class="post-title-link" itemprop="url">TensorFlow环境搭建</a>
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：1   七月   2017 11:46:21" itemprop="dateCreated datePublished" datetime="2017-07-01T11:46:21+08:00">1   七月   2017</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：15   十二月   2021 9:13:12" itemprop="dateModified" datetime="2021-12-15T09:13:12+08:00">15   十二月   2021</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/" itemprop="url" rel="index"><span itemprop="name">机器学习</span></a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <p>将近一年未更新博客，期间专注做互联网金融领域的身份识别类产品（身份证OCR、活体检测、人脸比对），现在产品线趋于成熟，可以静下心来研究神往已久的深度学习了。</p>
+<hr>
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/2017/07/01/TensorFlow%E7%8E%AF%E5%A2%83%E6%90%AD%E5%BB%BA/#more" rel="contents">
+                阅读全文 &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+  </div>
+
+  
+  <nav class="pagination">
+    <a class="extend prev" rel="prev" href="/page/5/"><i class="fa fa-angle-left" aria-label="上一页"></i></a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/5/">5</a><span class="page-number current">6</span><a class="page-number" href="/page/7/">7</a><span class="space">&hellip;</span><a class="page-number" href="/page/10/">10</a><a class="extend next" rel="next" href="/page/7/"><i class="fa fa-angle-right" aria-label="下一页"></i></a>
+  </nav>
+
+
+
+          </div>
+          
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let activeClass = CONFIG.comments.activeClass;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">geosmart</p>
+  <div class="site-description" itemprop="description"></div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">199</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+          
+        <span class="site-state-item-count">15</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">118</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+        <a href="https://github.com/geosmart" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;geosmart" rel="noopener" target="_blank"><i class="fa fa-fw fa-github"></i>GitHub</a>
+      </span>
+  </div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2021</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">geosmart</span>
+</div>
+
+        
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/pisces.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+  
+<script src="/js/local-search.js"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+      
+
+<script>
+  if (typeof MathJax === 'undefined') {
+    window.MathJax = {
+      tex: {
+        inlineMath: {'[+]': [['$', '$']]},
+        tags: 'ams'
+      },
+      options: {
+        renderActions: {
+          findScript: [10, doc => {
+            document.querySelectorAll('script[type^="math/tex"]').forEach(node => {
+              const display = !!node.type.match(/; *mode=display/);
+              const math = new doc.options.MathItem(node.textContent, doc.inputJax[0], display);
+              const text = document.createTextNode('');
+              node.parentNode.replaceChild(text, node);
+              math.start = {node: text, delim: '', n: 0};
+              math.end = {node: text, delim: '', n: 0};
+              doc.math.push(math);
+            });
+          }, '', false],
+          insertedScript: [200, () => {
+            document.querySelectorAll('mjx-container').forEach(node => {
+              let target = node.parentNode;
+              if (target.nodeName.toLowerCase() === 'li') {
+                target.parentNode.classList.add('has-jax');
+              }
+            });
+          }, '', false]
+        }
+      }
+    };
+    (function () {
+      var script = document.createElement('script');
+      script.src = '//cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js';
+      script.defer = true;
+      document.head.appendChild(script);
+    })();
+  } else {
+    MathJax.startup.document.state(0);
+    MathJax.texReset();
+    MathJax.typeset();
+  }
+</script>
+
+    
+
+  
+
+
+</body>
+</html>

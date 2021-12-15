@@ -1,0 +1,737 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 4.2.1">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css">
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"geosmart.github.io","root":"/","scheme":"Pisces","version":"7.7.1","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.xml"};
+  </script>
+
+  <meta name="description" content="GBDT学习笔记学习任何东西都可以按照3W的框架进行，容器技术也是一样，先回答 What、Why 和 How 这三个问题。 参考：video：https:&#x2F;&#x2F;www.youtube.com&#x2F;watch?v&#x3D;IXZKgIsZRm0&amp;ab_channel&#x3D;PyData 在说GBDT前，我们先说下它的俩前缀Gradient Boosting：  Boosting: 这是一种迭代算法，每一次训练都">
+<meta property="og:type" content="article">
+<meta property="og:title" content="GBDT学习笔记">
+<meta property="og:url" content="http://geosmart.github.io/2017/07/25/GBDT%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/index.html">
+<meta property="og:site_name" content="geosmart.io">
+<meta property="og:description" content="GBDT学习笔记学习任何东西都可以按照3W的框架进行，容器技术也是一样，先回答 What、Why 和 How 这三个问题。 参考：video：https:&#x2F;&#x2F;www.youtube.com&#x2F;watch?v&#x3D;IXZKgIsZRm0&amp;ab_channel&#x3D;PyData 在说GBDT前，我们先说下它的俩前缀Gradient Boosting：  Boosting: 这是一种迭代算法，每一次训练都">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="http://geosmart.github.io/2017/07/25/GBDT%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/ensemble%20learning%EF%BC%88%E9%9B%86%E6%88%90%E5%AD%A6%E4%B9%A0%EF%BC%89.png">
+<meta property="og:image" content="http://geosmart.github.io/2017/07/25/GBDT%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/Boosting%E7%AE%97%E6%B3%95%E7%9A%84%E5%B7%A5%E4%BD%9C%E6%9C%BA%E5%88%B6.png">
+<meta property="og:image" content="http://geosmart.github.io/2017/07/25/GBDT%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/Bagging%E7%9A%84%E7%AE%97%E6%B3%95%E5%8E%9F%E7%90%86.png">
+<meta property="og:image" content="http://geosmart.github.io/2017/07/25/GBDT%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/Adaboost%E7%AE%97%E6%B3%95.png">
+<meta property="og:image" content="http://geosmart.github.io/2017/07/25/GBDT%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/Alt%20text.png">
+<meta property="og:image" content="http://geosmart.github.io/2017/07/25/GBDT%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/Alt%20text.png">
+<meta property="og:image" content="http://geosmart.github.io/2017/07/25/GBDT%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/%E5%86%B3%E7%AD%96%E6%A0%91%E7%A4%BA%E4%BE%8B.png">
+<meta property="og:image" content="http://geosmart.github.io/2017/07/25/GBDT%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/Alt%20text.png">
+<meta property="og:image" content="http://geosmart.github.io/2017/07/25/GBDT%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/Alt%20text.png">
+<meta property="og:image" content="http://geosmart.github.io/2017/07/25/GBDT%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/Alt%20text.png">
+<meta property="og:image" content="http://geosmart.github.io/2017/07/25/GBDT%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/Alt%20text.png">
+<meta property="og:image" content="http://geosmart.github.io/2017/07/25/GBDT%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/%E5%9B%9E%E5%BD%92%E6%A0%91%E7%A4%BA%E4%BE%8B.png">
+<meta property="og:image" content="http://geosmart.github.io/2017/07/25/GBDT%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/%E5%9B%9E%E5%BD%92%E6%A0%91%E7%AE%97%E6%B3%95.png">
+<meta property="og:image" content="http://geosmart.github.io/2017/07/25/GBDT%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/%E8%AE%AD%E7%BB%83%E4%B8%80%E4%B8%AA%E6%8F%90%E5%8D%87%E6%A0%91%E6%A8%A1%E5%9E%8B%E6%9D%A5%E9%A2%84%E6%B5%8B%E5%B9%B4%E9%BE%84.png">
+<meta property="og:image" content="http://geosmart.github.io/2017/07/25/GBDT%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/%E5%9B%9E%E5%BD%92%E9%97%AE%E9%A2%98%E7%9A%84%E6%8F%90%E5%8D%87%E6%A0%91%E7%AE%97%E6%B3%95%E6%B5%81%E7%A8%8B.png">
+<meta property="og:image" content="http://geosmart.github.io/2017/07/25/GBDT%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/%E6%A8%A1%E5%9E%8B%E5%A4%8D%E6%9D%82%E5%BA%A6%E4%B8%8E%E5%81%8F%E5%B7%AE%E6%96%B9%E5%B7%AE%E7%9A%84%E5%85%B3%E7%B3%BB%E5%9B%BE.png">
+<meta property="article:published_time" content="2017-07-25T16:00:00.000Z">
+<meta property="article:modified_time" content="2021-12-15T01:13:12.843Z">
+<meta property="article:author" content="geosmart">
+<meta property="article:tag" content="AI">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://geosmart.github.io/2017/07/25/GBDT%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/ensemble%20learning%EF%BC%88%E9%9B%86%E6%88%90%E5%AD%A6%E4%B9%A0%EF%BC%89.png">
+
+<link rel="canonical" href="http://geosmart.github.io/2017/07/25/GBDT%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome: false,
+    isPost: true
+  };
+</script>
+
+  <title>GBDT学习笔记 | geosmart.io</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <div>
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">geosmart.io</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+        <p class="site-subtitle">勿助勿忘，深造自得</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+<nav class="site-nav">
+  
+  <ul id="menu" class="menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-fw fa-home"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-about">
+
+    <a href="/about/" rel="section"><i class="fa fa-fw fa-user"></i>关于</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="fa fa-fw fa-tags"></i>标签</a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/categories/" rel="section"><i class="fa fa-fw fa-th"></i>分类</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-fw fa-archive"></i>归档</a>
+
+  </li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜索
+        </a>
+      </li>
+  </ul>
+
+</nav>
+  <div class="site-search">
+    <div class="popup search-popup">
+    <div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocorrect="off" autocapitalize="off"
+           placeholder="搜索..." spellcheck="false"
+           type="search" class="search-input">
+  </div>
+  <span class="popup-btn-close">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div id="search-result"></div>
+
+</div>
+<div class="search-pop-overlay"></div>
+
+  </div>
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+  <a href="https://github.com/geosmart" class="github-corner" title="Follow me on GitHub" aria-label="Follow me on GitHub" rel="noopener" target="_blank"><svg width="80" height="80" viewBox="0 0 250 250" aria-hidden="true"><path d="M0,0 L115,115 L130,115 L142,142 L250,250 L250,0 Z"></path><path d="M128.3,109.0 C113.8,99.7 119.0,89.6 119.0,89.6 C122.0,82.7 120.5,78.6 120.5,78.6 C119.2,72.0 123.4,76.3 123.4,76.3 C127.3,80.9 125.5,87.3 125.5,87.3 C122.9,97.6 130.6,101.9 134.4,103.2" fill="currentColor" style="transform-origin: 130px 106px;" class="octo-arm"></path><path d="M115.0,115.0 C114.9,115.1 118.7,116.5 119.8,115.4 L133.7,101.6 C136.9,99.2 139.9,98.4 142.2,98.6 C133.8,88.0 127.5,74.4 143.8,58.0 C148.5,53.4 154.0,51.2 159.7,51.0 C160.3,49.4 163.2,43.6 171.4,40.1 C171.4,40.1 176.1,42.5 178.8,56.2 C183.1,58.6 187.2,61.8 190.9,65.4 C194.5,69.0 197.7,73.2 200.1,77.6 C213.8,80.2 216.3,84.9 216.3,84.9 C212.7,93.1 206.9,96.0 205.4,96.6 C205.1,102.4 203.0,107.8 198.3,112.5 C181.9,128.9 168.3,122.5 157.7,114.1 C157.9,116.9 156.7,120.9 152.7,124.9 L141.0,136.5 C139.8,137.7 141.6,141.9 141.8,141.8 Z" fill="currentColor" class="octo-body"></path></svg></a>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content">
+            
+
+  <div class="posts-expand">
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block " lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://geosmart.github.io/2017/07/25/GBDT%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="geosmart">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="geosmart.io">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          GBDT学习笔记
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：26   七月   2017 0:00:00" itemprop="dateCreated datePublished" datetime="2017-07-26T00:00:00+08:00">26   七月   2017</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：15   十二月   2021 9:13:12" itemprop="dateModified" datetime="2021-12-15T09:13:12+08:00">15   十二月   2021</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/" itemprop="url" rel="index"><span itemprop="name">机器学习</span></a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <h1 id="GBDT学习笔记"><a href="#GBDT学习笔记" class="headerlink" title="GBDT学习笔记"></a>GBDT学习笔记</h1><p>学习任何东西都可以按照3W的框架进行，容器技术也是一样，先回答 What、Why 和 How 这三个问题。</p>
+<p>参考：<br>video：<a href="https://www.youtube.com/watch?v=IXZKgIsZRm0&amp;ab_channel=PyData">https://www.youtube.com/watch?v=IXZKgIsZRm0&amp;ab_channel=PyData</a></p>
+<p>在说GBDT前，我们先说下它的俩前缀Gradient Boosting：</p>
+<ul>
+<li>Boosting: 这是一种迭代算法，每一次训练都是在前面已有模型的预测基础上进行。<br>最简单地说，先训练一个初始模型，对比真实值和预测值的残差；用残差再训练一个模型，再计算残差；再训练……。这样，每一个模型都专注于修正前面模型最不给力的效果方面。<br>于是，通过这种方式联合多个弱分类器，就能得到一个强分类器。</li>
+<li>Gradient: 梯度。对于单个变量来说，就是一阶导数。<br>前面Boosting要计算残差，方法就很多了，你可以直接相减，也可以定义个函数。这里Gradient就是说用梯度来计算残差。</li>
+</ul>
+<p>所以说Gradient Boosting是一种算法框架，它是<code>用Grdient计算残差的Boosting过程，而GBDT只是用决策树来训练的一种具体实现</code>。</p>
+<h1 id="概念定义-what"><a href="#概念定义-what" class="headerlink" title="概念定义 what"></a>概念定义 what</h1><h2 id="ensemble-learning（集成学习）"><a href="#ensemble-learning（集成学习）" class="headerlink" title="ensemble learning（集成学习）"></a>ensemble learning（集成学习）</h2><p>从下图，我们可以对集成学习的思想做一个概括。对于训练集数据，我们通过训练若干个个体学习器，通过一定的结合策略，就可以最终形成一个强学习器，以达到博采众长的目的。<br><img src="ensemble learning（集成学习）.png" alt="ensemble learning（集成学习）"><br>也就是说，集成学习有两个主要的问题需要解决，<br>第一是如何得到若干个个体学习器，<br>第二是如何选择一种结合策略，将这些个体学习器集合成一个强学习器。</p>
+<h3 id="集成学习之个体学习器"><a href="#集成学习之个体学习器" class="headerlink" title="集成学习之个体学习器"></a>集成学习之个体学习器</h3><p>如何得到若干个个体学习器？ 这里我们有两种选择。</p>
+<ol>
+<li>第一种就是所有的个体学习器都是一个种类的，或者说是<code>同质</code>的。比如都是决策树个体学习器，或者都是神经网络个体学习器。<br>同质个体学习器使用最多的模型是<code>CART决策树</code>和<code>神经网络</code>。<br>同质个体学习器按照个体学习器之间<code>是否存在依赖关系</code>可以分为两类，<ul>
+<li>第一个是个体学习器之间存在强依赖关系，一系列个体学习器基本都需要串行生成，代表算法是<code>boosting</code>系列算法，</li>
+<li>第二个是个体学习器之间不存在强依赖关系，一系列个体学习器可以并行生成，代表算法是<code>bagging</code>和<code>随机森林（Random Forest）</code>系列算法。</li>
+</ul>
+</li>
+<li>第二种是所有的个体学习器不全是一个种类的，或者说是<code>异质</code>的。比如我们有一个分类问题，对训练集采用<code>支持向量机个体学习器，逻辑回归个体学习器和朴素贝叶斯个体学习器</code>来学习，再通过某种结合策略来确定最终的分类强学习器。</li>
+</ol>
+<blockquote>
+<p>目前来说，同质个体学习器的应用是最广泛的，一般我们常说的集成学习的方法都是指的同质个体学习器。</p>
+</blockquote>
+<h2 id="集成学习之boosting"><a href="#集成学习之boosting" class="headerlink" title="集成学习之boosting"></a>集成学习之boosting</h2><p>Boosting 是迭代算法，每一次迭代都根据上一次迭代的预测结果对样本进行加权，所以随着迭代不断进行，误差会越来越小，所以模型的 bias 会不断降低。这种算法无法并行，例子比如 Adaptive Boosting.<br><img src="Boosting算法的工作机制.png" alt="Boosting算法的工作机制"><br>从图中可以看出，Boosting算法的工作机制</p>
+<ol>
+<li>从训练集用<code>初始权重</code>训练出一个弱学习器1，根据弱学习的<code>学习误差率</code>表现来更新训练样本的权重，使得之前弱学习器1学习误差率高的训练样本点的权重变高，使得这些误差率高的点在后面的弱学习器2中得到更多的重视；</li>
+<li>基于调整权重后的训练集来训练弱学习器2；</li>
+<li>如此重复进行，直到弱学习器数达到事先指定的数目T；</li>
+<li>最终将这T个弱学习器通过集合策略进行整合，得到最终的强学习器。</li>
+</ol>
+<p>Boosting系列算法里最著名算法主要有：</p>
+<ul>
+<li>AdaBoost算法</li>
+<li>提升树(boosting tree)系列算法。提升树系列算法里面应用最广泛的是梯度提升树(Gradient Boosting Tree)。</li>
+</ul>
+<h2 id="Boosting算法的4个具体的问题"><a href="#Boosting算法的4个具体的问题" class="headerlink" title="Boosting算法的4个具体的问题"></a>Boosting算法的4个具体的问题</h2><p> 只要是boosting大家族的算法，都要解决这4个问题。</p>
+<ol>
+<li>如何计算学习误差率e?</li>
+<li>如何得到弱学习器权重系数α?</li>
+<li>如何更新样本权重D?</li>
+<li>使用何种结合策略？</li>
+</ol>
+<h2 id="集成学习之bagging"><a href="#集成学习之bagging" class="headerlink" title="集成学习之bagging"></a>集成学习之bagging</h2><p>Bagging 是 Bootstrap Aggregating 的简称，意思就是再取样 (Bootstrap) 然后在每个样本上训练出来的模型取平均，所以是降低模型的 variance， 比如 Random Forest 这种先天并行的算法都有这个效果。</p>
+<p>Bagging的算法原理和 boosting不同，它的弱学习器之间没有依赖关系，可以并行生成，我们可以用一张图做一个概括如下：</p>
+<p><img src="Bagging的算法原理.png" alt="Bagging的算法原理"><br>从上图可以看出，bagging的个体弱学习器的训练集是通过<code>随机采样</code>得到的。通过T次的随机采样，我们就可以得到T个采样集，对于这T个采样集，我们可以分别独立的训练出T个弱学习器，再对这T个弱学习器通过集合策略来得到最终的强学习器。</p>
+<p>对于这里的随机采样有必要做进一步的介绍，这里一般采用的是<code>自助采样法（Bootstap sampling）</code>,即对于m个样本的原始训练集，我们每次先随机采集一个样本放入采样集，接着把该样本放回，也就是说下次采样时该样本仍有可能被采集到，这样采集m次，最终可以得到m个样本的采样集，由于是随机采样，这样每次的采样集是和原始训练集不同的，和其他采样集也是不同的，这样得到多个不同的弱学习器。</p>
+<blockquote>
+<p>随机森林是bagging的一个特化进阶版，所谓的特化是因为随机森林的弱学习器都是决策树。所谓的进阶是随机森林在bagging的样本随机采样基础上，又加上了特征的随机选择，其基本思想没有脱离bagging的范畴。</p>
+</blockquote>
+<p>　　　　</p>
+<h2 id="GBDT是什么？"><a href="#GBDT是什么？" class="headerlink" title="GBDT是什么？"></a>GBDT是什么？</h2><p>GBDT有很多简称，有</p>
+<ul>
+<li>GBT（Gradient Boosting Tree）, </li>
+<li>GTB（Gradient Tree Boosting ）， </li>
+<li>GBRT（Gradient Boosting Regression Tree）, </li>
+<li><p>MART(Multiple Additive Regression Tree)，</p>
+<p>  其实都是指的同一种算法，本文统一简称GBDT（Gradient Boosting Decision Tree）。GBDT在BAT大厂中也有广泛的应用，假如要选择3个最重要的机器学习算法的话，个人认为GBDT应该占一席之地。</p>
+</li>
+</ul>
+<blockquote>
+<p>GBDT 使用的弱分类器就是 Decision Tree，而融合的方法叫做 Gradient Boosting。</p>
+</blockquote>
+<h2 id="Gradient-梯度"><a href="#Gradient-梯度" class="headerlink" title="Gradient  梯度"></a>Gradient  梯度</h2><h3 id="梯度的提出只为回答一个问题"><a href="#梯度的提出只为回答一个问题" class="headerlink" title="梯度的提出只为回答一个问题"></a>梯度的提出只为回答一个问题</h3><p>函数在变量空间的某一点处，沿着哪一个方向有最大的变化率？ </p>
+<h3 id="梯度定义grad"><a href="#梯度定义grad" class="headerlink" title="梯度定义grad"></a>梯度定义grad</h3><blockquote>
+<p>函数在某一点的梯度是个向量，它的方向与函数在这点取得最大方向导数的方向一致，而它的模为方向导数的最大值。<br>函数在一点的梯度方向与等值线在这点的一个法线方向相同，它的指向为从数值较低的等值线指向数值较高的等值线，梯度的模就等于函数在这个法线方向的方向导数；<br>—-《同济大学高等数学下册》p49</p>
+</blockquote>
+<p>这里注意三点： </p>
+<ol>
+<li>梯度是一个向量，即有方向有大小； </li>
+<li>梯度的方向是最大方向导数的方向； </li>
+<li>梯度的值是最大方向导数的值。<br>梯度即函数在某一点最大的方向导数，函数沿梯度方向函数有最大的变化率。 </li>
+</ol>
+<h3 id="梯度的应用"><a href="#梯度的应用" class="headerlink" title="梯度的应用"></a>梯度的应用</h3><p>一个标量场 数量变化最快的方向就是梯度方向，<br>那么我们可以用梯度来优化损失函数，如梯度下降求损失函数的最小值…<br>形象理解就是：山坡某个点坡度最陡的方向</p>
+<p>梯度本质就是一个向量。一个曲面上某点(x，y)，梯度是由该点偏导数得出的向量(a，b)。<br>可以类比成：你站在该点，按照向量所指的方向上山最陡。</p>
+<h2 id="导数"><a href="#导数" class="headerlink" title="导数"></a>导数</h2><p> 导数：被定义为一个极限，其意义就是变化率<br>微分：是一个线性函数，其意义就是变化的具体数值<br>切线：有了导数之后就可以被确定下来了</p>
+<ul>
+<li>几何意义：f(x)在点x0处的导数为改点切线的斜率</li>
+<li>物理意义：动点在某时刻t0的瞬时速度（极限值）<h2 id="方向导数"><a href="#方向导数" class="headerlink" title="方向导数"></a>方向导数</h2>方向导数就是一个曲面上的某点(x，y)，从该点起始沿特定方向函数的变化率。<br>可以类比成：有一个山峰，你站在山顶观察，北坡较陡南坡较缓。</li>
+</ul>
+<h2 id="Boosting"><a href="#Boosting" class="headerlink" title="Boosting"></a>Boosting</h2><ul>
+<li>Boosting是一族可将弱学习器提升为强学习器的算法，属于集成学习（ensemble learning）的范畴；</li>
+<li>Boosting方法基于这样一种思想：<br>对于一个复杂任务来说，将多个专家的判定进行适当的综合得出的判断，要比其中任何一个专家单独的判断好。<br>通俗理解。</li>
+</ul>
+<ol>
+<li>“三个臭皮匠顶个诸葛亮”，一堆弱分类器的组合就可以成为一个强分类器；</li>
+<li>“知错能改，善莫大焉”，不断地在错误中学习，迭代来降低犯错概率；</li>
+</ol>
+<h3 id="弱学习算法和强学习算法"><a href="#弱学习算法和强学习算法" class="headerlink" title="弱学习算法和强学习算法"></a>弱学习算法和强学习算法</h3><p>要理解好Boosting的思想，首先需从弱学习算法和强学习算法来引入：</p>
+<ul>
+<li>强学习算法：存在一个多项式时间的学习算法以识别一组概念，且识别的正确率很高；</li>
+<li>弱学习算法：识别一组概念的正确率仅比随机猜测略好；</li>
+</ul>
+<p>Kearns &amp; Valiant证明了<strong>弱学习算法与强学习算法的等价问题</strong>，<br>如果两者等价，只需找到一个比随机猜测略好的学习算法，就可以将其提升为强学习算法。</p>
+<blockquote>
+<p>那么是怎么实现“知错就改”的呢？<br>Boosting算法，通过一系列的迭代来优化分类结果，每迭代一次引入一个弱分类器，来克服现在已经存在的弱分类器组合的shortcomings；</p>
+<ul>
+<li>在Adaboost算法中，这个shortcomings的表征就是权值高的样本点；</li>
+<li>而在Gradient Boosting算法中,这个shortcomings的表征就是梯度；</li>
+</ul>
+</blockquote>
+<p>无论是Adaboost还是Gradient Boosting，都是通过这个shortcomings来告诉学习器怎么去提升模型，也就是“Boosting”这个名字的由来吧</p>
+<h4 id="Adaboost-算法"><a href="#Adaboost-算法" class="headerlink" title="Adaboost 算法"></a>Adaboost 算法</h4><p><img src="Adaboost算法.png" alt="Adaboost算法"><br>前一个学习器改变权重w，然后再经过下一个学习器，最终所有的学习器共同组成最后的学习器。<br>如果一个样本在前一个学习器中被误分，那么它所对应的权重会被加重，相应地，被正确分类的样本的权重会降低。</p>
+<h2 id="Gradient-boosting梯度提升"><a href="#Gradient-boosting梯度提升" class="headerlink" title="Gradient boosting梯度提升"></a>Gradient boosting梯度提升</h2><p>梯度提升（Gradient boosting）是一种用于回归、分类和排序任务的机器学习技术，属于Boosting算法族的一部分。<br>梯度提升同其他boosting方法一样，通过集成（ensemble）多个弱学习器，通常是决策树，来构建最终的预测模型。<br><img src="Alt text.png" alt="Alt text"><br><img src="Alt text.png" alt="Alt text"></p>
+<ul>
+<li>Gradient Boosting 在迭代的时候选择梯度下降的方向来保证最后的结果最好。</li>
+<li>损失函数用来描述模型的“靠谱”程度，假设模型没有过拟合，损失函数越大，模型的错误率越高</li>
+<li>如果我们的模型能够让损失函数持续的下降，则说明我们的模型在不停的改进，而最好的方式就是让损失函数在其梯度方向上下降。</li>
+</ul>
+<blockquote>
+<p>Gradient Boosting是在boosting思想下的一种函数（也可以说是模型）的优化的方法，首先将函数分解为可加的形式（其实所有的函数都是可加的，只是是否好放在这个框架中，以及最终的效果如何）。然后进行m次迭代，通过使得损失函数在梯度方向上减少，最终得到一个优秀的模型。值得一提的是，每次模型在梯度方向上的减少的部分，可以认为是一个“小”的或者“弱”的模型，最终我们会通过加权(也就是每次在梯度方向上下降的距离）的方式将这些“弱”的模型合并起来，形成一个更好的模型。</p>
+</blockquote>
+<h2 id="Decision-Tree基本思想"><a href="#Decision-Tree基本思想" class="headerlink" title="Decision Tree基本思想"></a>Decision Tree基本思想</h2><h3 id="DT定义"><a href="#DT定义" class="headerlink" title="DT定义"></a>DT定义</h3><ul>
+<li>机器学习中，决策树是一个预测模型，数据挖掘中决策树是一种经常要用到的技术，可以用于分析数据，同样也可以用来作预测；</li>
+<li>他代表的是对象属性与对象值之间的一种映射关系。树中每个节点表示某个对象，而每个分叉路径则代表某个可能的属性值，而每个叶节点则对应从根节点到该叶节点所经历的路径所表示的对象的值。</li>
+<li>决策树仅有单一输出，若欲有复数输出，可以建立独立的决策树以处理不同输出。 </li>
+</ul>
+<p>从数据产生决策树的机器学习技术叫做决策树学习，通俗说就是决策树。<br>一个决策树包含三种类型的节点：</p>
+<ol>
+<li>决策节点：通常用矩形框来表示</li>
+<li>机会节点：通常用圆圈来表示</li>
+<li>终结点：通常用三角形来表示<br><img src="决策树示例.png" alt="决策树示例"></li>
+</ol>
+<p>决策树学习也是数据挖掘中一个普通的方法。在这里，每个决策树都表述了一种树型结构，它由它的分支来对该类型的对象依靠属性进行分类。<br>每个决策树可以依靠对源数据库的分割进行数据测试。这个过程可以递归式的对树进行修剪。 当不能再进行分割或一个单独的类可以被应用于某一分支时，递归过程就完成了。</p>
+<p>另外，随机森林分类器将许多决策树结合起来以提升分类的正确率。</p>
+<p>决策树同时也可以依靠计算条件概率来构造。</p>
+<h2 id="分类树-回归树"><a href="#分类树-回归树" class="headerlink" title="分类树/回归树"></a>分类树/回归树</h2><h3 id="分类树"><a href="#分类树" class="headerlink" title="分类树"></a>分类树</h3><p>以C4.5分类树为例，C4.5分类树在每次分枝时，<br>是穷举每一个feature的每一个阈值，<br>找到使得按照feature&lt;=阈值，和feature&gt;阈值分成的两个分枝的熵最大的阈值<br>(熵最大的概念可理解成尽可能每个分枝的男女比例都远离1:1)，</p>
+<p>按照该标准分枝得到两个新节点，用同样方法继续分枝直到所有人都被分入性别唯一的叶子节点，<br>或达到预设的终止条件，<br>若最终叶子节点中的性别不唯一，则以多数人的性别作为该叶子节点的性别。</p>
+<p>总结：<br>分类树使用<code>信息增益</code>或增益比率来划分节点；<br>每个节点样本的类别情况投票决定测试样本的类别。</p>
+<h3 id="回归树"><a href="#回归树" class="headerlink" title="回归树"></a>回归树</h3><p>回归树总体流程也是类似，<br>区别在于，回归树的每个节点（不一定是叶子节点）都会得一个预测值，<br>以年龄为例，该预测值等于属于这个节点的所有人年龄的平均值。<br>分枝时穷举每一个feature的每个阈值找最好的分割点，但衡量最好的标准不再是最大熵，而是最小化均方差即(每个人的年龄-预测年龄)^2 的总和 / N。<br>也就是被预测出错的人数越多，错的越离谱，均方差就越大，通过<code>最小化均方差</code>能够找到最可靠的分枝依据。<br>分枝直到每个叶子节点上人的年龄都唯一或者达到预设的终止条件(如叶子个数上限)，<br>若最终叶子节点上人的年龄不唯一，则以该节点上所有人的平均年龄做为该叶子节点的预测年龄。</p>
+<p>总结：<br>回归树使用最小均方差划分节点；<br>每个节点样本的均值作为测试样本的回归预测值。</p>
+<h2 id="决策树-分裂成本"><a href="#决策树-分裂成本" class="headerlink" title="决策树-分裂成本"></a>决策树-分裂成本</h2><p>让我们进一步讨论用于分类和回归的成本函数。在这两种情况下，成本函数都在试图寻找分裂后结构相似程度最高的那种方式。其中的意义是，我们可以更加确信测试数据将会跟随哪个路径。<br><img src="Alt text.png" alt="Alt text"><br>比如预测房价：决策树开始分裂时需要考虑训练数据的所有特征；对于训练数据的特定分组，其输入响应的均值会被作为该组的预测值。上述函数会被用在所有的数据点，用以计算所有可能分裂的成本。损失最低的分裂方式将被筛选出来。另一种成本函数涉及到约化和标准差，更多信息可参考这里：<a href="http://www.saedsayad.com/decision_tree_reg.htm。">http://www.saedsayad.com/decision_tree_reg.htm。</a></p>
+<p><img src="Alt text.png" alt="Alt text"><br>为评估某个分裂方式的优劣，我们用Gini分数来衡量训练数据分裂后的混乱程度。其中，pk表示特定分组中相同输入类别所占的比例。当某一数据组的所有输入都来自同一类别时，我们就得到了一个完美分类，此时的pk值不是1就是0，而G必定为0。但如果某个数据组中两个类别的数据各占一半，这就发生了最坏的情况，此时二元分类的pk=0.5, G=0.5。</p>
+<p><a href="http://daniellaah.github.io/2017/Statistical-Learning-Notes-Chapter5-DecisionTree-2.html">《统计学习方法》笔记 (七) - 决策树(下)</a></p>
+<h2 id="应用场景-why"><a href="#应用场景-why" class="headerlink" title="应用场景 why"></a>应用场景 why</h2><p>为什么需要GBDT？GBDT到底解决的是什么问题？</p>
+<h2 id="算法推导-how"><a href="#算法推导-how" class="headerlink" title="算法推导 how"></a>算法推导 how</h2><p>GBDT如何工作，算法原理<br><a href="http://www.cnblogs.com/LeftNotEasy/archive/2011/03/07/random-forest-and-gbdt.html">http://www.cnblogs.com/LeftNotEasy/archive/2011/03/07/random-forest-and-gbdt.html</a></p>
+<p><a href="http://blog.kaggle.com/2017/01/23/a-kaggle-master-explains-gradient-boosting/">http://blog.kaggle.com/2017/01/23/a-kaggle-master-explains-gradient-boosting/</a></p>
+<h2 id="可视化"><a href="#可视化" class="headerlink" title="可视化"></a>可视化</h2><p><img src="Alt text.png" alt="Alt text"><br><img src="Alt text.png" alt="Alt text"></p>
+<p><a href="https://distill.pub/2017/momentum/">梯度下降</a><br><a href="http://www.r2d3.us/å¾è§£æºå¨å­¦ä¹ /">决策树</a></p>
+<h1 id="GBDT总结"><a href="#GBDT总结" class="headerlink" title="GBDT总结"></a>GBDT总结</h1><p>GBDT是Gradient Boosting框架用决策树完成的一个具体实现。<br>Gradeint Boosting框架的本质思路是一个从基准值到目标值的逼近过程，也是一个基准弱模型向强模型的进化过程。<br>逼近过程是用损失函数来描述和控制的，具体的步进量（残差）由损失函数的梯度来指示。机器模型的作用是用来拟合和预测残差。</p>
+<h2 id="XGBoost-GBDT相关blog推荐"><a href="#XGBoost-GBDT相关blog推荐" class="headerlink" title="XGBoost/GBDT相关blog推荐"></a>XGBoost/GBDT相关blog推荐</h2><p><a href="http://www.jianshu.com/p/02cfaae3fd01">http://www.jianshu.com/p/02cfaae3fd01</a><br>参考 <a href="https://zhuanlan.zhihu.com/p/27111288">https://zhuanlan.zhihu.com/p/27111288</a><br><a href="http://www.cnblogs.com/pinard/category/894692.html">http://www.cnblogs.com/pinard/category/894692.html</a></p>
+<p>简书-提升方法(Boosting)算法笔记-Python<br><a href="http://www.jianshu.com/p/cbcfee8cf245">http://www.jianshu.com/p/cbcfee8cf245</a><br><a href="http://www.jianshu.com/p/4d32da99f18d">http://www.jianshu.com/p/4d32da99f18d</a></p>
+<p>Gradient Boosting Interactive Playground<br><a href="http://arogozhnikov.github.io/2016/07/05/gradient_boosting_playground.html">http://arogozhnikov.github.io/2016/07/05/gradient_boosting_playground.html</a></p>
+<p>Gradient Boosting explained<br><a href="http://arogozhnikov.github.io/2016/06/24/gradient_boosting_explained.html">http://arogozhnikov.github.io/2016/06/24/gradient_boosting_explained.html</a></p>
+<p>在数据分析的过程中，我们经常需要对数据建模并做预测。在众多的选择中，<code>randomForest</code>, <code>gbm</code> 和 <code>glmnet</code>是三个尤其流行的 R 包，它们在 Kaggle 的各大数据挖掘竞赛中的出现频率独占鳌头，被坊间人称为 R 数据挖掘包中的三驾马车。</p>
+<h1 id="DT（Decision-Tree）"><a href="#DT（Decision-Tree）" class="headerlink" title="DT（Decision Tree）"></a>DT（Decision Tree）</h1><p>决策树的判定过程就相当于树中从根结点到某一个叶子结点的遍历。每一步如何遍历是由数据各个特征的具体特征属性决定。</p>
+<p><a href="https://zhuanlan.zhihu.com/p/26703300">深入浅出理解决策树算法</a># GBM（Gradient boosting machine）</p>
+<h2 id="GBM定义"><a href="#GBM定义" class="headerlink" title="GBM定义"></a>GBM定义</h2><p>梯度提升机器（GBM，Gradient boosting machine）：这种方法通过训练一系列决策树来产生一个预测模型，在其中，后序决策树会校正前序决策树所产生的预测误差。</p>
+<h2 id="GBM与传统Boosting算法区别"><a href="#GBM与传统Boosting算法区别" class="headerlink" title="GBM与传统Boosting算法区别"></a>GBM与传统Boosting算法区别</h2><p>Gradient Boosting是一种Boosting的方法，其与传统的Boosting的区别是，每一次的计算是为了减少上一次的残差(residual)，而为了消除残差，可以在残差减少的梯度(Gradient)方向上建立一个新的模型。<br>所以说，在Gradient Boosting中，每个新的模型的建立是为了使得之前模型的残差往梯度方向减少，与传统Boosting对正确、错误样本进行加权有着很大的区别。</p>
+<h1 id="GBDT（Gradient-Boosting-Decision-Tree）"><a href="#GBDT（Gradient-Boosting-Decision-Tree）" class="headerlink" title="GBDT（Gradient Boosting Decision Tree）"></a>GBDT（Gradient Boosting Decision Tree）</h1><h2 id="GBDT定义"><a href="#GBDT定义" class="headerlink" title="GBDT定义"></a>GBDT定义</h2><p>GBDT(Gradient Boosting Decision Tree) ,又叫 MART（Multiple Additive Regression Tree)，是一种迭代的决策树算法，该算法由多棵决策树组成，所有树的结论累加起来做最终答案。它在被提出之初就和SVM一起被认为是泛化能力较强的算法。<br>GBDT中的树是回归树（不是分类树），GBDT用来做回归预测，调整后也可以用于分类。<br>GBDT的思想使其具有天然优势可以发现多种有区分性的特征以及特征组合。</p>
+<h2 id="Regression-Decision-Tree：回归树"><a href="#Regression-Decision-Tree：回归树" class="headerlink" title="Regression Decision Tree：回归树"></a>Regression Decision Tree：回归树</h2><p>  回归树总体流程类似于分类树，区别在于，回归树的每一个节点都会得一个预测值，以年龄为例，该预测值等于属于这个节点的所有人年龄的平均值。分枝时穷举每一个feature的每个阈值找最好的分割点，但衡量最好的标准不再是最大熵，而是最小化平方误差。也就是被预测出错的人数越多，错的越离谱，平方误差就越大，通过最小化平方误差能够找到最可靠的分枝依据。分枝直到每个叶子节点上人的年龄都唯一或者达到预设的终止条件(如叶子个数上限)，若最终叶子节点上人的年龄不唯一，则以该节点上所有人的平均年龄做为该叶子节点的预测年龄。</p>
+<ul>
+<li>回归树示例<br><img src="回归树示例.png" alt="回归树示例"></li>
+<li>回归树算法（《统计学习方法》5.5.1 CART生成）：<br><img src="回归树算法.png" alt="回归树算法"></li>
+</ul>
+<h2 id="Boosting-Decision-Tree：提升树算法"><a href="#Boosting-Decision-Tree：提升树算法" class="headerlink" title="Boosting Decision Tree：提升树算法"></a>Boosting Decision Tree：提升树算法</h2><p>提升树是迭代多棵回归树来共同决策。当采用平方误差损失函数时，每一棵回归树学习的是之前所有树的结论和残差，拟合得到一个当前的残差回归树，残差的意义如公式：残差 = 真实值 - 预测值 。提升树即是整个迭代过程生成的回归树的累加。<br>举个例子展现多棵决策树线性求和过程以及残差的意义。<br>训练一个提升树模型来预测年龄：训练集是4个人，A，B，C，D年龄分别是14，16，24，26。样本中有购物金额、上网时长、经常到百度知道提问等特征。提升树的过程如下：<br><img src="训练一个提升树模型来预测年龄.png" alt="训练一个提升树模型来预测年龄"><br>该例子很直观的能看到，预测值等于所有树值得累加，如A的预测值 = 树1左节点 值 15 + 树2左节点 -1 = 14。<br>因此，给定当前模型 fm-1(x)，只需要简单的拟合当前模型的残差。现将回归问题的提升树算法叙述如下：<br><img src="回归问题的提升树算法流程.png" alt="回归问题的提升树算法流程"></p>
+<h2 id="Gradient-Boosting-Decision-Tree：梯度提升决策树"><a href="#Gradient-Boosting-Decision-Tree：梯度提升决策树" class="headerlink" title="Gradient Boosting Decision Tree：梯度提升决策树"></a>Gradient Boosting Decision Tree：梯度提升决策树</h2><p>提升树利用加法模型和前向分步算法实现学习的优化过程。当损失函数是平方损失和指数损失函数时，每一步的优化很简单，如平方损失函数学习残差回归树。</p>
+<h2 id="xgboost-gbdt在调参时为什么树的深度很少就能达到很高的精度？"><a href="#xgboost-gbdt在调参时为什么树的深度很少就能达到很高的精度？" class="headerlink" title="xgboost/gbdt在调参时为什么树的深度很少就能达到很高的精度？"></a>xgboost/gbdt在调参时为什么树的深度很少就能达到很高的精度？</h2><p>用xgboost/gbdt在在调参的时候把树的最大深度调成6就有很高的精度了。但是用DecisionTree/RandomForest的时候需要把树的深度调到15或更高。用RandomForest所需要的树的深度和DecisionTree一样我能理解，因为它是用bagging的方法把DecisionTree组合在一起，相当于做了多次DecisionTree一样。但是xgboost/gbdt仅仅用梯度上升法就能用6个节点的深度达到很高的预测精度，使我惊讶到怀疑它是黑科技了。请问下xgboost/gbdt是怎么做到的？它的节点和一般的DecisionTree不同吗？<br> <br>一句话的解释，来自周志华老师的机器学习教科书（ 机器学习-周志华）：Boosting主要关注降低偏差，因此Boosting能基于泛化性能相当弱的学习器构建出很强的集成；Bagging主要关注降低方差，因此它在不剪枝的决策树、神经网络等学习器上效用更为明显。</p>
+<p>随机森林(random forest)和GBDT都是属于集成学习（ensemble learning)的范畴。集成学习下有两个重要的策略Bagging和Boosting。</p>
+<p>Bagging算法是这样做的：每个分类器都随机从原样本中做有放回的采样，然后分别在这些采样后的样本上训练分类器，然后再把这些分类器组合起来。简单的多数投票一般就可以。其代表算法是随机森林。Boosting的意思是这样，他通过迭代地训练一系列的分类器，每个分类器采用的样本分布都和上一轮的学习结果有关。其代表算法是AdaBoost, GBDT。</p>
+<p>其实就机器学习算法来说，其泛化误差可以分解为两部分，偏差（bias)和方差(variance)。这个可由下图的式子导出（这里用到了概率论公式D(X)=E(X^2)-[E(X)]^2）。偏差指的是算法的期望预测与真实预测之间的偏差程度，反应了模型本身的拟合能力；方差度量了同等大小的训练集的变动导致学习性能的变化，刻画了数据扰动所导致的影响。这个有点儿绕，不过你一定知道过拟合。</p>
+<p>如下图所示，当模型越复杂时，拟合的程度就越高，模型的训练偏差就越小。但此时如果换一组数据可能模型的变化就会很大，即模型的方差很大。所以模型过于复杂的时候会导致过拟合。</p>
+<p>当模型越简单时，即使我们再换一组数据，最后得出的学习器和之前的学习器的差别就不那么大，模型的方差很小。还是因为模型简单，所以偏差会很大。<br><img src="模型复杂度与偏差方差的关系图.png" alt="模型复杂度与偏差方差的关系图"></p>
+<p>也就是说，当我们训练一个模型时，偏差和方差都得照顾到，漏掉一个都不行。</p>
+<p>对于Bagging算法来说，由于我们会并行地训练很多不同的分类器的目的就是降低这个方差(variance) ,因为采用了相互独立的基分类器多了以后，h的值自然就会靠近.所以对于每个基分类器来说，目标就是如何降低这个偏差（bias),所以我们会采用深度很深甚至不剪枝的决策树。</p>
+<p>对于Boosting来说，每一步我们都会在上一轮的基础上更加拟合原数据，所以可以保证偏差（bias）,所以对于每个基分类器来说，问题就在于如何选择variance更小的分类器，即更简单的分类器，所以我们选择了深度很浅的决策树。 </p>
+<h2 id="GBDT应用"><a href="#GBDT应用" class="headerlink" title="GBDT应用"></a>GBDT应用</h2><p>业界中，Facebook使用其来自动发现有效的特征、特征组合，来作为LR模型中的特征，以提高 CTR预估（Click-Through Rate Prediction）的准确性；GBDT在淘宝的搜索及预测业务上也发挥了重要作用</p>
+<h2 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h2><p><a href="https://link.zhihu.com/?target=http://www.jianshu.com/p/005a4e6ac775">GBDT：梯度提升决策树</a><br><a href="https://link.zhihu.com/?target=http://blog.csdn.net/suranxu007/article/details/49910323">GBDT（MART） 迭代决策树入门教程</a><br><a href="http://hacker.duanshishi.com/?p=1348">http://hacker.duanshishi.com/?p=1348</a></p>
+<h2 id="Xgboost与GBDT比较"><a href="#Xgboost与GBDT比较" class="headerlink" title="Xgboost与GBDT比较"></a>Xgboost与GBDT比较</h2><ul>
+<li>传统GBDT以CART作为基分类器，xgboost还支持线性分类器，这个时候xgboost相当于带L1和L2正则化项的逻辑斯蒂回归（分类问题）或者线性回归（回归问题）。</li>
+<li>传统GBDT在优化时只用到一阶导数信息，xgboost则对代价函数进行了二阶泰勒展开，同时用到了一阶和二阶导数。顺便提一下，xgboost工具支持自定义代价函数，只要函数可一阶和二阶求导。</li>
+<li>xgboost在代价函数里加入了正则项，用于控制模型的复杂度。正则项里包含了树的叶子节点个数、每个叶子节点上输出的score的L2模的平方和。从Bias-variance tradeoff角度来讲，正则项降低了模型的variance，使学习出来的模型更加简单，防止过拟合，这也是xgboost优于传统GBDT的一个特性。</li>
+<li>Shrinkage（缩减），相当于学习速率（xgboost中的eta）。xgboost在进行完一次迭代后，会将叶子节点的权重乘上该系数，主要是为了削弱每棵树的影响，让后面有更大的学习空间。实际应用中，一般把eta设置得小一点，然后迭代次数设置得大一点。（补充：传统GBDT的实现也有学习速率）</li>
+<li>列抽样（column subsampling）。xgboost借鉴了随机森林的做法，支持列抽样，不仅能降低过拟合，还能减少计算，这也是xgboost异于传统gbdt的一个特性。对缺失值的处理。对于特征的值有缺失的样本，xgboost可以自动学习出它的分裂方向。</li>
+<li>可并行的近似直方图算法。树节点在进行分裂时，我们需要计算每个特征的每个分割点对应的增益，即用贪心法枚举所有可能的分割点。当数据无法一次载入内存或者在分布式情况下，贪心算法效率就会变得很低，所以xgboost还提出了一种可并行的近似直方图算法，用于高效地生成候选的分割点。<br><a href="https://www.zhihu.com/question/41354392">参考 机器学习算法中GBDT和XGBOOST的区别有哪些？</a></li>
+</ul>
+<h1 id="Xgboost（eXtreme-Gradient-Boosting）"><a href="#Xgboost（eXtreme-Gradient-Boosting）" class="headerlink" title="Xgboost（eXtreme Gradient Boosting）"></a>Xgboost（eXtreme Gradient Boosting）</h1><p>xgboost是GradientBoosting Machine的一个c++实现。现在xgboost已封装成了Python库，并制作成了xgboost工具的R语言接口提交到了CRAN上，也有用户将其封装成了 julia库。</p>
+<h2 id="Xgboost特点"><a href="#Xgboost特点" class="headerlink" title="Xgboost特点"></a>Xgboost特点</h2><ol>
+<li>xgboost能够自动利用CPU的多线程进行并行，同时在算法上加以改进提高了精度。</li>
+<li>xgboost通过如下的优化使得效率大幅提高：</li>
+</ol>
+<ul>
+<li>xgboost借助OpenMP ，能自动利用单机CPU的多核进行并行计算。需要注意的是，Mac上的Clang对OpenMP的支持较差，所以默认情况下只能单核运行。</li>
+<li>xgboost自定义了一个数据矩阵类DMatrix，会在训练开始时进行一遍预处理，从而提高之后每次迭代的效率。</li>
+</ul>
+<blockquote>
+<p>boosting不是一种串行的结构吗?怎么并行的？注意xgboost的并行不是tree粒度的并行，xgboost也是一次迭代完才能进行下一次迭代的（第t次迭代的代价函数里包含了前面t-1次迭代的预测值）。<br>xgboost的并行是在特征粒度上的。我们知道，决策树的学习最耗时的一个步骤就是对特征的值进行排序（因为要确定最佳分割点），xgboost在训练之前，预先对数据进行了排序，然后保存为block结构，后面的迭代中重复地使用这个结构，大大减小计算量。这个block结构也使得并行成为了可能，在进行节点的分裂时，需要计算每个特征的增益，最终选增益最大的那个特征去做分裂，那么各个特征的增益计算就可以开多线程进行。</p>
+</blockquote>
+<h2 id="Xgboost与XGB-比较"><a href="#Xgboost与XGB-比较" class="headerlink" title="Xgboost与XGB 比较"></a>Xgboost与XGB 比较</h2><ul>
+<li>Xgboost：速度快，效果好，功能多。</li>
+<li>XGB的优势<ul>
+<li>添加复杂度控制和后期剪枝防止过拟合；</li>
+<li>对于loss function 具有通用性，只需求一阶二阶导数；</li>
+<li>知道每个样本分到哪片叶子上，可提高模型表现；</li>
+<li>可以使用线性模型代替树模型，从而得到L1+L2 的线性或逻辑回归。</li>
+<li>分布式应用：XGB 直接在YARN 上使用、集成进现有Spark 机器学习工具。</li>
+</ul>
+</li>
+</ul>
+<h3 id="Xgboost实践"><a href="#Xgboost实践" class="headerlink" title="Xgboost实践"></a>Xgboost实践</h3><p><a href="http://machinelearningmastery.com/visualize-gradient-boosting-decision-trees-xgboost-python/">Plot a Single XGBoost Decision Tree</a></p>
+<h1 id="GLM（Generalized-linear-model）广义线性模型"><a href="#GLM（Generalized-linear-model）广义线性模型" class="headerlink" title="GLM（Generalized linear model）广义线性模型"></a>GLM（Generalized linear model）广义线性模型</h1><h2 id="LM"><a href="#LM" class="headerlink" title="LM"></a>LM</h2>
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/AI/" rel="tag"># AI</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2017/07/20/%E6%B7%B1%E5%B1%82%E7%A5%9E%E7%BB%8F%E7%BD%91%E7%BB%9C/" rel="prev" title="深层神经网络">
+      <i class="fa fa-chevron-left"></i> 深层神经网络
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/2017/08/12/%E9%80%BB%E8%BE%91%E5%9B%9E%E5%BD%92-%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/" rel="next" title="逻辑回归-学习笔记">
+      逻辑回归-学习笔记 <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+  </div>
+
+
+          </div>
+          
+    <div class="comments" id="gitalk-container"></div>
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let activeClass = CONFIG.comments.activeClass;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#GBDT学习笔记"><span class="nav-number">1.</span> <span class="nav-text">GBDT学习笔记</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#概念定义-what"><span class="nav-number">2.</span> <span class="nav-text">概念定义 what</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#ensemble-learning（集成学习）"><span class="nav-number">2.1.</span> <span class="nav-text">ensemble learning（集成学习）</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#集成学习之个体学习器"><span class="nav-number">2.1.1.</span> <span class="nav-text">集成学习之个体学习器</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#集成学习之boosting"><span class="nav-number">2.2.</span> <span class="nav-text">集成学习之boosting</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Boosting算法的4个具体的问题"><span class="nav-number">2.3.</span> <span class="nav-text">Boosting算法的4个具体的问题</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#集成学习之bagging"><span class="nav-number">2.4.</span> <span class="nav-text">集成学习之bagging</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#GBDT是什么？"><span class="nav-number">2.5.</span> <span class="nav-text">GBDT是什么？</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Gradient-梯度"><span class="nav-number">2.6.</span> <span class="nav-text">Gradient  梯度</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#梯度的提出只为回答一个问题"><span class="nav-number">2.6.1.</span> <span class="nav-text">梯度的提出只为回答一个问题</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#梯度定义grad"><span class="nav-number">2.6.2.</span> <span class="nav-text">梯度定义grad</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#梯度的应用"><span class="nav-number">2.6.3.</span> <span class="nav-text">梯度的应用</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#导数"><span class="nav-number">2.7.</span> <span class="nav-text">导数</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#方向导数"><span class="nav-number">2.8.</span> <span class="nav-text">方向导数</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Boosting"><span class="nav-number">2.9.</span> <span class="nav-text">Boosting</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#弱学习算法和强学习算法"><span class="nav-number">2.9.1.</span> <span class="nav-text">弱学习算法和强学习算法</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#Adaboost-算法"><span class="nav-number">2.9.1.1.</span> <span class="nav-text">Adaboost 算法</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Gradient-boosting梯度提升"><span class="nav-number">2.10.</span> <span class="nav-text">Gradient boosting梯度提升</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Decision-Tree基本思想"><span class="nav-number">2.11.</span> <span class="nav-text">Decision Tree基本思想</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#DT定义"><span class="nav-number">2.11.1.</span> <span class="nav-text">DT定义</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#分类树-回归树"><span class="nav-number">2.12.</span> <span class="nav-text">分类树&#x2F;回归树</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#分类树"><span class="nav-number">2.12.1.</span> <span class="nav-text">分类树</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#回归树"><span class="nav-number">2.12.2.</span> <span class="nav-text">回归树</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#决策树-分裂成本"><span class="nav-number">2.13.</span> <span class="nav-text">决策树-分裂成本</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#应用场景-why"><span class="nav-number">2.14.</span> <span class="nav-text">应用场景 why</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#算法推导-how"><span class="nav-number">2.15.</span> <span class="nav-text">算法推导 how</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#可视化"><span class="nav-number">2.16.</span> <span class="nav-text">可视化</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#GBDT总结"><span class="nav-number">3.</span> <span class="nav-text">GBDT总结</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#XGBoost-GBDT相关blog推荐"><span class="nav-number">3.1.</span> <span class="nav-text">XGBoost&#x2F;GBDT相关blog推荐</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#DT（Decision-Tree）"><span class="nav-number">4.</span> <span class="nav-text">DT（Decision Tree）</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#GBM定义"><span class="nav-number">4.1.</span> <span class="nav-text">GBM定义</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#GBM与传统Boosting算法区别"><span class="nav-number">4.2.</span> <span class="nav-text">GBM与传统Boosting算法区别</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#GBDT（Gradient-Boosting-Decision-Tree）"><span class="nav-number">5.</span> <span class="nav-text">GBDT（Gradient Boosting Decision Tree）</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#GBDT定义"><span class="nav-number">5.1.</span> <span class="nav-text">GBDT定义</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Regression-Decision-Tree：回归树"><span class="nav-number">5.2.</span> <span class="nav-text">Regression Decision Tree：回归树</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Boosting-Decision-Tree：提升树算法"><span class="nav-number">5.3.</span> <span class="nav-text">Boosting Decision Tree：提升树算法</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Gradient-Boosting-Decision-Tree：梯度提升决策树"><span class="nav-number">5.4.</span> <span class="nav-text">Gradient Boosting Decision Tree：梯度提升决策树</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#xgboost-gbdt在调参时为什么树的深度很少就能达到很高的精度？"><span class="nav-number">5.5.</span> <span class="nav-text">xgboost&#x2F;gbdt在调参时为什么树的深度很少就能达到很高的精度？</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#GBDT应用"><span class="nav-number">5.6.</span> <span class="nav-text">GBDT应用</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#参考"><span class="nav-number">5.7.</span> <span class="nav-text">参考</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Xgboost与GBDT比较"><span class="nav-number">5.8.</span> <span class="nav-text">Xgboost与GBDT比较</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Xgboost（eXtreme-Gradient-Boosting）"><span class="nav-number">6.</span> <span class="nav-text">Xgboost（eXtreme Gradient Boosting）</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#Xgboost特点"><span class="nav-number">6.1.</span> <span class="nav-text">Xgboost特点</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Xgboost与XGB-比较"><span class="nav-number">6.2.</span> <span class="nav-text">Xgboost与XGB 比较</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Xgboost实践"><span class="nav-number">6.2.1.</span> <span class="nav-text">Xgboost实践</span></a></li></ol></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#GLM（Generalized-linear-model）广义线性模型"><span class="nav-number">7.</span> <span class="nav-text">GLM（Generalized linear model）广义线性模型</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#LM"><span class="nav-number">7.1.</span> <span class="nav-text">LM</span></a></li></ol></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">geosmart</p>
+  <div class="site-description" itemprop="description"></div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">199</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+          
+        <span class="site-state-item-count">15</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">118</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+        <a href="https://github.com/geosmart" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;geosmart" rel="noopener" target="_blank"><i class="fa fa-fw fa-github"></i>GitHub</a>
+      </span>
+  </div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2021</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">geosmart</span>
+</div>
+
+        
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/pisces.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+  
+<script src="/js/local-search.js"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+      
+
+<script>
+  if (typeof MathJax === 'undefined') {
+    window.MathJax = {
+      tex: {
+        inlineMath: {'[+]': [['$', '$']]},
+        tags: 'ams'
+      },
+      options: {
+        renderActions: {
+          findScript: [10, doc => {
+            document.querySelectorAll('script[type^="math/tex"]').forEach(node => {
+              const display = !!node.type.match(/; *mode=display/);
+              const math = new doc.options.MathItem(node.textContent, doc.inputJax[0], display);
+              const text = document.createTextNode('');
+              node.parentNode.replaceChild(text, node);
+              math.start = {node: text, delim: '', n: 0};
+              math.end = {node: text, delim: '', n: 0};
+              doc.math.push(math);
+            });
+          }, '', false],
+          insertedScript: [200, () => {
+            document.querySelectorAll('mjx-container').forEach(node => {
+              let target = node.parentNode;
+              if (target.nodeName.toLowerCase() === 'li') {
+                target.parentNode.classList.add('has-jax');
+              }
+            });
+          }, '', false]
+        }
+      }
+    };
+    (function () {
+      var script = document.createElement('script');
+      script.src = '//cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js';
+      script.defer = true;
+      document.head.appendChild(script);
+    })();
+  } else {
+    MathJax.startup.document.state(0);
+    MathJax.texReset();
+    MathJax.typeset();
+  }
+</script>
+
+    
+
+  
+
+<link rel="stylesheet" href="//cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.min.css">
+
+<script>
+NexT.utils.loadComments(document.querySelector('#gitalk-container'), () => {
+  NexT.utils.getScript('//cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.min.js', () => {
+    var gitalk = new Gitalk({
+      clientID    : '8a29a27c357a64ed79fd',
+      clientSecret: 'fe1b781c49fa9037803f3c4d3e94fbb677abac4d',
+      repo        : 'geosmart.github.io',
+      owner       : 'geosmart',
+      admin       : ['geosmart'],
+      id          : 'f4512e1db6e6ae8298a411d1289e646a',
+        language: 'zh-CN',
+      distractionFreeMode: true
+    });
+    gitalk.render('gitalk-container');
+  }, window.Gitalk);
+});
+</script>
+
+</body>
+</html>

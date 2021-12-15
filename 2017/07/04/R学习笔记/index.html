@@ -1,0 +1,596 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 4.2.1">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css">
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"geosmart.github.io","root":"/","scheme":"Pisces","version":"7.7.1","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.xml"};
+  </script>
+
+  <meta name="description" content="R is a tool for statistics and data modeling. The R programming language is elegant, versatile, and has a highly expressive syntax designed around working with data. R is more than that, though — it">
+<meta property="og:type" content="article">
+<meta property="og:title" content="R学习笔记">
+<meta property="og:url" content="http://geosmart.github.io/2017/07/04/R%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/index.html">
+<meta property="og:site_name" content="geosmart.io">
+<meta property="og:description" content="R is a tool for statistics and data modeling. The R programming language is elegant, versatile, and has a highly expressive syntax designed around working with data. R is more than that, though — it">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2017-07-04T00:13:38.000Z">
+<meta property="article:modified_time" content="2021-12-15T01:13:12.850Z">
+<meta property="article:author" content="geosmart">
+<meta property="article:tag" content="R">
+<meta name="twitter:card" content="summary">
+
+<link rel="canonical" href="http://geosmart.github.io/2017/07/04/R%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome: false,
+    isPost: true
+  };
+</script>
+
+  <title>R学习笔记 | geosmart.io</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <div>
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">geosmart.io</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+        <p class="site-subtitle">勿助勿忘，深造自得</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+<nav class="site-nav">
+  
+  <ul id="menu" class="menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-fw fa-home"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-about">
+
+    <a href="/about/" rel="section"><i class="fa fa-fw fa-user"></i>关于</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="fa fa-fw fa-tags"></i>标签</a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/categories/" rel="section"><i class="fa fa-fw fa-th"></i>分类</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-fw fa-archive"></i>归档</a>
+
+  </li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜索
+        </a>
+      </li>
+  </ul>
+
+</nav>
+  <div class="site-search">
+    <div class="popup search-popup">
+    <div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocorrect="off" autocapitalize="off"
+           placeholder="搜索..." spellcheck="false"
+           type="search" class="search-input">
+  </div>
+  <span class="popup-btn-close">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div id="search-result"></div>
+
+</div>
+<div class="search-pop-overlay"></div>
+
+  </div>
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+  <a href="https://github.com/geosmart" class="github-corner" title="Follow me on GitHub" aria-label="Follow me on GitHub" rel="noopener" target="_blank"><svg width="80" height="80" viewBox="0 0 250 250" aria-hidden="true"><path d="M0,0 L115,115 L130,115 L142,142 L250,250 L250,0 Z"></path><path d="M128.3,109.0 C113.8,99.7 119.0,89.6 119.0,89.6 C122.0,82.7 120.5,78.6 120.5,78.6 C119.2,72.0 123.4,76.3 123.4,76.3 C127.3,80.9 125.5,87.3 125.5,87.3 C122.9,97.6 130.6,101.9 134.4,103.2" fill="currentColor" style="transform-origin: 130px 106px;" class="octo-arm"></path><path d="M115.0,115.0 C114.9,115.1 118.7,116.5 119.8,115.4 L133.7,101.6 C136.9,99.2 139.9,98.4 142.2,98.6 C133.8,88.0 127.5,74.4 143.8,58.0 C148.5,53.4 154.0,51.2 159.7,51.0 C160.3,49.4 163.2,43.6 171.4,40.1 C171.4,40.1 176.1,42.5 178.8,56.2 C183.1,58.6 187.2,61.8 190.9,65.4 C194.5,69.0 197.7,73.2 200.1,77.6 C213.8,80.2 216.3,84.9 216.3,84.9 C212.7,93.1 206.9,96.0 205.4,96.6 C205.1,102.4 203.0,107.8 198.3,112.5 C181.9,128.9 168.3,122.5 157.7,114.1 C157.9,116.9 156.7,120.9 152.7,124.9 L141.0,136.5 C139.8,137.7 141.6,141.9 141.8,141.8 Z" fill="currentColor" class="octo-body"></path></svg></a>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content">
+            
+
+  <div class="posts-expand">
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block " lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://geosmart.github.io/2017/07/04/R%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="geosmart">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="geosmart.io">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          R学习笔记
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：4   七月   2017 8:13:38" itemprop="dateCreated datePublished" datetime="2017-07-04T08:13:38+08:00">4   七月   2017</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：15   十二月   2021 9:13:12" itemprop="dateModified" datetime="2021-12-15T09:13:12+08:00">15   十二月   2021</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/" itemprop="url" rel="index"><span itemprop="name">机器学习</span></a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <blockquote>
+<p>R is a tool for statistics and data modeling. The R programming language is elegant, versatile, and has a highly expressive syntax designed around working with data. R is more than that, though — it also includes extremely powerful graphics capabilities.</p>
+</blockquote>
+<hr>
+<a id="more"></a> 
+<p><a href="http://tryr.codeschool.com/">Try R</a></p>
+<h1 id="变量"><a href="#变量" class="headerlink" title="变量"></a>变量</h1><p>定义： x&lt;-42，x赋值为42</p>
+<h1 id="向量（Vectors）"><a href="#向量（Vectors）" class="headerlink" title="向量（Vectors）"></a>向量（Vectors）</h1><p>定义： c(1,T,”three”)</p>
+<h2 id="Sequence-Vectors"><a href="#Sequence-Vectors" class="headerlink" title="Sequence Vectors"></a>Sequence Vectors</h2><p>输入：seq(5,9)或5:9<br>输出：[1] 5 6 7 8 9</p>
+<h2 id="设置步长-increments"><a href="#设置步长-increments" class="headerlink" title="设置步长-increments"></a>设置步长-increments</h2><figure class="highlight r"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">&gt;seq(<span class="number">5</span>,<span class="number">9</span>,<span class="number">0.5</span>)</span><br><span class="line">[<span class="number">1</span>] <span class="number">5.0</span> <span class="number">5.5</span> <span class="number">6.0</span> <span class="number">6.5</span> <span class="number">7.0</span> <span class="number">7.5</span> <span class="number">8.0</span> <span class="number">8.5</span> <span class="number">9.0</span></span><br></pre></td></tr></table></figure>
+<h2 id="向量访问"><a href="#向量访问" class="headerlink" title="向量访问"></a>向量访问</h2><figure class="highlight r"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&gt; sentence &lt;- c(<span class="string">'walk'</span>, <span class="string">'the'</span>, <span class="string">'plank'</span>)</span><br></pre></td></tr></table></figure>
+<ul>
+<li><p>索引访问:R索引从1开始 </p>
+<figure class="highlight r"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">&gt; sentence[<span class="number">3</span>]</span><br><span class="line">[<span class="number">1</span>] <span class="string">"plank"</span></span><br></pre></td></tr></table></figure>
+</li>
+<li><p>定义向量访问： </p>
+<figure class="highlight r"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">&gt; sentence[c(<span class="number">1</span>,<span class="number">3</span>)]</span><br><span class="line">[<span class="number">1</span>] <span class="string">"walk"</span> <span class="string">"dog"</span></span><br></pre></td></tr></table></figure>
+</li>
+<li><p>范围访问： </p>
+<figure class="highlight r"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">&gt; sentence[<span class="number">2</span>:<span class="number">4</span>]  </span><br><span class="line">[<span class="number">1</span>] <span class="string">"the"</span> <span class="string">"dog"</span> <span class="string">"to"</span></span><br></pre></td></tr></table></figure>
+<h2 id="修改向量值"><a href="#修改向量值" class="headerlink" title="修改向量值"></a>修改向量值</h2></li>
+<li>单个修改<figure class="highlight r"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&gt; sentence[<span class="number">3</span>]&lt;-<span class="string">"dog"</span></span><br></pre></td></tr></table></figure></li>
+<li>批量修改<figure class="highlight r"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&gt; sentence[<span class="number">5</span>:<span class="number">7</span>]&lt;-c(<span class="string">'the'</span>,<span class="string">'poop'</span>,<span class="string">'deck'</span>)</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<ul>
+<li>新增向量<figure class="highlight r"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sentence[<span class="number">4</span>]&lt;-<span class="string">"to"</span></span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<h1 id="绘图"><a href="#绘图" class="headerlink" title="绘图"></a>绘图</h1><p>barplot直方图<br><figure class="highlight r"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">&gt; vesselsSunk &lt;- c(<span class="number">4</span>, <span class="number">5</span>, <span class="number">1</span>)</span><br><span class="line">&gt; barplot(vesselsSunk)</span><br></pre></td></tr></table></figure></p>
+<p>scatter plots散点图<br><figure class="highlight r"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">&gt; values &lt;- -<span class="number">10</span>:<span class="number">10</span></span><br><span class="line">&gt; absolutes &lt;- abs(values)</span><br><span class="line">&gt; plot(values, absolutes)</span><br></pre></td></tr></table></figure></p>
+<h1 id="NA"><a href="#NA" class="headerlink" title="NA"></a>NA</h1><figure class="highlight r"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">&gt; a &lt;- c(<span class="number">1</span>, <span class="number">3</span>, <span class="literal">NA</span>, <span class="number">7</span>, <span class="number">9</span>)</span><br><span class="line">&gt; sum(a)</span><br><span class="line">[<span class="number">1</span>] <span class="literal">NA</span></span><br><span class="line">&gt; sum(a,na.rm=<span class="literal">T</span>)</span><br><span class="line">[<span class="number">1</span>] <span class="number">20</span></span><br></pre></td></tr></table></figure>
+<h1 id="matrix"><a href="#matrix" class="headerlink" title="matrix"></a>matrix</h1><p>定义：3行4列，值都为0<br>matrix(0,3,4)</p>
+<p>升维：dim设置matrix维度<br><figure class="highlight r"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">&gt; plank  &lt;- <span class="number">1</span>:<span class="number">8</span></span><br><span class="line">&gt; dim(plank) &lt;- c(<span class="number">2</span>,<span class="number">4</span>)</span><br><span class="line">&gt; print(plank)</span><br><span class="line">     [,<span class="number">1</span>] [,<span class="number">2</span>] [,<span class="number">3</span>] [,<span class="number">4</span>]</span><br><span class="line">[<span class="number">1</span>,]    <span class="number">1</span>    <span class="number">3</span>    <span class="number">5</span>    <span class="number">7</span></span><br><span class="line">[<span class="number">2</span>,]    <span class="number">2</span>    <span class="number">4</span>    <span class="number">6</span>    <span class="number">8</span></span><br></pre></td></tr></table></figure></p>
+<p>赋值：&gt; plank[1,4] &lt;- 0</p>
+<h2 id="matrix访问"><a href="#matrix访问" class="headerlink" title="matrix访问"></a>matrix访问</h2><figure class="highlight r"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">&gt; print(plank)</span><br><span class="line">     [,<span class="number">1</span>] [,<span class="number">2</span>] [,<span class="number">3</span>] [,<span class="number">4</span>]</span><br><span class="line">[<span class="number">1</span>,]    <span class="number">1</span>    <span class="number">3</span>    <span class="number">5</span>    <span class="number">7</span></span><br><span class="line">[<span class="number">2</span>,]    <span class="number">2</span>    <span class="number">4</span>    <span class="number">6</span>    <span class="number">8</span></span><br></pre></td></tr></table></figure>
+<ul>
+<li>单个元素<figure class="highlight r"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">&gt; plank[<span class="number">2</span>,<span class="number">3</span>]</span><br><span class="line">[<span class="number">1</span>] <span class="number">6</span></span><br></pre></td></tr></table></figure></li>
+<li><p>列</p>
+<figure class="highlight r"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">&gt; plank[,<span class="number">4</span>]</span><br><span class="line">[<span class="number">1</span>] <span class="number">7</span> <span class="number">8</span></span><br></pre></td></tr></table></figure>
+</li>
+<li><p>指定范围</p>
+<figure class="highlight r"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">&gt; plank[,<span class="number">2</span>:<span class="number">4</span>]</span><br><span class="line">     [,<span class="number">1</span>] [,<span class="number">2</span>] [,<span class="number">3</span>]</span><br><span class="line">[<span class="number">1</span>,]    <span class="number">3</span>    <span class="number">5</span>    <span class="number">7</span></span><br><span class="line">[<span class="number">2</span>,]    <span class="number">4</span>    <span class="number">6</span>    <span class="number">8</span></span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<h2 id="绘图-1"><a href="#绘图-1" class="headerlink" title="绘图"></a>绘图</h2><figure class="highlight r"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">&gt; elevation &lt;- matrix(<span class="number">1</span>, <span class="number">10</span>, <span class="number">10</span>)</span><br><span class="line">&gt; elevation[<span class="number">4</span>, <span class="number">6</span>] &lt;- <span class="number">0</span></span><br></pre></td></tr></table></figure>
+<ul>
+<li><p>轮廓图</p>
+<figure class="highlight r"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&gt; contour(elevation)</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>三维轮廓图</p>
+<figure class="highlight r"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">&gt; persp(elevation)</span><br><span class="line">&gt; persp(elevation, expand=<span class="number">0.2</span>)</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<h1 id="统计函数"><a href="#统计函数" class="headerlink" title="统计函数"></a>统计函数</h1><h2 id="Mean-平均值"><a href="#Mean-平均值" class="headerlink" title="Mean 平均值"></a>Mean 平均值</h2><figure class="highlight r"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">limbs &lt;- c(<span class="number">4</span>, <span class="number">3</span>, <span class="number">4</span>, <span class="number">3</span>, <span class="number">2</span>, <span class="number">4</span>, <span class="number">4</span>, <span class="number">4</span>)</span><br><span class="line">names(limbs) &lt;- c(<span class="string">'One-Eye'</span>, <span class="string">'Peg-Leg'</span>, <span class="string">'Smitty'</span>, <span class="string">'Hook'</span>, <span class="string">'Scooter'</span>, <span class="string">'Dan'</span>, <span class="string">'Mikey'</span>, <span class="string">'Blackbeard'</span>)</span><br><span class="line">&gt; mean(limbs)</span><br><span class="line"><span class="comment"># 平均值柱状图</span></span><br><span class="line">&gt; barplot(limbs)</span><br><span class="line"><span class="comment"># 平均值柱状图 + 平均值水平线</span></span><br><span class="line">&gt; abline(h=mean(limbs)</span><br></pre></td></tr></table></figure>
+<h2 id="Median-中位数"><a href="#Median-中位数" class="headerlink" title="Median 中位数"></a>Median 中位数</h2><figure class="highlight r"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">&gt; limbs &lt;- c(<span class="number">4</span>, <span class="number">3</span>, <span class="number">4</span>, <span class="number">3</span>, <span class="number">2</span>, <span class="number">4</span>, <span class="number">4</span>, <span class="number">14</span>)</span><br><span class="line">&gt; names(limbs) &lt;- c(<span class="string">'One-Eye'</span>, <span class="string">'Peg-Leg'</span>, <span class="string">'Smitty'</span>, <span class="string">'Hook'</span>, <span class="string">'Scooter'</span>, <span class="string">'Dan'</span>, <span class="string">'Mikey'</span>, <span class="string">'Davy Jones'</span>)</span><br><span class="line">&gt; mean(limbs)</span><br><span class="line">[<span class="number">1</span>] <span class="number">4.75</span></span><br><span class="line">&gt; barplot(limbs)</span><br><span class="line">&gt; abline(h = mean(limbs))</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>It may be factually accurate to say that our crew has an average of 4.75 limbs, but it’s probably also misleading.<br>For situations like this, it’s probably more useful to talk about the “median” value.<br>The median is calculated by sorting the values and choosing the middle one (for sets with an even number of values, the middle two values are averaged).</p>
+</blockquote>
+<figure class="highlight r"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">&gt; median(limbs)</span><br><span class="line">[<span class="number">1</span>] <span class="number">4</span></span><br></pre></td></tr></table></figure>
+<h2 id="Standard-Deviation-标准偏差"><a href="#Standard-Deviation-标准偏差" class="headerlink" title="Standard Deviation 标准偏差"></a>Standard Deviation 标准偏差</h2><blockquote>
+<p>Statisticians use the concept of “standard deviation” from the mean to describe the range of typical values for a data set. For a group of numbers, it shows how much they typically vary from the average value. To calculate the standard deviation, you calculate the mean of the values, then subtract the mean from each number and square the result, then average those squares, and take the square root of that average.</p>
+</blockquote>
+<h1 id="Data-Frames"><a href="#Data-Frames" class="headerlink" title="Data Frames"></a>Data Frames</h1><blockquote>
+<p>R has a structure for just this purpose: the data frame. You can think of a data frame as something akin to a database table or an Excel spreadsheet. It has a specific number of columns, each of which is expected to contain values of a particular type. It also has an indeterminate number of rows - sets of related values for each column.</p>
+</blockquote>
+<figure class="highlight r"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">&gt; treasure &lt;- data.frame(weights, prices, types)</span><br><span class="line">&gt; print(treasure)</span><br><span class="line">  weights prices  types</span><br><span class="line"><span class="number">1</span>     <span class="number">300</span>   <span class="number">9000</span>   gold</span><br><span class="line"><span class="number">2</span>     <span class="number">200</span>   <span class="number">5000</span> silver</span><br><span class="line"><span class="number">3</span>     <span class="number">100</span>  <span class="number">12000</span>   gems</span><br><span class="line"><span class="number">4</span>     <span class="number">250</span>   <span class="number">7500</span>   gold</span><br><span class="line"><span class="number">5</span>     <span class="number">150</span>  <span class="number">18000</span>   gems</span><br></pre></td></tr></table></figure>
+<h2 id="数据访问"><a href="#数据访问" class="headerlink" title="数据访问"></a>数据访问</h2><figure class="highlight r"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">&gt; treasure[[<span class="number">2</span>]]</span><br><span class="line">[<span class="number">1</span>]  <span class="number">9000</span>  <span class="number">5000</span> <span class="number">12000</span>  <span class="number">7500</span> <span class="number">18000</span></span><br><span class="line"></span><br><span class="line">&gt; treasure[[<span class="string">"weights"</span>]]</span><br><span class="line">[<span class="number">1</span>] <span class="number">300</span> <span class="number">200</span> <span class="number">100</span> <span class="number">250</span> <span class="number">150</span></span><br><span class="line"></span><br><span class="line">&gt; treasure$prices</span><br><span class="line">[<span class="number">1</span>]  <span class="number">9000</span>  <span class="number">5000</span> <span class="number">12000</span>  <span class="number">7500</span> <span class="number">18000</span></span><br></pre></td></tr></table></figure>
+<h1 id="文件IO"><a href="#文件IO" class="headerlink" title="文件IO"></a>文件IO</h1><figure class="highlight r"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">&gt; piracy &lt;- read.csv(<span class="string">"piracy.csv"</span>)</span><br><span class="line">&gt; gdp &lt;- read.table(<span class="string">"gdp.txt"</span>, sep=<span class="string">"  "</span>, header=<span class="literal">TRUE</span>)</span><br></pre></td></tr></table></figure>
+<h1 id="数据分析"><a href="#数据分析" class="headerlink" title="数据分析"></a>数据分析</h1><h2 id="cor-test"><a href="#cor-test" class="headerlink" title="cor.test"></a>cor.test</h2><p>R can test for correlation between two vectors with the cor.test function.<br><figure class="highlight r"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&gt; cor.test(countries$GDP, countries$Piracy)</span><br></pre></td></tr></table></figure></p>
+<h2 id="lm"><a href="#lm" class="headerlink" title="lm"></a>lm</h2><p>if we calculate the linear model that best represents all our data points (with a certain degree of error).<br>The lm function takes a model formula, which is represented by a response variable (piracy rate), a tilde character (~), and a predictor variable (GDP). (Note that the response variable comes first.)</p>
+<figure class="highlight r"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">&gt; line &lt;- lm(countries$Piracy ~ countries$GDP)</span><br><span class="line">&gt; abline(line)</span><br></pre></td></tr></table></figure>
+<h1 id="扩展安装"><a href="#扩展安装" class="headerlink" title="扩展安装"></a>扩展安装</h1><p>install.packages(“ggplot2”)</p>
+
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/R/" rel="tag"># R</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2017/07/03/MachineLeaning%E8%AF%BE%E7%A8%8B%E7%AC%94%E8%AE%B0Week1-%E5%9F%BA%E7%A1%80%E6%A6%82%E5%BF%B5/" rel="prev" title="Machine Learning课程笔记Week1-基础概念">
+      <i class="fa fa-chevron-left"></i> Machine Learning课程笔记Week1-基础概念
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/2017/07/08/MachineLearning%E8%AF%BE%E7%A8%8B%E7%AC%94%E8%AE%B0Week1-%E6%8D%9F%E5%A4%B1%E5%87%BD%E6%95%B0/" rel="next" title="MachineLearning课程笔记Week1-损失函数">
+      MachineLearning课程笔记Week1-损失函数 <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+  </div>
+
+
+          </div>
+          
+    <div class="comments" id="gitalk-container"></div>
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let activeClass = CONFIG.comments.activeClass;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#变量"><span class="nav-number">1.</span> <span class="nav-text">变量</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#向量（Vectors）"><span class="nav-number">2.</span> <span class="nav-text">向量（Vectors）</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#Sequence-Vectors"><span class="nav-number">2.1.</span> <span class="nav-text">Sequence Vectors</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#设置步长-increments"><span class="nav-number">2.2.</span> <span class="nav-text">设置步长-increments</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#向量访问"><span class="nav-number">2.3.</span> <span class="nav-text">向量访问</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#修改向量值"><span class="nav-number">2.4.</span> <span class="nav-text">修改向量值</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#绘图"><span class="nav-number">3.</span> <span class="nav-text">绘图</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#NA"><span class="nav-number">4.</span> <span class="nav-text">NA</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#matrix"><span class="nav-number">5.</span> <span class="nav-text">matrix</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#matrix访问"><span class="nav-number">5.1.</span> <span class="nav-text">matrix访问</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#绘图-1"><span class="nav-number">5.2.</span> <span class="nav-text">绘图</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#统计函数"><span class="nav-number">6.</span> <span class="nav-text">统计函数</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#Mean-平均值"><span class="nav-number">6.1.</span> <span class="nav-text">Mean 平均值</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Median-中位数"><span class="nav-number">6.2.</span> <span class="nav-text">Median 中位数</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Standard-Deviation-标准偏差"><span class="nav-number">6.3.</span> <span class="nav-text">Standard Deviation 标准偏差</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Data-Frames"><span class="nav-number">7.</span> <span class="nav-text">Data Frames</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#数据访问"><span class="nav-number">7.1.</span> <span class="nav-text">数据访问</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#文件IO"><span class="nav-number">8.</span> <span class="nav-text">文件IO</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#数据分析"><span class="nav-number">9.</span> <span class="nav-text">数据分析</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#cor-test"><span class="nav-number">9.1.</span> <span class="nav-text">cor.test</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#lm"><span class="nav-number">9.2.</span> <span class="nav-text">lm</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#扩展安装"><span class="nav-number">10.</span> <span class="nav-text">扩展安装</span></a></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">geosmart</p>
+  <div class="site-description" itemprop="description"></div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">199</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+          
+        <span class="site-state-item-count">15</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">118</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+        <a href="https://github.com/geosmart" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;geosmart" rel="noopener" target="_blank"><i class="fa fa-fw fa-github"></i>GitHub</a>
+      </span>
+  </div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2021</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">geosmart</span>
+</div>
+
+        
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/pisces.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+  
+<script src="/js/local-search.js"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+      
+
+<script>
+  if (typeof MathJax === 'undefined') {
+    window.MathJax = {
+      tex: {
+        inlineMath: {'[+]': [['$', '$']]},
+        tags: 'ams'
+      },
+      options: {
+        renderActions: {
+          findScript: [10, doc => {
+            document.querySelectorAll('script[type^="math/tex"]').forEach(node => {
+              const display = !!node.type.match(/; *mode=display/);
+              const math = new doc.options.MathItem(node.textContent, doc.inputJax[0], display);
+              const text = document.createTextNode('');
+              node.parentNode.replaceChild(text, node);
+              math.start = {node: text, delim: '', n: 0};
+              math.end = {node: text, delim: '', n: 0};
+              doc.math.push(math);
+            });
+          }, '', false],
+          insertedScript: [200, () => {
+            document.querySelectorAll('mjx-container').forEach(node => {
+              let target = node.parentNode;
+              if (target.nodeName.toLowerCase() === 'li') {
+                target.parentNode.classList.add('has-jax');
+              }
+            });
+          }, '', false]
+        }
+      }
+    };
+    (function () {
+      var script = document.createElement('script');
+      script.src = '//cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js';
+      script.defer = true;
+      document.head.appendChild(script);
+    })();
+  } else {
+    MathJax.startup.document.state(0);
+    MathJax.texReset();
+    MathJax.typeset();
+  }
+</script>
+
+    
+
+  
+
+<link rel="stylesheet" href="//cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.min.css">
+
+<script>
+NexT.utils.loadComments(document.querySelector('#gitalk-container'), () => {
+  NexT.utils.getScript('//cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.min.js', () => {
+    var gitalk = new Gitalk({
+      clientID    : '8a29a27c357a64ed79fd',
+      clientSecret: 'fe1b781c49fa9037803f3c4d3e94fbb677abac4d',
+      repo        : 'geosmart.github.io',
+      owner       : 'geosmart',
+      admin       : ['geosmart'],
+      id          : 'e1bb46c69f1bdfb2b41f78c4132ddb4e',
+        language: 'zh-CN',
+      distractionFreeMode: true
+    });
+    gitalk.render('gitalk-container');
+  }, window.Gitalk);
+});
+</script>
+
+</body>
+</html>

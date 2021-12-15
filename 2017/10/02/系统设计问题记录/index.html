@@ -1,0 +1,589 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 4.2.1">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css">
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"geosmart.github.io","root":"/","scheme":"Pisces","version":"7.7.1","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.xml"};
+  </script>
+
+  <meta name="description" content="记录遇到的系统设计问题，如内部支撑系统、2B的数据服务系统以及通用的系统设计问题">
+<meta property="og:type" content="article">
+<meta property="og:title" content="系统设计问题记录">
+<meta property="og:url" content="http://geosmart.github.io/2017/10/02/%E7%B3%BB%E7%BB%9F%E8%AE%BE%E8%AE%A1%E9%97%AE%E9%A2%98%E8%AE%B0%E5%BD%95/index.html">
+<meta property="og:site_name" content="geosmart.io">
+<meta property="og:description" content="记录遇到的系统设计问题，如内部支撑系统、2B的数据服务系统以及通用的系统设计问题">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2017-10-02T16:00:00.000Z">
+<meta property="article:modified_time" content="2021-12-15T01:13:12.896Z">
+<meta property="article:author" content="geosmart">
+<meta property="article:tag" content="方法论">
+<meta name="twitter:card" content="summary">
+
+<link rel="canonical" href="http://geosmart.github.io/2017/10/02/%E7%B3%BB%E7%BB%9F%E8%AE%BE%E8%AE%A1%E9%97%AE%E9%A2%98%E8%AE%B0%E5%BD%95/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome: false,
+    isPost: true
+  };
+</script>
+
+  <title>系统设计问题记录 | geosmart.io</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <div>
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">geosmart.io</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+        <p class="site-subtitle">勿助勿忘，深造自得</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+<nav class="site-nav">
+  
+  <ul id="menu" class="menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-fw fa-home"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-about">
+
+    <a href="/about/" rel="section"><i class="fa fa-fw fa-user"></i>关于</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="fa fa-fw fa-tags"></i>标签</a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/categories/" rel="section"><i class="fa fa-fw fa-th"></i>分类</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-fw fa-archive"></i>归档</a>
+
+  </li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜索
+        </a>
+      </li>
+  </ul>
+
+</nav>
+  <div class="site-search">
+    <div class="popup search-popup">
+    <div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocorrect="off" autocapitalize="off"
+           placeholder="搜索..." spellcheck="false"
+           type="search" class="search-input">
+  </div>
+  <span class="popup-btn-close">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div id="search-result"></div>
+
+</div>
+<div class="search-pop-overlay"></div>
+
+  </div>
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+  <a href="https://github.com/geosmart" class="github-corner" title="Follow me on GitHub" aria-label="Follow me on GitHub" rel="noopener" target="_blank"><svg width="80" height="80" viewBox="0 0 250 250" aria-hidden="true"><path d="M0,0 L115,115 L130,115 L142,142 L250,250 L250,0 Z"></path><path d="M128.3,109.0 C113.8,99.7 119.0,89.6 119.0,89.6 C122.0,82.7 120.5,78.6 120.5,78.6 C119.2,72.0 123.4,76.3 123.4,76.3 C127.3,80.9 125.5,87.3 125.5,87.3 C122.9,97.6 130.6,101.9 134.4,103.2" fill="currentColor" style="transform-origin: 130px 106px;" class="octo-arm"></path><path d="M115.0,115.0 C114.9,115.1 118.7,116.5 119.8,115.4 L133.7,101.6 C136.9,99.2 139.9,98.4 142.2,98.6 C133.8,88.0 127.5,74.4 143.8,58.0 C148.5,53.4 154.0,51.2 159.7,51.0 C160.3,49.4 163.2,43.6 171.4,40.1 C171.4,40.1 176.1,42.5 178.8,56.2 C183.1,58.6 187.2,61.8 190.9,65.4 C194.5,69.0 197.7,73.2 200.1,77.6 C213.8,80.2 216.3,84.9 216.3,84.9 C212.7,93.1 206.9,96.0 205.4,96.6 C205.1,102.4 203.0,107.8 198.3,112.5 C181.9,128.9 168.3,122.5 157.7,114.1 C157.9,116.9 156.7,120.9 152.7,124.9 L141.0,136.5 C139.8,137.7 141.6,141.9 141.8,141.8 Z" fill="currentColor" class="octo-body"></path></svg></a>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content">
+            
+
+  <div class="posts-expand">
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block " lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://geosmart.github.io/2017/10/02/%E7%B3%BB%E7%BB%9F%E8%AE%BE%E8%AE%A1%E9%97%AE%E9%A2%98%E8%AE%B0%E5%BD%95/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="geosmart">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="geosmart.io">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          系统设计问题记录
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：3   十月   2017 0:00:00" itemprop="dateCreated datePublished" datetime="2017-10-03T00:00:00+08:00">3   十月   2017</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：15   十二月   2021 9:13:12" itemprop="dateModified" datetime="2021-12-15T09:13:12+08:00">15   十二月   2021</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/%E6%96%B9%E6%B3%95%E8%AE%BA/" itemprop="url" rel="index"><span itemprop="name">方法论</span></a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <p>记录遇到的系统设计问题，如内部支撑系统、2B的数据服务系统以及通用的系统设计问题</p>
+<a id="more"></a> 
+<h1 id="系统设计问题记录"><a href="#系统设计问题记录" class="headerlink" title="系统设计问题记录"></a>系统设计问题记录</h1><h1 id="常规敏捷开发流程"><a href="#常规敏捷开发流程" class="headerlink" title="常规敏捷开发流程"></a>常规敏捷开发流程</h1><ol>
+<li>产品Story需求确认，制定Epic里程碑</li>
+<li>产品交互原型设计</li>
+<li>后端API接口设计确认/后端数据模型设计</li>
+<li>Story任务分解</li>
+<li>前后端各自编码实现</li>
+</ol>
+<p>迭代上述过程</p>
+<h1 id="衡量项目质量的指标"><a href="#衡量项目质量的指标" class="headerlink" title="衡量项目质量的指标"></a>衡量项目质量的指标</h1><ol>
+<li><code>功能</code>：功能目标是应用的基本要求，如果不能实现既定的功能逻辑，应用就失去了存在的意义，因此<code>实现产品需求</code>是应用的基本的目标。</li>
+<li><code>性能</code>：在基本的功能之上，会有一些性能的要求，但是很少有产品经理或者用户能提前提出这样的要求，因此架构师要有丰富的经验去发现和解决(或者<code>为未来提升性能做准备</code>)性能问题。<br>性能的主要衡量有：单次请求的相应时间，单实例请求并发数，服务最大并发量等。</li>
+<li><code>扩展性</code>：目前互联网应用的开发模式：提出需求，快速响应，迭代开发，尽快上线</li>
+</ol>
+<h1 id="架构设计的主要过程"><a href="#架构设计的主要过程" class="headerlink" title="架构设计的主要过程"></a>架构设计的主要过程</h1><ol>
+<li>确定问题域：根据需求定位关键问题，需根据性能和扩展性定义问题域；如何<code>平衡性能和扩展的关系</code>，是架构师设计的关键。扩展把握关键问题，优先满足关键问题的性能，确定<code>最小功能集</code>；确定最小功能集的优势可以快速实现，快速验证需求的准确性，每次需求开发都完成最小和最<code>关键的需求</code>。</li>
+<li>数据建模：StarUML，ER</li>
+<li>模块划分：单实例结构（应用&gt;DB）；集群结构；分布式结构（显示层&gt;服务n&gt;DB） ；混合结构；</li>
+<li>关键流程描述：检查系统架构是否满足需求和指导开发的必要条件。使用<code>流程图</code>解决关键问题</li>
+<li>技术选型</li>
+<li>代码实现</li>
+<li>验收测试</li>
+</ol>
+<h1 id="内部系统类"><a href="#内部系统类" class="headerlink" title="内部系统类"></a>内部系统类</h1><h2 id="B2B的支付机制"><a href="#B2B的支付机制" class="headerlink" title="B2B的支付机制"></a>B2B的支付机制</h2><ul>
+<li>流程：记账-&gt;账单-&gt;扣款；</li>
+<li>记账：业务系统异步写入操作记录；</li>
+<li>账单：根据计费逻辑（折扣/套餐/阶梯）以存储过程生成账单；</li>
+<li>扣款：运营月结/日结+法务催收；</li>
+</ul>
+<h2 id="系统耦合问题"><a href="#系统耦合问题" class="headerlink" title="系统耦合问题"></a>系统耦合问题</h2><p>问题：业务系统与基础设施系统（Boss）强耦合，Boss缓存问题影响业务系统鉴权；<br>方案：Boss数据库单点，缓存多点实时同步；业务系统读取本地缓存进行鉴权；</p>
+<h1 id="数据服务类"><a href="#数据服务类" class="headerlink" title="数据服务类"></a>数据服务类</h1><h2 id="渠道分流控制工具-自动分流工具"><a href="#渠道分流控制工具-自动分流工具" class="headerlink" title="渠道分流控制工具/自动分流工具"></a>渠道分流控制工具/自动分流工具</h2><p>需求：渠道调用超时自动切换，渠道恢复正常自动切换；<br>分析：1个服务对应多个提供者，多个提供者可配置权重，要求多个提供者之间可根据超时时间down或者on<br>技巧：超时时间=接口平均调用时间*2</p>
+<h2 id="保证主流程用户体验，减少故障点"><a href="#保证主流程用户体验，减少故障点" class="headerlink" title="保证主流程用户体验，减少故障点"></a>保证主流程用户体验，减少故障点</h2><p>梳理主流程，区分立即一致和最终一致，最终一致的业务逻辑可以消息中间件异步执行，以减少主流程阻塞时间；</p>
+<blockquote>
+<p>eg  在实名验证+人脸比对前，异步调用防骇客接口；在认证结束时，从缓存获取防骇客接口调用结果，若检测到活体攻击，进入人审；若无攻击，正常返回；</p>
+</blockquote>
+<h2 id="认证结果通知机制"><a href="#认证结果通知机制" class="headerlink" title="认证结果通知机制"></a>认证结果通知机制</h2><p>认证结果通知：SDK端同步返回和服务端异步返回，SDK同步返回时需支持敏感字段掩码（开关）；<br>实时性要求不高，提供异步通知接口；实时性要求高，提供认证结果查询接口；<br>1）异步通知双层设计：<br>第一层：实时通知，设置正常超时时间（3S）且不重试，不论通知成功与否，都写表记录通知结果标识；<br>第二层：扫描异步通知表，对未成功通知的记录进行重试通知（3次，重试时间递增）<br>2）异步通知：商户异步通知地址不能保证Https，数据需加密传输<br>3）认证结果查询接口：独立查询库</p>
+<h1 id="通用问题"><a href="#通用问题" class="headerlink" title="通用问题"></a>通用问题</h1><h2 id="异常处理"><a href="#异常处理" class="headerlink" title="异常处理"></a>异常处理</h2><p>调用外部服务异常时打印所有日志；<br>自定义异常，在最外围捕捉抛出</p>
+<h2 id="网络超时问题"><a href="#网络超时问题" class="headerlink" title="网络超时问题"></a>网络超时问题</h2><p>从三个关键点排查</p>
+<ol>
+<li>对端：TCP握手问题</li>
+<li>数据传输：</li>
+<li>读取结果：readTimeout的实际含义<br>the read timeout is that it corresponds to the timeout on a socket read.<br>So it’s not the time allowed for the full response to arrive, but rather the time given to a single socket read.<br>So if there are 4 socket reads, each taking 9 seconds, your total read time is 9 * 4 = 36 seconds.<br><a href="http://stackoverflow.com/questions/9873810/using-apache-httpclient-how-to-set-the-timeout-on-a-request-and-response">http://stackoverflow.com/questions/9873810/using-apache-httpclient-how-to-set-the-timeout-on-a-request-and-response</a></li>
+</ol>
+<h2 id="HttpClient超时类型"><a href="#HttpClient超时类型" class="headerlink" title="HttpClient超时类型"></a>HttpClient超时类型</h2><ol>
+<li>connectionRequestTimeout:从连接池中获取连接的超时时间，超过该时间未拿到可用连接，会抛出org.apache.http.conn.ConnectionPoolTimeoutException: Timeout waiting for connection from pool</li>
+<li>connectTimeout:连接上服务器(握手成功)的时间，超出该时间抛出connect timeout</li>
+<li>socketTimeout:服务器返回数据(response)的时间，超过该时间抛出read timeout</li>
+</ol>
+<h2 id="线程池使用场景"><a href="#线程池使用场景" class="headerlink" title="线程池使用场景"></a>线程池使用场景</h2><ol>
+<li>节省时间，多个线程并行处理后返回，如双重比对</li>
+<li>异步任务，不影响主流程</li>
+</ol>
+<h2 id="输入提示服务"><a href="#输入提示服务" class="headerlink" title="输入提示服务"></a>输入提示服务</h2><p>高并发系统的设计，关键在合理的数据结构的设计，而不在架构的套用</p>
+<h3 id="缓存-哈希"><a href="#缓存-哈希" class="headerlink" title="缓存+哈希"></a>缓存+哈希</h3><p>把搜索的搜索提示词存在redis集群中，每次来了请求直接redis集群中查找key，然后返回相应的value值就行了，完美解决，虽然耗费点内存，但是空间换时间嘛；</p>
+<h3 id="trie树"><a href="#trie树" class="headerlink" title="trie树"></a>trie树</h3><p>这种搜索提示的功能一般用trie树来做，耗费的内存不多，查找速度为O(k)，其中k为字符串的长度，虽然看上去没有哈希表的O(1)好，但是少了网络开销，节约了很多内存，并且实际查找时间还要不比缓存+哈希慢多少，<br>一种合适当前场景的核心数据结构才是高并发系统的关键，缓存+哈希如果也看成一种数据结构，但这种数据结构并不适用于所有的高并发场景。</p>
+<h2 id="LRU缓存"><a href="#LRU缓存" class="headerlink" title="LRU缓存"></a>LRU缓存</h2><p>LRU是Least Recently Used 近期最少使用算法；<br>硬盘上有N条数据，并且有一个程序包，提供GET和SET方法，可以操作磁盘读写数据，但是速度太慢，请设计一个内存中的数据结构，也提供GET和SET方法，保存最近访问的前100条数据，这个数据结构就是一个LRU了，让面试者实现出来，如果觉得写代码麻烦，可以把数据结构设计出来描述一下就行了，就这样，还很多人不会，这怎么能说是对缓存技术有深入了解呢？就这样，怎么能说有过大型高并发系统的经验呢？这只是开源工具的使用经验罢了。</p>
+<h2 id="常用容错机制"><a href="#常用容错机制" class="headerlink" title="常用容错机制"></a>常用容错机制</h2><p>常见容错机制：failover ，failsafe，failfase ，failback，forking，来源于阿里的定义</p>
+<ul>
+<li>Failover 失败自动切换<br>当出现失败，重试其它服务器，通常用于读操作（推荐使用）。 重试会带来更长延迟。</li>
+<li>Failfast  快速失败<br>只发起一次调用，失败立即报错,通常用于非幂等性的写操作。 如果有机器正在重启，可能会出现调用失败 。</li>
+<li>Failsafe 失败安全<br>出现异常时，直接忽略，通常用于写入审计日志等操作。 调用信息丢失 可用于生产环境 Monitor。</li>
+<li>Failback  失败自动恢复<br>后台记录失败请求，定时重发。通常用于消息通知操作 不可靠，重启丢失。 可用于生产环境 Registry。</li>
+<li>Forking  并行调用多个服务器<br>只要一个成功即返回，通常用于实时性要求较高的读操作。 需要浪费更多服务资源   。</li>
+<li>Broadcast<br>广播调用，所有提供逐个调用，任意一台报错则报错。通常用于更新提供方本地状态 速度慢，任意一台报错则报错 。</li>
+</ul>
+
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/%E6%96%B9%E6%B3%95%E8%AE%BA/" rel="tag"># 方法论</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2017/10/01/JMS%E6%B6%88%E6%81%AF%E4%B8%AD%E9%97%B4%E4%BB%B6/" rel="prev" title="JMS消息中间件">
+      <i class="fa fa-chevron-left"></i> JMS消息中间件
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/2017/10/02/Nodejs%E5%85%A5%E9%97%A8%E7%AC%94%E8%AE%B0/" rel="next" title="Nodejs入门笔记">
+      Nodejs入门笔记 <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+  </div>
+
+
+          </div>
+          
+    <div class="comments" id="gitalk-container"></div>
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let activeClass = CONFIG.comments.activeClass;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#系统设计问题记录"><span class="nav-number">1.</span> <span class="nav-text">系统设计问题记录</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#常规敏捷开发流程"><span class="nav-number">2.</span> <span class="nav-text">常规敏捷开发流程</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#衡量项目质量的指标"><span class="nav-number">3.</span> <span class="nav-text">衡量项目质量的指标</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#架构设计的主要过程"><span class="nav-number">4.</span> <span class="nav-text">架构设计的主要过程</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#内部系统类"><span class="nav-number">5.</span> <span class="nav-text">内部系统类</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#B2B的支付机制"><span class="nav-number">5.1.</span> <span class="nav-text">B2B的支付机制</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#系统耦合问题"><span class="nav-number">5.2.</span> <span class="nav-text">系统耦合问题</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#数据服务类"><span class="nav-number">6.</span> <span class="nav-text">数据服务类</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#渠道分流控制工具-自动分流工具"><span class="nav-number">6.1.</span> <span class="nav-text">渠道分流控制工具&#x2F;自动分流工具</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#保证主流程用户体验，减少故障点"><span class="nav-number">6.2.</span> <span class="nav-text">保证主流程用户体验，减少故障点</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#认证结果通知机制"><span class="nav-number">6.3.</span> <span class="nav-text">认证结果通知机制</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#通用问题"><span class="nav-number">7.</span> <span class="nav-text">通用问题</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#异常处理"><span class="nav-number">7.1.</span> <span class="nav-text">异常处理</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#网络超时问题"><span class="nav-number">7.2.</span> <span class="nav-text">网络超时问题</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#HttpClient超时类型"><span class="nav-number">7.3.</span> <span class="nav-text">HttpClient超时类型</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#线程池使用场景"><span class="nav-number">7.4.</span> <span class="nav-text">线程池使用场景</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#输入提示服务"><span class="nav-number">7.5.</span> <span class="nav-text">输入提示服务</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#缓存-哈希"><span class="nav-number">7.5.1.</span> <span class="nav-text">缓存+哈希</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#trie树"><span class="nav-number">7.5.2.</span> <span class="nav-text">trie树</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#LRU缓存"><span class="nav-number">7.6.</span> <span class="nav-text">LRU缓存</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#常用容错机制"><span class="nav-number">7.7.</span> <span class="nav-text">常用容错机制</span></a></li></ol></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">geosmart</p>
+  <div class="site-description" itemprop="description"></div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">199</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+          
+        <span class="site-state-item-count">15</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">118</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+        <a href="https://github.com/geosmart" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;geosmart" rel="noopener" target="_blank"><i class="fa fa-fw fa-github"></i>GitHub</a>
+      </span>
+  </div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2021</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">geosmart</span>
+</div>
+
+        
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/pisces.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+  
+<script src="/js/local-search.js"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+      
+
+<script>
+  if (typeof MathJax === 'undefined') {
+    window.MathJax = {
+      tex: {
+        inlineMath: {'[+]': [['$', '$']]},
+        tags: 'ams'
+      },
+      options: {
+        renderActions: {
+          findScript: [10, doc => {
+            document.querySelectorAll('script[type^="math/tex"]').forEach(node => {
+              const display = !!node.type.match(/; *mode=display/);
+              const math = new doc.options.MathItem(node.textContent, doc.inputJax[0], display);
+              const text = document.createTextNode('');
+              node.parentNode.replaceChild(text, node);
+              math.start = {node: text, delim: '', n: 0};
+              math.end = {node: text, delim: '', n: 0};
+              doc.math.push(math);
+            });
+          }, '', false],
+          insertedScript: [200, () => {
+            document.querySelectorAll('mjx-container').forEach(node => {
+              let target = node.parentNode;
+              if (target.nodeName.toLowerCase() === 'li') {
+                target.parentNode.classList.add('has-jax');
+              }
+            });
+          }, '', false]
+        }
+      }
+    };
+    (function () {
+      var script = document.createElement('script');
+      script.src = '//cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js';
+      script.defer = true;
+      document.head.appendChild(script);
+    })();
+  } else {
+    MathJax.startup.document.state(0);
+    MathJax.texReset();
+    MathJax.typeset();
+  }
+</script>
+
+    
+
+  
+
+<link rel="stylesheet" href="//cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.min.css">
+
+<script>
+NexT.utils.loadComments(document.querySelector('#gitalk-container'), () => {
+  NexT.utils.getScript('//cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.min.js', () => {
+    var gitalk = new Gitalk({
+      clientID    : '8a29a27c357a64ed79fd',
+      clientSecret: 'fe1b781c49fa9037803f3c4d3e94fbb677abac4d',
+      repo        : 'geosmart.github.io',
+      owner       : 'geosmart',
+      admin       : ['geosmart'],
+      id          : 'fc211959e218ee78e925056ef630915c',
+        language: 'zh-CN',
+      distractionFreeMode: true
+    });
+    gitalk.render('gitalk-container');
+  }, window.Gitalk);
+});
+</script>
+
+</body>
+</html>

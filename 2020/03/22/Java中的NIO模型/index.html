@@ -1,0 +1,714 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 4.2.1">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css">
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"geosmart.github.io","root":"/","scheme":"Pisces","version":"7.7.1","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.xml"};
+  </script>
+
+  <meta name="description" content="一个使用传统阻塞I&#x2F;O的系统，如果使用一个请求对应一个线程这种模式，一旦有高并发的大量请求，就会有如下问题：   线程不够用, 就算使用了线程池复用线程也无济于事;  阻塞I&#x2F;O模式下,会有大量的线程被阻塞，一直在等待数据,这个时候的线程被挂起，只能干等，CPU利用率很低，换句话说，系统的吞吐量低;  如果网络I&#x2F;O堵塞或者有网络抖动或者网络故障等，线程的阻塞时间可能很长，整个系统也变的不可靠;">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Java中的NIO模型">
+<meta property="og:url" content="http://geosmart.github.io/2020/03/22/Java%E4%B8%AD%E7%9A%84NIO%E6%A8%A1%E5%9E%8B/index.html">
+<meta property="og:site_name" content="geosmart.io">
+<meta property="og:description" content="一个使用传统阻塞I&#x2F;O的系统，如果使用一个请求对应一个线程这种模式，一旦有高并发的大量请求，就会有如下问题：   线程不够用, 就算使用了线程池复用线程也无济于事;  阻塞I&#x2F;O模式下,会有大量的线程被阻塞，一直在等待数据,这个时候的线程被挂起，只能干等，CPU利用率很低，换句话说，系统的吞吐量低;  如果网络I&#x2F;O堵塞或者有网络抖动或者网络故障等，线程的阻塞时间可能很长，整个系统也变的不可靠;">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="http://geosmart.github.io/2020/03/22/Java%E4%B8%AD%E7%9A%84NIO%E6%A8%A1%E5%9E%8B/Buffer_class.jpg">
+<meta property="og:image" content="http://geosmart.github.io/2020/03/22/Java%E4%B8%AD%E7%9A%84NIO%E6%A8%A1%E5%9E%8B/Buffer_model.png">
+<meta property="og:image" content="http://geosmart.github.io/2020/03/22/Java%E4%B8%AD%E7%9A%84NIO%E6%A8%A1%E5%9E%8B/NonDirectBuffer.jpg">
+<meta property="og:image" content="http://geosmart.github.io/2020/03/22/Java%E4%B8%AD%E7%9A%84NIO%E6%A8%A1%E5%9E%8B/DirectBuffer.jpg">
+<meta property="og:image" content="http://geosmart.github.io/2020/03/22/Java%E4%B8%AD%E7%9A%84NIO%E6%A8%A1%E5%9E%8B/Channel_class.jpg">
+<meta property="article:published_time" content="2020-03-22T16:00:00.000Z">
+<meta property="article:modified_time" content="2021-12-15T01:13:12.952Z">
+<meta property="article:author" content="geosmart">
+<meta property="article:tag" content="Java">
+<meta property="article:tag" content="IO">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://geosmart.github.io/2020/03/22/Java%E4%B8%AD%E7%9A%84NIO%E6%A8%A1%E5%9E%8B/Buffer_class.jpg">
+
+<link rel="canonical" href="http://geosmart.github.io/2020/03/22/Java%E4%B8%AD%E7%9A%84NIO%E6%A8%A1%E5%9E%8B/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome: false,
+    isPost: true
+  };
+</script>
+
+  <title>Java中的NIO模型 | geosmart.io</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <div>
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">geosmart.io</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+        <p class="site-subtitle">勿助勿忘，深造自得</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+<nav class="site-nav">
+  
+  <ul id="menu" class="menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-fw fa-home"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-about">
+
+    <a href="/about/" rel="section"><i class="fa fa-fw fa-user"></i>关于</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="fa fa-fw fa-tags"></i>标签</a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/categories/" rel="section"><i class="fa fa-fw fa-th"></i>分类</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-fw fa-archive"></i>归档</a>
+
+  </li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜索
+        </a>
+      </li>
+  </ul>
+
+</nav>
+  <div class="site-search">
+    <div class="popup search-popup">
+    <div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocorrect="off" autocapitalize="off"
+           placeholder="搜索..." spellcheck="false"
+           type="search" class="search-input">
+  </div>
+  <span class="popup-btn-close">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div id="search-result"></div>
+
+</div>
+<div class="search-pop-overlay"></div>
+
+  </div>
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+  <a href="https://github.com/geosmart" class="github-corner" title="Follow me on GitHub" aria-label="Follow me on GitHub" rel="noopener" target="_blank"><svg width="80" height="80" viewBox="0 0 250 250" aria-hidden="true"><path d="M0,0 L115,115 L130,115 L142,142 L250,250 L250,0 Z"></path><path d="M128.3,109.0 C113.8,99.7 119.0,89.6 119.0,89.6 C122.0,82.7 120.5,78.6 120.5,78.6 C119.2,72.0 123.4,76.3 123.4,76.3 C127.3,80.9 125.5,87.3 125.5,87.3 C122.9,97.6 130.6,101.9 134.4,103.2" fill="currentColor" style="transform-origin: 130px 106px;" class="octo-arm"></path><path d="M115.0,115.0 C114.9,115.1 118.7,116.5 119.8,115.4 L133.7,101.6 C136.9,99.2 139.9,98.4 142.2,98.6 C133.8,88.0 127.5,74.4 143.8,58.0 C148.5,53.4 154.0,51.2 159.7,51.0 C160.3,49.4 163.2,43.6 171.4,40.1 C171.4,40.1 176.1,42.5 178.8,56.2 C183.1,58.6 187.2,61.8 190.9,65.4 C194.5,69.0 197.7,73.2 200.1,77.6 C213.8,80.2 216.3,84.9 216.3,84.9 C212.7,93.1 206.9,96.0 205.4,96.6 C205.1,102.4 203.0,107.8 198.3,112.5 C181.9,128.9 168.3,122.5 157.7,114.1 C157.9,116.9 156.7,120.9 152.7,124.9 L141.0,136.5 C139.8,137.7 141.6,141.9 141.8,141.8 Z" fill="currentColor" class="octo-body"></path></svg></a>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content">
+            
+
+  <div class="posts-expand">
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block " lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://geosmart.github.io/2020/03/22/Java%E4%B8%AD%E7%9A%84NIO%E6%A8%A1%E5%9E%8B/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="geosmart">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="geosmart.io">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          Java中的NIO模型
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：23   三月   2020 0:00:00" itemprop="dateCreated datePublished" datetime="2020-03-23T00:00:00+08:00">23   三月   2020</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：15   十二月   2021 9:13:12" itemprop="dateModified" datetime="2021-12-15T09:13:12+08:00">15   十二月   2021</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/%E5%90%8E%E7%AB%AF%E6%8A%80%E6%9C%AF/" itemprop="url" rel="index"><span itemprop="name">后端技术</span></a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <p>一个使用传统阻塞I/O的系统，如果使用一个请求对应一个线程这种模式，一旦有<code>高并发</code>的大量请求，就会有如下问题： </p>
+<ol>
+<li>线程不够用, 就算使用了<code>线程池</code>复用线程也无济于事; </li>
+<li>阻塞I/O模式下,会有大量的线程被阻塞，一直在等待数据,这个时候的线程被挂起，只能干等，<code>CPU利用率很低</code>，换句话说，系统的<code>吞吐量低</code>; </li>
+<li>如果<code>网络I/O堵塞</code>或者有网络抖动或者网络故障等，线程的阻塞时间可能很长，整个系统也变的不可靠;</li>
+</ol>
+<p>怎么办？<code>NIO</code>闪亮登场！<br><a id="more"></a>  </p>
+<h1 id="关于NIO"><a href="#关于NIO" class="headerlink" title="关于NIO"></a>关于NIO</h1><p>java.nio全称java non-blocking IO（实际上是new io），是指JDK 1.4 及以上版本里提供的新api（New IO） ，为所有的原始类型（boolean类型除外）提供缓存支持的数据容器，使用它可以提供<code>非阻塞式的高伸缩性网络</code>。</p>
+<p>HTTP2.0使用了<code>多路复用</code>的技术，做到同一个连接并发处理多个请求，而且并发请求的数量比HTTP1.1大了好几个数量级。</p>
+<h1 id="IO和NIO的区别"><a href="#IO和NIO的区别" class="headerlink" title="IO和NIO的区别"></a>IO和NIO的区别</h1><p>原始的IO是面向流的、阻塞的；<br>NIO是面向缓冲区的、非阻塞的；</p>
+<h2 id="阻塞I-O模型"><a href="#阻塞I-O模型" class="headerlink" title="阻塞I/O模型"></a>阻塞I/O模型</h2><ul>
+<li>jdk1.4以前的IO模型，一连接对一个线程。</li>
+<li>原始的IO是<code>面向流</code>的，不存在缓存的概念。Java IO面向流意味着每次从流中读一个或多个字节，直至读取所有字节，它们没有被缓存在任何地方。此外，它不能前后移动流中的数据。如果需要前后移动从流中读取的数据，需要先将它缓存到一个缓冲区；</li>
+<li>原始的IO的各种流是<code>阻塞</code>的，这意味着当一个线程调用<code>read</code>或<code>write</code>方法时，该线程被阻塞，直到有一些数据被读取，或数据完全写入，该线程在此期间不能再干任何事情了。</li>
+</ul>
+<h2 id="非阻塞I-O模型"><a href="#非阻塞I-O模型" class="headerlink" title="非阻塞I/O模型"></a>非阻塞I/O模型</h2><ul>
+<li>NIO是<code>面向缓冲区</code>的：数据读取到一个它稍后处理的缓冲区，需要时可在缓冲区中前后移动，这就增加了处理过程中的灵活性。</li>
+<li>NIO的非阻塞模式<ul>
+<li>非阻塞读：一个线程从某通道发送请求读取数据，但是它仅能得到目前可用的数据，如果目前没有数据可用时，就什么都不会获取，而不是保持线程阻塞，所以直至数据变的可以读取之前，该线程可以继续做其他的事情。 </li>
+<li>非阻塞写：一个线程请求写入一些数据到某通道，但不需要等待它完全写入，这个线程同时可以去做别的事情。</li>
+</ul>
+</li>
+<li>NIO是可以做到用一个线程来处理多个操作的。假设有10000个请求过来,根据实际情况，可以分配50或者100个线程来处理。不像之前的阻塞IO那样，非得分配10000个。</li>
+</ul>
+<h1 id="NIO网络通信的3个核心"><a href="#NIO网络通信的3个核心" class="headerlink" title="NIO网络通信的3个核心"></a>NIO网络通信的3个核心</h1><ul>
+<li>Channel通道：负责连接；</li>
+<li>Buffer缓冲区：负责数据的存取；</li>
+<li>Selector选择器：是SelectableChannel的多路复用器，用于监控SelectableChannel的IO状况；</li>
+</ul>
+<h1 id="Buffer缓冲区"><a href="#Buffer缓冲区" class="headerlink" title="Buffer缓冲区"></a>Buffer缓冲区</h1><ul>
+<li>缓冲区：在NIO中负责<code>数据的存取</code>；</li>
+<li>缓冲区就是字节数组，存储不同类型的数据，根据数据类型不同（Boolean除外），提供相应类型的缓冲区<ul>
+<li>ByteBuffer</li>
+<li>CharBuffer</li>
+<li>ShortBuffer</li>
+<li>InteBuffer</li>
+<li>LongBuffer</li>
+<li>FloatBuffer</li>
+<li>DoubleBuffer</li>
+</ul>
+</li>
+</ul>
+<p><img src="Buffer_class.jpg" alt="Buffer_class"></p>
+<h2 id="Buffer核心操作方法"><a href="#Buffer核心操作方法" class="headerlink" title="Buffer核心操作方法"></a>Buffer核心操作方法</h2><ul>
+<li>allocate(capacity)：获取缓冲区，分配内存</li>
+<li>put(bytes)：存入数据</li>
+<li>get(dst,offset,len) ：获取数据</li>
+</ul>
+<h2 id="Buffer核心属性"><a href="#Buffer核心属性" class="headerlink" title="Buffer核心属性"></a>Buffer核心属性</h2><p><img src="Buffer_model.png" alt="Buffer_model"></p>
+<ul>
+<li>capacity,容量，表示缓冲区中最大存储数据的容量；</li>
+<li>limit,界限：表示缓冲区可以操作数据的大小；<ul>
+<li>在写模式下，缓冲区的limit表示你最多能往Buffer里写多少数据；</li>
+<li>在读模式下，limit等于Buffer的capacity，意味着你还能从缓冲区获取多少数据。</li>
+</ul>
+</li>
+<li>position,位置：表示缓存区中正在操作数据的位置；<ul>
+<li>当写数据到缓冲时，position表示当前待写入的位置，position最大可为capacity – 1；</li>
+<li>当从缓冲读取数据时，position表示从当前位置读取。</li>
+</ul>
+</li>
+<li>mark,标记：记录当前position的位置，可以通过reset()恢复到mark的位置；</li>
+</ul>
+<blockquote>
+<p>0&lt;=mark&lt;=position&lt;=limit&lt;=capacity</p>
+</blockquote>
+<h2 id="直接缓冲区和非直接缓冲区"><a href="#直接缓冲区和非直接缓冲区" class="headerlink" title="直接缓冲区和非直接缓冲区"></a>直接缓冲区和非直接缓冲区</h2><h3 id="非直接缓冲区"><a href="#非直接缓冲区" class="headerlink" title="非直接缓冲区"></a>非直接缓冲区</h3><p><img src="NonDirectBuffer.jpg" alt="NonDirectBuffer"></p>
+<ul>
+<li>NIO通过通道连接磁盘文件与应用程序，通过缓冲区存取数据进行双向的数据传输。</li>
+<li>物理磁盘的存取是操作系统进行管理的，与物理磁盘的数据操作需要经过内核地址空间；而我们的Java应用程序是通过JVM分配的缓冲空间。</li>
+<li>数据需要在<code>内核地址空间</code>和<code>用户地址空间</code>，在<code>操作系统</code>和<code>JVM</code>之间进行数据的来回<code>拷贝</code>，无形中增加的中间环节使得效率与后面要提的直接缓冲区相比偏低。</li>
+<li>非直接缓冲区通过<code>allocate()</code>方法分配缓冲区，将缓冲区分配在JVM内存的<code>byte[]</code>中；</li>
+</ul>
+<h3 id="直接缓冲区"><a href="#直接缓冲区" class="headerlink" title="直接缓冲区"></a>直接缓冲区</h3><p><img src="DirectBuffer.jpg" alt="DirectBuffer"></p>
+<ul>
+<li>直接缓冲区则不再通过<code>内核地址空间</code>和<code>用户地址空间</code>的缓存数据的<code>复制传递</code>，而是在<code>物理内存</code>中申请了一块空间，这块空间<code>映射</code>到内核地址空间和用户地址空间；</li>
+<li>应用程序与磁盘之间的数据存取之间通过这块直接申请的物理内存进行；</li>
+<li>直接缓冲区通过<code>allocateDirect()</code>方法分配直接缓冲区，将缓冲区建立在操作系统内存中（<code>通过Unsafe.allocateMemory(size)</code>分配内存），即<code>直接内存</code>;</li>
+</ul>
+<h4 id="直接缓冲区的优点"><a href="#直接缓冲区的优点" class="headerlink" title="直接缓冲区的优点"></a>直接缓冲区的优点</h4><p>性能更高、效率更快。<br>直接缓冲区可以通过FileChannel的map()方法将文件区域直接映射到内存中来创建，避免了在操作系统IO缓冲区和JVM的IO缓冲区之间的双向copy的成本；</p>
+<h4 id="直接缓冲区的缺点"><a href="#直接缓冲区的缺点" class="headerlink" title="直接缓冲区的缺点"></a>直接缓冲区的缺点</h4><ol>
+<li>不安全；</li>
+<li>消耗更多，因为它不是在JVM中直接开辟空间。这部分内存的回收只能依赖于垃圾回收机制，垃圾什么时候回收不受我们控制；</li>
+<li>数据写入物理内存缓冲区中，程序就失去了对这些数据的管理，即什么时候这些数据被最终写入从磁盘只能由操作系统来决定，应用程序无法再干涉。</li>
+</ol>
+<blockquote>
+<p>直接缓冲区适合与数据长时间存在于内存，或者大数据量的操作时更加适合。</p>
+</blockquote>
+<h2 id="Buffer的选择"><a href="#Buffer的选择" class="headerlink" title="Buffer的选择"></a>Buffer的选择</h2><p>通常情况下，操作系统的一次写操作分为两步： </p>
+<ol>
+<li>将数据从用户空间拷贝到系统空间。 </li>
+<li>从系统空间往网卡写。</li>
+</ol>
+<p>同理，读操作也分为两步： </p>
+<ol>
+<li>将数据从网卡拷贝到系统空间； </li>
+<li>将数据从系统空间拷贝到用户空间。</li>
+</ol>
+<p>对于NIO来说，缓存的使用可以使用DirectByteBuffer和HeapByteBuffer。</p>
+<ul>
+<li>如果使用了DirectByteBuffer，一般来说可以减少一次系统空间到用户空间的拷贝。但Buffer创建和销毁的成本更高，更不宜维护，通常会用内存池来提高性能。</li>
+<li>如果数据量比较小的中小应用情况下，可以考虑使用heapBuffer；反之可以用directBuffer。</li>
+</ul>
+<h1 id="Channel通道"><a href="#Channel通道" class="headerlink" title="Channel通道"></a>Channel通道</h1><ul>
+<li>Channel由java.nio.channels包定义；</li>
+<li>Channel表示<code>IO源</code>与<code>目标</code>打开的<code>连接</code>，在Java NIO中负责缓冲区中<code>数据的传输</code>，类似于传统IO的<code>流</code>；</li>
+<li>Channel不能直接访问数据，只能<code>与Buffer进行交互</code>；</li>
+</ul>
+<h2 id="Channel的主要实现类"><a href="#Channel的主要实现类" class="headerlink" title="Channel的主要实现类"></a>Channel的主要实现类</h2><p>java.io.channels.Channels接口，常用的有</p>
+<ul>
+<li>FileChannel：文件通道（阻塞模式），用于对文件进行读写；</li>
+<li>SocketChannel：TCP通道，用户TCP数据传输；</li>
+<li>ServerSocketChannel：用于服务端监听外部过来的TCP请求；</li>
+<li>DatagramChannel：UDP通道，用于监听UDP请求和发送UDP请求；</li>
+</ul>
+<p><img src="Channel_class.jpg" alt="Channel_class"></p>
+<h2 id="获取通道的方法"><a href="#获取通道的方法" class="headerlink" title="获取通道的方法"></a>获取通道的方法</h2><ol>
+<li><p>针对支持通道的类提供了<code>getChannel()</code>方法</p>
+<ul>
+<li><p>本地IO操作</p>
+<ul>
+<li>FileInputStream/FileOutputStream；</li>
+<li>RandomAccessFile</li>
+</ul>
+</li>
+<li><p>网络IO操作</p>
+<ul>
+<li>Socket</li>
+<li>ServerSocket</li>
+<li>DatagramSocket</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>JDK1.7中的NIO.2针对各个通道提供了一个<code>open()</code>方法获取通道；</li>
+<li>JDK1.7中的NIO.2的<code>Files#newByteChannel()</code>获取通道；</li>
+</ol>
+<h2 id="通道的读写操作"><a href="#通道的读写操作" class="headerlink" title="通道的读写操作"></a>通道的读写操作</h2><ul>
+<li>读操作：将数据从Channel读取到Buffer中，进行后续处理，方法：<code>channel.read(buffer)</code>；</li>
+<li>写操作：将数据从Buffer写入到Channel中，方法：<code>channel.write(buffer)</code>;</li>
+</ul>
+<h2 id="通道之间的数据传输"><a href="#通道之间的数据传输" class="headerlink" title="通道之间的数据传输"></a>通道之间的数据传输</h2><ol>
+<li>非直接缓冲区：读取<code>Channel</code>进行复制（速度和缓冲区大小相关）；</li>
+<li>利用直接缓冲区复制文件：以<code>MappedByteBuffer</code>进行复制；</li>
+<li>通道之间的数据传输：Channel的<code>transferTo</code>或<code>transferFrom</code>进行复制；</li>
+<li>File工具类：<code>Files.copy(src,tar,opt)</code>调用操作系统接口进行复制（性能最优）；</li>
+</ol>
+<p>具体实现代码见文件复制的单元测试代码<a href="">TestChannel.java</a></p>
+<h2 id="分散（Scatter）与聚集（Gather）"><a href="#分散（Scatter）与聚集（Gather）" class="headerlink" title="分散（Scatter）与聚集（Gather）"></a>分散（Scatter）与聚集（Gather）</h2><ul>
+<li>分散读取（Scatter Reads）：将通道中的数据分散到多个缓冲区中；</li>
+<li>聚集写入（Gather Writes）：将多个缓冲区中的数据聚集到通道中；</li>
+</ul>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Test</span></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">test_scatter_read_and_gather_write</span><span class="params">()</span> <span class="keyword">throws</span> IOException </span>&#123;</span><br><span class="line">    RandomAccessFile raf1 = <span class="keyword">new</span> RandomAccessFile(<span class="string">"d:/tmp/1.txt"</span>, <span class="string">"rw"</span>);</span><br><span class="line">    <span class="comment">//1.获取通道</span></span><br><span class="line">    FileChannel channel1 = raf1.getChannel();</span><br><span class="line">    <span class="comment">//2,分配指定大小的缓冲区</span></span><br><span class="line">    ByteBuffer buf1 = ByteBuffer.allocate(<span class="number">100</span>);</span><br><span class="line">    ByteBuffer buf2 = ByteBuffer.allocate(<span class="number">1024</span>);</span><br><span class="line">    <span class="comment">//3.分散读取</span></span><br><span class="line">    ByteBuffer[] buffers = &#123;buf1, buf2&#125;;</span><br><span class="line">    channel1.read(buffers);</span><br><span class="line"></span><br><span class="line">    <span class="keyword">for</span> (ByteBuffer byteBuffer : buffers) &#123;</span><br><span class="line">        byteBuffer.flip();</span><br><span class="line">    &#125;</span><br><span class="line">    System.out.println(<span class="keyword">new</span> String(buffers[<span class="number">0</span>].array(), <span class="number">0</span>, buffers[<span class="number">0</span>].limit()));</span><br><span class="line">    System.out.println(<span class="keyword">new</span> String(buffers[<span class="number">1</span>].array(), <span class="number">0</span>, buffers[<span class="number">1</span>].limit()));</span><br><span class="line"></span><br><span class="line">    <span class="comment">//4. 聚集写入</span></span><br><span class="line">    RandomAccessFile raf2 = <span class="keyword">new</span> RandomAccessFile(<span class="string">"d:/tmp/2.txt"</span>, <span class="string">"rw"</span>);</span><br><span class="line">    FileChannel channel2 = raf2.getChannel();</span><br><span class="line">    channel2.write(buffers);</span><br><span class="line"></span><br><span class="line">    SortedMap&lt;String, Charset&gt; stringCharsetSortedMap = Charset.availableCharsets();</span><br><span class="line">    <span class="keyword">for</span> (Map.Entry s : stringCharsetSortedMap.entrySet()) &#123;</span><br><span class="line">        System.out.println(s.getKey() + <span class="string">"="</span> + s.getValue());</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h2 id="字符集（Charset）"><a href="#字符集（Charset）" class="headerlink" title="字符集（Charset）"></a>字符集（Charset）</h2><ul>
+<li>编码：字符串2字符数组</li>
+<li>解码：字符数组2字符串</li>
+</ul>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Test</span></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">test_encoder_decoder</span><span class="params">()</span> <span class="keyword">throws</span> IOException </span>&#123;</span><br><span class="line">    Charset cs1 = Charset.forName(<span class="string">"GBK"</span>);</span><br><span class="line">    <span class="comment">//1.获取编码器</span></span><br><span class="line">    CharsetEncoder ce = cs1.newEncoder();</span><br><span class="line">    <span class="comment">//2.获取解码器</span></span><br><span class="line">    CharsetDecoder cd = cs1.newDecoder();</span><br><span class="line"></span><br><span class="line">    CharBuffer charBuffer = CharBuffer.allocate(<span class="number">1024</span>);</span><br><span class="line">    charBuffer.put(<span class="string">"武汉加油！"</span>);</span><br><span class="line">    charBuffer.flip();</span><br><span class="line"></span><br><span class="line">    <span class="comment">//3.encoder编码</span></span><br><span class="line">    ByteBuffer eBuffer = ce.encode(charBuffer);</span><br><span class="line">    <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; <span class="number">10</span>; i++) &#123;</span><br><span class="line">        System.out.println(eBuffer.get());</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="comment">//4.decoder解码</span></span><br><span class="line">    eBuffer.flip();</span><br><span class="line">    CharBuffer dBuffer = cd.decode(eBuffer);</span><br><span class="line">    System.out.println(dBuffer.toString());</span><br><span class="line"></span><br><span class="line">    <span class="comment">//Charset直接解码</span></span><br><span class="line">    Charset cs2 = Charset.forName(<span class="string">"GBK"</span>);</span><br><span class="line">    eBuffer.flip();</span><br><span class="line">    CharBuffer decode = cs2.decode(eBuffer);</span><br><span class="line">    System.out.println(decode.toString());</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h1 id="Selector选择器"><a href="#Selector选择器" class="headerlink" title="Selector选择器"></a>Selector选择器</h1><p>Selector建立在非阻塞的基础之上，经常说的的<code>多路复用</code>在java中指的就是selector，用于实现一个线程管理多个Channel。</p>
+<h2 id="选择器-Selector"><a href="#选择器-Selector" class="headerlink" title="选择器(Selector)"></a>选择器(Selector)</h2><p>将通道注册到选择器上,并指定监听事件</p>
+<ul>
+<li>Selector.open()：开启Selector；</li>
+<li>channel.configureBlocking(false)：将通道设置为非阻塞模式，因为默认都是阻塞模式的；</li>
+<li>channel.register(selector,SelectionKeys)：注册方法返回值是 SelectionKey 实例，它包含了 Channel 和 Selector 信息，也包括了一个叫做<code>Interest Set</code> 的信息，即我们设置的我们感兴趣的正在监听的事件集合；</li>
+<li>selector.select()：调用 select() 方法获取通道信息。用于判断是否有我们感兴趣的事件已经发生了。</li>
+</ul>
+<h2 id="选择键-SelectionKey"><a href="#选择键-SelectionKey" class="headerlink" title="选择键(SelectionKey)"></a>选择键(SelectionKey)</h2><ul>
+<li>OP_ACCEPT：对应 00010000，接受 TCP 连接；</li>
+<li>OP_READ：对应 00000001，通道中有数据可以进行读取；</li>
+<li>OP_WRITE：对应 00000100，可以往通道中写入数据；</li>
+<li>OP_CONNECT：对应 00001000，成功建立 TCP 连接；</li>
+</ul>
+<p>可以同时监听一个 Channel 中的发生的多个事件，比如我们要监听 ACCEPT 和 READ 事件，那么指定参数为二进制的 00010001 即十进制数值 17 即可。</p>
+<h2 id="Selector示例"><a href="#Selector示例" class="headerlink" title="Selector示例"></a>Selector示例</h2><p>服务端选择器绑定通道，根据选择键区分处理逻辑示例<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment">   * 服务端</span></span><br><span class="line"><span class="comment">   *</span></span><br><span class="line"><span class="comment">   * <span class="doctag">@throws</span> IOException</span></span><br><span class="line"><span class="comment">   */</span></span><br><span class="line">  <span class="meta">@Test</span></span><br><span class="line">  <span class="function"><span class="keyword">void</span> <span class="title">server</span><span class="params">()</span> <span class="keyword">throws</span> IOException </span>&#123;</span><br><span class="line">      <span class="comment">//1.获取通道</span></span><br><span class="line">      ServerSocketChannel ssChannel = ServerSocketChannel.open();</span><br><span class="line">      <span class="comment">//2.切换非阻塞模式</span></span><br><span class="line">      ssChannel.configureBlocking(<span class="keyword">false</span>);</span><br><span class="line">      <span class="comment">//3.绑定连接</span></span><br><span class="line">      ssChannel.bind(<span class="keyword">new</span> InetSocketAddress(host, port));</span><br><span class="line">      <span class="comment">//4.获取选择器</span></span><br><span class="line">      Selector selector = Selector.open();</span><br><span class="line">      <span class="comment">//5.将通道注册到选择器上,并指定监听事件</span></span><br><span class="line">      ssChannel.register(selector, SelectionKey.OP_ACCEPT);</span><br><span class="line"></span><br><span class="line">      <span class="comment">//6.轮询式的获取选择器上已经准备就绪的事件</span></span><br><span class="line">      <span class="keyword">while</span> (selector.select() &gt; <span class="number">0</span>) &#123;</span><br><span class="line">          <span class="comment">//7.获取当前选择器中所有注册的选择键（已就绪的监听事件）</span></span><br><span class="line">          Set&lt;SelectionKey&gt; selectionKeys = selector.selectedKeys();</span><br><span class="line">          Iterator&lt;SelectionKey&gt; iterator = selectionKeys.iterator();</span><br><span class="line">          <span class="keyword">while</span> (iterator.hasNext()) &#123;</span><br><span class="line">              SelectionKey selectionKey = iterator.next();</span><br><span class="line">              <span class="comment">//8.获取准备就绪的事件</span></span><br><span class="line">              <span class="keyword">if</span> (selectionKey.isAcceptable()) &#123;</span><br><span class="line">                  <span class="comment">//9.若接收就绪，获取客户端连接</span></span><br><span class="line">                  SocketChannel sChannel = ssChannel.accept();</span><br><span class="line">                  <span class="comment">//10.切换非阻塞模式</span></span><br><span class="line">                  sChannel.configureBlocking(<span class="keyword">false</span>);</span><br><span class="line">                  <span class="comment">//11.将该通道注册到选择器上</span></span><br><span class="line">                  sChannel.register(selector, SelectionKey.OP_READ);</span><br><span class="line">              &#125; <span class="keyword">else</span> <span class="keyword">if</span> (selectionKey.isReadable()) &#123;</span><br><span class="line">                  <span class="comment">//获取当前选择器上读就绪状态的通道</span></span><br><span class="line">                  SocketChannel schannel = (SocketChannel) selectionKey.channel();</span><br><span class="line">                  ByteBuffer buf = ByteBuffer.allocate(<span class="number">1024</span>);</span><br><span class="line">                  <span class="keyword">int</span> len = <span class="number">0</span>;</span><br><span class="line">                  <span class="keyword">while</span> ((len = schannel.read(buf)) != -<span class="number">1</span>) &#123;</span><br><span class="line">                      buf.flip();</span><br><span class="line">                      System.out.println(<span class="keyword">new</span> String(buf.array(), <span class="number">0</span>, len));</span><br><span class="line">                      buf.clear();</span><br><span class="line">                  &#125;</span><br><span class="line">                  schannel.close();</span><br><span class="line">              &#125;</span><br><span class="line">              <span class="comment">//取消选择键SelectionKey</span></span><br><span class="line">              iterator.remove();</span><br><span class="line">          &#125;</span><br><span class="line">      &#125;</span><br><span class="line">  &#125;</span><br></pre></td></tr></table></figure></p>
+<h1 id="注意"><a href="#注意" class="headerlink" title="注意"></a>注意</h1><ul>
+<li>使用NIO != 高性能，当连接数&lt;1000，并发程度不高或者局域网环境下NIO并没有显著的性能优势。</li>
+<li>NIO并没有完全屏蔽平台差异，它仍然是基于各个操作系统的I/O系统实现的，差异仍然存在。使用NIO做网络编程构建事件驱动模型并不容易，陷阱重重。</li>
+<li>推荐使用成熟的NIO框架，如Netty，MINA等。解决了很多NIO的陷阱，并屏蔽了操作系统的差异，有较好的性能和编程模型。</li>
+</ul>
+<h1 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h1><ul>
+<li><a href="https://tech.meituan.com/2016/11/04/nio.html">Java NIO浅析</a></li>
+<li></li>
+</ul>
+
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/Java/" rel="tag"># Java</a>
+              <a href="/tags/IO/" rel="tag"># IO</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2020/03/21/Java%E4%B8%AD%E7%9A%843%E7%A7%8DIO%E6%A8%A1%E5%9E%8B/" rel="prev" title="Java中的IO模型">
+      <i class="fa fa-chevron-left"></i> Java中的IO模型
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/2020/03/23/IO%E5%A4%8D%E7%94%A8%E6%A8%A1%E5%9E%8B%E4%B9%8BReactor/" rel="next" title="IO复用模型之Reactor">
+      IO复用模型之Reactor <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+  </div>
+
+
+          </div>
+          
+    <div class="comments" id="gitalk-container"></div>
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let activeClass = CONFIG.comments.activeClass;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#关于NIO"><span class="nav-number">1.</span> <span class="nav-text">关于NIO</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#IO和NIO的区别"><span class="nav-number">2.</span> <span class="nav-text">IO和NIO的区别</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#阻塞I-O模型"><span class="nav-number">2.1.</span> <span class="nav-text">阻塞I&#x2F;O模型</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#非阻塞I-O模型"><span class="nav-number">2.2.</span> <span class="nav-text">非阻塞I&#x2F;O模型</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#NIO网络通信的3个核心"><span class="nav-number">3.</span> <span class="nav-text">NIO网络通信的3个核心</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Buffer缓冲区"><span class="nav-number">4.</span> <span class="nav-text">Buffer缓冲区</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#Buffer核心操作方法"><span class="nav-number">4.1.</span> <span class="nav-text">Buffer核心操作方法</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Buffer核心属性"><span class="nav-number">4.2.</span> <span class="nav-text">Buffer核心属性</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#直接缓冲区和非直接缓冲区"><span class="nav-number">4.3.</span> <span class="nav-text">直接缓冲区和非直接缓冲区</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#非直接缓冲区"><span class="nav-number">4.3.1.</span> <span class="nav-text">非直接缓冲区</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#直接缓冲区"><span class="nav-number">4.3.2.</span> <span class="nav-text">直接缓冲区</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#直接缓冲区的优点"><span class="nav-number">4.3.2.1.</span> <span class="nav-text">直接缓冲区的优点</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#直接缓冲区的缺点"><span class="nav-number">4.3.2.2.</span> <span class="nav-text">直接缓冲区的缺点</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Buffer的选择"><span class="nav-number">4.4.</span> <span class="nav-text">Buffer的选择</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Channel通道"><span class="nav-number">5.</span> <span class="nav-text">Channel通道</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#Channel的主要实现类"><span class="nav-number">5.1.</span> <span class="nav-text">Channel的主要实现类</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#获取通道的方法"><span class="nav-number">5.2.</span> <span class="nav-text">获取通道的方法</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#通道的读写操作"><span class="nav-number">5.3.</span> <span class="nav-text">通道的读写操作</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#通道之间的数据传输"><span class="nav-number">5.4.</span> <span class="nav-text">通道之间的数据传输</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#分散（Scatter）与聚集（Gather）"><span class="nav-number">5.5.</span> <span class="nav-text">分散（Scatter）与聚集（Gather）</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#字符集（Charset）"><span class="nav-number">5.6.</span> <span class="nav-text">字符集（Charset）</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Selector选择器"><span class="nav-number">6.</span> <span class="nav-text">Selector选择器</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#选择器-Selector"><span class="nav-number">6.1.</span> <span class="nav-text">选择器(Selector)</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#选择键-SelectionKey"><span class="nav-number">6.2.</span> <span class="nav-text">选择键(SelectionKey)</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Selector示例"><span class="nav-number">6.3.</span> <span class="nav-text">Selector示例</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#注意"><span class="nav-number">7.</span> <span class="nav-text">注意</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#参考"><span class="nav-number">8.</span> <span class="nav-text">参考</span></a></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">geosmart</p>
+  <div class="site-description" itemprop="description"></div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">199</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+          
+        <span class="site-state-item-count">15</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">118</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+        <a href="https://github.com/geosmart" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;geosmart" rel="noopener" target="_blank"><i class="fa fa-fw fa-github"></i>GitHub</a>
+      </span>
+  </div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2021</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">geosmart</span>
+</div>
+
+        
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/pisces.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+  
+<script src="/js/local-search.js"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+      
+
+<script>
+  if (typeof MathJax === 'undefined') {
+    window.MathJax = {
+      tex: {
+        inlineMath: {'[+]': [['$', '$']]},
+        tags: 'ams'
+      },
+      options: {
+        renderActions: {
+          findScript: [10, doc => {
+            document.querySelectorAll('script[type^="math/tex"]').forEach(node => {
+              const display = !!node.type.match(/; *mode=display/);
+              const math = new doc.options.MathItem(node.textContent, doc.inputJax[0], display);
+              const text = document.createTextNode('');
+              node.parentNode.replaceChild(text, node);
+              math.start = {node: text, delim: '', n: 0};
+              math.end = {node: text, delim: '', n: 0};
+              doc.math.push(math);
+            });
+          }, '', false],
+          insertedScript: [200, () => {
+            document.querySelectorAll('mjx-container').forEach(node => {
+              let target = node.parentNode;
+              if (target.nodeName.toLowerCase() === 'li') {
+                target.parentNode.classList.add('has-jax');
+              }
+            });
+          }, '', false]
+        }
+      }
+    };
+    (function () {
+      var script = document.createElement('script');
+      script.src = '//cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js';
+      script.defer = true;
+      document.head.appendChild(script);
+    })();
+  } else {
+    MathJax.startup.document.state(0);
+    MathJax.texReset();
+    MathJax.typeset();
+  }
+</script>
+
+    
+
+  
+
+<link rel="stylesheet" href="//cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.min.css">
+
+<script>
+NexT.utils.loadComments(document.querySelector('#gitalk-container'), () => {
+  NexT.utils.getScript('//cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.min.js', () => {
+    var gitalk = new Gitalk({
+      clientID    : '8a29a27c357a64ed79fd',
+      clientSecret: 'fe1b781c49fa9037803f3c4d3e94fbb677abac4d',
+      repo        : 'geosmart.github.io',
+      owner       : 'geosmart',
+      admin       : ['geosmart'],
+      id          : 'b00b23f8964a25a6540fd9d10b385deb',
+        language: 'zh-CN',
+      distractionFreeMode: true
+    });
+    gitalk.render('gitalk-container');
+  }, window.Gitalk);
+});
+</script>
+
+</body>
+</html>

@@ -1,0 +1,668 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 4.2.1">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css">
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"geosmart.github.io","root":"/","scheme":"Pisces","version":"7.7.1","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.xml"};
+  </script>
+
+  <meta name="description" content="研究了PriorityQueue原理，知道JDK源码怎么实现的优先队列，这次是要搞清PriorityBlockingQueue阻塞优先队列是如何实现的； 本文从PriorityBlockingQueue的概念，结构，参数，源码解析（offer,poll,remove,add,grow），性能，线程安全性，使用场景，常见问题8个方面进行分析。 关键点：与PriorityQueue一样的排序规则，无界">
+<meta property="og:type" content="article">
+<meta property="og:title" content="JDK-PriorityBlockingQueue原理">
+<meta property="og:url" content="http://geosmart.github.io/2019/10/09/JDK-PriorityBlockingQueue%E5%8E%9F%E7%90%86/index.html">
+<meta property="og:site_name" content="geosmart.io">
+<meta property="og:description" content="研究了PriorityQueue原理，知道JDK源码怎么实现的优先队列，这次是要搞清PriorityBlockingQueue阻塞优先队列是如何实现的； 本文从PriorityBlockingQueue的概念，结构，参数，源码解析（offer,poll,remove,add,grow），性能，线程安全性，使用场景，常见问题8个方面进行分析。 关键点：与PriorityQueue一样的排序规则，无界">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="http://geosmart.github.io/2019/10/09/JDK-PriorityBlockingQueue%E5%8E%9F%E7%90%86/priority_blocking_queue_hier.png">
+<meta property="og:image" content="http://geosmart.github.io/2019/10/09/JDK-PriorityBlockingQueue%E5%8E%9F%E7%90%86/priority_blocking_queue_class.png">
+<meta property="article:published_time" content="2019-10-09T16:00:00.000Z">
+<meta property="article:modified_time" content="2021-12-15T01:13:12.930Z">
+<meta property="article:author" content="geosmart">
+<meta property="article:tag" content="JVM">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://geosmart.github.io/2019/10/09/JDK-PriorityBlockingQueue%E5%8E%9F%E7%90%86/priority_blocking_queue_hier.png">
+
+<link rel="canonical" href="http://geosmart.github.io/2019/10/09/JDK-PriorityBlockingQueue%E5%8E%9F%E7%90%86/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome: false,
+    isPost: true
+  };
+</script>
+
+  <title>JDK-PriorityBlockingQueue原理 | geosmart.io</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <div>
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">geosmart.io</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+        <p class="site-subtitle">勿助勿忘，深造自得</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+<nav class="site-nav">
+  
+  <ul id="menu" class="menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-fw fa-home"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-about">
+
+    <a href="/about/" rel="section"><i class="fa fa-fw fa-user"></i>关于</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="fa fa-fw fa-tags"></i>标签</a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/categories/" rel="section"><i class="fa fa-fw fa-th"></i>分类</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-fw fa-archive"></i>归档</a>
+
+  </li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜索
+        </a>
+      </li>
+  </ul>
+
+</nav>
+  <div class="site-search">
+    <div class="popup search-popup">
+    <div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocorrect="off" autocapitalize="off"
+           placeholder="搜索..." spellcheck="false"
+           type="search" class="search-input">
+  </div>
+  <span class="popup-btn-close">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div id="search-result"></div>
+
+</div>
+<div class="search-pop-overlay"></div>
+
+  </div>
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+  <a href="https://github.com/geosmart" class="github-corner" title="Follow me on GitHub" aria-label="Follow me on GitHub" rel="noopener" target="_blank"><svg width="80" height="80" viewBox="0 0 250 250" aria-hidden="true"><path d="M0,0 L115,115 L130,115 L142,142 L250,250 L250,0 Z"></path><path d="M128.3,109.0 C113.8,99.7 119.0,89.6 119.0,89.6 C122.0,82.7 120.5,78.6 120.5,78.6 C119.2,72.0 123.4,76.3 123.4,76.3 C127.3,80.9 125.5,87.3 125.5,87.3 C122.9,97.6 130.6,101.9 134.4,103.2" fill="currentColor" style="transform-origin: 130px 106px;" class="octo-arm"></path><path d="M115.0,115.0 C114.9,115.1 118.7,116.5 119.8,115.4 L133.7,101.6 C136.9,99.2 139.9,98.4 142.2,98.6 C133.8,88.0 127.5,74.4 143.8,58.0 C148.5,53.4 154.0,51.2 159.7,51.0 C160.3,49.4 163.2,43.6 171.4,40.1 C171.4,40.1 176.1,42.5 178.8,56.2 C183.1,58.6 187.2,61.8 190.9,65.4 C194.5,69.0 197.7,73.2 200.1,77.6 C213.8,80.2 216.3,84.9 216.3,84.9 C212.7,93.1 206.9,96.0 205.4,96.6 C205.1,102.4 203.0,107.8 198.3,112.5 C181.9,128.9 168.3,122.5 157.7,114.1 C157.9,116.9 156.7,120.9 152.7,124.9 L141.0,136.5 C139.8,137.7 141.6,141.9 141.8,141.8 Z" fill="currentColor" class="octo-body"></path></svg></a>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content">
+            
+
+  <div class="posts-expand">
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block " lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://geosmart.github.io/2019/10/09/JDK-PriorityBlockingQueue%E5%8E%9F%E7%90%86/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="geosmart">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="geosmart.io">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          JDK-PriorityBlockingQueue原理
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：10   十月   2019 0:00:00" itemprop="dateCreated datePublished" datetime="2019-10-10T00:00:00+08:00">10   十月   2019</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：15   十二月   2021 9:13:12" itemprop="dateModified" datetime="2021-12-15T09:13:12+08:00">15   十二月   2021</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/%E5%90%8E%E7%AB%AF%E6%8A%80%E6%9C%AF/" itemprop="url" rel="index"><span itemprop="name">后端技术</span></a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <p>研究了<a href="https://github.com/geosmart/geosmart.io/issues/12">PriorityQueue原理</a>，知道JDK源码怎么实现的优先队列，这次是要搞清<code>PriorityBlockingQueue</code>阻塞优先队列是如何实现的；</p>
+<p>本文从PriorityBlockingQueue的<code>概念，结构，参数，源码解析（offer,poll,remove,add,grow），性能，线程安全性，使用场景，常见问题</code>8个方面进行分析。</p>
+<p>关键点：与PriorityQueue一样的排序规则，无界队列，实现Queue,Collection,Iterator接口、不允许null键/值、提供阻塞操作、线程安全、不保证队列内元素的顺序；</p>
+<a id="more"></a> 
+<h1 id="概念"><a href="#概念" class="headerlink" title="概念"></a>概念</h1><p>An unbounded BlockingQueue blocking queue that uses the <code>same ordering rules as class PriorityQueue</code> and supplies <code>blocking retrieval operations</code>.  </p>
+<ul>
+<li>While this queue is logically unbounded, attempted additions may fail due to resource exhaustion (causing OutOfMemoryError). </li>
+<li>This class does not permit null elements.  </li>
+<li>A priority queue relying on <code>Comparable natural ordering</code> also does not permit insertion of <code>non-comparable</code> objects (doing so results in ClassCastException).</li>
+<li>This class and its iterator implement all of the optional methods of the Collection and Iterator interfaces.  </li>
+<li>The Iterator provided in method iterator() is <code>not guaranteed</code> to traverse the elements of the PriorityBlockingQueue in any particular <code>order</code>. If you need ordered traversal, consider using <code>Arrays.sort(pq.toArray())</code>.  Also, method drainTo can be used to remove some or all elements in priority  order and place them in another collection.</li>
+<li>Operations on this class make <code>no guarantees</code> about the <code>ordering</code> of elements with <code>equal priority</code>.<br>If you need to enforce an ordering, you can define custom classes or comparators that use a secondary key to break ties in primary priority values. </li>
+</ul>
+<p>For example, here is a class that applies <code>first-in-first-out</code> tie-breaking to comparable elements. To use it, you would insert a  <code>new FIFOEntry(anEntry)</code> instead of a plain entry object.</p>
+ <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">FIFOEntry</span>&lt;<span class="title">E</span> <span class="keyword">extends</span> <span class="title">Comparable</span>&lt;? <span class="title">super</span> <span class="title">E</span>&gt;&gt;  <span class="keyword">implements</span> <span class="title">Comparable</span>&lt;<span class="title">FIFOEntry</span>&lt;<span class="title">E</span>&gt;&gt; </span>&#123;</span><br><span class="line">   <span class="keyword">static</span> <span class="keyword">final</span> AtomicLong seq = <span class="keyword">new</span> AtomicLong(<span class="number">0</span>);</span><br><span class="line">   <span class="keyword">final</span> <span class="keyword">long</span> seqNum;</span><br><span class="line">   <span class="keyword">final</span> E entry;</span><br><span class="line">   <span class="function"><span class="keyword">public</span> <span class="title">FIFOEntry</span><span class="params">(E entry)</span> </span>&#123;</span><br><span class="line">     seqNum = seq.getAndIncrement();</span><br><span class="line">     <span class="keyword">this</span>.entry = entry;</span><br><span class="line">   &#125;</span><br><span class="line">   </span><br><span class="line">   <span class="function"><span class="keyword">public</span> E <span class="title">getEntry</span><span class="params">()</span> </span>&#123; <span class="keyword">return</span> entry; &#125;</span><br><span class="line"></span><br><span class="line">   <span class="function"><span class="keyword">public</span> <span class="keyword">int</span> <span class="title">compareTo</span><span class="params">(FIFOEntry&lt;E&gt; other)</span> </span>&#123;</span><br><span class="line">     <span class="keyword">int</span> res = entry.compareTo(other.entry);</span><br><span class="line">     <span class="keyword">if</span> (res == <span class="number">0</span> &amp;&amp; other.entry != <span class="keyword">this</span>.entry)</span><br><span class="line">       res = (seqNum &lt; other.seqNum ? -<span class="number">1</span> : <span class="number">1</span>);</span><br><span class="line">     <span class="keyword">return</span> res;</span><br><span class="line">   &#125;</span><br><span class="line">&#125;&#125;</span><br></pre></td></tr></table></figure>
+<ul>
+<li>This class is a member of the Java Collections Framework</li>
+</ul>
+<h1 id="结构"><a href="#结构" class="headerlink" title="结构"></a>结构</h1><p>基于二叉堆实现，参考<a href="">JDK-PriorityQueue原理</a></p>
+<blockquote>
+<p>PriorityQueue的类关系</p>
+</blockquote>
+<p><img src="priority_blocking_queue_hier.png" alt="priority_queue_hier"></p>
+<blockquote>
+<p>PriorityQueue的类成员</p>
+</blockquote>
+<p><img src="priority_blocking_queue_class.png" alt="priority_queue_class"></p>
+<h1 id="参数"><a href="#参数" class="headerlink" title="参数"></a>参数</h1><ul>
+<li><code>int.initialCapacity</code>：初始化容量，默认为<code>11</code>；</li>
+<li><code>Comparator.comparator</code>:用于队列中元素排序；</li>
+<li><code>int.size</code>:记录队列中元素个数；</li>
+<li><code>ReentrantLock.lock</code>:用于所有public方法操作的加锁；</li>
+<li><code>Condition.notEmpty</code>:用于阻塞对空队列的操作；</li>
+<li><code>int.allocationSpinLock</code>: 队列扩容时用于CAS；</li>
+<li><code>PriorityQueue.queue</code>：用PriorityQueue进行序列化和反序列化；</li>
+<li>构造函数：新建1个空的队列；</li>
+</ul>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="title">PriorityBlockingQueue</span><span class="params">(<span class="keyword">int</span> initialCapacity,Comparator&lt;? <span class="keyword">super</span> E&gt; comparator)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">if</span> (initialCapacity &lt; <span class="number">1</span>)</span><br><span class="line">        <span class="keyword">throw</span> <span class="keyword">new</span> IllegalArgumentException();</span><br><span class="line">    <span class="keyword">this</span>.lock = <span class="keyword">new</span> ReentrantLock();</span><br><span class="line">    <span class="keyword">this</span>.notEmpty = lock.newCondition();</span><br><span class="line">    <span class="keyword">this</span>.comparator = comparator;</span><br><span class="line">    <span class="keyword">this</span>.queue = <span class="keyword">new</span> Object[initialCapacity];</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h1 id="源码解析"><a href="#源码解析" class="headerlink" title="源码解析"></a>源码解析</h1><blockquote>
+<ul>
+<li>The implementation uses an <code>array-based binary heap</code>, with public operations protected with a <code>single lock</code>. </li>
+<li>However, allocation during resizing uses a simple <code>spinlock</code> (used only while not holding main lock) in order to allow takes to operate concurrently with allocation.<br>This avoids repeated postponement of waiting consumers and consequent element build-up. </li>
+<li>The need to back away from lock during allocation makes it impossible to simply wrap delegated <code>java.util.PriorityQueue</code> operations within a lock, as was done in a previous version of this class. </li>
+<li>To maintain interoperability, a plain PriorityQueue is still used during serialization, which maintains compatibility at the expense of transiently doubling overhead.</li>
+</ul>
+</blockquote>
+<h2 id="heapify"><a href="#heapify" class="headerlink" title="heapify"></a>heapify</h2><p>参考<a href="https://github.com/geosmart/geosmart.io/blob/master/blog/JDK-PriorityQueue%E5%8E%9F%E7%90%86.md">PriorityQueue</a><br>从最后一个父节点开始siftdown，直到根节点</p>
+<h2 id="add-put-offer"><a href="#add-put-offer" class="headerlink" title="add/put/offer"></a>add/put/offer</h2><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment">    * Inserts the specified element into this priority queue.</span></span><br><span class="line"><span class="comment">    */</span></span><br><span class="line">   <span class="function"><span class="keyword">public</span> <span class="keyword">boolean</span> <span class="title">add</span><span class="params">(E e)</span> </span>&#123;</span><br><span class="line">       <span class="keyword">return</span> offer(e);</span><br><span class="line">   &#125;</span><br><span class="line"></span><br><span class="line">   <span class="comment">/**</span></span><br><span class="line"><span class="comment">    * Inserts the specified element into this priority queue.</span></span><br><span class="line"><span class="comment">    * As the queue is unbounded, this method will never block.</span></span><br><span class="line"><span class="comment">    */</span></span><br><span class="line">   <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">put</span><span class="params">(E e)</span> </span>&#123;</span><br><span class="line">       offer(e); <span class="comment">// never need to block</span></span><br><span class="line">   &#125;</span><br><span class="line"></span><br><span class="line">   <span class="comment">/**</span></span><br><span class="line"><span class="comment">    * Inserts the specified element into this priority queue.</span></span><br><span class="line"><span class="comment">    * As the queue is unbounded, this method will never block or return false.</span></span><br><span class="line"><span class="comment">    */</span></span><br><span class="line">   <span class="function"><span class="keyword">public</span> <span class="keyword">boolean</span> <span class="title">offer</span><span class="params">(E e, <span class="keyword">long</span> timeout, TimeUnit unit)</span> </span>&#123;</span><br><span class="line">       <span class="keyword">return</span> offer(e); <span class="comment">// never need to block</span></span><br><span class="line">   &#125;</span><br><span class="line">   </span><br><span class="line">   <span class="meta">@Override</span></span><br><span class="line">   <span class="function"><span class="keyword">public</span> <span class="keyword">boolean</span> <span class="title">offer</span><span class="params">(E e)</span> </span>&#123;</span><br><span class="line">       <span class="keyword">if</span> (e == <span class="keyword">null</span>) &#123;</span><br><span class="line">           <span class="keyword">throw</span> <span class="keyword">new</span> NullPointerException();</span><br><span class="line">       &#125;</span><br><span class="line">       <span class="keyword">final</span> ReentrantLock lock = <span class="keyword">this</span>.lock;</span><br><span class="line">       <span class="comment">//加锁</span></span><br><span class="line">       lock.lock();</span><br><span class="line">       <span class="keyword">int</span> n, cap;</span><br><span class="line">       Object[] array;</span><br><span class="line">       <span class="comment">//如果队列元素个数&gt;=队列容量，则扩容</span></span><br><span class="line">       <span class="keyword">while</span> ((n = size) &gt;= (cap = (array = queue).length)) &#123;</span><br><span class="line">           tryGrow(array, cap);</span><br><span class="line">       &#125;</span><br><span class="line">       <span class="keyword">try</span> &#123;</span><br><span class="line">           Comparator&lt;? <span class="keyword">super</span> E&gt; cmp = comparator;</span><br><span class="line">           <span class="keyword">if</span> (cmp == <span class="keyword">null</span>) &#123;</span><br><span class="line">               <span class="comment">//上浮</span></span><br><span class="line">               siftUpComparable(n, e, array);</span><br><span class="line">           &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">               siftUpUsingComparator(n, e, array, cmp);</span><br><span class="line">           &#125;</span><br><span class="line">           size = n + <span class="number">1</span>;</span><br><span class="line">           <span class="comment">//设置notEmpty条件</span></span><br><span class="line">           notEmpty.signal();</span><br><span class="line">       &#125; <span class="keyword">finally</span> &#123;</span><br><span class="line">           <span class="comment">//解锁</span></span><br><span class="line">           lock.unlock();</span><br><span class="line">       &#125;</span><br><span class="line">       <span class="keyword">return</span> <span class="keyword">true</span>;</span><br><span class="line">   &#125;</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>siftUp参考<a href="https://github.com/geosmart/geosmart.io/issues/12">JDK-PriorityQueue原理</a></p>
+</blockquote>
+<p><code>tryGrow</code>扩容要点</p>
+<ul>
+<li>lock是全局锁，如果在扩容时加锁会导致其他线程出队时会阻塞；</li>
+<li>而队列很大时，扩容操作（arraycopy）是比较费时的，如果此时占用锁，那么其他线程在这个时候是不能进行出队操作，这样会<code>降低并发处理能力</code>；</li>
+<li>所以为了更好的性能，扩容时先释放锁；</li>
+<li>但是释放锁后，会导致多个线程同时进行扩容，此时用spinLock以<code>CAS</code>控制只有1个线程可以执行扩容，其他CAS失败的则跳过（newArray=null）；</li>
+<li>CAS失败的线程调用<code>Thread.yield()</code>让出CPU时间，目的是让让CAS成功的线程扩容后优先调用lock.lock重新获取锁，但是这得不到一定的保证，有可能调用Thread.yield()的线程先获取了锁；</li>
+<li>在扩容时，若其他线程在执行了出队操作，直接cop扩容会导致copy的不是最新的数据，所以此时要加锁后再copy；</li>
+<li>在加锁时，如果其他线程执行出了/如队操作，队列发生了变化（queue != array），当前扩容操作要取消；如果成功加锁且队列没发生改变，则可执行扩容操作；<blockquote>
+<p>关键点：解全局锁，CAS乐观锁申请数组大小，扩容前恢复加锁</p>
+</blockquote>
+</li>
+</ul>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment">    * Tries to grow array to accommodate at least one more element  (but normally expand by about 50%),</span></span><br><span class="line"><span class="comment">    * giving up (allowing retry) on contention (which we expect to be rare).</span></span><br><span class="line"><span class="comment">    * Call only while  holding lock.</span></span><br><span class="line"><span class="comment">    *</span></span><br><span class="line"><span class="comment">    * <span class="doctag">@param</span> array  the heap array</span></span><br><span class="line"><span class="comment">    * <span class="doctag">@param</span> oldCap the length of the array</span></span><br><span class="line"><span class="comment">    */</span></span><br><span class="line">   <span class="function"><span class="keyword">private</span> <span class="keyword">void</span> <span class="title">tryGrow</span><span class="params">(Object[] array, <span class="keyword">int</span> oldCap)</span> </span>&#123;</span><br><span class="line">       <span class="comment">// must release and then re-acquire main lock</span></span><br><span class="line">       <span class="comment">//1. lock是全局锁，为了更好的性能，扩容时先释放锁，避免其他线程出/入队时造成阻塞</span></span><br><span class="line">       <span class="comment">//队列很大时，扩容操作（arraycopy）是比较费时的，</span></span><br><span class="line">       <span class="comment">//如果此时占用锁，那么其他线程在这个时候是不能进行出/入队操作，这样会降低并发处理能力。</span></span><br><span class="line">       <span class="comment">//但释放锁，会导致多个线程同时进行扩容，此时用spinLock以CAS控制只有1个线程可以执行扩容</span></span><br><span class="line">       lock.unlock();</span><br><span class="line">       Object[] newArray = <span class="keyword">null</span>;</span><br><span class="line">       <span class="comment">//2. 并发通过执行一次CAS控制扩容，只有1个线程会CAS成功并扩容，其他CAS失败的则跳过（newArray=null）</span></span><br><span class="line">       <span class="keyword">if</span> (allocationSpinLock == <span class="number">0</span> &amp;&amp; UNSAFE.compareAndSwapInt(<span class="keyword">this</span>, allocationSpinLockOffset, <span class="number">0</span>, <span class="number">1</span>)) &#123;</span><br><span class="line">           <span class="keyword">try</span> &#123;</span><br><span class="line">               <span class="comment">//设置扩容比例，小于64时2倍，大于64后1.5倍, grow faster if small</span></span><br><span class="line">               <span class="keyword">int</span> newCap = oldCap + ((oldCap &lt; <span class="number">64</span>) ?</span><br><span class="line">                       (oldCap + <span class="number">2</span>) :</span><br><span class="line">                       (oldCap &gt;&gt; <span class="number">1</span>));</span><br><span class="line">               <span class="comment">//处理大小越界</span></span><br><span class="line">               <span class="keyword">if</span> (newCap - MAX_ARRAY_SIZE &gt; <span class="number">0</span>) &#123;</span><br><span class="line">                   <span class="comment">// possible overflow</span></span><br><span class="line">                   <span class="keyword">int</span> minCap = oldCap + <span class="number">1</span>;</span><br><span class="line">                   <span class="keyword">if</span> (minCap &lt; <span class="number">0</span> || minCap &gt; MAX_ARRAY_SIZE) &#123;</span><br><span class="line">                       <span class="keyword">throw</span> <span class="keyword">new</span> OutOfMemoryError();</span><br><span class="line">                   &#125;</span><br><span class="line">                   newCap = MAX_ARRAY_SIZE;</span><br><span class="line">               &#125;</span><br><span class="line">               <span class="comment">//3. 如果其他线程没有对队列进行改变，直接新建数组；</span></span><br><span class="line">               <span class="comment">//如果其他线程可能执行了出/入队操作，则当前线程不需要扩容，所以要加上queue == array判断</span></span><br><span class="line">               <span class="keyword">if</span> (newCap &gt; oldCap &amp;&amp; queue == array) &#123;</span><br><span class="line">                   newArray = <span class="keyword">new</span> Object[newCap];</span><br><span class="line">               &#125;</span><br><span class="line">           &#125; <span class="keyword">finally</span> &#123;</span><br><span class="line">               <span class="comment">//重置SpinLock状态</span></span><br><span class="line">               allocationSpinLock = <span class="number">0</span>;</span><br><span class="line">           &#125;</span><br><span class="line">       &#125;</span><br><span class="line">       <span class="comment">// back off if another thread is allocating</span></span><br><span class="line">       <span class="comment">//4. CAS失败的线程调用Thread.yield()让出CPU时间，目的是让CAS成功的线程扩容后优先调用lock.lock重新获取锁，</span></span><br><span class="line">       <span class="comment">//但是这得不到一定的保证，有可能调用Thread.yield()的线程先获取了锁。</span></span><br><span class="line">       <span class="keyword">if</span> (newArray == <span class="keyword">null</span>) &#123;</span><br><span class="line">           Thread.yield();</span><br><span class="line">       &#125;</span><br><span class="line">       <span class="comment">//5. 在扩容时，若其他线程在执行出/入队操作，直接copy会导致copy的不是最新的数据，所以此时要加锁后再copy</span></span><br><span class="line">       lock.lock();</span><br><span class="line">       <span class="comment">//6. 加锁时，如果其他线程执行出/入队操作，队列发生了变化（queue!= array），当前扩容操作要取消；</span></span><br><span class="line">       <span class="comment">//如果成功加锁且队列没发生改变，则可执行扩容操作</span></span><br><span class="line">       <span class="keyword">if</span> (newArray != <span class="keyword">null</span> &amp;&amp; queue == array) &#123;</span><br><span class="line">           queue = newArray;</span><br><span class="line">           System.arraycopy(array, <span class="number">0</span>, newArray, <span class="number">0</span>, oldCap);</span><br><span class="line">       &#125;</span><br><span class="line">   &#125;</span><br></pre></td></tr></table></figure>
+<h2 id="take-poll"><a href="#take-poll" class="headerlink" title="take/poll"></a>take/poll</h2><blockquote>
+<p>take阻塞出队<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> E <span class="title">take</span><span class="params">()</span> <span class="keyword">throws</span> InterruptedException </span>&#123;</span><br><span class="line">        <span class="keyword">final</span> ReentrantLock lock = <span class="keyword">this</span>.lock;</span><br><span class="line">        <span class="comment">//上锁，可中断</span></span><br><span class="line">        lock.lockInterruptibly();</span><br><span class="line">        E result;</span><br><span class="line">        <span class="keyword">try</span> &#123;</span><br><span class="line">            <span class="comment">//阻塞直到队列返回结果</span></span><br><span class="line">            <span class="keyword">while</span> ((result = dequeue()) == <span class="keyword">null</span>) &#123;</span><br><span class="line">                <span class="comment">//阻塞等待恢复信号</span></span><br><span class="line">                notEmpty.await();</span><br><span class="line">            &#125;</span><br><span class="line">        &#125; <span class="keyword">finally</span> &#123;</span><br><span class="line">            <span class="comment">//解锁</span></span><br><span class="line">            lock.unlock();</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> result;</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure></p>
+<p>poll阻塞出队（设置超时时间）<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Override</span></span><br><span class="line"><span class="function"><span class="keyword">public</span> E <span class="title">poll</span><span class="params">(<span class="keyword">long</span> timeout, TimeUnit unit)</span> <span class="keyword">throws</span> InterruptedException </span>&#123;</span><br><span class="line">    <span class="keyword">long</span> nanos = unit.toNanos(timeout);</span><br><span class="line">    <span class="keyword">final</span> ReentrantLock lock = <span class="keyword">this</span>.lock;</span><br><span class="line">    lock.lockInterruptibly();</span><br><span class="line">    E result;</span><br><span class="line">    <span class="keyword">try</span> &#123;</span><br><span class="line">        <span class="comment">//阻塞直到队列返回结果，或者等待超时</span></span><br><span class="line">        <span class="keyword">while</span> ((result = dequeue()) == <span class="keyword">null</span> &amp;&amp; nanos &gt; <span class="number">0</span>) &#123;</span><br><span class="line">            <span class="comment">//阻塞等待恢复信号（超时时间）</span></span><br><span class="line">            nanos = notEmpty.awaitNanos(nanos);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125; <span class="keyword">finally</span> &#123;</span><br><span class="line">        lock.unlock();</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> result;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure><br>dequeue出队操作<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * Mechanics for poll().  Call only while holding lock.</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="function"><span class="keyword">private</span> E <span class="title">dequeue</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    <span class="keyword">int</span> n = size - <span class="number">1</span>;</span><br><span class="line">    <span class="comment">//没元素返回空</span></span><br><span class="line">    <span class="keyword">if</span> (n &lt; <span class="number">0</span>) &#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">null</span>;</span><br><span class="line">    &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">        <span class="comment">//拿出队头元素，用于返回</span></span><br><span class="line">        Object[] array = queue;</span><br><span class="line">        E result = (E) array[<span class="number">0</span>];</span><br><span class="line"></span><br><span class="line">        <span class="comment">//将队尾元素放到队头，并从队头开始执行siftDown</span></span><br><span class="line">        E x = (E) array[n];</span><br><span class="line">        array[n] = <span class="keyword">null</span>;</span><br><span class="line">        Comparator&lt;? <span class="keyword">super</span> E&gt; cmp = comparator;</span><br><span class="line">        <span class="keyword">if</span> (cmp == <span class="keyword">null</span>) &#123;</span><br><span class="line">            siftDownComparable(<span class="number">0</span>, x, array, n);</span><br><span class="line">        &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">            siftDownUsingComparator(<span class="number">0</span>, x, array, n, cmp);</span><br><span class="line">        &#125;</span><br><span class="line">        size = n;</span><br><span class="line">        <span class="keyword">return</span> result;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * Inserts item x at position k, maintaining heap invariant by demoting x down the tree repeatedly</span></span><br><span class="line"><span class="comment"> * until it is less than or equal to its children or is a leaf.</span></span><br><span class="line"><span class="comment"> *</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@param</span> k     the position to fill</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@param</span> x     the item to insert</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@param</span> array the heap array</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@param</span> n     heap size</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="keyword">private</span> <span class="keyword">static</span> &lt;T&gt; <span class="function"><span class="keyword">void</span> <span class="title">siftDownComparable</span><span class="params">(<span class="keyword">int</span> k, T x, Object[] array, <span class="keyword">int</span> n)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">if</span> (n &gt; <span class="number">0</span>) &#123;</span><br><span class="line">        <span class="comment">//拿出父节点值</span></span><br><span class="line">        Comparable&lt;? <span class="keyword">super</span> T&gt; key = (Comparable&lt;? <span class="keyword">super</span> T&gt;) x;</span><br><span class="line">        <span class="comment">//存在叶子节点时 loop while a non-leaf</span></span><br><span class="line">        <span class="keyword">int</span> half = n &gt;&gt;&gt; <span class="number">1</span>;</span><br><span class="line">        <span class="keyword">while</span> (k &lt; half) &#123;</span><br><span class="line">            <span class="comment">// assume left child is least</span></span><br><span class="line">            <span class="keyword">int</span> child = (k &lt;&lt; <span class="number">1</span>) + <span class="number">1</span>;</span><br><span class="line">            <span class="comment">//最小值</span></span><br><span class="line">            Object c = array[child];</span><br><span class="line">            <span class="keyword">int</span> right = child + <span class="number">1</span>;</span><br><span class="line">            <span class="comment">//存在right且right比left大</span></span><br><span class="line">            <span class="keyword">if</span> (right &lt; n &amp;&amp;</span><br><span class="line">                    ((Comparable&lt;? <span class="keyword">super</span> T&gt;) c).compareTo((T) array[right]) &gt; <span class="number">0</span>) &#123;</span><br><span class="line">                c = array[child = right];</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="comment">//父节点比最小值小，不需要交换，终止loop</span></span><br><span class="line">            <span class="keyword">if</span> (key.compareTo((T) c) &lt;= <span class="number">0</span>) &#123;</span><br><span class="line">                <span class="keyword">break</span>;</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="comment">//父节点值以最小值替换</span></span><br><span class="line">            array[k] = c;</span><br><span class="line">            <span class="comment">//父节点移到最小值位置</span></span><br><span class="line">            k = child;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="comment">//父节点值，最终赋给交换n轮后的叶子节点</span></span><br><span class="line">        array[k] = key;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>关于ReentrantLock.lockInterruptibly</p>
+<ol>
+<li>获取并持有锁直到当前线程未被中断。</li>
+<li>获取该锁并立即返回（如果该锁没有被另一个线程持有），将锁的保持计数设置为 1。</li>
+<li>如果该锁已被另一个线程持有，则当前线程不可被调度（即阻塞状态，CPU不会给该线程分配时间片）直到<ul>
+<li>当前线程获取到该锁；</li>
+<li>其他线程中断当前线程；</li>
+</ul>
+</li>
+<li>如果该锁被当前线程持有，则将锁的持有计数设置为1，</li>
+<li>如果当前线程在进入此方法时已经设置了该线程的中断状态；或者在等待获取锁的同时被中断。则抛出<code>InterruptedException</code>异常，同时清除当前线程的中断状态；</li>
+</ol>
+</blockquote>
+<ol>
+<li>在此实现中，因为<code>lockInterruptibly</code>方法是一个<code>显式中断</code>点，所以要<code>优先响应中断</code>，而不是响应锁的普通获取或重入获取；<blockquote>
+<p>注意程序要响应中断还是比较expensive的，有时候甚至imposibble，所以如果线程支持中断，一定要声明清楚！<br><a href="https://docs.oracle.com/javase/8/docs/api/java/util/concurrent/locks/Lock.html#lockInterruptibly--">jdk8-lock-lockInterruptibly</a></p>
+</blockquote>
+</li>
+</ol>
+<blockquote>
+<p>关于Condition.await<br>await方法的调用将导致当前线程等待直到signalled或interrupted调用时才恢复；<br>condition关联的lock会被原子释放，当前线程将不可调度直到以下4种情况触发：</p>
+<ol>
+<li>其他线程调用当前condition的signal()方法，并且当前线程正好被唤醒；</li>
+<li>其他线程调用当前condition的signalAll()方法；</li>
+<li>其他线程终止当前线程， and interruption of thread suspension is supported; </li>
+<li><code>spurious wakeup</code>发生；<br>在所有情况中，在当前method能返回前，当前线程必须重新获取condition关联的锁；<br>在线程返回时await会保证一直持有condition关联的锁；</li>
+</ol>
+</blockquote>
+<h2 id="remove"><a href="#remove" class="headerlink" title="remove"></a>remove</h2><p>加锁后，删除节点<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Override</span></span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">boolean</span> <span class="title">remove</span><span class="params">(Object o)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">final</span> ReentrantLock lock = <span class="keyword">this</span>.lock;</span><br><span class="line">    lock.lock();</span><br><span class="line">    <span class="keyword">try</span> &#123;</span><br><span class="line">        <span class="keyword">int</span> i = indexOf(o);</span><br><span class="line">        <span class="keyword">if</span> (i == -<span class="number">1</span>) &#123;</span><br><span class="line">            <span class="keyword">return</span> <span class="keyword">false</span>;</span><br><span class="line">        &#125;</span><br><span class="line">        removeAt(i);</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">true</span>;</span><br><span class="line">    &#125; <span class="keyword">finally</span> &#123;</span><br><span class="line">        lock.unlock();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">private</span> <span class="keyword">void</span> <span class="title">removeAt</span><span class="params">(<span class="keyword">int</span> i)</span> </span>&#123;</span><br><span class="line">    Object[] array = queue;</span><br><span class="line">    <span class="keyword">int</span> n = size - <span class="number">1</span>;</span><br><span class="line">    <span class="comment">// removed last element</span></span><br><span class="line">    <span class="keyword">if</span> (n == i) &#123;</span><br><span class="line">        array[i] = <span class="keyword">null</span>;</span><br><span class="line">    &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">        E moved = (E) array[n];</span><br><span class="line">        array[n] = <span class="keyword">null</span>;</span><br><span class="line">        Comparator&lt;? <span class="keyword">super</span> E&gt; cmp = comparator;</span><br><span class="line">        <span class="keyword">if</span> (cmp == <span class="keyword">null</span>) &#123;</span><br><span class="line">            <span class="comment">//从删除节点开始下沉</span></span><br><span class="line">            siftDownComparable(i, moved, array, n);</span><br><span class="line">        &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">            siftDownUsingComparator(i, moved, array, n, cmp);</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="comment">//siftDown后，若元素没有改变，可能是因为要删除的结点和堆尾结点是跨子树，或者要删除的结点是叶子结点</span></span><br><span class="line">        <span class="keyword">if</span> (array[i] == moved) &#123;</span><br><span class="line">            <span class="keyword">if</span> (cmp == <span class="keyword">null</span>) &#123;</span><br><span class="line">                siftUpComparable(i, moved, array);</span><br><span class="line">            &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">                siftUpUsingComparator(i, moved, array, cmp);</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    size = n;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<blockquote>
+<p>从当前节点上浮到根节点<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">private</span> <span class="keyword">static</span> &lt;T&gt; <span class="function"><span class="keyword">void</span> <span class="title">siftUpComparable</span><span class="params">(<span class="keyword">int</span> k, T x, Object[] array)</span> </span>&#123;</span><br><span class="line">    Comparable&lt;? <span class="keyword">super</span> T&gt; key = (Comparable&lt;? <span class="keyword">super</span> T&gt;) x;</span><br><span class="line">    <span class="keyword">while</span> (k &gt; <span class="number">0</span>) &#123;</span><br><span class="line">        <span class="keyword">int</span> parent = (k - <span class="number">1</span>) &gt;&gt;&gt; <span class="number">1</span>;</span><br><span class="line">        Object e = array[parent];</span><br><span class="line">        <span class="keyword">if</span> (key.compareTo((T) e) &gt;= <span class="number">0</span>) &#123;</span><br><span class="line">            <span class="keyword">break</span>;</span><br><span class="line">        &#125;</span><br><span class="line">        array[k] = e;</span><br><span class="line">        k = parent;</span><br><span class="line">    &#125;</span><br><span class="line">    array[k] = key;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<h2 id="peek"><a href="#peek" class="headerlink" title="peek"></a>peek</h2><p>加锁后，返回堆顶节点<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Override</span></span><br><span class="line"><span class="function"><span class="keyword">public</span> E <span class="title">peek</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    <span class="keyword">final</span> ReentrantLock lock = <span class="keyword">this</span>.lock;</span><br><span class="line">    lock.lock();</span><br><span class="line">    <span class="keyword">try</span> &#123;</span><br><span class="line">        <span class="keyword">return</span> (size == <span class="number">0</span>) ? <span class="keyword">null</span> : (E) queue[<span class="number">0</span>];</span><br><span class="line">    &#125; <span class="keyword">finally</span> &#123;</span><br><span class="line">        lock.unlock();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<h2 id="size"><a href="#size" class="headerlink" title="size"></a>size</h2><p>加锁后，返回堆大小<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Override</span></span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">int</span> <span class="title">size</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    <span class="keyword">final</span> ReentrantLock lock = <span class="keyword">this</span>.lock;</span><br><span class="line">    lock.lock();</span><br><span class="line">    <span class="keyword">try</span> &#123;</span><br><span class="line">        <span class="keyword">return</span> size;</span><br><span class="line">    &#125; <span class="keyword">finally</span> &#123;</span><br><span class="line">        lock.unlock();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<h2 id="contains"><a href="#contains" class="headerlink" title="contains"></a>contains</h2><p>加锁后，返回堆大小<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Override</span></span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">boolean</span> <span class="title">contains</span><span class="params">(Object o)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">final</span> ReentrantLock lock = <span class="keyword">this</span>.lock;</span><br><span class="line">    lock.lock();</span><br><span class="line">    <span class="keyword">try</span> &#123;</span><br><span class="line">        <span class="keyword">return</span> indexOf(o) != -<span class="number">1</span>;</span><br><span class="line">    &#125; <span class="keyword">finally</span> &#123;</span><br><span class="line">        lock.unlock();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">private</span> <span class="keyword">int</span> <span class="title">indexOf</span><span class="params">(Object o)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">if</span> (o != <span class="keyword">null</span>) &#123;</span><br><span class="line">        Object[] array = queue;</span><br><span class="line">        <span class="keyword">int</span> n = size;</span><br><span class="line">        <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; n; i++) &#123;</span><br><span class="line">            <span class="keyword">if</span> (o.equals(array[i])) &#123;</span><br><span class="line">                <span class="keyword">return</span> i;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> -<span class="number">1</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<h1 id="性能"><a href="#性能" class="headerlink" title="性能"></a>性能</h1><ul>
+<li>O(1)：peek</li>
+<li>O(n)：heapify</li>
+<li>O(nlog(n)):put,remove</li>
+</ul>
+</blockquote>
+<h1 id="线程安全性"><a href="#线程安全性" class="headerlink" title="线程安全性"></a>线程安全性</h1><p>PriorityBlockingQueue中的锁</p>
+<ul>
+<li><code>ReentrantLock</code>：重入锁，对queue的所有public操作加锁；</li>
+<li><code>Condition</code>：竞态条件，如果队列为空，take/poll时<code>await</code>阻塞，offer时<code>signal</code>取消阻塞；</li>
+<li><code>Unsafe</code>：扩容时，以<code>compareAndSwapInt</code>执行CAS操作</li>
+</ul>
+<blockquote>
+<p><code>关于UnSafe</code></p>
+<ul>
+<li><code>Unsafe</code>是位于sun.misc包下的一个类，主要提供一些用于执行低级别、不安全操作的方法，如直接<code>访问系统内存资源</code>、<code>自主管理内存资源</code>等，这些方法在提升Java运行效率、增强Java语言底层资源操作能力方面起到了很大的作用。</li>
+<li>由于Unsafe类使Java语言拥有了类似C语言指针一样操作内存空间的能力，这无疑也增加了程序发生相关指针问题的风险。在程序中过度、不正确使用Unsafe类会使得程序出错的概率变大，使得Java这种安全的语言变得不再“安全”，因此对Unsafe的使用一定要慎重。</li>
+</ul>
+<p><code>关于CAS</code></p>
+<ul>
+<li>什么是CAS? 即比较并替换，实现并发算法时常用到的一种技术。CAS操作包含三个操作数——内存位置、预期原值及新值。</li>
+<li>执行CAS操作的时候，将内存位置的值与预期原值比较，如果相匹配，那么处理器会自动将该位置值更新为新值，否则，处理器不做任何操作。我们都知道，CAS是一条CPU的原子指令（<code>cmpxchg</code>指令），不会造成所谓的数据不一致问题，<code>Unsafe</code>提供的CAS方法（如<code>compareAndSwap</code>XXX）底层实现即为CPU指令cmpxchg。</li>
+<li>CAS在<code>java.util.concurrent.atomic</code>相关类、<code>Java AQS</code>、<code>CurrentHashMap</code>等实现上有非常广泛的应用。</li>
+</ul>
+</blockquote>
+<h2 id="锁的定义"><a href="#锁的定义" class="headerlink" title="锁的定义"></a>锁的定义</h2><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * Lock used for all public operations</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="keyword">private</span> <span class="keyword">final</span> ReentrantLock lock;</span><br><span class="line"></span><br><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * Condition for blocking when empty</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="keyword">private</span> <span class="keyword">final</span> Condition notEmpty;</span><br><span class="line"></span><br><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * Spinlock for allocation, acquired via CAS.</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="keyword">private</span> <span class="keyword">transient</span> <span class="keyword">volatile</span> <span class="keyword">int</span> allocationSpinLock;</span><br><span class="line"></span><br><span class="line"><span class="comment">// Unsafe mechanics</span></span><br><span class="line"><span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">final</span> sun.misc.Unsafe UNSAFE;</span><br><span class="line"><span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">final</span> <span class="keyword">long</span> allocationSpinLockOffset;</span><br><span class="line"><span class="keyword">static</span> &#123;</span><br><span class="line">    <span class="keyword">try</span> &#123;</span><br><span class="line">        UNSAFE = sun.misc.Unsafe.getUnsafe();</span><br><span class="line">        Class&lt;?&gt; k = PriorityBlockingQueue<span class="class">.<span class="keyword">class</span></span>;</span><br><span class="line">        allocationSpinLockOffset = UNSAFE.objectFieldOffset</span><br><span class="line">            (k.getDeclaredField(<span class="string">"allocationSpinLock"</span>));</span><br><span class="line">    &#125; <span class="keyword">catch</span> (Exception e) &#123;</span><br><span class="line">        <span class="keyword">throw</span> <span class="keyword">new</span> Error(e);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h1 id="使用场景"><a href="#使用场景" class="headerlink" title="使用场景"></a>使用场景</h1><p>参考<a href="https://github.com/geosmart/geosmart.io/blob/master/blog/JDK-PriorityQueue原理.md">PriorityQueue</a></p>
+<h1 id="常见问题"><a href="#常见问题" class="headerlink" title="常见问题"></a>常见问题</h1><h2 id="PriorityBlockingQueue中用到了那些锁？"><a href="#PriorityBlockingQueue中用到了那些锁？" class="headerlink" title="PriorityBlockingQueue中用到了那些锁？"></a>PriorityBlockingQueue中用到了那些锁？</h2><ul>
+<li>CAS</li>
+<li>ReentranLock</li>
+</ul>
+<h2 id="PriorityBlockingQueue中的Blocking体现在哪些操作？"><a href="#PriorityBlockingQueue中的Blocking体现在哪些操作？" class="headerlink" title="PriorityBlockingQueue中的Blocking体现在哪些操作？"></a>PriorityBlockingQueue中的Blocking体现在哪些操作？</h2><ul>
+<li>read：take</li>
+<li>write：grow，offer</li>
+</ul>
+<h1 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h1><ul>
+<li><a href="https://docs.oracle.com/javase/8/docs/api/java/util/concurrent/PriorityBlockingQueue.html">jdk8.PriorityBlockingQueue</a> </li>
+<li><a href="https://github.com/geosmart/geosmart.io/issues/12">JDK-PriorityQueue原理</a> </li>
+<li><a href="https://github.com/geosmart/geosmart.io/issues/11">二叉堆实现原理</a> </li>
+</ul>
+
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/JVM/" rel="tag"># JVM</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2019/10/03/JDK-PriorityQueue%E5%8E%9F%E7%90%86/" rel="prev" title="JDK-PriorityQueue原理">
+      <i class="fa fa-chevron-left"></i> JDK-PriorityQueue原理
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/2019/10/20/BinaryHeap%E7%9A%84%E5%AE%9E%E7%8E%B0%E5%8E%9F%E7%90%86/" rel="next" title="BinaryHeap的实现原理">
+      BinaryHeap的实现原理 <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+  </div>
+
+
+          </div>
+          
+    <div class="comments" id="gitalk-container"></div>
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let activeClass = CONFIG.comments.activeClass;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#概念"><span class="nav-number">1.</span> <span class="nav-text">概念</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#结构"><span class="nav-number">2.</span> <span class="nav-text">结构</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#参数"><span class="nav-number">3.</span> <span class="nav-text">参数</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#源码解析"><span class="nav-number">4.</span> <span class="nav-text">源码解析</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#heapify"><span class="nav-number">4.1.</span> <span class="nav-text">heapify</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#add-put-offer"><span class="nav-number">4.2.</span> <span class="nav-text">add&#x2F;put&#x2F;offer</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#take-poll"><span class="nav-number">4.3.</span> <span class="nav-text">take&#x2F;poll</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#remove"><span class="nav-number">4.4.</span> <span class="nav-text">remove</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#peek"><span class="nav-number">4.5.</span> <span class="nav-text">peek</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#size"><span class="nav-number">4.6.</span> <span class="nav-text">size</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#contains"><span class="nav-number">4.7.</span> <span class="nav-text">contains</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#性能"><span class="nav-number">5.</span> <span class="nav-text">性能</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#线程安全性"><span class="nav-number">6.</span> <span class="nav-text">线程安全性</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#锁的定义"><span class="nav-number">6.1.</span> <span class="nav-text">锁的定义</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#使用场景"><span class="nav-number">7.</span> <span class="nav-text">使用场景</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#常见问题"><span class="nav-number">8.</span> <span class="nav-text">常见问题</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#PriorityBlockingQueue中用到了那些锁？"><span class="nav-number">8.1.</span> <span class="nav-text">PriorityBlockingQueue中用到了那些锁？</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#PriorityBlockingQueue中的Blocking体现在哪些操作？"><span class="nav-number">8.2.</span> <span class="nav-text">PriorityBlockingQueue中的Blocking体现在哪些操作？</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#参考"><span class="nav-number">9.</span> <span class="nav-text">参考</span></a></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">geosmart</p>
+  <div class="site-description" itemprop="description"></div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">199</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+          
+        <span class="site-state-item-count">15</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">118</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+        <a href="https://github.com/geosmart" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;geosmart" rel="noopener" target="_blank"><i class="fa fa-fw fa-github"></i>GitHub</a>
+      </span>
+  </div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2021</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">geosmart</span>
+</div>
+
+        
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/pisces.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+  
+<script src="/js/local-search.js"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+      
+
+<script>
+  if (typeof MathJax === 'undefined') {
+    window.MathJax = {
+      tex: {
+        inlineMath: {'[+]': [['$', '$']]},
+        tags: 'ams'
+      },
+      options: {
+        renderActions: {
+          findScript: [10, doc => {
+            document.querySelectorAll('script[type^="math/tex"]').forEach(node => {
+              const display = !!node.type.match(/; *mode=display/);
+              const math = new doc.options.MathItem(node.textContent, doc.inputJax[0], display);
+              const text = document.createTextNode('');
+              node.parentNode.replaceChild(text, node);
+              math.start = {node: text, delim: '', n: 0};
+              math.end = {node: text, delim: '', n: 0};
+              doc.math.push(math);
+            });
+          }, '', false],
+          insertedScript: [200, () => {
+            document.querySelectorAll('mjx-container').forEach(node => {
+              let target = node.parentNode;
+              if (target.nodeName.toLowerCase() === 'li') {
+                target.parentNode.classList.add('has-jax');
+              }
+            });
+          }, '', false]
+        }
+      }
+    };
+    (function () {
+      var script = document.createElement('script');
+      script.src = '//cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js';
+      script.defer = true;
+      document.head.appendChild(script);
+    })();
+  } else {
+    MathJax.startup.document.state(0);
+    MathJax.texReset();
+    MathJax.typeset();
+  }
+</script>
+
+    
+
+  
+
+<link rel="stylesheet" href="//cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.min.css">
+
+<script>
+NexT.utils.loadComments(document.querySelector('#gitalk-container'), () => {
+  NexT.utils.getScript('//cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.min.js', () => {
+    var gitalk = new Gitalk({
+      clientID    : '8a29a27c357a64ed79fd',
+      clientSecret: 'fe1b781c49fa9037803f3c4d3e94fbb677abac4d',
+      repo        : 'geosmart.github.io',
+      owner       : 'geosmart',
+      admin       : ['geosmart'],
+      id          : '99c4b5751d247e6c711dad809e5004e4',
+        language: 'zh-CN',
+      distractionFreeMode: true
+    });
+    gitalk.render('gitalk-container');
+  }, window.Gitalk);
+});
+</script>
+
+</body>
+</html>

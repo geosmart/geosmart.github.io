@@ -1,0 +1,548 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 4.2.1">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css">
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"geosmart.github.io","root":"/","scheme":"Pisces","version":"7.7.1","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.xml"};
+  </script>
+
+  <meta name="description" content="dolphinscheduler的flink任务默认支持yarn。本文主要梳理flinkTask如何支持早k8s部署的思路。 flink任务和spark任务支持类似">
+<meta property="og:type" content="article">
+<meta property="og:title" content="如何让DolphinScheduler的Flink任务支持K8S部署">
+<meta property="og:url" content="http://geosmart.github.io/2021/11/28/%E5%A6%82%E4%BD%95%E8%AE%A9DolphinScheduler%E7%9A%84Flink%E4%BB%BB%E5%8A%A1%E6%94%AF%E6%8C%81K8S%E9%83%A8%E7%BD%B2/index.html">
+<meta property="og:site_name" content="geosmart.io">
+<meta property="og:description" content="dolphinscheduler的flink任务默认支持yarn。本文主要梳理flinkTask如何支持早k8s部署的思路。 flink任务和spark任务支持类似">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="http://geosmart.github.io/2021/11/28/%E5%A6%82%E4%BD%95%E8%AE%A9DolphinScheduler%E7%9A%84Flink%E4%BB%BB%E5%8A%A1%E6%94%AF%E6%8C%81K8S%E9%83%A8%E7%BD%B2/FlinkTask.OnK8S.png">
+<meta property="article:published_time" content="2021-11-28T10:00:05.000Z">
+<meta property="article:modified_time" content="2021-12-15T01:13:13.055Z">
+<meta property="article:author" content="geosmart">
+<meta property="article:tag" content="dolphinScheduler">
+<meta property="article:tag" content="flink">
+<meta property="article:tag" content="k8s">
+<meta property="article:tag" content="cdh">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://geosmart.github.io/2021/11/28/%E5%A6%82%E4%BD%95%E8%AE%A9DolphinScheduler%E7%9A%84Flink%E4%BB%BB%E5%8A%A1%E6%94%AF%E6%8C%81K8S%E9%83%A8%E7%BD%B2/FlinkTask.OnK8S.png">
+
+<link rel="canonical" href="http://geosmart.github.io/2021/11/28/%E5%A6%82%E4%BD%95%E8%AE%A9DolphinScheduler%E7%9A%84Flink%E4%BB%BB%E5%8A%A1%E6%94%AF%E6%8C%81K8S%E9%83%A8%E7%BD%B2/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome: false,
+    isPost: true
+  };
+</script>
+
+  <title>如何让DolphinScheduler的Flink任务支持K8S部署 | geosmart.io</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <div>
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">geosmart.io</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+        <p class="site-subtitle">勿助勿忘，深造自得</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+<nav class="site-nav">
+  
+  <ul id="menu" class="menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-fw fa-home"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-about">
+
+    <a href="/about/" rel="section"><i class="fa fa-fw fa-user"></i>关于</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="fa fa-fw fa-tags"></i>标签</a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/categories/" rel="section"><i class="fa fa-fw fa-th"></i>分类</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-fw fa-archive"></i>归档</a>
+
+  </li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜索
+        </a>
+      </li>
+  </ul>
+
+</nav>
+  <div class="site-search">
+    <div class="popup search-popup">
+    <div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocorrect="off" autocapitalize="off"
+           placeholder="搜索..." spellcheck="false"
+           type="search" class="search-input">
+  </div>
+  <span class="popup-btn-close">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div id="search-result"></div>
+
+</div>
+<div class="search-pop-overlay"></div>
+
+  </div>
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+  <a href="https://github.com/geosmart" class="github-corner" title="Follow me on GitHub" aria-label="Follow me on GitHub" rel="noopener" target="_blank"><svg width="80" height="80" viewBox="0 0 250 250" aria-hidden="true"><path d="M0,0 L115,115 L130,115 L142,142 L250,250 L250,0 Z"></path><path d="M128.3,109.0 C113.8,99.7 119.0,89.6 119.0,89.6 C122.0,82.7 120.5,78.6 120.5,78.6 C119.2,72.0 123.4,76.3 123.4,76.3 C127.3,80.9 125.5,87.3 125.5,87.3 C122.9,97.6 130.6,101.9 134.4,103.2" fill="currentColor" style="transform-origin: 130px 106px;" class="octo-arm"></path><path d="M115.0,115.0 C114.9,115.1 118.7,116.5 119.8,115.4 L133.7,101.6 C136.9,99.2 139.9,98.4 142.2,98.6 C133.8,88.0 127.5,74.4 143.8,58.0 C148.5,53.4 154.0,51.2 159.7,51.0 C160.3,49.4 163.2,43.6 171.4,40.1 C171.4,40.1 176.1,42.5 178.8,56.2 C183.1,58.6 187.2,61.8 190.9,65.4 C194.5,69.0 197.7,73.2 200.1,77.6 C213.8,80.2 216.3,84.9 216.3,84.9 C212.7,93.1 206.9,96.0 205.4,96.6 C205.1,102.4 203.0,107.8 198.3,112.5 C181.9,128.9 168.3,122.5 157.7,114.1 C157.9,116.9 156.7,120.9 152.7,124.9 L141.0,136.5 C139.8,137.7 141.6,141.9 141.8,141.8 Z" fill="currentColor" class="octo-body"></path></svg></a>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content">
+            
+
+  <div class="posts-expand">
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block " lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://geosmart.github.io/2021/11/28/%E5%A6%82%E4%BD%95%E8%AE%A9DolphinScheduler%E7%9A%84Flink%E4%BB%BB%E5%8A%A1%E6%94%AF%E6%8C%81K8S%E9%83%A8%E7%BD%B2/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="geosmart">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="geosmart.io">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          如何让DolphinScheduler的Flink任务支持K8S部署
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：28   十一月   2021 18:00:05" itemprop="dateCreated datePublished" datetime="2021-11-28T18:00:05+08:00">28   十一月   2021</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：15   十二月   2021 9:13:13" itemprop="dateModified" datetime="2021-12-15T09:13:13+08:00">15   十二月   2021</time>
+              </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <p>dolphinscheduler的flink任务默认支持yarn。<br>本文主要梳理flinkTask如何支持早k8s部署的思路。</p>
+<p>flink任务和spark任务支持类似<br><a id="more"></a></p>
+<h1 id="环境说明"><a href="#环境说明" class="headerlink" title="环境说明"></a>环境说明</h1><ul>
+<li>dolphinscheduler版本：1.3.6</li>
+<li>flink版本：1.12.2</li>
+</ul>
+<p><img src="FlinkTask.OnK8S.png" alt="如何让DolphinScheduler的Flink任务支持K8S部署"></p>
+<h1 id="apiserver"><a href="#apiserver" class="headerlink" title="apiserver"></a>apiserver</h1><p>向k8s提交任务，需要新增以下基础配置</p>
+<ul>
+<li>kubeconfig：包含k8s的token，k8s-client初始化需要</li>
+<li>master：k8s apiserver的地址</li>
+<li>image：制作好的镜像，提交到harbor的地址</li>
+</ul>
+<p>另外FlinkParameters需要新增</p>
+<ul>
+<li>deployMode:kubernetesApplication</li>
+<li>flinkVersion:1.12.2</li>
+</ul>
+<h1 id="worker"><a href="#worker" class="headerlink" title="worker"></a>worker</h1><p>由于我采用的是flink native方式，不是google的spark on k8s operator。<br>所以worker主要问题是拼接flinkTask的flink run-application命令。<br>具体配置内容参考xmind脑图</p>
+<p>另外可新增１个<code>spark_on_k8s.json</code>配置文件定义环境参数　<br><figure class="highlight json"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line">  <span class="attr">"k8sIngressHttpUrl"</span>: <span class="string">"http://ip:port"</span>,</span><br><span class="line">  <span class="attr">"k8sNameSpace"</span>: <span class="string">"flink"</span>,</span><br><span class="line">  <span class="attr">"flinkContainerImage"</span>: <span class="string">"flink:latest"</span>,</span><br><span class="line">  <span class="attr">"flinkAppServiceAccountName"</span>: <span class="string">"flink"</span>,</span><br><span class="line">  <span class="attr">"flinkVersion"</span>: <span class="string">"1.12"</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>flink基础配置<code>flink-conf.yaml</code><br><figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># k8s</span></span><br><span class="line"><span class="attr">kubernetes.rest-service.exposed.type:</span> <span class="string">ClusterIP</span></span><br><span class="line"><span class="attr">kubernetes.container.image.pull-policy:</span> <span class="string">Always</span></span><br><span class="line"><span class="attr">kubernetes.jobmanager.cpu:</span> <span class="number">1.0</span></span><br><span class="line"><span class="attr">security.module.factory.classes :</span> <span class="string">;</span></span><br><span class="line"><span class="attr">security.context.factory.classes:</span> <span class="string">;</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># rpc</span></span><br><span class="line"><span class="attr">jobmanager.rpc.address:</span> <span class="string">localhost</span></span><br><span class="line"><span class="attr">jobmanager.rpc.port:</span> <span class="number">6123</span></span><br><span class="line"><span class="attr">jobmanager.memory.process.size:</span> <span class="string">1gb</span></span><br><span class="line"><span class="attr">taskmanager.memory.process.size:</span> <span class="string">1gb</span></span><br><span class="line"><span class="attr">taskmanager.numberOfTaskSlots:</span> <span class="number">1</span></span><br><span class="line"><span class="attr">parallelism.default:</span> <span class="number">1</span></span><br><span class="line"><span class="attr">jobmanager.execution.failover-strategy:</span> <span class="string">region</span></span><br><span class="line"><span class="attr">akka.ask.timeout:</span> <span class="number">120</span> <span class="string">s</span></span><br><span class="line"><span class="attr">web.timeout:</span> <span class="number">120000</span></span><br><span class="line"></span><br><span class="line"><span class="comment">### history server</span></span><br><span class="line"><span class="attr">jobmanager.archive.fs.dir:</span> <span class="string">s3a://flink/__FLINK__/historylog</span></span><br><span class="line"><span class="attr">historyserver.archive.fs.dir:</span> <span class="string">s3a://flink/__FLINK__/historylog</span></span><br><span class="line"><span class="attr">historyserver.web.address:</span> <span class="number">10.199</span><span class="number">.150</span><span class="number">.161</span></span><br><span class="line"><span class="attr">historyserver.web.port:</span> <span class="number">30067</span></span><br><span class="line"><span class="attr">historyserver.archive.fs.refresh-interval:</span> <span class="number">1000</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># checkpoint</span></span><br><span class="line"><span class="attr">execution.checkpointing.timeout:</span> <span class="number">10</span> <span class="string">min</span></span><br><span class="line"><span class="attr">execution.checkpointing.max-concurrent-checkpoints:</span> <span class="number">1</span></span><br><span class="line"><span class="attr">execution.checkpointing.mode:</span> <span class="string">EXACTLY_ONCE</span></span><br><span class="line"><span class="attr">execution.checkpointing.unaligned:</span> <span class="literal">false</span></span><br><span class="line"><span class="attr">execution.checkpointing.externalized-checkpoint-retention:</span> <span class="string">DELETE_ON_CANCELLATION</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># state</span></span><br><span class="line"><span class="attr">state.backend:</span> <span class="string">filesystem</span></span><br><span class="line"><span class="attr">state.backend.incremental:</span> <span class="literal">true</span></span><br><span class="line"><span class="attr">state.backend.fs.checkpointdir:</span> <span class="string">s3a://flink/__FLINK__/checkpoints/backend</span></span><br><span class="line"><span class="attr">state.checkpoints.dir:</span> <span class="string">s3a://flink/__FLINK__/checkpoints/metadata</span></span><br><span class="line"><span class="attr">state.savepoints.dir:</span> <span class="string">s3a://flink/__FLINK__/savepoints</span></span><br><span class="line"><span class="attr">state.checkpoints.num-retained:</span> <span class="number">10</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># filesystem-s3a</span></span><br><span class="line"><span class="attr">s3.access-key:</span> <span class="string">ak</span></span><br><span class="line"><span class="attr">s3.secret-key:</span> <span class="string">sk</span></span><br><span class="line"><span class="attr">s3.endpoint:</span> <span class="string">http://ip:port</span></span><br><span class="line"><span class="attr">s3.path.style.access:</span> <span class="literal">true</span></span><br></pre></td></tr></table></figure></p>
+<h1 id="master"><a href="#master" class="headerlink" title="master"></a>master</h1><p>flinkTask执行的worker宕机时，master会对worker执行容错，kill掉所有正在执行的task。<br>所以master也需要加载worker一样的配置，在容错时执行flink k8s集群的清理工作。</p>
+<h1 id="示例"><a href="#示例" class="headerlink" title="示例"></a>示例</h1><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br></pre></td><td class="code"><pre><span class="line">flink run-application \</span><br><span class="line">--target kubernetes-application \</span><br><span class="line">-Dkubernetes.config.file&#x3D;&quot;&#x2F;opt&#x2F;flink&#x2F;config&#x2F;kube_config.yaml&quot; \</span><br><span class="line">-Dkubernetes.container.image&#x3D;&quot;flink:latest&quot; \</span><br><span class="line">-Dkubernetes.namespace&#x3D;&quot;flink&quot; \</span><br><span class="line">-Dkubernetes.service-account&#x3D;&quot;flink&quot; \</span><br><span class="line">-Dkubernetes.rest-service.exposed.type&#x3D;&quot;ClusterIP&quot; \</span><br><span class="line">-Dkubernetes.container.image.pull-policy&#x3D;&quot;Always&quot; \</span><br><span class="line">-Dkubernetes.jobmanager.cpu&#x3D;&quot;1.0&quot; \</span><br><span class="line">-Dkubernetes.cluster-id&#x3D;&quot;flink-0-0-0-0-0&quot; \</span><br><span class="line">-Dkubernetes.flink.conf.dir&#x3D;&quot;$&#123;FLINK_HOME&#125;&#x2F;conf&quot; \</span><br><span class="line">-Dkubernetes.flink.log.dir&#x3D;&quot;$&#123;FLINK_HOME&#125;&#x2F;log&quot; \</span><br><span class="line">-Dsecurity.module.factory.classes&#x3D;&quot;;&quot; \</span><br><span class="line">-Dsecurity.context.factory.classes&#x3D;&quot;;&quot; \</span><br><span class="line">-Djobmanager.rpc.address&#x3D;&quot;localhost&quot; \</span><br><span class="line">-Djobmanager.rpc.port&#x3D;&quot;6123&quot; \</span><br><span class="line">-Djobmanager.memory.process.size&#x3D;&quot;1gb&quot; \</span><br><span class="line">-Dtaskmanager.memory.process.size&#x3D;&quot;1gb&quot; \</span><br><span class="line">-Dtaskmanager.numberOfTaskSlots&#x3D;&quot;1&quot; \</span><br><span class="line">-Dparallelism.default&#x3D;&quot;1&quot; \</span><br><span class="line">-Djobmanager.execution.failover-strategy&#x3D;&quot;region&quot; \</span><br><span class="line">-Dakka.ask.timeout&#x3D;&quot;120 s&quot; \</span><br><span class="line">-Dweb.timeout&#x3D;&quot;120000&quot; \</span><br><span class="line">-Djobmanager.archive.fs.dir&#x3D;&quot;s3a:&#x2F;&#x2F;flink&#x2F;__FLINK__&#x2F;historylog&quot; \</span><br><span class="line">-Dhistoryserver.archive.fs.dir&#x3D;&quot;s3a:&#x2F;&#x2F;flink&#x2F;__FLINK__&#x2F;historylog&quot; \</span><br><span class="line">-Dhistoryserver.web.address&#x3D;&quot;10.199.150.161&quot; \</span><br><span class="line">-Dhistoryserver.web.port&#x3D;&quot;30067&quot; \</span><br><span class="line">-Dhistoryserver.archive.fs.refresh-interval&#x3D;&quot;1000&quot; \</span><br><span class="line">-Dexecution.checkpointing.timeout&#x3D;&quot;10 min&quot; \</span><br><span class="line">-Dexecution.checkpointing.max-concurrent-checkpoints&#x3D;&quot;1&quot; \</span><br><span class="line">-Dexecution.checkpointing.mode&#x3D;&quot;EXACTLY_ONCE&quot; \</span><br><span class="line">-Dexecution.checkpointing.unaligned&#x3D;&quot;false&quot; \</span><br><span class="line">-Dexecution.checkpointing.externalized-checkpoint-retention&#x3D;&quot;DELETE_ON_CANCELLATION&quot; \</span><br><span class="line">-Dstate.backend&#x3D;&quot;filesystem&quot; \</span><br><span class="line">-Dstate.backend.incremental&#x3D;&quot;true&quot; \</span><br><span class="line">-Dstate.backend.fs.checkpointdir&#x3D;&quot;s3a:&#x2F;&#x2F;flink&#x2F;__FLINK__&#x2F;checkpoints&#x2F;backend&quot; \</span><br><span class="line">-Dstate.checkpoints.dir&#x3D;&quot;s3a:&#x2F;&#x2F;flink&#x2F;__FLINK__&#x2F;checkpoints&#x2F;metadata&quot; \</span><br><span class="line">-Dstate.savepoints.dir&#x3D;&quot;s3a:&#x2F;&#x2F;flink&#x2F;__FLINK__&#x2F;savepoints&quot; \</span><br><span class="line">-Dstate.checkpoints.num-retained&#x3D;&quot;10&quot; \</span><br><span class="line">-Ds3.access-key&#x3D;&quot;DYaDwXsj8VRtWYPSbr7A&quot; \</span><br><span class="line">-Ds3.secret-key&#x3D;&quot;z7HAEhdyseNX9AVyzDLAJzEjZChJsnAf1f7VehE&quot; \</span><br><span class="line">-Ds3.endpoint&#x3D;&quot;http:&#x2F;&#x2F;10.199.150.160:32030&quot; \</span><br><span class="line">-Ds3.path.style.access&#x3D;&quot;true&quot; \</span><br><span class="line">-Djobmanager.memory.process.size&#x3D;&quot;4G&quot; \</span><br><span class="line">-Dtaskmanager.memory.process.size&#x3D;&quot;2G&quot; \</span><br><span class="line">-Dtaskmanager.numberOfTaskSlots&#x3D;&quot;2&quot; \</span><br><span class="line">-Dcontainerized.master.env.KUBERNETES_HOST_ALIASES&#x3D;&quot;127.0.0.1	localhost&quot; \</span><br><span class="line">-Dcontainerized.master.env.KUBERNETES_S3_ACCESS_KEY&#x3D;&quot;ak&quot; \</span><br><span class="line">-Dcontainerized.master.env.KUBERNETES_S3_SECRET_KEY&#x3D;&quot;sk&quot; \</span><br><span class="line">-Dcontainerized.master.env.KUBERNETES_S3_ENDPOINT&#x3D;&quot;xxx:xxx&quot; \</span><br><span class="line">-Dcontainerized.master.env.KUBERNETES_S3_BUCKET&#x3D;&quot;xxx&quot; \</span><br><span class="line">-Dcontainerized.master.env.KUBERNETES_REMOTE_MAIN_JAR&#x3D;&quot;&#x2F;flink&#x2F;WordCount-1.12.2.jar&quot; \</span><br><span class="line">-Dcontainerized.master.env.KUBERNETES_LOCAL_MAIN_JAR&#x3D;&quot;&#x2F;tmp&#x2F;WordCount-1.12.2.jar&quot; \</span><br><span class="line">-Dexecution.checkpointing.interval&#x3D;&quot;1 min&quot; \</span><br><span class="line">-d \</span><br><span class="line">-Dkubernetes.container.image.pull-policy&#x3D;Always \</span><br><span class="line">-c \</span><br><span class="line">org.apache.flink.examples.java.wordcount.WordCount \</span><br><span class="line">local:&#x2F;&#x2F;&#x2F;tmp&#x2F;WordCount-1.12.2.jar \</span><br><span class="line">--input &#x2F;opt&#x2F;cdh&#x2F;lib&#x2F;flink-1.12.2&#x2F;conf&#x2F;flink-conf.yaml --output &#x2F;tmp&#x2F;flink-conf.yaml</span><br></pre></td></tr></table></figure>
+<h1 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h1><ul>
+<li><a href="https://github.com/apache/dolphinscheduler/issues/5648">task can run on kubernetes</a></li>
+</ul>
+
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/dolphinScheduler/" rel="tag"># dolphinScheduler</a>
+              <a href="/tags/flink/" rel="tag"># flink</a>
+              <a href="/tags/k8s/" rel="tag"># k8s</a>
+              <a href="/tags/cdh/" rel="tag"># cdh</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2021/11/28/FlinkOnK8S%E8%B8%A9%E5%9D%91%E8%AE%B0%E5%BD%95/" rel="prev" title="FlinkOnK8S踩坑记录">
+      <i class="fa fa-chevron-left"></i> FlinkOnK8S踩坑记录
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/2021/12/02/cdh%E9%9B%86%E6%88%90minio%E5%81%9Ahdfs%E5%92%8Cminio%E5%AF%B9%E6%8B%B7/" rel="next" title="cdh集成minio做hdfs和minio对拷">
+      cdh集成minio做hdfs和minio对拷 <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+  </div>
+
+
+          </div>
+          
+    <div class="comments" id="gitalk-container"></div>
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let activeClass = CONFIG.comments.activeClass;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#环境说明"><span class="nav-number">1.</span> <span class="nav-text">环境说明</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#apiserver"><span class="nav-number">2.</span> <span class="nav-text">apiserver</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#worker"><span class="nav-number">3.</span> <span class="nav-text">worker</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#master"><span class="nav-number">4.</span> <span class="nav-text">master</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#示例"><span class="nav-number">5.</span> <span class="nav-text">示例</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#参考"><span class="nav-number">6.</span> <span class="nav-text">参考</span></a></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">geosmart</p>
+  <div class="site-description" itemprop="description"></div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">199</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+          
+        <span class="site-state-item-count">15</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">118</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+        <a href="https://github.com/geosmart" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;geosmart" rel="noopener" target="_blank"><i class="fa fa-fw fa-github"></i>GitHub</a>
+      </span>
+  </div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2021</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">geosmart</span>
+</div>
+
+        
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/pisces.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+  
+<script src="/js/local-search.js"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+      
+
+<script>
+  if (typeof MathJax === 'undefined') {
+    window.MathJax = {
+      tex: {
+        inlineMath: {'[+]': [['$', '$']]},
+        tags: 'ams'
+      },
+      options: {
+        renderActions: {
+          findScript: [10, doc => {
+            document.querySelectorAll('script[type^="math/tex"]').forEach(node => {
+              const display = !!node.type.match(/; *mode=display/);
+              const math = new doc.options.MathItem(node.textContent, doc.inputJax[0], display);
+              const text = document.createTextNode('');
+              node.parentNode.replaceChild(text, node);
+              math.start = {node: text, delim: '', n: 0};
+              math.end = {node: text, delim: '', n: 0};
+              doc.math.push(math);
+            });
+          }, '', false],
+          insertedScript: [200, () => {
+            document.querySelectorAll('mjx-container').forEach(node => {
+              let target = node.parentNode;
+              if (target.nodeName.toLowerCase() === 'li') {
+                target.parentNode.classList.add('has-jax');
+              }
+            });
+          }, '', false]
+        }
+      }
+    };
+    (function () {
+      var script = document.createElement('script');
+      script.src = '//cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js';
+      script.defer = true;
+      document.head.appendChild(script);
+    })();
+  } else {
+    MathJax.startup.document.state(0);
+    MathJax.texReset();
+    MathJax.typeset();
+  }
+</script>
+
+    
+
+  
+
+<link rel="stylesheet" href="//cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.min.css">
+
+<script>
+NexT.utils.loadComments(document.querySelector('#gitalk-container'), () => {
+  NexT.utils.getScript('//cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.min.js', () => {
+    var gitalk = new Gitalk({
+      clientID    : '8a29a27c357a64ed79fd',
+      clientSecret: 'fe1b781c49fa9037803f3c4d3e94fbb677abac4d',
+      repo        : 'geosmart.github.io',
+      owner       : 'geosmart',
+      admin       : ['geosmart'],
+      id          : '77205bb6f43a026d5681a1050378758d',
+        language: 'zh-CN',
+      distractionFreeMode: true
+    });
+    gitalk.render('gitalk-container');
+  }, window.Gitalk);
+});
+</script>
+
+</body>
+</html>

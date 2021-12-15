@@ -1,0 +1,786 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 4.2.1">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css">
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"geosmart.github.io","root":"/","scheme":"Pisces","version":"7.7.1","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.xml"};
+  </script>
+
+  <meta name="description" content="持久化是Redis HA的一种，主要实现数据备份，与主从复制相比强调的是由内存到硬盘的备份。  本文总结Redis的持久化策略(RDB和AOF)，各自的文件格式、控制参数、触发机制、实现方式、实现原理、执行流程、优缺点。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Redis持久化">
+<meta property="og:url" content="http://geosmart.github.io/2020/01/03/Redis%E6%8C%81%E4%B9%85%E5%8C%96/index.html">
+<meta property="og:site_name" content="geosmart.io">
+<meta property="og:description" content="持久化是Redis HA的一种，主要实现数据备份，与主从复制相比强调的是由内存到硬盘的备份。  本文总结Redis的持久化策略(RDB和AOF)，各自的文件格式、控制参数、触发机制、实现方式、实现原理、执行流程、优缺点。">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="http://geosmart.github.io/2020/01/03/Redis%E6%8C%81%E4%B9%85%E5%8C%96/rdb_snapshot.png">
+<meta property="og:image" content="http://geosmart.github.io/2020/01/03/Redis%E6%8C%81%E4%B9%85%E5%8C%96/aof_rewrite.png">
+<meta property="article:published_time" content="2020-01-03T16:00:00.000Z">
+<meta property="article:modified_time" content="2021-12-15T01:13:12.945Z">
+<meta property="article:author" content="geosmart">
+<meta property="article:tag" content="缓存">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://geosmart.github.io/2020/01/03/Redis%E6%8C%81%E4%B9%85%E5%8C%96/rdb_snapshot.png">
+
+<link rel="canonical" href="http://geosmart.github.io/2020/01/03/Redis%E6%8C%81%E4%B9%85%E5%8C%96/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome: false,
+    isPost: true
+  };
+</script>
+
+  <title>Redis持久化 | geosmart.io</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <div>
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">geosmart.io</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+        <p class="site-subtitle">勿助勿忘，深造自得</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+<nav class="site-nav">
+  
+  <ul id="menu" class="menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-fw fa-home"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-about">
+
+    <a href="/about/" rel="section"><i class="fa fa-fw fa-user"></i>关于</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="fa fa-fw fa-tags"></i>标签</a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/categories/" rel="section"><i class="fa fa-fw fa-th"></i>分类</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-fw fa-archive"></i>归档</a>
+
+  </li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜索
+        </a>
+      </li>
+  </ul>
+
+</nav>
+  <div class="site-search">
+    <div class="popup search-popup">
+    <div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocorrect="off" autocapitalize="off"
+           placeholder="搜索..." spellcheck="false"
+           type="search" class="search-input">
+  </div>
+  <span class="popup-btn-close">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div id="search-result"></div>
+
+</div>
+<div class="search-pop-overlay"></div>
+
+  </div>
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+  <a href="https://github.com/geosmart" class="github-corner" title="Follow me on GitHub" aria-label="Follow me on GitHub" rel="noopener" target="_blank"><svg width="80" height="80" viewBox="0 0 250 250" aria-hidden="true"><path d="M0,0 L115,115 L130,115 L142,142 L250,250 L250,0 Z"></path><path d="M128.3,109.0 C113.8,99.7 119.0,89.6 119.0,89.6 C122.0,82.7 120.5,78.6 120.5,78.6 C119.2,72.0 123.4,76.3 123.4,76.3 C127.3,80.9 125.5,87.3 125.5,87.3 C122.9,97.6 130.6,101.9 134.4,103.2" fill="currentColor" style="transform-origin: 130px 106px;" class="octo-arm"></path><path d="M115.0,115.0 C114.9,115.1 118.7,116.5 119.8,115.4 L133.7,101.6 C136.9,99.2 139.9,98.4 142.2,98.6 C133.8,88.0 127.5,74.4 143.8,58.0 C148.5,53.4 154.0,51.2 159.7,51.0 C160.3,49.4 163.2,43.6 171.4,40.1 C171.4,40.1 176.1,42.5 178.8,56.2 C183.1,58.6 187.2,61.8 190.9,65.4 C194.5,69.0 197.7,73.2 200.1,77.6 C213.8,80.2 216.3,84.9 216.3,84.9 C212.7,93.1 206.9,96.0 205.4,96.6 C205.1,102.4 203.0,107.8 198.3,112.5 C181.9,128.9 168.3,122.5 157.7,114.1 C157.9,116.9 156.7,120.9 152.7,124.9 L141.0,136.5 C139.8,137.7 141.6,141.9 141.8,141.8 Z" fill="currentColor" class="octo-body"></path></svg></a>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content">
+            
+
+  <div class="posts-expand">
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block " lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://geosmart.github.io/2020/01/03/Redis%E6%8C%81%E4%B9%85%E5%8C%96/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="geosmart">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="geosmart.io">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          Redis持久化
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：4   一月   2020 0:00:00" itemprop="dateCreated datePublished" datetime="2020-01-04T00:00:00+08:00">4   一月   2020</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：15   十二月   2021 9:13:12" itemprop="dateModified" datetime="2021-12-15T09:13:12+08:00">15   十二月   2021</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/%E4%B8%AD%E9%97%B4%E4%BB%B6/" itemprop="url" rel="index"><span itemprop="name">中间件</span></a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <blockquote>
+<p>持久化是Redis HA的一种，主要实现数据备份，与<code>主从复制</code>相比强调的是由<code>内存到硬盘</code>的备份。</p>
+</blockquote>
+<p>本文总结Redis的持久化策略(RDB和AOF)，各自的<code>文件格式</code>、<code>控制参数</code>、<code>触发机制</code>、<code>实现方式</code>、<code>实现原理</code>、<code>执行流程</code>、<code>优缺点</code>。</p>
+<a id="more"></a>
+<h1 id="RDB快照"><a href="#RDB快照" class="headerlink" title="RDB快照"></a>RDB快照</h1><h2 id="RDB文件格式"><a href="#RDB文件格式" class="headerlink" title="RDB文件格式"></a>RDB文件格式</h2><ul>
+<li>REDIS：常量，保存着”REDIS”5个字符。</li>
+<li>db_version：RDB文件的版本号，注意不是Redis的版本号。</li>
+<li>SELECTDB 0 pairs：<ul>
+<li>SELECTDB是一个常量</li>
+<li>0：0号数据库</li>
+<li>pairs：存储了具体的键值对信息</li>
+</ul>
+</li>
+<li>EOF：常量，标志RDB文件正文内容结束。</li>
+<li>check_sum：前面所有内容的校验和</li>
+</ul>
+<h2 id="RDB控制参数"><a href="#RDB控制参数" class="headerlink" title="RDB控制参数"></a>RDB控制参数</h2><ul>
+<li><code>rdbcompression</code>:是否开启RDB文件压缩</li>
+<li><code>rdbchecksum</code>:是否开启RDB文件的校验，在写入文件和读取文件时都起作用。关闭checksum在写入文件和启动文件时大约能带来10%的性能提升， 但是数据损坏时无法发现</li>
+<li><code>save m n</code>：m秒内写n次则触发快照,bgsave自动触发的条件</li>
+<li><code>stop-writes-on-bgsave-error yes</code><ul>
+<li>yes:则当硬盘出现问题时，可以及时发现，避免数据的大量丢失；</li>
+<li>no:Redis无视bgsave的错误继续执行写命令，当对Redis服务器的系统(尤其是硬盘)使用了监控时，该选项考虑设置为no</li>
+</ul>
+</li>
+</ul>
+<h2 id="RDB触发机制"><a href="#RDB触发机制" class="headerlink" title="RDB触发机制"></a>RDB触发机制</h2><h3 id="save的默认触发条件"><a href="#save的默认触发条件" class="headerlink" title="save的默认触发条件"></a>save的默认触发条件</h3><ul>
+<li>1分钟写1万次</li>
+<li>5分钟写10次</li>
+<li>15分钟写1次</li>
+</ul>
+<h3 id="从节点同步时"><a href="#从节点同步时" class="headerlink" title="从节点同步时"></a>从节点同步时</h3><p>在主从复制场景下，如果从节点执行全量复制操作， 则主节点会执行bgsave命令，并将rdb文件发送给从节点</p>
+<h3 id="shutdown时"><a href="#shutdown时" class="headerlink" title="shutdown时"></a>shutdown时</h3><p>执行shutdown命令时，自动执行rdb持久化</p>
+<blockquote>
+<p>最佳实践<br>BGSAVE 对于IO的性能影响比较大， 如何解决保证数据持久化同时解决性能问题？<br>通常的设计思路就是利用「Replication」机制来解决： </p>
+<ul>
+<li>master不开启RDB日志和AOF日志，来保证master的读写性能。 </li>
+<li>slave则开启rdb和aof来进行持久化，保证数据的持久性，</li>
+</ul>
+</blockquote>
+<h2 id="RDB实现方式"><a href="#RDB实现方式" class="headerlink" title="RDB实现方式"></a>RDB实现方式</h2><h3 id="save命令"><a href="#save命令" class="headerlink" title="save命令"></a>save命令</h3><ul>
+<li>阻塞创建快照</li>
+<li>线上环境要杜绝save的使用</li>
+</ul>
+<h3 id="bgsave命令"><a href="#bgsave命令" class="headerlink" title="bgsave命令"></a>bgsave命令</h3><ul>
+<li>异步创建快照:只有fork子进程时会阻塞服务器</li>
+</ul>
+<blockquote>
+<p>10GB内fork进程一般不超过百毫秒级</p>
+</blockquote>
+<h2 id="RDB实现原理"><a href="#RDB实现原理" class="headerlink" title="RDB实现原理"></a>RDB实现原理</h2><p>Redis的save m n，是通过serverCron函数、dirty计数器、和lastsave时间戳来实现的。</p>
+<ul>
+<li>serverCron周期性操作函数</li>
+<li>dirty计数器：服务器状态进行了多少次增删改，bgsave后清零</li>
+<li>lastsave时间戳：上一次成功执行save/bgsave的时间</li>
+</ul>
+<p>save m n的原理如下：<br>每隔100ms，执行serverCron函数；在serverCron函数中，遍历save m n配置的保存条件，只要有一个条件满足，就进行bgsave。<br>对于每一个save m n条件，只有下面两条同时满足时才算满足：</p>
+<ol>
+<li>当前时间-lastsave &gt; m</li>
+<li>dirty &gt;= n</li>
+</ol>
+<h2 id="RDB执行流程"><a href="#RDB执行流程" class="headerlink" title="RDB执行流程"></a>RDB执行流程</h2><p><img src="rdb_snapshot.png" alt="rdb_snapshot"></p>
+<ol>
+<li><p>Redis父进程首先判断：当前是否在执行save，或bgsave/bgrewriteaof（后面会详细介绍该命令）的子进程，如果在执行则bgsave命令直接返回。</p>
+<blockquote>
+<p>bgsave/bgrewriteaof 的子进程不能同时执行，主要是基于性能方面的考虑：两个并发的子进程同时执行大量的磁盘写操作，可能引起严重的性能问题。</p>
+</blockquote>
+</li>
+<li><p>父进程执行fork操作创建子进程，这个过程中父进程是阻塞的，Redis不能执行来自客户端的任何命令</p>
+</li>
+<li>父进程fork后，bgsave命令返回”Background saving started”信息并不再阻塞父进程，并可以响应其他命令</li>
+<li>子进程创建RDB文件，根据父进程内存快照生成临时快照文件，完成后对原有文件进行原子替换</li>
+<li>子进程发送信号给父进程表示完成，父进程更新统计信息</li>
+</ol>
+<h2 id="RDB优缺点"><a href="#RDB优缺点" class="headerlink" title="RDB优缺点"></a>RDB优缺点</h2><h3 id="优点"><a href="#优点" class="headerlink" title="优点"></a>优点</h3><ul>
+<li>可配置不同的备份周期来满足灵活的备份需求</li>
+<li>fork子进程备份，最大化redis性能</li>
+<li>便于大规模数据备份恢复</li>
+<li>与AOF相比，重启时数据内存恢复更快</li>
+</ul>
+<h3 id="缺点"><a href="#缺点" class="headerlink" title="缺点"></a>缺点</h3><ul>
+<li>fork子进程备份，内存数据量大时候性能受影响</li>
+<li>备份时宕机，会导致数据丢失</li>
+</ul>
+<h1 id="AOF日志"><a href="#AOF日志" class="headerlink" title="AOF日志"></a>AOF日志</h1><h2 id="文件格式"><a href="#文件格式" class="headerlink" title="文件格式"></a>文件格式</h2><p>日志内容和redis命令一致，可读性强</p>
+<blockquote>
+<p>select db默认写入</p>
+</blockquote>
+<h2 id="控制参数"><a href="#控制参数" class="headerlink" title="控制参数"></a>控制参数</h2><ul>
+<li><code>appendonly</code>：是否开启，yes/no</li>
+<li><code>appendfilename &quot;appendonly.aof&quot;</code> :aof备份文件名</li>
+<li><code>appendfsync everysec</code> 文件缓冲同步到磁盘的频率<ul>
+<li>always 每执行一个命令保存一次</li>
+<li>everyseconds 每一秒钟保存一次</li>
+<li>no 不保存</li>
+</ul>
+</li>
+</ul>
+<blockquote>
+<p>重写rewrite参数</p>
+</blockquote>
+<ul>
+<li><code>no-appendfsync-on-rewrite no</code>: AOF重写期间是否禁止fsync</li>
+<li><code>auto-aof-rewrite-percentage 100</code> :自动重写百分比, 0禁用rewrite</li>
+<li><code>auto-aof-rewrite-min-size 64mb</code>：自动重写最小文件</li>
+</ul>
+<blockquote>
+<p>aof加载</p>
+</blockquote>
+<ul>
+<li><code>aof-load-truncated yes</code>: 如果AOF文件结尾损坏，Redis启动时是否仍载入AOF文件<ul>
+<li>yes: 自动修复aof尾部异常</li>
+<li>no: redis-check-aof -fix 手动修复aof文件</li>
+</ul>
+</li>
+<li><code>aof-use-rdb-preamble yes</code> :结合rdb加载aof</li>
+</ul>
+<h2 id="触发机制"><a href="#触发机制" class="headerlink" title="触发机制"></a>触发机制</h2><h2 id="实现方式"><a href="#实现方式" class="headerlink" title="实现方式"></a>实现方式</h2><h2 id="实现原理"><a href="#实现原理" class="headerlink" title="实现原理"></a>实现原理</h2><h2 id="执行流程"><a href="#执行流程" class="headerlink" title="执行流程"></a>执行流程</h2><h3 id="命令追加-append"><a href="#命令追加-append" class="headerlink" title="命令追加(append)"></a>命令追加(append)</h3><p>将Redis的写命令追加到缓冲区aof_buf</p>
+<h3 id="文件写入-write-和文件同步-sync"><a href="#文件写入-write-和文件同步-sync" class="headerlink" title="文件写入(write)和文件同步(sync)"></a>文件写入(write)和文件同步(sync)</h3><p>根据不同的同步策略将aof_buf中的内容同步到硬盘；<br>AOF缓存区的同步文件策略由参数<code>appendfsync</code>控制</p>
+<ul>
+<li><strong>no</strong>:命令写入aof_buf后调用系统write操作，不对AOF文件做fsync同步； 同步由操作系统负责，通常同步周期为30秒。<ul>
+<li>存在问题:这种情况下，文件同步的时间不可控， 且缓冲区中堆积的数据会很多，数据安全性无法保证。</li>
+</ul>
+</li>
+<li><strong>always</strong>:命令写入aof_buf后立即调用系统fsync操作同步到AOF文件，fsync完成后线程返回。 这种情况下，每次有写命令都要同步到AOF文件，硬盘IO成为性能瓶颈，<ul>
+<li>存在问题:Redis只能支持大约几百TPS写入，严重降低了Redis的性能； 即便是使用固态硬盘（SSD），每秒大约也只能处理几万个命令， 而且会大大降低SSD的寿命。</li>
+</ul>
+</li>
+<li><strong>everysec</strong>:命令写入aof_buf后调用系统write操作，write完成后线程返回； fsync同步文件操作由专门的线程每秒调用一次。 <ul>
+<li>everysec是前述两种策略的折中，是性能和数据安全性的平衡， 因此是Redis的默认配置，也是我们推荐的配置。</li>
+</ul>
+</li>
+</ul>
+<h4 id="everysec刷盘机制"><a href="#everysec刷盘机制" class="headerlink" title="everysec刷盘机制"></a>everysec刷盘机制</h4><blockquote>
+<p>存在问题</p>
+<ol>
+<li>如果硬盘负载过高，那么fsync操作可能会超过1s； </li>
+<li>如果Redis主线程持续高速向aof_buf写入命令，硬盘的负载可能会越来越大，IO资源消耗更快 </li>
+<li>如果此时Redis进程异常退出，丢失的数据也会越来越多，可能远超过1s。</li>
+</ol>
+<p>处理策略</p>
+<ol>
+<li>主线程每次进行AOF会对比上次fsync成功的时间； </li>
+<li>如果距上次不到2s，主线程直接返回； </li>
+<li>如果超过2s，则主线程阻塞直到fsync同步完成。</li>
+</ol>
+<p>AOF追加阻塞问题定位的方法</p>
+<ol>
+<li>监控info Persistence中的<code>aof_delayed_fsync</code>：当AOF追加阻塞发生时（即主线程等待fsync而阻塞），该指标累加。</li>
+<li>AOF阻塞时的Redis日志：Asynchronous AOF fsync is taking too long (disk is busy?). Writing the AOF buffer without waiting for fsync to complete, this may slow down Redis.</li>
+<li>如果AOF追加阻塞频繁发生，说明系统的硬盘负载太大；可通过IO监控分析工具对系统的IO负载进行分析，如iostat（系统级io）、iotop（io版的top）、pidstat等，如果是存储介质瓶颈可以考虑更换IO速度更快的硬盘。</li>
+</ol>
+<p>处理结果<br>如果系统硬盘负载过大导致fsync速度太慢，会导致Redis主线程的阻塞；<br>使用everysec配置，AOF最多可能丢失2s的数据，而不是1s。</p>
+</blockquote>
+<h3 id="文件重写-rewrite"><a href="#文件重写-rewrite" class="headerlink" title="文件重写(rewrite)"></a>文件重写(rewrite)</h3><h4 id="rewrite出现的背景"><a href="#rewrite出现的背景" class="headerlink" title="rewrite出现的背景"></a>rewrite出现的背景</h4><p>随着时间流逝，Redis服务器执行的写命令越来越多，AOF文件也会越来越大；<br>过大的AOF文件不仅会影响服务器的正常运行，也会导致数据恢复需要的时间过长。</p>
+<h4 id="rwrite的作用"><a href="#rwrite的作用" class="headerlink" title="rwrite的作用"></a>rwrite的作用</h4><ul>
+<li>减少文件占用的空间</li>
+<li>加快恢复速度</li>
+</ul>
+<h4 id="rewrite为什么能压缩aof日志"><a href="#rewrite为什么能压缩aof日志" class="headerlink" title="rewrite为什么能压缩aof日志"></a>rewrite为什么能压缩aof日志</h4><ul>
+<li>过期的数据不再写入文件</li>
+<li>无效的命令不再写入文件<ul>
+<li>有些数据被重复设值(set mykey v1, set mykey v2)</li>
+<li>有些数据被删除了(sadd myset v1, del myset)</li>
+</ul>
+</li>
+<li>多条命令可以合并为一个<ul>
+<li>如sadd myset v1, sadd myset v2, sadd myset v3 可以合并为sadd myset v1 v2 v3,不过为了防止单条命令过大造成客户端缓冲区溢出，对于list、set、hash、zset类型的key，并不一定只使用一条命令； 而是以某个常量为界将命令拆分为多条。</li>
+<li>这个常量在redis.h/REDIS_AOF_REWRITE_ITEMS_PER_CMD中定义，不可更改， 3.0版本中值是64。</li>
+</ul>
+</li>
+</ul>
+<h4 id="rewrite注意事项"><a href="#rewrite注意事项" class="headerlink" title="rewrite注意事项"></a>rewrite注意事项</h4><ul>
+<li>AOF重写是把Redis进程内的数据转化为写命令，同步到新的AOF文件；不会对旧的AOF文件进行任何读取、写入操作!</li>
+<li>对于AOF持久化来说，文件重写虽然是强烈推荐的，但并不是必须的；即使没有文件重写，数据也可以被持久化并在Redis启动的时候导入；</li>
+<li>在一些实现中，会关闭自动的文件重写，然后通过定时任务在每天的某一时刻定时执行。</li>
+</ul>
+<h4 id="rewrite的触发"><a href="#rewrite的触发" class="headerlink" title="rewrite的触发"></a>rewrite的触发</h4><ul>
+<li>手动触发：bgrewriteaof</li>
+<li>自动触发<ul>
+<li>根据<code>auto-aof-rewrite-min-size</code>和<code>auto-aof-rewrite-percentage</code>参数， 以及<code>aof_current_size</code>和<code>aof_base_size</code>状态确定触发时机。</li>
+<li>auto-aof-rewrite-min-size 执行AOF重写时，文件的最小体积默认值为64MB</li>
+<li>auto-aof-rewrite-percentage 执行AOF重写时，当前AOF大小(即aof_current_size)和上一次重写时AOF大小(aof_base_size)的比值，默认值为100。</li>
+</ul>
+</li>
+</ul>
+<h4 id="rewrite重写流程"><a href="#rewrite重写流程" class="headerlink" title="rewrite重写流程"></a>rewrite重写流程</h4><p><img src="aof_rewrite.png" alt="aof_rewrite"></p>
+<ol>
+<li>Redis父进程首先判断当前是否存在正在执行<code>bgsave</code>/<code>bgrewriteaof</code>的子进程，<ul>
+<li>如果存在则<code>bgrewriteaof</code>命令直接返回，</li>
+<li>如果存在<code>bgsave</code>命令则等bgsave执行完成后再执行。这个主要是基于性能方面的考虑。</li>
+</ul>
+</li>
+<li>父进程执行fork操作创建子进程，这个过程中父进程是阻塞的。</li>
+<li>父进程fork后，bgrewriteaof命令返回”Background append only file rewrite started”信息并不再阻塞父进程，并可以响应其他命令,Redis的所有写命令依然写入AOF缓冲区，并根据appendfsync策略同步到硬盘，保证原有AOF机制的正确(3.1)。<ul>
+<li>由于fork操作使用<code>写时复制</code>技术，子进程只能共享fork操作时的内存数据。由于父进程依然在响应命令，因此Redis使用<code>AOF重写缓冲区</code>(图中的<code>aof_rewrite_buf</code>)保存这部分数据，防止新AOF文件生成期间丢失这部分数据。也就是说，bgrewriteaof执行期间，Redis的写命令同时追加到<code>aof_buf</code>和<code>aof_rewirte_buf</code>两个缓冲区(3.2)。</li>
+</ul>
+</li>
+<li>子进程根据内存快照，按照命令合并规则写入到新的AOF文件。</li>
+<li>子进程写完新的AOF文件后，向父进程发信号，父进程更新统计信息，具体可以通过<code>info persistence</code>查看(5.1)。</li>
+<li>父进程把AOF重写缓冲区的数据写入到新的AOF文件，这样就保证了新AOF文件所保存的数据库状态和服务器当前状态一致(5.2)。</li>
+<li>使用新的AOF文件替换老文件，完成AOF重写(5.3)。</li>
+</ol>
+<blockquote>
+<p>注意</p>
+<ul>
+<li>重写由父进程fork子进程进行</li>
+<li>重写期间Redis执行的写命令，需要追加到新的AOF文件中， 为此Redis引入了<code>aof_rewrite_buf</code>缓存</li>
+</ul>
+</blockquote>
+<h2 id="优缺点"><a href="#优缺点" class="headerlink" title="优缺点"></a>优缺点</h2><h3 id="优点-1"><a href="#优点-1" class="headerlink" title="优点"></a>优点</h3><ul>
+<li>更安全的持久化， 更多样化的fsync策略</li>
+<li>appendOnlyLog保证日志数据的安全性， 且能修复尾部异常的日志数据</li>
+<li>自带日志重写机制，日志文件过大时， 会根据当前数据重写生成一个更小的日志文件</li>
+<li>日志内容和redis命令一致，可读性强， 特殊情况可修改后再恢复数据</li>
+</ul>
+<h3 id="缺点-1"><a href="#缺点-1" class="headerlink" title="缺点"></a>缺点</h3><ul>
+<li>AOF文件比RDB文件更占用磁盘空间</li>
+<li>AOF的sync策略为everyseconds或always时性能比RDB差</li>
+<li>没有RDB稳健</li>
+</ul>
+<h1 id="关闭持久化"><a href="#关闭持久化" class="headerlink" title="关闭持久化"></a>关闭持久化</h1><p>save “”<br>appendonly no</p>
+<h1 id="如何选择"><a href="#如何选择" class="headerlink" title="如何选择"></a>如何选择</h1><h2 id="关闭持久化-1"><a href="#关闭持久化-1" class="headerlink" title="关闭持久化"></a>关闭持久化</h2><ul>
+<li>Redis中的数据完全丢弃也没有关系</li>
+<li>如Redis完全用作DB层数据的cache</li>
+</ul>
+<h2 id="使用RDB"><a href="#使用RDB" class="headerlink" title="使用RDB"></a>使用RDB</h2><ul>
+<li>单机环境下，可以接受十几分钟或更多的数据丢失</li>
+<li>允许服务器宕机时一段时间内的数据丢失</li>
+</ul>
+<h2 id="使用AOF"><a href="#使用AOF" class="headerlink" title="使用AOF"></a>使用AOF</h2><ul>
+<li>只能接受秒级别的数据丢失</li>
+</ul>
+<h2 id="同时开启RDB和AOF持久化"><a href="#同时开启RDB和AOF持久化" class="headerlink" title="同时开启RDB和AOF持久化"></a>同时开启RDB和AOF持久化</h2><blockquote>
+<p>redis表示未来可能会合并RDB和AOF</p>
+</blockquote>
+<h3 id="master节点"><a href="#master节点" class="headerlink" title="master节点"></a>master节点</h3><p>完全关闭持久化</p>
+<h3 id="slave节点"><a href="#slave节点" class="headerlink" title="slave节点"></a>slave节点</h3><ul>
+<li><p>功能</p>
+<ul>
+<li>实现数据的热备</li>
+<li>读写分离分担Redis读请求</li>
+<li>master宕掉后继续提供服务</li>
+</ul>
+</li>
+<li><p>关闭RDB，开启AOF</p>
+</li>
+<li>定时对AOF文件进行备份</li>
+<li>关闭AOF的自动重写， 添加定时任务，在每天Redis闲时（如凌晨12点）调用<code>bgrewriteaof</code>。</li>
+</ul>
+<h1 id="异地灾备"><a href="#异地灾备" class="headerlink" title="异地灾备"></a>异地灾备</h1><h2 id="主从集群灾备"><a href="#主从集群灾备" class="headerlink" title="主从集群灾备"></a>主从集群灾备</h2><ul>
+<li>rdb：可以定时在master上执行<code>bgsave</code>， 然后将RDB文件通过scp拷贝到远程机器，一般来说，由于RDB文件文件小、恢复快，因此<code>灾难恢复</code>常用RDB文件；</li>
+<li>aof：在slave上执行<code>bgrewriteaof</code>重写AOF文件后，将AOF文件拷贝到远程机器上。</li>
+</ul>
+<h2 id="单机灾备"><a href="#单机灾备" class="headerlink" title="单机灾备"></a>单机灾备</h2><p>可以定时将RDB文件或重写后的AOF文件，通过scp拷贝到远程机器，如阿里云、AWS等</p>
+<h2 id="备份频率"><a href="#备份频率" class="headerlink" title="备份频率"></a>备份频率</h2><p>异地备份的频率根据数据安全性的需要及其他条件来确定，但最好不要低于<code>一天一次</code>。</p>
+<h1 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h1><ul>
+<li><a href="https://www.cnblogs.com/kismetv/p/9137897.html">深入学习Redis（2）：持久化</a></li>
+</ul>
+
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/%E7%BC%93%E5%AD%98/" rel="tag"># 缓存</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2020/01/02/Hbase%E7%9A%84%E8%83%8C%E6%99%AF%E7%9F%A5%E8%AF%86/" rel="prev" title="Hbase背景知识">
+      <i class="fa fa-chevron-left"></i> Hbase背景知识
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/2020/02/05/%E6%B5%85%E6%9E%90Java%E4%B8%AD%E7%9A%84%E9%94%81/" rel="next" title="浅析Java中的锁">
+      浅析Java中的锁 <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+  </div>
+
+
+          </div>
+          
+    <div class="comments" id="gitalk-container"></div>
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let activeClass = CONFIG.comments.activeClass;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#RDB快照"><span class="nav-number">1.</span> <span class="nav-text">RDB快照</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#RDB文件格式"><span class="nav-number">1.1.</span> <span class="nav-text">RDB文件格式</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#RDB控制参数"><span class="nav-number">1.2.</span> <span class="nav-text">RDB控制参数</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#RDB触发机制"><span class="nav-number">1.3.</span> <span class="nav-text">RDB触发机制</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#save的默认触发条件"><span class="nav-number">1.3.1.</span> <span class="nav-text">save的默认触发条件</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#从节点同步时"><span class="nav-number">1.3.2.</span> <span class="nav-text">从节点同步时</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#shutdown时"><span class="nav-number">1.3.3.</span> <span class="nav-text">shutdown时</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#RDB实现方式"><span class="nav-number">1.4.</span> <span class="nav-text">RDB实现方式</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#save命令"><span class="nav-number">1.4.1.</span> <span class="nav-text">save命令</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#bgsave命令"><span class="nav-number">1.4.2.</span> <span class="nav-text">bgsave命令</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#RDB实现原理"><span class="nav-number">1.5.</span> <span class="nav-text">RDB实现原理</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#RDB执行流程"><span class="nav-number">1.6.</span> <span class="nav-text">RDB执行流程</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#RDB优缺点"><span class="nav-number">1.7.</span> <span class="nav-text">RDB优缺点</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#优点"><span class="nav-number">1.7.1.</span> <span class="nav-text">优点</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#缺点"><span class="nav-number">1.7.2.</span> <span class="nav-text">缺点</span></a></li></ol></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#AOF日志"><span class="nav-number">2.</span> <span class="nav-text">AOF日志</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#文件格式"><span class="nav-number">2.1.</span> <span class="nav-text">文件格式</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#控制参数"><span class="nav-number">2.2.</span> <span class="nav-text">控制参数</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#触发机制"><span class="nav-number">2.3.</span> <span class="nav-text">触发机制</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#实现方式"><span class="nav-number">2.4.</span> <span class="nav-text">实现方式</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#实现原理"><span class="nav-number">2.5.</span> <span class="nav-text">实现原理</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#执行流程"><span class="nav-number">2.6.</span> <span class="nav-text">执行流程</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#命令追加-append"><span class="nav-number">2.6.1.</span> <span class="nav-text">命令追加(append)</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#文件写入-write-和文件同步-sync"><span class="nav-number">2.6.2.</span> <span class="nav-text">文件写入(write)和文件同步(sync)</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#everysec刷盘机制"><span class="nav-number">2.6.2.1.</span> <span class="nav-text">everysec刷盘机制</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#文件重写-rewrite"><span class="nav-number">2.6.3.</span> <span class="nav-text">文件重写(rewrite)</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#rewrite出现的背景"><span class="nav-number">2.6.3.1.</span> <span class="nav-text">rewrite出现的背景</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#rwrite的作用"><span class="nav-number">2.6.3.2.</span> <span class="nav-text">rwrite的作用</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#rewrite为什么能压缩aof日志"><span class="nav-number">2.6.3.3.</span> <span class="nav-text">rewrite为什么能压缩aof日志</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#rewrite注意事项"><span class="nav-number">2.6.3.4.</span> <span class="nav-text">rewrite注意事项</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#rewrite的触发"><span class="nav-number">2.6.3.5.</span> <span class="nav-text">rewrite的触发</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#rewrite重写流程"><span class="nav-number">2.6.3.6.</span> <span class="nav-text">rewrite重写流程</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#优缺点"><span class="nav-number">2.7.</span> <span class="nav-text">优缺点</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#优点-1"><span class="nav-number">2.7.1.</span> <span class="nav-text">优点</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#缺点-1"><span class="nav-number">2.7.2.</span> <span class="nav-text">缺点</span></a></li></ol></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#关闭持久化"><span class="nav-number">3.</span> <span class="nav-text">关闭持久化</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#如何选择"><span class="nav-number">4.</span> <span class="nav-text">如何选择</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#关闭持久化-1"><span class="nav-number">4.1.</span> <span class="nav-text">关闭持久化</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#使用RDB"><span class="nav-number">4.2.</span> <span class="nav-text">使用RDB</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#使用AOF"><span class="nav-number">4.3.</span> <span class="nav-text">使用AOF</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#同时开启RDB和AOF持久化"><span class="nav-number">4.4.</span> <span class="nav-text">同时开启RDB和AOF持久化</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#master节点"><span class="nav-number">4.4.1.</span> <span class="nav-text">master节点</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#slave节点"><span class="nav-number">4.4.2.</span> <span class="nav-text">slave节点</span></a></li></ol></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#异地灾备"><span class="nav-number">5.</span> <span class="nav-text">异地灾备</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#主从集群灾备"><span class="nav-number">5.1.</span> <span class="nav-text">主从集群灾备</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#单机灾备"><span class="nav-number">5.2.</span> <span class="nav-text">单机灾备</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#备份频率"><span class="nav-number">5.3.</span> <span class="nav-text">备份频率</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#参考"><span class="nav-number">6.</span> <span class="nav-text">参考</span></a></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">geosmart</p>
+  <div class="site-description" itemprop="description"></div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">199</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+          
+        <span class="site-state-item-count">15</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">118</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+        <a href="https://github.com/geosmart" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;geosmart" rel="noopener" target="_blank"><i class="fa fa-fw fa-github"></i>GitHub</a>
+      </span>
+  </div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2021</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">geosmart</span>
+</div>
+
+        
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/pisces.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+  
+<script src="/js/local-search.js"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+      
+
+<script>
+  if (typeof MathJax === 'undefined') {
+    window.MathJax = {
+      tex: {
+        inlineMath: {'[+]': [['$', '$']]},
+        tags: 'ams'
+      },
+      options: {
+        renderActions: {
+          findScript: [10, doc => {
+            document.querySelectorAll('script[type^="math/tex"]').forEach(node => {
+              const display = !!node.type.match(/; *mode=display/);
+              const math = new doc.options.MathItem(node.textContent, doc.inputJax[0], display);
+              const text = document.createTextNode('');
+              node.parentNode.replaceChild(text, node);
+              math.start = {node: text, delim: '', n: 0};
+              math.end = {node: text, delim: '', n: 0};
+              doc.math.push(math);
+            });
+          }, '', false],
+          insertedScript: [200, () => {
+            document.querySelectorAll('mjx-container').forEach(node => {
+              let target = node.parentNode;
+              if (target.nodeName.toLowerCase() === 'li') {
+                target.parentNode.classList.add('has-jax');
+              }
+            });
+          }, '', false]
+        }
+      }
+    };
+    (function () {
+      var script = document.createElement('script');
+      script.src = '//cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js';
+      script.defer = true;
+      document.head.appendChild(script);
+    })();
+  } else {
+    MathJax.startup.document.state(0);
+    MathJax.texReset();
+    MathJax.typeset();
+  }
+</script>
+
+    
+
+  
+
+<link rel="stylesheet" href="//cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.min.css">
+
+<script>
+NexT.utils.loadComments(document.querySelector('#gitalk-container'), () => {
+  NexT.utils.getScript('//cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.min.js', () => {
+    var gitalk = new Gitalk({
+      clientID    : '8a29a27c357a64ed79fd',
+      clientSecret: 'fe1b781c49fa9037803f3c4d3e94fbb677abac4d',
+      repo        : 'geosmart.github.io',
+      owner       : 'geosmart',
+      admin       : ['geosmart'],
+      id          : '8ac4ce839e1c807b127b3620128c3359',
+        language: 'zh-CN',
+      distractionFreeMode: true
+    });
+    gitalk.render('gitalk-container');
+  }, window.Gitalk);
+});
+</script>
+
+</body>
+</html>

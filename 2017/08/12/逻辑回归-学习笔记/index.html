@@ -1,0 +1,596 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 4.2.1">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css">
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"geosmart.github.io","root":"/","scheme":"Pisces","version":"7.7.1","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.xml"};
+  </script>
+
+  <meta name="description" content="逻辑回归-学习笔记学习任何东西都可以按照3W的框架进行，容器技术也是一样，先回答 What、Why 和 How 这三个问题。 参考 逻辑回归原理 逻辑回归 Fun with Logistic Regression.ipynb  概述辑回归是一个分类算法，它可以处理二元分类以及多元分类。虽然它名字里面有“回归”两个字，却不是一个回归算法。那为什么有“回归”这个误导性的词呢？个人认为，虽然逻辑回归是分">
+<meta property="og:type" content="article">
+<meta property="og:title" content="逻辑回归-学习笔记">
+<meta property="og:url" content="http://geosmart.github.io/2017/08/12/%E9%80%BB%E8%BE%91%E5%9B%9E%E5%BD%92-%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/index.html">
+<meta property="og:site_name" content="geosmart.io">
+<meta property="og:description" content="逻辑回归-学习笔记学习任何东西都可以按照3W的框架进行，容器技术也是一样，先回答 What、Why 和 How 这三个问题。 参考 逻辑回归原理 逻辑回归 Fun with Logistic Regression.ipynb  概述辑回归是一个分类算法，它可以处理二元分类以及多元分类。虽然它名字里面有“回归”两个字，却不是一个回归算法。那为什么有“回归”这个误导性的词呢？个人认为，虽然逻辑回归是分">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2017-08-12T16:00:00.000Z">
+<meta property="article:modified_time" content="2021-12-15T01:13:12.853Z">
+<meta property="article:author" content="geosmart">
+<meta property="article:tag" content="AI">
+<meta name="twitter:card" content="summary">
+
+<link rel="canonical" href="http://geosmart.github.io/2017/08/12/%E9%80%BB%E8%BE%91%E5%9B%9E%E5%BD%92-%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome: false,
+    isPost: true
+  };
+</script>
+
+  <title>逻辑回归-学习笔记 | geosmart.io</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <div>
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">geosmart.io</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+        <p class="site-subtitle">勿助勿忘，深造自得</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+<nav class="site-nav">
+  
+  <ul id="menu" class="menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-fw fa-home"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-about">
+
+    <a href="/about/" rel="section"><i class="fa fa-fw fa-user"></i>关于</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="fa fa-fw fa-tags"></i>标签</a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/categories/" rel="section"><i class="fa fa-fw fa-th"></i>分类</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-fw fa-archive"></i>归档</a>
+
+  </li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜索
+        </a>
+      </li>
+  </ul>
+
+</nav>
+  <div class="site-search">
+    <div class="popup search-popup">
+    <div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocorrect="off" autocapitalize="off"
+           placeholder="搜索..." spellcheck="false"
+           type="search" class="search-input">
+  </div>
+  <span class="popup-btn-close">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div id="search-result"></div>
+
+</div>
+<div class="search-pop-overlay"></div>
+
+  </div>
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+  <a href="https://github.com/geosmart" class="github-corner" title="Follow me on GitHub" aria-label="Follow me on GitHub" rel="noopener" target="_blank"><svg width="80" height="80" viewBox="0 0 250 250" aria-hidden="true"><path d="M0,0 L115,115 L130,115 L142,142 L250,250 L250,0 Z"></path><path d="M128.3,109.0 C113.8,99.7 119.0,89.6 119.0,89.6 C122.0,82.7 120.5,78.6 120.5,78.6 C119.2,72.0 123.4,76.3 123.4,76.3 C127.3,80.9 125.5,87.3 125.5,87.3 C122.9,97.6 130.6,101.9 134.4,103.2" fill="currentColor" style="transform-origin: 130px 106px;" class="octo-arm"></path><path d="M115.0,115.0 C114.9,115.1 118.7,116.5 119.8,115.4 L133.7,101.6 C136.9,99.2 139.9,98.4 142.2,98.6 C133.8,88.0 127.5,74.4 143.8,58.0 C148.5,53.4 154.0,51.2 159.7,51.0 C160.3,49.4 163.2,43.6 171.4,40.1 C171.4,40.1 176.1,42.5 178.8,56.2 C183.1,58.6 187.2,61.8 190.9,65.4 C194.5,69.0 197.7,73.2 200.1,77.6 C213.8,80.2 216.3,84.9 216.3,84.9 C212.7,93.1 206.9,96.0 205.4,96.6 C205.1,102.4 203.0,107.8 198.3,112.5 C181.9,128.9 168.3,122.5 157.7,114.1 C157.9,116.9 156.7,120.9 152.7,124.9 L141.0,136.5 C139.8,137.7 141.6,141.9 141.8,141.8 Z" fill="currentColor" class="octo-body"></path></svg></a>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content">
+            
+
+  <div class="posts-expand">
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block " lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://geosmart.github.io/2017/08/12/%E9%80%BB%E8%BE%91%E5%9B%9E%E5%BD%92-%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="geosmart">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="geosmart.io">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          逻辑回归-学习笔记
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：13   八月   2017 0:00:00" itemprop="dateCreated datePublished" datetime="2017-08-13T00:00:00+08:00">13   八月   2017</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：15   十二月   2021 9:13:12" itemprop="dateModified" datetime="2021-12-15T09:13:12+08:00">15   十二月   2021</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/" itemprop="url" rel="index"><span itemprop="name">机器学习</span></a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <h1 id="逻辑回归-学习笔记"><a href="#逻辑回归-学习笔记" class="headerlink" title="逻辑回归-学习笔记"></a>逻辑回归-学习笔记</h1><p>学习任何东西都可以按照3W的框架进行，容器技术也是一样，先回答 What、Why 和 How 这三个问题。</p>
+<h2 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h2><ul>
+<li><a href="http://www.cnblogs.com/pinard/p/6029432.html">逻辑回归原理</a></li>
+<li><a href="http://m.blog.csdn.net/pakko/article/details/37878837">逻辑回归</a></li>
+<li><a href="https://gist.github.com/vietjtnguyen/6655020">Fun with Logistic Regression.ipynb</a></li>
+</ul>
+<h1 id="概述"><a href="#概述" class="headerlink" title="概述"></a>概述</h1><p>辑回归是一个分类算法，它可以处理二元分类以及多元分类。<br>虽然它名字里面有“回归”两个字，却不是一个回归算法。<br>那为什么有“回归”这个误导性的词呢？<br>个人认为，虽然逻辑回归是分类模型，但是它的原理里面却残留着回归模型的影子，</p>
+<h2 id="从线性回归到逻辑回归"><a href="#从线性回归到逻辑回归" class="headerlink" title="从线性回归到逻辑回归"></a>从线性回归到逻辑回归</h2><p>线性回归的模型是求出<code>输出特征向量Y</code>和<code>输入样本矩阵X</code>之间的<code>线性关系系数θ</code>，满足$Y=X     heta$。<br>此时我们的$Y$是连续的，所以是回归模型。<br>如果我们想要$Y$是离散的话，怎么办呢？我们对于Y再做一次函数转换，变为$g(Y)$。</p>
+<blockquote>
+<p>如果我们令$g(Y)$的值在某个实数区间的时候是类别A，在另一个实数区间的时候是类别B，以此类推，就得到了一个分类模型。如果结果的类别只有两种，那么就是一个二元分类模型了。<br>逻辑回归的出发点就是从这来的。</p>
+</blockquote>
+<h1 id="二元逻辑回归的模型"><a href="#二元逻辑回归的模型" class="headerlink" title="二元逻辑回归的模型"></a>二元逻辑回归的模型</h1><p>对线性回归的结果做一个在函数g上的转换，可以变化为逻辑回归。<br>这个函数g在逻辑回归中我们一般取为sigmoid函数，形式如下：</p>
+<script type="math/tex; mode=display">g(z) = rac {1} {1+e^{-z}}</script><h3 id="模型性质"><a href="#模型性质" class="headerlink" title="模型性质"></a>模型性质</h3><ol>
+<li>当z趋于正无穷时，g(z)趋于1；当z趋于负无穷时，g(z)趋于0（这非常适合分类概率模型）</li>
+<li>对g(z)求导可得到：$g′(z)=g(z)(1−g(z))  $，如果令g(z)中的z为：$z=xθ$，这样就得到了二元逻辑回归模型的一般形式：<script type="math/tex; mode=display">h_{    heta}(x) = rac {1} {1+e^{-x    heta}}</script>其中$x$为样本输入，$h<em>    heta(x)$为模型输出，可以理解为某一分类的概率大小。而$θ$为分类模型的要求出的模型参数。<br>对于模型输出$h</em>    heta(x)$，我们让它和我们的二元样本输出$y$（假设为0和1）有这样的对应关系，<br>如果$h<em>    heta(x)&gt;0.5 $，即$x</em>    heta&gt;0$, 则$y$为1。<br>如果$h<em>    heta(x)&lt;0.5$，即$x</em>    heta&lt;0$, 则$y$为0。<br>$y=0.5$是临界情况，此时$x_    heta=0$， 从逻辑回归模型本身无法确定分类。</li>
+</ol>
+<blockquote>
+<p>$h_    heta(x)$的值越小，而分类为0的的概率越高，反之，值越大的话分类为1的的概率越高。<br>如果靠近临界点，则分类准确率会下降。</p>
+</blockquote>
+<ol>
+<li>模型的矩阵模式：<script type="math/tex; mode=display">h_{    heta}(X) = rac {1} {1+e^{-X    heta}}</script>其中$h_    heta(x)$为模型输出，为$m<em>1$的维度。$X$为样本特征矩阵，为$m</em>n$的维度。$    heta$为分类的模型系数，为$n*1$的向量。</li>
+</ol>
+<p>理解了二元分类回归的模型，就要看模型的损失函数，我们的目标是极小化损失函数来得到对应的模型系数$    heta$。</p>
+<h1 id="二元逻辑回归的损失函数"><a href="#二元逻辑回归的损失函数" class="headerlink" title="二元逻辑回归的损失函数"></a>二元逻辑回归的损失函数</h1><p>由于线性回归是连续的，所以可以使用<code>模型误差的的平方和</code>来定义损失函数。<br>但是逻辑回归不是连续的，自然线性回归损失函数定义的经验就用不上了。<br>不过我们可以用<code>最大似然法</code>来推导出我们的损失函数。</p>
+<p>按照二元逻辑回归的定义，假设我们的样本输出是0或者1两类。那么我们有：</p>
+<script type="math/tex; mode=display">P(y=1|x,    heta ) = h_{    heta}(x)</script><script type="math/tex; mode=display">P(y=0|x,    heta ) = 1- h_{    heta}(x)</script><p>把这两个式子写成一个式子：<script type="math/tex">P(y|x,    heta ) = h_{    heta}(x)^y(1-h_{    heta}(x))^{1-y}</script><br>其中$y$的取值只能是0或者1。<br>用矩阵法表示，即为：<script type="math/tex">P(Y|X,    heta ) = h_{    heta}(X)^Y(E-h_{    heta}(X))^{1-Y}</script><br>其中$E$为单位矩阵。<br>得到了$y$的概率分布函数表达式，我们就可以用<code>似然函数最大化</code>来求解我们需要的模型系数$    heta$。<br>为了方便求解，这里我们用对数似然函数最大化，对数似然函数取反即为我们的损失函数$J(    heta)$。其中：<br>似然函数的代数表达式为：</p>
+<script type="math/tex; mode=display">L(    heta) = \prod\limits_{i=1}^{m}(h_{    heta}(x^{(i)}))^{y^{(i)}}(1-h_{    heta}(x^{(i)}))^{1-y^{(i)}}</script><p>其中m为样本的个数。</p>
+<p>对<code>似然函数对数化取反</code>的表达式，即损失函数表达式为：</p>
+<script type="math/tex; mode=display">J(    heta) = -lnL(    heta) = -\sum\limits_{i=1}^{m}(y^{(i)}log(h_{    heta}(x^{(i)}))+ (1-y^{(i)})log(1-h_{    heta}(x^{(i)})))</script><p>损失函数用<code>矩阵法</code>表达更加简洁：</p>
+<script type="math/tex; mode=display">J(    heta) = -Yullet log(h_{    heta}(X)) - (E-Y)ullet log(E-h_{    heta}(X))</script><p>其中E为单位矩阵$ullet$为内积。</p>
+<h1 id="二元逻辑回归的损失函数的优化方法"><a href="#二元逻辑回归的损失函数的优化方法" class="headerlink" title="二元逻辑回归的损失函数的优化方法"></a>二元逻辑回归的损失函数的优化方法</h1><p>对于二元逻辑回归的损失函数极小化，有比较多的方法，最常见的有<code>梯度下降法</code>，<code>坐标轴下降法</code>，<code>等牛顿法</code>等。<br>这里推导出梯度下降法中$    heta$每次迭代的公式。<br>由于代数法推导比较的繁琐，我习惯于用<code>矩阵法</code>来做损失函数的优化过程，<br>这里给出<code>矩阵法推导二元逻辑回归梯度</code>的过程。</p>
+<p>对于$J(    heta) = -Yullet log(h<em>{    heta}(X)) - (E-Y)ullet log(E-h</em>{    heta}(X))$，<br>我们用$J(    heta)$对$    heta$向量求导可得：</p>
+<script type="math/tex; mode=display">rac{\partial}{\partial    heta}J(    heta) = -Y ullet X^Trac{1}{h_{    heta}(X)}h_{    heta}(X)(1-h_{    heta}(X)) + (E-Y)ullet X^Trac{1}{1-h_{    heta}(X)}h_{    heta}(X)(1-h_{    heta}(X)) = X^T(h_{    heta}(X) - Y )</script><p>这一步我们用到了矩阵求导的链式法则，和下面三个矩阵求导公式：</p>
+<ul>
+<li>$rac{\partial}{\partial X}logX = rac{1}{X}$</li>
+<li>$rac{\partial}{\partial z}g(z) = g(z)(1-g(z))$，   (g(z)为sigmoid函数)</li>
+<li>$rac{\partial}{\partial    heta}X    heta = X^T$</li>
+</ul>
+<p>从而在梯度下降法中每一步向量$    heta$的迭代公式如下：</p>
+<script type="math/tex; mode=display">heta =     heta - lpha X^T(h_{    heta}(X) - Y )</script><p>其中，$lpha$为梯度下降法的步长。<br>实践中，我们一般不用操心优化方法，大部分机器学习库都内置了各种逻辑回归的优化方法，不过了解至少一种优化方法还是有必要的。
+　　　　</p>
+<h1 id="二元逻辑回归的正则化"><a href="#二元逻辑回归的正则化" class="headerlink" title="二元逻辑回归的正则化"></a>二元逻辑回归的正则化</h1><p>逻辑回归也会面临<code>过拟合问题</code>，所以我们也要考虑正则化。常见的有L1正则化和L2正则化。<br>逻辑回归的<code>L1正则化</code>的损失函数表达式如下，相比普通的逻辑回归损失函数，增加了L1的范数做作为惩罚，超参数$lpha$作为惩罚系数，调节惩罚项的大小。</p>
+<p>二元逻辑回归的L1正则化损失函数表达式如下：</p>
+<script type="math/tex; mode=display">J(    heta) = -Yullet logh_{    heta}(X) - (E-Y)ullet log(1-h_{    heta}(X)) + lpha||    heta||_1</script><p>其中$||    heta||_1$为$    heta$的<code>L1范数</code>。<br>逻辑回归的L1正则化损失函数的优化方法常用的有<code>坐标轴下降法</code>和<code>最小角回归法</code>。</p>
+<p>二元逻辑回归的L2正则化损失函数表达式如下：</p>
+<script type="math/tex; mode=display">J(    heta) = -Yullet logh_{    heta}(X) - (E-Y)ullet log(1-h_{    heta}(X)) + rac{1}{2}lpha||    heta||_2^2</script><p>其中$||    heta||_2$为$    heta$的<code>L2范数</code>。<br>逻辑回归的L2正则化损失函数的优化方法和普通的逻辑回归类似。</p>
+<h1 id="二元逻辑回归的推广：多元逻辑回归"><a href="#二元逻辑回归的推广：多元逻辑回归" class="headerlink" title="二元逻辑回归的推广：多元逻辑回归"></a>二元逻辑回归的推广：多元逻辑回归</h1><p>二元逻辑回归的模型和损失函数很容易推广到多元逻辑回归。</p>
+<ul>
+<li>比如总是认为某种类型为正值，其余为0值，这种方法为最常用的是<code>one-vs-reset(OvR)</code>.</li>
+<li><code>Many-vs-Many(MvM)</code>，它会选择一部分类别的样本和另一部分类别的样本来做逻辑回归二分类。</li>
+<li>最常用的是<code>One-Vs-One（OvO）</code>。OvO是MvM的特例。</li>
+</ul>
+<p>我们选择两类样本来做二元逻辑回归，具体如下：<br>首先回顾下二元逻辑回归。</p>
+<script type="math/tex; mode=display">P(y=1|x,    heta ) = h_{    heta}(x) =  rac{1}{1+e^{-x    heta}} = rac{e^{x    heta}}{1+e^{x    heta}}</script><script type="math/tex; mode=display">P(y=0|x,    heta ) = 1- h_{    heta}(x) = rac{1}{1+e^{x    heta}}</script><p>其中$y$只能取到0和1。则有：</p>
+<script type="math/tex; mode=display">lnrac{P(y=1|x,    heta )}{P(y=0|x,    heta)} = x    heta</script><p>如果我们要推广到多元逻辑回归，则模型要稍微做下扩展。<br>我们假设是K元分类模型,即样本输出y的取值为1，2，。。。，K。<br>根据二元逻辑回归的经验，我们有：</p>
+<script type="math/tex; mode=display">lnrac{P(y=1|x,    heta )}{P(y=K|x,    heta)} = x    heta</script><script type="math/tex; mode=display">lnrac{P(y=2|x,    heta )}{P(y=K|x,    heta)} = x    heta</script><script type="math/tex; mode=display">...</script><script type="math/tex; mode=display">lnrac{P(y=K-1|x,    heta )}{P(y=K|x,    heta)} = x    heta_{K-1}</script><p>上面有K-1个方程。<br>加上概率之和为1的方程如下：</p>
+<script type="math/tex; mode=display">\sum\limits_{i=1}^{K}P(y=i|x,    heta ) = 1</script><p>从而得到K个方程，里面有K个逻辑回归的概率分布。<br>解出这个K元一次方程组，得到K元逻辑回归的概率分布如下：</p>
+<script type="math/tex; mode=display">P(y=k|x,    heta ) =  e^{x    heta_k} igg/ 1+\sum\limits_{t=1}^{K-1}e^{x    heta_t},k = 1,2,...K-1</script><script type="math/tex; mode=display">P(y=K|x,    heta ) =  1 igg/ 1+\sum\limits_{t=1}^{K-1}e^{x    heta_t}</script><p>多元逻辑回归的损失函数推导以及优化方法和二元逻辑回归类似</p>
+<h1 id="scikit-learn中的逻辑回归实践"><a href="#scikit-learn中的逻辑回归实践" class="headerlink" title="scikit-learn中的逻辑回归实践"></a>scikit-learn中的逻辑回归实践</h1><p><a href="http://www.cnblogs.com/pinard/p/6035872.html">http://www.cnblogs.com/pinard/p/6035872.html</a></p>
+<h1 id="逻辑回归的优缺点"><a href="#逻辑回归的优缺点" class="headerlink" title="逻辑回归的优缺点"></a>逻辑回归的优缺点</h1><p>逻辑回归尤其是二元逻辑回归是非常常见的模型，训练速度很快，<br>虽然使用起来没有支持向量机（SVM）那么占主流，但是解决普通的分类问题是足够了，训练速度也比起SVM要快不少。<br>如果你要理解机器学习分类算法，那么第一个应该学习的分类算法个人觉得应该是逻辑回归。<br>理解了逻辑回归，其他的分类算法再学习起来应该没有那么难了。</p>
+<h2 id="优点"><a href="#优点" class="headerlink" title="优点"></a>优点</h2><ul>
+<li>实现简单，易于理解和实现；计算代价不高，速度很快，存储资源低；</li>
+<li>实现简单，广泛的应用于工业问题上；</li>
+<li>分类时计算量非常小，速度很快，存储资源低；</li>
+<li>便利的观测样本概率分数；</li>
+<li>对逻辑回归而言，多重共线性并不是问题，它可以结合L2正则化来解决该问题；</li>
+</ul>
+<h2 id="缺点"><a href="#缺点" class="headerlink" title="缺点"></a>缺点</h2><ul>
+<li><p>容易欠拟合，分类精度可能不高<br>why：数据问题？正负样本不均衡，特征不具代表性?</p>
+</li>
+<li><p>过拟合如何处理<br>方法一：尽量减少选取变量的数量<br>方法二：正则化</p>
+</li>
+</ul>
+<h1 id="逻辑回归的应用"><a href="#逻辑回归的应用" class="headerlink" title="逻辑回归的应用"></a>逻辑回归的应用</h1>
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/AI/" rel="tag"># AI</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2017/07/25/GBDT%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/" rel="prev" title="GBDT学习笔记">
+      <i class="fa fa-chevron-left"></i> GBDT学习笔记
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/2017/09/16/Web%E5%BC%80%E5%8F%91%E5%B8%B8%E7%94%A8%E5%8D%8F%E8%AE%AE/" rel="next" title="Web开发常用协议">
+      Web开发常用协议 <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+  </div>
+
+
+          </div>
+          
+    <div class="comments" id="gitalk-container"></div>
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let activeClass = CONFIG.comments.activeClass;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#逻辑回归-学习笔记"><span class="nav-number">1.</span> <span class="nav-text">逻辑回归-学习笔记</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#参考"><span class="nav-number">1.1.</span> <span class="nav-text">参考</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#概述"><span class="nav-number">2.</span> <span class="nav-text">概述</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#从线性回归到逻辑回归"><span class="nav-number">2.1.</span> <span class="nav-text">从线性回归到逻辑回归</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#二元逻辑回归的模型"><span class="nav-number">3.</span> <span class="nav-text">二元逻辑回归的模型</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#模型性质"><span class="nav-number">3.0.1.</span> <span class="nav-text">模型性质</span></a></li></ol></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#二元逻辑回归的损失函数"><span class="nav-number">4.</span> <span class="nav-text">二元逻辑回归的损失函数</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#二元逻辑回归的损失函数的优化方法"><span class="nav-number">5.</span> <span class="nav-text">二元逻辑回归的损失函数的优化方法</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#二元逻辑回归的正则化"><span class="nav-number">6.</span> <span class="nav-text">二元逻辑回归的正则化</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#二元逻辑回归的推广：多元逻辑回归"><span class="nav-number">7.</span> <span class="nav-text">二元逻辑回归的推广：多元逻辑回归</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#scikit-learn中的逻辑回归实践"><span class="nav-number">8.</span> <span class="nav-text">scikit-learn中的逻辑回归实践</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#逻辑回归的优缺点"><span class="nav-number">9.</span> <span class="nav-text">逻辑回归的优缺点</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#优点"><span class="nav-number">9.1.</span> <span class="nav-text">优点</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#缺点"><span class="nav-number">9.2.</span> <span class="nav-text">缺点</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#逻辑回归的应用"><span class="nav-number">10.</span> <span class="nav-text">逻辑回归的应用</span></a></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">geosmart</p>
+  <div class="site-description" itemprop="description"></div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">199</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+          
+        <span class="site-state-item-count">15</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">118</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+        <a href="https://github.com/geosmart" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;geosmart" rel="noopener" target="_blank"><i class="fa fa-fw fa-github"></i>GitHub</a>
+      </span>
+  </div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2021</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">geosmart</span>
+</div>
+
+        
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/pisces.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+  
+<script src="/js/local-search.js"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+      
+
+<script>
+  if (typeof MathJax === 'undefined') {
+    window.MathJax = {
+      tex: {
+        inlineMath: {'[+]': [['$', '$']]},
+        tags: 'ams'
+      },
+      options: {
+        renderActions: {
+          findScript: [10, doc => {
+            document.querySelectorAll('script[type^="math/tex"]').forEach(node => {
+              const display = !!node.type.match(/; *mode=display/);
+              const math = new doc.options.MathItem(node.textContent, doc.inputJax[0], display);
+              const text = document.createTextNode('');
+              node.parentNode.replaceChild(text, node);
+              math.start = {node: text, delim: '', n: 0};
+              math.end = {node: text, delim: '', n: 0};
+              doc.math.push(math);
+            });
+          }, '', false],
+          insertedScript: [200, () => {
+            document.querySelectorAll('mjx-container').forEach(node => {
+              let target = node.parentNode;
+              if (target.nodeName.toLowerCase() === 'li') {
+                target.parentNode.classList.add('has-jax');
+              }
+            });
+          }, '', false]
+        }
+      }
+    };
+    (function () {
+      var script = document.createElement('script');
+      script.src = '//cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js';
+      script.defer = true;
+      document.head.appendChild(script);
+    })();
+  } else {
+    MathJax.startup.document.state(0);
+    MathJax.texReset();
+    MathJax.typeset();
+  }
+</script>
+
+    
+
+  
+
+<link rel="stylesheet" href="//cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.min.css">
+
+<script>
+NexT.utils.loadComments(document.querySelector('#gitalk-container'), () => {
+  NexT.utils.getScript('//cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.min.js', () => {
+    var gitalk = new Gitalk({
+      clientID    : '8a29a27c357a64ed79fd',
+      clientSecret: 'fe1b781c49fa9037803f3c4d3e94fbb677abac4d',
+      repo        : 'geosmart.github.io',
+      owner       : 'geosmart',
+      admin       : ['geosmart'],
+      id          : '8afe725a4cb04cf28e2f2d2f78401dbd',
+        language: 'zh-CN',
+      distractionFreeMode: true
+    });
+    gitalk.render('gitalk-container');
+  }, window.Gitalk);
+});
+</script>
+
+</body>
+</html>

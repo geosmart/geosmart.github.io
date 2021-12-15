@@ -1,0 +1,598 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 4.2.1">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css">
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"geosmart.github.io","root":"/","scheme":"Pisces","version":"7.7.1","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.xml"};
+  </script>
+
+  <meta name="description" content="最近处理一个ETL的项目，技术选型是CDH的Hadoop方案，理所当然离不了Hive数据仓库，记录下Hive学习路上的点滴。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Hive学习笔记">
+<meta property="og:url" content="http://geosmart.github.io/2015/12/06/Hive%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/index.html">
+<meta property="og:site_name" content="geosmart.io">
+<meta property="og:description" content="最近处理一个ETL的项目，技术选型是CDH的Hadoop方案，理所当然离不了Hive数据仓库，记录下Hive学习路上的点滴。">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2015-12-06T13:03:50.000Z">
+<meta property="article:modified_time" content="2021-12-15T01:13:12.814Z">
+<meta property="article:author" content="geosmart">
+<meta property="article:tag" content="分布式">
+<meta property="article:tag" content="Hadoop">
+<meta property="article:tag" content="Hive">
+<meta name="twitter:card" content="summary">
+
+<link rel="canonical" href="http://geosmart.github.io/2015/12/06/Hive%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome: false,
+    isPost: true
+  };
+</script>
+
+  <title>Hive学习笔记 | geosmart.io</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <div>
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">geosmart.io</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+        <p class="site-subtitle">勿助勿忘，深造自得</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+<nav class="site-nav">
+  
+  <ul id="menu" class="menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-fw fa-home"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-about">
+
+    <a href="/about/" rel="section"><i class="fa fa-fw fa-user"></i>关于</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="fa fa-fw fa-tags"></i>标签</a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/categories/" rel="section"><i class="fa fa-fw fa-th"></i>分类</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-fw fa-archive"></i>归档</a>
+
+  </li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜索
+        </a>
+      </li>
+  </ul>
+
+</nav>
+  <div class="site-search">
+    <div class="popup search-popup">
+    <div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocorrect="off" autocapitalize="off"
+           placeholder="搜索..." spellcheck="false"
+           type="search" class="search-input">
+  </div>
+  <span class="popup-btn-close">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div id="search-result"></div>
+
+</div>
+<div class="search-pop-overlay"></div>
+
+  </div>
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+  <a href="https://github.com/geosmart" class="github-corner" title="Follow me on GitHub" aria-label="Follow me on GitHub" rel="noopener" target="_blank"><svg width="80" height="80" viewBox="0 0 250 250" aria-hidden="true"><path d="M0,0 L115,115 L130,115 L142,142 L250,250 L250,0 Z"></path><path d="M128.3,109.0 C113.8,99.7 119.0,89.6 119.0,89.6 C122.0,82.7 120.5,78.6 120.5,78.6 C119.2,72.0 123.4,76.3 123.4,76.3 C127.3,80.9 125.5,87.3 125.5,87.3 C122.9,97.6 130.6,101.9 134.4,103.2" fill="currentColor" style="transform-origin: 130px 106px;" class="octo-arm"></path><path d="M115.0,115.0 C114.9,115.1 118.7,116.5 119.8,115.4 L133.7,101.6 C136.9,99.2 139.9,98.4 142.2,98.6 C133.8,88.0 127.5,74.4 143.8,58.0 C148.5,53.4 154.0,51.2 159.7,51.0 C160.3,49.4 163.2,43.6 171.4,40.1 C171.4,40.1 176.1,42.5 178.8,56.2 C183.1,58.6 187.2,61.8 190.9,65.4 C194.5,69.0 197.7,73.2 200.1,77.6 C213.8,80.2 216.3,84.9 216.3,84.9 C212.7,93.1 206.9,96.0 205.4,96.6 C205.1,102.4 203.0,107.8 198.3,112.5 C181.9,128.9 168.3,122.5 157.7,114.1 C157.9,116.9 156.7,120.9 152.7,124.9 L141.0,136.5 C139.8,137.7 141.6,141.9 141.8,141.8 Z" fill="currentColor" class="octo-body"></path></svg></a>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content">
+            
+
+  <div class="posts-expand">
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block " lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://geosmart.github.io/2015/12/06/Hive%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="geosmart">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="geosmart.io">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          Hive学习笔记
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：6   十二月   2015 21:03:50" itemprop="dateCreated datePublished" datetime="2015-12-06T21:03:50+08:00">6   十二月   2015</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：15   十二月   2021 9:13:12" itemprop="dateModified" datetime="2021-12-15T09:13:12+08:00">15   十二月   2021</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/%E5%A4%A7%E6%95%B0%E6%8D%AE/" itemprop="url" rel="index"><span itemprop="name">大数据</span></a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <p>最近处理一个ETL的项目，技术选型是CDH的Hadoop方案，理所当然离不了Hive数据仓库，记录下Hive学习路上的点滴。<br><a id="more"></a></p>
+<h1 id="Hive简介"><a href="#Hive简介" class="headerlink" title="Hive简介"></a>Hive简介</h1><p>Apache Hive是一个建立在Hadoop架构之上的数据仓库。它能够提供数据的精炼，查询和分析。<br>Hive是建立在 Hadoop 上的数据仓库基础构架。它提供了一系列的工具，可以用来进行数据提取转化加载（ETL）。<br>Hive定义了简单的类 SQL 查询语言，称为 HQL，它允许熟悉 SQL 的用户查询数据。同时，这个语言也允许熟悉 MapReduce 开发者的开发自定义的 mapper 和 reducer 来处理内建的 mapper 和 reducer 无法完成的复杂的分析工作。</p>
+<h1 id="Hive-Maven库"><a href="#Hive-Maven库" class="headerlink" title="Hive Maven库"></a>Hive Maven库</h1><p><a href="http://maven.outofmemory.cn/org.apache.hive/hive-exec/1.1.0/">Hive1.1.0离线包</a></p>
+<h1 id="参考资料"><a href="#参考资料" class="headerlink" title="参考资料"></a>参考资料</h1><p><a href="https://cwiki.apache.org/confluence/display/Hive/Home">Hive 官方Wiki</a></p>
+<h1 id="hive-Maven库"><a href="#hive-Maven库" class="headerlink" title="hive Maven库"></a>hive Maven库</h1><p>有时候中央库的没法下载，但是spring.io提供的CDH的可以。<br><figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">&lt;!-- cdh  repository--&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">repository</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">id</span>&gt;</span>cdh-5.3.0<span class="tag">&lt;/<span class="name">id</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">url</span>&gt;</span>http://repo.spring.io/libs-release-remote/<span class="tag">&lt;/<span class="name">url</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">repository</span>&gt;</span></span><br><span class="line"></span><br><span class="line"><span class="comment">&lt;!-- hive jdbc --&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">dependency</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>org.apache.hive<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>hive-jdbc<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">version</span>&gt;</span>$&#123;hive.version&#125;<span class="tag">&lt;/<span class="name">version</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></span><br></pre></td></tr></table></figure></p>
+<h1 id="Hive-With-Hbase"><a href="#Hive-With-Hbase" class="headerlink" title="Hive With Hbase"></a>Hive With Hbase</h1><h1 id="Hive存储Hbase数据-测试语句"><a href="#Hive存储Hbase数据-测试语句" class="headerlink" title="Hive存储Hbase数据 测试语句"></a>Hive存储Hbase数据 测试语句</h1><h2 id="参考资料-1"><a href="#参考资料-1" class="headerlink" title="参考资料"></a>参考资料</h2><p><a href="http://zh.hortonworks.com/blog/hbase-via-hive-part-1/">hbase-via-hive1</a><br><a href="http://www.n10k.com/blog/hbase-via-hive-pt2/">hbase-via-hive2</a></p>
+<h2 id="示例SQL"><a href="#示例SQL" class="headerlink" title="示例SQL"></a>示例SQL</h2><figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">CREATE</span> <span class="keyword">TABLE</span>  <span class="keyword">User</span> (userId <span class="keyword">STRING</span>, address <span class="keyword">STRING</span>,<span class="keyword">name</span> <span class="keyword">STRING</span> ,photo <span class="keyword">STRING</span> ,psd <span class="keyword">STRING</span>)</span><br><span class="line"><span class="keyword">STORED</span> <span class="keyword">BY</span> <span class="string">'org.apache.hadoop.hive.hbase.HBaseStorageHandler'</span></span><br><span class="line"><span class="keyword">WITH</span> SERDEPROPERTIES (<span class="string">'hbase.columns.mapping'</span> = <span class="string">':key,f:data'</span>)</span><br><span class="line">TBLPROPERTIES (<span class="string">'hbase.table.name'</span> = <span class="string">'User'</span>);</span><br></pre></td></tr></table></figure>
+<h1 id="hive-新建表"><a href="#hive-新建表" class="headerlink" title="hive 新建表"></a>hive 新建表</h1><figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">CREATE</span> <span class="keyword">EXTERNAL</span> <span class="keyword">TABLE</span> Geocoding_Address (</span><br><span class="line"><span class="keyword">SID</span> <span class="keyword">String</span>,SAddress <span class="keyword">String</span></span><br><span class="line">)</span><br><span class="line"><span class="keyword">ROW</span> <span class="keyword">FORMAT</span> <span class="keyword">DELIMITED</span></span><br><span class="line"><span class="keyword">FIELDS</span> <span class="keyword">TERMINATED</span> <span class="keyword">BY</span> <span class="string">'\t'</span></span><br><span class="line"><span class="keyword">STORED</span> <span class="keyword">AS</span> TEXTFILE;</span><br><span class="line"><span class="comment">--PARTITIONED BY(STR STRING)</span></span><br></pre></td></tr></table></figure>
+<h2 id="hive新增partion"><a href="#hive新增partion" class="headerlink" title="hive新增partion"></a>hive新增partion</h2><p>alter table alter2 add partition (insertdate=’2008-01-01’) location ‘2008/01/01’;</p>
+<h1 id="Hive数据导入"><a href="#Hive数据导入" class="headerlink" title="Hive数据导入"></a>Hive数据导入</h1><h2 id="导入hdfs数据到hive表"><a href="#导入hdfs数据到hive表" class="headerlink" title="导入hdfs数据到hive表"></a>导入hdfs数据到hive表</h2><p><code>load data inpath &#39;/user/uadb/test.txt&#39; into table test ;</code></p>
+<h2 id="导入本地文件到hive表"><a href="#导入本地文件到hive表" class="headerlink" title="导入本地文件到hive表"></a>导入本地文件到hive表</h2><p><code>load data local inpath &#39;/home/uadb/test.txt&#39; into table test ;</code></p>
+<h1 id="Hive自定义函数"><a href="#Hive自定义函数" class="headerlink" title="Hive自定义函数"></a>Hive自定义函数</h1><ul>
+<li><p>UDF:一进一出（ 输入一行输出一行 On-to-one maping ）</p>
+<blockquote>
+<p>transformation of one row value into another one, which can be added with UDFs (User Defined Function);</p>
+</blockquote>
+</li>
+<li><p>UDAF:多进一出（ 输入多行输出一行 Many-to-one maping ）</p>
+<blockquote>
+<p>transformation of multiple row values into one, which can be added with UDAFs (User Defined Aggregate Functions);</p>
+</blockquote>
+</li>
+<li><p>UDTF:一进多出（ 输入一行输出多行 On-to-many maping ）</p>
+<blockquote>
+<p>transformation of one row value into many, which can be added with UDTFs (User Defined Table Functions).</p>
+</blockquote>
+</li>
+</ul>
+<h2 id="查看UDF依赖的jar包"><a href="#查看UDF依赖的jar包" class="headerlink" title="查看UDF依赖的jar包"></a>查看UDF依赖的jar包</h2><p>查看自定义函数依赖的jar包：<code>list jars</code>;</p>
+<h2 id="hue导入-删除jar"><a href="#hue导入-删除jar" class="headerlink" title="hue导入/删除jar"></a>hue导入/删除jar</h2><figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">add  jar /user/hive/test/test.jar;</span><br><span class="line"><span class="keyword">delete</span> jar /<span class="keyword">user</span>/hive/<span class="keyword">test</span>/test.jar;</span><br></pre></td></tr></table></figure>
+<h2 id="新建临时UDF函数"><a href="#新建临时UDF函数" class="headerlink" title="新建临时UDF函数"></a>新建临时UDF函数</h2><figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">create</span> <span class="keyword">temporary</span> <span class="keyword">function</span>  testUDF  <span class="keyword">as</span> <span class="string">"com.lt.uadb.match.udf.SkeletonAddressNodeMapUDF"</span>;</span><br><span class="line"><span class="keyword">select</span> a.skeleton_addressnode,testUDF(a.skeleton_addressnode,<span class="string">'一'</span>)   <span class="keyword">from</span> matchingAddress <span class="keyword">as</span> a</span><br></pre></td></tr></table></figure>
+<h2 id="Hive-UUID"><a href="#Hive-UUID" class="headerlink" title="Hive  UUID"></a>Hive  UUID</h2><p>select reflect(“java.util.UUID”, “randomUUID”) from table</p>
+<h2 id="UDF程序打包"><a href="#UDF程序打包" class="headerlink" title="UDF程序打包"></a>UDF程序打包</h2><p>UDF程序打包有两张方式：</p>
+<ol>
+<li>以类fatjar工具将UDF和依赖打成一个jar包，但是打包部署耗时；</li>
+<li>将jar包分为稳定和经常更新的两类；通过执行add和delete动态添加依赖</li>
+</ol>
+<h2 id="CM中设置Hive自动加载UDTF依赖JAR"><a href="#CM中设置Hive自动加载UDTF依赖JAR" class="headerlink" title="CM中设置Hive自动加载UDTF依赖JAR"></a>CM中设置Hive自动加载UDTF依赖JAR</h2><p><a href="http://blog.csdn.net/xiao_jun_0820/article/details/38302451">参考cloudera mamager中配置hive加载自定义的jar包</a></p>
+<ol>
+<li>进入Hive配置页</li>
+<li>在高级选型中设置<code>Hive 辅助 JAR 目录</code>：<code>/etc/hive/udtflib</code></li>
+<li>设置Gateway Default Group（hive-env.sh 的 Gateway 客户端环境高级配置代码段（安全阀））：<code>HIVE_AUX_JARS_PATH=/etc/hive/udtflib</code></li>
+<li>重启集群，CM会自动将Hive辅助JAR目录中的jar包分发到Hive客户端</li>
+</ol>
+<h2 id="UDF日志查看"><a href="#UDF日志查看" class="headerlink" title="UDF日志查看"></a>UDF日志查看</h2><p>除了开发环境的Junit单元测试外，生产环境的日志查看非常重要，</p>
+<ol>
+<li>通过在hue -jobbrowser中查看syslog；</li>
+<li>通过在YARN的ResourceManager UI中查看Mapreduce打印的详细日志，日志会打印syso的内容；</li>
+</ol>
+<h1 id="Hive-JDBC"><a href="#Hive-JDBC" class="headerlink" title="Hive JDBC"></a>Hive JDBC</h1><p>HiveServer和HiveServer2都有两种模式，分别为嵌入式和单机服务器模式，</p>
+<ol>
+<li>嵌入式URI为”jdbc:hive://“或者”jdbc:hive2://“；</li>
+<li>单机服务器模式的URI为”jdbc:hive://host:port/dbname”或者”jdbc:hive2://host:port/dbname”；</li>
+<li>HiveServer使用的JDBC驱动类为org.apache.hadoop.hive.jdbc.HiveDriver，HiveServer2使用的驱动类为org.apache.hive.jdbc.HiveDriver；</li>
+</ol>
+<h1 id="问题记录"><a href="#问题记录" class="headerlink" title="问题记录"></a>问题记录</h1><h2 id="tmp-hive-on-HDFS-should-be-writable"><a href="#tmp-hive-on-HDFS-should-be-writable" class="headerlink" title="/tmp/hive on HDFS should be writable"></a>/tmp/hive on HDFS should be writable</h2><p>问题日志：Exception in thread “main” java.lang.RuntimeException: java.lang.RuntimeException: The root scratch dir: /tmp/hive on HDFS should be writable. Current permissions are: rwx-wx—x<br>解决方法：</p>
+<ol>
+<li>更新权限hdfs目录权限：<code>hadoop fs -chmod 777 /tmp/hive</code></li>
+<li>hdfs执行：<code>hadoop fs -rm -r /tmp/hive;</code></li>
+<li>local执行：<code>rm -rf /tmp/hive</code></li>
+</ol>
+<h2 id="hive-query-can’t-generate-result-set-via-jdbc"><a href="#hive-query-can’t-generate-result-set-via-jdbc" class="headerlink" title="hive query can’t generate result set via jdbc"></a>hive query can’t generate result set via jdbc</h2><p>解决：Use stmt.execute() for a query that makes a new table. of executeQuery. The executeQuery() is now only for select queries (DML) while execute is probably for DDL (data definition).</p>
+<ul>
+<li>DDL（Data Definition Language 数据定义语言）用于操作对象和对象的属性，这种对象包括数据库本身，以及数据库对象，像：表、视图等等，DDL对这些对象和属性的管理和定义具体表现在Create、Drop和Alter上；  </li>
+<li>DML（Data Manipulation Language 数据操控语言）用于操作数据库对象中包含的数据，也就是说操作的单位是记录；  </li>
+</ul>
+<h2 id="Hive-Jdbc调用UDTF问题"><a href="#Hive-Jdbc调用UDTF问题" class="headerlink" title="Hive Jdbc调用UDTF问题"></a>Hive Jdbc调用UDTF问题</h2><ul>
+<li>问题描述：在Java中以Hive的JDBC接口调用UDTF语句，逐行执行到create temporary function就会报错，但在Hue中（客户端连接）能正常执行</li>
+<li>问题日志<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">org.apache.hive.service.cli.HiveSQLException: Error <span class="keyword">while</span> processing statement: FAILED: Execution Error, <span class="keyword">return</span> code <span class="number">1</span> from org.apache.hadoop.hive.ql.exec.FunctionTask</span><br><span class="line">    at org.apache.hive.service.cli.operation.Operation.toSQLException(Operation.java:<span class="number">315</span>)</span><br></pre></td></tr></table></figure></li>
+<li>解决方案：</li>
+</ul>
+
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/%E5%88%86%E5%B8%83%E5%BC%8F/" rel="tag"># 分布式</a>
+              <a href="/tags/Hadoop/" rel="tag"># Hadoop</a>
+              <a href="/tags/Hive/" rel="tag"># Hive</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2015/11/20/MyEclipse%E5%AE%89%E8%A3%85MapReduceTools%E6%8F%92%E4%BB%B6/" rel="prev" title="MyEclipse安装MapReduceTools插件">
+      <i class="fa fa-chevron-left"></i> MyEclipse安装MapReduceTools插件
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/2015/12/07/Samba%E5%AE%89%E8%A3%85%E9%85%8D%E7%BD%AE%E7%AC%94%E8%AE%B0/" rel="next" title="Samba安装配置笔记">
+      Samba安装配置笔记 <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+  </div>
+
+
+          </div>
+          
+    <div class="comments" id="gitalk-container"></div>
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let activeClass = CONFIG.comments.activeClass;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#Hive简介"><span class="nav-number">1.</span> <span class="nav-text">Hive简介</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Hive-Maven库"><span class="nav-number">2.</span> <span class="nav-text">Hive Maven库</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#参考资料"><span class="nav-number">3.</span> <span class="nav-text">参考资料</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#hive-Maven库"><span class="nav-number">4.</span> <span class="nav-text">hive Maven库</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Hive-With-Hbase"><span class="nav-number">5.</span> <span class="nav-text">Hive With Hbase</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Hive存储Hbase数据-测试语句"><span class="nav-number">6.</span> <span class="nav-text">Hive存储Hbase数据 测试语句</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#参考资料-1"><span class="nav-number">6.1.</span> <span class="nav-text">参考资料</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#示例SQL"><span class="nav-number">6.2.</span> <span class="nav-text">示例SQL</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#hive-新建表"><span class="nav-number">7.</span> <span class="nav-text">hive 新建表</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#hive新增partion"><span class="nav-number">7.1.</span> <span class="nav-text">hive新增partion</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Hive数据导入"><span class="nav-number">8.</span> <span class="nav-text">Hive数据导入</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#导入hdfs数据到hive表"><span class="nav-number">8.1.</span> <span class="nav-text">导入hdfs数据到hive表</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#导入本地文件到hive表"><span class="nav-number">8.2.</span> <span class="nav-text">导入本地文件到hive表</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Hive自定义函数"><span class="nav-number">9.</span> <span class="nav-text">Hive自定义函数</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#查看UDF依赖的jar包"><span class="nav-number">9.1.</span> <span class="nav-text">查看UDF依赖的jar包</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#hue导入-删除jar"><span class="nav-number">9.2.</span> <span class="nav-text">hue导入&#x2F;删除jar</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#新建临时UDF函数"><span class="nav-number">9.3.</span> <span class="nav-text">新建临时UDF函数</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Hive-UUID"><span class="nav-number">9.4.</span> <span class="nav-text">Hive  UUID</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#UDF程序打包"><span class="nav-number">9.5.</span> <span class="nav-text">UDF程序打包</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#CM中设置Hive自动加载UDTF依赖JAR"><span class="nav-number">9.6.</span> <span class="nav-text">CM中设置Hive自动加载UDTF依赖JAR</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#UDF日志查看"><span class="nav-number">9.7.</span> <span class="nav-text">UDF日志查看</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Hive-JDBC"><span class="nav-number">10.</span> <span class="nav-text">Hive JDBC</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#问题记录"><span class="nav-number">11.</span> <span class="nav-text">问题记录</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#tmp-hive-on-HDFS-should-be-writable"><span class="nav-number">11.1.</span> <span class="nav-text">&#x2F;tmp&#x2F;hive on HDFS should be writable</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#hive-query-can’t-generate-result-set-via-jdbc"><span class="nav-number">11.2.</span> <span class="nav-text">hive query can’t generate result set via jdbc</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Hive-Jdbc调用UDTF问题"><span class="nav-number">11.3.</span> <span class="nav-text">Hive Jdbc调用UDTF问题</span></a></li></ol></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">geosmart</p>
+  <div class="site-description" itemprop="description"></div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">199</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+          
+        <span class="site-state-item-count">15</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">118</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+        <a href="https://github.com/geosmart" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;geosmart" rel="noopener" target="_blank"><i class="fa fa-fw fa-github"></i>GitHub</a>
+      </span>
+  </div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2021</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">geosmart</span>
+</div>
+
+        
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/pisces.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+  
+<script src="/js/local-search.js"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+      
+
+<script>
+  if (typeof MathJax === 'undefined') {
+    window.MathJax = {
+      tex: {
+        inlineMath: {'[+]': [['$', '$']]},
+        tags: 'ams'
+      },
+      options: {
+        renderActions: {
+          findScript: [10, doc => {
+            document.querySelectorAll('script[type^="math/tex"]').forEach(node => {
+              const display = !!node.type.match(/; *mode=display/);
+              const math = new doc.options.MathItem(node.textContent, doc.inputJax[0], display);
+              const text = document.createTextNode('');
+              node.parentNode.replaceChild(text, node);
+              math.start = {node: text, delim: '', n: 0};
+              math.end = {node: text, delim: '', n: 0};
+              doc.math.push(math);
+            });
+          }, '', false],
+          insertedScript: [200, () => {
+            document.querySelectorAll('mjx-container').forEach(node => {
+              let target = node.parentNode;
+              if (target.nodeName.toLowerCase() === 'li') {
+                target.parentNode.classList.add('has-jax');
+              }
+            });
+          }, '', false]
+        }
+      }
+    };
+    (function () {
+      var script = document.createElement('script');
+      script.src = '//cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js';
+      script.defer = true;
+      document.head.appendChild(script);
+    })();
+  } else {
+    MathJax.startup.document.state(0);
+    MathJax.texReset();
+    MathJax.typeset();
+  }
+</script>
+
+    
+
+  
+
+<link rel="stylesheet" href="//cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.min.css">
+
+<script>
+NexT.utils.loadComments(document.querySelector('#gitalk-container'), () => {
+  NexT.utils.getScript('//cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.min.js', () => {
+    var gitalk = new Gitalk({
+      clientID    : '8a29a27c357a64ed79fd',
+      clientSecret: 'fe1b781c49fa9037803f3c4d3e94fbb677abac4d',
+      repo        : 'geosmart.github.io',
+      owner       : 'geosmart',
+      admin       : ['geosmart'],
+      id          : 'bdcf4a9b07b8177fe75bf19305b5c447',
+        language: 'zh-CN',
+      distractionFreeMode: true
+    });
+    gitalk.render('gitalk-container');
+  }, window.Gitalk);
+});
+</script>
+
+</body>
+</html>

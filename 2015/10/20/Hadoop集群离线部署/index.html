@@ -1,0 +1,599 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 4.2.1">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css">
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"geosmart.github.io","root":"/","scheme":"Pisces","version":"7.7.1","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.xml"};
+  </script>
+
+  <meta name="description" content="GFW墙的没人性，只能费时费力搞个离线安装教程，一路遇到很多问题，稍微深入了解了一些ClouderaManager的内部实现，步骤概要：IP配置&gt;Host配置&gt;关闭iptables防火墙&gt;关闭SELinux&gt;配置NTP时钟服务&gt;SSH无密码登陆&gt;安装JDK&gt;配置CM安装包&gt;配置Parcel&gt;配置MySQL&gt;初始化SCM数据库&gt;复制到">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Hadoop集群离线部署">
+<meta property="og:url" content="http://geosmart.github.io/2015/10/20/Hadoop%E9%9B%86%E7%BE%A4%E7%A6%BB%E7%BA%BF%E9%83%A8%E7%BD%B2/index.html">
+<meta property="og:site_name" content="geosmart.io">
+<meta property="og:description" content="GFW墙的没人性，只能费时费力搞个离线安装教程，一路遇到很多问题，稍微深入了解了一些ClouderaManager的内部实现，步骤概要：IP配置&gt;Host配置&gt;关闭iptables防火墙&gt;关闭SELinux&gt;配置NTP时钟服务&gt;SSH无密码登陆&gt;安装JDK&gt;配置CM安装包&gt;配置Parcel&gt;配置MySQL&gt;初始化SCM数据库&gt;复制到">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2015-10-20T03:04:32.000Z">
+<meta property="article:modified_time" content="2021-12-15T01:13:12.814Z">
+<meta property="article:author" content="geosmart">
+<meta property="article:tag" content="分布式">
+<meta property="article:tag" content="CDH">
+<meta property="article:tag" content="Hadoop">
+<meta name="twitter:card" content="summary">
+
+<link rel="canonical" href="http://geosmart.github.io/2015/10/20/Hadoop%E9%9B%86%E7%BE%A4%E7%A6%BB%E7%BA%BF%E9%83%A8%E7%BD%B2/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome: false,
+    isPost: true
+  };
+</script>
+
+  <title>Hadoop集群离线部署 | geosmart.io</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <div>
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">geosmart.io</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+        <p class="site-subtitle">勿助勿忘，深造自得</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+<nav class="site-nav">
+  
+  <ul id="menu" class="menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-fw fa-home"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-about">
+
+    <a href="/about/" rel="section"><i class="fa fa-fw fa-user"></i>关于</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="fa fa-fw fa-tags"></i>标签</a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/categories/" rel="section"><i class="fa fa-fw fa-th"></i>分类</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-fw fa-archive"></i>归档</a>
+
+  </li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜索
+        </a>
+      </li>
+  </ul>
+
+</nav>
+  <div class="site-search">
+    <div class="popup search-popup">
+    <div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocorrect="off" autocapitalize="off"
+           placeholder="搜索..." spellcheck="false"
+           type="search" class="search-input">
+  </div>
+  <span class="popup-btn-close">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div id="search-result"></div>
+
+</div>
+<div class="search-pop-overlay"></div>
+
+  </div>
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+  <a href="https://github.com/geosmart" class="github-corner" title="Follow me on GitHub" aria-label="Follow me on GitHub" rel="noopener" target="_blank"><svg width="80" height="80" viewBox="0 0 250 250" aria-hidden="true"><path d="M0,0 L115,115 L130,115 L142,142 L250,250 L250,0 Z"></path><path d="M128.3,109.0 C113.8,99.7 119.0,89.6 119.0,89.6 C122.0,82.7 120.5,78.6 120.5,78.6 C119.2,72.0 123.4,76.3 123.4,76.3 C127.3,80.9 125.5,87.3 125.5,87.3 C122.9,97.6 130.6,101.9 134.4,103.2" fill="currentColor" style="transform-origin: 130px 106px;" class="octo-arm"></path><path d="M115.0,115.0 C114.9,115.1 118.7,116.5 119.8,115.4 L133.7,101.6 C136.9,99.2 139.9,98.4 142.2,98.6 C133.8,88.0 127.5,74.4 143.8,58.0 C148.5,53.4 154.0,51.2 159.7,51.0 C160.3,49.4 163.2,43.6 171.4,40.1 C171.4,40.1 176.1,42.5 178.8,56.2 C183.1,58.6 187.2,61.8 190.9,65.4 C194.5,69.0 197.7,73.2 200.1,77.6 C213.8,80.2 216.3,84.9 216.3,84.9 C212.7,93.1 206.9,96.0 205.4,96.6 C205.1,102.4 203.0,107.8 198.3,112.5 C181.9,128.9 168.3,122.5 157.7,114.1 C157.9,116.9 156.7,120.9 152.7,124.9 L141.0,136.5 C139.8,137.7 141.6,141.9 141.8,141.8 Z" fill="currentColor" class="octo-body"></path></svg></a>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content">
+            
+
+  <div class="posts-expand">
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block " lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://geosmart.github.io/2015/10/20/Hadoop%E9%9B%86%E7%BE%A4%E7%A6%BB%E7%BA%BF%E9%83%A8%E7%BD%B2/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="geosmart">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="geosmart.io">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          Hadoop集群离线部署
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：20   十月   2015 11:04:32" itemprop="dateCreated datePublished" datetime="2015-10-20T11:04:32+08:00">20   十月   2015</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：15   十二月   2021 9:13:12" itemprop="dateModified" datetime="2021-12-15T09:13:12+08:00">15   十二月   2021</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/OPS/" itemprop="url" rel="index"><span itemprop="name">OPS</span></a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <p>GFW墙的没人性，只能费时费力搞个离线安装教程，一路遇到很多问题，稍微深入了解了一些ClouderaManager的内部实现，步骤概要：<br>IP配置&gt;Host配置&gt;关闭iptables防火墙&gt;关闭SELinux&gt;配置NTP时钟服务&gt;SSH无密码登陆&gt;安装JDK&gt;<br>配置CM安装包&gt;配置Parcel&gt;配置MySQL&gt;初始化SCM数据库&gt;复制到Agent机器&gt;<br>启动CM Server&gt;配置Service&gt;设置Server/Agent开机启动</p>
+<hr>
+<a id="more"></a>
+<h1 id="部署文档参考"><a href="#部署文档参考" class="headerlink" title="部署文档参考"></a>部署文档参考</h1><p><a href="http://blog.csdn.net/scgaliguodong123_/article/details/46661881">离线安装Cloudera Manager5.3.4与CDH5.3.4</a><br><a href="http://www.tuicool.com/articles/ENjmeaY">离线安装Cloudera Manager 5和CDH5(最新版5.1.3) 完全教程</a><br><a href="http://www.cnblogs.com/modestmt/p/4540818.html">离线安装 Cloudera ( CDH 5.x )</a><br><a href="http://www.aboutyun.com/thread-8921-1-1.html">离线安装 Cloudera</a><br><a href="http://www.cloudera.com/content/cloudera/zh-CN/documentation/core/v5-3-x/topics/cm_ig_install_path_b.html#cmig_topic_6_6">官方教程</a><br><a href="http://www.cloudera.com/content/www/en-us/documentation/enterprise/latest/topics/cdh_vd_cdh5_maven_repo.html#concept_emz_fg3_kq_unique_2">cdh对应hadoop版本</a></p>
+<h1 id="软件准备"><a href="#软件准备" class="headerlink" title="软件准备"></a>软件准备</h1><p><a href="http://www.cloudera.com/content/www/en-us/documentation/enterprise/latest/topics/cm_vd.html">官方资源地址</a></p>
+<ul>
+<li>JDK7最低版本：1.7.0_67</li>
+<li>cloudera-manager-installer：<a href="http://archive.cloudera.com/cm5/installer/latest/cloudera-manager-installer.bin">下载地址</a></li>
+<li>cloudera-manager-bin:<a href="https://archive.cloudera.com/cm5/cm/5/">下载地址</a></li>
+<li>CDH Parcel：<a href="http://archive.cloudera.com/cdh5/parcels/latest/">下载地址</a></li>
+</ul>
+<h1 id="虚拟机准备"><a href="#虚拟机准备" class="headerlink" title="虚拟机准备"></a>虚拟机准备</h1><p>Cloudera Manager+MySQL</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">Cloudera Manager</span><br><span class="line">HostMonitor</span><br><span class="line">Event Server</span><br><span class="line">Activity Monitor</span><br><span class="line">Service Monitor</span><br><span class="line">Alert Publisher </span><br><span class="line">MySQL</span><br></pre></td></tr></table></figure>
+<p>Master</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">HDFS：Active NameNode</span><br><span class="line">Hbase：Active Master</span><br><span class="line">YARN：Active ResourceManager,JobHistory Server</span><br></pre></td></tr></table></figure>
+<p>Standby Master </p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">HDFS：Standby NameNode、DataNode</span><br><span class="line">Hbase：Standby Master、RegionServer</span><br><span class="line">YARN：Standby ResourceManager,Node Manager</span><br><span class="line">HUE：Hue Server</span><br></pre></td></tr></table></figure>
+<p>Slave1</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">HDFS：DataNode、FailoverController、JournalNode</span><br><span class="line">Hbase：RegionServer</span><br><span class="line">YARN：Node Manager</span><br><span class="line">Impala：Impala CatalogServer,Impala StateStore,Impala lama ApplicationMaster</span><br><span class="line">Oozie：Oozie Server</span><br><span class="line">Hive：Hive Server</span><br><span class="line">Sor：Solr Server</span><br><span class="line">ZoomKeeper：zoomKeeper Server</span><br></pre></td></tr></table></figure>
+<p>Slave2</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">HDFS：DataNode、FailoverController、JournalNode</span><br><span class="line">Hbase：RegionServer</span><br><span class="line">YARN：Node Manager</span><br><span class="line">Impala：Impala Daemon</span><br><span class="line">Hive：Hive Metastore Server</span><br><span class="line">Sor：Solr Server</span><br><span class="line">ZoomKeeper：zoomKeeper Server</span><br></pre></td></tr></table></figure>
+<p>Slave3</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">HDFS：DataNode、FailoverController、JournalNode</span><br><span class="line">Hbase：RegionServer</span><br><span class="line">YARN：Node Manager</span><br><span class="line">Impala：Impala Daemon</span><br><span class="line">Spark：Spark History Server</span><br><span class="line">Hive：Hive Metastore Server</span><br><span class="line">Sor：Solr Server</span><br><span class="line">ZoomKeeper：zoomKeeper Server</span><br></pre></td></tr></table></figure>
+<p>Slave4</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">HDFS：DataNode</span><br><span class="line">Hbase：RegionServer</span><br><span class="line">YARN：Node Manager</span><br><span class="line">Impala：Impala Daemon</span><br></pre></td></tr></table></figure>
+<h1 id="安装JDK"><a href="#安装JDK" class="headerlink" title="安装JDK"></a>安装JDK</h1><p>将 JDK 提取至 /usr/java/jdk-version；例如：/usr/java/jdk1.7.0_80<br>将装有 JDK 的目录通过符号链接至 /usr/java/default；例如：<br>ln -s /usr/java/jdk.1.7.0_80 /usr/java/default </p>
+<h1 id="MySQL数据库配置"><a href="#MySQL数据库配置" class="headerlink" title="MySQL数据库配置"></a>MySQL数据库配置</h1><h2 id="安装配置MySQL"><a href="#安装配置MySQL" class="headerlink" title="安装配置MySQL"></a>安装配置MySQL</h2><h2 id="配置SCM数据库"><a href="#配置SCM数据库" class="headerlink" title="配置SCM数据库"></a>配置SCM数据库</h2><figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">--hive数据库</span></span><br><span class="line"><span class="keyword">create</span> <span class="keyword">database</span> hive <span class="keyword">DEFAULT</span> <span class="keyword">CHARSET</span> utf8 <span class="keyword">COLLATE</span> utf8_general_ci;</span><br><span class="line"><span class="comment">--集群监控数据库</span></span><br><span class="line"><span class="keyword">create</span> <span class="keyword">database</span> amon <span class="keyword">DEFAULT</span> <span class="keyword">CHARSET</span> utf8 <span class="keyword">COLLATE</span> utf8_general_ci;</span><br><span class="line"><span class="comment">--hue数据库</span></span><br><span class="line"><span class="keyword">create</span> <span class="keyword">database</span> hue <span class="keyword">DEFAULT</span> <span class="keyword">CHARSET</span> utf8 <span class="keyword">COLLATE</span> utf8_general_ci;</span><br><span class="line"><span class="comment">--oozie数据库</span></span><br><span class="line"><span class="keyword">create</span> <span class="keyword">database</span> oozie <span class="keyword">DEFAULT</span> <span class="keyword">CHARSET</span> utf8 <span class="keyword">COLLATE</span> utf8_general_ci;</span><br><span class="line"></span><br><span class="line"><span class="keyword">grant</span> <span class="keyword">all</span> <span class="keyword">privileges</span> <span class="keyword">on</span> *.* <span class="keyword">to</span> <span class="string">'root'</span>@<span class="string">'%'</span> <span class="keyword">identified</span> <span class="keyword">by</span> <span class="string">'root'</span> <span class="keyword">with</span> <span class="keyword">grant</span> <span class="keyword">option</span>;</span><br><span class="line"></span><br><span class="line"><span class="keyword">grant</span> <span class="keyword">all</span> <span class="keyword">privileges</span> <span class="keyword">on</span> *.* <span class="keyword">to</span> <span class="string">'root'</span>@<span class="string">'master'</span> <span class="keyword">identified</span> <span class="keyword">by</span> <span class="string">'root'</span> <span class="keyword">with</span> <span class="keyword">grant</span> <span class="keyword">option</span>;</span><br><span class="line"><span class="keyword">grant</span> <span class="keyword">all</span> <span class="keyword">privileges</span> <span class="keyword">on</span> *.* <span class="keyword">to</span> <span class="string">'root'</span>@<span class="string">'192.168.1.100'</span> <span class="keyword">identified</span> <span class="keyword">by</span> <span class="string">'root'</span> <span class="keyword">with</span> <span class="keyword">grant</span> <span class="keyword">option</span>;</span><br><span class="line"><span class="keyword">grant</span> <span class="keyword">all</span> <span class="keyword">privileges</span> <span class="keyword">on</span> *.* <span class="keyword">to</span> <span class="string">'root'</span>@<span class="string">'192.168.1.183'</span> <span class="keyword">identified</span> <span class="keyword">by</span> <span class="string">'root'</span> <span class="keyword">with</span> <span class="keyword">grant</span> <span class="keyword">option</span>;</span><br><span class="line"><span class="keyword">flush</span> <span class="keyword">privileges</span>;</span><br></pre></td></tr></table></figure>
+<h1 id="安装cloudera-manager"><a href="#安装cloudera-manager" class="headerlink" title="安装cloudera-manager"></a>安装cloudera-manager</h1><p>主节点解压安装<br>cloudera manager的目录默认位置在/opt下，<br>解压：<code>cd /opt &amp;&amp; tar xzvf cloudera-manager*.tar.gz</code></p>
+<h1 id="添加cloudera-scm用户："><a href="#添加cloudera-scm用户：" class="headerlink" title="添加cloudera-scm用户："></a>添加cloudera-scm用户：</h1><p>Agent节点执行：useradd —system —home=/opt/cm/run/cloudera-scm-server/ —no-create-home —shell=/bin/false —comment  “Cloudera SCM User” cloudera-scm</p>
+<h1 id="更改cloudera-scm用户目录"><a href="#更改cloudera-scm用户目录" class="headerlink" title="更改cloudera-scm用户目录"></a>更改cloudera-scm用户目录</h1><ul>
+<li>查看用户ID:id cloudera-scm</li>
+<li>查看用户home：echo ~cloudera-scm</li>
+<li>修改用户home：usermod -d /opt/cm/run/cloudera-scm-server/ -u ${用户ID} cloudera-scm<br>如：usermod -d /opt/cm/run/cloudera-scm-server/ -u 493 cloudera-scm</li>
+</ul>
+<h1 id="安装-mysql-connector："><a href="#安装-mysql-connector：" class="headerlink" title="安装 mysql connector："></a>安装 mysql connector：</h1><p><a href="http://www.cloudera.com/content/cloudera/zh-CN/documentation/core/v5-3-x/topics/cm_ig_mysql.html?scroll=cmig_topic_5_5">外部MySQL数据库配置</a><br><a href="http://www.cnblogs.com/peijie-tech/articles/4446011.html">mysql-connector-java与mysql的版本对应关系</a></p>
+<ul>
+<li>下载<a href="http://ftp.ntu.edu.tw/MySQL/Downloads/Connector-J/">mysql-connector-java-5.1.36.tar.gz</a>文件中提取 JDBC 驱动程序 JAR 文件。</li>
+<li>解压：<code>tar zxvf mysql-connector-java-5.1.36.tar.gz</code>，</li>
+<li>解压后找到mysql-connector-java-5.1.33-bin.jar，放到/opt/cm/share/cmf/lib/中。</li>
+</ul>
+<h1 id="初始化CM5的数据库："><a href="#初始化CM5的数据库：" class="headerlink" title="初始化CM5的数据库："></a>初始化CM5的数据库：</h1><p>在SCM主节点初始化SCM数据库<br>格式:scm_prepare_database.sh 数据库类型 数据库 服务器IP 用户名 密码 –scm-host Cloudera_Manager_Server机器IP scm scm scm<br>如：<code>/opt/cm/share/cmf/schema/scm_prepare_database.sh  mysql -h 192.168.1.161 -uroot -proot --scm-host 192.168.1.100 scm scm scm</code><br>重新执行的话，需要在mysql服务器执行  <code>drop database scm;</code></p>
+<h1 id="Agent配置"><a href="#Agent配置" class="headerlink" title="Agent配置"></a>Agent配置</h1><ul>
+<li>修改配置文件<br><code>/opt/cm/etc/cloudera-scm-agent/config.ini</code>中的server_host为主节点的主机名。</li>
+<li>务必解压后不能启动server和agent，纯净版本同步Agent到其他节点<br><code>scp -r /opt/cm root@192.168.1.91:/opt/</code>  </li>
+</ul>
+<p>复制运行中的agent需执行以下脚本后复制</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">service cloudera-scm-agent stop </span><br><span class="line">chkconfig cloudera-scm-agent off  </span><br><span class="line">poweroff</span><br></pre></td></tr></table></figure>
+<ul>
+<li>修改hostname、hosts</li>
+</ul>
+<h1 id="准备Parcels，用以安装CDH5"><a href="#准备Parcels，用以安装CDH5" class="headerlink" title="准备Parcels，用以安装CDH5"></a>准备Parcels，用以安装CDH5</h1><p>将CHD5相关的Parcel包放到主节点的/opt/cloudera/parcel-repo/目录中（parcel-repo需要手动创建）。<br>相关的文件如下：</p>
+<blockquote>
+<p>CDH-5.4.7-1.cdh5.4.7.p0.3-el6.parcel<br>CDH-5.4.7-1.cdh5.4.7.p0.3-el6.parcel.sha1<br>manifest.json</p>
+</blockquote>
+<p>将CDH-5.4.7-1.cdh5.4.7.p0.3-el6.parcel.sha1，重命名为CDH-5.4.7-1.cdh5.4.7.p0.3-el6.parcel.sha，这点必须注意，否则，系统会重新下载CDH-5.4.7-1.cdh5.4.7.p0.3-el6.parcel文件。</p>
+<h1 id="启动脚本"><a href="#启动脚本" class="headerlink" title="启动脚本"></a>启动脚本</h1><ul>
+<li>启动cloudera manager server服务：<code>/opt/cm/etc/init.d/cloudera-scm-server start</code></li>
+<li>启动cloudera manager agent服务：<code>/opt/cm/etc/init.d/cloudera-scm-agent start</code></li>
+</ul>
+<h1 id="设置为-开机自动启动"><a href="#设置为-开机自动启动" class="headerlink" title="设置为 开机自动启动"></a>设置为 开机自动启动</h1><ul>
+<li>server端</li>
+</ul>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">echo "/opt/cm/etc/init.d/cloudera-scm-server start" &gt;&gt; /etc/rc.local </span><br><span class="line">echo "/opt/cm/etc/init.d/cloudera-scm-agent start" &gt;&gt; /etc/rc.local</span><br><span class="line">cat  /etc/rc.local</span><br></pre></td></tr></table></figure>
+<ul>
+<li>agent端</li>
+</ul>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#</span><span class="bash">启动cloudera manager agent服务</span></span><br><span class="line">echo "/opt/cm/etc/init.d/cloudera-scm-agent start" &gt;&gt; /etc/rc.local</span><br><span class="line">cat  /etc/rc.local</span><br></pre></td></tr></table></figure>
+<ul>
+<li>chkconfig服务方式更优，但目前无效，待完善TODO</li>
+</ul>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#</span><span class="bash">启动cloudera manager server服务 </span></span><br><span class="line">cp /opt/cm/etc/init.d/cloudera-scm-server /etc/init.d/cloudera-scm-server</span><br><span class="line">chkconfig cloudera-scm-server on</span><br><span class="line"></span><br><span class="line"><span class="meta">#</span><span class="bash">启动cloudera manager agent服务</span></span><br><span class="line">cp /opt/cm/etc/init.d/cloudera-scm-agent /etc/init.d/cloudera-scm-agent</span><br><span class="line">chkconfig cloudera-scm-agent on</span><br></pre></td></tr></table></figure>
+<h1 id="CDH5的安装配置"><a href="#CDH5的安装配置" class="headerlink" title="CDH5的安装配置"></a>CDH5的安装配置</h1><p>进入cm网站：192.168.1.100:7180</p>
+
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/%E5%88%86%E5%B8%83%E5%BC%8F/" rel="tag"># 分布式</a>
+              <a href="/tags/CDH/" rel="tag"># CDH</a>
+              <a href="/tags/Hadoop/" rel="tag"># Hadoop</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2015/10/03/Docker%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/" rel="prev" title="Docker学习笔记">
+      <i class="fa fa-chevron-left"></i> Docker学习笔记
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/2015/10/27/CDH%E4%BD%BF%E7%94%A8%E9%97%AE%E9%A2%98%E8%AE%B0%E5%BD%95/" rel="next" title="CDH使用问题记录">
+      CDH使用问题记录 <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+  </div>
+
+
+          </div>
+          
+    <div class="comments" id="gitalk-container"></div>
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let activeClass = CONFIG.comments.activeClass;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#部署文档参考"><span class="nav-number">1.</span> <span class="nav-text">部署文档参考</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#软件准备"><span class="nav-number">2.</span> <span class="nav-text">软件准备</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#虚拟机准备"><span class="nav-number">3.</span> <span class="nav-text">虚拟机准备</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#安装JDK"><span class="nav-number">4.</span> <span class="nav-text">安装JDK</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#MySQL数据库配置"><span class="nav-number">5.</span> <span class="nav-text">MySQL数据库配置</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#安装配置MySQL"><span class="nav-number">5.1.</span> <span class="nav-text">安装配置MySQL</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#配置SCM数据库"><span class="nav-number">5.2.</span> <span class="nav-text">配置SCM数据库</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#安装cloudera-manager"><span class="nav-number">6.</span> <span class="nav-text">安装cloudera-manager</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#添加cloudera-scm用户："><span class="nav-number">7.</span> <span class="nav-text">添加cloudera-scm用户：</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#更改cloudera-scm用户目录"><span class="nav-number">8.</span> <span class="nav-text">更改cloudera-scm用户目录</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#安装-mysql-connector："><span class="nav-number">9.</span> <span class="nav-text">安装 mysql connector：</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#初始化CM5的数据库："><span class="nav-number">10.</span> <span class="nav-text">初始化CM5的数据库：</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Agent配置"><span class="nav-number">11.</span> <span class="nav-text">Agent配置</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#准备Parcels，用以安装CDH5"><span class="nav-number">12.</span> <span class="nav-text">准备Parcels，用以安装CDH5</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#启动脚本"><span class="nav-number">13.</span> <span class="nav-text">启动脚本</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#设置为-开机自动启动"><span class="nav-number">14.</span> <span class="nav-text">设置为 开机自动启动</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#CDH5的安装配置"><span class="nav-number">15.</span> <span class="nav-text">CDH5的安装配置</span></a></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">geosmart</p>
+  <div class="site-description" itemprop="description"></div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">199</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+          
+        <span class="site-state-item-count">15</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">118</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+        <a href="https://github.com/geosmart" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;geosmart" rel="noopener" target="_blank"><i class="fa fa-fw fa-github"></i>GitHub</a>
+      </span>
+  </div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2021</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">geosmart</span>
+</div>
+
+        
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/pisces.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+  
+<script src="/js/local-search.js"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+      
+
+<script>
+  if (typeof MathJax === 'undefined') {
+    window.MathJax = {
+      tex: {
+        inlineMath: {'[+]': [['$', '$']]},
+        tags: 'ams'
+      },
+      options: {
+        renderActions: {
+          findScript: [10, doc => {
+            document.querySelectorAll('script[type^="math/tex"]').forEach(node => {
+              const display = !!node.type.match(/; *mode=display/);
+              const math = new doc.options.MathItem(node.textContent, doc.inputJax[0], display);
+              const text = document.createTextNode('');
+              node.parentNode.replaceChild(text, node);
+              math.start = {node: text, delim: '', n: 0};
+              math.end = {node: text, delim: '', n: 0};
+              doc.math.push(math);
+            });
+          }, '', false],
+          insertedScript: [200, () => {
+            document.querySelectorAll('mjx-container').forEach(node => {
+              let target = node.parentNode;
+              if (target.nodeName.toLowerCase() === 'li') {
+                target.parentNode.classList.add('has-jax');
+              }
+            });
+          }, '', false]
+        }
+      }
+    };
+    (function () {
+      var script = document.createElement('script');
+      script.src = '//cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js';
+      script.defer = true;
+      document.head.appendChild(script);
+    })();
+  } else {
+    MathJax.startup.document.state(0);
+    MathJax.texReset();
+    MathJax.typeset();
+  }
+</script>
+
+    
+
+  
+
+<link rel="stylesheet" href="//cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.min.css">
+
+<script>
+NexT.utils.loadComments(document.querySelector('#gitalk-container'), () => {
+  NexT.utils.getScript('//cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.min.js', () => {
+    var gitalk = new Gitalk({
+      clientID    : '8a29a27c357a64ed79fd',
+      clientSecret: 'fe1b781c49fa9037803f3c4d3e94fbb677abac4d',
+      repo        : 'geosmart.github.io',
+      owner       : 'geosmart',
+      admin       : ['geosmart'],
+      id          : 'd03443f66a12e46516502c4e6d62419c',
+        language: 'zh-CN',
+      distractionFreeMode: true
+    });
+    gitalk.render('gitalk-container');
+  }, window.Gitalk);
+});
+</script>
+
+</body>
+</html>

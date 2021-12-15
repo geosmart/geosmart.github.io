@@ -1,0 +1,778 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 4.2.1">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css">
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"geosmart.github.io","root":"/","scheme":"Pisces","version":"7.7.1","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.xml"};
+  </script>
+
+  <meta name="description" content="RabbitMQ如何存储消息，RabbitMQ如何接收消息和投递消息？">
+<meta property="og:type" content="article">
+<meta property="og:title" content="RabbitMQ数据读写过程">
+<meta property="og:url" content="http://geosmart.github.io/2019/11/11/RabbitMQ%E6%95%B0%E6%8D%AE%E8%AF%BB%E5%86%99%E8%BF%87%E7%A8%8B/index.html">
+<meta property="og:site_name" content="geosmart.io">
+<meta property="og:description" content="RabbitMQ如何存储消息，RabbitMQ如何接收消息和投递消息？">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="http://geosmart.github.io/2019/11/11/RabbitMQ%E6%95%B0%E6%8D%AE%E8%AF%BB%E5%86%99%E8%BF%87%E7%A8%8B/rabbitmq_%E8%BF%9B%E7%A8%8B%E7%BB%93%E6%9E%84.png">
+<meta property="og:image" content="http://geosmart.github.io/2019/11/11/RabbitMQ%E6%95%B0%E6%8D%AE%E8%AF%BB%E5%86%99%E8%BF%87%E7%A8%8B/rabbitmq_struct.png">
+<meta property="og:image" content="http://geosmart.github.io/2019/11/11/RabbitMQ%E6%95%B0%E6%8D%AE%E8%AF%BB%E5%86%99%E8%BF%87%E7%A8%8B/rabbitmq_credit.png">
+<meta property="og:image" content="http://geosmart.github.io/2019/11/11/RabbitMQ%E6%95%B0%E6%8D%AE%E8%AF%BB%E5%86%99%E8%BF%87%E7%A8%8B/rabbitmq_%E5%AD%98%E5%82%A8.jpg">
+<meta property="og:image" content="http://geosmart.github.io/2019/11/11/RabbitMQ%E6%95%B0%E6%8D%AE%E8%AF%BB%E5%86%99%E8%BF%87%E7%A8%8B/rabbitmq_publish.jpg">
+<meta property="og:image" content="http://geosmart.github.io/2019/11/11/RabbitMQ%E6%95%B0%E6%8D%AE%E8%AF%BB%E5%86%99%E8%BF%87%E7%A8%8B/rabbitmq_backing_queue.jpg">
+<meta property="og:image" content="http://geosmart.github.io/2019/11/11/RabbitMQ%E6%95%B0%E6%8D%AE%E8%AF%BB%E5%86%99%E8%BF%87%E7%A8%8B/rabbitmq_consuming.jpg">
+<meta property="article:published_time" content="2019-11-11T12:09:00.000Z">
+<meta property="article:modified_time" content="2021-12-15T01:13:12.932Z">
+<meta property="article:author" content="geosmart">
+<meta property="article:tag" content="消息队列">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://geosmart.github.io/2019/11/11/RabbitMQ%E6%95%B0%E6%8D%AE%E8%AF%BB%E5%86%99%E8%BF%87%E7%A8%8B/rabbitmq_%E8%BF%9B%E7%A8%8B%E7%BB%93%E6%9E%84.png">
+
+<link rel="canonical" href="http://geosmart.github.io/2019/11/11/RabbitMQ%E6%95%B0%E6%8D%AE%E8%AF%BB%E5%86%99%E8%BF%87%E7%A8%8B/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome: false,
+    isPost: true
+  };
+</script>
+
+  <title>RabbitMQ数据读写过程 | geosmart.io</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <div>
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">geosmart.io</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+        <p class="site-subtitle">勿助勿忘，深造自得</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+<nav class="site-nav">
+  
+  <ul id="menu" class="menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-fw fa-home"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-about">
+
+    <a href="/about/" rel="section"><i class="fa fa-fw fa-user"></i>关于</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="fa fa-fw fa-tags"></i>标签</a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/categories/" rel="section"><i class="fa fa-fw fa-th"></i>分类</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-fw fa-archive"></i>归档</a>
+
+  </li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜索
+        </a>
+      </li>
+  </ul>
+
+</nav>
+  <div class="site-search">
+    <div class="popup search-popup">
+    <div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocorrect="off" autocapitalize="off"
+           placeholder="搜索..." spellcheck="false"
+           type="search" class="search-input">
+  </div>
+  <span class="popup-btn-close">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div id="search-result"></div>
+
+</div>
+<div class="search-pop-overlay"></div>
+
+  </div>
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+  <a href="https://github.com/geosmart" class="github-corner" title="Follow me on GitHub" aria-label="Follow me on GitHub" rel="noopener" target="_blank"><svg width="80" height="80" viewBox="0 0 250 250" aria-hidden="true"><path d="M0,0 L115,115 L130,115 L142,142 L250,250 L250,0 Z"></path><path d="M128.3,109.0 C113.8,99.7 119.0,89.6 119.0,89.6 C122.0,82.7 120.5,78.6 120.5,78.6 C119.2,72.0 123.4,76.3 123.4,76.3 C127.3,80.9 125.5,87.3 125.5,87.3 C122.9,97.6 130.6,101.9 134.4,103.2" fill="currentColor" style="transform-origin: 130px 106px;" class="octo-arm"></path><path d="M115.0,115.0 C114.9,115.1 118.7,116.5 119.8,115.4 L133.7,101.6 C136.9,99.2 139.9,98.4 142.2,98.6 C133.8,88.0 127.5,74.4 143.8,58.0 C148.5,53.4 154.0,51.2 159.7,51.0 C160.3,49.4 163.2,43.6 171.4,40.1 C171.4,40.1 176.1,42.5 178.8,56.2 C183.1,58.6 187.2,61.8 190.9,65.4 C194.5,69.0 197.7,73.2 200.1,77.6 C213.8,80.2 216.3,84.9 216.3,84.9 C212.7,93.1 206.9,96.0 205.4,96.6 C205.1,102.4 203.0,107.8 198.3,112.5 C181.9,128.9 168.3,122.5 157.7,114.1 C157.9,116.9 156.7,120.9 152.7,124.9 L141.0,136.5 C139.8,137.7 141.6,141.9 141.8,141.8 Z" fill="currentColor" class="octo-body"></path></svg></a>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content">
+            
+
+  <div class="posts-expand">
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block " lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://geosmart.github.io/2019/11/11/RabbitMQ%E6%95%B0%E6%8D%AE%E8%AF%BB%E5%86%99%E8%BF%87%E7%A8%8B/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="geosmart">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="geosmart.io">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          RabbitMQ数据读写过程
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：11   十一月   2019 20:09:00" itemprop="dateCreated datePublished" datetime="2019-11-11T20:09:00+08:00">11   十一月   2019</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：15   十二月   2021 9:13:12" itemprop="dateModified" datetime="2021-12-15T09:13:12+08:00">15   十二月   2021</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/%E4%B8%AD%E9%97%B4%E4%BB%B6/" itemprop="url" rel="index"><span itemprop="name">中间件</span></a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <p>RabbitMQ<code>如何存储</code>消息，RabbitMQ如何<code>接收消息</code>和<code>投递消息</code>？</p>
+<a id="more"></a> 
+<h1 id="RabbitMQ的内部结构"><a href="#RabbitMQ的内部结构" class="headerlink" title="RabbitMQ的内部结构"></a>RabbitMQ的内部结构</h1><h2 id="RabbitMQ的进程结构"><a href="#RabbitMQ的进程结构" class="headerlink" title="RabbitMQ的进程结构"></a>RabbitMQ的进程结构</h2><p><img src="rabbitmq_进程结构.png" alt="RabbitMQ的进程架构"></p>
+<blockquote>
+<p>事件驱动模型（或者说反应堆模型），这是一种高性能的非阻塞io线程模型，在Erlang中称为进程模型。</p>
+</blockquote>
+<ul>
+<li><code>cp_acceptor</code>：负责接受客户端<code>连接</code>，然后为客户端连接创建rabbit_reader<br>、rabbit_writer、rabbit_channel进程</li>
+<li><code>rabbit_reader</code>：负责解析客户端AMQP帧，然后将请求发送给rabbit_channel进程</li>
+<li><code>rabbit_writer</code>：负责向客户端<code>返回</code>数据</li>
+<li><code>rabbit_channel</code>：负责解析AMQP方法，以及对消息进行<code>路由</code>，然后发送给对应的队列进程。</li>
+<li><code>rabbit_amqqueue_process</code>：rabbit队列进程，该进程一般在rabbitmq创建队列时被创建，其主要负责消息的<code>接收</code>/<code>投递</code>逻辑</li>
+<li><code>rabbit_msg_store</code>：存储服务器进程，主要负责消息的<code>持久化存储</code></li>
+</ul>
+<blockquote>
+<ul>
+<li>tcp_acceptor和rabbit_msg_store只会有一个;</li>
+<li>rabbit_amqqueue_process进程的数量则和队列数量保持一致;</li>
+<li>每个客户端连接对应一个rabbit_reader和rabbit_writer进程;</li>
+<li>每一个连接的通道对应一个rabbit_channel进程。</li>
+</ul>
+<p>通常来说，客户端发起一条connection的同时，可以打开多条channel，相对connection的open/close来说，对channel进行open和close的操作开销会更小。</p>
+<p>最佳实践是一个生产者/消费者进程对应一个connection，具体发送时，一个线程对应一个channel即可。</p>
+</blockquote>
+<h2 id="RabbitMQ中队列的内部结构"><a href="#RabbitMQ中队列的内部结构" class="headerlink" title="RabbitMQ中队列的内部结构"></a>RabbitMQ中队列的内部结构</h2><p><img src="rabbitmq_struct.png" alt="rabbit队列结构"></p>
+<ul>
+<li>RabbitMQ完全实现了AMQP协议，类似于一个邮箱服务。Exchange负责根据ExchangeType和RoutingKey将消息投递到对应的消息队列中，消息队列负责在消费者获取消息前暂存消息。</li>
+<li>在RabbitMQ中，<code>MessageQueue</code>主要由两部分组成，<ul>
+<li><code>AMQPQueue</code>：实现AMQP协议的逻辑功能，包括接收消息，投递消息，Confirm消息等；</li>
+<li><code>BackingQueue</code>：提供AMQQueue调用的接口，完成消息的存储和持久化工作</li>
+</ul>
+</li>
+</ul>
+<h2 id="RabbitMQ中队列的存储状态"><a href="#RabbitMQ中队列的存储状态" class="headerlink" title="RabbitMQ中队列的存储状态"></a>RabbitMQ中队列的存储状态</h2><p>BackingQueue由Q1,Q2,Delta,Q3,Q4五个子队列构成，在BackingQueue中，消息的生命周期有4个状态：</p>
+<div class="table-container">
+<table>
+<thead>
+<tr>
+<th>queue</th>
+<th>state\store</th>
+<th>message itself</th>
+<th>message index(message position)</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>q1,q4</td>
+<td>alpha</td>
+<td>RAM</td>
+<td>RAM</td>
+</tr>
+<tr>
+<td>q2,q3</td>
+<td>beta</td>
+<td>DISK</td>
+<td>RAM</td>
+</tr>
+<tr>
+<td>q2,q3</td>
+<td>gamma</td>
+<td>DISK</td>
+<td>RAM&amp;DISK</td>
+</tr>
+<tr>
+<td>delta</td>
+<td>delta</td>
+<td>DISK</td>
+<td>DISK</td>
+</tr>
+</tbody>
+</table>
+</div>
+<ul>
+<li><code>alpha</code>: 消息的内容和消息索引都在RAM中。（Q1，Q4）</li>
+<li><code>beta</code>: 消息的内容保存在Disk上，消息索引保存在RAM中。（Q2，Q3）</li>
+<li><code>gamma</code>: 消息的内容保存在Disk上，消息索引在DISK和RAM上都有。（Q2，Q3）</li>
+<li><code>delta</code>: 消息内容和索引都在Disk上。(Delta）</li>
+</ul>
+<blockquote>
+<p>5个内部队列</p>
+<ul>
+<li>q1和q4队列中只有alpha状态的消息；</li>
+<li>q2和q3包含beta和gamma状态的消息；</li>
+<li>delta队列是消息按序存盘后的一种逻辑队列，只有delta状态的消息。所以delta队列并不在内存中，其他4个队列则是由erlang queue模块实现。</li>
+</ul>
+</blockquote>
+<p>这里以持久化消息为例（可以看到非持久化消息的生命周期会简单很多），从Q1到Q4，消息实际经历了一个<code>RAM-&gt;DISK-&gt;RAM</code>这样的过程，<br>BackingQueue的设计有点类似于Linux的虚拟内存<code>Swap</code>区，</p>
+<ul>
+<li>当队列<code>负载很高</code>时，通过将部分消息放到磁盘上来<code>·</code>节省内存空间`，</li>
+<li>当<code>负载降低</code>时，消息又从磁盘回到内存中，让整个队列有很好的<code>弹性</code>。<br>因此触发消息流动的主要因素是：</li>
+</ul>
+<ol>
+<li><code>消息被消费</code>；</li>
+<li><code>内存不足</code>。</li>
+</ol>
+<ul>
+<li>RabbitMQ会根据<code>消息的传输速度</code>来计算当前<code>内存中允许保存的最大消息数量</code>（Traget_RAM_Count），</li>
+<li>当<code>内存中保存的消息数量 + 等待ACK的消息数量 &gt; Target_RAM_Count</code>时，RabbitMQ才会把消息<code>写到磁盘</code>上，</li>
+<li>所以说虽然理论上消息会按照<code>Q1-&gt;Q2-&gt;Delta-&gt;Q3-&gt;Q4</code>的顺序流动，但是并不是每条消息都会经历所有的子队列以及对应的生命周期。</li>
+<li><p>从RabbitMQ的Backing Queue结构来看，当<code>内存不足</code>时，消息要经历多个生命周期，在Disk和RAM之间置换，这实际会<code>降低RabbitMQ的处理性能</code>（后续的流控就是关联的解决方法）。</p>
+</li>
+<li><p>对于持久化消息，RabbitMQ先将消息的内容和索引保存在磁盘中，然后才处于上面的某种状态（即只可能处于<code>alpha、gamma、delta</code>三种状态之一）。 </p>
+<blockquote>
+<p>the term <code>gamma</code> seldom appears. </p>
+</blockquote>
+</li>
+</ul>
+<h2 id="RabbitMQ的流控-信用机制-Credit"><a href="#RabbitMQ的流控-信用机制-Credit" class="headerlink" title="RabbitMQ的流控-信用机制(Credit)"></a>RabbitMQ的流控-信用机制(Credit)</h2><ul>
+<li>当RabbitMQ出现内存(默认是0.4)或者磁盘资源达到阈值时，会触发流控机制：<code>阻塞Producer的Connection</code>，让生产者不能继续发送消息，直到内存或者磁盘资源得到释放。 </li>
+<li>Erlang进程之间并不共享内存（binaries类型除外），而是通过消息传递来通信，每个进程都有自己的进程邮箱。Erlang默认没有对进程邮箱大小设限制，所以当有大量消息持续发往某个进程时，会导致该进程邮箱过大，最终内存溢出并崩溃。</li>
+<li>在RabbitMQ中，如果生产者持续高速发送，而消费者消费速度较低时，如果没有流控，很快就会使内部进程邮箱大小达到内存阈值，阻塞生产者（得益于block机制，并不会崩溃）。然后RabbitMQ会进行page操作，将内存中的数据持久化到磁盘中。</li>
+<li>因此，要保证各个进程占用的内容在一个合理的范围，RabbitMQ的流控采用了一种<code>信用机制(Credit)</code>，为每个进程维护了4类键值对：<ul>
+<li><code>{credit_from,From}</code>-该值表示还能向消息接收进程From<code>发送</code>多少条消息;</li>
+<li><code>{credit_to,To}</code>-表示当前进程再<code>接收</code>多少条消息，就要向消息<code>发送</code>进程增加Credit数量;</li>
+<li><code>credit_blocked</code>-表示当前进程被哪些进程block了，比如进程A向B发送消息，那么当A的进程字典中{credit_from,B}的值为0是，那么A的credit_blocked值为[B];</li>
+<li><code>credit_deferred</code>-<code>消息接收</code>进程向<code>消息发送</code>进程增加Credit的<code>消息列表</code>，当进程被Block时会记录消息信息，<code>Unblock后依次发送这些消息</code>;</li>
+</ul>
+</li>
+</ul>
+<p><img src="rabbitmq_credit.png" alt="rabbitMq信用机制"><br>如图所示:</p>
+<ul>
+<li>A进程当前可以发送给B的消息有100条，每发一次，值减1，直到为0，A才会被Block住。</li>
+<li>B消费消息后，会给A增加新的Credit，这样A才可以持续的发送消息。</li>
+</ul>
+<p>这里只画了两个进程，多进程串联的情况下，这中影响也就是从底向上传递的。</p>
+<h2 id="RabbitMQ的消息状态"><a href="#RabbitMQ的消息状态" class="headerlink" title="RabbitMQ的消息状态"></a>RabbitMQ的消息状态</h2><p>每个消息存储在RabbitMQ中都有自己的状态：Ready，Unacked,Ack</p>
+<ul>
+<li>Ready：等待消费状态。</li>
+<li>Unacked:等待被确认状态，当前消息已经被发送到了客户端。当客户端端断开后，如果这条消息没有被确认，这条消息重新进入Ready中。</li>
+<li>Ack：已被确认状态</li>
+</ul>
+<h2 id="RabbitMQ的消息类型"><a href="#RabbitMQ的消息类型" class="headerlink" title="RabbitMQ的消息类型"></a>RabbitMQ的消息类型</h2><p>Messages, and their position in the queue, can be <code>in memory</code> or <code>on disk</code>, or both. </p>
+<ul>
+<li><code>Persistent messages</code> will have both message and position pushed to disk as soon as they arrive; </li>
+<li><code>Transient messages</code> can be written to disk (and thus both types can be evicted from memory) under memory pressure. </li>
+</ul>
+<p>The question of whether a message is in <code>RAM</code> and whether it is <code>persistent</code> are orthogonal（正交，即可同时存在）.<br>Messages are persisted using the <code>queue index</code>（队列索引） and the <code>message store</code>（消息数据）. </p>
+<ul>
+<li><code>queue index</code> holds the <code>position</code> of the message <strong>within this queue</strong> along with a couple of small bits of <code>metadata</code></li>
+<li><code>message store</code> holds the message itself (including headers and other properties).</li>
+<li><code>small messages</code> can be embedded directly in the queue index and bypass the message store altogether.</li>
+</ul>
+<h1 id="RabbitMQ的消息存储"><a href="#RabbitMQ的消息存储" class="headerlink" title="RabbitMQ的消息存储"></a>RabbitMQ的消息存储</h1><p>RabbitMQ的消息持久化实际包括两部分：</p>
+<ul>
+<li><code>队列索引(rabbit_queue_index)</code>：负责维护队列中落盘消息的信息，包括消息的存储地点、是否已经被交付给消费者、是否已被消费者ack等，每个队列都有一个与之对应的rabbit_queue_index。</li>
+<li><code>消息存储(rabbit_msg_store)</code>：rabbit_msg_store以键值对的形式存储消息，每个节点有且只有一个，所有队列共享。rabbit_msg_store又可以分为<code>msg_store_persistent</code>和<code>msg_store_transient</code>，<ul>
+<li>msg_store_persistent负责持久化消息的存储，不会丢失，</li>
+<li>msg_store_transient负责非持久化消息的存储，重启后消息会丢失。</li>
+</ul>
+</li>
+</ul>
+<blockquote>
+<p>通过配置环境变量<code>RABBITMQ_MNESIA_BASE</code>可以指定存储目录，一般配置RABBITMQ_MNESIA_BASE=/srv/rabbitmq。</p>
+</blockquote>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">$ ls -hl  /var/lib/rabbitmq/mnesia/rabbit65 | grep msg_store</span><br><span class="line">drwxr-xr-x.  2 rabbitmq rabbitmq   21 Sep  9 21:26 msg_store_persistent</span><br><span class="line">drwxr-xr-x   2 rabbitmq rabbitmq   19 Jul 19 21:25 msg_store_transient</span><br></pre></td></tr></table></figure>
+<p>其中<code>msg_store_transient</code>、queues和<code>msg_store_persistent</code>就是实际消息的存储目录。</p>
+<h2 id="rabbit-msg-store存储"><a href="#rabbit-msg-store存储" class="headerlink" title="rabbit_msg_store存储"></a>rabbit_msg_store存储</h2><ul>
+<li>RabbitMQ通过配置queue_index_embed_msgs_below可以指定根据消息存储位置，</li>
+<li>默认queue_index_embed_msgs_below是<code>4096</code>字节(包含消息体、属性及headers)，小于该值的消息存在<code>rabbit_queue_index</code>中。</li>
+</ul>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">sudo ls -hl  /var/lib/rabbitmq/mnesia/rabbit65/msg_store_persistent</span><br><span class="line">-rw-r--r-- 1 rabbitmq rabbitmq 2.5M Sep 10 19:16 356.rdq</span><br><span class="line"></span><br><span class="line">sudo ls -hl  /var/lib/rabbitmq/mnesia/rabbit65/msg_store_transient</span><br><span class="line">-rw-r--r-- 1 rabbitmq rabbitmq 0 Jul 19 21:25 0.rdq</span><br></pre></td></tr></table></figure>
+<ul>
+<li>经过rabbit_msg_store处理的消息都会以<code>追加</code>的方式写入到文件中，文件名从0开始累加，后缀是<code>.rdq</code>，</li>
+<li>当一个文件的大小超过指定的限制(<code>file_size_limit</code>)后，关闭这个文件再创建一个新的文件存储。 </li>
+</ul>
+<blockquote>
+<p><code>rdq</code>文件消息格式<br> <code>&lt;&lt;Size:64, MsgId:16/binary, MsgBody&gt;&gt;</code></p>
+<ul>
+<li>MsgId为RabbitMQ通过rabbit_guid:gen()每一个消息生成的GUID，</li>
+<li>MsgBody会包含消息对应的<code>exchange</code>，<code>routing_keys</code>，<code>消息的内容</code>，消息对应的<code>协议版本</code>，消息<code>内容格式</code>。</li>
+</ul>
+</blockquote>
+<ul>
+<li>消息存储时，RabbitMQ会在<code>ETS(Erlang Term Storge)</code>表中记录消息在文件中的<code>位置映射</code>和文件的相关信息。</li>
+<li>消息读取时，先根据消息的<code>msg_id</code>找到对应的文件，如果文件存在且未被锁住则直接打开文件，如果文件不存在或者锁住了则发请求到<code>rabbit_msg_store</code>处理。</li>
+</ul>
+<h2 id="队列的索引文件"><a href="#队列的索引文件" class="headerlink" title="队列的索引文件"></a>队列的索引文件</h2><p>查看索引信息<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"> ls -hl  /var/lib/rabbitmq/mnesia/rabbit65/queues/9ETDQOQ2E4JS49H80ILRO1YHA</span><br><span class="line">total 24K</span><br><span class="line">-rw-r--r-- 1 rabbitmq rabbitmq 21K Aug 14 20:19 1.idx</span><br><span class="line">-rw-r--r-- 1 rabbitmq rabbitmq   0 Aug 14 20:19 journal.jif</span><br></pre></td></tr></table></figure></p>
+<ul>
+<li>rabbit_queue_index顺序存储段文件，文件编号从0开始，后缀.idx，</li>
+<li>每个段文件包含固定的<code>SEGMENT_ENTRY_COUNT</code>条记录。</li>
+<li>SEGMENT_ENTRY_COUNT默认是<code>16384</code>，每个<code>rabbit_queue_index</code>从磁盘读取消息的时候至少读取一个段文件。</li>
+</ul>
+<h1 id="RabbitMQ的消息读写过程"><a href="#RabbitMQ的消息读写过程" class="headerlink" title="RabbitMQ的消息读写过程"></a>RabbitMQ的消息读写过程</h1><p><img src="rabbitmq_存储.jpg" alt="rabbitMQ存储"></p>
+<ul>
+<li>rabbit_channel进程确定了消息将要投递的目标队列，</li>
+<li>rabbit_amqqueue_process是队列进程，每个队列都有一个对应的进程，实际上rabbit_amqqueue_process进程只是提供了逻辑上对队列的相关操作，他的真正操作是通过调用指定的backing_queue模块提供的相关接口实现的，</li>
+<li>默认情况该backing_queue的实现模块为rabbit_variable_queue。<h2 id="消息publish"><a href="#消息publish" class="headerlink" title="消息publish"></a>消息publish</h2>rabbit_amqqueue_process对消息的主要处理逻辑位于<code>deliver_or_enqueue</code>函数，该方法将消息直接传递给消费者，或者将消息存储到队列当中。</li>
+</ul>
+<p>整体处理逻辑如下：</p>
+<ol>
+<li>首先处理消息的<code>mandory标志</code>，和<code>confirm属性</code>。<ul>
+<li>mandatory标志告诉服务器至少将该消息route到一个队列中，否则将消息返还给生产者。</li>
+<li>confirm则是消息的发布确认。</li>
+</ul>
+</li>
+<li>然后判断队列中是否有消费者正在等待，如果有则直接调用<code>backing_queue</code>的接口给客户端发送消息。</li>
+<li>如果队列上没有消费者，根据当前相关设置判断消息是否需要<code>丢弃</code>，不需要丢弃的情况下调用backing_queue的接口将消息入队。</li>
+</ol>
+<p><img src="rabbitmq_publish.jpg" alt="rabbitMQ_publish"><br><img src="rabbitmq_backing_queue.jpg" alt="rabbitMQ_backing_queue"></p>
+<ul>
+<li>如果调用到该方法的BQ:publish则说明当前队列没有消费者正在等待，消息将进入到队列。backing_queue实现了消息的存储，他会尽力将durable=true的消息做持久化存储。</li>
+<li>初始默认情况下，<code>非持久化消息</code>直接进入<code>内存队列</code>，此时效率最高，当内存占用逐渐达到一个阈值时，消息和消息索引逐渐往磁盘中移动，随着消费者的不断消费，内存占用的减少，消息逐渐又从磁盘中被转到内存队列中。</li>
+<li>消息在这些Queue中传递的”一般”过程<code>q1-&gt;q2-&gt;delta-&gt;q3-&gt;q4</code>，一般负载较轻的情况消息不需要走完每个Queue，大部分都可以跳过。</li>
+<li>每次入队消息后，判断RabbitMQ系统中使用的内存是否过多，此操作是尝试将内存中的队列数据写入到磁盘中.</li>
+<li>内存中的消息数量（RamMsgCount）及内存中的等待ack的消息数量（RamAckIndex）的和大于允许的内存消息数量（TargetRamCount）时，多余数量的消息内容会被写到磁盘中.</li>
+</ul>
+<h2 id="消息consuming"><a href="#消息consuming" class="headerlink" title="消息consuming"></a>消息consuming</h2><p><img src="rabbitmq_consuming.jpg" alt="rabbitMQ_consuming"></p>
+<blockquote>
+<p>获取消息</p>
+<ul>
+<li>尝试从q4队列中获取一个消息，如果成功，则返回获取到的消息，如果失败，则尝试通过试用fetch_from_q3/1从q3队列获取消息，成功则返回，如果为空则返回空；</li>
+<li>注意fetch_from_q3从Q3获取消息，如果Q3为空，则说明整个队列都是空的，无消息，消费者等待即可。</li>
+</ul>
+<p>取出消息后</p>
+<ul>
+<li>如果Q4不为空，取出消息后直接返回；</li>
+<li>如果Q4为空，Q3不为空，从Q3取出消息后，判断Q3是否为空，如果Q3为空，Delta不为空，则将Delta中的消息转移到Q3中，下次直接从Q3消费；</li>
+<li>如果Q3和Delta都是空的，则可以认为Delta和Q2的消息都是空的，此时将Q1的消息转移到Q4，下次直接从Q4消费即可。</li>
+</ul>
+</blockquote>
+<h2 id="过期消息删除"><a href="#过期消息删除" class="headerlink" title="过期消息删除"></a>过期消息删除</h2><p>消息的删除只是从<code>ETS(Erlang Term Storge)</code>表删除执行消息的相关信息，同时更新对应的存储文件的相关信息，并不立即对文件中的消息进程删除，后续会有专门的<code>垃圾回收进程</code>负责合并待回收消息文件。</p>
+<blockquote>
+<p>标记删除，类似habse/cassandra里面的<code>tombstone</code></p>
+</blockquote>
+<ul>
+<li><p>当所有文件中的垃圾消息（已经被删除的消息）比例大于阈值（<code>GARBAGE_FRACTION = 0.5</code>）时，会触发<code>文件合并</code>操作（至少有3个文件存在的情况下），以提高磁盘利用率。</p>
+<blockquote>
+<p>类似hbase中的<code>minor/major compaction</code><br>执行合并的两个文件一定是逻辑上相邻的两个文件。执行合并时首先锁定这两个文件，并对前面文件中的有效数据进行整理，再将后面文件的有效数据写入到前面的文件，同时更新ETS表中的记录，最后删除后面的文件</p>
+</blockquote>
+</li>
+<li><p><code>publish</code>消息时写入内容，<code>ack</code>消息时删除内容（更新该文件的有用数据大小），当一个文件的有用数据等于0时，删除该文件。</p>
+</li>
+</ul>
+<h1 id="问题"><a href="#问题" class="headerlink" title="问题"></a>问题</h1><h2 id="消息什么时候会刷到磁盘？"><a href="#消息什么时候会刷到磁盘？" class="headerlink" title="消息什么时候会刷到磁盘？"></a>消息什么时候会刷到磁盘？</h2><ul>
+<li>写入文件前会有一个<code>Buffer</code>，大小为1M（1048576），数据在写入文件时，首先会写入到这个Buffer，如果Buffer已满，则会将Buffer写入到文件（未必刷到磁盘）；</li>
+<li>有个<code>固定的刷盘时间</code>：<code>25ms</code>，也就是不管Buffer满不满，每隔25ms，Buffer里的数据及未刷新到磁盘的文件内容必定会刷到磁盘；</li>
+<li>每次消息写入后，如果没有后续写入请求，则会直接将已写入的消息刷到磁盘：使用Erlang的<code>receive x after 0</code>来实现，只要进程的信箱里没有消息，则产生一个timeout消息，而timeout会触发刷盘操作。</li>
+</ul>
+<h2 id="消息文件何时删除？"><a href="#消息文件何时删除？" class="headerlink" title="消息文件何时删除？"></a>消息文件何时删除？</h2><ul>
+<li>当所有文件中的垃圾消息（已经被删除的消息）比例大于阈值（<code>GARBAGE_FRACTION = 0.5</code>）时，会触发<code>文件合并</code>操作（至少有三个文件存在的情况下），以提高磁盘利用率。</li>
+<li><code>publish</code>消息时写入内容，<code>ack</code>消息时删除内容（更新该文件的有用数据大小），当一个文件的<code>有用数据等于0时</code>，删除该文件。</li>
+</ul>
+<h1 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h1><ul>
+<li><a href="https://sq.163yun.com/blog/article/163362787003510784">RabbitMQ存储机制源码分析</a></li>
+<li><a href="https://www.slideshare.net/RabbitMQ-summit/a-walkthrough-of-the-design-and-architecture-of-rabbitmq-ayanda-dube-125711827">a-walkthrough-of-the-design-and-architecture-of-rabbitmq</a></li>
+<li><a href="https://blog.csdn.net/vipshop_fin_dev/article/details/81612935">rabbitmq消息队列原理</a></li>
+</ul>
+
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/%E6%B6%88%E6%81%AF%E9%98%9F%E5%88%97/" rel="tag"># 消息队列</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2019/11/10/RabbitMQ%E5%BB%B6%E8%BF%9F%E9%98%9F%E5%88%97/" rel="prev" title="RabbitMQ延迟队列">
+      <i class="fa fa-chevron-left"></i> RabbitMQ延迟队列
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/2019/12/03/%E5%A6%82%E4%BD%95%E8%AE%BE%E8%AE%A1%E4%B8%80%E4%B8%AA%E5%A5%BD%E7%9A%84%E6%95%B0%E6%8D%AE%E5%A4%84%E7%90%86%E5%B7%A5%E5%85%B7/" rel="next" title="如何设计一个好的数据处理工具">
+      如何设计一个好的数据处理工具 <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+  </div>
+
+
+          </div>
+          
+    <div class="comments" id="gitalk-container"></div>
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let activeClass = CONFIG.comments.activeClass;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#RabbitMQ的内部结构"><span class="nav-number">1.</span> <span class="nav-text">RabbitMQ的内部结构</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#RabbitMQ的进程结构"><span class="nav-number">1.1.</span> <span class="nav-text">RabbitMQ的进程结构</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#RabbitMQ中队列的内部结构"><span class="nav-number">1.2.</span> <span class="nav-text">RabbitMQ中队列的内部结构</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#RabbitMQ中队列的存储状态"><span class="nav-number">1.3.</span> <span class="nav-text">RabbitMQ中队列的存储状态</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#RabbitMQ的流控-信用机制-Credit"><span class="nav-number">1.4.</span> <span class="nav-text">RabbitMQ的流控-信用机制(Credit)</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#RabbitMQ的消息状态"><span class="nav-number">1.5.</span> <span class="nav-text">RabbitMQ的消息状态</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#RabbitMQ的消息类型"><span class="nav-number">1.6.</span> <span class="nav-text">RabbitMQ的消息类型</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#RabbitMQ的消息存储"><span class="nav-number">2.</span> <span class="nav-text">RabbitMQ的消息存储</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#rabbit-msg-store存储"><span class="nav-number">2.1.</span> <span class="nav-text">rabbit_msg_store存储</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#队列的索引文件"><span class="nav-number">2.2.</span> <span class="nav-text">队列的索引文件</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#RabbitMQ的消息读写过程"><span class="nav-number">3.</span> <span class="nav-text">RabbitMQ的消息读写过程</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#消息publish"><span class="nav-number">3.1.</span> <span class="nav-text">消息publish</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#消息consuming"><span class="nav-number">3.2.</span> <span class="nav-text">消息consuming</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#过期消息删除"><span class="nav-number">3.3.</span> <span class="nav-text">过期消息删除</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#问题"><span class="nav-number">4.</span> <span class="nav-text">问题</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#消息什么时候会刷到磁盘？"><span class="nav-number">4.1.</span> <span class="nav-text">消息什么时候会刷到磁盘？</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#消息文件何时删除？"><span class="nav-number">4.2.</span> <span class="nav-text">消息文件何时删除？</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#参考"><span class="nav-number">5.</span> <span class="nav-text">参考</span></a></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">geosmart</p>
+  <div class="site-description" itemprop="description"></div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">199</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+          
+        <span class="site-state-item-count">15</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">118</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+        <a href="https://github.com/geosmart" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;geosmart" rel="noopener" target="_blank"><i class="fa fa-fw fa-github"></i>GitHub</a>
+      </span>
+  </div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2021</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">geosmart</span>
+</div>
+
+        
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/pisces.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+  
+<script src="/js/local-search.js"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+      
+
+<script>
+  if (typeof MathJax === 'undefined') {
+    window.MathJax = {
+      tex: {
+        inlineMath: {'[+]': [['$', '$']]},
+        tags: 'ams'
+      },
+      options: {
+        renderActions: {
+          findScript: [10, doc => {
+            document.querySelectorAll('script[type^="math/tex"]').forEach(node => {
+              const display = !!node.type.match(/; *mode=display/);
+              const math = new doc.options.MathItem(node.textContent, doc.inputJax[0], display);
+              const text = document.createTextNode('');
+              node.parentNode.replaceChild(text, node);
+              math.start = {node: text, delim: '', n: 0};
+              math.end = {node: text, delim: '', n: 0};
+              doc.math.push(math);
+            });
+          }, '', false],
+          insertedScript: [200, () => {
+            document.querySelectorAll('mjx-container').forEach(node => {
+              let target = node.parentNode;
+              if (target.nodeName.toLowerCase() === 'li') {
+                target.parentNode.classList.add('has-jax');
+              }
+            });
+          }, '', false]
+        }
+      }
+    };
+    (function () {
+      var script = document.createElement('script');
+      script.src = '//cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js';
+      script.defer = true;
+      document.head.appendChild(script);
+    })();
+  } else {
+    MathJax.startup.document.state(0);
+    MathJax.texReset();
+    MathJax.typeset();
+  }
+</script>
+
+    
+
+  
+
+<link rel="stylesheet" href="//cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.min.css">
+
+<script>
+NexT.utils.loadComments(document.querySelector('#gitalk-container'), () => {
+  NexT.utils.getScript('//cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.min.js', () => {
+    var gitalk = new Gitalk({
+      clientID    : '8a29a27c357a64ed79fd',
+      clientSecret: 'fe1b781c49fa9037803f3c4d3e94fbb677abac4d',
+      repo        : 'geosmart.github.io',
+      owner       : 'geosmart',
+      admin       : ['geosmart'],
+      id          : 'c81d0eccf658b03553f1e8802bf26b4f',
+        language: 'zh-CN',
+      distractionFreeMode: true
+    });
+    gitalk.render('gitalk-container');
+  }, window.Gitalk);
+});
+</script>
+
+</body>
+</html>

@@ -1,0 +1,676 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 4.2.1">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css">
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"geosmart.github.io","root":"/","scheme":"Pisces","version":"7.7.1","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.xml"};
+  </script>
+
+  <meta name="description" content="在搞清楚JVM运行时数据区里面的堆&#x2F;栈&#x2F;GC这些原理之前，得先搞清楚JVM是如何把class文件加载到内存中的，这是一切开始的原点。 本文就主要说明JVM如何把Bytecode加载到Method Area的全过程。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="JVM中类的加载过程">
+<meta property="og:url" content="http://geosmart.github.io/2020/03/10/JVM%E4%B8%AD%E7%B1%BB%E7%9A%84%E5%8A%A0%E8%BD%BD%E8%BF%87%E7%A8%8B/index.html">
+<meta property="og:site_name" content="geosmart.io">
+<meta property="og:description" content="在搞清楚JVM运行时数据区里面的堆&#x2F;栈&#x2F;GC这些原理之前，得先搞清楚JVM是如何把class文件加载到内存中的，这是一切开始的原点。 本文就主要说明JVM如何把Bytecode加载到Method Area的全过程。">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="http://geosmart.github.io/2020/03/10/JVM%E4%B8%AD%E7%B1%BB%E7%9A%84%E5%8A%A0%E8%BD%BD%E8%BF%87%E7%A8%8B/%E7%B1%BB%E5%8A%A0%E8%BD%BD%E8%BF%87%E7%A8%8B.png">
+<meta property="og:image" content="http://geosmart.github.io/2020/03/10/JVM%E4%B8%AD%E7%B1%BB%E7%9A%84%E5%8A%A0%E8%BD%BD%E8%BF%87%E7%A8%8B/%E5%8F%8C%E4%BA%B2%E5%A7%94%E6%B4%BE%E6%A8%A1%E5%9E%8B.png">
+<meta property="article:published_time" content="2020-03-10T16:00:00.000Z">
+<meta property="article:modified_time" content="2021-12-15T01:13:12.950Z">
+<meta property="article:author" content="geosmart">
+<meta property="article:tag" content="JVM">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://geosmart.github.io/2020/03/10/JVM%E4%B8%AD%E7%B1%BB%E7%9A%84%E5%8A%A0%E8%BD%BD%E8%BF%87%E7%A8%8B/%E7%B1%BB%E5%8A%A0%E8%BD%BD%E8%BF%87%E7%A8%8B.png">
+
+<link rel="canonical" href="http://geosmart.github.io/2020/03/10/JVM%E4%B8%AD%E7%B1%BB%E7%9A%84%E5%8A%A0%E8%BD%BD%E8%BF%87%E7%A8%8B/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome: false,
+    isPost: true
+  };
+</script>
+
+  <title>JVM中类的加载过程 | geosmart.io</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <div>
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">geosmart.io</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+        <p class="site-subtitle">勿助勿忘，深造自得</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+<nav class="site-nav">
+  
+  <ul id="menu" class="menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-fw fa-home"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-about">
+
+    <a href="/about/" rel="section"><i class="fa fa-fw fa-user"></i>关于</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="fa fa-fw fa-tags"></i>标签</a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/categories/" rel="section"><i class="fa fa-fw fa-th"></i>分类</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-fw fa-archive"></i>归档</a>
+
+  </li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜索
+        </a>
+      </li>
+  </ul>
+
+</nav>
+  <div class="site-search">
+    <div class="popup search-popup">
+    <div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocorrect="off" autocapitalize="off"
+           placeholder="搜索..." spellcheck="false"
+           type="search" class="search-input">
+  </div>
+  <span class="popup-btn-close">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div id="search-result"></div>
+
+</div>
+<div class="search-pop-overlay"></div>
+
+  </div>
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+  <a href="https://github.com/geosmart" class="github-corner" title="Follow me on GitHub" aria-label="Follow me on GitHub" rel="noopener" target="_blank"><svg width="80" height="80" viewBox="0 0 250 250" aria-hidden="true"><path d="M0,0 L115,115 L130,115 L142,142 L250,250 L250,0 Z"></path><path d="M128.3,109.0 C113.8,99.7 119.0,89.6 119.0,89.6 C122.0,82.7 120.5,78.6 120.5,78.6 C119.2,72.0 123.4,76.3 123.4,76.3 C127.3,80.9 125.5,87.3 125.5,87.3 C122.9,97.6 130.6,101.9 134.4,103.2" fill="currentColor" style="transform-origin: 130px 106px;" class="octo-arm"></path><path d="M115.0,115.0 C114.9,115.1 118.7,116.5 119.8,115.4 L133.7,101.6 C136.9,99.2 139.9,98.4 142.2,98.6 C133.8,88.0 127.5,74.4 143.8,58.0 C148.5,53.4 154.0,51.2 159.7,51.0 C160.3,49.4 163.2,43.6 171.4,40.1 C171.4,40.1 176.1,42.5 178.8,56.2 C183.1,58.6 187.2,61.8 190.9,65.4 C194.5,69.0 197.7,73.2 200.1,77.6 C213.8,80.2 216.3,84.9 216.3,84.9 C212.7,93.1 206.9,96.0 205.4,96.6 C205.1,102.4 203.0,107.8 198.3,112.5 C181.9,128.9 168.3,122.5 157.7,114.1 C157.9,116.9 156.7,120.9 152.7,124.9 L141.0,136.5 C139.8,137.7 141.6,141.9 141.8,141.8 Z" fill="currentColor" class="octo-body"></path></svg></a>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content">
+            
+
+  <div class="posts-expand">
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block " lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://geosmart.github.io/2020/03/10/JVM%E4%B8%AD%E7%B1%BB%E7%9A%84%E5%8A%A0%E8%BD%BD%E8%BF%87%E7%A8%8B/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="geosmart">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="geosmart.io">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          JVM中类的加载过程
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：11   三月   2020 0:00:00" itemprop="dateCreated datePublished" datetime="2020-03-11T00:00:00+08:00">11   三月   2020</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：15   十二月   2021 9:13:12" itemprop="dateModified" datetime="2021-12-15T09:13:12+08:00">15   十二月   2021</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/%E5%90%8E%E7%AB%AF%E6%8A%80%E6%9C%AF/" itemprop="url" rel="index"><span itemprop="name">后端技术</span></a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <p> 在搞清楚JVM运行时数据区里面的堆/栈/GC这些原理之前，得先搞清楚JVM是如何把class文件加载到内存中的，这是一切开始的原点。</p>
+<p>本文就主要说明JVM如何把<code>Bytecode</code>加载到<code>Method Area</code>的全过程。</p>
+<a id="more"></a>
+<h1 id="类的加载过程"><a href="#类的加载过程" class="headerlink" title="类的加载过程"></a>类的加载过程</h1><p><img src="类加载过程.png" alt="类加载过程"></p>
+<h2 id="加载-Loading"><a href="#加载-Loading" class="headerlink" title="加载 Loading"></a>加载 Loading</h2><p>什么时候开始类的<code>加载阶段</code>，Java虚拟机规范中没有强制约束，交给虚拟机的具体实现去自由把握。</p>
+<h3 id="非数组类的加载"><a href="#非数组类的加载" class="headerlink" title="非数组类的加载"></a>非数组类的加载</h3><p>在加载阶段，JVM需要完成3件事情：</p>
+<ol>
+<li>通过一个<code>类的全限定名</code>来获取此类的二进制字节流；</li>
+<li>通过这个字节流所代表的<code>静态存储结构</code>转化为<code>方法区的运行时数据结构</code>；</li>
+<li>在内存中生成一个代表这个类的<code>java.lang.Class</code>对象，作为方法区这个类的各种数据的访问入口；</li>
+</ol>
+<p>加载阶段可以采用BootstrapClassLoader，也可以采用自定义类加载器来控制字节流的获取方式，重写loadClass()方法；</p>
+<h3 id="数组类的加载"><a href="#数组类的加载" class="headerlink" title="数组类的加载"></a>数组类的加载</h3><p>数组类的加载与普通类的加载情况有所不同：数组类本身不通过类加载器创建，而是通过JVM直接创建，但数组类的元素类型最终也要靠类加载器去创建。</p>
+<p>数组类的创建遵循已下规则：</p>
+<ul>
+<li>如果数组的类型是<code>引用类型</code>，需要递归采用非数组类的加载过程去加载；</li>
+<li>如果数组的类型<code>不是引用类型</code>（如int[]），JVM会将数组标记为与BootstrapClassLoader关联；</li>
+<li>数组类的<code>可见性</code>与它的元素类型的可见性是一致的，如果元素类型不是引用类型，那数组类型的可见性将默认是public；???</li>
+</ul>
+<p>加载阶段与连接阶段的部分内容（如字节码文件格式的验证）是交叉进行的；<br>加载尚未完成，连接阶段可能就已经开始了。</p>
+<h2 id="连接-Linking"><a href="#连接-Linking" class="headerlink" title="连接 Linking"></a>连接 Linking</h2><h3 id="校验-Verification"><a href="#校验-Verification" class="headerlink" title="校验 Verification"></a>校验 Verification</h3><p>Class文件是JVM规范定义的，并不一定要求用Java源码编译而来，可以使用任何途径产生。<br>所以为了保护虚拟机自身安全，防止恶意代码的攻击，验证阶段需要拦截对自身有害的字节流避免导致系统崩溃；</p>
+<ul>
+<li>如果校验不通过，会抛出异常：<code>java.lang.VerifyError</code>，</li>
+<li>如果代码被反复验证过了，可以提供<code>-Xverify:none</code>来关闭校验以缩短类加载的时间；</li>
+</ul>
+<p>验证阶段包含4个校验动作（文件格式、元数据、字节码、符号引用校验），</p>
+<h4 id="文件格式校验"><a href="#文件格式校验" class="headerlink" title="文件格式校验"></a>文件格式校验</h4><p>验证字节流是否符合 Class 文件格式的规范，并且能被当前版本的虚拟机处理。<br>验证内容：</p>
+<ul>
+<li>是否以魔数 0xCAFEBABE 开头。</li>
+<li>主、次版本号是否在当前虚拟机处理范围之内。</li>
+<li>常量池的常量中是否有不被支持的常量类型。</li>
+</ul>
+<p>该阶段的验证是基于<code>字节流</code>进行的，只有验证通过了，字节流才会进入内存的方法区中进行存储。<br>所以后面 3 个验证阶段都是基于<code>方法区的存储结构</code>进行的。</p>
+<h4 id="元数据校验"><a href="#元数据校验" class="headerlink" title="元数据校验"></a>元数据校验</h4><p>对字节码描述的信息进行<code>语义分析</code>，以保证其描述的信息符合 Java 语言规范的要求。<br>验证内容：</p>
+<ul>
+<li><p>这个类是否有父类（除 java.lang.Object 外，所有类都应当有父类）。</p>
+</li>
+<li><p>这个类的父类是否继承了不允许被继承的类（被 final 修饰的类）。</p>
+</li>
+<li><p>如果这个类不是抽象类，是否实现了其父类或接口中要求实现的所有方法。</p>
+</li>
+<li><p>类中的字段、方法是否与父类发生矛盾；</p>
+</li>
+</ul>
+<p>主要目的是对类的元数据信息进行语义校验，保证不存在不符合 Java 语言规范的元数据信息。</p>
+<h4 id="字节码验证"><a href="#字节码验证" class="headerlink" title="字节码验证"></a>字节码验证</h4><p>对类的<code>方法体</code>进行检验分析，保证类的方法在运行时不会做出危害虚拟机安全的事件。<br>验证内容：</p>
+<ul>
+<li>保证任意时刻<code>操作数栈的数据类型</code>与<code>指令代码序列</code>都能配合工作。</li>
+<li>保证跳转指令不会跳转到方法体以外的字节码指令上。<br>保证方法体中的类型转换是有效的。<br>主要目的是通过<code>数据流</code>和<code>控制流</code>分析，确定<code>程序语义</code>是合法的、符合逻辑的。</li>
+</ul>
+<h4 id="符号引用验证"><a href="#符号引用验证" class="headerlink" title="符号引用验证"></a>符号引用验证</h4><p>对类自身以外（常量池中的各种符合引用）的信息进行匹配性校验。<br>这一阶段发生在虚拟机将<code>符号引用</code>转化为<code>直接引用</code>时（解析阶段发生）。</p>
+<p>验证内容：</p>
+<ul>
+<li>类名称：符号引用中通过字符串描述的<code>全限定名</code>是否能找到对应的类。</li>
+<li>方法和字段：在指定类中是否存在符合方法的字段描述符，以及简单名称所描述的<code>方法</code>和<code>字段</code>。</li>
+<li>访问权限：符号引用中的类、字段、方法的访问性是否可被当前类访问。</li>
+</ul>
+<p>主要目的是<code>确保解析动作能正常执行</code>。</p>
+<h3 id="准备-Preparation"><a href="#准备-Preparation" class="headerlink" title="准备 Preparation"></a>准备 Preparation</h3><p>准备阶段是正式为类变量分配内存并<code>设置变量初始值</code>的阶段。</p>
+<p>注意点：</p>
+<ul>
+<li>进行内存分配的仅包括<code>类变量</code>，而不包括实例变量（实例变量为null）。</li>
+<li>初始值通常是数据类型的零值。</li>
+<li>会指定常量的值（final）；</li>
+</ul>
+<h3 id="解析-Resolution"><a href="#解析-Resolution" class="headerlink" title="解析 Resolution"></a>解析 Resolution</h3><p>解析阶段是虚拟机将常量池内的<code>符号引用</code>替换为<code>直接引用</code>的过程。</p>
+<ul>
+<li>符号引用：以一组符号来描述所引用的目标，符号可以是任何形式的字面量，只要使用时能无歧义地定位到目标即可。</li>
+<li>直接引用：可以是直接指向目标的指针、相对偏移量或是一个能间接定位到目标的句柄。</li>
+</ul>
+<p>解析动作主要针对以下7 类符号引用（常量类型）进行</p>
+<ul>
+<li><code>类或接口（CONSTANT_Class_info）</code></li>
+<li><code>字段（CONSTANT_Fieldref_info）</code></li>
+<li><code>类方法（CONSTANT_Methodref_info）</code></li>
+<li><code>接口方法（CONSTANT_InterfaceMethodref_info）</code></li>
+<li><code>方法类型（CONSTANT_MethodType_info）</code></li>
+<li><code>方法句柄（CONSTANT_MethodHandle_info ）</code></li>
+<li><code>调用点限定符（CONSTANT_InvokeDynamic_info ）</code> </li>
+</ul>
+<h2 id="初始化-Initialization"><a href="#初始化-Initialization" class="headerlink" title="初始化 Initialization"></a>初始化 Initialization</h2><p>在准备阶段，变量赋默认值，在初始化阶段根据程序员的主观计划去<code>初始化类变量</code>和其他资源的阶段。</p>
+<p>到了初始化阶段，才真正开始执行类中定义的 Java 程序代码（或者说字节码），或者从另一个角度表达，初始化阶段是执行类构造器 cinit() 方法的过程。</p>
+<h3 id="类构造器-cinit-方法的过程"><a href="#类构造器-cinit-方法的过程" class="headerlink" title="类构造器 cinit() 方法的过程"></a>类构造器 cinit() 方法的过程</h3><p>cinit() 方法执行过程中的可能会影响程序运行行为的特点和细节：</p>
+<ul>
+<li>cinit() 方法是有编译器自动收集类中的所有<code>类变量的赋值动作</code>和<code>静态语句块中的语句</code>合并产生的；</li>
+<li><code>父类</code>的cinit() 方法一定是优先于子类执行的；</li>
+<li>cinit() 方法也不是必须的，如果一个类或者接口中没有静态变量语句块，也没有对静态变量的赋值操作，那么编译器可以不为这个类生成cinit() 方法；</li>
+<li>虚拟机保证一个类的cinit() 方法在<code>多线程中被正确的加锁，同步</code>。如果多线程去初始化这个类，其它线程都需要阻塞等待，直到活动线程cinit() 方法完毕；</li>
+</ul>
+<p>对于<code>初始化阶段</code>，虚拟机规范严格规定了有且只有5种情况（<code>主动引用</code>），如果没有进行过初始化，需要触发类的初始化；</p>
+<h3 id="5种主动引用触发初始化"><a href="#5种主动引用触发初始化" class="headerlink" title="5种主动引用触发初始化"></a>5种主动引用触发初始化</h3><ol>
+<li>遇到以下4条字节码指令时：<ol>
+<li>new（实例化对象）；</li>
+<li>getstatic（读取类的静态字段）；</li>
+<li>putstatic（设置类的静态字段）；</li>
+<li>invokestatic（调用类的静态方法）；</li>
+</ol>
+</li>
+<li>使用<code>java.lang.reflect</code>进行反射调用时；</li>
+<li>当初始化一个类时，如果发现父类没有初始化，需先初始化父类；</li>
+<li>JVM启动时，需指定一个执行的主类（包含main方法的那个类），JVM会先初始化这个主类；</li>
+<li>JDK1.7动态语言支持时，如果一个<code>java.lang.invke.MethodHandle</code>实例最后的解析结果REF_getstatic、REF_putstatic、REF_invokestatic的方法句柄；???</li>
+</ol>
+<p>除此之外，所有引用类的方式都不会触发初始化</p>
+<h3 id="被动引用不会触发初始化"><a href="#被动引用不会触发初始化" class="headerlink" title="被动引用不会触发初始化"></a>被动引用不会触发初始化</h3><ol>
+<li>通过子类引用父类的静态字段，不会触发子类的初始化；</li>
+<li>通过数组定义的引用类，不会触发此类的初始化；</li>
+<li>引用类的常量不会触发初始化，因为在编译阶段常量会存入调用类的常量池中（常量传播优化），本质上没有直接引用到定义常量的类；</li>
+<li>接口的初始化时，不会要求其父类全部都完成初始化，只有在真正使用到父接口时（如引用接口定义的常量）才会初始化；</li>
+</ol>
+<h2 id="使用-Using"><a href="#使用-Using" class="headerlink" title="使用 Using"></a>使用 Using</h2><h2 id="卸载-Unloading"><a href="#卸载-Unloading" class="headerlink" title="卸载 Unloading"></a>卸载 Unloading</h2><h1 id="类加载器"><a href="#类加载器" class="headerlink" title="类加载器"></a>类加载器</h1><blockquote>
+<p>什么是类加载器？</p>
+</blockquote>
+<p>虚拟机设计团队把类加载阶段中的<code>通过一个类的全限定名来获取描述此类的二进制字节流</code>这个动作放到 Java 虚拟机外部去实现，以便让应用程序自己决定如何去获取所需要的类。实现这个动作的代码模块称为<code>类加载器</code>。</p>
+<h2 id="类与类加载器"><a href="#类与类加载器" class="headerlink" title="类与类加载器"></a>类与类加载器</h2><p>对于任意一个类，都需要由加载它的<code>类加载器</code>和这个<code>类本身</code>一同确立其在 Java 虚拟机的<code>唯一性</code>，每个类加载器都拥有一个独立的类名称空间。</p>
+<p>也就是说：比较两个类是否<code>相等(equals,isInstance)</code>，只要在这两个类是由同一个类加载器加载的前提下才有意义，否则，即使这两个类来源于同一个 Class 文件，被同一个虚拟机加载，只要加载它们的类加载器不同，那这两个类就必定不相等。</p>
+<p>从 Java 虚拟机的角度来讲，只存在两种不同的类加载器：</p>
+<ol>
+<li>启动类加载器（Bootstrap ClassLoader），这个类加载器使用<code>C++ 实现</code>，是虚拟机自身的一部分；</li>
+<li>所有其他的类加载器，这些类加载器都由<code>Java实现</code>，独立于虚拟机外部，并且全都继承自抽象类 <code>java.lang.ClassLoader</code>。</li>
+</ol>
+<p>从 Java 开发者的角度来看，类加载器可以划分为：</p>
+<ul>
+<li><strong>启动类加载器（Bootstrap ClassLoader）</strong>：这个类加载器负责将存放在<code>\lib 目录</code>中的类库加载到虚拟机内存中。启动类加载器无法被 Java 程序直接引用，用户在编写自定义类加载器时，如果需要把加载请求委派给启动类加载器，那直接使用 null 代替即可；</li>
+<li><strong>扩展类加载器（Extension ClassLoader）</strong>：这个类加载器由 <code>sun.misc.Launcher$ExtClassLoader</code> 实现，它负责加载<code>\lib\ext</code>目录中，或者被<code>java.ext.dirs</code> 系统变量所指定的路径中的所有类库，开发者可以直接使用扩展类加载器；</li>
+<li><strong>应用程序类加载器（Application ClassLoader）</strong>：这个类加载器由 <code>sun.misc.Launcher$App-ClassLoader</code> 实现。<code>getSystemClassLoader()</code> 方法返回的就是这个类加载器，因此也被称为<code>系统类加载器</code>。它负责加载<code>用户类路径</code>（ClassPath）上所指定的类库。开发者可以直接使用这个类加载器，如果应用程序中没有自定义过自己的类加载器，一般情况下这个就是程序中<code>默认的类加载器</code>。</li>
+</ul>
+<p>我们的应用程序都是由这 3 种类加载器互相配合进行加载的，在必要时还可以自己定义类加载器。</p>
+<h2 id="双亲委派模型"><a href="#双亲委派模型" class="headerlink" title="双亲委派模型"></a>双亲委派模型</h2><p><img src="双亲委派模型.png" alt="双亲委派模型"><br>类加载器所呈现出的这种层次关系，称为类加载器的<code>双亲委派模型</code>（Parents Delegation Model）。<br>双亲委派模型要求除了顶层的启动类加载器以外，其余的类加载器都应当有自己的父类加载器。</p>
+<h3 id="双亲委派模型的工作过程"><a href="#双亲委派模型的工作过程" class="headerlink" title="双亲委派模型的工作过程"></a>双亲委派模型的工作过程</h3><p>如果一个类加载器收到了类加载的请求，它首先不会自己去尝试加载这个类，而是把这个请求委派给父类加载器去完成，每一个层次的类加载器都是如此，因此所有的加载请求最终都应该传送到顶层的启动类加载器中，<br>只有当父类加载器反馈自己无法完成这个类加载请求（它的搜索范围中没有找到所需的类）时，子加载器才会尝试自己去加载。<br>这样做的好处就是 Java 类随着它的类加载器一起具备了一种带有优先级的层次关系。</p>
+<h3 id="双亲委派模型的功能"><a href="#双亲委派模型的功能" class="headerlink" title="双亲委派模型的功能"></a>双亲委派模型的功能</h3><p>双亲委派模型对于保证 Java 程序运行的·稳定性·很重要。</p>
+<p>例如<code>java.lang.Object</code>它放在 <code>rt.jar</code> 中，无论哪一个类加载器要加载这个类，最终都是委派给处于模型顶端的启动类加载器来加载，因此 Object 类在程序的各种类加载器环境中都是同一个类。<br>相反，如果没有使用双亲委派模型，由各个类加载器自行去加载的话，如果用户自己编写了一个称为 <code>java.lang.Object</code>的类，并放在程序的<code>ClassPath</code>中，那系统中将会出现多个不同的 Object 类，<code>java 类型体系中最基本的行为</code>就无法保证了。</p>
+<h3 id="双亲委派模型的实现"><a href="#双亲委派模型的实现" class="headerlink" title="双亲委派模型的实现"></a>双亲委派模型的实现</h3><p>实现双亲委派模型的代码都集中在<code>java.lang.ClassLoader</code>的<code>loadClass()</code>方法中：</p>
+<ul>
+<li>子类先委托父类加载；</li>
+<li>父类加载器有自己的<strong>加载范围</strong>，范围内没有找到，则不加载，并返回给子类；</li>
+<li>子类在收到父类无法加载的时候，才会自己去加载；<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">protected</span> Class&lt;?&gt; loadClass(String name, <span class="keyword">boolean</span> resolve)</span><br><span class="line">        <span class="keyword">throws</span> ClassNotFoundException &#123;</span><br><span class="line">    <span class="comment">// 首先，检查请求的类是不是已经被加载过</span></span><br><span class="line">    Class&lt;?&gt; c = findLoadedClass(name);</span><br><span class="line">    <span class="keyword">if</span> (c == <span class="keyword">null</span>) &#123;</span><br><span class="line">        <span class="keyword">try</span> &#123;</span><br><span class="line">            <span class="keyword">if</span> (parent != <span class="keyword">null</span>) &#123;</span><br><span class="line">                c = parent.loadClass(name, <span class="keyword">false</span>);</span><br><span class="line">            &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">                c = findBootstrapClassOrNull(name);</span><br><span class="line">            &#125;</span><br><span class="line">        &#125; <span class="keyword">catch</span> (ClassNotFoundException e) &#123;</span><br><span class="line">            <span class="comment">// 如果父类抛出 ClassNotFoundException 说明父类加载器无法完成加载</span></span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">if</span> (c == <span class="keyword">null</span>) &#123;</span><br><span class="line">            <span class="comment">// 如果父类加载器无法加载，则调用自己的 findClass 方法来进行类加载</span></span><br><span class="line">            c = findClass(name);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">if</span> (resolve) &#123;</span><br><span class="line">        resolveClass(c);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> c;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<h2 id="破坏双亲委派模型"><a href="#破坏双亲委派模型" class="headerlink" title="破坏双亲委派模型"></a>破坏双亲委派模型</h2><blockquote>
+<p>为什么需要破坏双亲委派模型？</p>
+</blockquote>
+<p>因为在某些情况下父类加载器需要委托子类加载器去加载class文件，但受到加载范围的限制，父类加载器无法加载到需要的文件，比如<code>JDBC加载外部数据库驱动</code>就是破坏了双亲委派的典型示例。</p>
+<p>以<code>java.sql.Driver</code>接口为例，由于Driver接口定义在JDK当中的，而其实现由各个数据库的服务商来提供，比如MySQL的就写了<code>MySQL Connector</code>，那么问题就来了，<code>java.sql.DriverManager</code>（也由JDK提供）要加载各个实现了Driver接口的实现类，然后进行管理，但是<code>DriverManager</code>由<code>BootstrapClassLoader</code>加载，但只能加载JAVA_HOME的lib下文件，而其实现是由服务商提供的，由<code>ApplicationClassLoader</code>加载，这个时候就需要<code>BootstrapClassLoader</code>来委托子类来加载Driver实现。</p>
+<p>在<code>sun.misc.Launcher</code>中，Launcher初始化的时候，会获取<code>ApplicationClassLoader</code>，然后将其设置为上下文类加载器（<code>Thread.currentThread().setContextClassLoader(this.loader)</code>），所以<strong>线程上下文类加载器默认情况下就是系统加载器</strong>。</p>
+<p>破坏双亲委派模型的应用：JDBC、JNDI、JAXB、JCE、JBI；</p>
+<p>其他程序动态性的追求：代码热替换、模块热部署；</p>
+<h1 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h1><ul>
+<li><a href="">《深入理解Java虚拟机-JVM高级特性与最佳实践》</a></li>
+</ul>
+
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/JVM/" rel="tag"># JVM</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2020/03/07/%E5%A6%82%E4%BD%95%E7%94%A8%E9%87%91%E5%AD%97%E5%A1%94%E6%80%9D%E7%BB%B4%E6%9D%A5%E5%86%99%E6%8A%80%E6%9C%AF%E7%AC%94%E8%AE%B0/" rel="prev" title="如何用金字塔思维来写技术笔记">
+      <i class="fa fa-chevron-left"></i> 如何用金字塔思维来写技术笔记
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/2020/03/11/Spark%E4%BD%9C%E4%B8%9A%E7%9A%84%E6%89%A7%E8%A1%8C%E8%BF%87%E7%A8%8B/" rel="next" title="Spark作业的执行过程">
+      Spark作业的执行过程 <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+  </div>
+
+
+          </div>
+          
+    <div class="comments" id="gitalk-container"></div>
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let activeClass = CONFIG.comments.activeClass;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#类的加载过程"><span class="nav-number">1.</span> <span class="nav-text">类的加载过程</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#加载-Loading"><span class="nav-number">1.1.</span> <span class="nav-text">加载 Loading</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#非数组类的加载"><span class="nav-number">1.1.1.</span> <span class="nav-text">非数组类的加载</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#数组类的加载"><span class="nav-number">1.1.2.</span> <span class="nav-text">数组类的加载</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#连接-Linking"><span class="nav-number">1.2.</span> <span class="nav-text">连接 Linking</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#校验-Verification"><span class="nav-number">1.2.1.</span> <span class="nav-text">校验 Verification</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#文件格式校验"><span class="nav-number">1.2.1.1.</span> <span class="nav-text">文件格式校验</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#元数据校验"><span class="nav-number">1.2.1.2.</span> <span class="nav-text">元数据校验</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#字节码验证"><span class="nav-number">1.2.1.3.</span> <span class="nav-text">字节码验证</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#符号引用验证"><span class="nav-number">1.2.1.4.</span> <span class="nav-text">符号引用验证</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#准备-Preparation"><span class="nav-number">1.2.2.</span> <span class="nav-text">准备 Preparation</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#解析-Resolution"><span class="nav-number">1.2.3.</span> <span class="nav-text">解析 Resolution</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#初始化-Initialization"><span class="nav-number">1.3.</span> <span class="nav-text">初始化 Initialization</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#类构造器-cinit-方法的过程"><span class="nav-number">1.3.1.</span> <span class="nav-text">类构造器 cinit() 方法的过程</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#5种主动引用触发初始化"><span class="nav-number">1.3.2.</span> <span class="nav-text">5种主动引用触发初始化</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#被动引用不会触发初始化"><span class="nav-number">1.3.3.</span> <span class="nav-text">被动引用不会触发初始化</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#使用-Using"><span class="nav-number">1.4.</span> <span class="nav-text">使用 Using</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#卸载-Unloading"><span class="nav-number">1.5.</span> <span class="nav-text">卸载 Unloading</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#类加载器"><span class="nav-number">2.</span> <span class="nav-text">类加载器</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#类与类加载器"><span class="nav-number">2.1.</span> <span class="nav-text">类与类加载器</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#双亲委派模型"><span class="nav-number">2.2.</span> <span class="nav-text">双亲委派模型</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#双亲委派模型的工作过程"><span class="nav-number">2.2.1.</span> <span class="nav-text">双亲委派模型的工作过程</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#双亲委派模型的功能"><span class="nav-number">2.2.2.</span> <span class="nav-text">双亲委派模型的功能</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#双亲委派模型的实现"><span class="nav-number">2.2.3.</span> <span class="nav-text">双亲委派模型的实现</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#破坏双亲委派模型"><span class="nav-number">2.3.</span> <span class="nav-text">破坏双亲委派模型</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#参考"><span class="nav-number">3.</span> <span class="nav-text">参考</span></a></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">geosmart</p>
+  <div class="site-description" itemprop="description"></div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">199</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+          
+        <span class="site-state-item-count">15</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">118</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+        <a href="https://github.com/geosmart" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;geosmart" rel="noopener" target="_blank"><i class="fa fa-fw fa-github"></i>GitHub</a>
+      </span>
+  </div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2021</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">geosmart</span>
+</div>
+
+        
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/pisces.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+  
+<script src="/js/local-search.js"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+      
+
+<script>
+  if (typeof MathJax === 'undefined') {
+    window.MathJax = {
+      tex: {
+        inlineMath: {'[+]': [['$', '$']]},
+        tags: 'ams'
+      },
+      options: {
+        renderActions: {
+          findScript: [10, doc => {
+            document.querySelectorAll('script[type^="math/tex"]').forEach(node => {
+              const display = !!node.type.match(/; *mode=display/);
+              const math = new doc.options.MathItem(node.textContent, doc.inputJax[0], display);
+              const text = document.createTextNode('');
+              node.parentNode.replaceChild(text, node);
+              math.start = {node: text, delim: '', n: 0};
+              math.end = {node: text, delim: '', n: 0};
+              doc.math.push(math);
+            });
+          }, '', false],
+          insertedScript: [200, () => {
+            document.querySelectorAll('mjx-container').forEach(node => {
+              let target = node.parentNode;
+              if (target.nodeName.toLowerCase() === 'li') {
+                target.parentNode.classList.add('has-jax');
+              }
+            });
+          }, '', false]
+        }
+      }
+    };
+    (function () {
+      var script = document.createElement('script');
+      script.src = '//cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js';
+      script.defer = true;
+      document.head.appendChild(script);
+    })();
+  } else {
+    MathJax.startup.document.state(0);
+    MathJax.texReset();
+    MathJax.typeset();
+  }
+</script>
+
+    
+
+  
+
+<link rel="stylesheet" href="//cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.min.css">
+
+<script>
+NexT.utils.loadComments(document.querySelector('#gitalk-container'), () => {
+  NexT.utils.getScript('//cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.min.js', () => {
+    var gitalk = new Gitalk({
+      clientID    : '8a29a27c357a64ed79fd',
+      clientSecret: 'fe1b781c49fa9037803f3c4d3e94fbb677abac4d',
+      repo        : 'geosmart.github.io',
+      owner       : 'geosmart',
+      admin       : ['geosmart'],
+      id          : '696b949b65cd3088349942b6f2283e23',
+        language: 'zh-CN',
+      distractionFreeMode: true
+    });
+    gitalk.render('gitalk-container');
+  }, window.Gitalk);
+});
+</script>
+
+</body>
+</html>

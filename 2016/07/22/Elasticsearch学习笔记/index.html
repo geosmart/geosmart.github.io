@@ -1,0 +1,717 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 4.2.1">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css">
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"geosmart.github.io","root":"/","scheme":"Pisces","version":"7.7.1","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.xml"};
+  </script>
+
+  <meta name="description" content="Elasticsearch是一个基于Apache Lucene(TM)的开源搜索引擎。Lucene非常复杂，你需要深入了解检索的相关知识来理解它是如何工作的。Elasticsearch也使用Java开发并使用Lucene作为其核心来实现所有索引和搜索的功能，但是它的目的是通过简单的RESTful API来隐藏Lucene的复杂性，从而让全文搜索变得简单。不过，Elasticsearch不仅仅是Lu">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Elasticsearch学习笔记">
+<meta property="og:url" content="http://geosmart.github.io/2016/07/22/Elasticsearch%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/index.html">
+<meta property="og:site_name" content="geosmart.io">
+<meta property="og:description" content="Elasticsearch是一个基于Apache Lucene(TM)的开源搜索引擎。Lucene非常复杂，你需要深入了解检索的相关知识来理解它是如何工作的。Elasticsearch也使用Java开发并使用Lucene作为其核心来实现所有索引和搜索的功能，但是它的目的是通过简单的RESTful API来隐藏Lucene的复杂性，从而让全文搜索变得简单。不过，Elasticsearch不仅仅是Lu">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2016-07-22T02:23:27.000Z">
+<meta property="article:modified_time" content="2021-12-15T01:13:12.838Z">
+<meta property="article:author" content="geosmart">
+<meta property="article:tag" content="Elasticsearch">
+<meta name="twitter:card" content="summary">
+
+<link rel="canonical" href="http://geosmart.github.io/2016/07/22/Elasticsearch%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome: false,
+    isPost: true
+  };
+</script>
+
+  <title>Elasticsearch学习笔记 | geosmart.io</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <div>
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">geosmart.io</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+        <p class="site-subtitle">勿助勿忘，深造自得</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+<nav class="site-nav">
+  
+  <ul id="menu" class="menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-fw fa-home"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-about">
+
+    <a href="/about/" rel="section"><i class="fa fa-fw fa-user"></i>关于</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="fa fa-fw fa-tags"></i>标签</a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/categories/" rel="section"><i class="fa fa-fw fa-th"></i>分类</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-fw fa-archive"></i>归档</a>
+
+  </li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜索
+        </a>
+      </li>
+  </ul>
+
+</nav>
+  <div class="site-search">
+    <div class="popup search-popup">
+    <div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocorrect="off" autocapitalize="off"
+           placeholder="搜索..." spellcheck="false"
+           type="search" class="search-input">
+  </div>
+  <span class="popup-btn-close">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div id="search-result"></div>
+
+</div>
+<div class="search-pop-overlay"></div>
+
+  </div>
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+  <a href="https://github.com/geosmart" class="github-corner" title="Follow me on GitHub" aria-label="Follow me on GitHub" rel="noopener" target="_blank"><svg width="80" height="80" viewBox="0 0 250 250" aria-hidden="true"><path d="M0,0 L115,115 L130,115 L142,142 L250,250 L250,0 Z"></path><path d="M128.3,109.0 C113.8,99.7 119.0,89.6 119.0,89.6 C122.0,82.7 120.5,78.6 120.5,78.6 C119.2,72.0 123.4,76.3 123.4,76.3 C127.3,80.9 125.5,87.3 125.5,87.3 C122.9,97.6 130.6,101.9 134.4,103.2" fill="currentColor" style="transform-origin: 130px 106px;" class="octo-arm"></path><path d="M115.0,115.0 C114.9,115.1 118.7,116.5 119.8,115.4 L133.7,101.6 C136.9,99.2 139.9,98.4 142.2,98.6 C133.8,88.0 127.5,74.4 143.8,58.0 C148.5,53.4 154.0,51.2 159.7,51.0 C160.3,49.4 163.2,43.6 171.4,40.1 C171.4,40.1 176.1,42.5 178.8,56.2 C183.1,58.6 187.2,61.8 190.9,65.4 C194.5,69.0 197.7,73.2 200.1,77.6 C213.8,80.2 216.3,84.9 216.3,84.9 C212.7,93.1 206.9,96.0 205.4,96.6 C205.1,102.4 203.0,107.8 198.3,112.5 C181.9,128.9 168.3,122.5 157.7,114.1 C157.9,116.9 156.7,120.9 152.7,124.9 L141.0,136.5 C139.8,137.7 141.6,141.9 141.8,141.8 Z" fill="currentColor" class="octo-body"></path></svg></a>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content">
+            
+
+  <div class="posts-expand">
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block " lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://geosmart.github.io/2016/07/22/Elasticsearch%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="geosmart">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="geosmart.io">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          Elasticsearch学习笔记
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：22   七月   2016 10:23:27" itemprop="dateCreated datePublished" datetime="2016-07-22T10:23:27+08:00">22   七月   2016</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：15   十二月   2021 9:13:12" itemprop="dateModified" datetime="2021-12-15T09:13:12+08:00">15   十二月   2021</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/%E5%90%8E%E7%AB%AF%E6%8A%80%E6%9C%AF/" itemprop="url" rel="index"><span itemprop="name">后端技术</span></a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <p>Elasticsearch是一个基于Apache Lucene(TM)的开源搜索引擎。<br>Lucene非常复杂，你需要深入了解检索的相关知识来理解它是如何工作的。Elasticsearch也使用Java开发并使用Lucene作为其核心来实现所有索引和搜索的功能，但是它的目的是通过简单的RESTful API来隐藏Lucene的复杂性，从而让全文搜索变得简单。<br>不过，Elasticsearch不仅仅是Lucene和全文搜索，我们还能这样去描述它：</p>
+<ul>
+<li>分布式的实时文件存储，每个字段都被索引并可被搜索</li>
+<li>分布式的实时分析搜索引擎</li>
+<li>可以扩展到上百台服务器，处理PB级结构化或非结构化数据<br>而且，所有的这些功能被集成到一个服务里面，你的应用可以通过简单的RESTful API、各种语言的客户端甚至命令行与之交互。</li>
+</ul>
+<p>在Elasticsearch中，文档归属于一种类型(type),而这些类型存在于索引(index)中，类比传统关系型数据库：</p>
+<p>  Relational DB -&gt; Databases -&gt; Tables -&gt; Rows -&gt; Columns<br>  Elasticsearch -&gt; Indices   -&gt; Types  -&gt; Documents -&gt; Fields</p>
+<p>Elasticsearch集群可以包含多个索引(indices)（数据库），每一个索引可以包含多个类型(types)（表），每一个类型包含多个文档(documents)（行），然后每个文档包含多个字段(Fields)（列）。</p>
+<hr>
+<a id="more"></a> 
+<h1 id="Document-文档"><a href="#Document-文档" class="headerlink" title="Document 文档"></a>Document 文档</h1><p>程序中大多的实体或对象能够被序列化为包含键值对的JSON对象，键(key)是字段(field)或属性(property)的名字，值(value)，可以是字符串、数字、布尔类型、另一个对象、值数组或者其他特殊类型，比如表示日期的字符串或者表示地理位置的对象。</p>
+<p>通常，我们可以认为对象(object)和文档(document)是等价相通的。但他们还是有所差别：</p>
+<ul>
+<li>对象(Object)是一个JSON结构体——类似于哈希、hashmap、字典或者关联数组；</li>
+<li>对象(Object)中还可能包含其他对象(Object)。 </li>
+<li>Elasticsearch中，文档(document)这个术语有着特殊含义，它特指最顶层结构或者根对象(root object)序列化成的JSON数据（以唯一ID标识并存储于Elasticsearch中）。</li>
+</ul>
+<h2 id="文档元数据"><a href="#文档元数据" class="headerlink" title="文档元数据"></a>文档元数据</h2><p>一个文档不只有数据。它还包含了元数据(metadata)——关于文档的信息。三个必须的元数据节点是： </p>
+<div class="table-container">
+<table>
+<thead>
+<tr>
+<th style="text-align:left">节点</th>
+<th style="text-align:left">说明              </th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left">_index</td>
+<td style="text-align:left">文档存储的地方</td>
+</tr>
+<tr>
+<td style="text-align:left">_type</td>
+<td style="text-align:left">文档代表的对象的类</td>
+</tr>
+<tr>
+<td style="text-align:left">_id</td>
+<td style="text-align:left">文档的唯一标识</td>
+</tr>
+</tbody>
+</table>
+</div>
+<h3 id="index"><a href="#index" class="headerlink" title="_index"></a>_index</h3><p>索引(index)类似于关系型数据库里的“数据库”——它是我们存储和索引关联数据的地方。</p>
+<blockquote>
+<p>事实上，我们的数据被存储和索引在分片(shards)中，索引只是一个把一个或多个分片分组在一起的逻辑空间。<br>然而，这只是一些内部细节——我们的程序完全不用关心分片。<br>我们唯一需要做的仅仅是选择一个索引名。这个名字必须是全部小写，不能以下划线开头，不能包含逗号。</p>
+</blockquote>
+<h3 id="type"><a href="#type" class="headerlink" title="_type"></a>_type</h3><p>在应用中，我们使用对象表示一些“事物”，例如一个用户、一篇博客、一个评论，或者一封邮件。每个对象都属于一个类(class)，这个类定义了属性或与对象关联的数据。user类的对象可能包含姓名、性别、年龄和Email地址。</p>
+<p>在Elasticsearch中，我们使用相同类型(type)的文档表示相同的“事物”，因为他们的数据结构也是相同的。</p>
+<ul>
+<li>每个类型(type)都有自己的映射(mapping)或者结构定义，就像传统数据库表中的列一样。</li>
+<li>所有类型下的文档被存储在同一个索引下，但是类型的映射(mapping)会告诉Elasticsearch不同的文档如何被索引。</li>
+<li>_type的名字可以是大写或小写，不能包含下划线或逗号。我们将使用blog做为类型名。</li>
+</ul>
+<h3 id="id"><a href="#id" class="headerlink" title="_id"></a>_id</h3><p>id仅仅是一个字符串，它与_index和_type组合时，就可以在Elasticsearch中唯一标识一个文档。当创建一个文档，你可以自定义_id，也可以让Elasticsearch帮你自动生成。</p>
+<h1 id="Index-索引"><a href="#Index-索引" class="headerlink" title="Index 索引"></a>Index 索引</h1><p>文档通过index API被索引——使数据可以被存储和搜索。<br>但是首先需要决定文档所在。文档通过其_index、_type、_id唯一确定。</p>
+<h1 id="Elasticsearch-CRUD"><a href="#Elasticsearch-CRUD" class="headerlink" title="Elasticsearch CRUD"></a>Elasticsearch CRUD</h1><h2 id="检索"><a href="#检索" class="headerlink" title="检索"></a>检索</h2><p>request：<code>GET /{_index}/{_type}/{_id}?pretty</code>，如<code>/website/blog/123?pretty</code>；<br>response：<br><figure class="highlight json"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line">  <span class="attr">"_index"</span> :   <span class="string">"website"</span>,</span><br><span class="line">  <span class="attr">"_type"</span> :    <span class="string">"blog"</span>,</span><br><span class="line">  <span class="attr">"_id"</span> :      <span class="string">"123"</span>,</span><br><span class="line">  <span class="attr">"_version"</span> : <span class="number">1</span>,</span><br><span class="line">  <span class="attr">"found"</span> :    <span class="literal">true</span>,</span><br><span class="line">  <span class="attr">"_source"</span> :  &#123;</span><br><span class="line">      <span class="attr">"title"</span>: <span class="string">"My first blog entry"</span>,</span><br><span class="line">      <span class="attr">"text"</span>:  <span class="string">"Just trying this out..."</span>,</span><br><span class="line">      <span class="attr">"date"</span>:  <span class="string">"2014/01/01"</span></span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<h3 id="pretty"><a href="#pretty" class="headerlink" title="pretty"></a>pretty</h3><blockquote>
+<p>在任意的查询字符串中增加pretty参数，类似于上面的例子。会让Elasticsearch美化输出(pretty-print)JSON响应以便更加容易阅读。_source字段不会被美化，它的样子与我们输入的一致。</p>
+</blockquote>
+<h3 id="检索部分文档"><a href="#检索部分文档" class="headerlink" title="检索部分文档"></a>检索部分文档</h3><p>通常，GET请求将返回文档的全部，存储在_source参数中。</p>
+<ul>
+<li>请求个别字段可以使用_source参数。多个字段可以使用逗号分隔，如<code>GET /website/blog/123?_source=title,text</code>；</li>
+<li>只想得到_source字段而不要其他的元数据，你可以这样请求：<code>GET /website/blog/123/_source</code>；</li>
+</ul>
+<h3 id="检查文档是否存在"><a href="#检查文档是否存在" class="headerlink" title="检查文档是否存在"></a>检查文档是否存在</h3><p>如果你想做的只是检查文档是否存在——你对内容完全不感兴趣——使用HEAD方法来代替GET。HEAD请求不会返回响应体，只有HTTP头：</p>
+<ul>
+<li>存在返回<code>200 OK</code>状态：</li>
+<li>不存在返回<code>404 Not Found</code>：</li>
+</ul>
+<h3 id="mget批量查询"><a href="#mget批量查询" class="headerlink" title="mget批量查询"></a>mget批量查询</h3><p>从Elasticsearch中检索多个文档，相对于逐条get检索，更快的方式是在一个请求中使用multi-get或者mget API。</p>
+<h2 id="更新"><a href="#更新" class="headerlink" title="更新"></a>更新</h2><p>文档在Elasticsearch中是不可变的——我们不能修改他们。如果需要更新已存在的文档，可以使用index API 重建索引(reindex) 或者替换掉它。<br>在内部，Elasticsearch已经标记旧文档为删除并添加了一个完整的新文档。旧版本文档不会立即消失，但你也不能去访问它。<br>Elasticsearch会在你继续索引更多数据时清理被删除的文档。</p>
+<h2 id="创建"><a href="#创建" class="headerlink" title="创建"></a>创建</h2><p>当索引一个文档，如何确定是完全创建了一个新的还是覆盖了一个已经存在的呢？<br>请记住<code>_index、_type、_id</code>三者唯一确定一个文档。</p>
+<h3 id="Elasticsearch自动生成唯一-id"><a href="#Elasticsearch自动生成唯一-id" class="headerlink" title="Elasticsearch自动生成唯一_id"></a>Elasticsearch自动生成唯一_id</h3><p>所以要想保证文档是新加入的，最简单的方式是使用POST方法让Elasticsearch自动生成唯一_id：<br><code>POST /website/blog/</code> </p>
+<h3 id="自定义的-id"><a href="#自定义的-id" class="headerlink" title="自定义的_id"></a>自定义的_id</h3><p>如果使用自定义的_id，必须告诉Elasticsearch应该在<code>_index、_type、_id</code>三者都不同时才接受请求。有两种实现方式</p>
+<ol>
+<li>使用op_type查询参数：<code>PUT /website/blog/123?op_type=create</code>；</li>
+<li>在URL后加/_create做为端点：<code>PUT /website/blog/123/_create</code>；</li>
+</ol>
+<p>响应结果</p>
+<ul>
+<li>如果请求成功的创建了一个新文档，Elasticsearch将返回正常的元数据且响应状态码是<code>201 Created</code>；</li>
+<li>如果包含相同的_index、_type和_id的文档已经存在，Elasticsearch将返回<code>409 Conflict</code>响应状态码；</li>
+</ul>
+<h2 id="删除"><a href="#删除" class="headerlink" title="删除"></a>删除</h2><p>使用DELETE方法：<code>DELETE /website/blog/123</code>；</p>
+<ul>
+<li>如果文档被找到，Elasticsearch将返回200 OK状态码和以下响应体。注意_version数字已经增加了。 </li>
+<li>如果文档未找到，我们将得到一个404 Not Found状态码， </li>
+</ul>
+<blockquote>
+<p><em>. 尽管文档不存在——“found”的值是false——_version依旧增加了。这是内部记录的一部分，它确保在多节点间不同操作可以有正确的顺序。
+</em>. 除一个文档也不会立即从磁盘上移除，它只是被标记成已删除。Elasticsearch将会在你之后添加更多索引的时候才会在后台进行删除内容的清理。</p>
+</blockquote>
+<h2 id="批量操作"><a href="#批量操作" class="headerlink" title="批量操作"></a>批量操作</h2><p>就像mget允许一次性检索多个文档一样，<br><code>bulk API</code>允许我们使用单一请求来实现多个文档的<code>create、index、update或delete</code>‘；这对索引类似于日志活动这样的数据流非常有用，它们可以以成百上千的数据为一个批次按序进行索引。<br>bulk请求体如下，它有一点不同寻常：</p>
+<figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">&#123; action: &#123; metadata &#125;&#125;\n</span><br><span class="line">&#123; request body        &#125;\n</span><br><span class="line">&#123; action: &#123; metadata &#125;&#125;\n</span><br><span class="line">&#123; request body        &#125;\n</span><br></pre></td></tr></table></figure>
+<p>这种格式类似于用”\n”符号连接起来的一行一行的JSON文档流(stream)。两个重要的点需要注意：</p>
+<ul>
+<li>每行必须以”\n”符号结尾，包括最后一行。这些都是作为每行有效的分离而做的标记。</li>
+<li>每一行的数据不能包含未被转义的换行符，它们会干扰分析——这意味着JSON不能被美化打印。</li>
+</ul>
+<p><a href="http://es.xiaoleilu.com/040_Distributed_CRUD/35_Bulk_format.html">为什么bulk API需要带换行符的奇怪格式，而不是像mget API一样使用JSON数组？</a><br>在分布式环境下，Elasticsearch则从网络缓冲区中一行一行的直接读取数据。它使用换行符识别和解析action/metadata行，以决定哪些分片来处理这个请求。这利于任务分解，可以减少JSON序列化RAM消耗，从而降低JVM GC时间；</p>
+<h3 id="行为-action"><a href="#行为-action" class="headerlink" title="行为(action)"></a>行为(action)</h3><p>action/metadata这一行定义了文档行为(what action)发生在哪个文档(which document)之上。</p>
+<p>行为(action)必须是以下几种：</p>
+<div class="table-container">
+<table>
+<thead>
+<tr>
+<th style="text-align:left">行为</th>
+<th style="text-align:left">解释</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left">create</td>
+<td style="text-align:left">当文档不存在时创建之。</td>
+</tr>
+<tr>
+<td style="text-align:left">index</td>
+<td style="text-align:left">创建新文档或替换已有文档。</td>
+</tr>
+<tr>
+<td style="text-align:left">update</td>
+<td style="text-align:left">局部更新文档。</td>
+</tr>
+<tr>
+<td style="text-align:left">delete</td>
+<td style="text-align:left">删除一个文档。</td>
+</tr>
+</tbody>
+</table>
+</div>
+<p>在索引、创建、更新或删除时必须指定文档的<code>_index、_type、_id</code>这些元数据(metadata)。</p>
+<h3 id="请求体-request-body"><a href="#请求体-request-body" class="headerlink" title="请求体(request body)"></a>请求体(request body)</h3><p>请求体由文档的_source组成——文档所包含的一些字段以及其值，即提供文档用来检索。</p>
+<ul>
+<li>update操作需要请求体，请求体的组成应该与update API（doc, upsert, script等等）一致。</li>
+<li>delete操作不需要请求体(request body)。</li>
+</ul>
+<h3 id="响应结果"><a href="#响应结果" class="headerlink" title="响应结果"></a>响应结果</h3><p>每个子请求都被独立的执行，所以一个子请求的错误并不影响其它请求。<br>如果任何一个请求失败，顶层的error标记将被设置为true，然后错误的细节将在相应的请求中被报告：</p>
+<h3 id="请求最佳大小（sweetspot）"><a href="#请求最佳大小（sweetspot）" class="headerlink" title="请求最佳大小（sweetspot）"></a>请求最佳大小（sweetspot）</h3><p>整个批量请求需要被加载到接受我们请求节点的内存里，所以请求越大，给其它请求可用的内存就越小。<br>有一个最佳的bulk请求大小。超过这个大小，性能不再提升而且可能降低。<br>最佳大小，当然并不是一个固定的数字。它完全取决于硬件、文档的大小和复杂度以及索引和搜索的负载。  </p>
+<p>如何找到最佳点(sweetspot)：</p>
+<ul>
+<li>试着批量索引标准的文档，随着大小的增长，当性能开始降低，说明每个批次的大小太大了。</li>
+<li>开始的数量可以在1000~5000个文档之间，如果文档非常大，可以使用较小的批次。</li>
+<li>通常着眼于请求批次的物理大小是非常有用的。一千个1kB的文档和一千个1MB的文档大不相同。一个好的批次最好保持在5-15MB大小间。</li>
+</ul>
+<h1 id="Shard和Replica"><a href="#Shard和Replica" class="headerlink" title="Shard和Replica"></a>Shard和Replica</h1><h2 id="shard分片"><a href="#shard分片" class="headerlink" title="shard分片"></a>shard分片</h2><p>每个Index（对应Database）包含多个Shard，默认是5个，分散在不同的Node上，但不会存在两个相同的Shard存在一个Node上，这样就没有备份的意义了。Shard是一个最小的Lucene索引单元。<br>当插入document的时候，Elasticsearch通过对docid进行hash来确定其放在哪个shard上面，然后在shard上面进行索引存储。<br>shard代表索引分片，es可以把一个完整的索引分成多个分片，这样的好处是可以把一个大的索引拆分成多个，分布到不同的节点上。构成分布式搜索。分片的数量只能在索引创建前指定，并且索引创建后不能更改。</p>
+<h2 id="replica副本"><a href="#replica副本" class="headerlink" title="replica副本"></a>replica副本</h2><p>replicas就是备份，Elasticsearch采用的是Push Replication模式，当你往 master主分片上面索引一个文档，该分片会复制该文档(document)到剩下的所有 replica副本分片中，这些分片也会索引这个文档。<br>es可以设置多个索引的副本，副本的作用一是提高系统的容错性，当个某个节点某个分片损坏或丢失时可以从副本中恢复。二是提高es的查询效率，es会自动对搜索请求进行负载均衡。</p>
+<h1 id="gateway"><a href="#gateway" class="headerlink" title="gateway"></a>gateway</h1><p>代表es索引的持久化存储方式，es默认是先把索引存放到内存中，当内存满了时再持久化到硬盘。当这个es集群关闭再 重新启动时就会从gateway中读取索引数据。es支持多种类型的gateway，有本地文件系统（默认），分布式文件系统，Hadoop的HDFS和 amazon的s3云存储服务。</p>
+<h1 id="discovery-zen"><a href="#discovery-zen" class="headerlink" title="discovery.zen"></a>discovery.zen</h1><p>代表es的自动发现节点机制，es是一个基于p2p的系统，它先通过广播寻找存在的节点，再通过多播协议来进行节点之间的通信，同时也支持点对点的交互。</p>
+<h1 id="Transport"><a href="#Transport" class="headerlink" title="Transport"></a>Transport</h1><p>代表es内部节点或集群与客户端的交互方式，默认内部是使用tcp协议进行交互，同时它支持http协议（json格式）、thrift、servlet、memcached、zeroMQ等的传输协议（通过插件方式集成）。</p>
+<h1 id="analyzer"><a href="#analyzer" class="headerlink" title="analyzer"></a>analyzer</h1><p>分布式搜索elasticsearch中文分词集成：elasticsearch官方只提供smartcn这个中文分词插件，效果不是很好，好在国内有medcl大神写的两个中文分词插件，一个是<a href="https://github.com/medcl/elasticsearch-analysis-ik">IKAnalyzer分词插件</a>的，一个是<a href="https://github.com/medcl/elasticsearch-analysis-mmseg">mmseg</a>的</p>
+<h2 id="IKAnalyzer分词安装"><a href="#IKAnalyzer分词安装" class="headerlink" title="IKAnalyzer分词安装"></a>IKAnalyzer分词安装</h2><p>下载elasticsearch-analysis-ik源码并打包<br><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">git clone https://github.com/medcl/elasticsearch-analysis-ik</span><br><span class="line">cd elasticsearch-analysis-ik</span><br><span class="line">mvn clean</span><br><span class="line">mvn compile</span><br><span class="line">mvn package</span><br></pre></td></tr></table></figure><br>拷贝和解压release下的文件: #{project_path}/elasticsearch-analysis-ik/target/releases/elasticsearch-analysis-ik-*.zip 到你的 elasticsearch 插件目录, 如: plugins/ik 重启elasticsearch </p>
+<h2 id="IKAnalyzer测试中文分词"><a href="#IKAnalyzer测试中文分词" class="headerlink" title="IKAnalyzer测试中文分词"></a>IKAnalyzer测试中文分词</h2><p>IKAnalyzer分词测试：<a href="http://es1.es.com:9200/mycompany/_analyze?analyzer=ik&amp;pretty=true&amp;text=中华人民共和国国歌">http://es1.es.com:9200/mycompany/_analyze?analyzer=ik&amp;pretty=true&amp;text=中华人民共和国国歌</a></p>
+<h2 id="对指定field建全文索引"><a href="#对指定field建全文索引" class="headerlink" title="对指定field建全文索引"></a>对指定field建全文索引</h2><ul>
+<li>对index=cloudx_web_v3,type=T_EVENT_LOG的name字段以IKAnalyzer建全文索引<br>curl -XPUT <a href="http://es1.es.com:9200/cloudx_web_v3/T_EVENT_LOG/_mapping?pretty">http://es1.es.com:9200/cloudx_web_v3/T_EVENT_LOG/_mapping?pretty</a> -d ‘{“T_EVENT_LOG”:{“properties”:{“name”:{“type”:”string”,”analyzer”:”ik”,”search_analyzer”:”ik”}}}}’</li>
+<li>测试索引：curl -XPOST <a href="http://es1.es.com:9200/cloudx_web_v3/_search?pretty">http://es1.es.com:9200/cloudx_web_v3/_search?pretty</a>  -d ‘{“query”:{“match”:{“name”:{“query”:”规则 专用”,”operator”:”and”}}}}’ </li>
+</ul>
+<h2 id="问题记录"><a href="#问题记录" class="headerlink" title="问题记录"></a>问题记录</h2><h3 id="field-must-be-set-when-search-analyzer-is-set"><a href="#field-must-be-set-when-search-analyzer-is-set" class="headerlink" title="field must be set when search_analyzer is set"></a>field must be set when search_analyzer is set</h3><ul>
+<li>请求参数：<br>curl -XPUT <a href="http://es1.es.com:9200/cloudx_web_v3/T_EVENT_LOG/_mapping?pretty">http://es1.es.com:9200/cloudx_web_v3/T_EVENT_LOG/_mapping?pretty</a> -d ‘{“T_EVENT_LOG”:{“properties”:{“name”:{“type”:”string”,”indexAnalyzer”:”ik”,”searchAnalyzer”:”ik”}}}}’</li>
+<li><p>问题日志：<br>{“error”:{“root_cause”:[{“type”:”mapper_parsing_exception”,”reason”:”analyzer on field [name] must be set when search_analyzer is set”}],”type”:”mapper_parsing_exception”,”reason”:”analyzer on field [name] must be set when search_analyzer is set”},”status”:400}</p>
+</li>
+<li><p>问题解决：参考旧版本教程的坑，V2.3.4的参数改了，应为<br>curl -XPUT <a href="http://es1.es.com:9200/cloudx_web_v3/T_EVENT_LOG/_mapping?pretty">http://es1.es.com:9200/cloudx_web_v3/T_EVENT_LOG/_mapping?pretty</a> -d ‘{“T_EVENT_LOG”:{“properties”:{“name”:{“type”:”string”,”analyzer”:”ik”,”search_analyzer”:”ik”}}}}’</p>
+</li>
+</ul>
+<h1 id="常见问题"><a href="#常见问题" class="headerlink" title="常见问题"></a>常见问题</h1><h2 id="如何合理设置shard和replica"><a href="#如何合理设置shard和replica" class="headerlink" title="如何合理设置shard和replica"></a>如何合理设置shard和replica</h2><p><a href="http://www.cnblogs.com/richaaaard/p/5231905.html">ElasticSearch性能调优-Shard数</a></p>
+<h3 id="shard数"><a href="#shard数" class="headerlink" title="shard数"></a>shard数</h3><ul>
+<li><p>shard数==node数时<br>此时性能最佳，但是由于ElasticSearch的不可变性（Immutable）的限制，系统无法对Shard进行重新拆分分配，除非重新索引这个文件集合，而重建索引开销巨大,所以，为了支持未来可能的水平扩展，一般会为集群分配比node数更多的shard数，也就是说每个节点会有多个Shard。</p>
+</li>
+<li><p>shard数==node数*2<br>shard过多就会引入另外一系列的性能问题，如对于任意一次完整的搜索，ElasticSearch会分别对每个shard进行查询，最后进行汇总。当节点数和shard数是一对一的时候，所有的查询可以并行运行。但是，对于具有多个shard的节点，如果磁盘是15000RPM或SSD，可能会相对较快，但是这也会存在等待响应的问题，所以通常不推荐一个节点超过2个shard。</p>
+</li>
+</ul>
+<h3 id="replica数"><a href="#replica数" class="headerlink" title="replica数"></a>replica数</h3><p>Replica也是Shard，与shard不同的是，replica只会参与读操作，同时也能提高集群的可用性。<br>对于Replica来说，它的主要作用就是提高集群错误恢复的能力，所以replica的数目与shard的数目以及node的数目相关，<br>与shard不同的是，replica的数目可以在集群建立之后变更，且代价较小，所以相比shard的数目而言，没有那么重要。<br>3 node, 3 shard, 1 replica (each)，2个node宕机，服务仍然正常运行。</p>
+<h2 id="如何防止elasticsearch的脑裂问题"><a href="#如何防止elasticsearch的脑裂问题" class="headerlink" title="如何防止elasticsearch的脑裂问题"></a><a href="https://segmentfault.com/a/1190000004504225">如何防止elasticsearch的脑裂问题</a></h2><blockquote>
+<p>如果刚开始使用elasticsearch，建议配置一个3节点集群。这样你可以设置minimum_master_nodes为2，减少了脑裂的可能性，但仍然保持了高可用的优点：你可以承受一个节点失效但集群还是正常运行的。<br>但如果已经运行了一个两节点elasticsearch集群怎么办？可以选择为了保持高可用而忍受脑裂的可能性，或者选择为了防止脑裂而选择高可用性。为了避免这种妥协，最好的选择是给集群添加一个节点。这听起来很极端，但并不是。<br>对于每一个elasticsearch节点你可以设置node.data参数来选择这个节点是否需要保存数据。缺省值是“true”，意思是默认每个elasticsearch节点同时也会作为一个数据节点。<br>在一个两节点集群，你可以添加一个新节点并把node.data参数设置为“false”。这样这个节点不会保存任何分片，但它仍然可以被选为主（默认行为）。因为这个节点是一个无数据节点，所以它可以放在一台便宜服务器上。<br>现在你就有了一个三节点的集群，可以安全的把minimum_master_nodes设置为2，避免脑裂而且仍然可以丢失一个节点并且不会丢失数据。</p>
+<p>If discovery.zen.master_election.filter_client is true </p>
+<ol>
+<li>pings from client nodes (nodes where node.client is true, or both node.data and node.master are false) are ignored during master election; the default value is true.   </li>
+<li>pings from non-master-eligible data nodes (nodes where node.data is true and node.master is false) are ignored during master election; the default value is false.   </li>
+<li>Pings from master-eligible nodes are always observed during master election.  </li>
+</ol>
+<p>Nodes can be excluded from becoming a master by setting node.master to false.<br>Note, once a node is a client node (node.client set to true), it will not be allowed to become a master (node.master is automatically set to false).</p>
+</blockquote>
+<p>master和data同时配置会产生一些神奇的效果：</p>
+<ol>
+<li>当master为false，而data为true时，会对该节点产生严重负荷；</li>
+<li>当master为true，而data为false时，该节点作为一个协调者； </li>
+<li>当master为false，data也为false时，该节点就变成了一个负载均衡器。 </li>
+</ol>
+<h2 id="如何给Elasticsearch设置合适的Heap内存"><a href="#如何给Elasticsearch设置合适的Heap内存" class="headerlink" title="如何给Elasticsearch设置合适的Heap内存"></a><a href="https://www.elastic.co/guide/en/elasticsearch/guide/current/heap-sizing.html">如何给Elasticsearch设置合适的Heap内存</a></h2><p>设置Elastic Heap内存（for Elasticsearch faster GCs）：<code>export ES_HEAP_SIZE=3g</code>，<br>建议分配可用内存的50%给ElasticSearch（如<code>aggregating on analyzed string fields</code>比较少的话，可以设置更小，以留下足够的空闲内存给lucene），<br>注意Lucene的segments是不可变的，为提高聚合和倒排索引的性能，lucene需要占用系统内存作为缓存</p>
+<h2 id="如何删除document中的重复数据？"><a href="#如何删除document中的重复数据？" class="headerlink" title="如何删除document中的重复数据？"></a>如何删除document中的重复数据？</h2><p><a href="https://qbox.io/blog/minimizing-document-duplication-in-elasticsearch">minimizing-document-duplication-in-elasticsearch</a><br><a href="http://es1.es.com:9200/cloudx_web_v3/T_EVENT_LOG/_search?pretty=true">http://es1.es.com:9200/cloudx_web_v3/T_EVENT_LOG/_search?pretty=true</a> -d <code>{json}</code><br><figure class="highlight json"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line">    <span class="attr">"aggs"</span>: &#123;</span><br><span class="line">        <span class="attr">"duplicateCount"</span>: &#123;</span><br><span class="line">            <span class="attr">"terms"</span>: &#123;</span><br><span class="line">                <span class="attr">"field"</span>: <span class="string">"name"</span>,</span><br><span class="line">                <span class="attr">"min_doc_count"</span>: <span class="number">2</span></span><br><span class="line">            &#125;,</span><br><span class="line">            <span class="attr">"aggs"</span>: &#123;</span><br><span class="line">                <span class="attr">"duplicateDocuments"</span>: &#123;</span><br><span class="line">                    <span class="attr">"top_hits"</span>: &#123;&#125;</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<h1 id="ES参考资料"><a href="#ES参考资料" class="headerlink" title="ES参考资料"></a>ES参考资料</h1><ul>
+<li><a href="http://www.cnblogs.com/richaaaard/category/783901.html">Richaaaard的Elasticsearch系列教程</a></li>
+<li><a href="https://github.com/garyelephant/blog/blob/master/elasticsearch_optimization_checklist.md">ES调优参数列表</a></li>
+</ul>
+
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/Elasticsearch/" rel="tag"># Elasticsearch</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2016/07/21/%E6%97%A5%E5%BF%97%E5%88%86%E6%9E%90ELK/" rel="prev" title="日志分析ELK">
+      <i class="fa fa-chevron-left"></i> 日志分析ELK
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/2016/07/22/Elasticsearch%E9%9B%86%E7%BE%A4%E9%83%A8%E7%BD%B2/" rel="next" title="Elasticsearch集群部署">
+      Elasticsearch集群部署 <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+  </div>
+
+
+          </div>
+          
+    <div class="comments" id="gitalk-container"></div>
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let activeClass = CONFIG.comments.activeClass;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#Document-文档"><span class="nav-number">1.</span> <span class="nav-text">Document 文档</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#文档元数据"><span class="nav-number">1.1.</span> <span class="nav-text">文档元数据</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#index"><span class="nav-number">1.1.1.</span> <span class="nav-text">_index</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#type"><span class="nav-number">1.1.2.</span> <span class="nav-text">_type</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#id"><span class="nav-number">1.1.3.</span> <span class="nav-text">_id</span></a></li></ol></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Index-索引"><span class="nav-number">2.</span> <span class="nav-text">Index 索引</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Elasticsearch-CRUD"><span class="nav-number">3.</span> <span class="nav-text">Elasticsearch CRUD</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#检索"><span class="nav-number">3.1.</span> <span class="nav-text">检索</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#pretty"><span class="nav-number">3.1.1.</span> <span class="nav-text">pretty</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#检索部分文档"><span class="nav-number">3.1.2.</span> <span class="nav-text">检索部分文档</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#检查文档是否存在"><span class="nav-number">3.1.3.</span> <span class="nav-text">检查文档是否存在</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#mget批量查询"><span class="nav-number">3.1.4.</span> <span class="nav-text">mget批量查询</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#更新"><span class="nav-number">3.2.</span> <span class="nav-text">更新</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#创建"><span class="nav-number">3.3.</span> <span class="nav-text">创建</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Elasticsearch自动生成唯一-id"><span class="nav-number">3.3.1.</span> <span class="nav-text">Elasticsearch自动生成唯一_id</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#自定义的-id"><span class="nav-number">3.3.2.</span> <span class="nav-text">自定义的_id</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#删除"><span class="nav-number">3.4.</span> <span class="nav-text">删除</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#批量操作"><span class="nav-number">3.5.</span> <span class="nav-text">批量操作</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#行为-action"><span class="nav-number">3.5.1.</span> <span class="nav-text">行为(action)</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#请求体-request-body"><span class="nav-number">3.5.2.</span> <span class="nav-text">请求体(request body)</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#响应结果"><span class="nav-number">3.5.3.</span> <span class="nav-text">响应结果</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#请求最佳大小（sweetspot）"><span class="nav-number">3.5.4.</span> <span class="nav-text">请求最佳大小（sweetspot）</span></a></li></ol></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Shard和Replica"><span class="nav-number">4.</span> <span class="nav-text">Shard和Replica</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#shard分片"><span class="nav-number">4.1.</span> <span class="nav-text">shard分片</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#replica副本"><span class="nav-number">4.2.</span> <span class="nav-text">replica副本</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#gateway"><span class="nav-number">5.</span> <span class="nav-text">gateway</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#discovery-zen"><span class="nav-number">6.</span> <span class="nav-text">discovery.zen</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Transport"><span class="nav-number">7.</span> <span class="nav-text">Transport</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#analyzer"><span class="nav-number">8.</span> <span class="nav-text">analyzer</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#IKAnalyzer分词安装"><span class="nav-number">8.1.</span> <span class="nav-text">IKAnalyzer分词安装</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#IKAnalyzer测试中文分词"><span class="nav-number">8.2.</span> <span class="nav-text">IKAnalyzer测试中文分词</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#对指定field建全文索引"><span class="nav-number">8.3.</span> <span class="nav-text">对指定field建全文索引</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#问题记录"><span class="nav-number">8.4.</span> <span class="nav-text">问题记录</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#field-must-be-set-when-search-analyzer-is-set"><span class="nav-number">8.4.1.</span> <span class="nav-text">field must be set when search_analyzer is set</span></a></li></ol></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#常见问题"><span class="nav-number">9.</span> <span class="nav-text">常见问题</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#如何合理设置shard和replica"><span class="nav-number">9.1.</span> <span class="nav-text">如何合理设置shard和replica</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#shard数"><span class="nav-number">9.1.1.</span> <span class="nav-text">shard数</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#replica数"><span class="nav-number">9.1.2.</span> <span class="nav-text">replica数</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#如何防止elasticsearch的脑裂问题"><span class="nav-number">9.2.</span> <span class="nav-text">如何防止elasticsearch的脑裂问题</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#如何给Elasticsearch设置合适的Heap内存"><span class="nav-number">9.3.</span> <span class="nav-text">如何给Elasticsearch设置合适的Heap内存</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#如何删除document中的重复数据？"><span class="nav-number">9.4.</span> <span class="nav-text">如何删除document中的重复数据？</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#ES参考资料"><span class="nav-number">10.</span> <span class="nav-text">ES参考资料</span></a></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">geosmart</p>
+  <div class="site-description" itemprop="description"></div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">199</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+          
+        <span class="site-state-item-count">15</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">118</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+        <a href="https://github.com/geosmart" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;geosmart" rel="noopener" target="_blank"><i class="fa fa-fw fa-github"></i>GitHub</a>
+      </span>
+  </div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2021</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">geosmart</span>
+</div>
+
+        
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/pisces.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+  
+<script src="/js/local-search.js"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+      
+
+<script>
+  if (typeof MathJax === 'undefined') {
+    window.MathJax = {
+      tex: {
+        inlineMath: {'[+]': [['$', '$']]},
+        tags: 'ams'
+      },
+      options: {
+        renderActions: {
+          findScript: [10, doc => {
+            document.querySelectorAll('script[type^="math/tex"]').forEach(node => {
+              const display = !!node.type.match(/; *mode=display/);
+              const math = new doc.options.MathItem(node.textContent, doc.inputJax[0], display);
+              const text = document.createTextNode('');
+              node.parentNode.replaceChild(text, node);
+              math.start = {node: text, delim: '', n: 0};
+              math.end = {node: text, delim: '', n: 0};
+              doc.math.push(math);
+            });
+          }, '', false],
+          insertedScript: [200, () => {
+            document.querySelectorAll('mjx-container').forEach(node => {
+              let target = node.parentNode;
+              if (target.nodeName.toLowerCase() === 'li') {
+                target.parentNode.classList.add('has-jax');
+              }
+            });
+          }, '', false]
+        }
+      }
+    };
+    (function () {
+      var script = document.createElement('script');
+      script.src = '//cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js';
+      script.defer = true;
+      document.head.appendChild(script);
+    })();
+  } else {
+    MathJax.startup.document.state(0);
+    MathJax.texReset();
+    MathJax.typeset();
+  }
+</script>
+
+    
+
+  
+
+<link rel="stylesheet" href="//cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.min.css">
+
+<script>
+NexT.utils.loadComments(document.querySelector('#gitalk-container'), () => {
+  NexT.utils.getScript('//cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.min.js', () => {
+    var gitalk = new Gitalk({
+      clientID    : '8a29a27c357a64ed79fd',
+      clientSecret: 'fe1b781c49fa9037803f3c4d3e94fbb677abac4d',
+      repo        : 'geosmart.github.io',
+      owner       : 'geosmart',
+      admin       : ['geosmart'],
+      id          : '5ddef46405bc72b221f70d003a3e7145',
+        language: 'zh-CN',
+      distractionFreeMode: true
+    });
+    gitalk.render('gitalk-container');
+  }, window.Gitalk);
+});
+</script>
+
+</body>
+</html>

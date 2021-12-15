@@ -1,0 +1,24 @@
+apiVersion: extensions/v1beta1
+kind: Ingress
+metadata:
+  name: ${appId}
+  namespace: ${k8sNameSpace}
+  labels:
+    app-name: ${appId}
+  annotations:
+    nginx.ingress.kubernetes.io/rewrite-target: /$2
+    nginx.ingress.kubernetes.io/ssl-redirect: "false"
+    nginx.ingress.kubernetes.io/configuration-snippet: |
+      proxy_set_header Accept-Encoding "";
+      sub_filter_types *;
+      sub_filter 'href="/' 'href="/apps/${appId}/';
+      sub_filter 'src="/' 'src="/apps/${appId}/';
+      sub_filter_once off;
+spec:
+  rules:
+    - http:
+        paths:
+          - backend:
+              serviceName: ${appId}
+              servicePort: 4040
+            path: /apps/${appId}(/|$)(.*)

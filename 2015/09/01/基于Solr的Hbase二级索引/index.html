@@ -1,0 +1,606 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 4.2.1">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css">
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"geosmart.github.io","root":"/","scheme":"Pisces","version":"7.7.1","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.xml"};
+  </script>
+
+  <meta name="description" content="关于Hbase二级索引HBase 是一个列存数据库，每行数据只有一个主键RowKey，无法依据指定列的数据进行检索。查询时需要通过RowKey进行检索，然后查看指定列的数据是什么，效率低下。在实际应用中，我们经常需要根据指定列进行检索，或者几个列进行组合检索，这就提出了建立 HBase 二级索引的需求。 二级索引构建方式：表索引、列索引、全文索引    表索引是将索引数据单独存储为一张表，通过 H">
+<meta property="og:type" content="article">
+<meta property="og:title" content="基于Solr的Hbase二级索引">
+<meta property="og:url" content="http://geosmart.github.io/2015/09/01/%E5%9F%BA%E4%BA%8ESolr%E7%9A%84Hbase%E4%BA%8C%E7%BA%A7%E7%B4%A2%E5%BC%95/index.html">
+<meta property="og:site_name" content="geosmart.io">
+<meta property="og:description" content="关于Hbase二级索引HBase 是一个列存数据库，每行数据只有一个主键RowKey，无法依据指定列的数据进行检索。查询时需要通过RowKey进行检索，然后查看指定列的数据是什么，效率低下。在实际应用中，我们经常需要根据指定列进行检索，或者几个列进行组合检索，这就提出了建立 HBase 二级索引的需求。 二级索引构建方式：表索引、列索引、全文索引    表索引是将索引数据单独存储为一张表，通过 H">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="http://geosmart.github.io/2015/09/01/%E5%9F%BA%E4%BA%8ESolr%E7%9A%84Hbase%E4%BA%8C%E7%BA%A7%E7%B4%A2%E5%BC%95/solr-query.png">
+<meta property="og:image" content="http://geosmart.github.io/2015/09/01/%E5%9F%BA%E4%BA%8ESolr%E7%9A%84Hbase%E4%BA%8C%E7%BA%A7%E7%B4%A2%E5%BC%95/indexerConfig.png">
+<meta property="og:image" content="http://geosmart.github.io/2015/09/01/%E5%9F%BA%E4%BA%8ESolr%E7%9A%84Hbase%E4%BA%8C%E7%BA%A7%E7%B4%A2%E5%BC%95/solr.png">
+<meta property="article:published_time" content="2015-09-01T11:41:27.000Z">
+<meta property="article:modified_time" content="2021-12-15T01:13:12.813Z">
+<meta property="article:author" content="geosmart">
+<meta property="article:tag" content="分布式">
+<meta property="article:tag" content="CDH">
+<meta property="article:tag" content="Hadoop">
+<meta property="article:tag" content="Hbase">
+<meta property="article:tag" content="Solr">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://geosmart.github.io/2015/09/01/%E5%9F%BA%E4%BA%8ESolr%E7%9A%84Hbase%E4%BA%8C%E7%BA%A7%E7%B4%A2%E5%BC%95/solr-query.png">
+
+<link rel="canonical" href="http://geosmart.github.io/2015/09/01/%E5%9F%BA%E4%BA%8ESolr%E7%9A%84Hbase%E4%BA%8C%E7%BA%A7%E7%B4%A2%E5%BC%95/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome: false,
+    isPost: true
+  };
+</script>
+
+  <title>基于Solr的Hbase二级索引 | geosmart.io</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <div>
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">geosmart.io</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+        <p class="site-subtitle">勿助勿忘，深造自得</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+<nav class="site-nav">
+  
+  <ul id="menu" class="menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-fw fa-home"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-about">
+
+    <a href="/about/" rel="section"><i class="fa fa-fw fa-user"></i>关于</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="fa fa-fw fa-tags"></i>标签</a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/categories/" rel="section"><i class="fa fa-fw fa-th"></i>分类</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-fw fa-archive"></i>归档</a>
+
+  </li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜索
+        </a>
+      </li>
+  </ul>
+
+</nav>
+  <div class="site-search">
+    <div class="popup search-popup">
+    <div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocorrect="off" autocapitalize="off"
+           placeholder="搜索..." spellcheck="false"
+           type="search" class="search-input">
+  </div>
+  <span class="popup-btn-close">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div id="search-result"></div>
+
+</div>
+<div class="search-pop-overlay"></div>
+
+  </div>
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+  <a href="https://github.com/geosmart" class="github-corner" title="Follow me on GitHub" aria-label="Follow me on GitHub" rel="noopener" target="_blank"><svg width="80" height="80" viewBox="0 0 250 250" aria-hidden="true"><path d="M0,0 L115,115 L130,115 L142,142 L250,250 L250,0 Z"></path><path d="M128.3,109.0 C113.8,99.7 119.0,89.6 119.0,89.6 C122.0,82.7 120.5,78.6 120.5,78.6 C119.2,72.0 123.4,76.3 123.4,76.3 C127.3,80.9 125.5,87.3 125.5,87.3 C122.9,97.6 130.6,101.9 134.4,103.2" fill="currentColor" style="transform-origin: 130px 106px;" class="octo-arm"></path><path d="M115.0,115.0 C114.9,115.1 118.7,116.5 119.8,115.4 L133.7,101.6 C136.9,99.2 139.9,98.4 142.2,98.6 C133.8,88.0 127.5,74.4 143.8,58.0 C148.5,53.4 154.0,51.2 159.7,51.0 C160.3,49.4 163.2,43.6 171.4,40.1 C171.4,40.1 176.1,42.5 178.8,56.2 C183.1,58.6 187.2,61.8 190.9,65.4 C194.5,69.0 197.7,73.2 200.1,77.6 C213.8,80.2 216.3,84.9 216.3,84.9 C212.7,93.1 206.9,96.0 205.4,96.6 C205.1,102.4 203.0,107.8 198.3,112.5 C181.9,128.9 168.3,122.5 157.7,114.1 C157.9,116.9 156.7,120.9 152.7,124.9 L141.0,136.5 C139.8,137.7 141.6,141.9 141.8,141.8 Z" fill="currentColor" class="octo-body"></path></svg></a>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content">
+            
+
+  <div class="posts-expand">
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block " lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://geosmart.github.io/2015/09/01/%E5%9F%BA%E4%BA%8ESolr%E7%9A%84Hbase%E4%BA%8C%E7%BA%A7%E7%B4%A2%E5%BC%95/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="geosmart">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="geosmart.io">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          基于Solr的Hbase二级索引
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：1   九月   2015 19:41:27" itemprop="dateCreated datePublished" datetime="2015-09-01T19:41:27+08:00">1   九月   2015</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：15   十二月   2021 9:13:12" itemprop="dateModified" datetime="2021-12-15T09:13:12+08:00">15   十二月   2021</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/%E5%A4%A7%E6%95%B0%E6%8D%AE/" itemprop="url" rel="index"><span itemprop="name">大数据</span></a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <h1 id="关于Hbase二级索引"><a href="#关于Hbase二级索引" class="headerlink" title="关于Hbase二级索引"></a>关于Hbase二级索引</h1><p>HBase 是一个列存数据库，每行数据只有一个主键RowKey，无法依据指定列的数据进行检索。查询时需要通过RowKey进行检索，然后查看指定列的数据是什么，效率低下。在实际应用中，我们经常需要根据指定列进行检索，或者几个列进行组合检索，这就提出了建立 HBase 二级索引的需求。</p>
+<p>二级索引构建方式：表索引、列索引、全文索引  </p>
+<ul>
+<li>表索引是将索引数据单独存储为一张表，通过 HBase Coprocessor 生成并访问索引数据。</li>
+<li>列索引是将索引数据与源数据存储在相同的 Region 里，索引数据定义为一个单独的列族，也是利用 Coprocessor 来生成并访问索引数据。对于表索引，源数据表与索引表的数据一致性很难保证，访问两张不同的表也会增加 IO 开销和远程调用的次数。对于列索引，单表的数据容量会急剧增加，对同一 Region 里的多个列族进行 Split 或 Merge 等操作时可能会造成数据丢失或不一致。  </li>
+<li>全文索引：以CDH5中的Lily HBase Indexer服务实现，其使用SolrCloud存储HBase的索引数据，Indexer索引和搜索不会影响HBase运行的稳定性和HBase数据写入的吞吐量，因为索引和搜索过程是完全分开并且异步的。Lily HBase Indexer在CDH5中运行必须依赖HBase、SolrCloud和Zookeeper服务。</li>
+</ul>
+<hr>
+<a id="more"></a>
+<p><img src="solr-query.png" alt="通过solr查询rowkey再查询Hbase"></p>
+<h1 id="关于Key-Value-Indexer组件"><a href="#关于Key-Value-Indexer组件" class="headerlink" title="关于Key-Value Indexer组件"></a>关于Key-Value Indexer组件</h1><p><a href="http://www.cloudera.com/content/cloudera/zh-CN/documentation/core/v5-3-x/topics/search_use_hbase_indexer_service.html?scroll=xd_583c10bfdbd326ba-204beb9-13ef1573a9e--7fbb">CDH官方文档</a><br><a href="https://github.com/NGDATA/hbase-indexer/wiki">hbase-indexer官方WIKI</a><br><a href="http://blog.cloudera.com/blog/2013/11/email-indexing-using-cloudera-search-and-hbase/">参考博客：Email Indexing Using Cloudera Search and HBase</a><br><a href="http://blog.csdn.net/kissmelove01/article/details/45043955">参考博客： Cloudera Search Solr初探</a><br><a href="http://ae.yyuap.com/pages/viewpage.action?pageId=920173">参考博客：一种基于UDH Search的HBase二级索引构建方案</a>     </p>
+<p>CDH5.4中的Key-Value Indexer使用的是Lily HBase NRT Indexer服务，Lily HBase Indexer是一款灵活的、可扩展的、高容错的、事务性的，并且近实时的处理HBase列索引数据的分布式服务软件。它是NGDATA公司开发的Lily系统的一部分，已开放源代码。<br>Lily HBase Indexer使用SolrCloud来存储HBase的索引数据，当HBase执行写入、更新或删除操作时，Indexer通过HBase的replication功能来把这些操作抽象成一系列的Event事件，并用来保证写入Solr中的HBase索引数据的一致性。并且Indexer支持用户自定义的抽取，转换规则来索引HBase列数据。Solr搜索结果会包含用户自定义的columnfamily:qualifier字段结果，这样应用程序就可以直接访问HBase的列数据。而且Indexer索引和搜索不会影响HBase运行的稳定性和HBase数据写入的吞吐量，因为索引和搜索过程是完全分开并且异步的。<br>Lily HBase Indexer在CDH5中运行必须依赖HBase、SolrCloud和Zookeeper服务。</p>
+<h1 id="使用-Lily-HBase-Batch-Indexer-进行索引"><a href="#使用-Lily-HBase-Batch-Indexer-进行索引" class="headerlink" title="使用 Lily HBase Batch Indexer 进行索引"></a>使用 Lily HBase Batch Indexer 进行索引</h1><p>借助 Cloudera Search，您可以利用 MapReduce 作业对 HBase 表进行批量索引。批量索引不需要以下操作：</p>
+<ul>
+<li>HBase 复制</li>
+<li>Lily HBase Indexer 服务</li>
+<li>通过 Lily HBase Indexer 服务注册 Lily HBase Indexer 配置<br>该索引器支持灵活的、自定义的、特定于应用程序的规则来将 HBase 数据提取、转换和加载到 Solr。Solr 搜索结果可以包含到存储在 HBase 中的数据的 columnFamily:qualifier 链接。这样，应用程序可以使用搜索结果集直接访问匹配的原始 HBase 单元格。</li>
+</ul>
+<h1 id="创建HBase集群的表中列索引的步骤："><a href="#创建HBase集群的表中列索引的步骤：" class="headerlink" title="创建HBase集群的表中列索引的步骤："></a>创建HBase集群的表中列索引的步骤：</h1><p><a href="https://github.com/NGDATA/hbase-indexer/wiki/Tutorial">Tutorial教程</a>  </p>
+<ul>
+<li>填充 HBase 表。</li>
+<li>创建相应的 SolrCloud 集合</li>
+<li>创建 Lily HBase Indexer 配置</li>
+<li>创建 Morphline 配置文件</li>
+<li>注册 Lily HBase Indexer Configuration 和 Lily HBase Indexer Service</li>
+</ul>
+<h2 id="填充-HBase-表"><a href="#填充-HBase-表" class="headerlink" title="填充 HBase 表"></a>填充 HBase 表</h2><p>在配置和启动系统后，创建 HBase 表并向其添加行。例如：<br>对于每个新表，在需要通过发出格式命令进行索引的每个列系列上设置 REPLICATION_SCOPE：</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">$</span><span class="bash"> hbase shell </span></span><br><span class="line"></span><br><span class="line"><span class="meta">#</span><span class="bash">测试数据：列簇设置REPLICATION_SCOPE</span></span><br><span class="line">disable 'User'</span><br><span class="line">drop  'User'</span><br><span class="line">create 'User', &#123;NAME =&gt; 'data', REPLICATION_SCOPE =&gt; 1&#125;  </span><br><span class="line"></span><br><span class="line">disable 'User'</span><br><span class="line">alter 'User', &#123;NAME =&gt; 'detail', REPLICATION_SCOPE =&gt; 1&#125;  </span><br><span class="line">enable 'User'</span><br><span class="line"></span><br><span class="line"><span class="meta">#</span><span class="bash">新增CF</span></span><br><span class="line">disable 'User'</span><br><span class="line">alter 'User', &#123;NAME =&gt; 'detail', REPLICATION_SCOPE =&gt; 1&#125; </span><br><span class="line">enable 'User'</span><br><span class="line"></span><br><span class="line"><span class="meta">#</span><span class="bash">修改现有</span></span><br><span class="line">disable 'User'</span><br><span class="line">alter 'User', &#123;NAME =&gt; 'data', REPLICATION_SCOPE =&gt; 1&#125; </span><br><span class="line">enable 'User'</span><br><span class="line"></span><br><span class="line"><span class="meta">#</span><span class="bash"> 插入测试数据 </span></span><br><span class="line">put 'User','row1','data:name','u1'</span><br><span class="line">put 'User','row1','data:psd','123'</span><br></pre></td></tr></table></figure>
+<h2 id="创建相应的-SolrCloud-集合"><a href="#创建相应的-SolrCloud-集合" class="headerlink" title="创建相应的 SolrCloud 集合"></a>创建相应的 SolrCloud 集合</h2><p>用于 HBase 索引的 SolrCloud 集合必须具有可容纳 HBase 列系列的类型和要进行索引处理的限定符的 Solr 架构。若要开始，请考虑将包括一切 data 的字段添加到默认schema。一旦您决定采用一种schema，使用以下表单命令创建 SolrCloud 集合：</p>
+<h3 id="user示例配置"><a href="#user示例配置" class="headerlink" title="user示例配置"></a>user示例配置</h3><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#</span><span class="bash"> 生成实体配置文件：</span></span><br><span class="line">solrctl instancedir --generate $HOME/hbase-indexer/User</span><br></pre></td></tr></table></figure>
+<p>编辑schema，需包含以下内容<br><code>vim $HOME/hbase-indexer/User/conf/schema.xml</code></p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">&lt;!-- 绑定rowkey--&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">field</span> <span class="attr">name</span>=<span class="string">"id"</span> <span class="attr">type</span>=<span class="string">"string"</span> <span class="attr">indexed</span>=<span class="string">"true"</span> <span class="attr">stored</span>=<span class="string">"true"</span> <span class="attr">required</span>=<span class="string">"true"</span> <span class="attr">multiValued</span>=<span class="string">"false"</span> /&gt;</span></span><br><span class="line"> </span><br><span class="line"><span class="tag">&lt;<span class="name">field</span> <span class="attr">name</span>=<span class="string">"name"</span> <span class="attr">type</span>=<span class="string">"string"</span> <span class="attr">indexed</span>=<span class="string">"true"</span> <span class="attr">stored</span>=<span class="string">"true"</span>/&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">field</span> <span class="attr">name</span>=<span class="string">"psd"</span> <span class="attr">type</span>=<span class="string">"string"</span> <span class="attr">indexed</span>=<span class="string">"true"</span> <span class="attr">stored</span>=<span class="string">"true"</span>/&gt;</span> </span><br><span class="line"><span class="tag">&lt;<span class="name">field</span> <span class="attr">name</span>=<span class="string">"address"</span> <span class="attr">type</span>=<span class="string">"string"</span> <span class="attr">indexed</span>=<span class="string">"true"</span> <span class="attr">stored</span>=<span class="string">"true"</span>/&gt;</span> </span><br><span class="line"><span class="tag">&lt;<span class="name">field</span> <span class="attr">name</span>=<span class="string">"photo"</span> <span class="attr">type</span>=<span class="string">"string"</span> <span class="attr">indexed</span>=<span class="string">"true"</span> <span class="attr">stored</span>=<span class="string">"true"</span>/&gt;</span></span><br></pre></td></tr></table></figure>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#</span><span class="bash"> 创建 collection实例并将配置文件上传到 zookeeper：</span></span><br><span class="line">solrctl instancedir --create User  $HOME/hbase-indexer/User</span><br><span class="line"><span class="meta">#</span><span class="bash"> 上传到 zookeeper 之后，其他节点就可以从zookeeper下载配置文件。接下来创建 collection:</span></span><br><span class="line">solrctl collection --create User</span><br></pre></td></tr></table></figure>
+<h3 id="注意"><a href="#注意" class="headerlink" title="注意"></a>注意</h3><p>在schema.xml中uniqueKey必须为rowkey,而rowkey默认使用’id’字段表示，<field>中必须要有uniqueKey对应的id字段。</p>
+<h2 id="创建-Lily-HBase-Indexer-配置"><a href="#创建-Lily-HBase-Indexer-配置" class="headerlink" title="创建 Lily HBase Indexer 配置"></a>创建 Lily HBase Indexer 配置</h2><p><a href="https://github.com/NGDATA/hbase-indexer/wiki/Indexer-configuration">Indexer-configuration官方参考</a><br>在HBase-Solr的安装目录/usr/lib/hbase-solr/下，创建morphline-hbase-mapper.xml文件，文件内容如下：   </p>
+<p><code>$ vim  $HOME/hbase-indexer/morphline-hbase-mapper.xml</code></p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?xml version="1.0"?&gt;</span></span><br><span class="line"> <span class="comment">&lt;!-- table：需要索引的HBase表名称--&gt;</span></span><br><span class="line"> <span class="comment">&lt;!-- mapper：用来实现和读取指定的Morphline配置文件类，固定为MorphlineResultToSolrMapper--&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">indexer</span> <span class="attr">table</span>=<span class="string">"User"</span> <span class="attr">mapper</span>=<span class="string">"com.ngdata.hbaseindexer.morphline.MorphlineResultToSolrMapper"</span>&gt;</span></span><br><span class="line"> </span><br><span class="line">   <span class="comment">&lt;!--param中的name参数用来指定当前配置为morphlineFile文件 --&gt;</span></span><br><span class="line">   <span class="comment">&lt;!--value用来指定morphlines.conf文件的路径，绝对或者相对路径用来指定本地路径，如果是使用Cloudera Manager来管理morphlines.conf就直接写入值morphlines.conf"--&gt;</span></span><br><span class="line">   <span class="tag">&lt;<span class="name">param</span> <span class="attr">name</span>=<span class="string">"morphlineFile"</span> <span class="attr">value</span>=<span class="string">"morphlines.conf"</span>/&gt;</span></span><br><span class="line"></span><br><span class="line">   <span class="comment">&lt;!-- The optional morphlineId identifies a morphline if there are multiple morphlines in morphlines.conf --&gt;</span></span><br><span class="line">   <span class="tag">&lt;<span class="name">param</span> <span class="attr">name</span>=<span class="string">"morphlineId"</span> <span class="attr">value</span>=<span class="string">"userMap"</span>/&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">indexer</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<p>注意：当使用绝对或者相对路径来指定路径时，集群中的其它机器也要在配置路径上有该文件，如果是通过Cloudera Manager管理的话只需要在CM中修改后即可，CM会自动分发给集群。当然该配置文件还有很多其它参数可以配置，<a href="https://github.com/NGDATA/hbase-indexer/wiki/Indexer-configuration#table">扩展阅读</a>。</p>
+<h2 id="创建-Morphline-配置文件"><a href="#创建-Morphline-配置文件" class="headerlink" title="创建 Morphline 配置文件"></a>创建 Morphline 配置文件</h2><p>Morphlines是一款开源的，用来减少构建hadoop ETL数据流程时间的应用程序。它可以替代传统的通过MapReduce来抽取、转换、加载数据的过程，提供了一系列的命令工具，<br>具体可以参见：<a href="http://kitesdk.org/docs/0.13.0/kite-morphlines/morphlinesReferenceGuide.html。">http://kitesdk.org/docs/0.13.0/kite-morphlines/morphlinesReferenceGuide.html。</a>  </p>
+<p>对于HBase的其提供了extractHBaseCells命令来读取HBase的列数据。我们采用Cloudera Manager来管理morphlines.conf文件，使用CM来管理morphlines.  conf文件除了上面提到的好处之外，还有一个好处就是当我们需要增加索引列的时候，如果采用本地路径方式将需要重新注册Lily HBase Indexer的配置文件，而采用CM管理的话只需要修改morphlines.conf文件后重启Key-Value HBase Indexer服务即可。<br>具体操作为：进入Key-Value Store Indexer面板-&gt;配置-&gt;服务范围-&gt;Morphlines-&gt;Morphlines文件。在该选项加入如下配置：</p>
+<p>注意：每个Collection对应一个morphline-hbase-mapper.xml    </p>
+<p><img src="indexerConfig.png" alt="cdh lily hbase indexer config"></p>
+<p><code>$ vim  /$HOME/morphlines.conf</code></p>
+<figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">SOLR_LOCATOR :</span> <span class="string">&#123;</span></span><br><span class="line">  <span class="comment"># Name of solr collection</span></span><br><span class="line">  <span class="attr">collection :</span> <span class="string">collection</span></span><br><span class="line"></span><br><span class="line">  <span class="comment"># ZooKeeper ensemble</span></span><br><span class="line">  <span class="attr">zkHost :</span> <span class="string">"$ZK_HOST"</span></span><br><span class="line"><span class="string">&#125;</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="attr">morphlines :</span> <span class="string">[</span></span><br><span class="line"><span class="string">&#123;</span></span><br><span class="line"><span class="attr">id :</span> <span class="string">morphline</span></span><br><span class="line"><span class="attr">importCommands :</span> <span class="string">["org.kitesdk.**",</span> <span class="string">"com.ngdata.**"</span><span class="string">]</span></span><br><span class="line"></span><br><span class="line"><span class="attr">commands :</span> <span class="string">[</span></span><br><span class="line">  <span class="string">&#123;</span></span><br><span class="line">    <span class="string">extractHBaseCells</span> <span class="string">&#123;</span></span><br><span class="line">      <span class="attr">mappings :</span> <span class="string">[</span></span><br><span class="line">        <span class="string">&#123;</span></span><br><span class="line">          <span class="attr">inputColumn :</span> <span class="string">"data:name"</span></span><br><span class="line">          <span class="attr">outputField :</span> <span class="string">"data_name"</span></span><br><span class="line">          <span class="attr">type :</span> <span class="string">string</span></span><br><span class="line">          <span class="attr">source :</span> <span class="string">value</span></span><br><span class="line">        <span class="string">&#125;,</span></span><br><span class="line">        <span class="string">&#123;</span></span><br><span class="line">          <span class="attr">inputColumn :</span> <span class="string">"data:psd"</span></span><br><span class="line">          <span class="attr">outputField :</span> <span class="string">"data_psd"</span></span><br><span class="line">          <span class="attr">type :</span> <span class="string">string</span></span><br><span class="line">          <span class="attr">source :</span> <span class="string">value</span></span><br><span class="line">        <span class="string">&#125;,</span></span><br><span class="line">        <span class="string">&#123;</span></span><br><span class="line">          <span class="attr">inputColumn :</span> <span class="string">"data:address"</span></span><br><span class="line">          <span class="attr">outputField :</span> <span class="string">"data_address"</span></span><br><span class="line">          <span class="attr">type :</span> <span class="string">string</span></span><br><span class="line">          <span class="attr">source :</span> <span class="string">value</span></span><br><span class="line">        <span class="string">&#125;,</span></span><br><span class="line">        <span class="string">&#123;</span></span><br><span class="line">          <span class="attr">inputColumn :</span> <span class="string">"data:photo"</span></span><br><span class="line">          <span class="attr">outputField :</span> <span class="string">"data_photo"</span></span><br><span class="line">          <span class="attr">type :</span> <span class="string">string</span></span><br><span class="line">          <span class="attr">source :</span> <span class="string">value</span></span><br><span class="line">        <span class="string">&#125;</span></span><br><span class="line">      <span class="string">]</span></span><br><span class="line">    <span class="string">&#125;</span></span><br><span class="line">  <span class="string">&#125;</span></span><br><span class="line"></span><br><span class="line">  <span class="string">&#123;</span> <span class="string">logDebug</span> <span class="string">&#123;</span> <span class="attr">format :</span> <span class="string">"output record: &#123;&#125;"</span><span class="string">,</span> <span class="attr">args :</span> <span class="string">["@&#123;&#125;"]</span> <span class="string">&#125;</span> <span class="string">&#125;</span></span><br><span class="line"><span class="string">]</span></span><br><span class="line"><span class="string">&#125;</span></span><br><span class="line"><span class="string">]</span></span><br></pre></td></tr></table></figure>
+<h2 id="注册-Lily-HBase-Indexer-Configuration-和-Lily-HBase-Indexer-Service"><a href="#注册-Lily-HBase-Indexer-Configuration-和-Lily-HBase-Indexer-Service" class="headerlink" title="注册 Lily HBase Indexer Configuration 和 Lily HBase Indexer Service"></a>注册 Lily HBase Indexer Configuration 和 Lily HBase Indexer Service</h2><p>当 Lily HBase Indexer 配置 XML文件的内容令人满意，将它注册到 Lily HBase Indexer Service。上传 Lily HBase Indexer 配置 XML文件至 ZooKeeper，由给定的 SolrCloud 集合完成此操作。例如：</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">hbase-indexer add-indexer \</span><br><span class="line">--name userIndexer \</span><br><span class="line">--indexer-conf $HOME/hbase-indexer/User/conf/morphline-hbase-mapper.xml \</span><br><span class="line">--connection-param solr.zk=server1:2181/solr \</span><br><span class="line">--connection-param solr.collection=User \</span><br><span class="line">--zookeeper server1:2181</span><br></pre></td></tr></table></figure>
+<h2 id="验证索引器是否已成功创建"><a href="#验证索引器是否已成功创建" class="headerlink" title="验证索引器是否已成功创建"></a>验证索引器是否已成功创建</h2><p>执行<code>$ hbase-indexer list-indexers</code>验证索引器是否已成功创建</p>
+<p>更多帮助，请使用以下命令：</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">hbase-indexer add-indexer --help</span><br><span class="line">hbase-indexer list-indexers --help</span><br><span class="line">hbase-indexer update-indexer --help</span><br><span class="line">hbase-indexer delete-indexer --help</span><br></pre></td></tr></table></figure>
+<h2 id="测试是solr是否已新建索引"><a href="#测试是solr是否已新建索引" class="headerlink" title="测试是solr是否已新建索引"></a>测试是solr是否已新建索引</h2><p>写入数据时，在solr-webui控制台查看日志是否更新 </p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line">put 'User','row1','data','u1'</span><br><span class="line"></span><br><span class="line">put 'User','row1','data:name','u2'</span><br><span class="line"></span><br><span class="line">put 'User','row2','data:name','u2'</span><br><span class="line">put 'User','row2','data:psd','123'   </span><br><span class="line">put 'User','row2','data:address','address2'   </span><br><span class="line">put 'User','row2','data:photo','photo2'   </span><br><span class="line"></span><br><span class="line">put 'User','row2','data:name','u2'</span><br><span class="line">put 'User','row2','data:psd','123'   </span><br><span class="line">put 'User','row2','detail:address','address2'   </span><br><span class="line">put 'User','row2','detail:photo','photo2'  </span><br><span class="line"></span><br><span class="line"></span><br><span class="line">put 'User','row3','data:name','u2'</span><br><span class="line">put 'User','row3','data:psd','123'   </span><br><span class="line">put 'User','row3','detail:address','江苏省南京市'   </span><br><span class="line">put 'User','row3','detail:photo','phto3'</span><br></pre></td></tr></table></figure>
+<p><img src="solr.png" alt="solr web ui查看最终结果"></p>
+<p>折腾几天弄好，下一步是如何以构建好的索引Hbase实现多列条件的组合查询。  </p>
+<h2 id="扩展命令"><a href="#扩展命令" class="headerlink" title="扩展命令"></a>扩展命令</h2><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#</span><span class="bash"> solrctl</span></span><br><span class="line">solrctl instancedir --list </span><br><span class="line">solrctl collection --list </span><br><span class="line"></span><br><span class="line"><span class="meta">#</span><span class="bash"> 更新coolection配置</span></span><br><span class="line">solrctl instancedir --update User $HOME/hbase-indexer/User</span><br><span class="line">solrctl collection --reload  User</span><br><span class="line"></span><br><span class="line"><span class="meta">#</span><span class="bash">删除instancedir</span></span><br><span class="line">solrctl instancedir  --delete  User</span><br><span class="line"><span class="meta">#</span><span class="bash">删除collection</span></span><br><span class="line">solrctl collection --delete  User</span><br><span class="line"><span class="meta">#</span><span class="bash">删除collection所有doc</span></span><br><span class="line">solrctl collection --deletedocs User</span><br><span class="line"><span class="meta">#</span><span class="bash">删除User配置目录</span></span><br><span class="line">rm -rf $HOME/hbase-indexer/User</span><br><span class="line"></span><br><span class="line"><span class="meta">#</span><span class="bash"> hbase-indexer</span></span><br><span class="line"><span class="meta">#</span><span class="bash"> 若修改了morphline-hbase-mapper.xml，需更新索引</span></span><br><span class="line">hbase-indexer update-indexer  -n userIndexer</span><br><span class="line"> </span><br><span class="line"><span class="meta">#</span><span class="bash"> 删除索引</span></span><br><span class="line">hbase-indexer delete-indexer  -n userIndexer</span><br></pre></td></tr></table></figure>
+<h1 id="所遇问题QA"><a href="#所遇问题QA" class="headerlink" title="所遇问题QA"></a>所遇问题QA</h1><h2 id="Lily-HBase-Indexer-Service注册错误"><a href="#Lily-HBase-Indexer-Service注册错误" class="headerlink" title="Lily HBase Indexer Service注册错误"></a>Lily HBase Indexer Service注册错误</h2><p>详细日志<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">[WARN ][<span class="number">08</span>:<span class="number">56</span>:<span class="number">49</span>,<span class="number">677</span>][.com:<span class="number">2181</span>)] org.apache.zookeeper.ClientCnxn - Session <span class="number">0x0</span> <span class="keyword">for</span> server <span class="keyword">null</span>, unexpected error, closing socket connection and attempting reconnect</span><br><span class="line">java.net.ConnectException: Connection refused</span><br><span class="line">     at sun.nio.ch.SocketChannelImpl.checkConnect(Native Method)</span><br><span class="line">     at sun.nio.ch.SocketChannelImpl.finishConnect(SocketChannelImpl.java:<span class="number">739</span>)</span><br><span class="line">     at org.apache.zookeeper.ClientCnxnSocketNIO.doTransport(ClientCnxnSocketNIO.java:<span class="number">350</span>)</span><br><span class="line">     at org.apache.zookeeper.ClientCnxn$SendThread.run(ClientCnxn.java:<span class="number">1081</span>)</span><br></pre></td></tr></table></figure><br>解决：将帮助文档原文中的-zookeeper hbase-cluster-zookeeper:2181中hbase-cluster-zookeeper换成zoomkeeper的主机名</p>
+<h2 id="schema-xm和morphline-conf配置问题"><a href="#schema-xm和morphline-conf配置问题" class="headerlink" title="schema.xm和morphline.conf配置问题"></a>schema.xm和morphline.conf配置问题</h2><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">ERROR  org.apache.solr.common.SolrException: ERROR: [doc=row3] unknown field <span class="string">'data'</span></span><br><span class="line">trueat org.apache.solr.update.DocumentBuilder.toDocument(DocumentBuilder.java:<span class="number">185</span>)</span><br></pre></td></tr></table></figure>
+<p>解决方式：<br>Thanks for the response. In the meantime I got a solution which is fine for me using: <dynamicField name="*" type="string" indexed="true" stored="true" /> But type=”ignored” is a good hint once I want to get rid of the fields I do not need, thanks. –</p>
+<p>schema新增配置：</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">dynamicField</span> <span class="attr">name</span>=<span class="string">"*"</span> <span class="attr">type</span>=<span class="string">"string"</span> <span class="attr">indexed</span>=<span class="string">"true"</span> <span class="attr">stored</span>=<span class="string">"true"</span> /&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">field</span> <span class="attr">name</span>=<span class="string">"data"</span> <span class="attr">type</span>=<span class="string">"string"</span> <span class="attr">indexed</span>=<span class="string">"true"</span> <span class="attr">stored</span>=<span class="string">"true"</span> <span class="attr">multiValued</span>=<span class="string">"true"</span>/&gt;</span></span><br></pre></td></tr></table></figure>
+<p>修改schema.xml后，执行以下命令更新配置：<br>solrctl instancedir —update hbase-collection-user   $HOME/hbase-collection-user<br>solrctl collection  —reload  hbase-collection-user </p>
+<p>修改Collection<br>当我们创建Collection完成后，如果需要修改schema.xml文件重新配置需要索引的字段可以按如下操作：  </p>
+<ul>
+<li>如果是修改原有schema.xml中字段值，而在solr中已经插入了索引数据，那么我们需要清空索引数据集，清空数据集可以通过solr API来完成。  </li>
+<li>如果是在原有schema.xml中加入新的索引字段，那么可以跳过1，直接执行：  </li>
+</ul>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">solrctl instancedir --update solrtest $HOME/solrtest   </span><br><span class="line">solrctl collection --reload solrtest</span><br></pre></td></tr></table></figure>
+<h2 id="多个HbaseTable配置schema-xml和morphline-conf"><a href="#多个HbaseTable配置schema-xml和morphline-conf" class="headerlink" title="多个HbaseTable配置schema.xml和morphline.conf"></a>多个HbaseTable配置schema.xml和morphline.conf</h2><p>解决方式：<br><a href="https://github.com/jshmain/cloudera-search/blob/master/email-search/email-schema.xml">email-schema示例</a></p>
+<p>Q：morphline.conf和morphline-hbase-mapper.xml文件是否每个HbaseTable都要对应配置一个?<br>A：每一个Hbase Table对应生成一个Solr的Collection索引，每个索引对应一个Lily HBase Indexer 配置文件morphlines.conf和morphline配置文件morphline-hbase-mapper.xml，其中morphlines.conf可由CDH的Key-Value Store Indexer控制台管理，以id区分</p>
+<p>官方说明：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">Creating a Lily HBase Indexer configuration  </span><br><span class="line">Individual Lily HBase Indexers are configured using the hbase-indexer command line utility.   </span><br><span class="line">Typically, there is one Lily HBase Indexer configuration for each HBase table,   </span><br><span class="line">but there can be as many Lily HBase Indexer configurations as there are tables and column families and corresponding collections in the SolrCloud.   </span><br><span class="line">Each Lily HBase Indexer configuration is defined in an XML file such as morphline-hbase-mapper.xml.</span><br></pre></td></tr></table></figure></p>
+<h2 id="对HBaseTable已有数据新建索引"><a href="#对HBaseTable已有数据新建索引" class="headerlink" title="对HBaseTable已有数据新建索引"></a>对HBaseTable已有数据新建索引</h2><p>需要用到Lily HBase Indexer的批处理索引功能了</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">sudo hadoop --config /etc/hadoop/conf \</span><br><span class="line">jar /usr/lib/hbase-solr/tools/hbase-indexer-mr-1.5-cdh5.4.4-job.jar \</span><br><span class="line">--conf /etc/hbase/conf/hbase-site.xml \</span><br><span class="line">-D 'mapred.child.java.opts=-Xmx500m' \</span><br><span class="line">--hbase-indexer-zk master:2181 \</span><br><span class="line">--collection hbase-collection-user \</span><br><span class="line">--hbase-indexer-name userIndexer \</span><br><span class="line">--hbase-indexer-file $HOME/hbase-collection-user/conf/morphline-hbase-mapper.xml \</span><br><span class="line">--go-live \</span><br><span class="line">``` </span><br><span class="line">错误日志  </span><br><span class="line"></span><br><span class="line">``` java</span><br><span class="line">Caused by: java.io.IOException Can not find resource  solrconfig.xml in classpath </span><br><span class="line">or  /root/file:/tmp/hadoop-root/mapred/local/1441858645500/6a1a458e-35e2-4f66-82df-02795ba44e2c.solr.zip/collection1/conf</span><br></pre></td></tr></table></figure>
+
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/%E5%88%86%E5%B8%83%E5%BC%8F/" rel="tag"># 分布式</a>
+              <a href="/tags/CDH/" rel="tag"># CDH</a>
+              <a href="/tags/Hadoop/" rel="tag"># Hadoop</a>
+              <a href="/tags/Hbase/" rel="tag"># Hbase</a>
+              <a href="/tags/Solr/" rel="tag"># Solr</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2015/08/16/%E4%B8%80%E8%B7%AF%E8%A7%81%E8%AF%86%E7%9A%84SQL-NOSQL%E6%95%B0%E6%8D%AE%E5%BA%93ORM/" rel="prev" title="一路见识的SQL/NOSQL数据库ORM">
+      <i class="fa fa-chevron-left"></i> 一路见识的SQL/NOSQL数据库ORM
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/2015/09/11/NLP%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/" rel="next" title="NLP学习笔记">
+      NLP学习笔记 <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+  </div>
+
+
+          </div>
+          
+    <div class="comments" id="gitalk-container"></div>
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let activeClass = CONFIG.comments.activeClass;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#关于Hbase二级索引"><span class="nav-number">1.</span> <span class="nav-text">关于Hbase二级索引</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#关于Key-Value-Indexer组件"><span class="nav-number">2.</span> <span class="nav-text">关于Key-Value Indexer组件</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#使用-Lily-HBase-Batch-Indexer-进行索引"><span class="nav-number">3.</span> <span class="nav-text">使用 Lily HBase Batch Indexer 进行索引</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#创建HBase集群的表中列索引的步骤："><span class="nav-number">4.</span> <span class="nav-text">创建HBase集群的表中列索引的步骤：</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#填充-HBase-表"><span class="nav-number">4.1.</span> <span class="nav-text">填充 HBase 表</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#创建相应的-SolrCloud-集合"><span class="nav-number">4.2.</span> <span class="nav-text">创建相应的 SolrCloud 集合</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#user示例配置"><span class="nav-number">4.2.1.</span> <span class="nav-text">user示例配置</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#注意"><span class="nav-number">4.2.2.</span> <span class="nav-text">注意</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#创建-Lily-HBase-Indexer-配置"><span class="nav-number">4.3.</span> <span class="nav-text">创建 Lily HBase Indexer 配置</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#创建-Morphline-配置文件"><span class="nav-number">4.4.</span> <span class="nav-text">创建 Morphline 配置文件</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#注册-Lily-HBase-Indexer-Configuration-和-Lily-HBase-Indexer-Service"><span class="nav-number">4.5.</span> <span class="nav-text">注册 Lily HBase Indexer Configuration 和 Lily HBase Indexer Service</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#验证索引器是否已成功创建"><span class="nav-number">4.6.</span> <span class="nav-text">验证索引器是否已成功创建</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#测试是solr是否已新建索引"><span class="nav-number">4.7.</span> <span class="nav-text">测试是solr是否已新建索引</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#扩展命令"><span class="nav-number">4.8.</span> <span class="nav-text">扩展命令</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#所遇问题QA"><span class="nav-number">5.</span> <span class="nav-text">所遇问题QA</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#Lily-HBase-Indexer-Service注册错误"><span class="nav-number">5.1.</span> <span class="nav-text">Lily HBase Indexer Service注册错误</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#schema-xm和morphline-conf配置问题"><span class="nav-number">5.2.</span> <span class="nav-text">schema.xm和morphline.conf配置问题</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#多个HbaseTable配置schema-xml和morphline-conf"><span class="nav-number">5.3.</span> <span class="nav-text">多个HbaseTable配置schema.xml和morphline.conf</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#对HBaseTable已有数据新建索引"><span class="nav-number">5.4.</span> <span class="nav-text">对HBaseTable已有数据新建索引</span></a></li></ol></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">geosmart</p>
+  <div class="site-description" itemprop="description"></div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">199</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+          
+        <span class="site-state-item-count">15</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">118</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+        <a href="https://github.com/geosmart" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;geosmart" rel="noopener" target="_blank"><i class="fa fa-fw fa-github"></i>GitHub</a>
+      </span>
+  </div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2021</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">geosmart</span>
+</div>
+
+        
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/pisces.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+  
+<script src="/js/local-search.js"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+      
+
+<script>
+  if (typeof MathJax === 'undefined') {
+    window.MathJax = {
+      tex: {
+        inlineMath: {'[+]': [['$', '$']]},
+        tags: 'ams'
+      },
+      options: {
+        renderActions: {
+          findScript: [10, doc => {
+            document.querySelectorAll('script[type^="math/tex"]').forEach(node => {
+              const display = !!node.type.match(/; *mode=display/);
+              const math = new doc.options.MathItem(node.textContent, doc.inputJax[0], display);
+              const text = document.createTextNode('');
+              node.parentNode.replaceChild(text, node);
+              math.start = {node: text, delim: '', n: 0};
+              math.end = {node: text, delim: '', n: 0};
+              doc.math.push(math);
+            });
+          }, '', false],
+          insertedScript: [200, () => {
+            document.querySelectorAll('mjx-container').forEach(node => {
+              let target = node.parentNode;
+              if (target.nodeName.toLowerCase() === 'li') {
+                target.parentNode.classList.add('has-jax');
+              }
+            });
+          }, '', false]
+        }
+      }
+    };
+    (function () {
+      var script = document.createElement('script');
+      script.src = '//cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js';
+      script.defer = true;
+      document.head.appendChild(script);
+    })();
+  } else {
+    MathJax.startup.document.state(0);
+    MathJax.texReset();
+    MathJax.typeset();
+  }
+</script>
+
+    
+
+  
+
+<link rel="stylesheet" href="//cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.min.css">
+
+<script>
+NexT.utils.loadComments(document.querySelector('#gitalk-container'), () => {
+  NexT.utils.getScript('//cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.min.js', () => {
+    var gitalk = new Gitalk({
+      clientID    : '8a29a27c357a64ed79fd',
+      clientSecret: 'fe1b781c49fa9037803f3c4d3e94fbb677abac4d',
+      repo        : 'geosmart.github.io',
+      owner       : 'geosmart',
+      admin       : ['geosmart'],
+      id          : '64bd07e72442f2345c0881ac79b23f30',
+        language: 'zh-CN',
+      distractionFreeMode: true
+    });
+    gitalk.render('gitalk-container');
+  }, window.Gitalk);
+});
+</script>
+
+</body>
+</html>
